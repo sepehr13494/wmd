@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:wmd/core/util/app_localization.dart';
 import 'package:wmd/core/util/app_theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'navigation/url_strategy/url_strategy.dart';
 import 'package:wmd/injection_container.dart' as di;
@@ -22,17 +25,24 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context)=>ThemeManager()),
+        BlocProvider(create: (context) => ThemeManager()),
+        BlocProvider(create: (context) => LocalizationManager()),
       ],
-      child: BlocBuilder<ThemeManager, ThemeData>(
-  builder: (context, state) {
-    return MaterialApp(
-        title: 'Flutter Demo',
-        theme: state,
-        home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      );
-  },
-),
+      child: Builder(builder: (context) {
+        return MaterialApp(
+          title: 'WMD',
+          theme: AppThemes.getAppTheme(context,brightness: Brightness.light),
+          darkTheme: AppThemes.getAppTheme(context,brightness: Brightness.dark),
+          themeMode: context.watch<ThemeManager>().state,
+          localizationsDelegates: const [
+            ...AppLocalizations.localizationsDelegates,
+            FormBuilderLocalizations.delegate,
+          ],
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: context.watch<LocalizationManager>().state,
+          home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        );
+      }),
     );
   }
 }
@@ -59,10 +69,10 @@ class _MyHomePageState extends State<MyHomePage> {
   final int _counter = 0;
 
   void _incrementCounter() {
-    if(context.read<ThemeManager>().state == AppThemes.darkTheme){
-      context.read<ThemeManager>().changeTheme(AppThemes.lightTheme);
-    }else{
-      context.read<ThemeManager>().changeTheme(AppThemes.darkTheme);
+    if (context.read<ThemeManager>().state == ThemeMode.dark) {
+      context.read<ThemeManager>().changeTheme(ThemeMode.light);
+    } else {
+      context.read<ThemeManager>().changeTheme(ThemeMode.dark);
     }
   }
 
@@ -79,6 +89,16 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        actions: [
+          DropdownButton(
+              items: AppLocalizations.supportedLocales
+                  .map((e) => DropdownMenuItem(value: e,child: Text(e.languageCode),)).toList(),
+              onChanged: (val) {
+                if(val != null){
+                  context.read<LocalizationManager>().changeLang(val);
+                }
+              },hint: const Icon(Icons.language)),
+        ],
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -100,8 +120,8 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            Text(
+              AppLocalizations.of(context).incentive,
             ),
             Text(
               '$_counter',

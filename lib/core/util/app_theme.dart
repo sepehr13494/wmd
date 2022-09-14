@@ -1,26 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wmd/core/util/app_localization.dart';
 import 'package:wmd/core/util/colors.dart';
 
-class ThemeManager extends Cubit<ThemeData>{
-  ThemeManager() : super(AppThemes.darkTheme);
+class ThemeManager extends Cubit<ThemeMode> {
+  ThemeManager() : super(ThemeMode.dark);
 
-  changeTheme(ThemeData theme){
-    emit(theme);
+  changeTheme(ThemeMode themeMode) {
+    emit(themeMode);
   }
 }
 
 class AppThemes {
-
   AppThemes._();
 
-  static final ThemeData darkTheme = ThemeData(
-    brightness: Brightness.dark,
-    primaryColor: AppColors.primary
-  );
+  static ThemeData getAppTheme(BuildContext context,
+      {required Brightness brightness}) {
+    return _appTheme(brightness: brightness).copyWith(
+        textTheme: _appTheme(brightness: brightness).textTheme.apply(
+            fontFamily: LocalizationManager.getFont(context
+                .read<LocalizationManager>()
+                .state
+                .languageCode))
+    );
+  }
 
-  static final ThemeData lightTheme = ThemeData(
-      brightness: Brightness.light,
-      primaryColor: AppColors.primary
-  );
+  static ThemeData _appTheme({required Brightness brightness}) {
+    return ThemeData.from(
+      colorScheme: ColorScheme.fromSeed(
+          seedColor: AppColors.primary, brightness: brightness),
+    );
+  }
 }

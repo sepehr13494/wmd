@@ -14,3 +14,22 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+
+#for hive
+flutter packages pub run build_runner build
+
+# icon launcher
+flutter pub run flutter_launcher_icons:main
+
+# build web
+flutter build web --web-renderer html
+
+# build android
+flutter build apk --target-platform android-arm,android-arm64
+
+# get sha1
+gradlew signingReport
+
+# for localization
+flutter gen-l10n
