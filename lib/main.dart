@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:wmd/core/util/app_localization.dart';
+import 'package:wmd/core/util/app_stateless_widget.dart';
 import 'package:wmd/core/util/app_theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -62,10 +63,10 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  AppState<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends AppState<MyHomePage> {
   final int _counter = 0;
 
   void _incrementCounter() {
@@ -76,8 +77,10 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+
+
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context, TextTheme textTheme, AppLocalizations appLocalizations) {
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -121,11 +124,11 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              AppLocalizations.of(context).incentive,
+              appLocalizations.incentive,
             ),
             Text(
               '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+              style: textTheme.headline4,
             ),
           ],
         ),
@@ -138,3 +141,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
