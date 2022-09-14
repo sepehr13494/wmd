@@ -1,11 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+//import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:wmd/core/presentation/routes/app_router.gr.dart';
 import 'package:wmd/core/util/app_localization.dart';
 import 'package:wmd/core/util/app_stateless_widget.dart';
 import 'package:wmd/core/util/app_theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/injection_container.dart';
 
 import 'navigation/url_strategy/url_strategy.dart';
 import 'package:wmd/injection_container.dart' as di;
@@ -15,6 +19,15 @@ Future<void> main() async {
   usePathUrlStrategy();
   await Hive.initFlutter();
   await di.init();
+  /*await SentryFlutter.init(
+        (options) {
+      options.dsn = 'https://eb60042051a848d298dbeab291c89f03@o1020394.ingest.sentry.io/6740091';
+      // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+      // We recommend adjusting this value in production.
+      options.tracesSampleRate = 1.0;
+    },
+    appRunner: () => runApp(const MyApp()),
+  );*/
   runApp(const MyApp());
 }
 
@@ -24,13 +37,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final router = sl<AppRouter>();
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => ThemeManager()),
         BlocProvider(create: (context) => LocalizationManager()),
       ],
       child: Builder(builder: (context) {
-        return MaterialApp(
+        return MaterialApp.router(
+          /*navigatorObservers: [
+            SentryNavigatorObserver(),
+          ],*/
+          routerDelegate: AutoRouterDelegate(router),
+          routeInformationParser: router.defaultRouteParser(),
           title: 'WMD',
           theme: AppThemes.getAppTheme(context,brightness: Brightness.light),
           darkTheme: AppThemes.getAppTheme(context,brightness: Brightness.dark),
@@ -41,7 +60,6 @@ class MyApp extends StatelessWidget {
           ],
           supportedLocales: AppLocalizations.supportedLocales,
           locale: context.watch<LocalizationManager>().state,
-          home: const MyHomePage(title: 'Flutter Demo Home Page'),
         );
       }),
     );
@@ -49,7 +67,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, this.title = "title"});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -141,4 +159,3 @@ class _MyHomePageState extends AppState<MyHomePage> {
     );
   }
 }
-

@@ -1,4 +1,4 @@
-import 'package:wmd/core/network/server_request_manager.dart';
+import 'package:wmd/core/data/network/server_request_manager.dart';
 
 class AppServerDataSource{
   final ServerRequestManager serverRequestManager;

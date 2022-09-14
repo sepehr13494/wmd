@@ -2,8 +2,9 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
-import 'package:wmd/core/network/network_helper.dart';
-import 'package:wmd/core/network/server_request_manager.dart';
+import 'package:wmd/core/data/network/network_helper.dart';
+import 'package:wmd/core/data/network/server_request_manager.dart';
+import 'package:wmd/core/presentation/routes/app_router.gr.dart';
 import 'package:wmd/core/util/device_info.dart';
 import 'package:wmd/core/util/local_storage.dart';
 
@@ -19,6 +20,8 @@ Future<void> init() async{
   sl.registerLazySingleton<ServerRequestManager>(() => ServerRequestManager(sl()));
   //device_info
   sl.registerLazySingleton<AppDeviceInfo>(() => AppDeviceInfo(sl()));
+  //app_router
+  sl.registerSingleton<AppRouter>(AppRouter());
 
   await initExternal();
 }

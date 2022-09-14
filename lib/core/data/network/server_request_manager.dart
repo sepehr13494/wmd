@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
-import 'package:wmd/core/network/urls.dart';
 
 enum RequestTypes{
   post,get,del,put,patch

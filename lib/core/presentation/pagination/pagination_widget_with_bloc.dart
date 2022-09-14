@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wmd/core/pagination/pagination_cubit.dart';
-import 'package:wmd/core/widgets/loading_widget.dart';
+import 'package:wmd/core/presentation/pagination/pagination_cubit.dart';
+import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 
 class PaginationWidget extends StatelessWidget {
   final Widget child;

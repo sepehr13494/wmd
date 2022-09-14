@@ -19,6 +19,6 @@ abstract class AppState<T extends StatefulWidget> extends State<T>{
     return buildWidget(context,Theme.of(context).textTheme,AppLocalizations.of(context));
   }
 
+  @protected
   Widget buildWidget(BuildContext context, TextTheme textTheme, AppLocalizations appLocalizations);
-
 }
