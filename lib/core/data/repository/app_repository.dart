@@ -6,5 +6,4 @@ class AppRepository{
   AppRepository(this.appServerDataSource);
 
 
-
 }

@@ -24,7 +24,7 @@ class NetworkHelper {
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (request, handler) async {
-          final String token = await localStorage.getToken();
+          final String token = localStorage.getToken();
           request.headers['Authorization'] = token;
           return handler.next(request);
         },

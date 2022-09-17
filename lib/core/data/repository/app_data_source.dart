@@ -1,7 +1,7 @@
-import 'package:wmd/core/data/network/server_request_manager.dart';
+import 'package:wmd/core/data/network/error_handler_middleware.dart';
 
 class AppServerDataSource{
-  final ServerRequestManager serverRequestManager;
+  final ErrorHandlerMiddleware errorHandlerMiddleware;
 
-  AppServerDataSource(this.serverRequestManager);
+  AppServerDataSource(this.errorHandlerMiddleware);
 }

@@ -7,13 +7,15 @@ import 'package:wmd/core/data/network/server_request_manager.dart';
 import 'package:wmd/core/presentation/routes/app_router.gr.dart';
 import 'package:wmd/core/util/device_info.dart';
 import 'package:wmd/core/util/local_storage.dart';
+import 'package:wmd/features/splash/presentation/manager/splash_cubit.dart';
 
 final sl = GetIt.instance;
 
 Future<void> init() async{
 
 
-  //repository
+  //repository_and_cubits
+  sl.registerFactory(() => SplashCubit(sl()));
 
   //local_storage
   sl.registerLazySingleton<LocalStorage>(() => LocalStorage(sl()));
