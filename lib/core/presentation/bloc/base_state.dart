@@ -9,7 +9,11 @@ class SuccessState extends BaseState{
   SuccessState({required this.appSuccess});
 }
 
-class LoadingState extends BaseState{}
+class LoadingState extends BaseState{
+  final String message;
+
+  LoadingState({this.message = "loading..."});
+}
 
 class ErrorState extends BaseState{
   final Failure failure;

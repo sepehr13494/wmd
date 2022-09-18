@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
+import 'package:wmd/core/presentation/widgets/loading_widget.dart';
+import 'package:wmd/core/util/loading/loading_screen.dart';
 
-class AppDefaultBlocListener<B extends StateStreamable<S>, S>
-    extends BlocListenerBase<B, S>{
-
-  AppDefaultBlocListener({
-    Key? key,
-    required BlocWidgetListener<S> listener,
-    B? bloc,
-    BlocListenerCondition<S>? listenWhen,
-    Widget? child,
-  }) : super(
-    key: key,
-    child: child,
-    listener: (context,state){
+class BlocHelper{
+  BlocWidgetListener defaultBlocListener({
+    required BlocWidgetListener listener,
+}){
+    return (context, state){
       if(state is LoadingState){
-
+        LoadingOverlay().show(context: context, text: state.message);
       }else if(state is ErrorState){
+        LoadingOverlay().hide();
         showDialog(
             context: context,
             builder: (context) {
@@ -37,10 +32,21 @@ class AppDefaultBlocListener<B extends StateStreamable<S>, S>
               );
             });
       }else{
+        LoadingOverlay().hide();
         listener(context,state);
       }
-    },
-    bloc: bloc,
-    listenWhen: listenWhen,
-  );
+    };
+  }
+
+  BlocWidgetBuilder defaultBlocBuilder({
+    required BlocWidgetBuilder builder,
+  }){
+    return (context, state){
+      if(state is LoadingState){
+        return const LoadingWidget();
+      }else{
+        return builder(context,state);
+      }
+    };
+  }
 }
