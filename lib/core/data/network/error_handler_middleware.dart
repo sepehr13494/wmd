@@ -25,10 +25,10 @@ class ErrorHandlerMiddleware{
             debugPrint(response.requestOptions.data.toString());
           }
           debugPrint(appRequestOptions.type.toString());
-          log(response.toString());
+          log("response : $response");
         }
         if(appRequestOptions.checkResponse){
-          if(response.data["success"]){
+          if((response.statusCode ?? 600)<300){
             return response.data;
           }else{
             throw ServerException(message: response.data["message"]);

@@ -19,3 +19,4 @@ gradlew signingReport
 
 # for localization
 flutter gen-l10n
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
