@@ -43,20 +43,20 @@ void main(){
       //arrange
       when(mockRequestManager.sendRequest(any)).thenAnswer((_) async => tResponse);
       //act
-      final result = await errorHandlerMiddleware.sendRequest(tAppRequestOptions);
+      final call = errorHandlerMiddleware.sendRequest;
       //assert
+      expect(() => call(tAppRequestOptions), throwsA(const TypeMatcher<ServerException>().having((e) => e.message, 'message', tResponse.data!["message"]!)));
       verify(mockRequestManager.sendRequest(tAppRequestOptions));
-      expect(result, throwsA(ServerException(message: tResponse.data!["message"]!)));
     });
 
     test('test when request manager throws Exception',() async {
       //arrange
-      when(mockRequestManager.sendRequest(any)).thenThrow((_) async => tServerException);
+      when(mockRequestManager.sendRequest(any)).thenThrow(tServerException);
       //act
-      final result = await errorHandlerMiddleware.sendRequest(tAppRequestOptions);
+      final call = errorHandlerMiddleware.sendRequest;
       //assert
+      expect(() => call(tAppRequestOptions), throwsA(const TypeMatcher<ServerException>().having((e) => e.message, 'message', tServerException.message)));
       verify(mockRequestManager.sendRequest(tAppRequestOptions));
-      expect(result, throwsA(CacheException(message: "message")));
     });
   });
 }
