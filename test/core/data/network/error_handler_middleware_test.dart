@@ -49,13 +49,35 @@ void main(){
       verify(mockRequestManager.sendRequest(tAppRequestOptions));
     });
 
-    test('test when request manager throws Exception',() async {
+    test('test when request manager returns a response with statusCode 401 (auth error)',() async {
+      final tResponse = Response(requestOptions: RequestOptions(path: "path"),data: {"message":"1"},statusCode: 401);
+      //arrange
+      when(mockRequestManager.sendRequest(any)).thenAnswer((_) async => tResponse);
+      //act
+      final call = errorHandlerMiddleware.sendRequest;
+      //assert
+      expect(() => call(tAppRequestOptions), throwsA(const TypeMatcher<ServerException>().having((e) => e.message, 'message', "wrong token")));
+      verify(mockRequestManager.sendRequest(tAppRequestOptions));
+    });
+
+    test('test when request manager throws ServerException',() async {
       //arrange
       when(mockRequestManager.sendRequest(any)).thenThrow(tServerException);
       //act
       final call = errorHandlerMiddleware.sendRequest;
       //assert
       expect(() => call(tAppRequestOptions), throwsA(const TypeMatcher<ServerException>().having((e) => e.message, 'message', tServerException.message)));
+      verify(mockRequestManager.sendRequest(tAppRequestOptions));
+    });
+
+    test('test when request manager throws other Exception',() async {
+      //arrange
+      final tOtherException = Exception("test message");
+      when(mockRequestManager.sendRequest(any)).thenThrow(tOtherException);
+      //act
+      final call = errorHandlerMiddleware.sendRequest;
+      //assert
+      expect(() => call(tAppRequestOptions), throwsA(const TypeMatcher<ServerException>().having((e) => e.message, 'message', tOtherException.toString())));
       verify(mockRequestManager.sendRequest(tAppRequestOptions));
     });
   });

@@ -6,7 +6,7 @@ class AppRequestOptions {
   final dynamic body;
   final bool checkResponse;
   final bool showLog;
-  final Function? onSendProgress;
+  final void Function(int, int)? onSendProgress;
   final bool fullUrl;
 
   AppRequestOptions(

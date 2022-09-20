@@ -13,7 +13,7 @@ class NetworkHelper {
     var options = BaseOptions(
       followRedirects: false,
       validateStatus: (status) {
-        return ((status ?? 0) < 600);
+        return true;
       },
       headers: headers,
       connectTimeout: 15000,
