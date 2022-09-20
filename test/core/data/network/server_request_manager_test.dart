@@ -12,8 +12,6 @@ import 'server_request_manager_test.mocks.dart';
 void main() {
   late MockDio mockDio;
   late ServerRequestManager serverRequestManager;
-  const tBaseUrl = "testBaseUrl";
-  final tOptions = Options();
   final tResponse = Response(
       requestOptions: RequestOptions(path: "path"),
       data: {"test": 1},
