@@ -32,8 +32,7 @@ void main(){
 
   test('checkLogin method when get login from local storage returns any exception',() async {
     //arrange
-    final tException = Exception("hjgj");
-    print(tException.toString());
+    final tException = Exception("test");
     when(mockLocalStorage.getLogin()).thenThrow((realInvocation) async => tException);
     //act
     final result = await splashRepositoryImpl.checkLogin(NoParams());

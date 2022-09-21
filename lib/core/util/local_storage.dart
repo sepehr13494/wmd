@@ -7,25 +7,30 @@ class LocalStorage{
 
   LocalStorage(this.authBox);
 
+  static const appToken = "token";
+  static const appIsLogin = "isLogin";
+  static const appThemeMode = "themeMode";
+  static const appLocale = "locale";
+
   Future<void> setTokenAndLogin(token) async {
-    await authBox.put("token", "Bearer $token");
-    await authBox.put("isLogin", true);
+    await authBox.put(appToken, "Bearer $token");
+    await authBox.put(appIsLogin, true);
   }
 
   Future<void> logout() async {
-    authBox.clear();
+    await authBox.clear();
   }
 
   String getToken() {
-    return authBox.get("token",defaultValue: "");
+    return authBox.get(appToken,defaultValue: "");
   }
 
   Future<bool> getLogin() async{
-    return authBox.get("isLogin",defaultValue: false);
+    return authBox.get(appIsLogin,defaultValue: false);
   }
 
   ThemeMode getTheme() {
-    final result = authBox.get("themeMode",defaultValue: "dark");
+    final result = authBox.get(appThemeMode,defaultValue: "dark");
     switch (result){
       case "dark":
         return ThemeMode.dark;
@@ -40,15 +45,15 @@ class LocalStorage{
 
   Future<void> setTheme(ThemeMode themeMode) async{
     String theme = themeMode.toString().replaceAll("ThemeMode.", "");
-    await authBox.put("themeMode",theme);
+    await authBox.put(appThemeMode,theme);
   }
 
   Locale getLocale() {
-    final result = authBox.get("locale",defaultValue: "en");
+    final result = authBox.get(appLocale,defaultValue: "en");
     return AppLocalizations.supportedLocales.firstWhere((element) => element.languageCode == result);
   }
 
   Future<void> setLocale(Locale locale) async{
-    await authBox.put("locale",locale.languageCode);
+    await authBox.put(appLocale,locale.languageCode);
   }
 }
