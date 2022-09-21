@@ -18,9 +18,9 @@ class SplashCubit extends Cubit<SplashState> {
       result.fold((l) => emit(ErrorState(failure: l,tryAgainFunction: (){initSplash();})), (r) {
         String routeName = "";
         if(r){
-          routeName = const LoginRoute().path;
-        }else{
           routeName = MainRoute().path;
+        }else{
+          routeName = const LoginRoute().path;
         }
         emit(SplashLoaded(routeName: routeName));
       });
