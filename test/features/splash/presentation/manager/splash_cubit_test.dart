@@ -6,7 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
-import 'package:wmd/core/presentation/routes/app_router.gr.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/features/splash/domain/use_cases/check_login_usecase.dart';
 import 'package:wmd/features/splash/presentation/manager/splash_cubit.dart';
 
@@ -29,7 +29,7 @@ void main() {
       setUp: () => when(mockCheckLoginUseCase(any)).thenAnswer((realInvocation) async => const Right(false)),
       act: (bloc)=>bloc.initSplash(),
       wait: const Duration(seconds: 2),
-      expect: () => [isA<SplashLoaded>().having((state) => state.routeName, 'routeName', const LoginRoute().path)],
+      expect: () => [isA<SplashLoaded>().having((state) => state.routeName, 'routeName', AppRoutes.welcome)],
       verify: (_) {
         verify(mockCheckLoginUseCase(NoParams())).called(1);
       },
@@ -41,7 +41,7 @@ void main() {
       setUp: () => when(mockCheckLoginUseCase(any)).thenAnswer((realInvocation) async => const Right(true)),
       act: (bloc)=>bloc.initSplash(),
       wait: const Duration(seconds: 2),
-      expect: () => [isA<SplashLoaded>().having((state) => state.routeName, 'routeName', MainRoute().path)],
+      expect: () => [isA<SplashLoaded>().having((state) => state.routeName, 'routeName', AppRoutes.main)],
       verify: (_) {
         verify(mockCheckLoginUseCase(NoParams())).called(1);
       },
