@@ -4,7 +4,6 @@ import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:wmd/core/data/network/network_helper.dart';
 import 'package:wmd/core/data/network/server_request_manager.dart';
-import 'package:wmd/core/presentation/routes/app_router.gr.dart';
 import 'package:wmd/core/util/app_localization.dart';
 import 'package:wmd/core/util/app_theme.dart';
 import 'package:wmd/core/util/device_info.dart';
@@ -33,8 +32,6 @@ Future<void> init() async{
   sl.registerFactory(() => ThemeManager(sl()));
   //localization_manager
   sl.registerFactory(() => LocalizationManager(sl()));
-  //app_router
-  sl.registerSingleton<AppRouter>(AppRouter());
 
   await initExternal();
 }
