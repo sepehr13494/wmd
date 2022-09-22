@@ -40,8 +40,8 @@ class MyApp extends StatelessWidget {
     final router = sl<AppRouter>();
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => ThemeManager()..changeTheme(sl<LocalStorage>().getTheme())),
-        BlocProvider(create: (context) => LocalizationManager()..changeLang(sl<LocalStorage>().getLocale())),
+        BlocProvider(create: (context) => sl<ThemeManager>()..changeTheme(sl<LocalStorage>().getTheme())),
+        BlocProvider(create: (context) => sl<LocalizationManager>()..changeLang(sl<LocalStorage>().getLocale())),
       ],
       child: Builder(builder: (context) {
         
