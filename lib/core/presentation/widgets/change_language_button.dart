@@ -9,12 +9,19 @@ class ChangeLanguageButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButton(
-        items: AppLocalizations.supportedLocales
-            .map((e) => DropdownMenuItem(value: e,child: Text(e.countryCode??""),)).toList(),
-        onChanged: (val) {
-          if(val != null){
-            context.read<LocalizationManager>().changeLang(val);
-          }
-        },hint: const Icon(Icons.language));
+      items: AppLocalizations.supportedLocales
+          .map((e) => DropdownMenuItem(
+                value: e,
+                child: Text(e.languageCode ?? ""),
+              ))
+          .toList(),
+      onChanged: (val) {
+        if (val != null) {
+          context.read<LocalizationManager>().changeLang(val);
+        }
+      },
+      hint: const Icon(Icons.language),
+      value: context.watch<LocalizationManager>().state,
+    );
   }
 }
