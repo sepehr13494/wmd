@@ -16,7 +16,7 @@ class WelcomePage extends AppStatelessWidget {
         appBar: const CustomAuthAppBar(backgroundColor: Colors.transparent),
         body: Center(
           child: Container(
-            constraints: BoxConstraints(
+            constraints: const BoxConstraints(
               maxWidth: 500
             ),
             child: Padding(
@@ -52,6 +52,7 @@ class WelcomePage extends AppStatelessWidget {
                             icon: const Icon(
                               Icons.play_arrow_rounded,
                               size: 50,
+                              color: Colors.white,
                             )),
                       ),
                       Container(

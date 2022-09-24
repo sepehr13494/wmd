@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/widgets/change_language_button.dart';
+import 'package:wmd/core/util/app_theme.dart';
 
 class CustomAuthAppBar extends StatelessWidget with PreferredSizeWidget{
   final Color? backgroundColor;
@@ -10,8 +12,11 @@ class CustomAuthAppBar extends StatelessWidget with PreferredSizeWidget{
     return AppBar(
       backgroundColor: backgroundColor,
       title: Image.asset("assets/images/logo.png",height: 60,),
-      actions: const [
-        ChangeLanguageButton()
+      actions: [
+        ChangeLanguageButton(),
+        Switch(value: context.watch<ThemeManager>().state == ThemeMode.light, onChanged: (val){
+          context.read<ThemeManager>().changeTheme(val? ThemeMode.light : ThemeMode.dark);
+        })
       ],
     );
   }
