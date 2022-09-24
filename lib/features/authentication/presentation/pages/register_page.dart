@@ -9,7 +9,9 @@ class RegisterPage extends AppStatelessWidget {
   Widget buildWidget(BuildContext context,TextTheme textTheme, AppLocalizations appLocalizations) {
     return Scaffold(
        appBar: AppBar(title: Text(appLocalizations.signup_button)),
-       body: Container(),
+       body: Container(
+         child: Text("adfa",style: textTheme.subtitle2,),
+       ),
     );
   }
 }

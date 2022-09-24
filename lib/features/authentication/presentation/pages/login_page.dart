@@ -9,7 +9,32 @@ class LoginPage extends AppStatelessWidget {
   Widget buildWidget(BuildContext context,TextTheme textTheme, AppLocalizations appLocalizations) {
     return Scaffold(
        appBar: AppBar(title: Text(appLocalizations.welcome_header)),
-       body: Container(),
+       body: Column(
+         children: [
+           Expanded(
+             child: IconButton(onPressed: (){
+
+             }, icon: const Icon(
+               Icons.play_arrow_rounded,
+               size: 50,
+             )),
+           ),
+           RichText(
+             text: TextSpan(
+               children: [
+                 TextSpan(text: appLocalizations.build_portfolio,style: textTheme.bodyMedium),
+                 TextSpan(text: appLocalizations.build_portfolio2,style: textTheme.bodySmall),
+               ]
+             ),
+           ),
+           ElevatedButton(onPressed: (){}, child: Text(appLocalizations.join_with_email)),
+           
+         ],
+       ),
     );
   }
 }
+
+
+
+
