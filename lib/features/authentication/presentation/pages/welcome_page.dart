@@ -90,7 +90,7 @@ class WelcomePage extends AppStatelessWidget {
                             child: Text(
                               appLocalizations.or_sign_up,
                               style:
-                                  textTheme.subtitle2!.apply(fontWeightDelta: -2),
+                                  textTheme.bodySmall!.apply(fontWeightDelta: -2),
                             ),
                           ),
                         ],

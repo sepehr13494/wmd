@@ -20,7 +20,7 @@ class SplashCubit extends Cubit<SplashState> {
         if(r){
           routeName = AppRoutes.main;
         }else{
-          routeName = AppRoutes.welcome;
+          routeName = AppRoutes.verifyEmail;
         }
         emit(SplashLoaded(routeName: routeName));
       });

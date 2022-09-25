@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/features/authentication/presentation/pages/login_page.dart';
 import 'package:wmd/features/authentication/presentation/pages/register_page.dart';
+import 'package:wmd/features/authentication/presentation/pages/verify_email_page.dart';
 import 'package:wmd/features/authentication/presentation/pages/welcome_page.dart';
 import 'package:wmd/features/main/presentation/pages/main_page.dart';
 import 'package:wmd/features/splash/presentation/pages/splash_page.dart';
@@ -29,9 +30,15 @@ class AppRouter{
         },
       ),
       GoRoute(
-        path: AppRoutes.login,
+        path: AppRoutes.register,
         builder: (BuildContext context, GoRouterState state) {
           return const RegisterPage();
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.verifyEmail,
+        builder: (BuildContext context, GoRouterState state) {
+          return const VerifyEmailPage();
         },
       ),
       GoRoute(

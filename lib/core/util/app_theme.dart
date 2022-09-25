@@ -21,10 +21,11 @@ class AppThemes {
   static ThemeData getAppTheme(BuildContext context,
       {required Brightness brightness}) {
     const primaryColor = AppColors.primary;
-    final TextTheme textTheme = _appTheme(brightness: brightness).textTheme;
+    final ThemeData appTheme = _appTheme(brightness: brightness);
+    final TextTheme textTheme = appTheme.textTheme;
     final Color textColor = textTheme.bodySmall?.color?? (brightness == Brightness.dark? Colors.white : Colors.black54);
-    return _appTheme(brightness: brightness).copyWith(
-      textTheme: _appTheme(brightness: brightness).textTheme.apply(
+    return appTheme.copyWith(
+      textTheme: appTheme.textTheme.apply(
           fontFamily: LocalizationManager.getFont(
               context.read<LocalizationManager>().state.languageCode),
       ),
@@ -48,7 +49,18 @@ class AppThemes {
           backgroundColor: MaterialStateProperty.all(primaryColor),
         )
       ),
+      inputDecorationTheme: const InputDecorationTheme(
+        contentPadding: EdgeInsets.symmetric(vertical: 8,horizontal: 12),
+        border: OutlineInputBorder(),
+      ),
       dividerColor: textColor,
+      listTileTheme: const ListTileThemeData(
+        horizontalTitleGap: 0,
+      ),
+      checkboxTheme: CheckboxThemeData(
+        fillColor: MaterialStateProperty.all(primaryColor),
+        checkColor: MaterialStateProperty.all(appTheme.scaffoldBackgroundColor),
+      )
     );
   }
 
