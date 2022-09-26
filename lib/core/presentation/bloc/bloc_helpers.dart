@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wmd/core/presentation/bloc/base_cubit.dart';
-import 'package:wmd/core/presentation/widgets/loading_widget.dart';
-import 'package:wmd/core/util/loading/loading_screen.dart';
+import 'base_cubit.dart';
+import '../widgets/loading_widget.dart';
+import '../../util/loading/loading_screen.dart';
 
-class BlocHelper{
+class BlocHelper {
   BlocWidgetListener defaultBlocListener({
     required BlocWidgetListener listener,
-}){
-    return (context, state){
-      if(state is LoadingState){
+  }) {
+    return (context, state) {
+      if (state is LoadingState) {
         LoadingOverlay().show(context: context, text: state.message);
-      }else if(state is ErrorState){
+      } else if (state is ErrorState) {
         LoadingOverlay().hide();
         showDialog(
             context: context,
@@ -20,8 +20,8 @@ class BlocHelper{
                 child: Padding(
                   padding: const EdgeInsets.all(24),
                   child: InkWell(
-                    onTap: (){
-                      if(state.tryAgainFunction != null){
+                    onTap: () {
+                      if (state.tryAgainFunction != null) {
                         Navigator.pop(context);
                         state.tryAgainFunction!();
                       }
@@ -31,21 +31,21 @@ class BlocHelper{
                 ),
               );
             });
-      }else{
+      } else {
         LoadingOverlay().hide();
-        listener(context,state);
+        listener(context, state);
       }
     };
   }
 
   BlocWidgetBuilder defaultBlocBuilder({
     required BlocWidgetBuilder builder,
-  }){
-    return (context, state){
-      if(state is LoadingState){
+  }) {
+    return (context, state) {
+      if (state is LoadingState) {
         return const LoadingWidget();
-      }else{
-        return builder(context,state);
+      } else {
+        return builder(context, state);
       }
     };
   }

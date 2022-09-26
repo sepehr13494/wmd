@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:wmd/core/presentation/routes/app_router.dart';
-import 'package:wmd/core/util/app_localization.dart';
-import 'package:wmd/core/util/app_theme.dart';
+import 'core/presentation/routes/app_router.dart';
+import 'core/util/app_localization.dart';
+import 'core/util/app_theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/core/util/local_storage.dart';
-import 'package:wmd/injection_container.dart';
+import 'core/util/local_storage.dart';
+import 'injection_container.dart';
 
-import 'package:wmd/injection_container.dart' as di;
+import 'injection_container.dart' as di;
 
 import 'core/presentation/routes/url_strategy/url_strategy.dart';
 
@@ -39,19 +39,23 @@ class MyApp extends StatelessWidget {
     final router = AppRouter.router;
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => sl<ThemeManager>()..changeTheme(sl<LocalStorage>().getTheme())),
-        BlocProvider(create: (context) => sl<LocalizationManager>()..changeLang(sl<LocalStorage>().getLocale())),
+        BlocProvider(
+            create: (context) =>
+                sl<ThemeManager>()..changeTheme(sl<LocalStorage>().getTheme())),
+        BlocProvider(
+            create: (context) => sl<LocalizationManager>()
+              ..changeLang(sl<LocalStorage>().getLocale())),
       ],
       child: Builder(builder: (context) {
-        
         return MaterialApp.router(
           /*navigatorObservers: [
             SentryNavigatorObserver(),
           ],*/
           routerConfig: router,
           title: 'WMD',
-          theme: AppThemes.getAppTheme(context,brightness: Brightness.light),
-          darkTheme: AppThemes.getAppTheme(context,brightness: Brightness.dark),
+          theme: AppThemes.getAppTheme(context, brightness: Brightness.light),
+          darkTheme:
+              AppThemes.getAppTheme(context, brightness: Brightness.dark),
           themeMode: context.watch<ThemeManager>().state,
           localizationsDelegates: const [
             ...AppLocalizations.localizationsDelegates,

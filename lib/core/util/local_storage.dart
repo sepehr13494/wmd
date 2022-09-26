@@ -1,37 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../error_and_success/exeptions.dart';
 
-class LocalStorage{
+class LocalStorage {
   final Box authBox;
 
   LocalStorage(this.authBox);
 
   static const appToken = "token";
+  static const refreshToken = "refreshToken";
   static const appIsLogin = "isLogin";
   static const appThemeMode = "themeMode";
   static const appLocale = "locale";
 
   Future<void> setTokenAndLogin(token) async {
-    await authBox.put(appToken, "Bearer $token");
-    await authBox.put(appIsLogin, true);
+    try {
+      await authBox.put(appToken, "Bearer $token");
+      await authBox.put(appIsLogin, true);
+    } catch (e) {
+      throw CacheException(message: e.toString());
+    }
+  }
+
+  Future<void> setRefreshToken(token) async {
+    try {
+      await authBox.put(refreshToken, token);
+    } catch (e) {
+      throw CacheException(message: e.toString());
+    }
+  }
+
+  String getRefreshToken() {
+    try {
+      return authBox.get(refreshToken, defaultValue: "");
+    } catch (e) {
+      throw CacheException(message: e.toString());
+    }
   }
 
   Future<void> logout() async {
-    await authBox.clear();
+    try {
+      await authBox.clear();
+    } catch (e) {
+      throw CacheException(message: e.toString());
+    }
   }
 
   String getToken() {
-    return authBox.get(appToken,defaultValue: "");
+    try {
+      return authBox.get(appToken, defaultValue: "");
+    } catch (e) {
+      throw CacheException(message: e.toString());
+    }
   }
 
-  Future<bool> getLogin() async{
-    return authBox.get(appIsLogin,defaultValue: false);
+  Future<bool> getLogin() async {
+    try {
+      return authBox.get(appIsLogin, defaultValue: false);
+    } catch (e) {
+      throw CacheException(message: e.toString());
+    }
   }
 
   ThemeMode getTheme() {
-    final result = authBox.get(appThemeMode,defaultValue: "dark");
-    switch (result){
+    final result = authBox.get(appThemeMode, defaultValue: "dark");
+    switch (result) {
       case "dark":
         return ThemeMode.dark;
       case "light":
@@ -43,17 +77,30 @@ class LocalStorage{
     }
   }
 
-  Future<void> setTheme(ThemeMode themeMode) async{
-    String theme = themeMode.toString().replaceAll("ThemeMode.", "");
-    await authBox.put(appThemeMode,theme);
+  Future<void> setTheme(ThemeMode themeMode) async {
+    try {
+      String theme = themeMode.toString().replaceAll("ThemeMode.", "");
+      await authBox.put(appThemeMode, theme);
+    } catch (e) {
+      throw CacheException(message: e.toString());
+    }
   }
 
   Locale getLocale() {
-    final result = authBox.get(appLocale,defaultValue: "en");
-    return AppLocalizations.supportedLocales.firstWhere((element) => element.languageCode == result);
+    try {
+      final result = authBox.get(appLocale, defaultValue: "en");
+      return AppLocalizations.supportedLocales
+          .firstWhere((element) => element.languageCode == result);
+    } catch (e) {
+      throw CacheException(message: e.toString());
+    }
   }
 
-  Future<void> setLocale(Locale locale) async{
-    await authBox.put(appLocale,locale.languageCode);
+  Future<void> setLocale(Locale locale) async {
+    try {
+      await authBox.put(appLocale, locale.languageCode);
+    } catch (e) {
+      throw CacheException(message: e.toString());
+    }
   }
 }

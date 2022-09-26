@@ -1,0 +1,6 @@
+{
+  "access_token": "test accessToken",
+  "refresh_token": "test refreshToken",
+  "id_token": "test idToken",
+  "token_type": "test tokenType"
+}

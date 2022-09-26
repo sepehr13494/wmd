@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wmd/core/util/app_localization.dart';
-import 'package:wmd/core/util/colors.dart';
-import 'package:wmd/core/util/local_storage.dart';
+import 'app_localization.dart';
+import 'colors.dart';
+import 'local_storage.dart';
 
 class ThemeManager extends Cubit<ThemeMode> {
   final LocalStorage localStorage;
@@ -34,7 +34,6 @@ class AppThemes {
       iconTheme: const IconThemeData(
         color: primaryColor,
       ),
-
     );
   }
 

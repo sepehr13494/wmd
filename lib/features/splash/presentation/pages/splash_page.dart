@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
-import 'package:wmd/features/splash/presentation/manager/splash_cubit.dart';
-import 'package:wmd/injection_container.dart';
+import '../../../../core/presentation/bloc/bloc_helpers.dart';
+import '../manager/splash_cubit.dart';
+import '../../../../injection_container.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);

@@ -9,15 +9,11 @@ import 'package:wmd/core/models/app_request_options.dart';
 
 import 'error_handler_middleware_test.mocks.dart';
 
-
-@GenerateMocks([ServerRequestManager])
-void main(){
-  
+@GenerateMocks([ServerRequestManager, ErrorHandlerMiddleware])
+void main() {
   group('error handler middleware test', () {
-
-    final tAppRequestOptions = AppRequestOptions(
-      RequestTypes.put,"testUrl",null
-    );
+    final tAppRequestOptions =
+        AppRequestOptions(RequestTypes.put, "testUrl", null);
     final tServerException = ServerException(message: "test");
 
     late MockServerRequestManager mockRequestManager;
@@ -26,58 +22,86 @@ void main(){
       mockRequestManager = MockServerRequestManager();
       errorHandlerMiddleware = ErrorHandlerMiddleware(mockRequestManager);
     });
-    test('test when request manager returns a response with status code 200',() async {
-      final tResponse = Response(requestOptions: RequestOptions(path: "path"),data: {"test":1},statusCode: 200);
-        //arrange
-        when(mockRequestManager.sendRequest(any)).thenAnswer((_) async => tResponse);
-        //act
-      final result = await errorHandlerMiddleware.sendRequest(tAppRequestOptions);
+    test('test when request manager returns a response with status code 200',
+        () async {
+      final tResponse = Response(
+          requestOptions: RequestOptions(path: "path"),
+          data: {"test": 1},
+          statusCode: 200);
+      //arrange
+      when(mockRequestManager.sendRequest(any))
+          .thenAnswer((_) async => tResponse);
+      //act
+      final result =
+          await errorHandlerMiddleware.sendRequest(tAppRequestOptions);
       //assert
       verify(mockRequestManager.sendRequest(tAppRequestOptions));
       expect(result, equals(tResponse.data));
-
     });
 
-    test('test when request manager returns a response with statusCode 400',() async {
-      final tResponse = Response(requestOptions: RequestOptions(path: "path"),data: {"message":"1"},statusCode: 400);
+    test('test when request manager returns a response with statusCode 400',
+        () async {
+      final tResponse = Response(
+          requestOptions: RequestOptions(path: "path"),
+          data: {"message": "1"},
+          statusCode: 400);
       //arrange
-      when(mockRequestManager.sendRequest(any)).thenAnswer((_) async => tResponse);
+      when(mockRequestManager.sendRequest(any))
+          .thenAnswer((_) async => tResponse);
       //act
       final call = errorHandlerMiddleware.sendRequest;
       //assert
-      expect(() => call(tAppRequestOptions), throwsA(const TypeMatcher<ServerException>().having((e) => e.message, 'message', tResponse.data!["message"]!)));
+      expect(
+          () => call(tAppRequestOptions),
+          throwsA(const TypeMatcher<ServerException>().having(
+              (e) => e.message, 'message', tResponse.data!["message"]!)));
       verify(mockRequestManager.sendRequest(tAppRequestOptions));
     });
 
-    test('test when request manager returns a response with statusCode 401 (auth error)',() async {
-      final tResponse = Response(requestOptions: RequestOptions(path: "path"),data: {"message":"1"},statusCode: 401);
+    test(
+        'test when request manager returns a response with statusCode 401 (auth error)',
+        () async {
+      final tResponse = Response(
+          requestOptions: RequestOptions(path: "path"),
+          data: {"message": "1"},
+          statusCode: 401);
       //arrange
-      when(mockRequestManager.sendRequest(any)).thenAnswer((_) async => tResponse);
+      when(mockRequestManager.sendRequest(any))
+          .thenAnswer((_) async => tResponse);
       //act
       final call = errorHandlerMiddleware.sendRequest;
       //assert
-      expect(() => call(tAppRequestOptions), throwsA(const TypeMatcher<ServerException>().having((e) => e.message, 'message', "wrong token")));
+      expect(
+          () => call(tAppRequestOptions),
+          throwsA(const TypeMatcher<ServerException>()
+              .having((e) => e.message, 'message', "wrong token")));
       verify(mockRequestManager.sendRequest(tAppRequestOptions));
     });
 
-    test('test when request manager throws ServerException',() async {
+    test('test when request manager throws ServerException', () async {
       //arrange
       when(mockRequestManager.sendRequest(any)).thenThrow(tServerException);
       //act
       final call = errorHandlerMiddleware.sendRequest;
       //assert
-      expect(() => call(tAppRequestOptions), throwsA(const TypeMatcher<ServerException>().having((e) => e.message, 'message', tServerException.message)));
+      expect(
+          () => call(tAppRequestOptions),
+          throwsA(const TypeMatcher<ServerException>()
+              .having((e) => e.message, 'message', tServerException.message)));
       verify(mockRequestManager.sendRequest(tAppRequestOptions));
     });
 
-    test('test when request manager throws other Exception',() async {
+    test('test when request manager throws other Exception', () async {
       //arrange
       final tOtherException = Exception("test message");
       when(mockRequestManager.sendRequest(any)).thenThrow(tOtherException);
       //act
       final call = errorHandlerMiddleware.sendRequest;
       //assert
-      expect(() => call(tAppRequestOptions), throwsA(const TypeMatcher<ServerException>().having((e) => e.message, 'message', tOtherException.toString())));
+      expect(
+          () => call(tAppRequestOptions),
+          throwsA(const TypeMatcher<ServerException>().having(
+              (e) => e.message, 'message', tOtherException.toString())));
       verify(mockRequestManager.sendRequest(tAppRequestOptions));
     });
   });
