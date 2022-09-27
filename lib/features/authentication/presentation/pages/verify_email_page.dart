@@ -11,7 +11,7 @@ class VerifyEmailPage extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     return Scaffold(
-      appBar: CustomAuthAppBar(),
+      appBar: const CustomAuthAppBar(),
       body: Column(
         children: [
           const Spacer(),
