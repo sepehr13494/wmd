@@ -16,7 +16,10 @@ class AuthRemoteDataSourceImpl extends AppServerDataSource
   @override
   Future<LoginResponse> login(LoginParams loginParams) async {
     final loginAppRequestOptions = AppRequestOptions(
-        RequestTypes.post, 'https://tfo.mocklab.io/login', loginParams);
+      RequestTypes.post,
+      'https://tfo.mocklab.io/login',
+      loginParams.toJson(),
+    );
     final response =
         await errorHandlerMiddleware.sendRequest(loginAppRequestOptions);
     final result = LoginResponse.fromJson(response);

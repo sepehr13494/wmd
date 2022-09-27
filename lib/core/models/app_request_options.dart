@@ -1,6 +1,8 @@
+import 'package:equatable/equatable.dart';
+
 import '../data/network/server_request_manager.dart';
 
-class AppRequestOptions {
+class AppRequestOptions extends Equatable {
   final RequestTypes type;
   final String url;
   final dynamic body;
@@ -18,4 +20,8 @@ class AppRequestOptions {
     this.onSendProgress,
     this.fullUrl = false,
   });
+
+  @override
+  List<Object?> get props =>
+      [type, url, body, checkResponse, onSendProgress, fullUrl];
 }
