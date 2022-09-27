@@ -108,9 +108,18 @@ flutter:
     - family: IranSans
       fonts:
         - asset: assets/fonts/IRANSans_FaNum.ttf
-    - family: NunitoSans
+    - family: gotham
       fonts:
-        - asset: assets/fonts/NunitoSans-SemiBold.ttf
+        - asset: assets/fonts/gotham/GothamBold.ttf
+        - asset: assets/fonts/gotham/GothamBoldItalic.ttf
+        - asset: assets/fonts/gotham/GothamBook.ttf
+        - asset: assets/fonts/gotham/GothamBookItalic.ttf
+        - asset: assets/fonts/gotham/GothamLightItalic.ttf
+        - asset: assets/fonts/gotham/GothamLight.ttf
+        - asset: assets/fonts/gotham/GothamLightItalic.ttf
+        - asset: assets/fonts/gotham/GothamMedium.ttf
+        - asset: assets/fonts/gotham/GothamMedium_1.ttf
+        - asset: assets/fonts/gotham/GothamMediumItalic.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
 

@@ -45,7 +45,7 @@ class GlobalFunctions{
                       child: Text(
                         body,
                         textAlign: TextAlign.center,
-                        style: appTextTheme.subtitle2,
+                        style: appTextTheme.bodySmall,
                       ),
                     ),
                   ],

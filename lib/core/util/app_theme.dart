@@ -21,20 +21,50 @@ class AppThemes {
   static ThemeData getAppTheme(BuildContext context,
       {required Brightness brightness}) {
     const primaryColor = AppColors.primary;
-    return _appTheme(brightness: brightness).copyWith(
-      textTheme: _appTheme(brightness: brightness).textTheme.apply(
+    final ThemeData appTheme = _appTheme(brightness: brightness);
+    final TextTheme textTheme = appTheme.textTheme;
+    final Color textColor = textTheme.bodySmall?.color ??
+        (brightness == Brightness.dark ? Colors.white : Colors.black54);
+    return appTheme.copyWith(
+        textTheme: appTheme.textTheme.apply(
           fontFamily: LocalizationManager.getFont(
-              context.read<LocalizationManager>().state.languageCode)),
-      appBarTheme: const AppBarTheme(
-        elevation: 0,
-        iconTheme: IconThemeData(
-          color: primaryColor,
+              context.read<LocalizationManager>().state.languageCode),
         ),
-      ),
-      iconTheme: const IconThemeData(
-        color: primaryColor,
-      ),
-    );
+        primaryColor: primaryColor,
+        appBarTheme: const AppBarTheme(
+          elevation: 0,
+          iconTheme: IconThemeData(
+            color: primaryColor,
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all(textColor),
+            minimumSize:
+                MaterialStateProperty.all(const Size(double.maxFinite, 48)),
+            side: MaterialStateProperty.all(
+                BorderSide(width: 1, color: textColor)),
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ButtonStyle(
+          minimumSize:
+              MaterialStateProperty.all(const Size(double.maxFinite, 48)),
+          backgroundColor: MaterialStateProperty.all(primaryColor),
+        )),
+        inputDecorationTheme: const InputDecorationTheme(
+          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+          border: OutlineInputBorder(),
+        ),
+        dividerColor: textColor,
+        listTileTheme: const ListTileThemeData(
+          horizontalTitleGap: 0,
+        ),
+        checkboxTheme: CheckboxThemeData(
+          fillColor: MaterialStateProperty.all(primaryColor),
+          checkColor:
+              MaterialStateProperty.all(appTheme.scaffoldBackgroundColor),
+        ));
   }
 
   static ThemeData _appTheme({required Brightness brightness}) {

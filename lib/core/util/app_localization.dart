@@ -17,9 +17,7 @@ class LocalizationManager extends Cubit<Locale> {
   static getFont(String languageCode) {
     switch (languageCode) {
       case "en":
-        return "NunitoSans";
-      case "fa":
-        return "IranSans";
+        return "gotham";
       default:
         return "IranSans";
     }
