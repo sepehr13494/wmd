@@ -6,7 +6,7 @@ import '../datasources/auth_remote_data_source.dart';
 import '../../../../core/error_and_success/failures.dart';
 import 'package:dartz/dartz.dart';
 import '../../domain/repositories/auth_repository.dart';
-import '../../usecases/post_login_usecase.dart';
+import '../../domain/use_cases/post_login_usecase.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   // Local storage will be used for saving access token from the request

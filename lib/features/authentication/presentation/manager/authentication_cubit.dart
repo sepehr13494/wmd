@@ -1,8 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
-import 'package:wmd/features/authentication/usecases/post_login_usecase.dart';
+import 'package:wmd/features/authentication/domain/use_cases/post_login_usecase.dart';
 
 part 'authentication_state.dart';
 

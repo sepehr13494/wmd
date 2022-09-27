@@ -2,7 +2,7 @@ import '../../../../core/data/network/server_request_manager.dart';
 import '../../../../core/data/repository/app_data_source.dart';
 import '../../../../core/models/app_request_options.dart';
 import '../models/login_response_model.dart';
-import '../../usecases/post_login_usecase.dart';
+import '../../domain/use_cases/post_login_usecase.dart';
 
 abstract class AuthRemoteDataSource {
   /// Calls the login api endpoint in the TFO - WMD services

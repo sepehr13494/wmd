@@ -18,7 +18,7 @@ class _SplashPageState extends State<SplashPage> {
     return BlocProvider(
       create: (context) => sl<SplashCubit>()..initSplash(),
       child: BlocListener<SplashCubit, SplashState>(
-        listener: BlocHelper().defaultBlocListener(
+        listener: BlocHelper.defaultBlocListener(
           listener: (context, state) {
             if (state is SplashLoaded) {
               context.go(state.routeName);

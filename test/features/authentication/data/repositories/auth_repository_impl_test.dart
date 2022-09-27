@@ -11,7 +11,7 @@ import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:wmd/features/authentication/data/datasources/auth_remote_data_source.dart';
 import 'package:wmd/features/authentication/data/models/login_response_model.dart';
 import 'package:wmd/features/authentication/data/repositories/auth_repository_impl.dart';
-import 'package:wmd/features/authentication/usecases/post_login_usecase.dart';
+import 'package:wmd/features/authentication/domain/use_cases/post_login_usecase.dart';
 
 import '../../../splash/data/repositories/splash_repository_impl_test.mocks.dart';
 import 'auth_repository_impl_test.mocks.dart';

@@ -11,7 +11,7 @@ import 'package:wmd/core/error_and_success/failures.dart' as _i6;
 import 'package:wmd/core/error_and_success/succeses.dart' as _i7;
 import 'package:wmd/features/authentication/domain/repositories/auth_repository.dart'
     as _i2;
-import 'package:wmd/features/authentication/usecases/post_login_usecase.dart'
+import 'package:wmd/features/authentication/domain/use_cases/post_login_usecase.dart'
     as _i4;
 
 // ignore_for_file: type=lint

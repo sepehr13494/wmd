@@ -10,7 +10,7 @@ class SuccessState extends BaseState {
   SuccessState({required this.appSuccess});
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [appSuccess];
 }
 
 class LoadingState extends BaseState {

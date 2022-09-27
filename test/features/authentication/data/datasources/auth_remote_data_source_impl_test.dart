@@ -10,7 +10,7 @@ import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/models/app_request_options.dart';
 import 'package:wmd/features/authentication/data/datasources/auth_remote_data_source.dart';
 import 'package:wmd/features/authentication/data/models/login_response_model.dart';
-import 'package:wmd/features/authentication/usecases/post_login_usecase.dart';
+import 'package:wmd/features/authentication/domain/use_cases/post_login_usecase.dart';
 
 import '../../../../core/data/network/error_handler_middleware_test.mocks.dart';
 import '../../../../fixtures/fixture_reader.dart';

@@ -1,8 +1,9 @@
 import 'package:dartz/dartz.dart';
-import '../../../core/domain/usecases/usercase.dart';
-import '../../../core/error_and_success/failures.dart';
-import '../../../core/error_and_success/succeses.dart';
-import '../domain/repositories/auth_repository.dart';
+import 'package:equatable/equatable.dart';
+import '../../../../core/domain/usecases/usercase.dart';
+import '../../../../core/error_and_success/failures.dart';
+import '../../../../core/error_and_success/succeses.dart';
+import '../repositories/auth_repository.dart';
 
 class PostLoginUseCase extends UseCase<AppSuccess, LoginParams> {
   final AuthRepository authRepository;
@@ -14,7 +15,7 @@ class PostLoginUseCase extends UseCase<AppSuccess, LoginParams> {
       authRepository.login(params);
 }
 
-class LoginParams {
+class LoginParams extends Equatable {
   final String email;
   final String password;
 
@@ -34,4 +35,7 @@ class LoginParams {
       password: json['password'],
     );
   }
+
+  @override
+  List<Object?> get props => [email,password];
 }

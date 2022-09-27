@@ -10,7 +10,7 @@ import 'package:wmd/features/authentication/data/datasources/auth_remote_data_so
     as _i3;
 import 'package:wmd/features/authentication/data/models/login_response_model.dart'
     as _i2;
-import 'package:wmd/features/authentication/usecases/post_login_usecase.dart'
+import 'package:wmd/features/authentication/domain/use_cases/post_login_usecase.dart'
     as _i5;
 
 // ignore_for_file: type=lint

@@ -6,7 +6,7 @@ import '../widgets/loading_widget.dart';
 import '../../util/loading/loading_screen.dart';
 
 class BlocHelper {
-  BlocWidgetListener defaultBlocListener({
+  static BlocWidgetListener defaultBlocListener({
     required BlocWidgetListener listener,
   }) {
     return (context, state) {
@@ -20,14 +20,21 @@ class BlocHelper {
               return Dialog(
                 child: Padding(
                   padding: const EdgeInsets.all(24),
-                  child: InkWell(
-                    onTap: () {
-                      if (state.tryAgainFunction != null) {
-                        Navigator.pop(context);
-                        state.tryAgainFunction!();
-                      }
-                    },
-                    child: Text("tryAgain"),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Text(state.failure.message),
+                        InkWell(
+                          onTap: () {
+                            if (state.tryAgainFunction != null) {
+                              Navigator.pop(context);
+                              state.tryAgainFunction!();
+                            }
+                          },
+                          child: Text("tryAgain"),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );
@@ -48,7 +55,7 @@ class BlocHelper {
     };
   }
 
-  BlocWidgetBuilder defaultBlocBuilder({
+  static BlocWidgetBuilder defaultBlocBuilder({
     required BlocWidgetBuilder builder,
   }) {
     return (context, state) {

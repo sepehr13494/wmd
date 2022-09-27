@@ -7,7 +7,7 @@ import 'package:wmd/features/authentication/data/datasources/auth_remote_data_so
 import 'package:wmd/features/authentication/data/repositories/auth_repository_impl.dart';
 import 'package:wmd/features/authentication/domain/repositories/auth_repository.dart';
 import 'package:wmd/features/authentication/presentation/manager/authentication_cubit.dart';
-import 'package:wmd/features/authentication/usecases/post_login_usecase.dart';
+import 'package:wmd/features/authentication/domain/use_cases/post_login_usecase.dart';
 import 'core/data/network/network_helper.dart';
 import 'core/data/network/server_request_manager.dart';
 import 'core/util/app_localization.dart';

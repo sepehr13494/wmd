@@ -26,18 +26,16 @@ class LoginPage extends AppStatelessWidget {
       child: Scaffold(
         appBar: const CustomAuthAppBar(),
         body: BlocConsumer<AuthenticationCubit, AuthenticationState>(
-          listener: (context, state) {
-            BlocHelper().defaultBlocListener(listener: (context, state) {
-              if (state is SuccessState) {
-                //TODO: Navigate to dashboard
-                GlobalFunctions.showSnackBar(
-                  context,
-                  state.appSuccess.message,
-                  color: Colors.green,
-                );
-              }
-            });
-          },
+          listener: BlocHelper.defaultBlocListener(listener: (context, state) {
+            if (state is SuccessState) {
+              //TODO: Navigate to dashboard
+              GlobalFunctions.showSnackBar(
+                context,
+                state.appSuccess.message,
+                color: Colors.green,
+              );
+            }
+          }),
           builder: (context, state) {
             return LayoutBuilder(builder: (context, snap) {
               return SingleChildScrollView(
