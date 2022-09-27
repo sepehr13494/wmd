@@ -42,8 +42,10 @@ class ErrorHandlerMiddleware {
         }
       }
     } on ServerException catch (e) {
+      debugPrint(e.toString());
       throw ServerException(message: e.message);
     } catch (e) {
+      debugPrint(e.toString());
       throw ServerException(message: e.toString());
     }
   }

@@ -26,8 +26,8 @@ void main() {
     mockAuthRemoteDataSource = MockAuthRemoteDataSource();
     mockLocalStorage = MockLocalStorage();
     authRepositoryImpl = AuthRepositoryImpl(
-      localStorage: mockLocalStorage,
-      authRemoteDataSource: mockAuthRemoteDataSource,
+      mockLocalStorage,
+      mockAuthRemoteDataSource,
     );
   });
 

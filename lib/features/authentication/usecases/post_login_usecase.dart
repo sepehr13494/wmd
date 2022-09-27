@@ -4,10 +4,10 @@ import '../../../core/error_and_success/failures.dart';
 import '../../../core/error_and_success/succeses.dart';
 import '../domain/repositories/auth_repository.dart';
 
-class PostLogin extends UseCase<AppSuccess, LoginParams> {
+class PostLoginUseCase extends UseCase<AppSuccess, LoginParams> {
   final AuthRepository authRepository;
 
-  PostLogin(this.authRepository);
+  PostLoginUseCase(this.authRepository);
 
   @override
   Future<Either<Failure, AppSuccess>> call(LoginParams params) =>

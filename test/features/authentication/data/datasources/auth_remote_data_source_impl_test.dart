@@ -14,7 +14,6 @@ import 'package:wmd/features/authentication/usecases/post_login_usecase.dart';
 
 import '../../../../core/data/network/error_handler_middleware_test.mocks.dart';
 import '../../../../fixtures/fixture_reader.dart';
-import 'auth_remote_data_source_impl_test.mocks.dart';
 
 void main() {
   late MockErrorHandlerMiddleware mockErrorHandlerMiddleware;

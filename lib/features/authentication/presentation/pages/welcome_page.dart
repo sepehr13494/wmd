@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import '../../../../core/util/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/authentication/presentation/widgets/custom_app_bar.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
+import 'package:go_router/go_router.dart';
 
 class WelcomePage extends AppStatelessWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -118,10 +120,15 @@ class WelcomePage extends AppStatelessWidget {
                         children: [
                           Text(appLocalizations.already_have_account),
                           const SizedBox(width: 8),
-                          Text(
-                            appLocalizations.login,
-                            style: textTheme.bodyText1!.toLinkStyle(context),
-                          )
+                          TextButton(
+                              onPressed: () {
+                                context.go(AppRoutes.login);
+                              },
+                              child: Text(
+                                appLocalizations.login,
+                                style:
+                                    textTheme.bodyText1!.toLinkStyle(context),
+                              ))
                         ],
                       ),
                     ]

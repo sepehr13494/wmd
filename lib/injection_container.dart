@@ -2,6 +2,12 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
+import 'package:wmd/core/data/network/error_handler_middleware.dart';
+import 'package:wmd/features/authentication/data/datasources/auth_remote_data_source.dart';
+import 'package:wmd/features/authentication/data/repositories/auth_repository_impl.dart';
+import 'package:wmd/features/authentication/domain/repositories/auth_repository.dart';
+import 'package:wmd/features/authentication/presentation/manager/authentication_cubit.dart';
+import 'package:wmd/features/authentication/usecases/post_login_usecase.dart';
 import 'core/data/network/network_helper.dart';
 import 'core/data/network/server_request_manager.dart';
 import 'core/util/app_localization.dart';
@@ -17,14 +23,27 @@ final sl = GetIt.instance;
 
 Future<void> init() async {
   //repository_and_cubits
+  // Splash dependency
   sl.registerFactory(() => SplashCubit(sl()));
   sl.registerLazySingleton(() => CheckLoginUseCase(sl()));
   sl.registerLazySingleton<SplashRepository>(() => SplashRepositoryImpl(sl()));
+
+  //Authentication dependency
+  sl.registerFactory(() => AuthenticationCubit(sl()));
+  sl.registerLazySingleton(() => PostLoginUseCase(sl()));
+
+  sl.registerLazySingleton<AuthRepository>(
+      () => AuthRepositoryImpl(sl(), sl()));
+
+  sl.registerLazySingleton<AuthRemoteDataSource>(
+      () => AuthRemoteDataSourceImpl(sl()));
 
   //local_storage
   sl.registerLazySingleton<LocalStorage>(() => LocalStorage(sl()));
   sl.registerLazySingleton<ServerRequestManager>(
       () => ServerRequestManager(sl()));
+  sl.registerLazySingleton<ErrorHandlerMiddleware>(
+      () => ErrorHandlerMiddleware(sl()));
   //device_info
   sl.registerLazySingleton<AppDeviceInfo>(() => AppDeviceInfo(sl()));
   //theme_manager

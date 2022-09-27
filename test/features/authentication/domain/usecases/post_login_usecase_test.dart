@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:mockito/annotations.dart';
+import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:wmd/features/authentication/data/models/login_response_model.dart';
 import 'package:wmd/features/authentication/domain/repositories/auth_repository.dart';
@@ -14,7 +15,7 @@ import 'post_login_usecase_test.mocks.dart';
 @GenerateMocks([AuthRepository])
 void main() {
   late MockAuthRepository mockAuthRepository;
-  late PostLogin postLoginUseCase;
+  late PostLoginUseCase postLoginUseCase;
   // late Login loginEntity;
   late AppSuccess tSuccessForLogin;
 
@@ -23,7 +24,7 @@ void main() {
     //     LoginModel.fromJson(jsonDecode(fixture('login_success_response.json')));
     tSuccessForLogin = const AppSuccess(message: "Login is successful");
     mockAuthRepository = MockAuthRepository();
-    postLoginUseCase = PostLogin(mockAuthRepository);
+    postLoginUseCase = PostLoginUseCase(mockAuthRepository);
   });
 
   final tLoginParams =
@@ -39,6 +40,20 @@ void main() {
       final result = await postLoginUseCase.call(tLoginParams);
       //assert
       expect(result, equals(Right(tSuccessForLogin)));
+    },
+  );
+
+  test(
+    'should get Server Failure from the auth repository when server request fails',
+    () async {
+      const tServerFailure = ServerFailure(message: 'Server failure');
+      //arrange
+      when(mockAuthRepository.login(tLoginParams))
+          .thenAnswer((_) async => const Left(tServerFailure));
+      //act
+      final result = await postLoginUseCase.call(tLoginParams);
+      //assert
+      expect(result, const Left(tServerFailure));
     },
   );
 }

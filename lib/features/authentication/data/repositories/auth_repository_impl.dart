@@ -14,10 +14,10 @@ class AuthRepositoryImpl implements AuthRepository {
   final LocalStorage localStorage;
   final AuthRemoteDataSource authRemoteDataSource;
 
-  AuthRepositoryImpl({
-    required this.localStorage,
-    required this.authRemoteDataSource,
-  });
+  AuthRepositoryImpl(
+    this.localStorage,
+    this.authRemoteDataSource,
+  );
 
   @override
   Future<Either<Failure, AppSuccess>> login(LoginParams loginParams) async {
