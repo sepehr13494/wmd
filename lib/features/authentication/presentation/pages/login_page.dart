@@ -63,7 +63,7 @@ class LoginPage extends AppStatelessWidget {
                             TextButton(onPressed: (){}, child: Text(appLocalizations.login_forget_password,style: textTheme.bodySmall!.toLinkStyle(context),)),
                             FormBuilderSwitch(name: "face_id", title: Text(appLocalizations.login_enable_face_id),decoration: const InputDecoration(
                                 border: InputBorder.none
-                            ),contentPadding: EdgeInsets.zero),
+                            ),contentPadding: EdgeInsets.zero ),
                           ],
                         ),
                       ),
