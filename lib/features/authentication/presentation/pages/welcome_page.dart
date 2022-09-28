@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import '../../../../core/util/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -97,9 +98,9 @@ class WelcomePage extends AppStatelessWidget {
                       ),
                       Builder(builder: (context) {
                         List socials = [
-                          ["google", "assets/images/linkedin.png", () {}],
-                          ["twitter", "assets/images/twitter.png", () {}],
-                          ["linkedin", "assets/images/linkedin.png", () {}],
+                          ["google", "assets/images/google.svg", () {}],
+                          ["twitter", "assets/images/twitter.svg", () {}],
+                          ["linkedin", "assets/images/linkedin.svg", () {}],
                         ];
                         return Row(
                           mainAxisSize: MainAxisSize.min,
@@ -110,7 +111,10 @@ class WelcomePage extends AppStatelessWidget {
                                   border: Border.all(color: Colors.grey)),
                               padding: const EdgeInsets.all(12),
                               margin: const EdgeInsets.all(12),
-                              child: Image.asset(socials[index][1]),
+                              child: SvgPicture.asset(
+                                socials[index][1],
+                                height: 30,
+                              ),
                             );
                           }),
                         );

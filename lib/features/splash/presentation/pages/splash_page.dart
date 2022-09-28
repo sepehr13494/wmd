@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/presentation/bloc/bloc_helpers.dart';
 import '../manager/splash_cubit.dart';
@@ -28,8 +29,8 @@ class _SplashPageState extends State<SplashPage> {
         child: Scaffold(
           body: LayoutBuilder(builder: (context, snapShot) {
             return Center(
-              child: Image.asset(
-                "assets/images/logo.png",
+              child: SvgPicture.asset(
+                  "assets/images/logo.svg",
                 width: snapShot.maxWidth * 0.7,
               ),
             );
