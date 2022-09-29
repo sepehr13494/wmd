@@ -60,7 +60,9 @@ class LoginPage extends AppStatelessWidget {
                                 name: "email", hint: appLocalizations.email_placeholder),
                             const SizedBox(height: 16),
                             const PasswordTextField(),
-                            TextButton(onPressed: (){}, child: Text(appLocalizations.login_forget_password,style: textTheme.bodySmall!.toLinkStyle(context),)),
+                            TextButton(onPressed: (){
+                              context.go(AppRoutes.forgetPassword);
+                            }, child: Text(appLocalizations.login_forget_password,style: textTheme.bodySmall!.toLinkStyle(context),)),
                             FormBuilderSwitch(name: "face_id", title: Text(appLocalizations.login_enable_face_id),decoration: const InputDecoration(
                                 border: InputBorder.none
                             ),contentPadding: EdgeInsets.zero ),

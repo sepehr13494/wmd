@@ -56,9 +56,10 @@ class RegisterPage extends AppStatelessWidget {
                         ]))),
                 ElevatedButton(
                     onPressed: () {
-                      if (formKey.currentState!.validate()) {
+                      /*if (formKey.currentState!.validate()) {
                         TextInput.finishAutofillContext();
-                      }
+                      }*/
+                      context.go(AppRoutes.verifyEmail);
                     },
                     child: Text(appLocalizations.sign_up_continue)),
                 ListTile(
