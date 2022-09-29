@@ -6,6 +6,7 @@ import 'package:wmd/core/data/network/error_handler_middleware.dart';
 import 'package:wmd/features/authentication/data/datasources/auth_remote_data_source.dart';
 import 'package:wmd/features/authentication/data/repositories/auth_repository_impl.dart';
 import 'package:wmd/features/authentication/domain/repositories/auth_repository.dart';
+import 'package:wmd/features/authentication/domain/use_cases/post_register_usecase.dart';
 import 'package:wmd/features/authentication/presentation/manager/authentication_cubit.dart';
 import 'package:wmd/features/authentication/domain/use_cases/post_login_usecase.dart';
 import 'core/data/network/network_helper.dart';
@@ -31,6 +32,7 @@ Future<void> init() async {
   //Authentication dependency
   sl.registerFactory(() => AuthenticationCubit(sl(), sl()));
   sl.registerLazySingleton(() => PostLoginUseCase(sl()));
+  sl.registerLazySingleton(() => PostRegisterUseCase(sl()));
 
   sl.registerLazySingleton<AuthRepository>(
       () => AuthRepositoryImpl(sl(), sl()));
