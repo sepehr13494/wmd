@@ -1,6 +1,8 @@
 ###TODOS
-ios part of localization
-https://docs.flutter.dev/development/accessibility-and-localization/internationalization#localizing-for-ios-updating-the-ios-app-bundle
+socials sign in ios config  
+https://pub.dev/packages/google_sign_in
+https://pub.dev/packages/twitter_login
+
 
 #for hive and router
 flutter pub run build_runner build --delete-conflicting-outputs

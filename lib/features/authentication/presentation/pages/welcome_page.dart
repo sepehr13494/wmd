@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:linkedin_login/linkedin_login.dart';
+import 'package:twitter_login/twitter_login.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import '../../../../core/util/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -97,20 +101,34 @@ class WelcomePage extends AppStatelessWidget {
                       ),
                       Builder(builder: (context) {
                         List socials = [
-                          ["google", "assets/images/linkedin.png", () {}],
-                          ["twitter", "assets/images/twitter.png", () {}],
-                          ["linkedin", "assets/images/linkedin.png", () {}],
+                          ["google", "assets/images/google.svg", () async {
+                            _googleLogin();
+                          }],
+                          ["twitter", "assets/images/twitter.svg", () {
+                            _twitterLogin();
+                          }],
+                          ["linkedin", "assets/images/linkedin.svg", () {
+                            _linkedInLogin(context);
+                          }],
                         ];
                         return Row(
                           mainAxisSize: MainAxisSize.min,
                           children: List.generate(socials.length, (index) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: Colors.grey)),
-                              padding: const EdgeInsets.all(12),
-                              margin: const EdgeInsets.all(12),
-                              child: Image.asset(socials[index][1]),
+                            return InkWell(
+                              onTap: (){
+                                socials[index][2]();
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: Colors.grey)),
+                                padding: const EdgeInsets.all(12),
+                                margin: const EdgeInsets.all(12),
+                                child: SvgPicture.asset(
+                                  socials[index][1],
+                                  height: 30,
+                                ),
+                              ),
                             );
                           }),
                         );
@@ -148,6 +166,67 @@ class WelcomePage extends AppStatelessWidget {
         ),
       ),
     );
+  }
+
+  void _linkedInLogin(context) {
+    Navigator.push(context, MaterialPageRoute(builder: ((context) => SafeArea(
+      child: Scaffold(
+        body: LinkedInUserWidget(
+          redirectUrl: "redirectUrl",
+          clientId: "clientId",
+          clientSecret: "clientSecret",
+          onGetUserProfile:
+              (UserSucceededAction linkedInUser) {
+            print('Access token ${linkedInUser.user.token.accessToken}');
+            print('First name: ${linkedInUser.user.firstName?.localized?.label}');
+            print('Last name: ${linkedInUser.user.lastName?.localized?.label}');
+          },
+          onError: (UserFailedAction e) {
+            print('Error: ${e.toString()}');
+          },
+        ),
+      ),
+    ))));
+  }
+
+  Future<void> _googleLogin() async {
+    try {
+      GoogleSignIn googleSignIn = GoogleSignIn(
+        clientId: "xxxِ",
+        scopes: [
+          'https://www.googleapis.com/auth/userinfo.profile',
+        ],
+      );
+      final result = await googleSignIn.signIn();
+      print(result.toString());
+    } catch (error) {
+      debugPrint(error.toString());
+    }
+  }
+
+  Future<void> _twitterLogin() async {
+    final twitterLogin = TwitterLogin(
+      // Consumer API keys
+      apiKey: 'xxxx',
+      // Consumer API Secret keys
+      apiSecretKey: 'xxxx',
+      // Registered Callback URLs in TwitterApp
+      // Android is a deeplink
+      // iOS is a URLScheme
+      redirectURI: 'app://wmd.com/twitter',
+    );
+    final authResult = await twitterLogin.login();
+    switch (authResult.status!) {
+      case TwitterLoginStatus.loggedIn:
+      // success
+        break;
+      case TwitterLoginStatus.cancelledByUser:
+      // cancel
+        break;
+      case TwitterLoginStatus.error:
+      // error
+        break;
+    }
   }
 }
 

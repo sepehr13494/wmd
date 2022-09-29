@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/util/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -26,11 +30,16 @@ class RegisterPage extends AppStatelessWidget {
                     style: textTheme.headlineSmall),
                 Text(appLocalizations.to_start, style: textTheme.bodyMedium),
                 const SizedBox(),
-                AppTextFields.simpleTextField(
-                    name: "email", hint: appLocalizations.email_placeholder),
-                AppTextFields.simpleTextField(
-                    name: "password",
-                    hint: appLocalizations.sign_up_password_placeholder),
+                AutofillGroup(
+                  child: Column(
+                    children: [
+                      AppTextFields.simpleTextField(
+                          name: "email", hint: appLocalizations.email_placeholder),
+                      const SizedBox(height: 16),
+                      const PasswordTextField()
+                    ],
+                  ),
+                ),
                 FormBuilderCheckbox(
                     name: "terms",
                     title: RichText(
@@ -47,12 +56,32 @@ class RegisterPage extends AppStatelessWidget {
                         ]))),
                 ElevatedButton(
                     onPressed: () {
-                      if (formKey.currentState!.validate()) {}
+                      if (formKey.currentState!.validate()) {
+                        TextInput.finishAutofillContext();
+                      }
                     },
                     child: Text(appLocalizations.sign_up_continue)),
                 ListTile(
-                  leading: Image.asset("assets/images/lock.png"),
+                  leading: SvgPicture.asset(
+                    "assets/images/lock.svg",
+                    height: 30,
+                  ),
                   title: Text(appLocalizations.safe_secure_disclaimer),
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(appLocalizations.already_have_account),
+                    TextButton(
+                        onPressed: () {
+                          context.go(AppRoutes.login);
+                        },
+                        child: Text(
+                          appLocalizations.login,
+                          style:
+                          textTheme.bodyText1!.toLinkStyle(context),
+                        ))
+                  ],
                 ),
               ]
                   .map((e) => Padding(

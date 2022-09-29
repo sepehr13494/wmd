@@ -1,9 +1,12 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/util/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -49,13 +52,21 @@ class LoginPage extends AppStatelessWidget {
                       Text(appLocalizations.login_securely_msg,
                           style: textTheme.bodyMedium),
                       const SizedBox(),
-                      AppTextFields.simpleTextField(
-                          name: "email",
-                          hint: appLocalizations.email_placeholder),
-                      AppTextFields.simpleTextField(
-                          name: "password",
-                          hint: appLocalizations.login_password,
-                          password: true),
+                      AutofillGroup(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AppTextFields.simpleTextField(
+                                name: "email", hint: appLocalizations.email_placeholder),
+                            const SizedBox(height: 16),
+                            const PasswordTextField(),
+                            TextButton(onPressed: (){}, child: Text(appLocalizations.login_forget_password,style: textTheme.bodySmall!.toLinkStyle(context),)),
+                            FormBuilderSwitch(name: "face_id", title: Text(appLocalizations.login_enable_face_id),decoration: const InputDecoration(
+                                border: InputBorder.none
+                            ),contentPadding: EdgeInsets.zero ),
+                          ],
+                        ),
+                      ),
                       ElevatedButton(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
@@ -88,9 +99,12 @@ class LoginPage extends AppStatelessWidget {
                                     "${appLocalizations.login_dont_have_account} ",
                                 style: textTheme.bodyMedium),
                             TextSpan(
-                                text: appLocalizations.signup_button,
-                                style:
-                                    textTheme.bodyMedium!.toLinkStyle(context)),
+                              text: appLocalizations.signup_button,
+                              style: textTheme.bodyMedium!.toLinkStyle(context),
+                              recognizer: TapGestureRecognizer()..onTap = () {
+                                context.go(AppRoutes.register);
+                              },
+                            ),
                           ]))
                     ]
                         .map((e) => Padding(
