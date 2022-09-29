@@ -16,6 +16,7 @@ class AppTextFields {
     bool enabled = true,
     bool password = false,
     Widget? suffixIcon,
+
   }) {
     return FormBuilderTextField(
       name: name,
