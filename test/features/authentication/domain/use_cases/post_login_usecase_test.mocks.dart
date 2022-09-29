@@ -13,6 +13,8 @@ import 'package:wmd/features/authentication/domain/repositories/auth_repository.
     as _i3;
 import 'package:wmd/features/authentication/domain/use_cases/post_login_usecase.dart'
     as _i7;
+import 'package:wmd/features/authentication/domain/use_cases/post_register_usecase.dart'
+    as _i8;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -62,7 +64,7 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
       ) as _i4.Future<_i2.Either<_i5.Failure, _i6.AppSuccess>>);
   @override
   _i4.Future<_i2.Either<_i5.Failure, _i6.AppSuccess>> register(
-          _i7.LoginParams? loginParams) =>
+          _i8.RegisterParams? loginParams) =>
       (super.noSuchMethod(
         Invocation.method(
           #register,

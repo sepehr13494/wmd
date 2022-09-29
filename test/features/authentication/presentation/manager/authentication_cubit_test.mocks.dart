@@ -13,6 +13,8 @@ import 'package:wmd/features/authentication/domain/repositories/auth_repository.
     as _i2;
 import 'package:wmd/features/authentication/domain/use_cases/post_login_usecase.dart'
     as _i4;
+import 'package:wmd/features/authentication/domain/use_cases/post_register_usecase.dart'
+    as _i8;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -65,6 +67,42 @@ class MockPostLoginUseCase extends _i1.Mock implements _i4.PostLoginUseCase {
   @override
   _i5.Future<_i3.Either<_i6.Failure, _i7.AppSuccess>> call(
           _i4.LoginParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i7.AppSuccess>>.value(
+            _FakeEither_1<_i6.Failure, _i7.AppSuccess>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i6.Failure, _i7.AppSuccess>>);
+}
+
+/// A class which mocks [PostRegisterUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockPostRegisterUseCase extends _i1.Mock
+    implements _i8.PostRegisterUseCase {
+  MockPostRegisterUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.AuthRepository get authRepository => (super.noSuchMethod(
+        Invocation.getter(#authRepository),
+        returnValue: _FakeAuthRepository_0(
+          this,
+          Invocation.getter(#authRepository),
+        ),
+      ) as _i2.AuthRepository);
+  @override
+  _i5.Future<_i3.Either<_i6.Failure, _i7.AppSuccess>> call(
+          _i8.RegisterParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,

@@ -1,3 +1,5 @@
+import 'package:wmd/features/authentication/domain/use_cases/post_register_usecase.dart';
+
 import '../../../../core/data/network/network_info.dart';
 import '../../../../core/error_and_success/exeptions.dart';
 import '../../../../core/error_and_success/succeses.dart';
@@ -34,8 +36,15 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, AppSuccess>> register(LoginParams loginParams) {
-    // TODO: implement register
-    throw UnimplementedError();
+  Future<Either<Failure, AppSuccess>> register(
+      RegisterParams registerParams) async {
+    try {
+      final result = await authRemoteDataSource.register(registerParams);
+      return const Right(AppSuccess(message: 'Register successful'));
+    } on ServerException catch (error) {
+      return Left(ServerFailure(message: error.message));
+    } on CacheException catch (cacheError) {
+      return Left(CacheFailure(message: cacheError.message));
+    }
   }
 }

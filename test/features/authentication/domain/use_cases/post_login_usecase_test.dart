@@ -1,15 +1,11 @@
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
 import 'package:mockito/annotations.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
-import 'package:wmd/features/authentication/data/models/login_response_model.dart';
 import 'package:wmd/features/authentication/domain/repositories/auth_repository.dart';
 import 'package:wmd/features/authentication/domain/use_cases/post_login_usecase.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../../../../fixtures/fixture_reader.dart';
 import 'post_login_usecase_test.mocks.dart';
 
 @GenerateMocks([AuthRepository])

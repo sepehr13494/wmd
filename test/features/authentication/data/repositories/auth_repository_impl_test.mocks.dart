@@ -3,15 +3,19 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
+import 'dart:async' as _i5;
 
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:wmd/features/authentication/data/datasources/auth_remote_data_source.dart'
-    as _i3;
+    as _i4;
 import 'package:wmd/features/authentication/data/models/login_response_model.dart'
     as _i2;
+import 'package:wmd/features/authentication/data/models/register_response_model.dart'
+    as _i3;
 import 'package:wmd/features/authentication/domain/use_cases/post_login_usecase.dart'
-    as _i5;
+    as _i6;
+import 'package:wmd/features/authentication/domain/use_cases/post_register_usecase.dart'
+    as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -34,43 +38,55 @@ class _FakeLoginResponse_0 extends _i1.SmartFake implements _i2.LoginResponse {
         );
 }
 
+class _FakeRegisterResponse_1 extends _i1.SmartFake
+    implements _i3.RegisterResponse {
+  _FakeRegisterResponse_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [AuthRemoteDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAuthRemoteDataSource extends _i1.Mock
-    implements _i3.AuthRemoteDataSource {
+    implements _i4.AuthRemoteDataSource {
   MockAuthRemoteDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.LoginResponse> login(_i5.LoginParams? loginParams) =>
+  _i5.Future<_i2.LoginResponse> login(_i6.LoginParams? loginParams) =>
       (super.noSuchMethod(
         Invocation.method(
           #login,
           [loginParams],
         ),
-        returnValue: _i4.Future<_i2.LoginResponse>.value(_FakeLoginResponse_0(
+        returnValue: _i5.Future<_i2.LoginResponse>.value(_FakeLoginResponse_0(
           this,
           Invocation.method(
             #login,
             [loginParams],
           ),
         )),
-      ) as _i4.Future<_i2.LoginResponse>);
+      ) as _i5.Future<_i2.LoginResponse>);
   @override
-  _i4.Future<_i2.LoginResponse> register(_i5.LoginParams? loginParams) =>
+  _i5.Future<_i3.RegisterResponse> register(_i7.RegisterParams? loginParams) =>
       (super.noSuchMethod(
         Invocation.method(
           #register,
           [loginParams],
         ),
-        returnValue: _i4.Future<_i2.LoginResponse>.value(_FakeLoginResponse_0(
+        returnValue:
+            _i5.Future<_i3.RegisterResponse>.value(_FakeRegisterResponse_1(
           this,
           Invocation.method(
             #register,
             [loginParams],
           ),
         )),
-      ) as _i4.Future<_i2.LoginResponse>);
+      ) as _i5.Future<_i3.RegisterResponse>);
 }
