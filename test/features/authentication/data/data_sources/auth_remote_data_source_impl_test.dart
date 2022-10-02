@@ -63,7 +63,7 @@ void main() {
 
   group('register function', () {
     final Map<String, dynamic> jsonMap = {};
-    final tRegisterParams = const RegisterParams(email: 'test@yopmail.com', password: 'Passw0rd');
+    const tRegisterParams = RegisterParams(email: 'test@yopmail.com', password: 'Passw0rd');
     final tRegisterResponse = RegisterResponse.fromJson(jsonMap);
     final tRequestOptions = AppRequestOptions(
       RequestTypes.post,
