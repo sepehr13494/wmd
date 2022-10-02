@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:linkedin_login/linkedin_login.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:twitter_login/twitter_login.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import '../../../../core/util/app_stateless_widget.dart';
@@ -236,7 +237,9 @@ class ContinueAppleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-        onPressed: () {},
+        onPressed: () {
+          _signInWithApple();
+        },
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -245,5 +248,16 @@ class ContinueAppleButton extends StatelessWidget {
             Text(AppLocalizations.of(context).continue_apple),
           ],
         ));
+  }
+
+  Future<void> _signInWithApple() async {
+    final credential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
+
+    print(credential);
   }
 }
