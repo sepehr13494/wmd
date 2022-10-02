@@ -42,8 +42,6 @@ class AuthRepositoryImpl implements AuthRepository {
       return const Right(AppSuccess(message: 'Register successful'));
     } on ServerException catch (error) {
       return Left(ServerFailure(message: error.message));
-    } on CacheException catch (cacheError) {
-      return Left(CacheFailure(message: cacheError.message));
     }
   }
 }

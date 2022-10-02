@@ -57,7 +57,7 @@ class LoginPage extends AppStatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             AppTextFields.simpleTextField(
-                                name: "email", hint: appLocalizations.email_placeholder),
+                                name: "email", hint: appLocalizations.email_placeholder,type: TextFieldType.email,),
                             const SizedBox(height: 16),
                             const PasswordTextField(),
                             TextButton(onPressed: (){
