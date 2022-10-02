@@ -6,7 +6,7 @@
 import 'dart:async' as _i5;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:wmd/features/authentication/data/datasources/auth_remote_data_source.dart'
+import 'package:wmd/features/authentication/data/data_sources/auth_remote_data_source.dart'
     as _i4;
 import 'package:wmd/features/authentication/data/models/login_response_model.dart'
     as _i2;

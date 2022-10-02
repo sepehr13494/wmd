@@ -11,15 +11,16 @@ class PostLoginUseCase extends UseCase<AppSuccess, LoginParams> {
   PostLoginUseCase(this.authRepository);
 
   @override
-  Future<Either<Failure, AppSuccess>> call(LoginParams params) =>
-      authRepository.login(params);
+  Future<Either<Failure, AppSuccess>> call(LoginParams params) async {
+    return await authRepository.login(params);
+  }
 }
 
 class LoginParams extends Equatable {
   final String email;
   final String password;
 
-  LoginParams({
+  const LoginParams({
     this.email = "",
     this.password = "",
   });

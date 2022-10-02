@@ -5,7 +5,7 @@ import 'package:mockito/mockito.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
-import 'package:wmd/features/authentication/data/datasources/auth_remote_data_source.dart';
+import 'package:wmd/features/authentication/data/data_sources/auth_remote_data_source.dart';
 import 'package:wmd/features/authentication/data/models/login_response_model.dart';
 import 'package:wmd/features/authentication/data/models/register_response_model.dart';
 import 'package:wmd/features/authentication/data/repositories/auth_repository_impl.dart';

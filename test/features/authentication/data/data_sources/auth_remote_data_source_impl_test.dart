@@ -5,7 +5,7 @@ import 'package:mockito/mockito.dart';
 import 'package:wmd/core/data/network/server_request_manager.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/models/app_request_options.dart';
-import 'package:wmd/features/authentication/data/datasources/auth_remote_data_source.dart';
+import 'package:wmd/features/authentication/data/data_sources/auth_remote_data_source.dart';
 import 'package:wmd/features/authentication/data/models/login_response_model.dart';
 import 'package:wmd/features/authentication/data/models/register_response_model.dart';
 import 'package:wmd/features/authentication/domain/use_cases/post_login_usecase.dart';

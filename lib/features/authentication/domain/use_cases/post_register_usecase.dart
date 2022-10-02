@@ -19,7 +19,7 @@ class RegisterParams extends Equatable {
   final String email;
   final String password;
 
-  RegisterParams({
+  const RegisterParams({
     this.email = "",
     this.password = "",
   });

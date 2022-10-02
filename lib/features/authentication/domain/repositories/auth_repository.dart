@@ -6,5 +6,5 @@ import '../use_cases/post_login_usecase.dart';
 
 abstract class AuthRepository {
   Future<Either<Failure, AppSuccess>> login(LoginParams loginParams);
-  Future<Either<Failure, AppSuccess>> register(RegisterParams loginParams);
+  Future<Either<Failure, AppSuccess>> register(RegisterParams registerParams);
 }

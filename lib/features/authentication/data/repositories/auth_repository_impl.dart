@@ -1,10 +1,9 @@
 import 'package:wmd/features/authentication/domain/use_cases/post_register_usecase.dart';
 
-import '../../../../core/data/network/network_info.dart';
 import '../../../../core/error_and_success/exeptions.dart';
 import '../../../../core/error_and_success/succeses.dart';
 import '../../../../core/util/local_storage.dart';
-import '../datasources/auth_remote_data_source.dart';
+import '../data_sources/auth_remote_data_source.dart';
 import '../../../../core/error_and_success/failures.dart';
 import 'package:dartz/dartz.dart';
 import '../../domain/repositories/auth_repository.dart';
