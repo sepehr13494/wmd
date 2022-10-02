@@ -25,8 +25,7 @@ void main() {
 
   group('login function', () {
     final jsonMap = jsonDecode(fixture('login_success_response.json'));
-    final tLoginParams =
-        LoginParams(email: 'test@yopmail.com', password: 'Passw0rd');
+    final tLoginParams = const LoginParams(email: 'test@yopmail.com', password: 'Passw0rd');
     final tLoginResponse = LoginResponse.fromJson(jsonMap);
     final tRequestOptions = AppRequestOptions(
       RequestTypes.post,
@@ -64,8 +63,7 @@ void main() {
 
   group('register function', () {
     final Map<String, dynamic> jsonMap = {};
-    final tRegisterParams =
-        RegisterParams(email: 'test@yopmail.com', password: 'Passw0rd');
+    final tRegisterParams = const RegisterParams(email: 'test@yopmail.com', password: 'Passw0rd');
     final tRegisterResponse = RegisterResponse.fromJson(jsonMap);
     final tRequestOptions = AppRequestOptions(
       RequestTypes.post,
