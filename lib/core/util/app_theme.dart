@@ -31,12 +31,18 @@ class AppThemes {
               context.read<LocalizationManager>().state.languageCode),
         ),
         primaryColor: primaryColor,
-        appBarTheme: const AppBarTheme(
+        appBarTheme: AppBarTheme(
           elevation: 0,
-          iconTheme: IconThemeData(
+          backgroundColor: brightness == Brightness.dark
+              ? AppColors.backgroundColorPageDark
+              : Colors.white,
+          iconTheme: const IconThemeData(
             color: primaryColor,
           ),
         ),
+        scaffoldBackgroundColor: brightness == Brightness.dark
+            ? AppColors.backgroundColorPageDark
+            : Colors.white,
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: ButtonStyle(
             foregroundColor: MaterialStateProperty.all(textColor),

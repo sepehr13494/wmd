@@ -5,6 +5,7 @@ import 'package:linkedin_login/linkedin_login.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:twitter_login/twitter_login.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
+import 'package:wmd/core/util/colors.dart';
 import '../../../../core/util/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/authentication/presentation/widgets/custom_app_bar.dart';
@@ -17,164 +18,169 @@ class WelcomePage extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    return SafeArea(
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: const CustomAuthAppBar(backgroundColor: Colors.transparent),
-        body: Center(
-          child: Container(
-            constraints: const BoxConstraints(maxWidth: 500),
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 24),
-              child: Stack(
-                children: [
-                  ShaderMask(
-                    shaderCallback: (bounds) {
-                      final Color bgColor =
-                          Theme.of(context).scaffoldBackgroundColor;
-                      return LinearGradient(
-                          colors: [bgColor, Colors.transparent, bgColor],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          stops: const [0.0, 0.3, 1.0]).createShader(bounds);
-                    },
-                    blendMode: BlendMode.srcATop,
-                    child: Image.asset(
-                      "assets/images/welcome_bg.png",
-                      width: double.maxFinite,
-                      fit: BoxFit.fitWidth,
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: SafeArea(
+        child: Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: const CustomAuthAppBar(backgroundColor: Colors.transparent),
+          body: Center(
+            child: Container(
+              constraints: const BoxConstraints(maxWidth: 500),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 24),
+                child: Stack(
+                  children: [
+                    ShaderMask(
+                      shaderCallback: (bounds) {
+                        final Color bgColor =
+                            Theme.of(context).scaffoldBackgroundColor;
+                        return LinearGradient(
+                            colors: [bgColor, Colors.transparent, bgColor],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            stops: const [0.0, 0.3, 1.0]).createShader(bounds);
+                      },
+                      blendMode: BlendMode.srcATop,
+                      child: Image.asset(
+                        "assets/images/welcome_bg.png",
+                        width: double.maxFinite,
+                        fit: BoxFit.fitWidth,
+                      ),
                     ),
-                  ),
-                  Column(
-                    children: [
-                      const SizedBox(height: 44),
-                      Expanded(
-                        flex: 6,
-                        child: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.play_arrow_rounded,
-                              size: 50,
-                              color: Colors.white,
-                            )),
-                      ),
-                      Container(
-                        color: Theme.of(context)
-                            .scaffoldBackgroundColor
-                            .withOpacity(0.4),
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: RichText(
-                          textAlign: TextAlign.center,
-                          text: TextSpan(
-                            style: const TextStyle(height: 1.3),
-                            children: [
-                              TextSpan(
-                                  text: "${appLocalizations.build_portfolio} ",
-                                  style: textTheme.headlineSmall!
-                                      .apply(fontWeightDelta: 4)),
-                              TextSpan(
-                                  text: appLocalizations.build_portfolio2,
-                                  style: textTheme.headlineSmall),
-                            ],
-                          ),
+                    Column(
+                      children: [
+                        const SizedBox(height: 44),
+                        Expanded(
+                          flex: 6,
+                          child: IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                Icons.play_arrow_rounded,
+                                size: 50,
+                                color: Colors.white,
+                              )),
                         ),
-                      ),
-                      const Spacer(),
-                      ElevatedButton(
-                          onPressed: () {
-                            context.go(AppRoutes.register);
-                          },
-                          child: Text(appLocalizations.join_with_email)),
-                      const ContinueAppleButton(),
-                      const SizedBox(),
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          const Divider(),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                            child: Text(
-                              appLocalizations.or_sign_up,
-                              style: textTheme.bodySmall!
-                                  .apply(fontWeightDelta: -2),
+                        Container(
+                          color: Theme.of(context)
+                              .scaffoldBackgroundColor
+                              .withOpacity(0.4),
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              style: const TextStyle(height: 1.3),
+                              children: [
+                                TextSpan(
+                                    text:
+                                        "${appLocalizations.build_portfolio} ",
+                                    style: textTheme.headlineSmall!
+                                        .apply(fontWeightDelta: 4)),
+                                TextSpan(
+                                    text: appLocalizations.build_portfolio2,
+                                    style: textTheme.headlineSmall),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
-                      Builder(builder: (context) {
-                        List socials = [
-                          [
-                            "google",
-                            "assets/images/google.svg",
-                            () async {
-                              _googleLogin();
-                            }
-                          ],
-                          [
-                            "twitter",
-                            "assets/images/twitter.svg",
-                            () {
-                              _twitterLogin();
-                            }
-                          ],
-                          [
-                            "linkedin",
-                            "assets/images/linkedin.svg",
-                            () {
-                              _linkedInLogin(context);
-                            }
-                          ],
-                        ];
-                        return Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: List.generate(socials.length, (index) {
-                            return InkWell(
-                              onTap: () {
-                                socials[index][2]();
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: Colors.grey)),
-                                padding: const EdgeInsets.all(12),
-                                margin: const EdgeInsets.all(12),
-                                child: SvgPicture.asset(
-                                  socials[index][1],
-                                  height: 30,
-                                ),
-                              ),
-                            );
-                          }),
-                        );
-                      }),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(appLocalizations.already_have_account),
-                          const SizedBox(width: 8),
-                          TextButton(
-                              onPressed: () {
-                                context.push(AppRoutes.login);
-                              },
+                        ),
+                        const Spacer(),
+                        ElevatedButton(
+                            onPressed: () {
+                              context.go(AppRoutes.register);
+                            },
+                            child: Text(appLocalizations.join_with_email)),
+                        const ContinueAppleButton(),
+                        const SizedBox(),
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            const Divider(),
+                            Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 24),
+                              color: Theme.of(context).scaffoldBackgroundColor,
                               child: Text(
-                                appLocalizations.login,
-                                style:
-                                    textTheme.bodyText1!.toLinkStyle(context),
-                              ))
-                        ],
-                      ),
-                    ]
-                        .map((e) => (e is Expanded || e is Spacer)
-                            ? e
-                            : Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 16),
-                                child: e,
-                              ))
-                        .toList(),
-                  ),
-                ],
+                                appLocalizations.or_sign_up,
+                                style: textTheme.bodySmall!
+                                    .apply(fontWeightDelta: -2),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Builder(builder: (context) {
+                          List socials = [
+                            [
+                              "google",
+                              "assets/images/google.svg",
+                              () async {
+                                _googleLogin();
+                              }
+                            ],
+                            [
+                              "twitter",
+                              "assets/images/twitter.svg",
+                              () {
+                                _twitterLogin();
+                              }
+                            ],
+                            [
+                              "linkedin",
+                              "assets/images/linkedin.svg",
+                              () {
+                                _linkedInLogin(context);
+                              }
+                            ],
+                          ];
+                          return Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: List.generate(socials.length, (index) {
+                              return InkWell(
+                                onTap: () {
+                                  socials[index][2]();
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: Colors.grey)),
+                                  padding: const EdgeInsets.all(12),
+                                  margin: const EdgeInsets.all(12),
+                                  child: SvgPicture.asset(
+                                    socials[index][1],
+                                    height: 30,
+                                  ),
+                                ),
+                              );
+                            }),
+                          );
+                        }),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(appLocalizations.already_have_account),
+                            const SizedBox(width: 8),
+                            TextButton(
+                                onPressed: () {
+                                  context.push(AppRoutes.login);
+                                },
+                                child: Text(
+                                  appLocalizations.login,
+                                  style:
+                                      textTheme.bodyText1!.toLinkStyle(context),
+                                ))
+                          ],
+                        ),
+                      ]
+                          .map((e) => (e is Expanded || e is Spacer)
+                              ? e
+                              : Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 16),
+                                  child: e,
+                                ))
+                          .toList(),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
