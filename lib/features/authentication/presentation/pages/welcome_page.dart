@@ -102,21 +102,33 @@ class WelcomePage extends AppStatelessWidget {
                       ),
                       Builder(builder: (context) {
                         List socials = [
-                          ["google", "assets/images/google.svg", () async {
-                            _googleLogin();
-                          }],
-                          ["twitter", "assets/images/twitter.svg", () {
-                            _twitterLogin();
-                          }],
-                          ["linkedin", "assets/images/linkedin.svg", () {
-                            _linkedInLogin(context);
-                          }],
+                          [
+                            "google",
+                            "assets/images/google.svg",
+                            () async {
+                              _googleLogin();
+                            }
+                          ],
+                          [
+                            "twitter",
+                            "assets/images/twitter.svg",
+                            () {
+                              _twitterLogin();
+                            }
+                          ],
+                          [
+                            "linkedin",
+                            "assets/images/linkedin.svg",
+                            () {
+                              _linkedInLogin(context);
+                            }
+                          ],
                         ];
                         return Row(
                           mainAxisSize: MainAxisSize.min,
                           children: List.generate(socials.length, (index) {
                             return InkWell(
-                              onTap: (){
+                              onTap: () {
                                 socials[index][2]();
                               },
                               child: Container(
@@ -141,7 +153,7 @@ class WelcomePage extends AppStatelessWidget {
                           const SizedBox(width: 8),
                           TextButton(
                               onPressed: () {
-                                context.go(AppRoutes.login);
+                                context.push(AppRoutes.login);
                               },
                               child: Text(
                                 appLocalizations.login,
@@ -170,24 +182,29 @@ class WelcomePage extends AppStatelessWidget {
   }
 
   void _linkedInLogin(context) {
-    Navigator.push(context, MaterialPageRoute(builder: ((context) => SafeArea(
-      child: Scaffold(
-        body: LinkedInUserWidget(
-          redirectUrl: "redirectUrl",
-          clientId: "clientId",
-          clientSecret: "clientSecret",
-          onGetUserProfile:
-              (UserSucceededAction linkedInUser) {
-            print('Access token ${linkedInUser.user.token.accessToken}');
-            print('First name: ${linkedInUser.user.firstName?.localized?.label}');
-            print('Last name: ${linkedInUser.user.lastName?.localized?.label}');
-          },
-          onError: (UserFailedAction e) {
-            print('Error: ${e.toString()}');
-          },
-        ),
-      ),
-    ))));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: ((context) => SafeArea(
+                  child: Scaffold(
+                    body: LinkedInUserWidget(
+                      redirectUrl: "redirectUrl",
+                      clientId: "clientId",
+                      clientSecret: "clientSecret",
+                      onGetUserProfile: (UserSucceededAction linkedInUser) {
+                        print(
+                            'Access token ${linkedInUser.user.token.accessToken}');
+                        print(
+                            'First name: ${linkedInUser.user.firstName?.localized?.label}');
+                        print(
+                            'Last name: ${linkedInUser.user.lastName?.localized?.label}');
+                      },
+                      onError: (UserFailedAction e) {
+                        print('Error: ${e.toString()}');
+                      },
+                    ),
+                  ),
+                ))));
   }
 
   Future<void> _googleLogin() async {
@@ -219,13 +236,13 @@ class WelcomePage extends AppStatelessWidget {
     final authResult = await twitterLogin.login();
     switch (authResult.status!) {
       case TwitterLoginStatus.loggedIn:
-      // success
+        // success
         break;
       case TwitterLoginStatus.cancelledByUser:
-      // cancel
+        // cancel
         break;
       case TwitterLoginStatus.error:
-      // error
+        // error
         break;
     }
   }

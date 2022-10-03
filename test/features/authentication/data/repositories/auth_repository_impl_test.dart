@@ -30,7 +30,7 @@ void main() {
     );
   });
 
-  final tLoginParams =
+  const tLoginParams =
       LoginParams(email: 'test@yopmail.com', password: 'Passw0rd');
 
   final tLoginResponse = LoginResponse(
@@ -99,7 +99,7 @@ void main() {
 
   group('register functions in auth repository', () {
     final tRegisterResponse = RegisterResponse();
-    final tRegisterParams =
+    const tRegisterParams =
         RegisterParams(email: 'test@yopmail.com', password: 'Passw0rd');
     const tAppRegisterSuccess = AppSuccess(message: 'Register successful');
     test(

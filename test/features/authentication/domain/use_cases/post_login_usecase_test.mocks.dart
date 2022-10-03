@@ -64,18 +64,18 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
       ) as _i4.Future<_i2.Either<_i5.Failure, _i6.AppSuccess>>);
   @override
   _i4.Future<_i2.Either<_i5.Failure, _i6.AppSuccess>> register(
-          _i8.RegisterParams? loginParams) =>
+          _i8.RegisterParams? registerParams) =>
       (super.noSuchMethod(
         Invocation.method(
           #register,
-          [loginParams],
+          [registerParams],
         ),
         returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.AppSuccess>>.value(
             _FakeEither_0<_i5.Failure, _i6.AppSuccess>(
           this,
           Invocation.method(
             #register,
-            [loginParams],
+            [registerParams],
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, _i6.AppSuccess>>);

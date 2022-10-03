@@ -3,7 +3,7 @@ description: Invest helper project
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -20,7 +20,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.18.0 <3.0.0'
+  sdk: ">=2.18.0 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -31,7 +31,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
 
   flutter_bloc: ^8.0.1
   hive: ^2.2.2
@@ -74,7 +73,6 @@ dev_dependencies:
   bloc_test: ^9.1.0
   mockito: ^5.3.1
 
-
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -87,7 +85,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -97,7 +94,6 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -116,16 +112,18 @@ flutter:
         - asset: assets/fonts/IRANSans_FaNum.ttf
     - family: gotham
       fonts:
-        - asset: assets/fonts/gotham/GothamBold.ttf
-        - asset: assets/fonts/gotham/GothamBoldItalic.ttf
-        - asset: assets/fonts/gotham/GothamBook.ttf
-        - asset: assets/fonts/gotham/GothamBookItalic.ttf
-        - asset: assets/fonts/gotham/GothamLightItalic.ttf
-        - asset: assets/fonts/gotham/GothamLight.ttf
-        - asset: assets/fonts/gotham/GothamLightItalic.ttf
-        - asset: assets/fonts/gotham/GothamMedium.ttf
-        - asset: assets/fonts/gotham/GothamMedium_1.ttf
-        - asset: assets/fonts/gotham/GothamMediumItalic.ttf
+        - asset: assets/fonts/gotham/Gotham-Bold.ttf
+        - asset: assets/fonts/gotham/Gotham-Book.ttf
+        - asset: assets/fonts/gotham/Gotham-BookItalic.ttf
+        - asset: assets/fonts/gotham/Gotham-Light.ttf
+        - asset: assets/fonts/gotham/Gotham-LightItalic.ttf
+        - asset: assets/fonts/gotham/Gotham-Medium.ttf
+        - asset: assets/fonts/gotham/Gotham-MediumItalic.ttf
+        - asset: assets/fonts/gotham/Gotham-Thin.ttf
+        - asset: assets/fonts/gotham/Gotham-ThinItalic.ttf
+        - asset: assets/fonts/gotham/Gotham-XLight.ttf
+        - asset: assets/fonts/gotham/Gotham-XLightItalic.ttf
+        # - asset: assets/fonts/gotham/Gotham-BoldItalic.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
 

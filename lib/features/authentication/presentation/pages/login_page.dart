@@ -27,7 +27,9 @@ class LoginPage extends AppStatelessWidget {
     return BlocProvider(
       create: (context) => sl<AuthenticationCubit>(),
       child: Scaffold(
-        appBar: const CustomAuthAppBar(),
+        appBar: const CustomAuthAppBar(
+          showBackIcon: true,
+        ),
         body: BlocConsumer<AuthenticationCubit, AuthenticationState>(
           listener: BlocHelper.defaultBlocListener(listener: (context, state) {
             if (state is SuccessState) {
@@ -57,15 +59,26 @@ class LoginPage extends AppStatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             AppTextFields.simpleTextField(
-                                name: "email", hint: appLocalizations.email_placeholder),
+                                name: "email",
+                                hint: appLocalizations.email_placeholder),
                             const SizedBox(height: 16),
                             const PasswordTextField(),
-                            TextButton(onPressed: (){
-                              context.go(AppRoutes.forgetPassword);
-                            }, child: Text(appLocalizations.login_forget_password,style: textTheme.bodySmall!.toLinkStyle(context),)),
-                            FormBuilderSwitch(name: "face_id", title: Text(appLocalizations.login_enable_face_id),decoration: const InputDecoration(
-                                border: InputBorder.none
-                            ),contentPadding: EdgeInsets.zero ),
+                            TextButton(
+                                onPressed: () {
+                                  context.go(AppRoutes.forgetPassword);
+                                },
+                                child: Text(
+                                  appLocalizations.login_forget_password,
+                                  style:
+                                      textTheme.bodySmall!.toLinkStyle(context),
+                                )),
+                            FormBuilderSwitch(
+                                name: "face_id",
+                                title:
+                                    Text(appLocalizations.login_enable_face_id),
+                                decoration: const InputDecoration(
+                                    border: InputBorder.none),
+                                contentPadding: EdgeInsets.zero),
                           ],
                         ),
                       ),
@@ -77,6 +90,13 @@ class LoginPage extends AppStatelessWidget {
                             }
                           },
                           child: Text(appLocalizations.login)),
+                      // ElevatedButton(
+                      //     onPressed: () {
+                      //       // if (context.canPop()) {
+                      //       context.pop();
+                      //       // }
+                      //     },
+                      //     child: Text('Go back')),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
@@ -103,9 +123,10 @@ class LoginPage extends AppStatelessWidget {
                             TextSpan(
                               text: appLocalizations.signup_button,
                               style: textTheme.bodyMedium!.toLinkStyle(context),
-                              recognizer: TapGestureRecognizer()..onTap = () {
-                                context.go(AppRoutes.register);
-                              },
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  context.go(AppRoutes.register);
+                                },
                             ),
                           ]))
                     ]
