@@ -32,10 +32,7 @@ class ForgetPasswordPage extends AppStatelessWidget {
             const SizedBox(height: 12),
             FormBuilder(
               key: formKey,
-              child: AppTextFields.simpleTextField(
-                name: "email",
-                hint: appLocalizations.email_placeholder,
-              ),
+              child: const PasswordTextField(),
             ),
             ElevatedButton(
                 onPressed: () {

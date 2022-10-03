@@ -34,7 +34,7 @@ class RegisterPage extends AppStatelessWidget {
                   child: Column(
                     children: [
                       AppTextFields.simpleTextField(
-                          name: "email", hint: appLocalizations.email_placeholder),
+                          name: "email", hint: appLocalizations.email_placeholder,type: TextFieldType.email,),
                       const SizedBox(height: 16),
                       const PasswordTextField()
                     ],
@@ -56,10 +56,10 @@ class RegisterPage extends AppStatelessWidget {
                         ]))),
                 ElevatedButton(
                     onPressed: () {
-                      /*if (formKey.currentState!.validate()) {
-                        TextInput.finishAutofillContext();
-                      }*/
-                      context.go(AppRoutes.verifyEmail);
+                      if (formKey.currentState!.validate()) {
+                        context.go(AppRoutes.verifyEmail);
+                        //TextInput.finishAutofillContext();
+                      }
                     },
                     child: Text(appLocalizations.sign_up_continue)),
                 ListTile(

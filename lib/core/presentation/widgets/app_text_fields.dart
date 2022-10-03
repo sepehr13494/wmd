@@ -4,43 +4,67 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/app_stateless_widget.dart';
 
+enum TextFieldType{
+  email,
+  password,
+  phone,
+  simpleText,
+}
 class AppTextFields {
   AppTextFields._();
 
   static FormBuilderTextField simpleTextField({
     required String name,
+    TextFieldType type = TextFieldType.simpleText,
     String? title,
     String? hint,
     TextInputType keyboardType = TextInputType.text,
     int? minLines,
     bool enabled = true,
-    bool password = false,
+    bool obscureText = false,
     Widget? suffixIcon,
-
+    bool required = true,
   }) {
+    final validators = <String? Function(String?)>[];
+    if(required){
+      validators.add(FormBuilderValidators.required());
+    }
+    switch (type){
+
+      case TextFieldType.email:
+        validators.add(FormBuilderValidators.email());
+        break;
+      case TextFieldType.password:
+        break;
+      case TextFieldType.phone:
+        break;
+      case TextFieldType.simpleText:
+        break;
+    }
     return FormBuilderTextField(
       name: name,
       minLines: minLines ?? 1,
-      maxLines: password ? 1 : 5,
+      maxLines: (type == TextFieldType.password) ? 1 : 5,
       enabled: enabled,
       decoration: InputDecoration(
           labelText: title, hintText: hint, suffixIcon: suffixIcon),
-      obscureText: password,
+      obscureText: obscureText,
       keyboardType: keyboardType,
       textInputAction: TextInputAction.next,
-      autofillHints:
-          _getAutofillHint(name) == null ? null : [_getAutofillHint(name)!],
-      validator: FormBuilderValidators.required(),
+      autofillHints: _getAutofillHint(type) == null ? null : [_getAutofillHint(type)!],
+      validator: FormBuilderValidators.compose(validators),
     );
   }
 
-  static String? _getAutofillHint(String name) {
-    switch (name) {
-      case "email":
+  static String? _getAutofillHint(TextFieldType type) {
+    switch (type) {
+      case TextFieldType.email:
         return AutofillHints.email;
-      case "password":
+      case TextFieldType.password:
         return AutofillHints.password;
-      default:
+      case TextFieldType.phone:
+        return AutofillHints.telephoneNumber;
+      case TextFieldType.simpleText:
         return null;
     }
   }
@@ -77,8 +101,9 @@ class _PasswordTextFieldState extends AppState<PasswordTextField> {
       AppLocalizations appLocalizations) {
     return AppTextFields.simpleTextField(
       name: "password",
+      type: TextFieldType.password,
       hint: appLocalizations.sign_up_password_placeholder,
-      password: !visible,
+      obscureText: !visible,
       suffixIcon: IconButton(
         onPressed: () {
           setState(() {
