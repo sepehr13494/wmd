@@ -27,7 +27,7 @@ class CustomAuthAppBar extends StatelessWidget with PreferredSizeWidget {
       automaticallyImplyLeading: showBackIcon,
       title: SvgPicture.asset(
         "assets/images/logo.svg",
-        height: 40,
+        height: 36,
       ),
       actions: [
         const ChangeLanguageButton(),
