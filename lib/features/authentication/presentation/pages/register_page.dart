@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -49,34 +48,53 @@ class RegisterPage extends AppStatelessWidget {
                       ),
                     ),
                     FormBuilderCheckbox(
-                        name: "terms",
-                        title: RichText(
-                            text: TextSpan(
-                                style: const TextStyle(height: 1.3),
-                                children: [
-                              TextSpan(
-                                  text:
-                                      "${appLocalizations.sign_up_terms_conditions} ",
-                                  style: textTheme.bodySmall),
-                              TextSpan(
-                                  text: appLocalizations.sign_up_policy,
-                                  style: textTheme.bodySmall!
-                                      .toLinkStyle(context)),
-                            ]))),
+                      name: "terms",
+                      title: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: RichText(
+                          text: TextSpan(
+                              style: const TextStyle(height: 1.3),
+                              children: [
+                                TextSpan(
+                                    text:
+                                        "${appLocalizations.sign_up_terms_conditions} ",
+                                    style: textTheme.bodySmall),
+                                TextSpan(
+                                    text: appLocalizations.sign_up_policy,
+                                    style: textTheme.bodySmall!
+                                        .toLinkStyle(context)),
+                              ]),
+                        ),
+                      ),
+                    ),
                     ElevatedButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            context.go(AppRoutes.verifyEmail);
+                            Map<String,dynamic> map = formKey.currentState!.instantValue;
+                            context.pushNamed(AppRoutes.verifyEmail,extra: map["email"]);
                             //TextInput.finishAutofillContext();
                           }
                         },
                         child: Text(appLocalizations.sign_up_continue)),
-                    ListTile(
-                      leading: SvgPicture.asset(
-                        "assets/images/lock.svg",
-                        height: 30,
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SvgPicture.asset(
+                            "assets/images/lock.svg",
+                            height: 30,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              appLocalizations.safe_secure_disclaimer,
+                              style:
+                                  textTheme.titleMedium!.copyWith(height: 1.3),
+                            ),
+                          )
+                        ],
                       ),
-                      title: Text(appLocalizations.safe_secure_disclaimer),
                     ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
@@ -94,8 +112,9 @@ class RegisterPage extends AppStatelessWidget {
                     ),
                   ]
                       .map((e) => Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 24),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 8,
+                              horizontal: e is FormBuilderCheckbox ? 4 : 24),
                           child: e))
                       .toList(),
                 ),

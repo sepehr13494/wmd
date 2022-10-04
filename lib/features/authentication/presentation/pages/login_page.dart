@@ -27,9 +27,7 @@ class LoginPage extends AppStatelessWidget {
     return BlocProvider(
       create: (context) => sl<AuthenticationCubit>(),
       child: Scaffold(
-        appBar: const CustomAuthAppBar(
-          showBackIcon: true,
-        ),
+        appBar: const CustomAuthAppBar(),
         body: BlocConsumer<AuthenticationCubit, AuthenticationState>(
           listener: BlocHelper.defaultBlocListener(listener: (context, state) {
             if (state is SuccessState) {
@@ -125,7 +123,7 @@ class LoginPage extends AppStatelessWidget {
                               style: textTheme.bodyMedium!.toLinkStyle(context),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  context.go(AppRoutes.register);
+                                  context.push(AppRoutes.register);
                                 },
                             ),
                           ]))

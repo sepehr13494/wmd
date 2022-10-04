@@ -30,6 +30,7 @@ class AppThemes {
           fontFamily: LocalizationManager.getFont(
               context.read<LocalizationManager>().state.languageCode),
         ),
+        errorColor: AppColors.errorColor,
         primaryColor: primaryColor,
         appBarTheme: AppBarTheme(
           elevation: 0,

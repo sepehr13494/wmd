@@ -9,7 +9,8 @@ import 'package:wmd/features/authentication/presentation/widgets/custom_app_bar.
 import 'package:wmd/features/authentication/presentation/widgets/timer_widget.dart';
 
 class VerifyEmailPage extends AppStatelessWidget {
-  const VerifyEmailPage({Key? key}) : super(key: key);
+  final String email;
+  const VerifyEmailPage({Key? key, required this.email}) : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -28,7 +29,7 @@ class VerifyEmailPage extends AppStatelessWidget {
             child: Icon(Icons.email,color: Theme.of(context).primaryColor,size: 50,),
           ),
           Text(appLocalizations.sign_up_verify_email_title,style: textTheme.headlineSmall,),
-          Text(appLocalizations.sign_up_verify_email_title_description.replaceFirst("%s", "Marash.sepehr@gmail.com"),style: textTheme.bodyMedium!.copyWith(height: 1.3),textAlign: TextAlign.center,),
+          Text(appLocalizations.sign_up_verify_email_title_description.replaceFirst("%s", email),style: textTheme.bodyMedium!.copyWith(height: 1.3),textAlign: TextAlign.center,),
           const SizedBox(),
           TimerWidget(sendCodeAgain: (){}),
           const Spacer(),

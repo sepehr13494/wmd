@@ -86,7 +86,7 @@ class WelcomePage extends AppStatelessWidget {
                         const Spacer(),
                         ElevatedButton(
                             onPressed: () {
-                              context.go(AppRoutes.register);
+                              context.pushNamed(AppRoutes.register);
                             },
                             child: Text(appLocalizations.join_with_email)),
                         const ContinueAppleButton(),
