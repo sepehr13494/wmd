@@ -1,10 +1,15 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:linkedin_login/linkedin_login.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:twitter_login/twitter_login.dart';
+import 'package:video_player/video_player.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
+import 'package:wmd/core/presentation/widgets/overlay.dart';
+import 'package:wmd/core/util/app_localization.dart';
 import 'package:wmd/core/util/colors.dart';
 import '../../../../core/util/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -12,8 +17,51 @@ import 'package:wmd/features/authentication/presentation/widgets/custom_app_bar.
 import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:go_router/go_router.dart';
 
-class WelcomePage extends AppStatelessWidget {
+class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
+
+  @override
+  AppState<WelcomePage> createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends AppState<WelcomePage> {
+  // const WelcomePage({Key? key}) : super(key: key);
+
+  TargetPlatform? _platform;
+  late VideoPlayerController _videoPlayerController;
+  ChewieController? _chewieController;
+
+  @override
+  void initState() {
+    super.initState();
+    // initializePlayer();
+  }
+
+  Future<VideoPlayerController> initializePlayer() async {
+    _videoPlayerController = VideoPlayerController.network(BlocProvider.of<
+                    LocalizationManager>(context)
+                .state
+                .languageCode ==
+            "ar"
+        ? "https://a.storyblok.com/f/127566/x/fad761400a/tfo_mvp_walk-through_arabic_no_logos_1108.mp4"
+        : 'https://a.storyblok.com/f/127566/x/4770bdc9ca/tfo-mvp-walk-through-english-no-logo_1108.mp4');
+    await Future.wait([
+      _videoPlayerController.initialize(),
+    ]);
+    _createChewieController();
+    setState(() {});
+    return _videoPlayerController;
+  }
+
+  void _createChewieController() {
+    _chewieController = ChewieController(
+      videoPlayerController: _videoPlayerController,
+      autoPlay: true,
+      // showControls: false,
+      looping: false,
+      hideControlsTimer: const Duration(seconds: 1),
+    );
+  }
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -54,12 +102,42 @@ class WelcomePage extends AppStatelessWidget {
                         Expanded(
                           flex: 6,
                           child: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.play_arrow_rounded,
-                                size: 50,
-                                color: Colors.white,
-                              )),
+                            onPressed: () async {
+                              final videoController = await initializePlayer();
+                              Navigator.of(context).push(
+                                OverlayModal(
+                                  videoPlayerController: videoController,
+                                  chewieController: _chewieController,
+                                  childComponent: Expanded(
+                                    child: Center(
+                                      child: _chewieController != null &&
+                                              _chewieController!
+                                                  .videoPlayerController
+                                                  .value
+                                                  .isInitialized
+                                          ? Chewie(
+                                              controller: _chewieController!,
+                                            )
+                                          : Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: const [
+                                                CircularProgressIndicator(),
+                                                SizedBox(height: 20),
+                                                Text('Loading'),
+                                              ],
+                                            ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            icon: const Icon(
+                              Icons.play_arrow_rounded,
+                              size: 50,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                         Container(
                           color: Theme.of(context)
@@ -159,14 +237,15 @@ class WelcomePage extends AppStatelessWidget {
                             Text(appLocalizations.already_have_account),
                             const SizedBox(width: 8),
                             TextButton(
-                                onPressed: () {
-                                  context.push(AppRoutes.login);
-                                },
-                                child: Text(
-                                  appLocalizations.login,
-                                  style:
-                                      textTheme.bodyText1!.toLinkStyle(context),
-                                ))
+                              onPressed: () {
+                                context.push(AppRoutes.login);
+                              },
+                              child: Text(
+                                appLocalizations.login,
+                                style:
+                                    textTheme.bodyText1!.toLinkStyle(context),
+                              ),
+                            ),
                           ],
                         ),
                       ]
