@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:wmd/core/util/local_storage.dart';
+import '../../util/local_storage.dart';
 
 class NetworkHelper {
   final LocalStorage localStorage;

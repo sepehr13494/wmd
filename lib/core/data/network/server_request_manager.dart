@@ -1,55 +1,51 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:wmd/core/data/network/urls.dart';
-import 'package:wmd/core/models/app_request_options.dart';
+import 'urls.dart';
+import '../../models/app_request_options.dart';
 
-enum RequestTypes{
-  post,get,del,put,patch
-}
+enum RequestTypes { post, get, del, put, patch }
 
-class ServerRequestManager{
+class ServerRequestManager {
   final Dio dio;
   ServerRequestManager(this.dio);
 
   Future<Response> sendRequest(AppRequestOptions appRequestOptions) async {
     String baseUrl = appRequestOptions.fullUrl ? "" : AppUrls.baseUrl;
     Response response;
-    switch (appRequestOptions.type){
+    switch (appRequestOptions.type) {
       case RequestTypes.post:
-        response = await dio.post(
-            baseUrl+appRequestOptions.url,
+        response = await dio.post(baseUrl + appRequestOptions.url,
             data: appRequestOptions.body,
-            onSendProgress: appRequestOptions.onSendProgress==null ?  null : (int sent, int total){
-              appRequestOptions.onSendProgress!(sent,total);
-            }
-        );
+            onSendProgress: appRequestOptions.onSendProgress == null
+                ? null
+                : (int sent, int total) {
+                    appRequestOptions.onSendProgress!(sent, total);
+                  });
         break;
       case RequestTypes.get:
         response = await dio.get(
-          baseUrl+appRequestOptions.url,
+          baseUrl + appRequestOptions.url,
           queryParameters: appRequestOptions.body,
         );
         break;
       case RequestTypes.del:
-        response = await dio.delete(
-            baseUrl+appRequestOptions.url,
-            data: appRequestOptions.body
-        );
+        response = await dio.delete(baseUrl + appRequestOptions.url,
+            data: appRequestOptions.body);
         break;
       case RequestTypes.put:
         response = await dio.put(
-          baseUrl+appRequestOptions.url,
+          baseUrl + appRequestOptions.url,
           data: appRequestOptions.body,
         );
         break;
       case RequestTypes.patch:
         response = await dio.patch(
-          baseUrl+appRequestOptions.url,
+          baseUrl + appRequestOptions.url,
           data: appRequestOptions.body,
         );
         break;
     }
-    if(appRequestOptions.showLog){
+    if (appRequestOptions.showLog) {
       debugPrint(response.requestOptions.uri.toString());
       debugPrint(response.requestOptions.headers.toString());
       debugPrint(response.statusCode.toString());

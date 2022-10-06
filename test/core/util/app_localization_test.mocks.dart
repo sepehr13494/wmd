@@ -68,6 +68,23 @@ class MockLocalStorage extends _i1.Mock implements _i4.LocalStorage {
         returnValueForMissingStub: _i5.Future<void>.value(),
       ) as _i5.Future<void>);
   @override
+  _i5.Future<void> setRefreshToken(dynamic token) => (super.noSuchMethod(
+        Invocation.method(
+          #setRefreshToken,
+          [token],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+  @override
+  String getRefreshToken() => (super.noSuchMethod(
+        Invocation.method(
+          #getRefreshToken,
+          [],
+        ),
+        returnValue: '',
+      ) as String);
+  @override
   _i5.Future<void> logout() => (super.noSuchMethod(
         Invocation.method(
           #logout,

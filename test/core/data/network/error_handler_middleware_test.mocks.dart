@@ -7,6 +7,7 @@ import 'dart:async' as _i4;
 
 import 'package:dio/dio.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:wmd/core/data/network/error_handler_middleware.dart' as _i6;
 import 'package:wmd/core/data/network/server_request_manager.dart' as _i3;
 import 'package:wmd/core/models/app_request_options.dart' as _i5;
 
@@ -33,6 +34,17 @@ class _FakeDio_0 extends _i1.SmartFake implements _i2.Dio {
 
 class _FakeResponse_1<T> extends _i1.SmartFake implements _i2.Response<T> {
   _FakeResponse_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeServerRequestManager_2 extends _i1.SmartFake
+    implements _i3.ServerRequestManager {
+  _FakeServerRequestManager_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -75,4 +87,34 @@ class MockServerRequestManager extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.Response<dynamic>>);
+}
+
+/// A class which mocks [ErrorHandlerMiddleware].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockErrorHandlerMiddleware extends _i1.Mock
+    implements _i6.ErrorHandlerMiddleware {
+  MockErrorHandlerMiddleware() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i3.ServerRequestManager get serverRequestManager => (super.noSuchMethod(
+        Invocation.getter(#serverRequestManager),
+        returnValue: _FakeServerRequestManager_2(
+          this,
+          Invocation.getter(#serverRequestManager),
+        ),
+      ) as _i3.ServerRequestManager);
+  @override
+  _i4.Future<Map<String, dynamic>> sendRequest(
+          _i5.AppRequestOptions? appRequestOptions) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #sendRequest,
+          [appRequestOptions],
+        ),
+        returnValue:
+            _i4.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
+      ) as _i4.Future<Map<String, dynamic>>);
 }

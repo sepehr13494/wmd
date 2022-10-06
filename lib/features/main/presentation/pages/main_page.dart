@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wmd/core/util/app_localization.dart';
-import 'package:wmd/core/util/app_stateless_widget.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
+import '../../../../core/util/app_localization.dart';
+import '../../../../core/util/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/core/util/app_theme.dart';
-import 'package:wmd/core/util/local_storage.dart';
-import 'package:wmd/injection_container.dart';
+import '../../../../core/util/app_theme.dart';
+import '../../../../core/util/local_storage.dart';
+import '../../../../injection_container.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key, this.title = "title"});
@@ -38,10 +40,9 @@ class _MainPageState extends AppState<MainPage> {
     }
   }
 
-
-
   @override
-  Widget buildWidget(BuildContext context, TextTheme textTheme, AppLocalizations appLocalizations) {
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -56,13 +57,18 @@ class _MainPageState extends AppState<MainPage> {
         actions: [
           DropdownButton(
               items: AppLocalizations.supportedLocales
-                  .map((e) => DropdownMenuItem(value: e,child: Text(e.languageCode),)).toList(),
+                  .map((e) => DropdownMenuItem(
+                        value: e,
+                        child: Text(e.languageCode),
+                      ))
+                  .toList(),
               onChanged: (val) {
-                if(val != null){
+                if (val != null) {
                   context.read<LocalizationManager>().changeLang(val);
                   sl<LocalStorage>().setLocale(val);
                 }
-              },hint: const Icon(Icons.language)),
+              },
+              hint: const Icon(Icons.language)),
         ],
       ),
       body: Center(
@@ -96,7 +102,10 @@ class _MainPageState extends AppState<MainPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: (){
+          sl<LocalStorage>().logout();
+          context.go(AppRoutes.splash);
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.

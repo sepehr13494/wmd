@@ -1,10 +1,10 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
-import 'package:wmd/features/splash/presentation/manager/splash_cubit.dart';
-import 'package:wmd/injection_container.dart';
+import '../../../../core/presentation/bloc/bloc_helpers.dart';
+import '../manager/splash_cubit.dart';
+import '../../../../injection_container.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -19,18 +19,18 @@ class _SplashPageState extends State<SplashPage> {
     return BlocProvider(
       create: (context) => sl<SplashCubit>()..initSplash(),
       child: BlocListener<SplashCubit, SplashState>(
-        listener: BlocHelper().defaultBlocListener(
+        listener: BlocHelper.defaultBlocListener(
           listener: (context, state) {
             if (state is SplashLoaded) {
-              context.go(state.routeName);
+              context.goNamed(state.routeName);
             }
           },
         ),
         child: Scaffold(
           body: LayoutBuilder(builder: (context, snapShot) {
             return Center(
-              child: Image.asset(
-                "assets/images/logo.png",
+              child: SvgPicture.asset(
+                  "assets/images/logo.svg",
                 width: snapShot.maxWidth * 0.7,
               ),
             );

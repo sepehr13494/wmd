@@ -1,9 +1,7 @@
-import 'package:wmd/core/data/repository/app_data_source.dart';
+import 'app_data_source.dart';
 
-class AppRepository{
+class AppRepository {
   final AppServerDataSource appServerDataSource;
 
   AppRepository(this.appServerDataSource);
-
-
 }

@@ -1,9 +1,8 @@
-import 'package:wmd/release_setting.dart';
+import '../../release_setting.dart';
 
-class PlatformManager{
-
-  static getAppSource(){
-    switch (appReleaseType){
+class PlatformManager {
+  static getAppSource() {
+    switch (appReleaseType) {
       case AppReleaseType.googlePlay:
         return "1";
       case AppReleaseType.apk:
