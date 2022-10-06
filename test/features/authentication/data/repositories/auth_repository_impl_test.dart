@@ -131,20 +131,5 @@ void main() {
             equals(Left(ServerFailure(message: tServerException.message))));
       },
     );
-
-    test(
-      'should return cache failure on cache exception',
-      () async {
-        // arrange
-        when(mockAuthRemoteDataSource.register(any)).thenThrow(tCacheException);
-        // act
-        final result = await authRepositoryImpl.register(tRegisterParams);
-        // assert
-        verify(mockAuthRemoteDataSource.register(tRegisterParams));
-
-        expect(result,
-            equals(Left(CacheFailure(message: tCacheException.message))));
-      },
-    );
   });
 }

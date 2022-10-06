@@ -91,4 +91,25 @@ void main(){
       expect(result, tLocale);
     });
   });
+
+  group('refreshToken part', () {
+    String tRefreshToken = "refresh token";
+    test('set refreshToken',(){
+      //arrange
+      //act
+      localStorage.setRefreshToken(tRefreshToken);
+      //assert
+      verify(mockAuthBox.put(LocalStorage.appRefreshToken,tRefreshToken));
+    });
+
+    test('get locale',(){
+      //arrange
+      when(mockAuthBox.get(LocalStorage.appRefreshToken,defaultValue: anyNamed("defaultValue"))).thenAnswer((realInvocation) => tRefreshToken);
+      //act
+      final result = localStorage.getRefreshToken();
+      //assert
+      verify(mockAuthBox.get(LocalStorage.appRefreshToken,defaultValue: ""));
+      expect(result, tRefreshToken);
+    });
+  });
 }

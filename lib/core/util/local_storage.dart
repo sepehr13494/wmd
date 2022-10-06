@@ -9,7 +9,7 @@ class LocalStorage {
   LocalStorage(this.authBox);
 
   static const appToken = "token";
-  static const refreshToken = "refreshToken";
+  static const appRefreshToken = "refreshToken";
   static const appIsLogin = "isLogin";
   static const appThemeMode = "themeMode";
   static const appLocale = "locale";
@@ -25,7 +25,7 @@ class LocalStorage {
 
   Future<void> setRefreshToken(token) async {
     try {
-      await authBox.put(refreshToken, token);
+      await authBox.put(appRefreshToken, token);
     } catch (e) {
       throw CacheException(message: e.toString());
     }
@@ -33,7 +33,7 @@ class LocalStorage {
 
   String getRefreshToken() {
     try {
-      return authBox.get(refreshToken, defaultValue: "");
+      return authBox.get(appRefreshToken, defaultValue: "");
     } catch (e) {
       throw CacheException(message: e.toString());
     }
