@@ -12,10 +12,7 @@ class CustomAuthAppBar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: backgroundColor,
-      title: SvgPicture.asset(
-        "assets/images/logo.svg",
-        height: 35,
-      ),
+      title: const AppLogoWidget(),
       actions: [
         const ChangeLanguageButton(),
         Switch(
@@ -31,4 +28,18 @@ class CustomAuthAppBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(60);
+}
+
+class AppLogoWidget extends StatelessWidget {
+  const AppLogoWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SvgPicture.asset(
+      "assets/images/logo.svg",
+      height: 35,
+    );
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,14 +11,23 @@ import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/util/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/authentication/presentation/widgets/custom_app_bar.dart';
+import 'package:wmd/features/authentication/presentation/widgets/terms_widget.dart';
 
-class RegisterPage extends AppStatelessWidget {
+class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
+
+  @override
+  AppState<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends AppState<RegisterPage> {
+
+  bool termsChecked = false;
+  final formKey = GlobalKey<FormBuilderState>();
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    final formKey = GlobalKey<FormBuilderState>();
     return Scaffold(
       appBar: const CustomAuthAppBar(),
       body: WidthLimiterWidget(
@@ -51,6 +61,13 @@ class RegisterPage extends AppStatelessWidget {
                       ),
                       FormBuilderCheckbox(
                         name: "terms",
+                        onChanged: (val){
+                          setState(() {
+                            if(val != null){
+                              termsChecked = val;
+                            }
+                          });
+                        },
                         title: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: RichText(
@@ -62,21 +79,37 @@ class RegisterPage extends AppStatelessWidget {
                                           "${appLocalizations.sign_up_terms_conditions} ",
                                       style: textTheme.bodySmall),
                                   TextSpan(
-                                      text: appLocalizations.sign_up_policy,
-                                      style: textTheme.bodySmall!
-                                          .toLinkStyle(context)),
+                                    text: appLocalizations.sign_up_policy,
+                                    style: textTheme.bodySmall!
+                                        .toLinkStyle(context),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        showDialog(context: context, builder: (context){
+                                          return const Dialog(
+                                            child: TermsWidget(),
+                                          );
+                                        }).then((value) {
+                                          if(value ?? false){
+                                            formKey.currentState!.patchValue(
+                                                {"terms":true});
+                                          }
+                                        });
+                                      },
+                                  ),
                                 ]),
                           ),
                         ),
                       ),
                       ElevatedButton(
-                          onPressed: () {
+                          onPressed: termsChecked ? () {
                             if (formKey.currentState!.validate()) {
-                              Map<String,dynamic> map = formKey.currentState!.instantValue;
-                              context.goNamed(AppRoutes.verifyEmail,extra: map["email"]);
+                              Map<String, dynamic> map =
+                                  formKey.currentState!.instantValue;
+                              context.goNamed(AppRoutes.verifyEmail,
+                                  extra: map["email"]);
                               //TextInput.finishAutofillContext();
                             }
-                          },
+                          } : null,
                           child: Text(appLocalizations.sign_up_continue)),
                       Padding(
                         padding: const EdgeInsets.all(16),
@@ -91,8 +124,8 @@ class RegisterPage extends AppStatelessWidget {
                             Expanded(
                               child: Text(
                                 appLocalizations.safe_secure_disclaimer,
-                                style:
-                                    textTheme.titleMedium!.copyWith(height: 1.3),
+                                style: textTheme.titleMedium!
+                                    .copyWith(height: 1.3),
                               ),
                             )
                           ],
@@ -108,7 +141,8 @@ class RegisterPage extends AppStatelessWidget {
                               },
                               child: Text(
                                 appLocalizations.login,
-                                style: textTheme.bodyText1!.toLinkStyle(context),
+                                style:
+                                    textTheme.bodyText1!.toLinkStyle(context),
                               ))
                         ],
                       ),
@@ -128,4 +162,5 @@ class RegisterPage extends AppStatelessWidget {
       ),
     );
   }
+
 }
