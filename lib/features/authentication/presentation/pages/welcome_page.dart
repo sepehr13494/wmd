@@ -164,7 +164,7 @@ class _WelcomePageState extends AppState<WelcomePage> {
                         const Spacer(),
                         ElevatedButton(
                             onPressed: () {
-                              context.go(AppRoutes.register);
+                              context.pushNamed(AppRoutes.register);
                             },
                             child: Text(appLocalizations.join_with_email)),
                         const ContinueAppleButton(),

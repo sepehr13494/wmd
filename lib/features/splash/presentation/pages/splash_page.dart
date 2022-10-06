@@ -22,7 +22,7 @@ class _SplashPageState extends State<SplashPage> {
         listener: BlocHelper.defaultBlocListener(
           listener: (context, state) {
             if (state is SplashLoaded) {
-              context.go(state.routeName);
+              context.goNamed(state.routeName);
             }
           },
         ),

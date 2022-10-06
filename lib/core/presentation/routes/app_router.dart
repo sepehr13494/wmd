@@ -13,47 +13,57 @@ class AppRouter {
   static final GoRouter router = GoRouter(
     routes: <GoRoute>[
       GoRoute(
-        path: AppRoutes.splash,
+        name: AppRoutes.splash,
+        path: "/",
         builder: (BuildContext context, GoRouterState state) {
           return const SplashPage();
         },
       ),
       GoRoute(
-        path: AppRoutes.welcome,
+        name: AppRoutes.welcome,
+        path: "/welcome",
         builder: (BuildContext context, GoRouterState state) {
           return const WelcomePage();
         },
-      ),
-      GoRoute(
-        path: AppRoutes.login,
-        builder: (BuildContext context, GoRouterState state) {
-          return const LoginPage();
-        },
-      ),
-      GoRoute(
-        path: AppRoutes.register,
-        builder: (BuildContext context, GoRouterState state) {
-          return const RegisterPage();
-        },
-      ),
-      GoRoute(
-        path: AppRoutes.verifyEmail,
-        builder: (BuildContext context, GoRouterState state) {
-          return const VerifyEmailPage();
-        },
-      ),
-      GoRoute(
-        path: AppRoutes.forgetPassword,
-        builder: (BuildContext context, GoRouterState state) {
-          return const ForgetPasswordPage();
-        },
-      ),
-      GoRoute(
-        path: AppRoutes.main,
-        builder: (BuildContext context, GoRouterState state) {
-          return const MainPage();
-        },
+        routes: [
+          GoRoute(
+            name: AppRoutes.login,
+            path: "login",
+            builder: (BuildContext context, GoRouterState state) {
+              return const LoginPage();
+            },
+          ),
+          GoRoute(
+            name: AppRoutes.register,
+            path: "register",
+            builder: (BuildContext context, GoRouterState state) {
+              return const RegisterPage();
+            },
+          ),
+          GoRoute(
+            name: AppRoutes.verifyEmail,
+            path: "verify_email",
+            builder: (BuildContext context, GoRouterState state) {
+              return VerifyEmailPage(email: state.extra as String);
+            },
+          ),
+          GoRoute(
+            name: AppRoutes.forgetPassword,
+            path: "forget_password",
+            builder: (BuildContext context, GoRouterState state) {
+              return const ForgetPasswordPage();
+            },
+          ),
+          GoRoute(
+            name: AppRoutes.main,
+            path: "main",
+            builder: (BuildContext context, GoRouterState state) {
+              return const MainPage();
+            },
+          ),
+        ]
       ),
     ],
   );
+
 }
