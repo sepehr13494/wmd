@@ -104,7 +104,7 @@ class _MainPageState extends AppState<MainPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: (){
           sl<LocalStorage>().logout();
-          context.go(AppRoutes.splash);
+          context.goNamed(AppRoutes.splash);
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
