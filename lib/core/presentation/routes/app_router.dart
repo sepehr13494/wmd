@@ -54,14 +54,14 @@ class AppRouter {
               return const ForgetPasswordPage();
             },
           ),
-          GoRoute(
-            name: AppRoutes.main,
-            path: "main",
-            builder: (BuildContext context, GoRouterState state) {
-              return const MainPage();
-            },
-          ),
         ]
+      ),
+      GoRoute(
+        name: AppRoutes.main,
+        path: "/main",
+        builder: (BuildContext context, GoRouterState state) {
+          return const MainPage();
+        },
       ),
     ],
   );

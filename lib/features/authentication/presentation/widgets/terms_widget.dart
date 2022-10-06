@@ -19,12 +19,10 @@ class _TermsWidgetState extends AppState<TermsWidget> {
   void initState() {
     scrollController.addListener(() async {
       if (!reachEnd) {
-        print("asdfasdf");
         double maxScroll = scrollController.position.maxScrollExtent;
         double currentScroll = scrollController.position.pixels;
         double delta = 0.0; // or something else..
         if (maxScroll - currentScroll <= delta) {
-          print("resid");
           setState(() {
             reachEnd = true;
           });
