@@ -25,19 +25,19 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends AppState<WelcomePage> {
-  // const WelcomePage({Key? key}) : super(key: key);
 
-  TargetPlatform? _platform;
   late VideoPlayerController _videoPlayerController;
   ChewieController? _chewieController;
+
+  ValueNotifier isLoaded = ValueNotifier<bool>(false);
 
   @override
   void initState() {
     super.initState();
-    // initializePlayer();
+    initializePlayer();
   }
 
-  Future<VideoPlayerController> initializePlayer() async {
+  initializePlayer() async {
     _videoPlayerController = VideoPlayerController.network(BlocProvider.of<
                     LocalizationManager>(context)
                 .state
@@ -49,18 +49,24 @@ class _WelcomePageState extends AppState<WelcomePage> {
       _videoPlayerController.initialize(),
     ]);
     _createChewieController();
-    setState(() {});
-    return _videoPlayerController;
   }
 
   void _createChewieController() {
     _chewieController = ChewieController(
       videoPlayerController: _videoPlayerController,
-      autoPlay: true,
+      autoPlay: false,
       // showControls: false,
       looping: false,
       hideControlsTimer: const Duration(seconds: 1),
     );
+    isLoaded.value = true;
+  }
+
+  @override
+  void dispose() {
+    _chewieController?.dispose();
+    _videoPlayerController.dispose();
+    super.dispose();
   }
 
   @override
@@ -102,32 +108,28 @@ class _WelcomePageState extends AppState<WelcomePage> {
                         Expanded(
                           flex: 6,
                           child: IconButton(
-                            onPressed: () async {
-                              final videoController = await initializePlayer();
+                            onPressed: () {
                               Navigator.of(context).push(
                                 OverlayModal(
-                                  videoPlayerController: videoController,
+                                  videoPlayerController: _videoPlayerController,
                                   chewieController: _chewieController,
-                                  childComponent: Expanded(
-                                    child: Center(
-                                      child: _chewieController != null &&
-                                              _chewieController!
-                                                  .videoPlayerController
-                                                  .value
-                                                  .isInitialized
-                                          ? Chewie(
-                                              controller: _chewieController!,
-                                            )
-                                          : Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: const [
-                                                CircularProgressIndicator(),
-                                                SizedBox(height: 20),
-                                                Text('Loading'),
-                                              ],
-                                            ),
-                                    ),
+                                  childComponent: ValueListenableBuilder(
+                                    builder: (context, value, child) {
+                                      return Center(
+                                        child: isLoaded.value ? Chewie(
+                                                controller: _chewieController!,
+                                              )
+                                            : Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: const [
+                                                  CircularProgressIndicator(),
+                                                  SizedBox(height: 20),
+                                                  Text('Loading'),
+                                                ],
+                                              ),
+                                      );
+                                    }, valueListenable: isLoaded,
                                   ),
                                 ),
                               );

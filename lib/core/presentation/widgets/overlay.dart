@@ -30,12 +30,6 @@ class OverlayModal extends ModalRoute<void> {
   @override
   bool get maintainState => true;
 
-  @override
-  void dispose() {
-    chewieController?.dispose();
-    videoPlayerController?.dispose();
-    super.dispose();
-  }
 
   @override
   Widget buildPage(
@@ -52,18 +46,28 @@ class OverlayModal extends ModalRoute<void> {
       ),
     );
   }
+  @override
+  void dispose() {
+    if(chewieController != null){
+      chewieController!.pause();
+    }
+    super.dispose();
+  }
 
   Widget _buildOverlayContent(BuildContext context) {
     return Center(
-      child: Stack(
-        // mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          childComponent,
-          IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.close),
-          ),
-        ],
+      child: AspectRatio(
+        aspectRatio: 1.7,
+        child: Stack(
+          alignment: Alignment.topLeft,
+          children: <Widget>[
+            childComponent,
+            IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: const Icon(Icons.close),
+            ),
+          ],
+        ),
       ),
     );
   }
