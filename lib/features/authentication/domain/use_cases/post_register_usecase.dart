@@ -4,6 +4,7 @@ import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:wmd/features/authentication/domain/repositories/auth_repository.dart';
+import 'dart:convert';
 
 class PostRegisterUseCase extends UseCase<AppSuccess, RegisterParams> {
   final AuthRepository authRepository;
@@ -15,27 +16,89 @@ class PostRegisterUseCase extends UseCase<AppSuccess, RegisterParams> {
       authRepository.register(params);
 }
 
-class RegisterParams extends Equatable {
-  final String email;
-  final String password;
+// class RegisterParams extends Equatable {
+//   final String email;
+//   final String password;
 
-  const RegisterParams({
-    this.email = "",
-    this.password = "",
+//   const RegisterParams({
+//     this.email = "",
+//     this.password = "",
+//   });
+
+//   Map<String, dynamic> toJson() => {
+//         "email": email,
+//         "password": password,
+//       };
+
+//   factory RegisterParams.fromJson(Map<String, dynamic> json) {
+//     return RegisterParams(
+//       email: json['email'],
+//       password: json['password'],
+//     );
+//   }
+
+//   @override
+//   List<Object?> get props => [email, password];
+// }
+
+// To parse this JSON data, do
+//
+//     final registerParams = registerParamsFromJson(jsonString);
+
+RegisterParams registerParamsFromJson(String str) =>
+    RegisterParams.fromJson(json.decode(str));
+
+String registerParamsToJson(RegisterParams data) => json.encode(data.toJson());
+
+class RegisterParams extends Equatable {
+  final String? email;
+  final String? password;
+  TermsOfService? termsOfService;
+  RegisterParams({
+    this.email,
+    this.password,
+    this.termsOfService,
   });
+
+  factory RegisterParams.fromJson(Map<String, dynamic> json) => RegisterParams(
+        email: json["email"],
+        password: json["password"],
+        termsOfService: json["termsOfService"] == null
+            ? null
+            : TermsOfService.fromJson(json["termsOfService"]),
+      );
 
   Map<String, dynamic> toJson() => {
         "email": email,
         "password": password,
+        "termsOfService": termsOfService?.toJson(),
       };
 
-  factory RegisterParams.fromJson(Map<String, dynamic> json) {
-    return RegisterParams(
-      email: json['email'],
-      password: json['password'],
-    );
-  }
+  @override
+  List<Object?> get props => [email, password, termsOfService];
+}
+
+class TermsOfService extends Equatable {
+  final String? userAgent;
+  final String agreedAt;
+  final String? ipAddress;
+  const TermsOfService({
+    this.userAgent,
+    required this.agreedAt,
+    this.ipAddress,
+  });
+  factory TermsOfService.fromJson(Map<String, dynamic> json) => TermsOfService(
+        userAgent: json["userAgent"],
+        agreedAt: json["agreedAt"],
+        ipAddress: json["ipAddress"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "userAgent": userAgent,
+        "agreedAt": agreedAt,
+        "ipAddress": ipAddress,
+      };
 
   @override
-  List<Object?> get props => [email, password];
+  List<Object?> get props => [userAgent, agreedAt, ipAddress];
 }

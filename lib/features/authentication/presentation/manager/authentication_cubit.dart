@@ -20,7 +20,12 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
   postRegister({required Map<String, dynamic> map}) async {
     emit(LoadingState());
-    final result = await postRegisterUseCase(RegisterParams.fromJson(map));
+    final registerParamsForApi = RegisterParams.fromJson(map);
+    final termsAndCondition =
+        TermsOfService(agreedAt: DateTime.now().toString());
+    registerParamsForApi.termsOfService = termsAndCondition;
+
+    final result = await postRegisterUseCase(registerParamsForApi);
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (appSuccess) => emit(SuccessState(appSuccess: appSuccess)));
   }

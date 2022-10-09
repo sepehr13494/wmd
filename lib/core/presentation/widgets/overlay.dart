@@ -30,7 +30,6 @@ class OverlayModal extends ModalRoute<void> {
   @override
   bool get maintainState => true;
 
-
   @override
   Widget buildPage(
     BuildContext context,
@@ -46,9 +45,10 @@ class OverlayModal extends ModalRoute<void> {
       ),
     );
   }
+
   @override
   void dispose() {
-    if(chewieController != null){
+    if (chewieController != null) {
       chewieController!.pause();
     }
     super.dispose();

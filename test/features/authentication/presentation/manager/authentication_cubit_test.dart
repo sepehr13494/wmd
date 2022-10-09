@@ -44,8 +44,11 @@ void main() {
 
   group('register cubit test', () {
     const tAppSuccess = AppSuccess(message: 'Register successful');
-    final tRegisterParams =
-        RegisterParams(email: 'test@yopmail.com', password: 'Passw0rd');
+    final tTermsOfService = TermsOfService(agreedAt: DateTime.now().toString());
+    final tRegisterParams = RegisterParams(
+        email: 'test@yopmail.com',
+        password: 'Passw0rd',
+        termsOfService: tTermsOfService);
     blocTest(
       'when login use-case is returning App success bloc emits the success state',
       build: () => authenticationCubit,

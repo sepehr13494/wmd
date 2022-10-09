@@ -99,7 +99,7 @@ void main() {
 
   group('register functions in auth repository', () {
     final tRegisterResponse = RegisterResponse();
-    const tRegisterParams =
+    final tRegisterParams =
         RegisterParams(email: 'test@yopmail.com', password: 'Passw0rd');
     const tAppRegisterSuccess = AppSuccess(message: 'Register successful');
     test(
