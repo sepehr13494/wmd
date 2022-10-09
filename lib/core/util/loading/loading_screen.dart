@@ -53,7 +53,7 @@ class LoadingOverlay {
                   minWidth: size.width * 0.5,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.transparent,
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Padding(

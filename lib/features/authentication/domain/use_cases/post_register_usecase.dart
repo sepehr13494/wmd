@@ -1,8 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
+import 'package:wmd/core/extentions/date_time_ext.dart';
+import 'package:wmd/core/util/device_info.dart';
 import 'package:wmd/features/authentication/domain/repositories/auth_repository.dart';
 import 'dart:convert';
 
@@ -51,14 +54,32 @@ RegisterParams registerParamsFromJson(String str) =>
 String registerParamsToJson(RegisterParams data) => json.encode(data.toJson());
 
 class RegisterParams extends Equatable {
-  final String? email;
-  final String? password;
+  final String email;
+  final String password;
   TermsOfService? termsOfService;
   RegisterParams({
-    this.email,
-    this.password,
+    required this.email,
+    required this.password,
     this.termsOfService,
   });
+
+  // static final tRegisterParams =
+
+  static final tTermsOfService = TermsOfService(
+    agreedAt: CustomizableDateTime.current.toString(),
+    ipAddress: AppDeviceInfo.tAppDeviceInfo.ip,
+    userAgent: AppDeviceInfo.tAppDeviceInfo.deviceName,
+  );
+
+  static final tRegisterParams = RegisterParams(
+      email: 'test@yopmail.com',
+      password: 'Passw0rd',
+      termsOfService: tTermsOfService);
+
+  static final Map<String, dynamic> map = {
+    "email": 'test@yopmail.com',
+    "password": 'Passw0rd',
+  };
 
   factory RegisterParams.fromJson(Map<String, dynamic> json) => RegisterParams(
         email: json["email"],

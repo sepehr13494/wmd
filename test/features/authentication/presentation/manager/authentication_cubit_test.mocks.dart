@@ -3,18 +3,20 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i7;
 
 import 'package:dartz/dartz.dart' as _i3;
+import 'package:device_info_plus/device_info_plus.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:wmd/core/error_and_success/failures.dart' as _i6;
-import 'package:wmd/core/error_and_success/succeses.dart' as _i7;
+import 'package:wmd/core/error_and_success/failures.dart' as _i8;
+import 'package:wmd/core/error_and_success/succeses.dart' as _i9;
+import 'package:wmd/core/util/device_info.dart' as _i5;
 import 'package:wmd/features/authentication/domain/repositories/auth_repository.dart'
     as _i2;
 import 'package:wmd/features/authentication/domain/use_cases/post_login_usecase.dart'
-    as _i4;
+    as _i6;
 import 'package:wmd/features/authentication/domain/use_cases/post_register_usecase.dart'
-    as _i8;
+    as _i10;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -48,10 +50,32 @@ class _FakeEither_1<L, R> extends _i1.SmartFake implements _i3.Either<L, R> {
         );
 }
 
+class _FakeDeviceInfoPlugin_2 extends _i1.SmartFake
+    implements _i4.DeviceInfoPlugin {
+  _FakeDeviceInfoPlugin_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeAppDeviceInfoModel_3 extends _i1.SmartFake
+    implements _i5.AppDeviceInfoModel {
+  _FakeAppDeviceInfoModel_3(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [PostLoginUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPostLoginUseCase extends _i1.Mock implements _i4.PostLoginUseCase {
+class MockPostLoginUseCase extends _i1.Mock implements _i6.PostLoginUseCase {
   MockPostLoginUseCase() {
     _i1.throwOnMissingStub(this);
   }
@@ -65,29 +89,29 @@ class MockPostLoginUseCase extends _i1.Mock implements _i4.PostLoginUseCase {
         ),
       ) as _i2.AuthRepository);
   @override
-  _i5.Future<_i3.Either<_i6.Failure, _i7.AppSuccess>> call(
-          _i4.LoginParams? params) =>
+  _i7.Future<_i3.Either<_i8.Failure, _i9.AppSuccess>> call(
+          _i6.LoginParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i7.AppSuccess>>.value(
-            _FakeEither_1<_i6.Failure, _i7.AppSuccess>(
+        returnValue: _i7.Future<_i3.Either<_i8.Failure, _i9.AppSuccess>>.value(
+            _FakeEither_1<_i8.Failure, _i9.AppSuccess>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i5.Future<_i3.Either<_i6.Failure, _i7.AppSuccess>>);
+      ) as _i7.Future<_i3.Either<_i8.Failure, _i9.AppSuccess>>);
 }
 
 /// A class which mocks [PostRegisterUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockPostRegisterUseCase extends _i1.Mock
-    implements _i8.PostRegisterUseCase {
+    implements _i10.PostRegisterUseCase {
   MockPostRegisterUseCase() {
     _i1.throwOnMissingStub(this);
   }
@@ -101,20 +125,53 @@ class MockPostRegisterUseCase extends _i1.Mock
         ),
       ) as _i2.AuthRepository);
   @override
-  _i5.Future<_i3.Either<_i6.Failure, _i7.AppSuccess>> call(
-          _i8.RegisterParams? params) =>
+  _i7.Future<_i3.Either<_i8.Failure, _i9.AppSuccess>> call(
+          _i10.RegisterParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i7.AppSuccess>>.value(
-            _FakeEither_1<_i6.Failure, _i7.AppSuccess>(
+        returnValue: _i7.Future<_i3.Either<_i8.Failure, _i9.AppSuccess>>.value(
+            _FakeEither_1<_i8.Failure, _i9.AppSuccess>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i5.Future<_i3.Either<_i6.Failure, _i7.AppSuccess>>);
+      ) as _i7.Future<_i3.Either<_i8.Failure, _i9.AppSuccess>>);
+}
+
+/// A class which mocks [AppDeviceInfo].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAppDeviceInfo extends _i1.Mock implements _i5.AppDeviceInfo {
+  MockAppDeviceInfo() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.DeviceInfoPlugin get deviceInfoPlugin => (super.noSuchMethod(
+        Invocation.getter(#deviceInfoPlugin),
+        returnValue: _FakeDeviceInfoPlugin_2(
+          this,
+          Invocation.getter(#deviceInfoPlugin),
+        ),
+      ) as _i4.DeviceInfoPlugin);
+  @override
+  _i7.Future<_i5.AppDeviceInfoModel> getDeviceInfo() => (super.noSuchMethod(
+        Invocation.method(
+          #getDeviceInfo,
+          [],
+        ),
+        returnValue:
+            _i7.Future<_i5.AppDeviceInfoModel>.value(_FakeAppDeviceInfoModel_3(
+          this,
+          Invocation.method(
+            #getDeviceInfo,
+            [],
+          ),
+        )),
+      ) as _i7.Future<_i5.AppDeviceInfoModel>);
 }

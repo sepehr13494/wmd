@@ -15,7 +15,8 @@ class ErrorHandlerMiddleware {
   Future<Map<String, dynamic>> sendRequest(
       AppRequestOptions appRequestOptions) async {
     try {
-      Response response = await serverRequestManager.sendRequest(appRequestOptions);
+      Response response =
+          await serverRequestManager.sendRequest(appRequestOptions);
       if (response.statusCode == AppUrls.wrongTokenCode &&
           appRequestOptions.url != AppUrls.refreshUrl) {
         throw ServerException(message: "wrong token");
@@ -34,7 +35,7 @@ class ErrorHandlerMiddleware {
           if ((response.statusCode ?? 600) < 300) {
             return response.data;
           } else {
-            throw ServerException(message: response.data["message"]);
+            throw ServerException(message: response.data.toString());
           }
         } else {
           return response.data;

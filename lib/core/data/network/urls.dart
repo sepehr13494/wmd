@@ -4,5 +4,5 @@ class AppUrls {
   static const int wrongTokenCode = 401;
   static const String baseUrl = "https://apimaz-weu-tfo-mvp-qa.azure-api.net/";
   static const String refreshUrl = "";
-  static const String registerUser = "user/client/sign-up";
+  static const String registerUser = "auth/client/sign-up";
 }
