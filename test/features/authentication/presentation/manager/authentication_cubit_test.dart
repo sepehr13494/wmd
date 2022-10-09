@@ -8,6 +8,7 @@ import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/features/authentication/domain/use_cases/post_register_usecase.dart';
 import 'package:wmd/features/authentication/presentation/manager/authentication_cubit.dart';
 import 'package:wmd/features/authentication/domain/use_cases/post_login_usecase.dart';
+import 'package:wmd/core/extentions/date_time_ext.dart';
 
 import 'authentication_cubit_test.mocks.dart';
 
@@ -26,8 +27,7 @@ void main() {
 
   group('login cubit test', () {
     const tAppSuccess = AppSuccess(message: 'Login successful');
-    final tLoginParams =
-        LoginParams(email: 'test@yopmail.com', password: 'Passw0rd');
+    const tLoginParams = LoginParams(email: 'test@yopmail.com', password: 'Passw0rd');
     blocTest(
       'when login use-case is returning App success bloc emits the success state',
       build: () => authenticationCubit,
@@ -44,7 +44,12 @@ void main() {
 
   group('register cubit test', () {
     const tAppSuccess = AppSuccess(message: 'Register successful');
-    final tTermsOfService = TermsOfService(agreedAt: DateTime.now().toString());
+    CustomizableDateTime.customTime = DateTime.now();
+    final tTermsOfService = TermsOfService(agreedAt: CustomizableDateTime.current.toString());
+    final map = {
+      "email": 'test@yopmail.com',
+      "password": 'Passw0rd',
+    };
     final tRegisterParams = RegisterParams(
         email: 'test@yopmail.com',
         password: 'Passw0rd',
@@ -55,7 +60,7 @@ void main() {
       setUp: () => when(mockPostRegisterUseCase(any))
           .thenAnswer((realInvocation) async => const Right(tAppSuccess)),
       act: (bloc) async =>
-          await bloc.postRegister(map: tRegisterParams.toJson()),
+          await bloc.postRegister(map: map),
       expect: () =>
           [isA<LoadingState>(), SuccessState(appSuccess: tAppSuccess)],
       verify: (_) {

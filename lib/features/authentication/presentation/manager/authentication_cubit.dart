@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/features/authentication/domain/use_cases/post_login_usecase.dart';
 import 'package:wmd/features/authentication/domain/use_cases/post_register_usecase.dart';
@@ -21,8 +22,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   postRegister({required Map<String, dynamic> map}) async {
     emit(LoadingState());
     final registerParamsForApi = RegisterParams.fromJson(map);
-    final termsAndCondition =
-        TermsOfService(agreedAt: DateTime.now().toString());
+    final termsAndCondition = TermsOfService(agreedAt: CustomizableDateTime.current.toString());
     registerParamsForApi.termsOfService = termsAndCondition;
 
     final result = await postRegisterUseCase(registerParamsForApi);

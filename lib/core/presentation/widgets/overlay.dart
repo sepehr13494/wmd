@@ -4,12 +4,8 @@ import 'package:video_player/video_player.dart';
 
 class OverlayModal extends ModalRoute<void> {
   late Widget childComponent;
-  late ChewieController? chewieController;
-  late VideoPlayerController? videoPlayerController;
   OverlayModal({
     required this.childComponent,
-    required this.chewieController,
-    required this.videoPlayerController,
   });
 
   @override
@@ -44,14 +40,6 @@ class OverlayModal extends ModalRoute<void> {
         child: _buildOverlayContent(context),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    if (chewieController != null) {
-      chewieController!.pause();
-    }
-    super.dispose();
   }
 
   Widget _buildOverlayContent(BuildContext context) {
