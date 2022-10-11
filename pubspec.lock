@@ -176,13 +176,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.2"
-  country_picker:
-    dependency: "direct main"
-    description:
-      name: country_picker
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.16"
   coverage:
     dependency: transitive
     description:
@@ -295,13 +288,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
-  email_validator:
-    dependency: "direct main"
-    description:
-      name: email_validator
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.17"
   equatable:
     dependency: "direct main"
     description:
@@ -588,13 +574,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.6.0"
-  libphonenumber:
-    dependency: "direct main"
-    description:
-      name: libphonenumber
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.2"
   linkedin_login:
     dependency: "direct main"
     description:
