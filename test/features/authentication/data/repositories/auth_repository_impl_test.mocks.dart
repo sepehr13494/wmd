@@ -16,6 +16,8 @@ import 'package:wmd/features/authentication/domain/use_cases/post_login_usecase.
     as _i6;
 import 'package:wmd/features/authentication/domain/use_cases/post_register_usecase.dart'
     as _i7;
+import 'package:wmd/features/authentication/domain/use_cases/resend_email_usecase.dart'
+    as _i8;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -74,19 +76,30 @@ class MockAuthRemoteDataSource extends _i1.Mock
         )),
       ) as _i5.Future<_i2.LoginResponse>);
   @override
-  _i5.Future<_i3.RegisterResponse> register(_i7.RegisterParams? loginParams) =>
+  _i5.Future<_i3.RegisterResponse> register(
+          _i7.RegisterParams? registerParams) =>
       (super.noSuchMethod(
         Invocation.method(
           #register,
-          [loginParams],
+          [registerParams],
         ),
         returnValue:
             _i5.Future<_i3.RegisterResponse>.value(_FakeRegisterResponse_1(
           this,
           Invocation.method(
             #register,
-            [loginParams],
+            [registerParams],
           ),
         )),
       ) as _i5.Future<_i3.RegisterResponse>);
+  @override
+  _i5.Future<void> resendEmail(_i8.ResendEmailParams? resendEmailParams) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #resendEmail,
+          [resendEmailParams],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
 }

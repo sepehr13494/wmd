@@ -17,6 +17,8 @@ import 'package:wmd/features/authentication/domain/use_cases/post_login_usecase.
     as _i6;
 import 'package:wmd/features/authentication/domain/use_cases/post_register_usecase.dart'
     as _i10;
+import 'package:wmd/features/authentication/domain/use_cases/resend_email_usecase.dart'
+    as _i11;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -127,6 +129,42 @@ class MockPostRegisterUseCase extends _i1.Mock
   @override
   _i7.Future<_i3.Either<_i8.Failure, _i9.AppSuccess>> call(
           _i10.RegisterParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i7.Future<_i3.Either<_i8.Failure, _i9.AppSuccess>>.value(
+            _FakeEither_1<_i8.Failure, _i9.AppSuccess>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i7.Future<_i3.Either<_i8.Failure, _i9.AppSuccess>>);
+}
+
+/// A class which mocks [ResendEmailUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockResendEmailUseCase extends _i1.Mock
+    implements _i11.ResendEmailUseCase {
+  MockResendEmailUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.AuthRepository get authRepository => (super.noSuchMethod(
+        Invocation.getter(#authRepository),
+        returnValue: _FakeAuthRepository_0(
+          this,
+          Invocation.getter(#authRepository),
+        ),
+      ) as _i2.AuthRepository);
+  @override
+  _i7.Future<_i3.Either<_i8.Failure, _i9.AppSuccess>> call(
+          _i11.ResendEmailParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,

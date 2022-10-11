@@ -3,6 +3,7 @@ import 'package:wmd/features/authentication/domain/use_cases/post_register_useca
 import '../../../../core/error_and_success/exeptions.dart';
 import '../../../../core/error_and_success/succeses.dart';
 import '../../../../core/util/local_storage.dart';
+import '../../domain/use_cases/resend_email_usecase.dart';
 import '../data_sources/auth_remote_data_source.dart';
 import '../../../../core/error_and_success/failures.dart';
 import 'package:dartz/dartz.dart';
@@ -40,6 +41,16 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final result = await authRemoteDataSource.register(registerParams);
       return const Right(AppSuccess(message: 'Register successful'));
+    } on ServerException catch (error) {
+      return Left(ServerFailure(message: error.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, AppSuccess>> resendEmail(ResendEmailParams resendEmailParams) async {
+    try {
+      final result = await authRemoteDataSource.resendEmail(resendEmailParams);
+      return const Right(AppSuccess(message: 'Email sent successful'));
     } on ServerException catch (error) {
       return Left(ServerFailure(message: error.message));
     }

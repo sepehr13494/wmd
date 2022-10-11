@@ -7,25 +7,28 @@ import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/util/device_info.dart';
 import 'package:wmd/features/authentication/domain/use_cases/post_register_usecase.dart';
+import 'package:wmd/features/authentication/domain/use_cases/resend_email_usecase.dart';
 import 'package:wmd/features/authentication/presentation/manager/authentication_cubit.dart';
 import 'package:wmd/features/authentication/domain/use_cases/post_login_usecase.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
 
 import 'authentication_cubit_test.mocks.dart';
 
-@GenerateMocks([PostLoginUseCase, PostRegisterUseCase, AppDeviceInfo])
+@GenerateMocks([PostLoginUseCase, PostRegisterUseCase,ResendEmailUseCase, AppDeviceInfo])
 void main() {
   late MockPostLoginUseCase mockPostLoginUseCase;
   late MockPostRegisterUseCase mockPostRegisterUseCase;
+  late MockResendEmailUseCase mockResendEmailUseCase;
   late AuthenticationCubit authenticationCubit;
   late MockAppDeviceInfo mockAppDeviceInfo;
 
   setUp(() {
     mockPostLoginUseCase = MockPostLoginUseCase();
     mockPostRegisterUseCase = MockPostRegisterUseCase();
+    mockResendEmailUseCase = MockResendEmailUseCase();
     mockAppDeviceInfo = MockAppDeviceInfo();
     authenticationCubit = AuthenticationCubit(
-        mockPostLoginUseCase, mockPostRegisterUseCase, mockAppDeviceInfo);
+        mockPostLoginUseCase, mockPostRegisterUseCase, mockResendEmailUseCase, mockAppDeviceInfo);
   });
 
   group('login cubit test', () {

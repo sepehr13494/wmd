@@ -19,40 +19,12 @@ class PostRegisterUseCase extends UseCase<AppSuccess, RegisterParams> {
       authRepository.register(params);
 }
 
-// class RegisterParams extends Equatable {
-//   final String email;
-//   final String password;
-
-//   const RegisterParams({
-//     this.email = "",
-//     this.password = "",
-//   });
-
-//   Map<String, dynamic> toJson() => {
-//         "email": email,
-//         "password": password,
-//       };
-
-//   factory RegisterParams.fromJson(Map<String, dynamic> json) {
-//     return RegisterParams(
-//       email: json['email'],
-//       password: json['password'],
-//     );
-//   }
-
-//   @override
-//   List<Object?> get props => [email, password];
-// }
-
-// To parse this JSON data, do
-//
-//     final registerParams = registerParamsFromJson(jsonString);
-
 RegisterParams registerParamsFromJson(String str) =>
     RegisterParams.fromJson(json.decode(str));
 
 String registerParamsToJson(RegisterParams data) => json.encode(data.toJson());
 
+// ignore: must_be_immutable
 class RegisterParams extends Equatable {
   final String email;
   final String password;

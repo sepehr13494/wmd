@@ -4,17 +4,22 @@ import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/util/device_info.dart';
 import 'package:wmd/features/authentication/domain/use_cases/post_login_usecase.dart';
 import 'package:wmd/features/authentication/domain/use_cases/post_register_usecase.dart';
-import 'package:wmd/injection_container.dart';
+import 'package:wmd/features/authentication/domain/use_cases/resend_email_usecase.dart';
 
 part 'authentication_state.dart';
 
 class AuthenticationCubit extends Cubit<AuthenticationState> {
   final PostLoginUseCase postLoginUseCase;
   final PostRegisterUseCase postRegisterUseCase;
+  final ResendEmailUseCase resendEmailUseCase;
   final AppDeviceInfo appDeviceInfo;
+
   AuthenticationCubit(
-      this.postLoginUseCase, this.postRegisterUseCase, this.appDeviceInfo)
-      : super(AuthenticationInitial());
+    this.postLoginUseCase,
+    this.postRegisterUseCase,
+    this.resendEmailUseCase,
+    this.appDeviceInfo,
+  ) : super(AuthenticationInitial());
 
   postLogin({required Map<String, dynamic> map}) async {
     emit(LoadingState());
@@ -34,6 +39,14 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     registerParamsForApi.termsOfService = termsAndCondition;
 
     final result = await postRegisterUseCase(registerParamsForApi);
+    result.fold((failure) => emit(ErrorState(failure: failure)),
+        (appSuccess) => emit(SuccessState(appSuccess: appSuccess)));
+  }
+
+  resendEmail() async {
+    emit(LoadingState());
+    final resendEmailParams = ResendEmailParams.fromJson({});
+    final result = await resendEmailUseCase(resendEmailParams);
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (appSuccess) => emit(SuccessState(appSuccess: appSuccess)));
   }

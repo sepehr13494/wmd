@@ -4,13 +4,15 @@ import 'package:wmd/features/authentication/domain/use_cases/post_register_useca
 import '../../../../core/data/network/server_request_manager.dart';
 import '../../../../core/data/repository/app_data_source.dart';
 import '../../../../core/models/app_request_options.dart';
+import '../../domain/use_cases/resend_email_usecase.dart';
 import '../models/login_response_model.dart';
 import '../../domain/use_cases/post_login_usecase.dart';
 
 abstract class AuthRemoteDataSource {
   /// Calls the login api endpoint in the TFO - WMD services
   Future<LoginResponse> login(LoginParams loginParams);
-  Future<RegisterResponse> register(RegisterParams loginParams);
+  Future<RegisterResponse> register(RegisterParams registerParams);
+  Future<void> resendEmail(ResendEmailParams resendEmailParams);
 }
 
 class AuthRemoteDataSourceImpl extends AppServerDataSource
@@ -40,5 +42,16 @@ class AuthRemoteDataSourceImpl extends AppServerDataSource
         await errorHandlerMiddleware.sendRequest(loginAppRequestOptions);
     final result = RegisterResponse.fromJson(response);
     return result;
+  }
+
+  @override
+  Future<void> resendEmail(ResendEmailParams resendEmailParams) async {
+    final loginAppRequestOptions = AppRequestOptions(
+      RequestTypes.post,
+      AppUrls.resendEmail,
+      resendEmailParams.toJson(),
+    );
+    await errorHandlerMiddleware.sendRequest(loginAppRequestOptions);
+    return ;
   }
 }

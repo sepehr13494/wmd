@@ -15,6 +15,8 @@ import 'package:wmd/features/authentication/domain/use_cases/post_login_usecase.
     as _i7;
 import 'package:wmd/features/authentication/domain/use_cases/post_register_usecase.dart'
     as _i8;
+import 'package:wmd/features/authentication/domain/use_cases/resend_email_usecase.dart'
+    as _i9;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -76,6 +78,23 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
           Invocation.method(
             #register,
             [registerParams],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.AppSuccess>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i6.AppSuccess>> resendEmail(
+          _i9.ResendEmailParams? resendEmailParams) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #resendEmail,
+          [resendEmailParams],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.AppSuccess>>.value(
+            _FakeEither_0<_i5.Failure, _i6.AppSuccess>(
+          this,
+          Invocation.method(
+            #resendEmail,
+            [resendEmailParams],
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, _i6.AppSuccess>>);

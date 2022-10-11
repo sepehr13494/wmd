@@ -69,7 +69,7 @@ class VerifyEmailPage extends AppStatelessWidget {
                 TimerWidget(sendCodeAgain: () {
                   context
                       .read<AuthenticationCubit>()
-                      .postRegister(map: registerParams.toJson());
+                      .resendEmail();
                 }),
                 const Spacer(),
                 const Divider(),
