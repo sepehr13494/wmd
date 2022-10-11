@@ -3,14 +3,14 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:wmd/core/util/colors.dart';
 
-class GlobalFunctions{
-
+class GlobalFunctions {
   GlobalFunctions._();
 
-  static showSnackBar(context, content,{color = Colors.black54}){
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(content),backgroundColor: color,)
-    );
+  static showSnackBar(context, content, {color = Colors.white}) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(content),
+      backgroundColor: color,
+    ));
   }
 
   static Future<bool> confirmProcess({
@@ -37,7 +37,8 @@ class GlobalFunctions{
             ),
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

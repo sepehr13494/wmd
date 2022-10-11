@@ -53,8 +53,8 @@ void main() {
       //assert
       expect(
           () => call(tAppRequestOptions),
-          throwsA(const TypeMatcher<ServerException>().having(
-              (e) => e.message, 'message', tResponse.data!["message"]!)));
+          throwsA(const TypeMatcher<ServerException>()
+              .having((e) => e.message, 'message', tResponse.data.toString())));
       verify(mockRequestManager.sendRequest(tAppRequestOptions));
     });
 

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:wmd/core/data/network/server_request_manager.dart';
+import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/models/app_request_options.dart';
 import 'package:wmd/features/authentication/data/data_sources/auth_remote_data_source.dart';
@@ -25,7 +26,8 @@ void main() {
 
   group('login function', () {
     final jsonMap = jsonDecode(fixture('login_success_response.json'));
-    final tLoginParams = const LoginParams(email: 'test@yopmail.com', password: 'Passw0rd');
+    final tLoginParams =
+        const LoginParams(email: 'test@yopmail.com', password: 'Passw0rd');
     final tLoginResponse = LoginResponse.fromJson(jsonMap);
     final tRequestOptions = AppRequestOptions(
       RequestTypes.post,
@@ -63,11 +65,15 @@ void main() {
 
   group('register function', () {
     final Map<String, dynamic> jsonMap = {};
-    const tRegisterParams = RegisterParams(email: 'test@yopmail.com', password: 'Passw0rd');
+    const tTermsOfService = TermsOfService(agreedAt: 'today');
+    final tRegisterParams = RegisterParams(
+        email: 'test@yopmail.com',
+        password: 'Passw0rd',
+        termsOfService: tTermsOfService);
     final tRegisterResponse = RegisterResponse.fromJson(jsonMap);
     final tRequestOptions = AppRequestOptions(
       RequestTypes.post,
-      "https://tfo.mocklab.io/register",
+      AppUrls.registerUser,
       tRegisterParams.toJson(),
     );
     test('should return RegisterResponse when API call is successful',
