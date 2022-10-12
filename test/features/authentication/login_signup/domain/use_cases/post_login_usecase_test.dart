@@ -23,8 +23,7 @@ void main() {
     postLoginUseCase = PostLoginUseCase(mockLoginSignUpRepository);
   });
 
-  final tLoginParams =
-      LoginParams(email: 'test@yopmail.com', password: 'Passw0rd');
+  final tLoginParams = LoginParams(email: 'test@yopmail.com', password: 'Passw0rd');
 
   test(
     'should get login entity from the auth repository',

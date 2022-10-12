@@ -8,4 +8,5 @@ class AppUrls {
   //other urls
   static const String registerUser = "auth/client/sign-up";
   static const String resendEmail = "auth/client/resend";
+  static const String loginUser = "auth/client/token";
 }

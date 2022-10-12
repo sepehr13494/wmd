@@ -29,12 +29,11 @@ void main() {
 
   group('login function', () {
     final jsonMap = jsonDecode(fixture('login_success_response.json'));
-    const tLoginParams =
-        LoginParams(email: 'test@yopmail.com', password: 'Passw0rd');
+    const tLoginParams = LoginParams(email: 'test@yopmail.com', password: 'Passw0rd');
     final tLoginResponse = LoginResponse.fromJson(jsonMap);
     final tRequestOptions = AppRequestOptions(
       RequestTypes.post,
-      "https://tfo.mocklab.io/login",
+      AppUrls.loginUser,
       tLoginParams.toJson(),
     );
     test('should return LoginResponse when API call is successful', () async {

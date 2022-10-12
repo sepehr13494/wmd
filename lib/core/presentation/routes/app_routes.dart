@@ -1,5 +1,4 @@
-class AppRoutes{
-
+class AppRoutes {
   AppRoutes._();
 
   //authentication
@@ -13,4 +12,5 @@ class AppRoutes{
 
   //main
   static const String main = "main";
+  static const String dashboard = "dashboard";
 }

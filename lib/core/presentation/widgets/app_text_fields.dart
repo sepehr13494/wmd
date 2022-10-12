@@ -5,12 +5,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/extentions/app_form_validators.dart';
 import 'package:wmd/core/util/app_stateless_widget.dart';
 
-enum TextFieldType{
+enum TextFieldType {
   email,
   password,
   phone,
   simpleText,
 }
+
 class AppTextFields {
   AppTextFields._();
 
@@ -27,11 +28,10 @@ class AppTextFields {
     bool required = true,
   }) {
     final validators = <String? Function(String?)>[];
-    if(required){
+    if (required) {
       validators.add(FormBuilderValidators.required());
     }
-    switch (type){
-
+    switch (type) {
       case TextFieldType.email:
         validators.add(FormBuilderValidators.email());
         break;
@@ -54,7 +54,8 @@ class AppTextFields {
       obscureText: obscureText,
       keyboardType: keyboardType,
       textInputAction: TextInputAction.next,
-      autofillHints: _getAutofillHint(type) == null ? null : [_getAutofillHint(type)!],
+      autofillHints:
+          _getAutofillHint(type) == null ? null : [_getAutofillHint(type)!],
       validator: FormBuilderValidators.compose(validators),
     );
   }
@@ -90,7 +91,8 @@ class AppTextFields {
 }
 
 class PasswordTextField extends StatefulWidget {
-  const PasswordTextField({Key? key}) : super(key: key);
+  final String? hint;
+  const PasswordTextField({Key? key, this.hint}) : super(key: key);
 
   @override
   AppState<PasswordTextField> createState() => _PasswordTextFieldState();
@@ -105,7 +107,7 @@ class _PasswordTextFieldState extends AppState<PasswordTextField> {
     return AppTextFields.simpleTextField(
       name: "password",
       type: TextFieldType.password,
-      hint: appLocalizations.sign_up_password_placeholder,
+      hint: widget.hint ?? appLocalizations.sign_up_password_placeholder,
       obscureText: !visible,
       suffixIcon: IconButton(
         onPressed: () {
@@ -114,7 +116,9 @@ class _PasswordTextFieldState extends AppState<PasswordTextField> {
           });
         },
         icon: Icon(
-            visible ? Icons.remove_red_eye_outlined : Icons.remove_red_eye,color: Theme.of(context).primaryColor,),
+          visible ? Icons.remove_red_eye_outlined : Icons.remove_red_eye,
+          color: Theme.of(context).primaryColor,
+        ),
       ),
     );
   }

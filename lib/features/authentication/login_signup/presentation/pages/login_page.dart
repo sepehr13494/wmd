@@ -16,7 +16,6 @@ import 'package:wmd/features/authentication/login_signup/presentation/widgets/cu
 import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 
-
 class LoginPage extends AppStatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -32,12 +31,7 @@ class LoginPage extends AppStatelessWidget {
           child: BlocConsumer<LoginSignUpCubit, LoginSignUpState>(
             listener: BlocHelper.defaultBlocListener(listener: (context, state) {
               if (state is SuccessState) {
-                //TODO: Navigate to dashboard
-                GlobalFunctions.showSnackBar(
-                  context,
-                  state.appSuccess.message,
-                  color: Colors.green,
-                );
+                context.goNamed(AppRoutes.dashboard);
               }
             }),
             builder: (context, state) {
@@ -58,24 +52,26 @@ class LoginPage extends AppStatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               AppTextFields.simpleTextField(
-                                  name: "email",
+                                  name: "username",
                                   type: TextFieldType.email,
-                                  hint: appLocalizations.email_placeholder),
+                                  hint: appLocalizations.login_email_address),
                               const SizedBox(height: 16),
-                              const PasswordTextField(),
+                              PasswordTextField(
+                                hint: appLocalizations.login_password,
+                              ),
                               TextButton(
                                   onPressed: () {
                                     context.pushNamed(AppRoutes.forgetPassword);
                                   },
                                   child: Text(
                                     appLocalizations.login_forget_password,
-                                    style:
-                                        textTheme.bodySmall!.toLinkStyle(context),
+                                    style: textTheme.bodySmall!
+                                        .toLinkStyle(context),
                                   )),
                               FormBuilderSwitch(
                                   name: "face_id",
-                                  title:
-                                      Text(appLocalizations.login_enable_face_id),
+                                  title: Text(
+                                      appLocalizations.login_enable_face_id),
                                   decoration: const InputDecoration(
                                       border: InputBorder.none),
                                   contentPadding: EdgeInsets.zero),
@@ -101,7 +97,8 @@ class LoginPage extends AppStatelessWidget {
                                   style: textTheme.bodyMedium),
                               TextSpan(
                                 text: appLocalizations.signup_button,
-                                style: textTheme.bodyMedium!.toLinkStyle(context),
+                                style:
+                                    textTheme.bodyMedium!.toLinkStyle(context),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     context.goNamed(AppRoutes.register);

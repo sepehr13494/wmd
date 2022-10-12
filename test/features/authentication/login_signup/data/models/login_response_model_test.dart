@@ -6,10 +6,13 @@ import '../../../../../fixtures/fixture_reader.dart';
 
 void main() {
   final loginModel = LoginResponse(
-    accessToken: 'test accessToken',
-    refreshToken: 'test refreshToken',
-    idToken: 'test idToken',
-    tokenType: 'test tokenType',
+    roles: [],
+    isSocial: false,
+    idToken: "test idToken",
+    expiresIn: 86400,
+    refreshToken: "test refreshToken",
+    accessToken: "test accessToken",
+    tokenType: "Bearer",
   );
 
   test('should return a valid model from json', () {
@@ -24,10 +27,13 @@ void main() {
   test('should return a json map containing proper data', () {
     // arrange
     final exceptedJson = {
-      "access_token": 'test accessToken',
-      "refresh_token": 'test refreshToken',
-      'id_token': 'test idToken',
-      'token_type': 'test tokenType',
+      "roles": [],
+      "isSocial": false,
+      "idToken": "test idToken",
+      "expiresIn": 86400,
+      "refreshToken": "test refreshToken",
+      "accessToken": "test accessToken",
+      "tokenType": "Bearer",
     };
 
     // act

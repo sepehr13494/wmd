@@ -22,7 +22,7 @@ class LoginSignUpRemoteDataSourceImpl extends AppServerDataSource
   Future<LoginResponse> login(LoginParams loginParams) async {
     final loginAppRequestOptions = AppRequestOptions(
       RequestTypes.post,
-      'https://tfo.mocklab.io/login',
+      AppUrls.loginUser,
       loginParams.toJson(),
     );
     final response =
