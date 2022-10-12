@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:wmd/core/util/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
-import 'package:wmd/global_variables.dart';
 
 class TermsWidget extends StatefulWidget {
   const TermsWidget({Key? key}) : super(key: key);
@@ -46,63 +45,72 @@ class _TermsWidgetState extends AppState<TermsWidget> {
         border: Border.all(color: Theme.of(context).dividerColor),
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const AppLogoWidget(),
-                IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.close))
-              ],
+      child: Scaffold(
+        appBar: const CustomAuthAppBar(),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            /*Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const AppLogoWidget(),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(Icons.close))
+                ],
+              ),
+            ),*/
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8),
+              child: Text(appLocalizations.terms,style: textTheme.headlineSmall,),
             ),
-          ),
-          const Divider(),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              controller: scrollController,
-              child: Center(
-                child: Text(
-                  "$loroIpsum \n $loroIpsum \n $loroIpsum \n $loroIpsum \n $loroIpsum \n $loroIpsum \n $loroIpsum \n $loroIpsum \n ",
-                  style: textTheme.bodyMedium,
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                controller: scrollController,
+                child: Center(
+                  child: Column(
+                    children: [
+                      Text(appLocalizations.terms_body),
+                      Text(appLocalizations.terms_title,style: textTheme.titleLarge,),
+                      Text(appLocalizations.terms_body),
+                    ].map((e) => Padding(padding: const EdgeInsets.symmetric(vertical: 8),child: e,)).toList(),
+                  )
                 ),
               ),
             ),
-          ),
-          const Divider(),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text("cancel")),
-                const Spacer(),
-                SizedBox(
-                  width: 150,
-                  child: ElevatedButton(
-                      onPressed: reachEnd
-                          ? () {
-                              Navigator.pop(context, true);
-                            }
-                          : null,
-                      child: Text("Accept All")),
-                ),
-                const SizedBox(height: 24),
-              ],
-            ),
-          )
-        ]
+            const Divider(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text("cancel")),
+                  const Spacer(),
+                  SizedBox(
+                    width: 150,
+                    child: ElevatedButton(
+                        onPressed: reachEnd
+                            ? () {
+                                Navigator.pop(context, true);
+                              }
+                            : null,
+                        child: Text("Accept All")),
+                  ),
+                  const SizedBox(height: 24),
+                ],
+              ),
+            )
+          ]
+        ),
       ),
     );
   }
