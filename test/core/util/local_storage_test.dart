@@ -7,7 +7,7 @@ import 'package:wmd/core/util/local_storage.dart';
 
 import 'local_storage_test.mocks.dart';
 
-@GenerateMocks([Box])
+@GenerateMocks([Box,LocalStorage])
 void main(){
   late MockBox mockAuthBox;
   late LocalStorage localStorage;
@@ -17,7 +17,7 @@ void main(){
     localStorage = LocalStorage(mockAuthBox);
   });
   
-  group('authentication part', () {
+  group('login_signup part', () {
     String tToken = "token";
     test('set token and isLogin',() async {
         //arrange

@@ -57,7 +57,12 @@ class AppThemes {
             style: ButtonStyle(
           minimumSize:
               MaterialStateProperty.all(const Size(double.maxFinite, 48)),
-          backgroundColor: MaterialStateProperty.all(primaryColor),
+                backgroundColor: MaterialStateProperty.resolveWith((states) {
+                  if (states.contains(MaterialState.disabled)) {
+                    return primaryColor.withOpacity(0.5);
+                  }
+                  return primaryColor;
+                })
         )),
         inputDecorationTheme: const InputDecorationTheme(
           contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),

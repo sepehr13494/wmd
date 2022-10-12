@@ -3,12 +3,12 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:wmd/core/data/network/error_handler_middleware.dart';
-import 'package:wmd/features/authentication/data/data_sources/auth_remote_data_source.dart';
-import 'package:wmd/features/authentication/data/repositories/auth_repository_impl.dart';
-import 'package:wmd/features/authentication/domain/repositories/auth_repository.dart';
-import 'package:wmd/features/authentication/domain/use_cases/post_register_usecase.dart';
-import 'package:wmd/features/authentication/presentation/manager/authentication_cubit.dart';
-import 'package:wmd/features/authentication/domain/use_cases/post_login_usecase.dart';
+import 'package:wmd/features/authentication/login_signup/data/data_sources/login_sign_up_remote_data_source.dart';
+import 'package:wmd/features/authentication/login_signup/data/repositories/login_sign_up_repository_impl.dart';
+import 'package:wmd/features/authentication/login_signup/domain/repositories/login_sign_up_repository.dart';
+import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_register_usecase.dart';
+import 'package:wmd/features/authentication/login_signup/presentation/manager/login_sign_up_cubit.dart';
+import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_login_usecase.dart';
 import 'core/data/network/network_helper.dart';
 import 'core/data/network/server_request_manager.dart';
 import 'core/util/app_localization.dart';
@@ -30,15 +30,15 @@ Future<void> init() async {
   sl.registerLazySingleton<SplashRepository>(() => SplashRepositoryImpl(sl()));
 
   //Authentication dependency
-  sl.registerFactory(() => AuthenticationCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => LoginSignUpCubit(sl(), sl(), sl(),sl()));
   sl.registerLazySingleton(() => PostLoginUseCase(sl()));
   sl.registerLazySingleton(() => PostRegisterUseCase(sl()));
 
-  sl.registerLazySingleton<AuthRepository>(
-      () => AuthRepositoryImpl(sl(), sl()));
+  sl.registerLazySingleton<LoginSignUpRepository>(
+      () => LoginSignUpRepositoryImpl(sl(), sl()));
 
-  sl.registerLazySingleton<AuthRemoteDataSource>(
-      () => AuthRemoteDataSourceImpl(sl()));
+  sl.registerLazySingleton<LoginSignUpRemoteDataSource>(
+      () => LoginSignUpRemoteDataSourceImpl(sl()));
 
   //local_storage
   sl.registerLazySingleton<LocalStorage>(() => LocalStorage(sl()));

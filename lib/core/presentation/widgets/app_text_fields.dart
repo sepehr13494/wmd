@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/extentions/app_form_validators.dart';
 import 'package:wmd/core/util/app_stateless_widget.dart';
 
 enum TextFieldType {
@@ -35,6 +36,8 @@ class AppTextFields {
         validators.add(FormBuilderValidators.email());
         break;
       case TextFieldType.password:
+        validators.add(FormBuilderValidators.minLength(8));
+        validators.add(AppFormValidators.validatePassword());
         break;
       case TextFieldType.phone:
         break;

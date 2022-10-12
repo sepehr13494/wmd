@@ -2,15 +2,14 @@ import 'dart:ui';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:wmd/core/util/app_localization.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/core/util/local_storage.dart';
 
-import 'app_localization_test.mocks.dart';
+import 'local_storage_test.mocks.dart';
 
-@GenerateMocks([LocalStorage])
+
+
 void main(){
   final testLocale = AppLocalizations.supportedLocales.first;
   late LocalizationManager localizationManager;
