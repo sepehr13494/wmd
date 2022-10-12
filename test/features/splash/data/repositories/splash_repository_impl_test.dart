@@ -7,10 +7,9 @@ import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/features/splash/data/repositories/splash_repository_impl.dart';
 
-import 'splash_repository_impl_test.mocks.dart';
+import '../../../../core/util/local_storage_test.mocks.dart';
 
 
-@GenerateMocks([LocalStorage])
 void main(){
   late SplashRepositoryImpl splashRepositoryImpl;
   late MockLocalStorage mockLocalStorage;
