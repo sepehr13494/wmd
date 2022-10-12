@@ -30,7 +30,7 @@ Future<void> init() async {
   sl.registerLazySingleton<SplashRepository>(() => SplashRepositoryImpl(sl()));
 
   //Authentication dependency
-  sl.registerFactory(() => AuthenticationCubit(sl(), sl()));
+  sl.registerFactory(() => AuthenticationCubit(sl(), sl(), sl()));
   sl.registerLazySingleton(() => PostLoginUseCase(sl()));
   sl.registerLazySingleton(() => PostRegisterUseCase(sl()));
 

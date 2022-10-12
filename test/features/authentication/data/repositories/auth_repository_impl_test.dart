@@ -31,13 +31,17 @@ void main() {
   });
 
   const tLoginParams =
-      LoginParams(email: 'test@yopmail.com', password: 'Passw0rd');
+      LoginParams(username: 'test@yopmail.com', password: 'Passw0rd');
 
   final tLoginResponse = LoginResponse(
-      accessToken: 'test accessToken',
-      refreshToken: 'test refreshToken',
-      idToken: ' test idToken',
-      tokenType: 'test tokenType');
+    roles: ["role"],
+    isSocial: false,
+    idToken: "test idToken",
+    expiresIn: 86400,
+    refreshToken: "test refreshToken",
+    accessToken: "test accessToken",
+    tokenType: "Bearer",
+  );
 
   const tAppSuccess = AppSuccess(message: 'Login successful');
   final tServerException = ServerException(message: 'test server message');
@@ -99,7 +103,7 @@ void main() {
 
   group('register functions in auth repository', () {
     final tRegisterResponse = RegisterResponse();
-    const tRegisterParams =
+    final tRegisterParams =
         RegisterParams(email: 'test@yopmail.com', password: 'Passw0rd');
     const tAppRegisterSuccess = AppSuccess(message: 'Register successful');
     test(

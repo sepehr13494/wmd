@@ -17,26 +17,26 @@ class PostLoginUseCase extends UseCase<AppSuccess, LoginParams> {
 }
 
 class LoginParams extends Equatable {
-  final String email;
+  final String username;
   final String password;
 
   const LoginParams({
-    this.email = "",
+    this.username = "",
     this.password = "",
   });
 
   Map<String, dynamic> toJson() => {
-        "email": email,
+        "username": username,
         "password": password,
       };
 
   factory LoginParams.fromJson(Map<String, dynamic> json) {
     return LoginParams(
-      email: json['email'],
+      username: json['username'],
       password: json['password'],
     );
   }
 
   @override
-  List<Object?> get props => [email,password];
+  List<Object?> get props => [username, password];
 }

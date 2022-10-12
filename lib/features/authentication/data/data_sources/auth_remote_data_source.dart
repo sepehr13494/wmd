@@ -1,3 +1,4 @@
+import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/features/authentication/data/models/register_response_model.dart';
 import 'package:wmd/features/authentication/domain/use_cases/post_register_usecase.dart';
 import '../../../../core/data/network/server_request_manager.dart';
@@ -19,7 +20,7 @@ class AuthRemoteDataSourceImpl extends AppServerDataSource
   Future<LoginResponse> login(LoginParams loginParams) async {
     final loginAppRequestOptions = AppRequestOptions(
       RequestTypes.post,
-      'https://tfo.mocklab.io/login',
+      AppUrls.loginUser,
       loginParams.toJson(),
     );
     final response =
@@ -32,7 +33,7 @@ class AuthRemoteDataSourceImpl extends AppServerDataSource
   Future<RegisterResponse> register(RegisterParams registerParams) async {
     final loginAppRequestOptions = AppRequestOptions(
       RequestTypes.post,
-      'https://tfo.mocklab.io/register',
+      AppUrls.registerUser,
       registerParams.toJson(),
     );
     final response =

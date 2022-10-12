@@ -13,31 +13,53 @@ String loginResponseToJson(LoginResponse data) => json.encode(data.toJson());
 
 class LoginResponse extends Equatable {
   LoginResponse({
-    required this.accessToken,
-    required this.refreshToken,
+    required this.roles,
+    required this.isSocial,
     required this.idToken,
+    required this.expiresIn,
+    required this.refreshToken,
+    required this.accessToken,
     required this.tokenType,
   });
 
-  String accessToken;
-  String refreshToken;
+  List<String> roles;
+  bool isSocial;
   String idToken;
+  int expiresIn;
+  dynamic refreshToken;
+  String accessToken;
   String tokenType;
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
-        accessToken: json["access_token"],
-        refreshToken: json["refresh_token"],
-        idToken: json["id_token"],
-        tokenType: json["token_type"],
+        roles: List<String>.from(
+            json["roles"] != null ? json["roles"].map((x) => x) : []),
+        isSocial: json["isSocial"] ?? false,
+        idToken: json["idToken"] ?? '',
+        expiresIn: json["expiresIn"] ?? '',
+        refreshToken: json["refreshToken"] ?? '',
+        accessToken: json["accessToken"] ?? '',
+        tokenType: json["tokenType"] ?? 'Bearer',
       );
 
   Map<String, dynamic> toJson() => {
-        "access_token": accessToken,
-        "refresh_token": refreshToken,
-        "id_token": idToken,
-        "token_type": tokenType,
+        "roles": List<dynamic>.from(roles.map((x) => x)),
+        "isSocial": isSocial,
+        "idToken": idToken,
+        "expiresIn": expiresIn,
+        "refreshToken": refreshToken,
+        "accessToken": accessToken,
+        "tokenType": tokenType,
       };
 
   @override
-  List<Object?> get props => [accessToken, refreshToken, idToken, tokenType];
+  // TODO: implement props
+  List<Object?> get props => [
+        roles,
+        isSocial,
+        idToken,
+        expiresIn,
+        refreshToken,
+        accessToken,
+        tokenType
+      ];
 }
