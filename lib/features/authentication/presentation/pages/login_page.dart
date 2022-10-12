@@ -32,12 +32,7 @@ class LoginPage extends AppStatelessWidget {
             listener:
                 BlocHelper.defaultBlocListener(listener: (context, state) {
               if (state is SuccessState) {
-                //TODO: Navigate to dashboard
-                GlobalFunctions.showSnackBar(
-                  context,
-                  state.appSuccess.message,
-                  color: Colors.green,
-                );
+                context.goNamed(AppRoutes.dashboard);
               }
             }),
             builder: (context, state) {
