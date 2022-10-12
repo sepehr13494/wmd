@@ -7,6 +7,7 @@ import 'package:wmd/features/authentication/login_signup/data/data_sources/login
 import 'package:wmd/features/authentication/login_signup/data/repositories/login_sign_up_repository_impl.dart';
 import 'package:wmd/features/authentication/login_signup/domain/repositories/login_sign_up_repository.dart';
 import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_register_usecase.dart';
+import 'package:wmd/features/authentication/login_signup/domain/use_cases/resend_email_usecase.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/manager/login_sign_up_cubit.dart';
 import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_login_usecase.dart';
 import 'core/data/network/network_helper.dart';
@@ -33,6 +34,7 @@ Future<void> init() async {
   sl.registerFactory(() => LoginSignUpCubit(sl(), sl(), sl(),sl()));
   sl.registerLazySingleton(() => PostLoginUseCase(sl()));
   sl.registerLazySingleton(() => PostRegisterUseCase(sl()));
+  sl.registerLazySingleton(() => ResendEmailUseCase(sl()));
 
   sl.registerLazySingleton<LoginSignUpRepository>(
       () => LoginSignUpRepositoryImpl(sl(), sl()));
