@@ -102,13 +102,7 @@ class _RegisterPageState extends AppState<RegisterPage> {
                                               .toLinkStyle(context),
                                           recognizer: TapGestureRecognizer()
                                             ..onTap = () {
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return const Dialog(
-                                                      child: TermsWidget(),
-                                                    );
-                                                  }).then((value) {
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => const TermsWidget(),)).then((value) {
                                                 if (value ?? false) {
                                                   formKey.currentState!
                                                       .patchValue(
