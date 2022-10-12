@@ -24,7 +24,7 @@ void main() {
   });
 
   final tLoginParams =
-      LoginParams(email: 'test@yopmail.com', password: 'Passw0rd');
+      LoginParams(username: 'test@yopmail.com', password: 'Passw0rd');
 
   test(
     'should get login entity from the auth repository',

@@ -1,6 +1,9 @@
 {
-  "access_token": "test accessToken",
-  "refresh_token": "test refreshToken",
-  "id_token": "test idToken",
-  "token_type": "test tokenType"
+  "roles": null,
+  "isSocial": false,
+  "idToken": "test idToken",
+  "expiresIn": 86400,
+  "refreshToken": "test refreshToken",
+  "accessToken": "test accessToken",
+  "tokenType": "Bearer"
 }

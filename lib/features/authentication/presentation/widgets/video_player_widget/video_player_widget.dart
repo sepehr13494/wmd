@@ -15,35 +15,38 @@ class WelcomeVideoPlayerWidget extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     return IconButton(
       onPressed: () {
-        Navigator.of(context).push(
+        Navigator.of(context)
+            .push(
           OverlayModal(
             childComponent: BlocProvider(
-              create: (context) => VideoControllerCubit()
-                ..initializePlayer(context),
+              create: (context) =>
+                  VideoControllerCubit()..initializePlayer(context),
               child: Builder(builder: (context) {
-                return BlocBuilder<VideoControllerCubit,
-                    VideoControllerState>(
+                return BlocBuilder<VideoControllerCubit, VideoControllerState>(
                   builder: (context, state) {
                     return Center(
                       child: state is VideoControllerLoaded
                           ? Chewie(
-                        controller: state.chewieController,
-                      )
-                          : state is ErrorState ? Text(state.failure.message) : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          CircularProgressIndicator(),
-                          SizedBox(height: 20),
-                          Text('Loading'),
-                        ],
-                      ),
+                              controller: state.chewieController,
+                            )
+                          : state is ErrorState
+                              ? Text(state.failure.message)
+                              : Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    CircularProgressIndicator(),
+                                    SizedBox(height: 20),
+                                    Text('Loading'),
+                                  ],
+                                ),
                     );
                   },
                 );
               }),
             ),
           ),
-        ).then((value) {
+        )
+            .then((value) {
           context.read<VideoControllerCubit>().pause();
         });
       },

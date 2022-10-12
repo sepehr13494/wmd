@@ -18,14 +18,17 @@ class VideoControllerCubit extends Cubit<VideoControllerState> {
 
   initializePlayer(context) async {
     _videoPlayerController = VideoPlayerController.network(BlocProvider.of<
-        LocalizationManager>(context)
-        .state
-        .languageCode ==
-        "ar"
+                    LocalizationManager>(context)
+                .state
+                .languageCode ==
+            "ar"
         ? "https://a.storyblok.com/f/127566/x/fad761400a/tfo_mvp_walk-through_arabic_no_logos_1108.mp4"
         : 'https://a.storyblok.com/f/127566/x/4770bdc9ca/tfo-mvp-walk-through-english-no-logo_1108.mp4');
     await _videoPlayerController.initialize().onError((error, stackTrace) {
-      emit(ErrorState(failure: const AppFailure(message: "something wrong playing video,\nplease try again later")));
+      emit(ErrorState(
+          failure: const AppFailure(
+              message:
+                  "something wrong playing video,\nplease try again later")));
       return;
     });
     _createChewieController();
@@ -38,9 +41,13 @@ class VideoControllerCubit extends Cubit<VideoControllerState> {
       // showControls: false,
       looping: false,
       hideControlsTimer: const Duration(seconds: 1),
-      errorBuilder: (context, errorMessage) => const  Center(child: Text("something wrong playing video,\nplease try again later")),
+      errorBuilder: (context, errorMessage) => const Center(
+          child:
+              Text("something wrong playing video,\nplease try again later")),
     );
-    emit(VideoControllerLoaded(videoPlayerController: _videoPlayerController, chewieController: _chewieController!));
+    emit(VideoControllerLoaded(
+        videoPlayerController: _videoPlayerController,
+        chewieController: _chewieController!));
   }
 
   @override
@@ -50,8 +57,8 @@ class VideoControllerCubit extends Cubit<VideoControllerState> {
     return super.close();
   }
 
-  void pause(){
-    if(_chewieController != null){
+  void pause() {
+    if (_chewieController != null) {
       _chewieController!.pause();
     }
   }

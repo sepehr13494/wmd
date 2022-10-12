@@ -31,7 +31,7 @@ void main() {
   group('login cubit test', () {
     const tAppSuccess = AppSuccess(message: 'Login successful');
     const tLoginParams =
-        LoginParams(email: 'test@yopmail.com', password: 'Passw0rd');
+        LoginParams(username: 'test@yopmail.com', password: 'Passw0rd');
     blocTest(
       'when login use-case is returning App success bloc emits the success state',
       build: () => authenticationCubit,
