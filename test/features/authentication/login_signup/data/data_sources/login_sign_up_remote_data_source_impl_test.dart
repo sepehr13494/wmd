@@ -11,6 +11,7 @@ import 'package:wmd/features/authentication/login_signup/data/models/login_respo
 import 'package:wmd/features/authentication/login_signup/data/models/register_response_model.dart';
 import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_login_usecase.dart';
 import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_register_usecase.dart';
+import 'package:wmd/features/authentication/login_signup/domain/use_cases/resend_email_usecase.dart';
 
 import '../../../../../core/data/network/error_handler_middleware_test.mocks.dart';
 import '../../../../../fixtures/fixture_reader.dart';
@@ -82,7 +83,7 @@ void main() {
         () async {
       //arrange
       when(mockErrorHandlerMiddleware.sendRequest(any))
-          .thenAnswer((_) async => await jsonMap);
+          .thenAnswer((_) async => jsonMap);
       //act
       final result = await loginSignUpRemoteDataSourceImpl.register(tRegisterParams);
       //assert
@@ -106,5 +107,41 @@ void main() {
               .having((e) => e.message, 'message', tServerException.message)));
       verify(mockErrorHandlerMiddleware.sendRequest(tRequestOptions));
     });
+  });
+
+  group('resend email function', () {
+    final Map<String, dynamic> jsonMap = {};
+    const tResendEmailParams = ResendEmailParams.tResendEmailParams;
+    final tRequestOptions = AppRequestOptions(
+      RequestTypes.post,
+      AppUrls.resendEmail,
+      tResendEmailParams.toJson(),
+    );
+    test('should return RegisterResponse when API call is successful',
+            () async {
+          //arrange
+          when(mockErrorHandlerMiddleware.sendRequest(any))
+              .thenAnswer((_) async => jsonMap);
+          //act
+          await loginSignUpRemoteDataSourceImpl.resendEmail(tResendEmailParams);
+          //assert
+          verify(mockErrorHandlerMiddleware.sendRequest(tRequestOptions));
+        });
+
+    test('should throws ServerException when API call is not successful',
+            () async {
+          final tServerException = ServerException(message: 'exception message');
+          //arrange
+          when(mockErrorHandlerMiddleware.sendRequest(any))
+              .thenThrow(tServerException);
+          //act
+          final call = loginSignUpRemoteDataSourceImpl.resendEmail;
+          //assert
+          expect(
+                  () => call(tResendEmailParams),
+              throwsA(const TypeMatcher<ServerException>()
+                  .having((e) => e.message, 'message', tServerException.message)));
+          verify(mockErrorHandlerMiddleware.sendRequest(tRequestOptions));
+        });
   });
 }

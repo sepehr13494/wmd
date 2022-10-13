@@ -6,6 +6,7 @@ import 'package:wmd/features/authentication/login_signup/presentation/pages/forg
 import 'package:wmd/features/authentication/login_signup/presentation/pages/login_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/register_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/verify_email_page.dart';
+import 'package:wmd/features/authentication/login_signup/presentation/pages/verify_success_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/welcome_page.dart';
 import 'package:wmd/features/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:wmd/features/splash/presentation/pages/splash_page.dart';
@@ -54,6 +55,13 @@ class AppRouter {
               path: "forget_password",
               builder: (BuildContext context, GoRouterState state) {
                 return const ForgetPasswordPage();
+              },
+            ),
+            GoRoute(
+              name: AppRoutes.verifySuccess,
+              path: "verify_success",
+              builder: (BuildContext context, GoRouterState state) {
+                return const VerifySuccessPage();
               },
             ),
           ]),
