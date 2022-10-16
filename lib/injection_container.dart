@@ -10,6 +10,11 @@ import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_r
 import 'package:wmd/features/authentication/login_signup/domain/use_cases/resend_email_usecase.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/manager/login_sign_up_cubit.dart';
 import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_login_usecase.dart';
+import 'package:wmd/features/authentication/verify_email/data/data_sources/verify_email_server_datasource.dart';
+import 'package:wmd/features/authentication/verify_email/data/repositories/verify_email_repository_impl.dart';
+import 'package:wmd/features/authentication/verify_email/domain/repositories/verify_email_repository.dart';
+import 'package:wmd/features/authentication/verify_email/domain/use_cases/verify_email_usecase.dart';
+import 'package:wmd/features/authentication/verify_email/presentation/manager/verify_email_cubit.dart';
 import 'core/data/network/network_helper.dart';
 import 'core/data/network/server_request_manager.dart';
 import 'core/util/app_localization.dart';
@@ -31,6 +36,7 @@ Future<void> init() async {
   sl.registerLazySingleton<SplashRepository>(() => SplashRepositoryImpl(sl()));
 
   //Authentication dependency
+  // login and sign up
   sl.registerFactory(() => LoginSignUpCubit(sl(), sl(), sl(),sl()));
   sl.registerLazySingleton(() => PostLoginUseCase(sl()));
   sl.registerLazySingleton(() => PostRegisterUseCase(sl()));
@@ -41,6 +47,13 @@ Future<void> init() async {
 
   sl.registerLazySingleton<LoginSignUpRemoteDataSource>(
       () => LoginSignUpRemoteDataSourceImpl(sl()));
+
+  // verifyEmail
+  sl.registerFactory(() => VerifyEmailCubit(sl()));
+  sl.registerLazySingleton(() => VerifyEmailUseCase(sl()));
+  sl.registerLazySingleton<VerifyEmailRepository>(() => VerifyEmailRepositoryImpl(sl()));
+  sl.registerLazySingleton<VerifyEmailServerDataSource>(() => VerifyEmailServerDataSourceImpl(sl()));
+
 
   //local_storage
   sl.registerLazySingleton<LocalStorage>(() => LocalStorage(sl()));
