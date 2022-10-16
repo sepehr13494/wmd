@@ -50,4 +50,9 @@ class LoginSignUpCubit extends Cubit<LoginSignUpState> {
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (appSuccess) => emit(SuccessState(appSuccess: appSuccess)));
   }
+
+  verifyEmail({required Map<String, dynamic> map}) async {
+    print(map);
+    print("https://myqa.tfoco.dev/api/auth/verify-email");
+  }
 }

@@ -71,4 +71,23 @@ void main() {
       },
     );
   });
+
+  group('resend email', () {
+    const tAppSuccess = AppSuccess(message: 'Register successful');
+    blocTest(
+      'when resend email use-case is returning App success bloc emits the success state',
+      build: () => loginSignUpCubit,
+      setUp: () {
+        when(mockResendEmailUseCase(any))
+            .thenAnswer((realInvocation) async => const Right(tAppSuccess));
+      },
+      act: (bloc) async => await bloc.resendEmail(),
+      expect: () =>
+      [isA<LoadingState>(), SuccessState(appSuccess: tAppSuccess)],
+      verify: (_) {
+        verify(mockResendEmailUseCase(ResendEmailParams.tResendEmailParams))
+            .called(1);
+      },
+    );
+  });
 }

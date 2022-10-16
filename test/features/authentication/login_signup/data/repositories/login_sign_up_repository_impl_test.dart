@@ -12,6 +12,7 @@ import 'package:wmd/features/authentication/login_signup/data/repositories/login
 import 'package:wmd/features/authentication/login_signup/domain/repositories/login_sign_up_repository.dart';
 import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_login_usecase.dart';
 import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_register_usecase.dart';
+import 'package:wmd/features/authentication/login_signup/domain/use_cases/resend_email_usecase.dart';
 
 import '../../../../../core/util/local_storage_test.mocks.dart';
 import 'login_sign_up_repository_impl_test.mocks.dart';
@@ -103,13 +104,13 @@ void main() {
     );
   });
 
-  group('register functions in auth repository', () {
+  group('register functions', () {
     final tRegisterResponse = RegisterResponse();
     final tRegisterParams =
         RegisterParams(email: 'test@yopmail.com', password: 'Passw0rd');
     const tAppRegisterSuccess = AppSuccess(message: 'Register successful');
     test(
-      'should return remote data when the call to auth remote data source is successful',
+      'should return AppSuccess when the call to auth remote data source is successful',
       () async {
         // arrange
         when(mockLoginSignUpRemoteDataSource.register(any))
@@ -134,6 +135,38 @@ void main() {
             await loginSignUpRepositoryImpl.register(tRegisterParams);
         // assert
         verify(mockLoginSignUpRemoteDataSource.register(tRegisterParams));
+
+        expect(result,
+            equals(Left(ServerFailure(message: tServerException.message))));
+      },
+    );
+  });
+
+  group('resend email functions', () {
+    const tResendEmailParams = ResendEmailParams.tResendEmailParams;
+    const tSuccess = AppSuccess(message: 'Email sent successful');
+    test(
+      'should return AppSuccess when the call to login_sing_up_remote_data_source is successful',
+          () async {
+        // arrange
+        // act
+        final result = await loginSignUpRepositoryImpl.resendEmail(tResendEmailParams);
+        // assert
+        verify(mockLoginSignUpRemoteDataSource.resendEmail(tResendEmailParams));
+        expect(result, equals(const Right(tSuccess)));
+      },
+    );
+
+    test(
+      'should return server failure on server exception',
+          () async {
+        // arrange
+        when(mockLoginSignUpRemoteDataSource.resendEmail(any))
+            .thenThrow(tServerException);
+        // act
+        final result = await loginSignUpRepositoryImpl.resendEmail(tResendEmailParams);
+        // assert
+        verify(mockLoginSignUpRemoteDataSource.resendEmail(tResendEmailParams));
 
         expect(result,
             equals(Left(ServerFailure(message: tServerException.message))));
