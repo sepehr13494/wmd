@@ -6,7 +6,7 @@ import 'package:wmd/features/authentication/login_signup/presentation/pages/forg
 import 'package:wmd/features/authentication/login_signup/presentation/pages/login_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/register_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/verify_email_page.dart';
-import 'package:wmd/features/authentication/login_signup/presentation/pages/verify_success_page.dart';
+import 'package:wmd/features/authentication/login_signup/presentation/pages/verify_response_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/welcome_page.dart';
 import 'package:wmd/features/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:wmd/features/splash/presentation/pages/splash_page.dart';
@@ -46,8 +46,7 @@ class AppRouter {
               name: AppRoutes.verifyEmail,
               path: "verify_email",
               builder: (BuildContext context, GoRouterState state) {
-                return VerifyEmailPage(
-                    registerParams: state.extra as RegisterParams);
+                return VerifyEmailPage(verifyMap: state.queryParams);
               },
             ),
             GoRoute(
@@ -57,14 +56,14 @@ class AppRouter {
                 return const ForgetPasswordPage();
               },
             ),
-            GoRoute(
-              name: AppRoutes.verifySuccess,
-              path: "verify_success",
-              builder: (BuildContext context, GoRouterState state) {
-                return const VerifySuccessPage();
-              },
-            ),
           ]),
+      GoRoute(
+        path: "/verify-response",
+        builder: (BuildContext context, GoRouterState state) {
+          print(state.queryParams);
+          return VerifyResponsePage(verifyMap: state.queryParams);
+        },
+      ),
       GoRoute(
         name: AppRoutes.dashboard,
         path: "/dashboard",

@@ -9,7 +9,6 @@ import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/util/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_register_usecase.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/manager/login_sign_up_cubit.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/timer_widget.dart';
@@ -17,15 +16,17 @@ import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 
 class VerifyEmailPage extends AppStatelessWidget {
-  final RegisterParams registerParams;
-  const VerifyEmailPage({Key? key, required this.registerParams})
+  final Map<String,dynamic> verifyMap;
+  const VerifyEmailPage({Key? key, required this.verifyMap})
       : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     return BlocProvider(
-      create: (context) => sl<LoginSignUpCubit>(),
+      create: (context) {
+        return sl<LoginSignUpCubit>();
+      },
       child: Scaffold(
         appBar: const CustomAuthAppBar(),
         body: WidthLimiterWidget(
@@ -60,7 +61,7 @@ class VerifyEmailPage extends AppStatelessWidget {
                 ),
                 Text(
                   appLocalizations.sign_up_verify_email_title_description
-                      .replaceFirst("%s", registerParams.email),
+                      .replaceFirst("%s", verifyMap["email"]),
                   style: textTheme.bodyMedium!.copyWith(height: 1.3),
                   textAlign: TextAlign.center,
                 ),
