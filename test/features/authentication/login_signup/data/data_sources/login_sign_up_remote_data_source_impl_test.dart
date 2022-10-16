@@ -15,9 +15,6 @@ import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_r
 import '../../../../../core/data/network/error_handler_middleware_test.mocks.dart';
 import '../../../../../fixtures/fixture_reader.dart';
 
-
-
-
 void main() {
   late MockErrorHandlerMiddleware mockErrorHandlerMiddleware;
   late LoginSignUpRemoteDataSourceImpl loginSignUpRemoteDataSourceImpl;
@@ -29,7 +26,8 @@ void main() {
 
   group('login function', () {
     final jsonMap = jsonDecode(fixture('login_success_response.json'));
-    const tLoginParams = LoginParams(email: 'test@yopmail.com', password: 'Passw0rd');
+    const tLoginParams =
+        LoginParams(username: 'test@yopmail.com', password: 'Passw0rd');
     final tLoginResponse = LoginResponse.fromJson(jsonMap);
     final tRequestOptions = AppRequestOptions(
       RequestTypes.post,
@@ -84,7 +82,8 @@ void main() {
       when(mockErrorHandlerMiddleware.sendRequest(any))
           .thenAnswer((_) async => await jsonMap);
       //act
-      final result = await loginSignUpRemoteDataSourceImpl.register(tRegisterParams);
+      final result =
+          await loginSignUpRemoteDataSourceImpl.register(tRegisterParams);
       //assert
       verify(mockErrorHandlerMiddleware.sendRequest(tRequestOptions));
       expect(result, tRegisterResponse);
