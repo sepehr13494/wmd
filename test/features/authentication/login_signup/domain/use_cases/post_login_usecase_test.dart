@@ -8,7 +8,6 @@ import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_l
 
 import '../../data/repositories/login_sign_up_repository_impl_test.mocks.dart';
 
-
 void main() {
   late MockLoginSignUpRepository mockLoginSignUpRepository;
   late PostLoginUseCase postLoginUseCase;
@@ -23,7 +22,8 @@ void main() {
     postLoginUseCase = PostLoginUseCase(mockLoginSignUpRepository);
   });
 
-  final tLoginParams = LoginParams(email: 'test@yopmail.com', password: 'Passw0rd');
+  final tLoginParams =
+      LoginParams(username: 'test@yopmail.com', password: 'Passw0rd');
 
   test(
     'should get login entity from the auth repository',

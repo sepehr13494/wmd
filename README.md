@@ -30,3 +30,7 @@ gradlew signingReport
 
 flutter gen-l10n
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+# running app per environment (values -> dev, qa, uat)
+
+flutter run --dart-define=env=qa

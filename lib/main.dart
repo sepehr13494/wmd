@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'core/presentation/routes/app_router.dart';
@@ -16,6 +17,13 @@ import 'core/presentation/routes/url_strategy/url_strategy.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
+
+  const String envFor = String.fromEnvironment(
+    'env',
+    defaultValue: 'dev',
+  );
+  final envFile = envInitConfig(envFor);
+  await dotenv.load(fileName: envFile);
   await Hive.initFlutter();
   await di.init();
   /*await SentryFlutter.init(
@@ -28,6 +36,19 @@ Future<void> main() async {
     appRunner: () => runApp(const MyApp()),
   );*/
   runApp(const MyApp());
+}
+
+envInitConfig(env) {
+  switch (env) {
+    case "uat":
+      return "assets/env/uat.env";
+    case "qa":
+      return "assets/env/qa.env";
+    case "dev":
+      return "assets/env/.env";
+    default:
+      return "assets/env/.env";
+  }
 }
 
 class MyApp extends StatelessWidget {
