@@ -16,7 +16,7 @@ import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_r
 import '../../../../../core/util/local_storage_test.mocks.dart';
 import 'login_sign_up_repository_impl_test.mocks.dart';
 
-@GenerateMocks([LoginSignUpRemoteDataSource,LoginSignUpRepository])
+@GenerateMocks([LoginSignUpRemoteDataSource, LoginSignUpRepository])
 void main() {
   late LoginSignUpRepositoryImpl loginSignUpRepositoryImpl;
   late MockLoginSignUpRemoteDataSource mockLoginSignUpRemoteDataSource;
@@ -31,7 +31,8 @@ void main() {
     );
   });
 
-  const tLoginParams = LoginParams(email: 'test@yopmail.com', password: 'Passw0rd');
+  const tLoginParams =
+      LoginParams(username: 'test@yopmail.com', password: 'Passw0rd');
 
   final tLoginResponse = LoginResponse(
     roles: ["role"],
@@ -72,7 +73,8 @@ void main() {
       'should return server failure on server exception',
       () async {
         // arrange
-        when(mockLoginSignUpRemoteDataSource.login(any)).thenThrow(tServerException);
+        when(mockLoginSignUpRemoteDataSource.login(any))
+            .thenThrow(tServerException);
         // act
         final result = await loginSignUpRepositoryImpl.login(tLoginParams);
         // assert
@@ -113,7 +115,8 @@ void main() {
         when(mockLoginSignUpRemoteDataSource.register(any))
             .thenAnswer((_) async => tRegisterResponse);
         // act
-        final result = await loginSignUpRepositoryImpl.register(tRegisterParams);
+        final result =
+            await loginSignUpRepositoryImpl.register(tRegisterParams);
         // assert
         verify(mockLoginSignUpRemoteDataSource.register(tRegisterParams));
         expect(result, equals(const Right(tAppRegisterSuccess)));
@@ -127,7 +130,8 @@ void main() {
         when(mockLoginSignUpRemoteDataSource.register(any))
             .thenThrow(tServerException);
         // act
-        final result = await loginSignUpRepositoryImpl.register(tRegisterParams);
+        final result =
+            await loginSignUpRepositoryImpl.register(tRegisterParams);
         // assert
         verify(mockLoginSignUpRemoteDataSource.register(tRegisterParams));
 

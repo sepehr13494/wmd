@@ -1,8 +1,10 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class AppUrls {
   AppUrls._();
 
   static const int wrongTokenCode = 401;
-  static const String baseUrl = "https://apimaz-weu-tfo-mvp-qa.azure-api.net/";
+  static String baseUrl = dotenv.env['BASE_URL']!;
   static const String refreshUrl = "";
 
   //other urls

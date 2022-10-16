@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../util/local_storage.dart';
 
 class NetworkHelper {
@@ -9,6 +10,7 @@ class NetworkHelper {
     Map<String, String> headers = {
       'content-type': 'application/json',
       'accept': "application/json",
+      'App-Id': dotenv.env['APP_ID']!,
     };
     var options = BaseOptions(
       followRedirects: false,

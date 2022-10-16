@@ -14,7 +14,8 @@ import 'package:wmd/core/extentions/date_time_ext.dart';
 
 import 'login_sign_up_cubit_test.mocks.dart';
 
-@GenerateMocks([PostLoginUseCase, PostRegisterUseCase,ResendEmailUseCase, AppDeviceInfo])
+@GenerateMocks(
+    [PostLoginUseCase, PostRegisterUseCase, ResendEmailUseCase, AppDeviceInfo])
 void main() {
   late MockPostLoginUseCase mockPostLoginUseCase;
   late MockPostRegisterUseCase mockPostRegisterUseCase;
@@ -27,14 +28,14 @@ void main() {
     mockPostRegisterUseCase = MockPostRegisterUseCase();
     mockResendEmailUseCase = MockResendEmailUseCase();
     mockAppDeviceInfo = MockAppDeviceInfo();
-    loginSignUpCubit = LoginSignUpCubit(
-        mockPostLoginUseCase, mockPostRegisterUseCase, mockResendEmailUseCase, mockAppDeviceInfo);
+    loginSignUpCubit = LoginSignUpCubit(mockPostLoginUseCase,
+        mockPostRegisterUseCase, mockResendEmailUseCase, mockAppDeviceInfo);
   });
 
   group('login cubit test', () {
     const tAppSuccess = AppSuccess(message: 'Login successful');
     const tLoginParams =
-        LoginParams(email: 'test@yopmail.com', password: 'Passw0rd');
+        LoginParams(username: 'test@yopmail.com', password: 'Passw0rd');
     blocTest(
       'when login use-case is returning App success bloc emits the success state',
       build: () => loginSignUpCubit,
@@ -70,5 +71,4 @@ void main() {
       },
     );
   });
-
 }
