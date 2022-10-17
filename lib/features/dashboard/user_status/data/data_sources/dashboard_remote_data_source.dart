@@ -3,7 +3,7 @@ import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/data/repository/app_data_source.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/models/app_request_options.dart';
-import 'package:wmd/features/dashboard/data/models/user_status.dart';
+import 'package:wmd/features/dashboard/user_status/data/models/user_status.dart';
 
 abstract class DashboardRemoteDataSource {
   Future<UserStatus> getUserStatus(NoParams noParams);

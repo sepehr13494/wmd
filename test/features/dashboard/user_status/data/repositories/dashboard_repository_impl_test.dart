@@ -6,10 +6,10 @@ import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
-import 'package:wmd/features/dashboard/data/data_sources/dashboard_remote_data_source.dart';
-import 'package:wmd/features/dashboard/data/models/user_status.dart';
-import 'package:wmd/features/dashboard/data/repositories/dashboard_respository_impl.dart';
-import 'package:wmd/features/dashboard/domain/repositories/dashboard_repository.dart';
+import 'package:wmd/features/dashboard/user_status/data/data_sources/dashboard_remote_data_source.dart';
+import 'package:wmd/features/dashboard/user_status/data/models/user_status.dart';
+import 'package:wmd/features/dashboard/user_status/data/repositories/dashboard_respository_impl.dart';
+import 'package:wmd/features/dashboard/user_status/domain/repositories/dashboard_repository.dart';
 
 import '../../domain/use_cases/get_user_status_usecase_test.mocks.dart';
 import 'dashboard_repository_impl_test.mocks.dart';

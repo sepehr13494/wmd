@@ -7,9 +7,10 @@ import 'dart:async' as _i4;
 
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:wmd/core/domain/usecases/usercase.dart' as _i5;
-import 'package:wmd/features/dashboard/data/data_sources/dashboard_remote_data_source.dart'
+import 'package:wmd/features/dashboard/user_status/data/data_sources/dashboard_remote_data_source.dart'
     as _i3;
-import 'package:wmd/features/dashboard/data/models/user_status.dart' as _i2;
+import 'package:wmd/features/dashboard/user_status/data/models/user_status.dart'
+    as _i2;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values

@@ -9,8 +9,9 @@ import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:wmd/core/domain/usecases/usercase.dart' as _i7;
 import 'package:wmd/core/error_and_success/failures.dart' as _i5;
-import 'package:wmd/features/dashboard/data/models/user_status.dart' as _i6;
-import 'package:wmd/features/dashboard/domain/repositories/dashboard_repository.dart'
+import 'package:wmd/features/dashboard/user_status/data/models/user_status.dart'
+    as _i6;
+import 'package:wmd/features/dashboard/user_status/domain/repositories/dashboard_repository.dart'
     as _i3;
 
 // ignore_for_file: type=lint
