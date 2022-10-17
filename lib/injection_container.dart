@@ -37,7 +37,7 @@ Future<void> init() async {
 
   //Authentication dependency
   // login and sign up
-  sl.registerFactory(() => LoginSignUpCubit(sl(), sl(), sl(),sl()));
+  sl.registerFactory(() => LoginSignUpCubit(sl(), sl(), sl(), sl()));
   sl.registerLazySingleton(() => PostLoginUseCase(sl()));
   sl.registerLazySingleton(() => PostRegisterUseCase(sl()));
   sl.registerLazySingleton(() => ResendEmailUseCase(sl()));
@@ -51,9 +51,10 @@ Future<void> init() async {
   // verifyEmail
   sl.registerFactory(() => VerifyEmailCubit(sl()));
   sl.registerLazySingleton(() => VerifyEmailUseCase(sl()));
-  sl.registerLazySingleton<VerifyEmailRepository>(() => VerifyEmailRepositoryImpl(sl()));
-  sl.registerLazySingleton<VerifyEmailServerDataSource>(() => VerifyEmailServerDataSourceImpl(sl()));
-
+  sl.registerLazySingleton<VerifyEmailRepository>(
+      () => VerifyEmailRepositoryImpl(sl()));
+  sl.registerLazySingleton<VerifyEmailServerDataSource>(
+      () => VerifyEmailServerDataSourceImpl(sl()));
 
   //local_storage
   sl.registerLazySingleton<LocalStorage>(() => LocalStorage(sl()));

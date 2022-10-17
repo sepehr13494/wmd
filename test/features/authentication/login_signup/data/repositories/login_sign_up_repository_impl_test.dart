@@ -105,7 +105,7 @@ void main() {
   });
 
   group('register functions', () {
-    final tRegisterResponse = RegisterResponse();
+    const tRegisterResponse = RegisterResponse.tRegisterResponse;
     final tRegisterParams =
         RegisterParams(email: 'test@yopmail.com', password: 'Passw0rd');
     const tAppRegisterSuccess = AppSuccess(message: 'Register successful');
@@ -113,6 +113,10 @@ void main() {
       'should return AppSuccess when the call to auth remote data source is successful',
       () async {
         // arrange
+        when(mockLocalStorage.setTokenAndLogin(any))
+            .thenAnswer((_) async => await null);
+        when(mockLocalStorage.setRefreshToken(any))
+            .thenAnswer((_) async => await null);
         when(mockLoginSignUpRemoteDataSource.register(any))
             .thenAnswer((_) async => tRegisterResponse);
         // act
@@ -138,6 +142,24 @@ void main() {
 
         expect(result,
             equals(Left(ServerFailure(message: tServerException.message))));
+      },
+    );
+
+    test(
+      'should return server failure on cache exception',
+          () async {
+        // arrange
+            when(mockLoginSignUpRemoteDataSource.register(any))
+                .thenAnswer((_) async => tRegisterResponse);
+        when(mockLocalStorage.setTokenAndLogin(any)).thenThrow(tCacheException);
+        // act
+        final result =
+        await loginSignUpRepositoryImpl.register(tRegisterParams);
+        // assert
+        verify(mockLoginSignUpRemoteDataSource.register(tRegisterParams));
+
+        expect(result,
+            equals(Left(CacheFailure(message: tCacheException.message))));
       },
     );
   });

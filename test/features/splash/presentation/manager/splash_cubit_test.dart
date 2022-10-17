@@ -41,7 +41,7 @@ void main() {
       setUp: () => when(mockCheckLoginUseCase(any)).thenAnswer((realInvocation) async => const Right(true)),
       act: (bloc)=>bloc.initSplash(),
       wait: const Duration(seconds: 2),
-      expect: () => [isA<SplashLoaded>().having((state) => state.routeName, 'routeName', AppRoutes.main)],
+      expect: () => [isA<SplashLoaded>().having((state) => state.routeName, 'routeName', AppRoutes.dashboard)],
       verify: (_) {
         verify(mockCheckLoginUseCase(NoParams())).called(1);
       },

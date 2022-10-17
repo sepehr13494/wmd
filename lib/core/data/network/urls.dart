@@ -9,7 +9,7 @@ class AppUrls {
 
   //other urls
   static const String registerUser = "auth/client/sign-up";
-  static const String resendEmail = "auth/client/resend";
+  static const String resendEmail = "auth/send-verification-email";
   static const String loginUser = "auth/client/token";
   static const String verifyEmail = "auth/verify-email";
 }

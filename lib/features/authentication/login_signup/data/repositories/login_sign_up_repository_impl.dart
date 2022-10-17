@@ -41,9 +41,13 @@ class LoginSignUpRepositoryImpl implements LoginSignUpRepository {
       RegisterParams registerParams) async {
     try {
       final result = await loginSignUpRemoteDataSource.register(registerParams);
+      localStorage.setTokenAndLogin(result.accessToken);
+      localStorage.setRefreshToken(result.refreshToken);
       return const Right(AppSuccess(message: 'Register successful'));
     } on ServerException catch (error) {
       return Left(ServerFailure(message: error.message));
+    } on CacheException catch (cacheError) {
+      return Left(CacheFailure(message: cacheError.message));
     }
   }
 
