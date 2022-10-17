@@ -10,11 +10,11 @@ import 'get_user_status_usecase_test.mocks.dart';
 
 void main() {
   late PutUserStatusUseCase putUserStatusUseCase;
-  late MockDashboardRepository mockDashboardRepository;
+  late MockUserStatusRepository mockUserStatusRepository;
 
   setUp(() {
-    mockDashboardRepository = MockDashboardRepository();
-    putUserStatusUseCase = PutUserStatusUseCase(mockDashboardRepository);
+    mockUserStatusRepository = MockUserStatusRepository();
+    putUserStatusUseCase = PutUserStatusUseCase(mockUserStatusRepository);
     CustomizableDateTime.customTime = DateTime.now();
   });
   final tUserParams = UserStatus(
@@ -26,7 +26,7 @@ void main() {
 
   test('should get UserStatus from the dashboard repository', () async {
     //arrange
-    when(mockDashboardRepository.putUserStatus(tUserParams))
+    when(mockUserStatusRepository.putUserStatus(tUserParams))
         .thenAnswer((_) async => Right(tUserStatus));
     // act
     final result = await putUserStatusUseCase.call(tUserParams);
@@ -40,7 +40,7 @@ void main() {
     () async {
       const tServerFailure = ServerFailure(message: 'Server failure');
       //arrange
-      when(mockDashboardRepository.putUserStatus(tUserParams))
+      when(mockUserStatusRepository.putUserStatus(tUserParams))
           .thenAnswer((_) async => const Left(tServerFailure));
       //act
       final result = await putUserStatusUseCase.call(tUserParams);

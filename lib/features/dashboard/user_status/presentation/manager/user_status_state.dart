@@ -1,4 +1,4 @@
-part of 'dashboard_cubit.dart';
+part of 'user_status_cubit.dart';
 
 abstract class DashboardState {}
 

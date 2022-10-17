@@ -5,19 +5,19 @@ import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/models/app_request_options.dart';
-import 'package:wmd/features/dashboard/user_status/data/data_sources/dashboard_remote_data_source.dart';
+import 'package:wmd/features/dashboard/user_status/data/data_sources/user_status_remote_data_source.dart';
 import 'package:wmd/features/dashboard/user_status/data/models/user_status.dart';
 
 import '../../../../../core/data/network/error_handler_middleware_test.mocks.dart';
 
 void main() {
   late MockErrorHandlerMiddleware mockErrorHandlerMiddleware;
-  late DashboardRemoteDataSourceImpl dashboardRemoteDataSourceImpl;
+  late UserStatusRemoteDataSourceImpl dashboardRemoteDataSourceImpl;
 
   setUp(() {
     mockErrorHandlerMiddleware = MockErrorHandlerMiddleware();
     dashboardRemoteDataSourceImpl =
-        DashboardRemoteDataSourceImpl(mockErrorHandlerMiddleware);
+        UserStatusRemoteDataSourceImpl(mockErrorHandlerMiddleware);
   });
 
   group('get user Status', () {

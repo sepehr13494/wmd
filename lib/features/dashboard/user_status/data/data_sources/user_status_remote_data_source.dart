@@ -5,14 +5,14 @@ import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/models/app_request_options.dart';
 import 'package:wmd/features/dashboard/user_status/data/models/user_status.dart';
 
-abstract class DashboardRemoteDataSource {
+abstract class UserStatusRemoteDataSource {
   Future<UserStatus> getUserStatus(NoParams noParams);
   Future<UserStatus> putUserStatus(UserStatus userStatusParam);
 }
 
-class DashboardRemoteDataSourceImpl extends AppServerDataSource
-    implements DashboardRemoteDataSource {
-  DashboardRemoteDataSourceImpl(super.errorHandlerMiddleware);
+class UserStatusRemoteDataSourceImpl extends AppServerDataSource
+    implements UserStatusRemoteDataSource {
+  UserStatusRemoteDataSourceImpl(super.errorHandlerMiddleware);
 
   @override
   Future<UserStatus> getUserStatus(NoParams noParams) async {
