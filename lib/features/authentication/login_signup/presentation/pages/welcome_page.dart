@@ -66,11 +66,11 @@ class WelcomePage extends AppStatelessWidget {
                               children: [
                                 TextSpan(
                                     text:
-                                    "${appLocalizations.build_portfolio} ",
+                                    "${appLocalizations.auth_signup_productDetails_one} ",
                                     style: textTheme.headlineSmall!
                                         .apply(fontWeightDelta: 4)),
                                 TextSpan(
-                                    text: appLocalizations.build_portfolio2,
+                                    text: appLocalizations.auth_signup_productDetails_and,
                                     style: textTheme.headlineSmall),
                               ],
                             ),
@@ -81,7 +81,7 @@ class WelcomePage extends AppStatelessWidget {
                             onPressed: () {
                               context.pushNamed(AppRoutes.register);
                             },
-                            child: Text(appLocalizations.join_with_email)),
+                            child: Text(appLocalizations.auth_signup_button_join)),
                         const ContinueAppleButton(),
                         const SizedBox(),
                         Stack(
@@ -93,7 +93,7 @@ class WelcomePage extends AppStatelessWidget {
                               const EdgeInsets.symmetric(horizontal: 24),
                               color: Theme.of(context).scaffoldBackgroundColor,
                               child: Text(
-                                appLocalizations.or_sign_up,
+                                appLocalizations.auth_signup_text_social,
                                 style: textTheme.bodySmall!
                                     .apply(fontWeightDelta: -2),
                               ),
@@ -149,14 +149,13 @@ class WelcomePage extends AppStatelessWidget {
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(appLocalizations.already_have_account),
-                            const SizedBox(width: 8),
+                            Text(appLocalizations.auth_signup_text_alreadyHaveAnAccount),
                             TextButton(
                               onPressed: () {
                                 context.pushNamed(AppRoutes.login);
                               },
                               child: Text(
-                                appLocalizations.login,
+                                appLocalizations.auth_signup_link_login,
                                 style:
                                 textTheme.bodyText1!.toLinkStyle(context),
                               ),
@@ -263,7 +262,7 @@ class ContinueAppleButton extends StatelessWidget {
           children: [
             const Icon(Icons.apple),
             const SizedBox(width: 12),
-            Text(AppLocalizations.of(context).continue_apple),
+            Text(AppLocalizations.of(context).auth_signup_button_appleLogin),
           ],
         ));
   }

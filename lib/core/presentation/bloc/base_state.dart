@@ -9,6 +9,11 @@ abstract class BaseState extends Equatable
         VerifyEmailState,
         UserStatusState {}
 
+class BaseInitialState extends BaseState {
+  @override
+  List<Object?> get props => [];
+}
+
 class SuccessState extends BaseState {
   final AppSuccess appSuccess;
 

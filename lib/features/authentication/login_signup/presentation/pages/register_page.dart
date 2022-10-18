@@ -57,9 +57,9 @@ class _RegisterPageState extends AppState<RegisterPage> {
                         child: Column(
                           children: [
                             const SizedBox(height: 24),
-                            Text(appLocalizations.create_account,
+                            Text(appLocalizations.auth_signup_button_createAccount,
                                 style: textTheme.headlineSmall),
-                            Text(appLocalizations.to_start,
+                            Text(appLocalizations.auth_signup_subHeading,
                                 style: textTheme.bodyMedium),
                             const SizedBox(),
                             AutofillGroup(
@@ -67,7 +67,7 @@ class _RegisterPageState extends AppState<RegisterPage> {
                                 children: [
                                   AppTextFields.simpleTextField(
                                     name: "email",
-                                    hint: appLocalizations.email_placeholder,
+                                    hint: appLocalizations.auth_signup_input_email_placeholder,
                                     type: TextFieldType.email,
                                   ),
                                   const SizedBox(height: 16),
@@ -92,10 +92,10 @@ class _RegisterPageState extends AppState<RegisterPage> {
                                       children: [
                                         TextSpan(
                                             text:
-                                                "${appLocalizations.sign_up_terms_conditions} ",
+                                                "${appLocalizations.auth_signup_checkbox_label} ",
                                             style: textTheme.bodySmall),
                                         TextSpan(
-                                          text: appLocalizations.sign_up_policy,
+                                          text: appLocalizations.auth_signup_checkbox_termsService,
                                           style: textTheme.bodySmall!
                                               .toLinkStyle(context),
                                           recognizer: TapGestureRecognizer()
@@ -131,7 +131,7 @@ class _RegisterPageState extends AppState<RegisterPage> {
                                         }
                                       }
                                     : null,
-                                child: Text(appLocalizations.sign_up_continue)),
+                                child: Text(appLocalizations.auth_signup_button_submit)),
                             Padding(
                               padding: const EdgeInsets.all(16),
                               child: Row(
@@ -144,7 +144,7 @@ class _RegisterPageState extends AppState<RegisterPage> {
                                   const SizedBox(width: 8),
                                   Expanded(
                                     child: Text(
-                                      appLocalizations.safe_secure_disclaimer,
+                                      appLocalizations.auth_signup_safeandsecure_title,
                                       style: textTheme.titleMedium!
                                           .copyWith(height: 1.3),
                                     ),
@@ -155,13 +155,13 @@ class _RegisterPageState extends AppState<RegisterPage> {
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text(appLocalizations.already_have_account),
+                                Text(appLocalizations.auth_verify_text_alreadyVerified),
                                 TextButton(
                                     onPressed: () {
                                       context.goNamed(AppRoutes.login);
                                     },
                                     child: Text(
-                                      appLocalizations.login,
+                                      appLocalizations.auth_signup_link_login,
                                       style: textTheme.bodyText1!
                                           .toLinkStyle(context),
                                     ))
