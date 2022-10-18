@@ -11,7 +11,6 @@ class VerifyEmailCubit extends Cubit<VerifyEmailState> {
   VerifyEmailCubit(this.verifyEmailUseCase) : super(LoadingState());
 
   verifyEmail({required Map<String, dynamic> map}) async {
-    print("umad");
     emit(LoadingState());
     final verifyEmailParams = VerifyEmailParams.fromJson(map);
     final result = await verifyEmailUseCase(verifyEmailParams);

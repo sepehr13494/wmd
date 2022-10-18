@@ -107,7 +107,7 @@ class _PasswordTextFieldState extends AppState<PasswordTextField> {
     return AppTextFields.simpleTextField(
       name: "password",
       type: TextFieldType.password,
-      hint: widget.hint ?? appLocalizations.sign_up_password_placeholder,
+      hint: widget.hint ?? appLocalizations.auth_signup_input_password_placeholder,
       obscureText: !visible,
       suffixIcon: IconButton(
         onPressed: () {

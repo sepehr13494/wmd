@@ -64,7 +64,7 @@ class _TimerWidgetState extends AppState<TimerWidget> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(appLocalizations.sign_up_didnt_receive_email),
+        Text(appLocalizations.auth_verify_text_noEmailReceived),
         const SizedBox(
           width: 8,
         ),
@@ -81,7 +81,7 @@ class _TimerWidgetState extends AppState<TimerWidget> {
                 _initTimer();
                 widget.sendCodeAgain();
               },
-              child: Text(appLocalizations.sign_up_resend, style: TextStyle(color: Theme.of(context).primaryColor))),
+              child: Text(appLocalizations.auth_verify_link_resend, style: TextStyle(color: Theme.of(context).primaryColor))),
         ),
       ],
     );

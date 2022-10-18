@@ -66,7 +66,7 @@ class _TermsWidgetState extends AppState<TermsWidget> {
             ),*/
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8),
-              child: Text(appLocalizations.terms,style: textTheme.headlineSmall,),
+              child: Text(appLocalizations.auth_signup_tos_title,style: textTheme.headlineSmall,),
             ),
             Expanded(
               child: SingleChildScrollView(
@@ -75,9 +75,7 @@ class _TermsWidgetState extends AppState<TermsWidget> {
                 child: Center(
                   child: Column(
                     children: [
-                      Text(appLocalizations.terms_body),
-                      Text(appLocalizations.terms_title,style: textTheme.titleLarge,),
-                      Text(appLocalizations.terms_body),
+                      Text(appLocalizations.auth_signup_tos_content),
                     ].map((e) => Padding(padding: const EdgeInsets.symmetric(vertical: 8),child: e,)).toList(),
                   )
                 ),
