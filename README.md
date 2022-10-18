@@ -4,6 +4,9 @@ https://pub.dev/packages/google_sign_in
 https://pub.dev/packages/twitter_login
 https://pub.dev/packages/sign_in_with_apple
 
+deeplink ios config  
+https://docs.flutter.dev/development/ui/navigation/deep-linking
+
 #for hive and router and mocks
 flutter pub run build_runner build --delete-conflicting-outputs
 

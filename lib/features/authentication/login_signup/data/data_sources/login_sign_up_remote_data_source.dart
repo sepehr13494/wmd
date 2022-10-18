@@ -52,6 +52,5 @@ class LoginSignUpRemoteDataSourceImpl extends AppServerDataSource
       resendEmailParams.toJson(),
     );
     await errorHandlerMiddleware.sendRequest(loginAppRequestOptions);
-    return ;
   }
 }
