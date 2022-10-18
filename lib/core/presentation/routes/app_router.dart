@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
-import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_register_usecase.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/forget_password_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/login_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/register_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/verify_email_page.dart';
-import 'package:wmd/features/authentication/login_signup/presentation/pages/verify_response_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/welcome_page.dart';
+import 'package:wmd/features/authentication/verify_email/presentation/pages/verify_response_page.dart';
 import 'package:wmd/features/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:wmd/features/splash/presentation/pages/splash_page.dart';
 
@@ -60,7 +59,6 @@ class AppRouter {
       GoRoute(
         path: "/verify-response",
         builder: (BuildContext context, GoRouterState state) {
-          print(state.queryParams);
           return VerifyResponsePage(verifyMap: state.queryParams);
         },
       ),
