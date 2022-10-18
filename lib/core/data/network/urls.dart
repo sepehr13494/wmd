@@ -12,4 +12,5 @@ class AppUrls {
   static const String resendEmail = "auth/send-verification-email";
   static const String loginUser = "auth/client/token";
   static const String verifyEmail = "auth/verify-email";
+  static const String getUserStatus = "wmo-user/user";
 }

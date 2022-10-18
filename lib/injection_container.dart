@@ -15,6 +15,12 @@ import 'package:wmd/features/authentication/verify_email/data/repositories/verif
 import 'package:wmd/features/authentication/verify_email/domain/repositories/verify_email_repository.dart';
 import 'package:wmd/features/authentication/verify_email/domain/use_cases/verify_email_usecase.dart';
 import 'package:wmd/features/authentication/verify_email/presentation/manager/verify_email_cubit.dart';
+import 'package:wmd/features/dashboard/user_status/data/data_sources/user_status_remote_data_source.dart';
+import 'package:wmd/features/dashboard/user_status/data/repositories/user_status_respository_impl.dart';
+import 'package:wmd/features/dashboard/user_status/domain/repositories/user_status_repository.dart';
+import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
+import 'package:wmd/features/dashboard/user_status/domain/use_cases/put_user_status_usecase.dart';
+import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'core/data/network/network_helper.dart';
 import 'core/data/network/server_request_manager.dart';
 import 'core/util/app_localization.dart';
@@ -56,6 +62,14 @@ Future<void> init() async {
   sl.registerLazySingleton<VerifyEmailServerDataSource>(
       () => VerifyEmailServerDataSourceImpl(sl()));
 
+  // Dashboard - user status dependencies
+  sl.registerFactory(() => UserStatusCubit(sl(), sl()));
+  sl.registerLazySingleton(() => GetUserStatusUseCase(sl()));
+  sl.registerLazySingleton(() => PutUserStatusUseCase(sl()));
+  sl.registerLazySingleton<UserStatusRepository>(
+      () => UserStatusRepositoryImpl(sl()));
+  sl.registerLazySingleton<UserStatusRemoteDataSource>(
+      () => UserStatusRemoteDataSourceImpl(sl()));
   //local_storage
   sl.registerLazySingleton<LocalStorage>(() => LocalStorage(sl()));
   sl.registerLazySingleton<ServerRequestManager>(
