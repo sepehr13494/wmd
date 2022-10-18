@@ -10,6 +10,12 @@ import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_r
 import 'package:wmd/features/authentication/login_signup/domain/use_cases/resend_email_usecase.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/manager/login_sign_up_cubit.dart';
 import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_login_usecase.dart';
+import 'package:wmd/features/dashboard/user_status/data/data_sources/user_status_remote_data_source.dart';
+import 'package:wmd/features/dashboard/user_status/data/repositories/user_status_respository_impl.dart';
+import 'package:wmd/features/dashboard/user_status/domain/repositories/user_status_repository.dart';
+import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
+import 'package:wmd/features/dashboard/user_status/domain/use_cases/put_user_status_usecase.dart';
+import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'core/data/network/network_helper.dart';
 import 'core/data/network/server_request_manager.dart';
 import 'core/util/app_localization.dart';
@@ -31,7 +37,7 @@ Future<void> init() async {
   sl.registerLazySingleton<SplashRepository>(() => SplashRepositoryImpl(sl()));
 
   //Authentication dependency
-  sl.registerFactory(() => LoginSignUpCubit(sl(), sl(), sl(),sl()));
+  sl.registerFactory(() => LoginSignUpCubit(sl(), sl(), sl(), sl()));
   sl.registerLazySingleton(() => PostLoginUseCase(sl()));
   sl.registerLazySingleton(() => PostRegisterUseCase(sl()));
   sl.registerLazySingleton(() => ResendEmailUseCase(sl()));
@@ -42,6 +48,14 @@ Future<void> init() async {
   sl.registerLazySingleton<LoginSignUpRemoteDataSource>(
       () => LoginSignUpRemoteDataSourceImpl(sl()));
 
+  // Dashboard - user status dependencies
+  sl.registerFactory(() => UserStatusCubit(sl(), sl()));
+  sl.registerLazySingleton(() => GetUserStatusUseCase(sl()));
+  sl.registerLazySingleton(() => PutUserStatusUseCase(sl()));
+  sl.registerLazySingleton<UserStatusRepository>(
+      () => UserStatusRepositoryImpl(sl()));
+  sl.registerLazySingleton<UserStatusRemoteDataSource>(
+      () => UserStatusRemoteDataSourceImpl(sl()));
   //local_storage
   sl.registerLazySingleton<LocalStorage>(() => LocalStorage(sl()));
   sl.registerLazySingleton<ServerRequestManager>(

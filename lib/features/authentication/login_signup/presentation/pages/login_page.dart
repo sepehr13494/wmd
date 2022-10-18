@@ -29,7 +29,8 @@ class LoginPage extends AppStatelessWidget {
         appBar: const CustomAuthAppBar(),
         body: WidthLimiterWidget(
           child: BlocConsumer<LoginSignUpCubit, LoginSignUpState>(
-            listener: BlocHelper.defaultBlocListener(listener: (context, state) {
+            listener:
+                BlocHelper.defaultBlocListener(listener: (context, state) {
               if (state is SuccessState) {
                 context.goNamed(AppRoutes.dashboard);
               }
