@@ -24,14 +24,16 @@ class BlocHelper {
                     child: Column(
                       children: [
                         Text(state.failure.message),
-                        InkWell(
+                        state.tryAgainFunction == null ? SizedBox() : InkWell(
                           onTap: () {
                             if (state.tryAgainFunction != null) {
                               Navigator.pop(context);
                               state.tryAgainFunction!();
                             }
                           },
-                          child: Text("tryAgain"),
+                          child: ElevatedButton(onPressed: (){
+
+                          },child: Text("tryAgain")),
                         ),
                       ],
                     ),

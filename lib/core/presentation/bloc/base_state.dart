@@ -2,7 +2,12 @@ part of 'base_cubit.dart';
 
 @immutable
 abstract class BaseState extends Equatable
-    with UserStatusState, LoginSignUpState, SplashState, VideoControllerState {}
+    with
+        LoginSignUpState,
+        SplashState,
+        VideoControllerState,
+        VerifyEmailState,
+        UserStatusState {}
 
 class SuccessState extends BaseState {
   final AppSuccess appSuccess;
