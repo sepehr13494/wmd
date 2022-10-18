@@ -14,4 +14,7 @@ class AppRoutes {
   //main
   static const String main = "main";
   static const String dashboard = "dashboard";
+
+  //add assets
+  static const String addAssetsView = "add_assets_view";
 }

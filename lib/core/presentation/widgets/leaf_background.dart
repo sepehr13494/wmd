@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class LeafBackground extends StatelessWidget {
+  final double opacity;
   const LeafBackground({
-    Key? key,
+    Key? key, this.opacity = 0.5,
   }) : super(key: key);
 
   @override
@@ -11,7 +12,7 @@ class LeafBackground extends StatelessWidget {
       shaderCallback: (bounds) {
         final Color bgColor = Theme.of(context).scaffoldBackgroundColor;
         return LinearGradient(
-          colors: [bgColor.withOpacity(.5), bgColor.withOpacity(.5)],
+          colors: [bgColor.withOpacity(opacity), bgColor.withOpacity(opacity)],
         ).createShader(bounds);
       },
       blendMode: BlendMode.srcATop,
