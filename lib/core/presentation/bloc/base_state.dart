@@ -2,9 +2,14 @@ part of 'base_cubit.dart';
 
 @immutable
 abstract class BaseState extends Equatable
-    with LoginSignUpState, SplashState, VideoControllerState , VerifyEmailState , UserStatusState{}
+    with
+        LoginSignUpState,
+        SplashState,
+        VideoControllerState,
+        VerifyEmailState,
+        UserStatusState {}
 
-class BaseInitialState extends BaseState{
+class BaseInitialState extends BaseState {
   @override
   List<Object?> get props => [];
 }

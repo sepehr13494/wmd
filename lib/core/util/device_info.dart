@@ -34,8 +34,6 @@ class AppDeviceInfo {
   AppDeviceInfo(this.deviceInfoPlugin);
 
   Future<AppDeviceInfoModel> getDeviceInfo() async {
-    String networkInfo = await NetworkInfo().getWifiIP() ?? "IP not detected";
-
     if (kIsWeb) {
       WebBrowserInfo webBrowserInfo = await deviceInfoPlugin.webBrowserInfo;
 
@@ -44,9 +42,10 @@ class AppDeviceInfo {
           deviceName: webBrowserInfo.browserName.name,
           osVersion: webBrowserInfo.appVersion ?? "0",
           deviceId: webBrowserInfo.userAgent ?? "No Data",
-          ip: networkInfo,
+          ip: 'webdummyip',
           os: webBrowserInfo.platform.toString());
     } else {
+      String networkInfo = await NetworkInfo().getWifiIP() ?? "IP not detected";
       if (Platform.isAndroid) {
         AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
         debugPrint('Running on ${androidInfo.model}');

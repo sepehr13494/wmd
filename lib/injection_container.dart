@@ -71,9 +71,9 @@ Future<void> init() async {
   sl.registerFactory(() => ForgetPasswordCubit(sl()));
   sl.registerLazySingleton(() => ForgetPasswordUseCase(sl()));
   sl.registerLazySingleton<ForgetPasswordRepository>(
-          () => ForgetPasswordRepositoryImpl(sl()));
+      () => ForgetPasswordRepositoryImpl(sl()));
   sl.registerLazySingleton<ForgetPasswordServerDataSource>(
-          () => ForgetPasswordServerDataSourceImpl(sl()));
+      () => ForgetPasswordServerDataSourceImpl(sl()));
 
   // Dashboard - user status dependencies
   sl.registerFactory(() => UserStatusCubit(sl(), sl()));

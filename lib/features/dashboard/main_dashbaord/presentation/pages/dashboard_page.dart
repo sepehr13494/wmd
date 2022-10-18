@@ -5,9 +5,11 @@ import 'package:go_router/go_router.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
+import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/util/app_stateless_widget.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/empty_state_dashboard.dart';
 import 'package:wmd/features/dashboard/user_status/data/models/user_status.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/injection_container.dart';
@@ -19,54 +21,81 @@ class DashboardPage extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    final ResponsiveHelper responsiveHelper =
+        ResponsiveHelper(context: context);
     return Scaffold(
       appBar: const CustomAuthAppBar(),
       body: BlocProvider(
         create: (context) => sl<UserStatusCubit>()..getUserStatus(),
-        child: WidthLimiterWidget(
-          child: BlocConsumer<UserStatusCubit, UserStatusState>(
-            listener:
-                BlocHelper.defaultBlocListener(listener: (context, state) {
-              if (state is UserStatusLoaded) {
-                if (state.userStatus.loginAt == null) {
-                  // !this is the first time user so update last loginAt
-                  final requestParam = {
-                    "email": state.userStatus.email,
-                    "loginAt": CustomizableDateTime.currentDate,
-                  };
-                  context
-                      .read<UserStatusCubit>()
-                      .postUserStatus(map: requestParam);
-                }
+        child: BlocConsumer<UserStatusCubit, UserStatusState>(
+          listener: BlocHelper.defaultBlocListener(listener: (context, state) {
+            if (state is UserStatusLoaded) {
+              if (state.userStatus.loginAt == null) {
+                // !this is the first time user so update last loginAt
+                final requestParam = {
+                  "email": state.userStatus.email,
+                  "loginAt": CustomizableDateTime.currentDate,
+                };
+                context
+                    .read<UserStatusCubit>()
+                    .postUserStatus(map: requestParam);
               }
-            }),
-            builder: (context, state) {
-              return LayoutBuilder(builder: (context, snap) {
-                return SingleChildScrollView(
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        state is UserStatusLoaded &&
-                                state.userStatus.loginAt == null
-                            ? Text('This is a first time user')
-                            : Text('This is a returning user'),
-                        const SizedBox(height: 24),
-                        ElevatedButton(
+            }
+          }),
+          builder: (context, state) {
+            return LayoutBuilder(builder: (context, snap) {
+              return SingleChildScrollView(
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(12, 48, 12, 48),
+                  decoration: BoxDecoration(
+                      color: textTheme.bodySmall!.color!.withOpacity(0.05),
+                      borderRadius: const BorderRadius.all(Radius.circular(6))),
+                  margin: const EdgeInsets.all(12),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Link all your assets with ease',
+                        style:
+                            textTheme.headlineSmall!.apply(fontWeightDelta: 4),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Connect with your institutions to see updates for your assets and liabilities',
+                        style: textTheme.titleMedium!,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 48),
+                      state is UserStatusLoaded &&
+                              state.userStatus.loginAt == null
+                          ? const Text('This is a first time user')
+                          : EmptyStateDashboard(
+                              responsiveHelper: responsiveHelper),
+                      const SizedBox(height: 24),
+                      SizedBox(
+                        width: 160,
+                        child: ElevatedButton(
                           onPressed: () {
-                            sl<LocalStorage>().logout();
-                            context.goNamed(AppRoutes.splash);
+                            context.goNamed(AppRoutes.addAssetsView);
                           },
-                          child: Text('Logout'),
-                        )
-                      ],
-                    ),
+                          child: const Text('Get Started'),
+                        ),
+                      ),
+                      // const SizedBox(height: 24),
+                      // ElevatedButton(
+                      //   onPressed: () {
+                      //     // sl<LocalStorage>().logout();
+                      //     context.goNamed(AppRoutes.test);
+                      //   },
+                      //   child: Text('Naviagte'),
+                      // )
+                    ],
                   ),
-                );
-              });
-            },
-          ),
+                ),
+              );
+            });
+          },
         ),
       ),
     );

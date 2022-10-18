@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
+import 'package:wmd/features/add_assets/view_assets_list/presentation/pages/assets_list_view_page.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/forget_password_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/login_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/register_page.dart';
@@ -68,6 +69,15 @@ class AppRouter {
         builder: (BuildContext context, GoRouterState state) {
           return const DashboardPage();
         },
+        routes: [
+          GoRoute(
+            name: AppRoutes.addAssetsView,
+            path: "add_assets_view",
+            builder: (BuildContext context, GoRouterState state) {
+              return const AssetsListViewPage();
+            },
+          ),
+        ]
       ),
     ],
   );
