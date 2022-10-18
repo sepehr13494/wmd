@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wmd/core/presentation/widgets/base_app_bar.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
@@ -8,6 +7,7 @@ import 'package:wmd/core/util/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/each_asset_widget.dart';
+import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/support_widget.dart';
 import 'package:wmd/global_variables.dart';
 
 class AssetsListViewPage extends AppStatelessWidget {
@@ -16,8 +16,44 @@ class AssetsListViewPage extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    final bool isMobile = ResponsiveHelper(context: context).isMobile;
     return Scaffold(
       appBar: BaseAppBar(title: "add assets"),
+      bottomSheet: Container(
+        width: double.maxFinite,
+        height: 60,
+        color: Theme.of(context).cardColor,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: [
+              isMobile ? const SizedBox() : Expanded(
+                child: Row(
+                  children: [
+                    const SupportWidget(),
+                    const SizedBox(width: 12),
+                    Expanded(child: Center(child: Text("You can add another asset on the next screen",style: textTheme.bodySmall,))),
+                    const SizedBox(width: 12),
+                  ],
+                ),
+              ),
+              ExpandedIf(
+                expanded: isMobile,
+                child: SizedBox(
+                  width: isMobile ? double.maxFinite : 300,
+                  child: Row(
+                    children: [
+                      Expanded(child: OutlinedButton(onPressed: (){}, child: Text("Back"))),
+                      const SizedBox(width: 12),
+                      Expanded(child: ElevatedButton(onPressed: null, child: Text("Save Asset"))),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
       body: Stack(
         children: const [
           LeafBackground(opacity: 0.5,),
@@ -129,25 +165,36 @@ class AssetsPart extends AppStatelessWidget {
     }else{
       assets = [
         EachAssetModel(image: "assets/images/add_assets/bank_asset.svg", title: "Bank Account", description: "Current account, savings account and term deposit accounts."),
-        EachAssetModel(image: "assets/images/add_assets/bank_asset.svg", title: "Listed assets", description: "Investments made in stocks, ETFs, bonds and mutual funds."),
-        EachAssetModel(image: "assets/images/add_assets/bank_asset.svg", title: "Private debt", description: "Asset defined by non-bank lending where debt is not issued or traded on the public markets"),
-        EachAssetModel(image: "assets/images/add_assets/bank_asset.svg", title: "Real estate", description: "Current account, savings account and term deposit accounts."),
-        EachAssetModel(image: "assets/images/add_assets/bank_asset.svg", title: "Private equity", description: "Current account, savings account and term deposit accounts."),
-        EachAssetModel(image: "assets/images/add_assets/bank_asset.svg", title: "Others", description: "Current account, savings account and term deposit accounts."),
+        EachAssetModel(image: "assets/images/add_assets/listed_asset.svg", title: "Listed assets", description: "Investments made in stocks, ETFs, bonds and mutual funds."),
+        EachAssetModel(image: "assets/images/add_assets/privet_debt.svg", title: "Private debt", description: "Asset defined by non-bank lending where debt is not issued or traded on the public markets"),
+        EachAssetModel(image: "assets/images/add_assets/real_estate.svg", title: "Real estate", description: "Current account, savings account and term deposit accounts."),
+        EachAssetModel(image: "assets/images/add_assets/private_equity.svg", title: "Private equity", description: "Current account, savings account and term deposit accounts."),
+        EachAssetModel(image: "assets/images/add_assets/others.svg", title: "Others", description: "Current account, savings account and term deposit accounts."),
       ];
     }
-    return  GridView.builder(
-      padding: const EdgeInsets.symmetric(vertical: 24),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: responsiveHelper.isDesktop ? 2 : 1,
-        crossAxisSpacing: responsiveHelper.defaultGap,
-        mainAxisSpacing: responsiveHelper.defaultGap,
-        mainAxisExtent: 140, // here set custom Height You Want
+    return  SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            padding: const EdgeInsets.symmetric(vertical: 24),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: responsiveHelper.isDesktop ? 2 : 1,
+              crossAxisSpacing: responsiveHelper.defaultGap,
+              mainAxisSpacing: responsiveHelper.defaultGap,
+              mainAxisExtent: 140, // here set custom Height You Want
+            ),
+            itemCount: assets.length,
+            itemBuilder: (BuildContext context, int index) {
+              return EachAssetWidget(eachAssetModel: assets[index],);
+            },
+          ),
+          ResponsiveHelper(context: context).isMobile ? const SupportWidget() : const SizedBox(),
+          const SizedBox(height: 84),
+        ],
       ),
-      itemCount: assets.length,
-      itemBuilder: (BuildContext context, int index) {
-        return EachAssetWidget(eachAssetModel: assets[index],);
-      },
     );
   }
 }

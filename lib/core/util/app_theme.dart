@@ -72,6 +72,11 @@ class AppThemes {
         listTileTheme: const ListTileThemeData(
           horizontalTitleGap: 0,
         ),
+        tabBarTheme: TabBarTheme(
+          labelColor: textColor,
+          unselectedLabelColor: AppColors.dashBoardGreyTextColor,
+          indicator: const UnderlineTabIndicator(borderSide: BorderSide(color: primaryColor,width: 2))
+        ),
         cardColor: brightness == Brightness.dark
             ? AppColors.cardColor
             : Colors.white,
