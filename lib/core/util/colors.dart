@@ -9,6 +9,7 @@ class AppColors {
   static const Color accent = Color(0xFFB99855);
   static const Color backgroundColorPageDark = Color(0xFF111111);
   static const Color errorColor = Color(0xFFC73D3D);
+  static const Color dashBoardGreyTextColor = Color(0xFF828282);
 }
 
 class HexColor extends Color {
