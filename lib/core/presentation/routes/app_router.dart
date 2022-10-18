@@ -7,7 +7,7 @@ import 'package:wmd/features/authentication/login_signup/presentation/pages/logi
 import 'package:wmd/features/authentication/login_signup/presentation/pages/register_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/verify_email_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/welcome_page.dart';
-import 'package:wmd/features/dashboard/user_status/presentation/pages/dashboard_page.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/pages/dashboard_page.dart';
 import 'package:wmd/features/splash/presentation/pages/splash_page.dart';
 
 class AppRouter {

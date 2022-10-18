@@ -56,4 +56,41 @@ void main() {
       verify(mockErrorHandlerMiddleware.sendRequest(tGetUserRequestOptions));
     });
   });
+
+  group('put user Status', () {
+    final tGetUserRequestOptions = AppRequestOptions(
+      RequestTypes.put,
+      AppUrls.getUserStatus,
+      UserStatus.tUserStatusParam.toJson(),
+    );
+    test('should return UserStatus when API call is successful', () async {
+      // arrange
+      when(mockErrorHandlerMiddleware.sendRequest(any)).thenAnswer(
+        (_) async => UserStatus.tUserStatusResponse,
+      );
+      //act
+      final result = await dashboardRemoteDataSourceImpl
+          .putUserStatus(UserStatus.tUserStatusParam);
+      //assert
+      verify(mockErrorHandlerMiddleware.sendRequest(tGetUserRequestOptions));
+      expect(result, UserStatus.fromJson(UserStatus.tUserStatusResponse));
+    });
+
+    test('should throws ServerException when API call is not successful',
+        () async {
+      final tServerException = ServerException(message: 'exception message');
+      //arrange
+      when(mockErrorHandlerMiddleware.sendRequest(any))
+          .thenThrow(tServerException);
+      //act
+      // final result = await loginSignUpRemoteDataSourceImpl.login(tLoginParams);
+      final call = dashboardRemoteDataSourceImpl.putUserStatus;
+      //assert
+      expect(
+          () => call(UserStatus.tUserStatusParam),
+          throwsA(const TypeMatcher<ServerException>()
+              .having((e) => e.message, 'message', tServerException.message)));
+      verify(mockErrorHandlerMiddleware.sendRequest(tGetUserRequestOptions));
+    });
+  });
 }

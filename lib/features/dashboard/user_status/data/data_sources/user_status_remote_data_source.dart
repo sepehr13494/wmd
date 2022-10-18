@@ -25,8 +25,15 @@ class UserStatusRemoteDataSourceImpl extends AppServerDataSource
   }
 
   @override
-  Future<UserStatus> putUserStatus(UserStatus userStatusParam) {
-    // TODO: implement putUserStatus
-    throw UnimplementedError();
+  Future<UserStatus> putUserStatus(UserStatus userStatusParam) async {
+    final putUserStatusRequestOptions = AppRequestOptions(
+      RequestTypes.put,
+      AppUrls.getUserStatus,
+      userStatusParam.toJson(),
+    );
+    final response =
+        await errorHandlerMiddleware.sendRequest(putUserStatusRequestOptions);
+    final result = UserStatus.fromJson(response);
+    return result;
   }
 }

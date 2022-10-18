@@ -1,9 +1,12 @@
 part of 'user_status_cubit.dart';
 
-abstract class DashboardState {}
+abstract class UserStatusState {}
 
-class DashboardUserStateLoaded extends DashboardState {
+class UserStatusLoaded extends Equatable with UserStatusState {
   final UserStatus userStatus;
 
-  DashboardUserStateLoaded({required this.userStatus});
+  UserStatusLoaded({required this.userStatus});
+
+  @override
+  List<Object?> get props => [userStatus];
 }

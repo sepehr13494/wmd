@@ -21,8 +21,14 @@ class UserStatusRepositoryImpl implements UserStatusRepository {
   }
 
   @override
-  Future<Either<Failure, UserStatus>> putUserStatus(UserStatus noParams) {
-    // TODO: implement putUserStatus
-    throw UnimplementedError();
+  Future<Either<Failure, UserStatus>> putUserStatus(
+      UserStatus userStatusRequest) async {
+    try {
+      final result =
+          await dashboardRemoteDataSource.putUserStatus(userStatusRequest);
+      return Right(result);
+    } on ServerException catch (error) {
+      return Left(ServerFailure(message: error.message));
+    }
   }
 }

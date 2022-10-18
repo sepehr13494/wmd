@@ -60,4 +60,40 @@ void main() {
       },
     );
   });
+
+  group('test for putUserStatus in UserStatus Repository', () {
+    test(
+      'should return remote data when the call to auth remote data source is successful',
+      () async {
+        // arrange
+        when(mockUserStatusRemoteDataSource.putUserStatus(any))
+            .thenAnswer((_) async => UserStatus.tUserStatus);
+        // act
+        final result = await dashboardRepositoryImpl
+            .putUserStatus(UserStatus.tUserStatusParam);
+        // assert
+        verify(
+            dashboardRepositoryImpl.putUserStatus(UserStatus.tUserStatusParam));
+        expect(result, equals(Right(UserStatus.tUserStatus)));
+      },
+    );
+
+    test(
+      'should return server failure on server exception',
+      () async {
+        // arrange
+        when(mockUserStatusRemoteDataSource.putUserStatus(any))
+            .thenThrow(tServerException);
+        // act
+        final result = await dashboardRepositoryImpl
+            .putUserStatus(UserStatus.tUserStatusParam);
+        // assert
+        verify(mockUserStatusRemoteDataSource
+            .putUserStatus(UserStatus.tUserStatusParam));
+
+        expect(result,
+            equals(Left(ServerFailure(message: tServerException.message))));
+      },
+    );
+  });
 }

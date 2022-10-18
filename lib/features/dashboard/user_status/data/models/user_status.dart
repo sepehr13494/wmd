@@ -40,4 +40,7 @@ class UserStatus extends Equatable {
     "email": "test@yopmail.com",
     "loginAt": CustomizableDateTime.currentDate
   };
+
+  static final tUserStatus = UserStatus(
+      email: "test@yopmail.com", loginAt: CustomizableDateTime.currentDate);
 }

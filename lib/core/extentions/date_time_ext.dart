@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 extension CustomizableDateTime on DateTime {
   static DateTime? _customTime;
   static DateTime get current {
@@ -9,6 +11,6 @@ extension CustomizableDateTime on DateTime {
   }
 
   static String get currentDate {
-    return DateTime(current.year, current.month, current.day).toString();
+    return DateFormat('yyyy-MM-dd').format(current).toString();
   }
 }
