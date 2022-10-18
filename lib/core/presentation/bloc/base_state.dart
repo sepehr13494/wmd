@@ -4,6 +4,11 @@ part of 'base_cubit.dart';
 abstract class BaseState extends Equatable
     with LoginSignUpState, SplashState, VideoControllerState , VerifyEmailState , UserStatusState{}
 
+class BaseInitialState extends BaseState{
+  @override
+  List<Object?> get props => [];
+}
+
 class SuccessState extends BaseState {
   final AppSuccess appSuccess;
 

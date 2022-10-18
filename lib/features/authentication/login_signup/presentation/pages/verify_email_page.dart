@@ -56,11 +56,11 @@ class VerifyEmailPage extends AppStatelessWidget {
                   ),
                 ),
                 Text(
-                  appLocalizations.sign_up_verify_email_title,
+                  appLocalizations.auth_verifyResponse_page_description,
                   style: textTheme.headlineSmall,
                 ),
                 Text(
-                  appLocalizations.sign_up_verify_email_title_description
+                  appLocalizations.auth_verify_description
                       .replaceFirst("%s", verifyMap["email"]),
                   style: textTheme.bodyMedium!.copyWith(height: 1.3),
                   textAlign: TextAlign.center,
@@ -78,10 +78,10 @@ class VerifyEmailPage extends AppStatelessWidget {
                         style: const TextStyle(height: 1.3),
                         children: [
                       TextSpan(
-                          text: "${appLocalizations.already_have_account} ",
+                          text: "${appLocalizations.auth_verify_text_alreadyVerified} ",
                           style: textTheme.bodySmall),
                       TextSpan(
-                        text: appLocalizations.login,
+                        text: appLocalizations.auth_verify_link_login,
                         style: textTheme.bodySmall!.toLinkStyle(context),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {

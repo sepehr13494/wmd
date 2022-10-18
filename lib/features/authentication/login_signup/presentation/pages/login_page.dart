@@ -43,9 +43,9 @@ class LoginPage extends AppStatelessWidget {
                     child: Column(
                       children: [
                         const SizedBox(height: 24),
-                        Text(appLocalizations.login_welcome,
+                        Text(appLocalizations.auth_login_heading,
                             style: textTheme.headlineSmall),
-                        Text(appLocalizations.login_securely_msg,
+                        Text(appLocalizations.auth_login_subheading,
                             style: textTheme.bodyMedium),
                         const SizedBox(),
                         AutofillGroup(
@@ -55,24 +55,24 @@ class LoginPage extends AppStatelessWidget {
                               AppTextFields.simpleTextField(
                                   name: "username",
                                   type: TextFieldType.email,
-                                  hint: appLocalizations.login_email_address),
+                                  hint: appLocalizations.auth_login_input_email_placeholder),
                               const SizedBox(height: 16),
                               PasswordTextField(
-                                hint: appLocalizations.login_password,
+                                hint: appLocalizations.auth_login_input_password_placeholder,
                               ),
                               TextButton(
                                   onPressed: () {
                                     context.pushNamed(AppRoutes.forgetPassword);
                                   },
                                   child: Text(
-                                    appLocalizations.login_forget_password,
+                                    appLocalizations.auth_login_link_forgotPassword,
                                     style: textTheme.bodySmall!
                                         .toLinkStyle(context),
                                   )),
                               FormBuilderSwitch(
                                   name: "face_id",
                                   title: Text(
-                                      appLocalizations.login_enable_face_id),
+                                      "Enable sign in with Face ID"),
                                   decoration: const InputDecoration(
                                       border: InputBorder.none),
                                   contentPadding: EdgeInsets.zero),
@@ -86,7 +86,7 @@ class LoginPage extends AppStatelessWidget {
                                     map: formKey.currentState!.instantValue);
                               }
                             },
-                            child: Text(appLocalizations.login)),
+                            child: Text(appLocalizations.auth_login_button_login)),
                         const SizedBox(),
                         RichText(
                             text: TextSpan(
@@ -94,10 +94,10 @@ class LoginPage extends AppStatelessWidget {
                                 children: [
                               TextSpan(
                                   text:
-                                      "${appLocalizations.login_dont_have_account} ",
+                                      "${appLocalizations.auth_login_text_noAccount} ",
                                   style: textTheme.bodyMedium),
                               TextSpan(
-                                text: appLocalizations.signup_button,
+                                text: appLocalizations.auth_login_link_signup,
                                 style:
                                     textTheme.bodyMedium!.toLinkStyle(context),
                                 recognizer: TapGestureRecognizer()
