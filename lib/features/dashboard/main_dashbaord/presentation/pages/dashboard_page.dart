@@ -77,7 +77,7 @@ class DashboardPage extends AppStatelessWidget {
                         width: 160,
                         child: ElevatedButton(
                           onPressed: () {
-                            // TODO navigate to add assest page
+                            context.goNamed(AppRoutes.addAssetsView);
                           },
                           child: const Text('Get Started'),
                         ),

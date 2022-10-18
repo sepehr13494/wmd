@@ -72,6 +72,12 @@ class AppThemes {
         listTileTheme: const ListTileThemeData(
           horizontalTitleGap: 0,
         ),
+        cardColor: brightness == Brightness.dark
+            ? AppColors.cardColor
+            : Colors.white,
+        dialogBackgroundColor: brightness == Brightness.dark
+            ? AppColors.cardColor
+            : Colors.white,
         checkboxTheme: CheckboxThemeData(
           fillColor: MaterialStateProperty.all(primaryColor),
           checkColor:
@@ -85,6 +91,15 @@ class AppThemes {
         seedColor: AppColors.primary,
         brightness: brightness,
       ),
+      textTheme: const TextTheme(
+        bodyLarge: TextStyle(height: 1.3),
+        bodySmall: TextStyle(height: 1.3),
+        bodyMedium: TextStyle(height: 1.3),
+        titleSmall: TextStyle(height: 1.3),
+        titleMedium: TextStyle(height: 1.3),
+        titleLarge: TextStyle(height: 1.3),
+        headlineSmall: TextStyle(height: 1.3),
+      )
     );
   }
 }
