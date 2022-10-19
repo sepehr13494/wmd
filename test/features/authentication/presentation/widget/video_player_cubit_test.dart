@@ -10,6 +10,11 @@
 // import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 // import 'package:wmd/features/authentication/presentation/widgets/video_player_widget/bloc/video_controller_cubit.dart';
 
+import 'package:flutter_test/flutter_test.dart';
+
+main(){
+  test('video player test',(){});
+}
 // import 'video_player_cubit_test.mocks.dart';
 
 // @GenerateMocks([VideoPlayerController, ChewieController],

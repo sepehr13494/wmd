@@ -80,11 +80,17 @@ class ResponsiveHelper {
       : isMobile
           ? 14
           : 18;
-  double get paddingForMobileTab => isDesktop
-      ? 48
-      : isMobile
-          ? 16
-          : 48;
+  EdgeInsets get paddingForMobileTab => isMobile
+      ? const EdgeInsets.fromLTRB(12, 48, 12, 48)
+      : const EdgeInsets.all(48);
+  EdgeInsets get marginForMobileTab => isMobile
+      ? const EdgeInsets.all(12)
+      : const EdgeInsets.fromLTRB(48, 12, 48, 0);
+
+  double getFontSize(fontSize, {multiplier = 1.2}) =>
+      isMobile ? fontSize * 1.0 : fontSize * multiplier;
+  double getLineHeight(fontSize, {multiplier = 1.2}) =>
+      isMobile ? fontSize * 1.0 : fontSize * multiplier;
 }
 
 class RowOrColumn extends StatelessWidget {
