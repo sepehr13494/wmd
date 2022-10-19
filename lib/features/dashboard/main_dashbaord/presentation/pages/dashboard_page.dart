@@ -46,27 +46,32 @@ class DashboardPage extends AppStatelessWidget {
             return LayoutBuilder(builder: (context, snap) {
               return SingleChildScrollView(
                 child: Container(
-                  padding: const EdgeInsets.fromLTRB(12, 48, 12, 48),
+                  padding: responsiveHelper.paddingForMobileTab,
                   decoration: BoxDecoration(
                       color: textTheme.bodySmall!.color!.withOpacity(0.05),
                       borderRadius: const BorderRadius.all(Radius.circular(6))),
-                  margin: const EdgeInsets.all(12),
+                  margin: responsiveHelper.marginForMobileTab,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'Link all your assets with ease',
-                        style:
-                            textTheme.headlineSmall!.apply(fontWeightDelta: 4),
+                        style: textTheme.headlineSmall!
+                            .apply(fontWeightDelta: 4)
+                            .copyWith(
+                                fontSize: responsiveHelper.getFontSize(30),
+                                height: responsiveHelper.getLineHeight(1.2)),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 16),
                       Text(
                         'Connect with your institutions to see updates for your assets and liabilities',
-                        style: textTheme.titleMedium!,
+                        style: textTheme.titleMedium!.copyWith(
+                            fontSize: responsiveHelper.getFontSize(20),
+                            height: responsiveHelper.getLineHeight(1.2)),
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 48),
+                      // const SizedBox(height: 48),
                       state is UserStatusLoaded &&
                               state.userStatus.loginAt == null
                           ? const Text('This is a first time user')
@@ -82,14 +87,6 @@ class DashboardPage extends AppStatelessWidget {
                           child: const Text('Get Started'),
                         ),
                       ),
-                      // const SizedBox(height: 24),
-                      // ElevatedButton(
-                      //   onPressed: () {
-                      //     // sl<LocalStorage>().logout();
-                      //     context.goNamed(AppRoutes.test);
-                      //   },
-                      //   child: Text('Naviagte'),
-                      // )
                     ],
                   ),
                 ),
