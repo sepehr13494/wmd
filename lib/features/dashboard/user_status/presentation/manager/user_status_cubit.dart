@@ -12,22 +12,23 @@ part 'user_status_state.dart';
 class UserStatusCubit extends Cubit<UserStatusState> {
   final GetUserStatusUseCase getUserStatusUseCase;
   final PutUserStatusUseCase putUserStatusUseCase;
+
   UserStatusCubit(this.getUserStatusUseCase, this.putUserStatusUseCase)
       : super(LoadingState());
 
   getUserStatus() async {
     emit(LoadingState());
     final result = await getUserStatusUseCase(NoParams());
-    result.fold(
-        (failure) => emit(ErrorState(failure: failure)),
-        (userStatusSuccess) => {
-              userStatusSuccess.loginAt ??
-                  postUserStatus(map: {
-                    "email": userStatusSuccess.email,
-                    "loginAt": CustomizableDateTime.currentDate
-                  }),
-              emit(UserStatusLoaded(userStatus: userStatusSuccess)),
-            });
+    result.fold((failure) => emit(ErrorState(failure: failure)),
+        (userStatusSuccess) {
+      if (userStatusSuccess.loginAt == null) {
+        postUserStatus(map: {
+          "email": userStatusSuccess.email,
+          "loginAt": CustomizableDateTime.currentDate
+        });
+      }
+      emit(UserStatusLoaded(userStatus: userStatusSuccess));
+    });
   }
 
   postUserStatus({required Map<String, dynamic> map}) async {

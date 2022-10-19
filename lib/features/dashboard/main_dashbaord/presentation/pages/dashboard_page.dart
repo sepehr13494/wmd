@@ -25,81 +25,64 @@ class DashboardPage extends AppStatelessWidget {
       body: BlocProvider(
         create: (context) => sl<UserStatusCubit>()..getUserStatus(),
         child: BlocConsumer<UserStatusCubit, UserStatusState>(
-          listener:
-              BlocHelper.defaultBlocListener(listener: (context, state) {}),
-          builder: (context, state) {
-            return LayoutBuilder(builder: (context, snap) {
-              return SingleChildScrollView(
-                child: state is LoadingState
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: snap.maxHeight,
-                            alignment: Alignment.center,
-                            child: const Center(
-                              child: LoadingWidget(),
-                            ),
-                          ),
-                        ],
-                      )
-                    : Container(
-                        padding: responsiveHelper.paddingForMobileTab,
-                        decoration: BoxDecoration(
-                            color:
-                                textTheme.bodySmall!.color!.withOpacity(0.05),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(6))),
-                        margin: responsiveHelper.marginForMobileTab,
-                        child: state is UserStatusLoaded &&
-                                state.userStatus.loginAt == null
-                            ? const Text(
-                                'This is a first time user and user should see Guided onboarding')
-                            : Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Link all your assets with ease',
-                                    style: textTheme.headlineSmall!
-                                        .apply(fontWeightDelta: 4)
-                                        .copyWith(
-                                            fontSize: responsiveHelper
-                                                .getFontSize(30),
-                                            height: responsiveHelper
-                                                .getLineHeight(1.2)),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  const SizedBox(height: 16),
-                                  Text(
-                                    'Connect with your institutions to see updates for your assets and liabilities',
-                                    style: textTheme.titleMedium!.copyWith(
-                                        fontSize:
-                                            responsiveHelper.getFontSize(20),
-                                        height: responsiveHelper
-                                            .getLineHeight(1.2)),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  // const SizedBox(height: 48),
-                                  EmptyStateDashboard(
-                                      responsiveHelper: responsiveHelper),
-                                  const SizedBox(height: 24),
-                                  SizedBox(
-                                    width: 160,
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        context
-                                            .goNamed(AppRoutes.addAssetsView);
-                                      },
-                                      child: const Text('Get Started'),
-                                    ),
-                                  ),
-                                ],
-                              ),
+          listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
+          builder: BlocHelper.defaultBlocBuilder(builder: (context, state) {
+            return SingleChildScrollView(
+              child: Container(
+                padding: responsiveHelper.paddingForMobileTab,
+                decoration: BoxDecoration(
+                    color:
+                    textTheme.bodySmall!.color!.withOpacity(0.05),
+                    borderRadius:
+                    const BorderRadius.all(Radius.circular(6))),
+                margin: responsiveHelper.marginForMobileTab,
+                child: state is UserStatusLoaded &&
+                    state.userStatus.loginAt == null
+                    ? const Text(
+                    'This is a first time user and user should see Guided onboarding')
+                    : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Link all your assets with ease',
+                      style: textTheme.headlineSmall!
+                          .apply(fontWeightDelta: 4)
+                          .copyWith(
+                          fontSize: responsiveHelper
+                              .getFontSize(30),
+                          height: responsiveHelper
+                              .getLineHeight(1.2)),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Connect with your institutions to see updates for your assets and liabilities',
+                      style: textTheme.titleMedium!.copyWith(
+                          fontSize:
+                          responsiveHelper.getFontSize(20),
+                          height: responsiveHelper
+                              .getLineHeight(1.2)),
+                      textAlign: TextAlign.center,
+                    ),
+                    // const SizedBox(height: 48),
+                    EmptyStateDashboard(
+                        responsiveHelper: responsiveHelper),
+                    const SizedBox(height: 24),
+                    SizedBox(
+                      width: 160,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          context
+                              .goNamed(AppRoutes.addAssetsView);
+                        },
+                        child: const Text('Get Started'),
                       ),
-              );
-            });
-          },
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }),
         ),
       ),
     );

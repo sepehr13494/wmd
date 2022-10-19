@@ -17,6 +17,7 @@ class EmptyStateDashboard extends AppStatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: RowOrColumn(
+        intrinsicRow: true,
         showRow: !responsiveHelper.isMobile,
         columnCrossAxisAlignment: CrossAxisAlignment.center,
         children: [
