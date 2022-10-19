@@ -7,9 +7,11 @@ class WidthLimiterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: BoxConstraints(maxWidth: width),
-      child: child,
+    return Center(
+      child: Container(
+        constraints: BoxConstraints(maxWidth: width),
+        child: child,
+      ),
     );
   }
 }

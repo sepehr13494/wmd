@@ -18,7 +18,7 @@ class AssetsListViewPage extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
     return Scaffold(
-      appBar: BaseAppBar(title: "add assets"),
+      appBar: BaseAppBar(title: "Add assets"),
       bottomSheet: Container(
         width: double.maxFinite,
         height: 60,
@@ -27,25 +27,36 @@ class AssetsListViewPage extends AppStatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
             children: [
-              isMobile ? const SizedBox() : Expanded(
-                child: Row(
-                  children: [
-                    const SupportWidget(),
-                    const SizedBox(width: 12),
-                    Expanded(child: Center(child: Text("You can add another asset on the next screen",style: textTheme.bodySmall,))),
-                    const SizedBox(width: 12),
-                  ],
-                ),
-              ),
+              isMobile
+                  ? const SizedBox()
+                  : Expanded(
+                      child: Row(
+                        children: [
+                          const SupportWidget(),
+                          const SizedBox(width: 12),
+                          Expanded(
+                              child: Center(
+                                  child: Text(
+                            "You can add another asset on the next screen",
+                            style: textTheme.bodySmall,
+                          ))),
+                          const SizedBox(width: 12),
+                        ],
+                      ),
+                    ),
               ExpandedIf(
                 expanded: isMobile,
                 child: SizedBox(
                   width: isMobile ? double.maxFinite : 300,
                   child: Row(
                     children: [
-                      Expanded(child: OutlinedButton(onPressed: (){}, child: Text("Back"))),
+                      Expanded(
+                          child: OutlinedButton(
+                              onPressed: () {}, child: Text("Back"))),
                       const SizedBox(width: 12),
-                      Expanded(child: ElevatedButton(onPressed: null, child: Text("Save Asset"))),
+                      Expanded(
+                          child: ElevatedButton(
+                              onPressed: null, child: Text("Save Asset"))),
                     ],
                   ),
                 ),
@@ -56,10 +67,16 @@ class AssetsListViewPage extends AppStatelessWidget {
       ),
       body: Stack(
         children: const [
-          LeafBackground(opacity: 0.5,),
+          LeafBackground(
+            opacity: 0.5,
+          ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
-            child: ResponsiveWidget(mobile: AddAssetMobileWidget(), desktop: AddAssetTabletView(), tablet: AddAssetTabletView(),),
+            child: ResponsiveWidget(
+              mobile: AddAssetMobileWidget(),
+              desktop: AddAssetTabletView(),
+              tablet: AddAssetTabletView(),
+            ),
           ),
         ],
       ),
@@ -75,7 +92,7 @@ class AddAssetTabletView extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Expanded(flex: 3,child: AddAssetTopWidget()),
+        const Expanded(flex: 3, child: AddAssetTopWidget()),
         const SizedBox(width: 16),
         Container(
           margin: const EdgeInsets.only(top: 24),
@@ -84,66 +101,85 @@ class AddAssetTabletView extends StatelessWidget {
           color: Theme.of(context).dividerColor,
         ),
         const SizedBox(width: 16),
-        Expanded(flex: ResponsiveHelper(context: context).isDesktop ? 6 : 4,child: const AddAssetMobileWidget())
+        Expanded(
+            flex: ResponsiveHelper(context: context).isDesktop ? 6 : 4,
+            child: const AddAssetMobileWidget())
       ],
     );
   }
 }
 
-
 class AddAssetMobileWidget extends AppStatelessWidget {
   const AddAssetMobileWidget({Key? key}) : super(key: key);
 
   @override
-  Widget buildWidget(BuildContext context,TextTheme textTheme, AppLocalizations appLocalizations) {
-    return NestedScrollView(headerSliverBuilder: (context, isInnerScroll){
-      return [
-        SliverList(delegate: SliverChildListDelegate([
-          ResponsiveHelper(context: context).isMobile? const AddAssetTopWidget() : const SizedBox(),
-          const ChooseAssetWidget(),
-        ]))
-      ];
-    }, body: DefaultTabController(
-      length: 2,
-      child: Column(
-        children: [
-          Row(
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
+    return NestedScrollView(
+        headerSliverBuilder: (context, isInnerScroll) {
+          return [
+            SliverList(
+                delegate: SliverChildListDelegate([
+              ResponsiveHelper(context: context).isMobile
+                  ? const AddAssetTopWidget()
+                  : const SizedBox(),
+              const ChooseAssetWidget(),
+            ]))
+          ];
+        },
+        body: DefaultTabController(
+          length: 2,
+          child: Column(
             children: [
-              SizedBox(
-                width: 300,
-                child: TabBar(tabs: [
-                  Tab(text: "assets"),
-                  Tab(text: "Libelity"),
-                ]),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 300,
+                    child: TabBar(tabs: [
+                      Tab(text: "Assets"),
+                      Tab(text: "Liability"),
+                    ]),
+                  ),
+                  Spacer(),
+                ],
               ),
-              Spacer(),
+              const Divider(
+                height: 0.5,
+                thickness: 0.5,
+              ),
+              Expanded(
+                  child: TabBarView(children: [
+                AssetsPart(isLiability: false),
+                AssetsPart(
+                  isLiability: true,
+                )
+              ]))
             ],
           ),
-          const Divider(height: 0.5,thickness: 0.5,),
-          Expanded(child: TabBarView(children: [
-            AssetsPart(isLiability: false),
-            AssetsPart(isLiability: true,)
-          ]))
-        ],
-      ),
-    ));
+        ));
   }
 }
-
 
 class ChooseAssetWidget extends AppStatelessWidget {
   const ChooseAssetWidget({Key? key}) : super(key: key);
 
   @override
-  Widget buildWidget(BuildContext context,TextTheme textTheme, AppLocalizations appLocalizations) {
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Choose an asset / Liabelty",style: textTheme.titleLarge,),
+          Text(
+            "Choose an asset / Liability",
+            style: textTheme.titleLarge,
+          ),
           const SizedBox(height: 8),
-          Text("you can add more later",style: textTheme.bodySmall,),
+          Text(
+            "you can add more later",
+            style: textTheme.bodySmall,
+          ),
         ],
       ),
     );
@@ -152,27 +188,55 @@ class ChooseAssetWidget extends AppStatelessWidget {
 
 class AssetsPart extends AppStatelessWidget {
   final bool isLiability;
-  const AssetsPart({Key? key,required this.isLiability}) : super(key: key);
+  const AssetsPart({Key? key, required this.isLiability}) : super(key: key);
 
   @override
-  Widget buildWidget(BuildContext context,TextTheme textTheme, AppLocalizations appLocalizations) {
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
     late List<EachAssetModel> assets;
-    if(isLiability){
+    if (isLiability) {
       assets = [
-        EachAssetModel(image: "assets/images/add_assets/bank_asset.svg", title: "Liability", description: loroIpsum)
+        EachAssetModel(
+            image: "assets/images/add_assets/bank_asset.svg",
+            title: "Liability",
+            description: loroIpsum)
       ];
-    }else{
+    } else {
       assets = [
-        EachAssetModel(image: "assets/images/add_assets/bank_asset.svg", title: "Bank Account", description: "Current account, savings account and term deposit accounts."),
-        EachAssetModel(image: "assets/images/add_assets/listed_asset.svg", title: "Listed assets", description: "Investments made in stocks, ETFs, bonds and mutual funds."),
-        EachAssetModel(image: "assets/images/add_assets/privet_debt.svg", title: "Private debt", description: "Asset defined by non-bank lending where debt is not issued or traded on the public markets"),
-        EachAssetModel(image: "assets/images/add_assets/real_estate.svg", title: "Real estate", description: "Current account, savings account and term deposit accounts."),
-        EachAssetModel(image: "assets/images/add_assets/private_equity.svg", title: "Private equity", description: "Current account, savings account and term deposit accounts."),
-        EachAssetModel(image: "assets/images/add_assets/others.svg", title: "Others", description: "Current account, savings account and term deposit accounts."),
+        EachAssetModel(
+            image: "assets/images/add_assets/bank_asset.svg",
+            title: "Bank Account",
+            description:
+                "Current account, savings account and term deposit accounts."),
+        EachAssetModel(
+            image: "assets/images/add_assets/listed_asset.svg",
+            title: "Listed assets",
+            description:
+                "Investments made in stocks, ETFs, bonds and mutual funds."),
+        EachAssetModel(
+            image: "assets/images/add_assets/privet_debt.svg",
+            title: "Private debt",
+            description:
+                "Asset defined by non-bank lending where debt is not issued or traded on the public markets"),
+        EachAssetModel(
+            image: "assets/images/add_assets/real_estate.svg",
+            title: "Real estate",
+            description:
+                "Current account, savings account and term deposit accounts."),
+        EachAssetModel(
+            image: "assets/images/add_assets/private_equity.svg",
+            title: "Private equity",
+            description:
+                "Current account, savings account and term deposit accounts."),
+        EachAssetModel(
+            image: "assets/images/add_assets/others.svg",
+            title: "Others",
+            description:
+                "Current account, savings account and term deposit accounts."),
       ];
     }
-    return  SingleChildScrollView(
+    return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -188,10 +252,14 @@ class AssetsPart extends AppStatelessWidget {
             ),
             itemCount: assets.length,
             itemBuilder: (BuildContext context, int index) {
-              return EachAssetWidget(eachAssetModel: assets[index],);
+              return EachAssetWidget(
+                eachAssetModel: assets[index],
+              );
             },
           ),
-          ResponsiveHelper(context: context).isMobile ? const SupportWidget() : const SizedBox(),
+          ResponsiveHelper(context: context).isMobile
+              ? const SupportWidget()
+              : const SizedBox(),
           const SizedBox(height: 84),
         ],
       ),
@@ -203,7 +271,8 @@ class AddAssetTopWidget extends AppStatelessWidget {
   const AddAssetTopWidget({Key? key}) : super(key: key);
 
   @override
-  Widget buildWidget(BuildContext context,TextTheme textTheme, AppLocalizations appLocalizations) {
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
     final primaryColor = Theme.of(context).primaryColor;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,13 +297,15 @@ class AddAssetTopWidget extends AppStatelessWidget {
               Row(
                 children: [
                   Image.asset(
-                      "assets/images/add_asset_view.png",width: 100,height: 100,),
+                    "assets/images/add_asset_view.png",
+                    width: 100,
+                    height: 100,
+                  ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       "Your privacy & data security is our utmost priority",
-                      style: textTheme.titleMedium!
-                          .apply(color: primaryColor),
+                      style: textTheme.titleMedium!.apply(color: primaryColor),
                     ),
                   )
                 ],
@@ -245,7 +316,8 @@ class AddAssetTopWidget extends AppStatelessWidget {
                   Expanded(
                     child: Text(
                       "Your credentials are never accessible to any other service. Your data is secured in transit using bank grade TLS 1.2 technology.",
-                      style: textTheme.bodyMedium!.apply(color: AppColors.dashBoardGreyTextColor),
+                      style: textTheme.bodyMedium!
+                          .apply(color: AppColors.dashBoardGreyTextColor),
                     ),
                   ),
                 ],
@@ -257,6 +329,3 @@ class AddAssetTopWidget extends AppStatelessWidget {
     );
   }
 }
-
-
-
