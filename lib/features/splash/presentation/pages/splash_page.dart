@@ -23,7 +23,7 @@ class _SplashPageState extends State<SplashPage> {
         listener: BlocHelper.defaultBlocListener(
           listener: (context, state) {
             if (state is SplashLoaded) {
-              context.goNamed(AppRoutes.addAssetsView);
+              context.goNamed(state.routeName);
             }
           },
         ),
@@ -31,7 +31,7 @@ class _SplashPageState extends State<SplashPage> {
           body: LayoutBuilder(builder: (context, snapShot) {
             return Center(
               child: SvgPicture.asset(
-                  "assets/images/logo.svg",
+                "assets/images/logo.svg",
                 width: snapShot.maxWidth * 0.7,
               ),
             );
