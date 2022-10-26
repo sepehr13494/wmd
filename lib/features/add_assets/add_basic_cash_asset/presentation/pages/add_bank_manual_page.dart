@@ -68,6 +68,7 @@ class AddBankManualPage extends AppStatelessWidget {
                             ),
                           ),
                           onChanged: (value) => field.didChange(value),
+                          selectedItem: field.value,
                         );
                       }, name: "country")
                     ),
