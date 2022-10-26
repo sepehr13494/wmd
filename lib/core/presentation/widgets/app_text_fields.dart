@@ -3,6 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/extentions/app_form_validators.dart';
+import 'package:wmd/core/presentation/widgets/search_text_field.dart';
 import 'package:wmd/core/util/app_stateless_widget.dart';
 
 enum TextFieldType {
@@ -92,6 +93,7 @@ class AppTextFields {
 
 class PasswordTextField extends StatefulWidget {
   final String? hint;
+
   const PasswordTextField({Key? key, this.hint}) : super(key: key);
 
   @override
@@ -107,7 +109,8 @@ class _PasswordTextFieldState extends AppState<PasswordTextField> {
     return AppTextFields.simpleTextField(
       name: "password",
       type: TextFieldType.password,
-      hint: widget.hint ?? appLocalizations.auth_signup_input_password_placeholder,
+      hint: widget.hint ??
+          appLocalizations.auth_signup_input_password_placeholder,
       obscureText: !visible,
       suffixIcon: IconButton(
         onPressed: () {
@@ -120,6 +123,69 @@ class _PasswordTextFieldState extends AppState<PasswordTextField> {
           color: Theme.of(context).primaryColor,
         ),
       ),
+    );
+  }
+}
+
+class SearchableDropDown extends StatefulWidget {
+  final List<String> items;
+
+  const SearchableDropDown({Key? key, required this.items}) : super(key: key);
+
+  @override
+  State<SearchableDropDown> createState() => _SearchableDropDownState();
+}
+
+class _SearchableDropDownState extends State<SearchableDropDown> {
+  List<String> searchedList = [];
+
+  @override
+  void initState() {
+    searchedList.addAll(widget.items);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FormBuilderDropdown(
+      name: "country",
+      decoration: InputDecoration(
+        hintText: "Type or select a country",
+      ),
+      items: List.generate(searchedList.length + 1, (index) {
+        if (index == 0) {
+          return DropdownMenuItem(
+            value: "search",
+            enabled: false,
+            child: SearchTextField(
+              delay: 0,
+              hint: "hint",
+              function: (val) {
+                if ((val ?? "").isNotEmpty) {
+                  setState(() {
+                    searchedList = [];
+                    for (var element in widget.items) {
+                      if (element.contains(val!)) {
+                        searchedList.add(element);
+                      }
+                    }
+                  });
+                } else {
+                  setState(() {
+                    searchedList = widget.items;
+                  });
+                }
+              },
+            ),
+          );
+        } else {
+          String item = searchedList[index - 1];
+          return DropdownMenuItem(
+            value: item,
+            child: Text(item),
+          );
+        }
+      }),
     );
   }
 }
