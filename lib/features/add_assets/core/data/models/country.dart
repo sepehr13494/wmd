@@ -1,4 +1,29 @@
-class Currencies{
+class Country {
+  final String name;
+  final String countryName;
+
+  Country({
+    required this.name,
+    required this.countryName,
+  });
+
+  factory Country.fromJson(Map<String, dynamic> json) => Country(
+    name: json["name"],
+    countryName: json["countryName"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "name": name,
+    "countryName": countryName,
+  };
+
+  @override
+  String toString() {
+    return "$name ($countryName)";
+  }
+
+  static final List<Country> countriesList = List.from(json.entries.map((e) => Country(name: e.key, countryName: e.value)));
+
   static const json = {
     "BD": "Bangladesh",
     "BE": "Belgium",

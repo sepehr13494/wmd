@@ -1,14 +1,13 @@
-import 'package:dropdown_search/dropdown_search.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
-import 'package:wmd/core/presentation/widgets/search_text_field.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/util/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/features/add_assets/add_basic_cash_asset/data/data_sources/countries.dart';
-import 'package:wmd/features/add_assets/add_basic_cash_asset/data/data_sources/currencies.dart';
+import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 
 class AddBankManualPage extends AppStatelessWidget {
   const AddBankManualPage({Key? key}) : super(key: key);
@@ -38,11 +37,10 @@ class AddBankManualPage extends AppStatelessWidget {
                       "Fill in your cash details",
                       style: textTheme.titleMedium,
                     ),
-                    EachTextField(
+                    const EachTextField(
                       hasInfo: false,
                       title: "Bank Name",
-                      child: AppTextFields.simpleTextField(
-                          name: "bankName", hint: "Your bank name"),
+                      child: FormBuilderTypeAhead(name: "bank", hint: "bank hint", items: ["bank1","bank 2", "ARbsdfw"])
                     ),
                     EachTextField(
                       hasInfo: false,
@@ -51,60 +49,34 @@ class AddBankManualPage extends AppStatelessWidget {
                           name: "description",
                           hint: "A nickname you give to your account"),
                     ),
-                    EachTextField(
+                    const EachTextField(
                       hasInfo: false,
                       title: "Country",
-                      child: FormBuilderField<String?>(builder: (FormFieldState field){
-                        return DropdownSearch<String>(
-                          popupProps: PopupProps.menu(
-                            showSelectedItems: true,
-                            showSearchBox: true,
-                            disabledItemFn: (String s) => s.startsWith('I'),
-                          ),
-                          items: ["Brazil", "Italia (Disabled)", "Tunisia", 'Canada'],
-                          dropdownDecoratorProps: DropDownDecoratorProps(
-                            dropdownSearchDecoration: InputDecoration(
-                              hintText: "country in menu mode",
-                            ),
-                          ),
-                          onChanged: (value) => field.didChange(value),
-                          selectedItem: field.value,
-                        );
-                      }, name: "country")
+                      child: CountriesDropdown(),
                     ),
-                    ElevatedButton(onPressed: (){
-                      print(formKey.currentState!.instantValue);
-                    }, child: Text("confirm"))
-                  ].map((e) => Padding(padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),child: e,)).toList(),
+                    const EachTextField(
+                      hasInfo: false,
+                      title: "currency",
+                      child: CurrenciesDropdown(),
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          print(formKey.currentState!.instantValue);
+                        },
+                        child: Text("confirm"))
+                  ]
+                      .map((e) => Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 16),
+                            child: e,
+                          ))
+                      .toList(),
                 ),
               ),
             ),
           ),
         ],
       ),
-    );
-  }
-}
-
-class EachTextField extends StatelessWidget {
-  final String title;
-  final bool hasInfo;
-  final void Function()? onInfoTap;
-  final Widget child;
-
-  const EachTextField(
-      {Key? key,
-      required this.title,
-      this.hasInfo = true,
-      this.onInfoTap,
-      required this.child})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [Text(title), const SizedBox(height: 8), child],
     );
   }
 }
