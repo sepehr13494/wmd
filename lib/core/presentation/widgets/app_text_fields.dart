@@ -78,15 +78,16 @@ class AppTextFields {
   }
 
   static FormBuilderDropdown dropDownTextField({
-    required String title,
+    required String name,
+    required String hint,
     required List<DropdownMenuItem> items,
     bool enabled = true,
   }) {
     return FormBuilderDropdown(
-      name: title,
+      name: name,
       enabled: enabled,
       decoration: InputDecoration(
-        labelText: title,
+        hintText: hint,
       ),
       items: items,
       validator: FormBuilderValidators.required(),
