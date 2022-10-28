@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
@@ -50,7 +52,9 @@ class AutoManualPage extends AppStatelessWidget {
                     title: "Enter manually",
                     description:
                     "Quickly add your checking or savings account. TFO will never sell your personal date and only use it with your permission.",
-                    onTap: () {},
+                    onTap: () {
+                      context.pushNamed(AppRoutes.addBankManualPage);
+                    },
                     buttonText: "Enter manually",
                   ),
                   const SupportWidget(),
