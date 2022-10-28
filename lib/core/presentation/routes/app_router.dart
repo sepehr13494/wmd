@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
+import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/pages/add_bank_manual_page.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/pages/assets_list_view_page.dart';
+import 'package:wmd/features/add_assets/view_assets_list/presentation/pages/auto_manual_page.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/forget_password_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/login_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/register_page.dart';
@@ -76,6 +78,22 @@ class AppRouter {
             builder: (BuildContext context, GoRouterState state) {
               return const AssetsListViewPage();
             },
+            routes: [
+              GoRoute(
+                name: AppRoutes.autoManualPage,
+                path: "auto_manual",
+                builder: (BuildContext context, GoRouterState state) {
+                  return const AutoManualPage();
+                },
+              ),
+              GoRoute(
+                name: AppRoutes.addBankManualPage,
+                path: "add_manual_bank",
+                builder: (BuildContext context, GoRouterState state) {
+                  return const AddBankManualPage();
+                },
+              ),
+            ]
           ),
         ]
       ),

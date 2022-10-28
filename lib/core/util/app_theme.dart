@@ -34,6 +34,7 @@ class AppThemes {
         primaryColor: primaryColor,
         appBarTheme: AppBarTheme(
           elevation: 0,
+          centerTitle: true,
           backgroundColor: brightness == Brightness.dark
               ? AppColors.backgroundColorPageDark
               : Colors.white,
