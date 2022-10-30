@@ -7,11 +7,15 @@ class AppUrls {
   static String baseUrl = dotenv.env['BASE_URL']!;
   static const String refreshUrl = "";
 
+  // Base Paths
+  static String baseAuth = dotenv.env['BASE_URL_AUTH']!;
+  static String baseUser = dotenv.env['BASE_URL_USER']!;
+
   //other urls
-  static const String registerUser = "auth/client/sign-up";
-  static const String resendEmail = "auth/send-verification-email";
-  static const String loginUser = "auth/client/token";
-  static const String verifyEmail = "auth/verify-email";
-  static const String forgetPassword = "auth/client/reset-password";
-  static const String getUserStatus = "wmo-user/user";
+  static String registerUser = "${baseAuth}client/sign-up";
+  static String resendEmail = "${baseAuth}send-verification-email";
+  static String loginUser = "${baseAuth}client/token";
+  static String verifyEmail = "${baseAuth}verify-email";
+  static String forgetPassword = "${baseAuth}client/reset-password";
+  static String getUserStatus = "${baseUser}user";
 }
