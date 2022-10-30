@@ -176,6 +176,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.2"
+  countries_world_map:
+    dependency: "direct main"
+    description:
+      name: countries_world_map
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.7"
   coverage:
     dependency: transitive
     description:
@@ -344,6 +351,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  fl_chart:
+    dependency: "direct main"
+    description:
+      name: fl_chart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.55.2"
   flutter:
     dependency: "direct main"
     description: flutter
