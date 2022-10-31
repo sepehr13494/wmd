@@ -70,7 +70,7 @@ class AppRouter {
         name: AppRoutes.dashboard,
         path: "/dashboard",
         builder: (BuildContext context, GoRouterState state) {
-          return const DashboardMainPage();
+          return const DashboardPage();
         },
         routes: [
           GoRoute(

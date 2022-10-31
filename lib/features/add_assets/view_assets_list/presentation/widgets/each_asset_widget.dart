@@ -1,19 +1,26 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/features/add_assets/view_assets_list/presentation/pages/dummy_page.dart';
+import 'package:wmd/features/add_assets/view_assets_list/presentation/manager/asset_view_cubit.dart';
 
-class EachAssetModel {
+class EachAssetModel extends Equatable{
+  final int id;
   final String image;
   final String title;
   final String description;
 
-  EachAssetModel({
+  const EachAssetModel({
+    required this.id,
     required this.image,
     required this.title,
     required this.description,
   });
+
+  @override
+  List<Object?> get props => [id];
 }
 
 class EachAssetWidget extends AppStatelessWidget {
@@ -23,13 +30,18 @@ class EachAssetWidget extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    final borderAsset = context.watch<AssetViewCubit>().state;
     return InkWell(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => DummyPage(title: eachAssetModel.title),));
+        context.read<AssetViewCubit>().selectAsset(eachAssetModel);
       },
       child: Card(
         margin: const EdgeInsets.symmetric(horizontal: 16,vertical: 4),
-        child: Padding(
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            border: borderAsset != eachAssetModel ? null : Border.all(color: Theme.of(context).primaryColor)
+          ),
           padding: const EdgeInsets.all(12),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
