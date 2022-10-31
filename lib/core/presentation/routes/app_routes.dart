@@ -19,4 +19,5 @@ class AppRoutes {
   static const String addAssetsView = "add_assets_view";
   static const String autoManualPage = "auto_manual";
   static const String addBankManualPage = "add_manual_bank";
+
 }

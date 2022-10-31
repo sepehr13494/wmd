@@ -12,6 +12,7 @@ class AppColors {
   static const Color dashBoardGreyTextColor = Color(0xFF828282);
   static const Color dashboardDividerColor = Color(0xFF979797);
   static const Color cardColor = Color(0xFF222222);
+  static const Color chartColor = Color(0xFF769EA7);
 }
 
 class HexColor extends Color {
