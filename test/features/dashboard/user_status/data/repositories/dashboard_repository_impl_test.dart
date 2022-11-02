@@ -72,8 +72,8 @@ void main() {
         final result = await dashboardRepositoryImpl
             .putUserStatus(UserStatus.tUserStatusParam);
         // assert
-        verify(
-            dashboardRepositoryImpl.putUserStatus(UserStatus.tUserStatusParam));
+        verify(mockUserStatusRemoteDataSource
+            .putUserStatus(UserStatus.tUserStatusParam));
         expect(result, equals(Right(UserStatus.tUserStatus)));
       },
     );
