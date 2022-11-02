@@ -49,6 +49,7 @@ class AppTextFields {
         break;
     }
     return FormBuilderTextField(
+      scrollPadding: const EdgeInsets.only(top: 20,right: 20,left: 20,bottom: 90),
       name: name,
       minLines: minLines ?? 1,
       maxLines: (type == TextFieldType.password) ? 1 : 5,
@@ -78,14 +79,16 @@ class AppTextFields {
   }
 
   static FormBuilderDropdown dropDownTextField({
-    required String name,
-    required String hint,
-    required List<DropdownMenuItem> items,
+    required final String name,
+    required final String hint,
+    final ValueChanged? onChanged,
+    required final List<DropdownMenuItem> items,
     bool enabled = true,
   }) {
     return FormBuilderDropdown(
       name: name,
       enabled: enabled,
+      onChanged: onChanged,
       decoration: InputDecoration(
         hintText: hint,
       ),
@@ -227,6 +230,7 @@ class _FormBuilderTypeAheadState extends State<FormBuilderTypeAhead> {
           typeController.text = suggestion;
           state.didChange(suggestion);
         },
+        hideOnEmpty: true,
       );
     }, name: widget.name);
   }
