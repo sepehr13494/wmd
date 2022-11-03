@@ -22,6 +22,7 @@ class AppTextFields {
   static FormBuilderTextField simpleTextField({
     required String name,
     TextFieldType type = TextFieldType.simpleText,
+    GlobalKey<FormBuilderFieldState>? key,
     String? title,
     String? hint,
     TextInputType keyboardType = TextInputType.text,
@@ -30,6 +31,7 @@ class AppTextFields {
     bool obscureText = false,
     Widget? suffixIcon,
     bool required = true,
+    onChanged,
   }) {
     final validators = <String? Function(String?)>[];
     if (required) {
@@ -49,6 +51,7 @@ class AppTextFields {
         break;
     }
     return FormBuilderTextField(
+      key: key,
       name: name,
       minLines: minLines ?? 1,
       maxLines: (type == TextFieldType.password) ? 1 : 5,
@@ -61,6 +64,7 @@ class AppTextFields {
       autofillHints:
           _getAutofillHint(type) == null ? null : [_getAutofillHint(type)!],
       validator: FormBuilderValidators.compose(validators),
+      onChanged: onChanged,
     );
   }
 
@@ -105,14 +109,10 @@ class CurrenciesDropdown extends StatelessWidget {
       hint: "currnecy hint",
       items: Currency.currenciesList,
       itemAsString: (Currency currency) =>
-      "${currency.name} (${currency.symbol})",
+          "${currency.name} (${currency.symbol})",
       filterFn: (currency, string) {
-        return (currency.name
-            .toLowerCase()
-            .contains(string.toLowerCase()) ||
-            currency.symbol
-                .toLowerCase()
-                .contains(string.toLowerCase()));
+        return (currency.name.toLowerCase().contains(string.toLowerCase()) ||
+            currency.symbol.toLowerCase().contains(string.toLowerCase()));
       },
       itemBuilder: (context, currency, _) {
         return Padding(
@@ -124,7 +124,6 @@ class CurrenciesDropdown extends StatelessWidget {
   }
 }
 
-
 class CountriesDropdown extends StatelessWidget {
   const CountriesDropdown({Key? key}) : super(key: key);
 
@@ -134,15 +133,10 @@ class CountriesDropdown extends StatelessWidget {
       name: "country",
       hint: "country hint",
       items: Country.countriesList,
-      itemAsString: (country) =>
-      "${country.name} (${country.countryName})",
+      itemAsString: (country) => "${country.name} (${country.countryName})",
       filterFn: (country, string) {
-        return (country.name
-            .toLowerCase()
-            .contains(string.toLowerCase()) ||
-            country.countryName
-                .toLowerCase()
-                .contains(string.toLowerCase()));
+        return (country.name.toLowerCase().contains(string.toLowerCase()) ||
+            country.countryName.toLowerCase().contains(string.toLowerCase()));
       },
       itemBuilder: (context, country, _) {
         return Padding(
@@ -154,7 +148,6 @@ class CountriesDropdown extends StatelessWidget {
   }
 }
 
-
 class FormBuilderSearchableDropdown<T> extends StatelessWidget {
   final String name;
   final String hint;
@@ -163,28 +156,36 @@ class FormBuilderSearchableDropdown<T> extends StatelessWidget {
   final DropdownSearchPopupItemBuilder<T>? itemBuilder;
   final List<T> items;
 
-  const FormBuilderSearchableDropdown({Key? key, required this.name, required this.hint, this.itemAsString, this.filterFn, this.itemBuilder, required this.items}) : super(key: key);
+  const FormBuilderSearchableDropdown(
+      {Key? key,
+      required this.name,
+      required this.hint,
+      this.itemAsString,
+      this.filterFn,
+      this.itemBuilder,
+      required this.items})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return FormBuilderField<T>(builder: (FormFieldState field){
-      return DropdownSearch<T>(
-        itemAsString: itemAsString,
-        filterFn: filterFn,
-        popupProps: PopupProps.menu(
-            showSearchBox: true,
-            itemBuilder: itemBuilder
-        ),
-        items: items,
-        dropdownDecoratorProps: DropDownDecoratorProps(
-          dropdownSearchDecoration: InputDecoration(
-            hintText: hint,
-          ),
-        ),
-        onChanged: (value) => field.didChange(value),
-        selectedItem: field.value,
-      );
-    }, name: name);
+    return FormBuilderField<T>(
+        builder: (FormFieldState field) {
+          return DropdownSearch<T>(
+            itemAsString: itemAsString,
+            filterFn: filterFn,
+            popupProps:
+                PopupProps.menu(showSearchBox: true, itemBuilder: itemBuilder),
+            items: items,
+            dropdownDecoratorProps: DropDownDecoratorProps(
+              dropdownSearchDecoration: InputDecoration(
+                hintText: hint,
+              ),
+            ),
+            onChanged: (value) => field.didChange(value),
+            selectedItem: field.value,
+          );
+        },
+        name: name);
   }
 }
 
@@ -192,52 +193,61 @@ class FormBuilderTypeAhead extends StatefulWidget {
   final String name;
   final String hint;
   final List<String> items;
-  const FormBuilderTypeAhead({Key? key, required this.name, required this.items, required this.hint}) : super(key: key);
+  const FormBuilderTypeAhead(
+      {Key? key, required this.name, required this.items, required this.hint})
+      : super(key: key);
 
   @override
   State<FormBuilderTypeAhead> createState() => _FormBuilderTypeAheadState();
 }
 
 class _FormBuilderTypeAheadState extends State<FormBuilderTypeAhead> {
-
   TextEditingController typeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return FormBuilderField<String?>(builder: (state){
-      return TypeAheadField(
-        animationStart: 0,
-        animationDuration: Duration.zero,
-        textFieldConfiguration: TextFieldConfiguration(
-          decoration: InputDecoration(
-            hintText: widget.hint,
-          ),
-          controller: typeController,
-          onChanged: (value){
-            state.didChange(value);
-          },
-        ),
-        suggestionsCallback: (pattern) {
-          return widget.items.where((element) => element.toLowerCase().contains(pattern.toLowerCase()));
+    return FormBuilderField<String?>(
+        builder: (state) {
+          return TypeAheadField(
+            animationStart: 0,
+            animationDuration: Duration.zero,
+            textFieldConfiguration: TextFieldConfiguration(
+              decoration: InputDecoration(
+                hintText: widget.hint,
+              ),
+              controller: typeController,
+              onChanged: (value) {
+                state.didChange(value);
+              },
+            ),
+            suggestionsCallback: (pattern) {
+              return widget.items.where((element) =>
+                  element.toLowerCase().contains(pattern.toLowerCase()));
+            },
+            itemBuilder: (context, suggestion) {
+              return Padding(
+                padding: const EdgeInsets.all(8),
+                child: Text(suggestion),
+              );
+            },
+            onSuggestionSelected: (suggestion) {
+              typeController.text = suggestion;
+              state.didChange(suggestion);
+            },
+          );
         },
-        itemBuilder: (context, suggestion) {
-          return Padding(padding: const EdgeInsets.all(8),child: Text(suggestion),);
-        },
-        onSuggestionSelected: (suggestion) {
-          typeController.text = suggestion;
-          state.didChange(suggestion);
-        },
-      );
-    }, name: widget.name);
+        name: widget.name);
   }
 }
 
-
-
+// ignore: must_be_immutable
 class PasswordTextField extends StatefulWidget {
   final String? hint;
+  final GlobalKey<FormBuilderFieldState>? passwordKey;
+  Function? onChange;
 
-  const PasswordTextField({Key? key, this.hint}) : super(key: key);
+  PasswordTextField({Key? key, this.hint, this.onChange, this.passwordKey})
+      : super(key: key);
 
   @override
   AppState<PasswordTextField> createState() => _PasswordTextFieldState();
@@ -249,23 +259,29 @@ class _PasswordTextFieldState extends AppState<PasswordTextField> {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    return AppTextFields.simpleTextField(
-      name: "password",
-      type: TextFieldType.password,
-      hint: widget.hint ??
-          appLocalizations.auth_signup_input_password_placeholder,
-      obscureText: !visible,
-      suffixIcon: IconButton(
-        onPressed: () {
-          setState(() {
-            visible = !visible;
-          });
-        },
-        icon: Icon(
-          visible ? Icons.remove_red_eye_outlined : Icons.remove_red_eye,
-          color: Theme.of(context).primaryColor,
-        ),
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AppTextFields.simpleTextField(
+            key: widget.passwordKey,
+            name: "password",
+            type: TextFieldType.password,
+            hint: widget.hint ??
+                appLocalizations.auth_signup_input_password_placeholder,
+            obscureText: !visible,
+            suffixIcon: IconButton(
+              onPressed: () {
+                setState(() {
+                  visible = !visible;
+                });
+              },
+              icon: Icon(
+                visible ? Icons.remove_red_eye_outlined : Icons.remove_red_eye,
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+            onChanged: widget.onChange),
+      ],
     );
   }
 }

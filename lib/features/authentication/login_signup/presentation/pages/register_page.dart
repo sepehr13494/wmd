@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wmd/core/extentions/app_form_validators.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
@@ -13,9 +16,9 @@ import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/util/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_register_usecase.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/manager/login_sign_up_cubit.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
+import 'package:wmd/features/authentication/login_signup/presentation/widgets/password_validation.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/terms_widget.dart';
 import 'package:wmd/injection_container.dart';
 
@@ -29,10 +32,44 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends AppState<RegisterPage> {
   bool termsChecked = false;
   final formKey = GlobalKey<FormBuilderState>();
+  final passwordFieldKey = GlobalKey<FormBuilderFieldState>();
+  bool lowercase = false,
+      uppercase = false,
+      numbers = false,
+      special = false,
+      length = false;
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    void validatePassword(dynamic value) {
+      if (value == null || value == '') {
+        setState(() {
+          lowercase = false;
+          uppercase = false;
+          numbers = false;
+          special = false;
+          length = false;
+        });
+      }
+
+      setState(() {
+        lowercase = AppFormValidators.checkLowerCaseValidation(value);
+        uppercase = AppFormValidators.checkUpperCaseValidation(value);
+        numbers = AppFormValidators.checkNumberValidation(value);
+        special = AppFormValidators.specialCharsValidation(value);
+        length = AppFormValidators.lengthValidation(value);
+      });
+    }
+
+    void onPasswordChange(String? e) {
+      validatePassword(passwordFieldKey.currentState?.value);
+    }
+
+    bool checkPasswordValidity() {
+      return (lowercase && uppercase && special && length);
+    }
+
     return BlocProvider(
       create: (context) => sl<LoginSignUpCubit>(),
       child: Scaffold(
@@ -42,7 +79,9 @@ class _RegisterPageState extends AppState<RegisterPage> {
             listener: BlocHelper.defaultBlocListener(
               listener: (context, state) {
                 if (state is SuccessState) {
-                  context.goNamed(AppRoutes.verifyEmail,queryParams: {"email":formKey.currentState!.instantValue["email"]});
+                  context.goNamed(AppRoutes.verifyEmail, queryParams: {
+                    "email": formKey.currentState!.instantValue["email"]
+                  });
                 }
               },
             ),
@@ -54,10 +93,13 @@ class _RegisterPageState extends AppState<RegisterPage> {
                     SingleChildScrollView(
                       child: FormBuilder(
                         key: formKey,
+                        // autovalidateMode: true,
                         child: Column(
                           children: [
                             const SizedBox(height: 24),
-                            Text(appLocalizations.auth_signup_button_createAccount,
+                            Text(
+                                appLocalizations
+                                    .auth_signup_button_createAccount,
                                 style: textTheme.headlineSmall),
                             Text(appLocalizations.auth_signup_subHeading,
                                 style: textTheme.bodyMedium),
@@ -67,11 +109,26 @@ class _RegisterPageState extends AppState<RegisterPage> {
                                 children: [
                                   AppTextFields.simpleTextField(
                                     name: "email",
-                                    hint: appLocalizations.auth_signup_input_email_placeholder,
+                                    hint: appLocalizations
+                                        .auth_signup_input_email_placeholder,
                                     type: TextFieldType.email,
                                   ),
                                   const SizedBox(height: 16),
-                                  const PasswordTextField()
+                                  PasswordTextField(
+                                    passwordKey: passwordFieldKey,
+                                    onChange: onPasswordChange,
+                                  ),
+                                  const SizedBox(height: 10),
+                                  if (passwordFieldKey.currentState?.value !=
+                                          null &&
+                                      !checkPasswordValidity())
+                                    PasswordValidation(
+                                      lowercase: lowercase,
+                                      uppercase: uppercase,
+                                      numbers: numbers,
+                                      special: special,
+                                      length: length,
+                                    )
                                 ],
                               ),
                             ),
@@ -95,12 +152,18 @@ class _RegisterPageState extends AppState<RegisterPage> {
                                                 "${appLocalizations.auth_signup_checkbox_label} ",
                                             style: textTheme.bodySmall),
                                         TextSpan(
-                                          text: appLocalizations.auth_signup_checkbox_termsService,
+                                          text: appLocalizations
+                                              .auth_signup_checkbox_termsService,
                                           style: textTheme.bodySmall!
                                               .toLinkStyle(context),
                                           recognizer: TapGestureRecognizer()
                                             ..onTap = () {
-                                              Navigator.push(context, MaterialPageRoute(builder: (context) => const TermsWidget(),)).then((value) {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const TermsWidget(),
+                                                  )).then((value) {
                                                 if (value ?? false) {
                                                   formKey.currentState!
                                                       .patchValue(
@@ -131,7 +194,8 @@ class _RegisterPageState extends AppState<RegisterPage> {
                                         }
                                       }
                                     : null,
-                                child: Text(appLocalizations.auth_signup_button_submit)),
+                                child: Text(appLocalizations
+                                    .auth_signup_button_submit)),
                             Padding(
                               padding: const EdgeInsets.all(16),
                               child: Row(
@@ -144,7 +208,8 @@ class _RegisterPageState extends AppState<RegisterPage> {
                                   const SizedBox(width: 8),
                                   Expanded(
                                     child: Text(
-                                      appLocalizations.auth_signup_safeandsecure_title,
+                                      appLocalizations
+                                          .auth_signup_safeandsecure_title,
                                       style: textTheme.titleMedium!
                                           .copyWith(height: 1.3),
                                     ),
@@ -155,7 +220,8 @@ class _RegisterPageState extends AppState<RegisterPage> {
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text(appLocalizations.auth_verify_text_alreadyVerified),
+                                Text(appLocalizations
+                                    .auth_verify_text_alreadyVerified),
                                 TextButton(
                                     onPressed: () {
                                       context.goNamed(AppRoutes.login);
