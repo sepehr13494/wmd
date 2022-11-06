@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -93,7 +91,7 @@ class _RegisterPageState extends AppState<RegisterPage> {
                     SingleChildScrollView(
                       child: FormBuilder(
                         key: formKey,
-                        // autovalidateMode: true,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         child: Column(
                           children: [
                             const SizedBox(height: 24),
@@ -177,7 +175,9 @@ class _RegisterPageState extends AppState<RegisterPage> {
                               ),
                             ),
                             ElevatedButton(
-                                onPressed: termsChecked
+                                onPressed: termsChecked &&
+                                        checkPasswordValidity() &&
+                                        formKey.currentState!.isValid
                                     ? () {
                                         if (formKey.currentState!.validate()) {
                                           Map<String, dynamic> map = formKey
@@ -216,22 +216,6 @@ class _RegisterPageState extends AppState<RegisterPage> {
                                   )
                                 ],
                               ),
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(appLocalizations
-                                    .auth_verify_text_alreadyVerified),
-                                TextButton(
-                                    onPressed: () {
-                                      context.goNamed(AppRoutes.login);
-                                    },
-                                    child: Text(
-                                      appLocalizations.auth_signup_link_login,
-                                      style: textTheme.bodyText1!
-                                          .toLinkStyle(context),
-                                    ))
-                              ],
                             ),
                           ]
                               .map((e) => Padding(

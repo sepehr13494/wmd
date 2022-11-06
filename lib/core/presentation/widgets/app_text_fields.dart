@@ -34,6 +34,7 @@ class AppTextFields {
     onChanged,
   }) {
     final validators = <String? Function(String?)>[];
+
     if (required) {
       validators.add(FormBuilderValidators.required());
     }
@@ -42,8 +43,8 @@ class AppTextFields {
         validators.add(FormBuilderValidators.email());
         break;
       case TextFieldType.password:
-        validators.add(FormBuilderValidators.minLength(8));
-        validators.add(AppFormValidators.validatePassword());
+        // validators.add(FormBuilderValidators.minLength(8));
+        // validators.add(AppFormValidators.validatePassword());
         break;
       case TextFieldType.phone:
         break;
