@@ -6,6 +6,8 @@ import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/data/models/bank_save_response_model.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/entities/bank_save_response.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/repositories/bank_repository.dart';
+import 'package:wmd/features/add_assets/core/data/models/country.dart';
+import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 
 class PostBankDetailsUseCase extends UseCase<BankSaveResponse, BankSaveParams> {
   final BankRepository bankRepository;
@@ -58,10 +60,10 @@ class BankSaveParams extends Equatable {
         isActive: json["isActive"],
         owner: json["owner"],
         bankName: json["bankName"],
-        country: json["country"],
+        country: (json["country"] as Country).countryName,
         description: json["description"],
         accountType: json["accountType"],
-        currencyCode: json["currencyCode"],
+        currencyCode: (json["currencyCode"] as Currency).symbol,
         currentBalance: json["currentBalance"].toDouble(),
         isJointAccount: json["isJointAccount"],
         noOfCoOwners: json["noOfCoOwners"],

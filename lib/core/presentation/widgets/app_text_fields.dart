@@ -49,7 +49,8 @@ class AppTextFields {
         break;
     }
     return FormBuilderTextField(
-      scrollPadding: const EdgeInsets.only(top: 20,right: 20,left: 20,bottom: 90),
+      scrollPadding:
+          const EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 90),
       name: name,
       minLines: minLines ?? 1,
       maxLines: (type == TextFieldType.password) ? 1 : 5,
@@ -104,18 +105,14 @@ class CurrenciesDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FormBuilderSearchableDropdown<Currency>(
-      name: "currency",
+      name: "currencyCode",
       hint: "currnecy hint",
       items: Currency.currenciesList,
       itemAsString: (Currency currency) =>
-      "${currency.name} (${currency.symbol})",
+          "${currency.name} (${currency.symbol})",
       filterFn: (currency, string) {
-        return (currency.name
-            .toLowerCase()
-            .contains(string.toLowerCase()) ||
-            currency.symbol
-                .toLowerCase()
-                .contains(string.toLowerCase()));
+        return (currency.name.toLowerCase().contains(string.toLowerCase()) ||
+            currency.symbol.toLowerCase().contains(string.toLowerCase()));
       },
       itemBuilder: (context, currency, _) {
         return Padding(
@@ -127,7 +124,6 @@ class CurrenciesDropdown extends StatelessWidget {
   }
 }
 
-
 class CountriesDropdown extends StatelessWidget {
   const CountriesDropdown({Key? key}) : super(key: key);
 
@@ -137,15 +133,10 @@ class CountriesDropdown extends StatelessWidget {
       name: "country",
       hint: "country hint",
       items: Country.countriesList,
-      itemAsString: (country) =>
-      "${country.name} (${country.countryName})",
+      itemAsString: (country) => "${country.name} (${country.countryName})",
       filterFn: (country, string) {
-        return (country.name
-            .toLowerCase()
-            .contains(string.toLowerCase()) ||
-            country.countryName
-                .toLowerCase()
-                .contains(string.toLowerCase()));
+        return (country.name.toLowerCase().contains(string.toLowerCase()) ||
+            country.countryName.toLowerCase().contains(string.toLowerCase()));
       },
       itemBuilder: (context, country, _) {
         return Padding(
@@ -157,7 +148,6 @@ class CountriesDropdown extends StatelessWidget {
   }
 }
 
-
 class FormBuilderSearchableDropdown<T> extends StatelessWidget {
   final String name;
   final String hint;
@@ -166,28 +156,36 @@ class FormBuilderSearchableDropdown<T> extends StatelessWidget {
   final DropdownSearchPopupItemBuilder<T>? itemBuilder;
   final List<T> items;
 
-  const FormBuilderSearchableDropdown({Key? key, required this.name, required this.hint, this.itemAsString, this.filterFn, this.itemBuilder, required this.items}) : super(key: key);
+  const FormBuilderSearchableDropdown(
+      {Key? key,
+      required this.name,
+      required this.hint,
+      this.itemAsString,
+      this.filterFn,
+      this.itemBuilder,
+      required this.items})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return FormBuilderField<T>(builder: (FormFieldState field){
-      return DropdownSearch<T>(
-        itemAsString: itemAsString,
-        filterFn: filterFn,
-        popupProps: PopupProps.menu(
-            showSearchBox: true,
-            itemBuilder: itemBuilder
-        ),
-        items: items,
-        dropdownDecoratorProps: DropDownDecoratorProps(
-          dropdownSearchDecoration: InputDecoration(
-            hintText: hint,
-          ),
-        ),
-        onChanged: (value) => field.didChange(value),
-        selectedItem: field.value,
-      );
-    }, name: name);
+    return FormBuilderField<T>(
+        builder: (FormFieldState field) {
+          return DropdownSearch<T>(
+            itemAsString: itemAsString,
+            filterFn: filterFn,
+            popupProps:
+                PopupProps.menu(showSearchBox: true, itemBuilder: itemBuilder),
+            items: items,
+            dropdownDecoratorProps: DropDownDecoratorProps(
+              dropdownSearchDecoration: InputDecoration(
+                hintText: hint,
+              ),
+            ),
+            onChanged: (value) => field.didChange(value),
+            selectedItem: field.value,
+          );
+        },
+        name: name);
   }
 }
 
@@ -195,48 +193,53 @@ class FormBuilderTypeAhead extends StatefulWidget {
   final String name;
   final String hint;
   final List<String> items;
-  const FormBuilderTypeAhead({Key? key, required this.name, required this.items, required this.hint}) : super(key: key);
+  const FormBuilderTypeAhead(
+      {Key? key, required this.name, required this.items, required this.hint})
+      : super(key: key);
 
   @override
   State<FormBuilderTypeAhead> createState() => _FormBuilderTypeAheadState();
 }
 
 class _FormBuilderTypeAheadState extends State<FormBuilderTypeAhead> {
-
   TextEditingController typeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return FormBuilderField<String?>(builder: (state){
-      return TypeAheadField(
-        animationStart: 0,
-        animationDuration: Duration.zero,
-        textFieldConfiguration: TextFieldConfiguration(
-          decoration: InputDecoration(
-            hintText: widget.hint,
-          ),
-          controller: typeController,
-          onChanged: (value){
-            state.didChange(value);
-          },
-        ),
-        suggestionsCallback: (pattern) {
-          return widget.items.where((element) => element.toLowerCase().contains(pattern.toLowerCase()));
+    return FormBuilderField<String?>(
+        builder: (state) {
+          return TypeAheadField(
+            animationStart: 0,
+            animationDuration: Duration.zero,
+            textFieldConfiguration: TextFieldConfiguration(
+              decoration: InputDecoration(
+                hintText: widget.hint,
+              ),
+              controller: typeController,
+              onChanged: (value) {
+                state.didChange(value);
+              },
+            ),
+            suggestionsCallback: (pattern) {
+              return widget.items.where((element) =>
+                  element.toLowerCase().contains(pattern.toLowerCase()));
+            },
+            itemBuilder: (context, suggestion) {
+              return Padding(
+                padding: const EdgeInsets.all(8),
+                child: Text(suggestion),
+              );
+            },
+            onSuggestionSelected: (suggestion) {
+              typeController.text = suggestion;
+              state.didChange(suggestion);
+            },
+            hideOnEmpty: true,
+          );
         },
-        itemBuilder: (context, suggestion) {
-          return Padding(padding: const EdgeInsets.all(8),child: Text(suggestion),);
-        },
-        onSuggestionSelected: (suggestion) {
-          typeController.text = suggestion;
-          state.didChange(suggestion);
-        },
-        hideOnEmpty: true,
-      );
-    }, name: widget.name);
+        name: widget.name);
   }
 }
-
-
 
 class PasswordTextField extends StatefulWidget {
   final String? hint;

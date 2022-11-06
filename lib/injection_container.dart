@@ -3,6 +3,11 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:wmd/core/data/network/error_handler_middleware.dart';
+import 'package:wmd/features/add_assets/add_basic_cash_asset/data/data_sources/bank_details_save_remote_data_source.dart';
+import 'package:wmd/features/add_assets/add_basic_cash_asset/data/repositories/bank_repository_impl.dart';
+import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/repositories/bank_repository.dart';
+import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/use_cases/post_bank_details_usecase.dart';
+import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/manager/bank_cubit.dart';
 import 'package:wmd/features/authentication/forget_password/data/data_sources/forget_password_server_datasource.dart';
 import 'package:wmd/features/authentication/forget_password/data/repositories/forget_password_repository_impl.dart';
 import 'package:wmd/features/authentication/forget_password/domain/repositories/forget_password_repository.dart';
@@ -95,6 +100,13 @@ Future<void> init() async {
   sl.registerFactory(() => ThemeManager(sl()));
   //localization_manager
   sl.registerFactory(() => LocalizationManager(sl()));
+
+  // Add base cash asset
+  sl.registerFactory(() => BankCubit(sl()));
+  sl.registerLazySingleton(() => PostBankDetailsUseCase(sl()));
+  sl.registerLazySingleton<BankRepository>(() => BankRepositoryImpl(sl()));
+  sl.registerLazySingleton<BankSaveRemoteDataSource>(
+      () => BankSaveRemoteDataSourceImpl(sl()));
 
   await initExternal();
 }
