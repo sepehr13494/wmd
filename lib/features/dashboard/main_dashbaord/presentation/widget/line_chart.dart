@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
 
 class LineChartSample2 extends StatelessWidget {
@@ -12,10 +13,11 @@ class LineChartSample2 extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         child: Column(
           children: [
-            Text("Total Net Worth",style: TextStyle(fontSize: 18)),
+            Text("Total Net Worth", style: TextStyle(fontSize: 18)),
             const SizedBox(height: 12),
             AspectRatio(
-              aspectRatio: 1.5,
+              aspectRatio:
+                  ResponsiveHelper(context: context).isMobile ? 1.6 : 2.2,
               child: Padding(
                 padding: const EdgeInsets.all(12),
                 child: LineChart(
@@ -30,9 +32,7 @@ class LineChartSample2 extends StatelessWidget {
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-        fontSize: 8
-    );
+    const style = TextStyle(fontSize: 8);
     Widget text;
     switch (value.toInt()) {
       case 1:
@@ -118,25 +118,32 @@ class LineChartSample2 extends StatelessWidget {
       ),
       borderData: FlBorderData(
           show: true,
-          border: const Border.symmetric(horizontal: BorderSide(width: 0.3,color: AppColors.dashBoardGreyTextColor))
-      ),
+          border: const Border.symmetric(
+              horizontal: BorderSide(
+                  width: 0.3, color: AppColors.dashBoardGreyTextColor))),
       minX: 0,
       maxX: 11,
-      minY: 0,
+      minY: -3,
       maxY: 6,
       lineBarsData: [
         LineChartBarData(
           spots: const [
             FlSpot(0, 3),
             FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
+            FlSpot(4.9, 6),
+            FlSpot(6.8, -3),
+            FlSpot(8, -2),
             FlSpot(9.5, 3),
             FlSpot(11, 4),
           ],
           isCurved: false,
           color: AppColors.chartColor,
+          gradient: LinearGradient(
+            colors: [AppColors.chartColor,AppColors.chartColor, AppColors.errorColor,AppColors.errorColor],
+            stops: [0,6/9,6/9,1],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter
+          ),
           barWidth: 2,
           isStrokeCapRound: true,
           dotData: FlDotData(
@@ -144,13 +151,30 @@ class LineChartSample2 extends StatelessWidget {
           ),
           belowBarData: BarAreaData(
             show: true,
+            cutOffY: 0,
+            applyCutOffY: true,
             gradient: LinearGradient(
               colors: [
                 AppColors.chartColor.withOpacity(0.3),
+                Colors.white.withOpacity(0.1),
                 Colors.white.withOpacity(0.0),
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
+            ),
+          ),
+          aboveBarData: BarAreaData(
+            show: true,
+            cutOffY: 0,
+            applyCutOffY: true,
+            gradient: LinearGradient(
+              colors: [
+                Colors.red.withOpacity(0.3),
+                Colors.white.withOpacity(0.1),
+                Colors.white.withOpacity(0.0),
+              ],
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
             ),
           ),
         ),
@@ -158,4 +182,3 @@ class LineChartSample2 extends StatelessWidget {
     );
   }
 }
-

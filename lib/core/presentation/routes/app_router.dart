@@ -21,7 +21,7 @@ class AppRouter {
         name: AppRoutes.splash,
         path: "/",
         builder: (BuildContext context, GoRouterState state) {
-          return const SplashPage();
+          return const DashboardMainPage();
         },
       ),
       GoRoute(
