@@ -34,7 +34,7 @@ void main() {
           bankSaveResponse: BankSaveResponseModel.tBankSaveResponseModel)
     ],
     verify: (_) {
-      verify(mockPostBankDetailsUseCase(BankSaveParams.tBankSaveParams))
+      verify(mockPostBankDetailsUseCase(BankSaveParams.tBankFormMap))
           .called(1);
     },
   );

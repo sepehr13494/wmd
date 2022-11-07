@@ -11,11 +11,9 @@ class BankCubit extends Cubit<BankSaveState> {
   BankCubit(this.postBankDetailsUseCase) : super(BankDetailInitial());
 
   postBankDetails({required Map<String, dynamic> map}) async {
-    print('I am in postBankDetails');
     print(map);
     emit(LoadingState());
-    final bankSaveParam = BankSaveParams.fromJson(map);
-    final result = await postBankDetailsUseCase(bankSaveParam);
+    final result = await postBankDetailsUseCase(map);
     result.fold(
         (failure) => emit(ErrorState(failure: failure)),
         (bankSaveSuccess) =>

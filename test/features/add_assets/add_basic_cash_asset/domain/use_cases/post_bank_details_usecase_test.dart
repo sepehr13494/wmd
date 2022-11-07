@@ -3,9 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
-import 'package:wmd/features/add_assets/add_basic_cash_asset/data/models/bank_save_fail_response_model.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/data/models/bank_save_response_model.dart';
-import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/entities/bank_save_response.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/repositories/bank_repository.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/use_cases/post_bank_details_usecase.dart';
 
@@ -30,8 +28,7 @@ void main() {
       when(mockBankRepository.postBankDetails(BankSaveParams.tBankSaveParams))
           .thenAnswer((_) async => Right(tBankSaveResponse));
       // act
-      final result =
-          await postBankDetailsUseCase.call(BankSaveParams.tBankSaveParams);
+      final result = await postBankDetailsUseCase(BankSaveParams.tBankFormMap);
       // assert
       expect(result, Right(tBankSaveResponse));
     },
@@ -45,8 +42,7 @@ void main() {
       when(mockBankRepository.postBankDetails(BankSaveParams.tBankSaveParams))
           .thenAnswer((_) async => const Left(tServerFailure));
       // act
-      final result =
-          await postBankDetailsUseCase.call(BankSaveParams.tBankSaveParams);
+      final result = await postBankDetailsUseCase(BankSaveParams.tBankFormMap);
       // assert
       expect(result, const Left(tServerFailure));
     },

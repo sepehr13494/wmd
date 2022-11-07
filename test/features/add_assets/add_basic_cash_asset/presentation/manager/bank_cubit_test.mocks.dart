@@ -66,7 +66,7 @@ class MockPostBankDetailsUseCase extends _i1.Mock
       ) as _i2.BankRepository);
   @override
   _i5.Future<_i3.Either<_i6.Failure, _i7.BankSaveResponse>> call(
-          _i4.BankSaveParams? params) =>
+          Map<String, dynamic>? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,

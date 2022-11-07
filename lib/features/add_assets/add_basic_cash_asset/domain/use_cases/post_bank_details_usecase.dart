@@ -1,30 +1,25 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'dart:convert';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
-import 'package:wmd/features/add_assets/add_basic_cash_asset/data/models/bank_save_response_model.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/entities/bank_save_response.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/repositories/bank_repository.dart';
 import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 
-class PostBankDetailsUseCase extends UseCase<BankSaveResponse, BankSaveParams> {
+class PostBankDetailsUseCase extends UseCase<BankSaveResponse, Map<String, dynamic>> {
   final BankRepository bankRepository;
 
   PostBankDetailsUseCase(this.bankRepository);
   @override
-  Future<Either<Failure, BankSaveResponse>> call(BankSaveParams params) =>
-      bankRepository.postBankDetails(params);
+  Future<Either<Failure, BankSaveResponse>> call(Map<String,dynamic> params) {
+    //TODO: convert map into BankSaveParams and replace with tBankSaveParams
+    return bankRepository.postBankDetails(BankSaveParams.tBankSaveParams);
+  }
 }
 
-BankSaveParams bankSaveParamsFromJson(String str) =>
-    BankSaveParams.fromJson(json.decode(str));
-
-String bankSaveParamsToJson(BankSaveParams data) => json.encode(data.toJson());
-
 class BankSaveParams extends Equatable {
-  BankSaveParams({
+  const BankSaveParams({
     this.isActive,
     this.owner,
     required this.bankName,
@@ -41,20 +36,20 @@ class BankSaveParams extends Equatable {
     this.endDate,
   });
 
-  bool? isActive;
-  String? owner;
-  String bankName;
-  String country;
-  String? description;
-  String accountType;
-  String currencyCode;
-  double currentBalance;
-  bool? isJointAccount;
-  int? noOfCoOwners;
-  double? ownershipPercentage;
-  double? interestRate;
-  DateTime? startDate;
-  DateTime? endDate;
+  final bool? isActive;
+  final String? owner;
+  final String bankName;
+  final String country;
+  final String? description;
+  final String accountType;
+  final String currencyCode;
+  final double currentBalance;
+  final bool? isJointAccount;
+  final int? noOfCoOwners;
+  final double? ownershipPercentage;
+  final double? interestRate;
+  final DateTime? startDate;
+  final DateTime? endDate;
 
   factory BankSaveParams.fromJson(Map<String, dynamic> json) => BankSaveParams(
         isActive: json["isActive"],
@@ -90,7 +85,16 @@ class BankSaveParams extends Equatable {
         "endDate": endDate?.toIso8601String(),
       };
 
-  static final tBankSaveParams = BankSaveParams(
+  static const tBankFormMap = {
+    'bankName': 'bank1',
+    'description': 'cnncnc',
+    'country': {'name': 'BL', 'countryName': 'Saint Barthelemy'},
+    'accountType': 'Saving account',
+    'currencyCode': {'value': 'USD', 'label': 'United States dollar'},
+    'currentBalance': '100',
+  };
+
+  static const tBankSaveParams = BankSaveParams(
     bankName: "Bank of America",
     country: "USA",
     accountType: "SAVING",

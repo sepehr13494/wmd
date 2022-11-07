@@ -19,7 +19,7 @@ class Country {
 
   @override
   String toString() {
-    return "$name ($countryName)";
+    return toJson().toString();
   }
 
   static final List<Country> countriesList = List.from(
