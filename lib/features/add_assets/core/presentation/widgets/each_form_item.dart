@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wmd/core/presentation/widgets/text_with_info.dart';
 
 class EachTextField extends StatelessWidget {
   final String title;
@@ -19,16 +20,7 @@ class EachTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Text(title),
-            const SizedBox(width: 4),
-            hasInfo? InkWell(
-              onTap: onInfoTap,
-              child: Icon(Icons.info_outline,color: Theme.of(context).primaryColor,size: 15,),
-            ) : const SizedBox()
-          ],
-        ),
+        TextWithInfo(title: title, hasInfo: hasInfo),
         const SizedBox(height: 8),
         child,
       ],
