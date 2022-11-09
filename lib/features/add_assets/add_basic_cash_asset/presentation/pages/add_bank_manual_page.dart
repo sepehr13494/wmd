@@ -10,6 +10,8 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/manager/bank_cubit.dart';
+import 'package:wmd/features/add_assets/core/constants.dart';
+import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
 import 'package:wmd/injection_container.dart';
@@ -194,6 +196,9 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                       child: Column(children: [
                         FormBuilder(
                           key: baseFormKey,
+                          initialValue: {
+                            "currencyCode": Currency.currenciesList.first
+                          },
                           child: Column(
                             children: [
                               Text(
