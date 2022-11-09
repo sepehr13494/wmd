@@ -22,6 +22,7 @@ class AppTextFields {
   static FormBuilderTextField simpleTextField({
     required String name,
     TextFieldType type = TextFieldType.simpleText,
+    GlobalKey<FormBuilderFieldState>? key,
     String? title,
     String? hint,
     TextInputType keyboardType = TextInputType.text,
@@ -30,8 +31,10 @@ class AppTextFields {
     bool obscureText = false,
     Widget? suffixIcon,
     bool required = true,
+    onChanged,
   }) {
     final validators = <String? Function(String?)>[];
+
     if (required) {
       validators.add(FormBuilderValidators.required());
     }
@@ -40,8 +43,8 @@ class AppTextFields {
         validators.add(FormBuilderValidators.email());
         break;
       case TextFieldType.password:
-        validators.add(FormBuilderValidators.minLength(8));
-        validators.add(AppFormValidators.validatePassword());
+        // validators.add(FormBuilderValidators.minLength(8));
+        // validators.add(AppFormValidators.validatePassword());
         break;
       case TextFieldType.phone:
         break;
@@ -49,6 +52,7 @@ class AppTextFields {
         break;
     }
     return FormBuilderTextField(
+      key: key,
       scrollPadding:
           const EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 90),
       name: name,
@@ -63,6 +67,7 @@ class AppTextFields {
       autofillHints:
           _getAutofillHint(type) == null ? null : [_getAutofillHint(type)!],
       validator: FormBuilderValidators.compose(validators),
+      onChanged: onChanged,
     );
   }
 
@@ -241,10 +246,14 @@ class _FormBuilderTypeAheadState extends State<FormBuilderTypeAhead> {
   }
 }
 
+// ignore: must_be_immutable
 class PasswordTextField extends StatefulWidget {
   final String? hint;
+  final GlobalKey<FormBuilderFieldState>? passwordKey;
+  Function? onChange;
 
-  const PasswordTextField({Key? key, this.hint}) : super(key: key);
+  PasswordTextField({Key? key, this.hint, this.onChange, this.passwordKey})
+      : super(key: key);
 
   @override
   AppState<PasswordTextField> createState() => _PasswordTextFieldState();
@@ -256,23 +265,29 @@ class _PasswordTextFieldState extends AppState<PasswordTextField> {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    return AppTextFields.simpleTextField(
-      name: "password",
-      type: TextFieldType.password,
-      hint: widget.hint ??
-          appLocalizations.auth_signup_input_password_placeholder,
-      obscureText: !visible,
-      suffixIcon: IconButton(
-        onPressed: () {
-          setState(() {
-            visible = !visible;
-          });
-        },
-        icon: Icon(
-          visible ? Icons.remove_red_eye_outlined : Icons.remove_red_eye,
-          color: Theme.of(context).primaryColor,
-        ),
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AppTextFields.simpleTextField(
+            key: widget.passwordKey,
+            name: "password",
+            type: TextFieldType.password,
+            hint: widget.hint ??
+                appLocalizations.auth_signup_input_password_placeholder,
+            obscureText: !visible,
+            suffixIcon: IconButton(
+              onPressed: () {
+                setState(() {
+                  visible = !visible;
+                });
+              },
+              icon: Icon(
+                visible ? Icons.remove_red_eye_outlined : Icons.remove_red_eye,
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+            onChanged: widget.onChange),
+      ],
     );
   }
 }

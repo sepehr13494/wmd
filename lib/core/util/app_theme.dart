@@ -48,11 +48,10 @@ class AppThemes {
             : Colors.white,
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all(textColor),
+            //foregroundColor: MaterialStateProperty.all(textColor),
             minimumSize:
                 MaterialStateProperty.all(const Size(double.maxFinite, 48)),
-            side: MaterialStateProperty.all(
-                BorderSide(width: 1, color: textColor)),
+            side: MaterialStateProperty.all(const BorderSide(width: 1, color: primaryColor)),
           ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
