@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
+import 'package:wmd/core/presentation/widgets/base_app_bar.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
@@ -206,11 +207,11 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                     children: [
                                       const FormBuilderTypeAhead(
                                           name: "bankName",
-                                          hint: "bank hint",
+                                          hint: "Your bank name",
                                           items: [
-                                            "bank1",
-                                            "bank 2",
-                                            "ARbsdfw"
+                                            "Bank 1",
+                                            "Bank 2",
+                                            "Bank 3"
                                           ]),
                                       TextButton(
                                         onPressed: () {},

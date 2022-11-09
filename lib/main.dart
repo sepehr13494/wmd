@@ -8,6 +8,7 @@ import 'core/util/app_localization.dart';
 import 'core/util/app_theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'core/util/local_storage.dart';
+import 'features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'injection_container.dart';
 
 import 'injection_container.dart' as di;
@@ -66,6 +67,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (context) => sl<LocalizationManager>()
               ..changeLang(sl<LocalStorage>().getLocale())),
+        BlocProvider(create: (context) => sl<UserStatusCubit>()),
       ],
       child: Builder(builder: (context) {
         return MaterialApp.router(

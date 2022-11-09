@@ -111,7 +111,7 @@ class CurrenciesDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return FormBuilderSearchableDropdown<Currency>(
       name: "currencyCode",
-      hint: "currnecy hint",
+      hint: "Type or select currency",
       items: Currency.currenciesList,
       itemAsString: (Currency currency) =>
           "${currency.name} (${currency.symbol})",
@@ -136,7 +136,7 @@ class CountriesDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return FormBuilderSearchableDropdown<Country>(
       name: "country",
-      hint: "country hint",
+      hint: "Type or select a country",
       items: Country.countriesList,
       itemAsString: (country) => "${country.name} (${country.countryName})",
       filterFn: (country, string) {
