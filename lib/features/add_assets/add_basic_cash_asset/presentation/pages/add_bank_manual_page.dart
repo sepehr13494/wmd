@@ -196,9 +196,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                       child: Column(children: [
                         FormBuilder(
                           key: baseFormKey,
-                          initialValue: {
-                            "currencyCode": Currency.currenciesList.first
-                          },
+                          initialValue: AddAssetConstants.initialJsonForAddAsset,
                           child: Column(
                             children: [
                               Text(
