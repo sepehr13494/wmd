@@ -5,7 +5,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/extentions/app_form_validators.dart';
-import 'package:wmd/core/util/app_stateless_widget.dart';
+import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 
@@ -53,6 +53,8 @@ class AppTextFields {
     }
     return FormBuilderTextField(
       key: key,
+      scrollPadding:
+          const EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 90),
       name: name,
       minLines: minLines ?? 1,
       maxLines: (type == TextFieldType.password) ? 1 : 5,
@@ -83,14 +85,16 @@ class AppTextFields {
   }
 
   static FormBuilderDropdown dropDownTextField({
-    required String name,
-    required String hint,
-    required List<DropdownMenuItem> items,
+    required final String name,
+    required final String hint,
+    final ValueChanged? onChanged,
+    required final List<DropdownMenuItem> items,
     bool enabled = true,
   }) {
     return FormBuilderDropdown(
       name: name,
       enabled: enabled,
+      onChanged: onChanged,
       decoration: InputDecoration(
         hintText: hint,
       ),
@@ -235,6 +239,7 @@ class _FormBuilderTypeAheadState extends State<FormBuilderTypeAhead> {
               typeController.text = suggestion;
               state.didChange(suggestion);
             },
+            hideOnEmpty: true,
           );
         },
         name: widget.name);
