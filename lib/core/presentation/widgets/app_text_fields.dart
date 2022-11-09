@@ -1,19 +1,40 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:wmd/core/extentions/app_form_validators.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
+
+class CurrencyInputFormatter extends TextInputFormatter {
+
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+
+    if(newValue.selection.baseOffset == 0){
+      return newValue;
+    }
+
+    double value = double.tryParse(newValue.text.replaceAll(",", "")) ?? 0;
+
+    String newText = NumberFormat("#,##0", "en_US").format(value);
+
+    return newValue.copyWith(
+        text: newText,
+        selection: TextSelection.collapsed(offset: newText.length));
+  }
+}
 
 enum TextFieldType {
   email,
   password,
   phone,
   simpleText,
+  money,
 }
 
 class AppTextFields {
@@ -50,9 +71,14 @@ class AppTextFields {
         break;
       case TextFieldType.simpleText:
         break;
+      case TextFieldType.money:
+        break;
     }
     return FormBuilderTextField(
       key: key,
+      inputFormatters: type == TextFieldType.money ? [
+      CurrencyInputFormatter()
+      ] : null,
       scrollPadding:
           const EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 90),
       name: name,
@@ -80,6 +106,8 @@ class AppTextFields {
       case TextFieldType.phone:
         return AutofillHints.telephoneNumber;
       case TextFieldType.simpleText:
+        return null;
+      case TextFieldType.money:
         return null;
     }
   }

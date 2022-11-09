@@ -26,6 +26,11 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
   String? accountType;
 
   @override
+  void didUpdateWidget(covariant AddBankManualPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final termFormKey = GlobalKey<FormBuilderState>();
@@ -144,6 +149,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
             child: AppTextFields.simpleTextField(
                 name: "currentBalance",
                 hint: "\$500,000",
+                type: TextFieldType.money,
                 keyboardType: TextInputType.number),
           ),
         ),
@@ -259,7 +265,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                       .toList(),
                                 ),
                               ),
-                              const EachTextField(
+                              EachTextField(
                                 hasInfo: false,
                                 title: "Currency",
                                 child: CurrenciesDropdown(),
