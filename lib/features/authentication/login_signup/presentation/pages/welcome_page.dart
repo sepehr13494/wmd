@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -5,11 +6,12 @@ import 'package:linkedin_login/linkedin_login.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:twitter_login/twitter_login.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
+import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wmd/core/util/app_stateless_widget.dart';
+import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/video_player_widget/video_player_widget.dart';
 
@@ -19,6 +21,8 @@ class WelcomePage extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    final responsiveHelper = ResponsiveHelper(context: context);
+
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
       child: SafeArea(
@@ -58,22 +62,40 @@ class WelcomePage extends AppStatelessWidget {
                           color: Theme.of(context)
                               .scaffoldBackgroundColor
                               .withOpacity(0.4),
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              style: const TextStyle(height: 1.3),
-                              children: [
-                                TextSpan(
-                                    text:
-                                    "${appLocalizations.auth_signup_productDetails_one} ",
-                                    style: textTheme.headlineSmall!
-                                        .apply(fontWeightDelta: 4)),
-                                TextSpan(
-                                    text: appLocalizations.auth_signup_productDetails_and,
-                                    style: textTheme.headlineSmall),
-                              ],
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          // height: 100,
+                          width: responsiveHelper.optimalDeviceWidth,
+                          child: CarouselSlider(
+                            options: CarouselOptions(
+                              height: 100.0,
+                              autoPlay: true,
+                              viewportFraction: 1,
                             ),
+                            items: [
+                              "${appLocalizations.auth_signup_productDetails_one} ${appLocalizations.auth_signup_productDetails_and}",
+                              appLocalizations.auth_signup_productDetails_two,
+                              appLocalizations.auth_signup_productDetails_three
+                            ].map((i) {
+                              return Builder(
+                                builder: (BuildContext context) {
+                                  return SizedBox(
+                                      width:
+                                          responsiveHelper.optimalDeviceWidth +
+                                              20,
+                                      child: RichText(
+                                        textAlign: TextAlign.center,
+                                        text: TextSpan(
+                                          style: const TextStyle(height: 1.3),
+                                          children: [
+                                            TextSpan(
+                                                text: i,
+                                                style: textTheme.headlineSmall),
+                                          ],
+                                        ),
+                                      ));
+                                },
+                              );
+                            }).toList(),
                           ),
                         ),
                         const Spacer(),
@@ -81,7 +103,8 @@ class WelcomePage extends AppStatelessWidget {
                             onPressed: () {
                               context.pushNamed(AppRoutes.register);
                             },
-                            child: Text(appLocalizations.auth_signup_button_join)),
+                            child:
+                                Text(appLocalizations.auth_signup_button_join)),
                         const ContinueAppleButton(),
                         const SizedBox(),
                         Stack(
@@ -90,7 +113,7 @@ class WelcomePage extends AppStatelessWidget {
                             const Divider(),
                             Container(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 24),
+                                  const EdgeInsets.symmetric(horizontal: 24),
                               color: Theme.of(context).scaffoldBackgroundColor,
                               child: Text(
                                 appLocalizations.auth_signup_text_social,
@@ -105,21 +128,21 @@ class WelcomePage extends AppStatelessWidget {
                             [
                               "google",
                               "assets/images/google.svg",
-                                  () async {
+                              () async {
                                 _googleLogin();
                               }
                             ],
                             [
                               "twitter",
                               "assets/images/twitter.svg",
-                                  () {
+                              () {
                                 _twitterLogin();
                               }
                             ],
                             [
                               "linkedin",
                               "assets/images/linkedin.svg",
-                                  () {
+                              () {
                                 _linkedInLogin(context);
                               }
                             ],
@@ -149,7 +172,8 @@ class WelcomePage extends AppStatelessWidget {
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(appLocalizations.auth_signup_text_alreadyHaveAnAccount),
+                            Text(appLocalizations
+                                .auth_signup_text_alreadyHaveAnAccount),
                             TextButton(
                               onPressed: () {
                                 context.pushNamed(AppRoutes.login);
@@ -157,19 +181,19 @@ class WelcomePage extends AppStatelessWidget {
                               child: Text(
                                 appLocalizations.auth_signup_link_login,
                                 style:
-                                textTheme.bodyText1!.toLinkStyle(context),
+                                    textTheme.bodyText1!.toLinkStyle(context),
                               ),
                             ),
                           ],
                         ),
                       ]
                           .map((e) => (e is Expanded || e is Spacer)
-                          ? e
-                          : Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 16),
-                        child: e,
-                      ))
+                              ? e
+                              : Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 16),
+                                  child: e,
+                                ))
                           .toList(),
                     ),
                   ],
@@ -185,25 +209,25 @@ class WelcomePage extends AppStatelessWidget {
         context,
         MaterialPageRoute(
             builder: ((context) => SafeArea(
-              child: Scaffold(
-                body: LinkedInUserWidget(
-                  redirectUrl: "redirectUrl",
-                  clientId: "clientId",
-                  clientSecret: "clientSecret",
-                  onGetUserProfile: (UserSucceededAction linkedInUser) {
-                    print(
-                        'Access token ${linkedInUser.user.token.accessToken}');
-                    print(
-                        'First name: ${linkedInUser.user.firstName?.localized?.label}');
-                    print(
-                        'Last name: ${linkedInUser.user.lastName?.localized?.label}');
-                  },
-                  onError: (UserFailedAction e) {
-                    print('Error: ${e.toString()}');
-                  },
-                ),
-              ),
-            ))));
+                  child: Scaffold(
+                    body: LinkedInUserWidget(
+                      redirectUrl: "redirectUrl",
+                      clientId: "clientId",
+                      clientSecret: "clientSecret",
+                      onGetUserProfile: (UserSucceededAction linkedInUser) {
+                        print(
+                            'Access token ${linkedInUser.user.token.accessToken}');
+                        print(
+                            'First name: ${linkedInUser.user.firstName?.localized?.label}');
+                        print(
+                            'Last name: ${linkedInUser.user.lastName?.localized?.label}');
+                      },
+                      onError: (UserFailedAction e) {
+                        print('Error: ${e.toString()}');
+                      },
+                    ),
+                  ),
+                ))));
   }
 
   Future<void> _googleLogin() async {
@@ -235,18 +259,17 @@ class WelcomePage extends AppStatelessWidget {
     final authResult = await twitterLogin.login();
     switch (authResult.status!) {
       case TwitterLoginStatus.loggedIn:
-      // success
+        // success
         break;
       case TwitterLoginStatus.cancelledByUser:
-      // cancel
+        // cancel
         break;
       case TwitterLoginStatus.error:
-      // error
+        // error
         break;
     }
   }
 }
-
 
 class ContinueAppleButton extends StatelessWidget {
   const ContinueAppleButton({Key? key}) : super(key: key);

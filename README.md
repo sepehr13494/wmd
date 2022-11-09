@@ -7,7 +7,7 @@ https://pub.dev/packages/sign_in_with_apple
 deeplink ios config  
 https://docs.flutter.dev/development/ui/navigation/deep-linking
 
-#for hive and router and mocks
+#for hive and mocks
 flutter pub run build_runner build --delete-conflicting-outputs
 
 # icon launcher

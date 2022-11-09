@@ -25,6 +25,7 @@ class AppThemes {
     final TextTheme textTheme = appTheme.textTheme;
     final Color textColor = textTheme.bodySmall?.color ??
         (brightness == Brightness.dark ? Colors.white : Colors.black54);
+
     return appTheme.copyWith(
         textTheme: appTheme.textTheme.apply(
           fontFamily: LocalizationManager.getFont(
@@ -47,24 +48,22 @@ class AppThemes {
             : Colors.white,
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all(textColor),
+            //foregroundColor: MaterialStateProperty.all(textColor),
             minimumSize:
                 MaterialStateProperty.all(const Size(double.maxFinite, 48)),
-            side: MaterialStateProperty.all(
-                BorderSide(width: 1, color: textColor)),
+            side: MaterialStateProperty.all(const BorderSide(width: 1, color: primaryColor)),
           ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
-          minimumSize:
-              MaterialStateProperty.all(const Size(double.maxFinite, 48)),
+                minimumSize:
+                    MaterialStateProperty.all(const Size(double.maxFinite, 48)),
                 backgroundColor: MaterialStateProperty.resolveWith((states) {
                   if (states.contains(MaterialState.disabled)) {
                     return primaryColor.withOpacity(0.5);
                   }
                   return primaryColor;
-                })
-        )),
+                }))),
         inputDecorationTheme: const InputDecorationTheme(
           contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           border: OutlineInputBorder(),
@@ -74,16 +73,14 @@ class AppThemes {
           horizontalTitleGap: 0,
         ),
         tabBarTheme: TabBarTheme(
-          labelColor: textColor,
-          unselectedLabelColor: AppColors.dashBoardGreyTextColor,
-          indicator: const UnderlineTabIndicator(borderSide: BorderSide(color: primaryColor,width: 2))
-        ),
-        cardColor: brightness == Brightness.dark
-            ? AppColors.cardColor
-            : Colors.white,
-        dialogBackgroundColor: brightness == Brightness.dark
-            ? AppColors.cardColor
-            : Colors.white,
+            labelColor: textColor,
+            unselectedLabelColor: AppColors.dashBoardGreyTextColor,
+            indicator: const UnderlineTabIndicator(
+                borderSide: BorderSide(color: primaryColor, width: 2))),
+        cardColor:
+            brightness == Brightness.dark ? AppColors.cardColor : Colors.white,
+        dialogBackgroundColor:
+            brightness == Brightness.dark ? AppColors.cardColor : Colors.white,
         checkboxTheme: CheckboxThemeData(
           fillColor: MaterialStateProperty.all(primaryColor),
           checkColor:
@@ -93,19 +90,18 @@ class AppThemes {
 
   static ThemeData _appTheme({required Brightness brightness}) {
     return ThemeData.from(
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: AppColors.primary,
-        brightness: brightness,
-      ),
-      textTheme: const TextTheme(
-        bodyLarge: TextStyle(height: 1.3),
-        bodySmall: TextStyle(height: 1.3),
-        bodyMedium: TextStyle(height: 1.3),
-        titleSmall: TextStyle(height: 1.3),
-        titleMedium: TextStyle(height: 1.3),
-        titleLarge: TextStyle(height: 1.3),
-        headlineSmall: TextStyle(height: 1.3),
-      )
-    );
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: AppColors.primary,
+          brightness: brightness,
+        ),
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(height: 1.3),
+          bodySmall: TextStyle(height: 1.3),
+          bodyMedium: TextStyle(height: 1.3),
+          titleSmall: TextStyle(height: 1.3),
+          titleMedium: TextStyle(height: 1.3),
+          titleLarge: TextStyle(height: 1.3),
+          headlineSmall: TextStyle(height: 1.3),
+        ));
   }
 }

@@ -60,14 +60,14 @@ class ResponsiveHelper {
   double get biggerGap => isDesktop
       ? 36
       : isMobile
-      ? 12
-      : 24;
+          ? 12
+          : 24;
 
   double get bigger16Gap => isDesktop
       ? 44
       : isMobile
-      ? 16
-      : 32;
+          ? 16
+          : 32;
 
   double get smallFontSize => isDesktop
       ? 14
@@ -92,6 +92,19 @@ class ResponsiveHelper {
       : isMobile
           ? 14
           : 18;
+
+  double get extraLargeFontSize => isDesktop
+      ? 22
+      : isMobile
+          ? 16
+          : 20;
+
+  double get xxLargeFontSize => isDesktop
+      ? 26
+      : isMobile
+          ? 20
+          : 24;
+
   EdgeInsets get paddingForMobileTab => isMobile
       ? const EdgeInsets.fromLTRB(12, 48, 12, 48)
       : const EdgeInsets.all(48);

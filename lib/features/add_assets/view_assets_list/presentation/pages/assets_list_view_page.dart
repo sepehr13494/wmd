@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/base_app_bar.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
-import 'package:wmd/core/util/app_stateless_widget.dart';
+import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/features/add_assets/view_assets_list/presentation/manager/asset_view_cubit.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/each_asset_widget.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/support_widget.dart';
@@ -19,11 +21,19 @@ class AssetsListViewPage extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    return Scaffold(
+    return BlocProvider(
+  create: (context) => AssetViewCubit(),
+  child: Scaffold(
       appBar: BaseAppBar(title: "Add assets"),
-      bottomSheet: AddAssetFooter(buttonText: "Add Asset",onTap: (){
-        context.pushNamed(AppRoutes.autoManualPage);
-      }),
+      bottomSheet: Builder(
+        builder: (context) {
+          final assetModel = context.watch<AssetViewCubit>().state;
+          return AddAssetFooter(buttonText: "Add Asset",onTap: assetModel == null ? null : (){
+            print(assetModel);
+            context.pushNamed(AppRoutes.autoManualPage);
+          });
+        }
+      ),
       body: Stack(
         children: const [
           LeafBackground(
@@ -39,7 +49,8 @@ class AssetsListViewPage extends AppStatelessWidget {
           ),
         ],
       ),
-    );
+    ),
+);
   }
 }
 
@@ -157,6 +168,7 @@ class AssetsPart extends AppStatelessWidget {
     if (isLiability) {
       assets = [
         EachAssetModel(
+            id: 1,
             image: "assets/images/add_assets/bank_asset.svg",
             title: "Liability",
             description: loroIpsum)
@@ -164,31 +176,37 @@ class AssetsPart extends AppStatelessWidget {
     } else {
       assets = [
         EachAssetModel(
+            id: 2,
             image: "assets/images/add_assets/bank_asset.svg",
             title: "Bank Account",
             description:
                 "Current account, savings account and term deposit accounts."),
         EachAssetModel(
+            id: 3,
             image: "assets/images/add_assets/listed_asset.svg",
             title: "Listed assets",
             description:
                 "Investments made in stocks, ETFs, bonds and mutual funds."),
         EachAssetModel(
+            id: 4,
             image: "assets/images/add_assets/privet_debt.svg",
             title: "Private debt",
             description:
                 "Asset defined by non-bank lending where debt is not issued or traded on the public markets"),
         EachAssetModel(
+            id: 5,
             image: "assets/images/add_assets/real_estate.svg",
             title: "Real estate",
             description:
                 "Current account, savings account and term deposit accounts."),
         EachAssetModel(
+            id: 6,
             image: "assets/images/add_assets/private_equity.svg",
             title: "Private equity",
             description:
                 "Current account, savings account and term deposit accounts."),
         EachAssetModel(
+            id: 7,
             image: "assets/images/add_assets/others.svg",
             title: "Others",
             description:
