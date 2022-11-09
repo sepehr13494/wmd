@@ -28,73 +28,63 @@ class ForgetPasswordPage extends AppStatelessWidget {
         appBar: const CustomAuthAppBar(),
         body: BlocListener<ForgetPasswordCubit, BaseState>(
           listener: BlocHelper.defaultBlocListener(listener: (context, state) {
-            if(state is SuccessState){
-              context.goNamed(AppRoutes.verifyEmail,queryParams: {
-                "email":formKey.currentState!.instantValue["emailOrUserName"]
+            if (state is SuccessState) {
+              context.goNamed(AppRoutes.verifyEmail, queryParams: {
+                "email": formKey.currentState!.instantValue["emailOrUserName"],
+                "forgotPassword": "true"
               });
             }
           }),
-          child: Builder(
-            builder: (context) {
-              return WidthLimiterWidget(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 80),
-                      Text(appLocalizations.auth_forgot_heading,
-                          style: textTheme.titleLarge),
-                      WidthLimiterWidget(
-                        width: 300,
-                        child: Text(appLocalizations.auth_forgot_subheading,
-                            textAlign: TextAlign.center),
-                      ),
-                      const SizedBox(height: 12),
-                      FormBuilder(
-                        key: formKey,
-                        child: AppTextFields.simpleTextField(
-                            type: TextFieldType.email,
-                            name: "emailOrUserName",
-                            hint: appLocalizations
-                                .auth_forgot_input_email_placeholder),
-                      ),
-                      ElevatedButton(
-                          onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              context.read<ForgetPasswordCubit>().forgetPassword(map: formKey.currentState!.instantValue);
-                            }
-                          },
-                          child: Text(appLocalizations.auth_forgot_button_send)),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: WidthLimiterWidget(
-                          width: 300,
-                          child: Text(
-                            '''You have reached the maximum 3 failed attempts, our support team will contact you for help.''',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                          onPressed: () {
-                            context.goNamed(AppRoutes.login);
-                          },
-                          child: Text(
-                            appLocalizations.auth_forgot_link_backToLogin,
-                            style: textTheme.bodyMedium!.toLinkStyle(context),
-                          ))
-                    ]
-                        .map((e) =>
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 16),
-                          child: e,
+          child: Builder(builder: (context) {
+            return WidthLimiterWidget(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 80),
+                    Text(appLocalizations.auth_forgot_heading,
+                        style: textTheme.titleLarge),
+                    WidthLimiterWidget(
+                      width: 300,
+                      child: Text(appLocalizations.auth_forgot_subheading,
+                          textAlign: TextAlign.center),
+                    ),
+                    const SizedBox(height: 50),
+                    FormBuilder(
+                      key: formKey,
+                      child: AppTextFields.simpleTextField(
+                          type: TextFieldType.email,
+                          name: "emailOrUserName",
+                          hint: appLocalizations
+                              .auth_forgot_input_email_placeholder),
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            context.read<ForgetPasswordCubit>().forgetPassword(
+                                map: formKey.currentState!.instantValue);
+                          }
+                        },
+                        child: Text(appLocalizations.auth_forgot_button_send)),
+                    TextButton(
+                        onPressed: () {
+                          context.goNamed(AppRoutes.login);
+                        },
+                        child: Text(
+                          appLocalizations.auth_forgot_link_backToLogin,
+                          style: textTheme.bodyMedium!.toLinkStyle(context),
                         ))
-                        .toList(),
-                  ),
+                  ]
+                      .map((e) => Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 16),
+                            child: e,
+                          ))
+                      .toList(),
                 ),
-              );
-            }
-          ),
+              ),
+            );
+          }),
         ),
       ),
     );
