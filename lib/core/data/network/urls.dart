@@ -18,4 +18,5 @@ class AppUrls {
   static String verifyEmail = "${baseAuth}verify-email";
   static String forgetPassword = "${baseAuth}client/reset-password";
   static String getUserStatus = "${baseUser}user";
+  static String getUserNetWorth = "${baseUser}Wealth/totalnetworth";
 }
