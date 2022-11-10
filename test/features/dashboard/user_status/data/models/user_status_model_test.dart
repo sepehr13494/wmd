@@ -21,7 +21,10 @@ void main() {
     // arrange
     final exceptedJson = {
       "email": "test@yopmail.com",
-      "loginAt": CustomizableDateTime.currentDate
+      "loginAt": CustomizableDateTime.currentDate,
+      "externalId": "externalId",
+      "userId": "userId",
+      "emailVerified": "emailVerified"
     };
 
     // act

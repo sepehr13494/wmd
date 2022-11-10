@@ -7,15 +7,19 @@ import 'package:wmd/features/add_assets/add_basic_cash_asset/data/models/bank_sa
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/repositories/bank_repository.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/use_cases/post_bank_details_usecase.dart';
 
+import '../../../../../core/util/local_storage_test.mocks.dart';
 import 'post_bank_details_usecase_test.mocks.dart';
 
 @GenerateMocks([BankRepository])
 void main() {
   late MockBankRepository mockBankRepository;
   late PostBankDetailsUseCase postBankDetailsUseCase;
+  late MockLocalStorage mockLocalStorage;
   setUp(() {
     mockBankRepository = MockBankRepository();
-    postBankDetailsUseCase = PostBankDetailsUseCase(mockBankRepository);
+    mockLocalStorage = MockLocalStorage();
+    postBankDetailsUseCase =
+        PostBankDetailsUseCase(mockBankRepository, mockLocalStorage);
   });
 
   final tBankSaveResponse =

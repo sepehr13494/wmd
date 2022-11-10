@@ -11,6 +11,7 @@ import 'package:wmd/features/dashboard/user_status/data/models/user_status.dart'
 import 'package:wmd/features/dashboard/user_status/data/repositories/user_status_respository_impl.dart';
 import 'package:wmd/features/dashboard/user_status/domain/repositories/user_status_repository.dart';
 
+import '../../../../../core/util/local_storage_test.mocks.dart';
 import '../../domain/use_cases/get_user_status_usecase_test.mocks.dart';
 import 'dashboard_repository_impl_test.mocks.dart';
 
@@ -19,12 +20,14 @@ void main() {
   late MockUserStatusRepository mockUserStatusRepository;
   late MockUserStatusRemoteDataSource mockUserStatusRemoteDataSource;
   late UserStatusRepositoryImpl dashboardRepositoryImpl;
+  late MockLocalStorage mockLocalStorage;
 
   setUp(() async {
     mockUserStatusRemoteDataSource = MockUserStatusRemoteDataSource();
     mockUserStatusRepository = MockUserStatusRepository();
-    dashboardRepositoryImpl =
-        UserStatusRepositoryImpl(mockUserStatusRemoteDataSource);
+    mockLocalStorage = MockLocalStorage();
+    dashboardRepositoryImpl = UserStatusRepositoryImpl(
+        mockUserStatusRemoteDataSource, mockLocalStorage);
   });
 
   final tServerException = ServerException(message: 'test server message');

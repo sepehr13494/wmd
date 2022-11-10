@@ -85,7 +85,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetUserStatusUseCase(sl()));
   sl.registerLazySingleton(() => PutUserStatusUseCase(sl()));
   sl.registerLazySingleton<UserStatusRepository>(
-      () => UserStatusRepositoryImpl(sl()));
+      () => UserStatusRepositoryImpl(sl(), sl()));
   sl.registerLazySingleton<UserStatusRemoteDataSource>(
       () => UserStatusRemoteDataSourceImpl(sl()));
   //local_storage
@@ -103,7 +103,7 @@ Future<void> init() async {
 
   // Add base cash asset
   sl.registerFactory(() => BankCubit(sl()));
-  sl.registerLazySingleton(() => PostBankDetailsUseCase(sl()));
+  sl.registerLazySingleton(() => PostBankDetailsUseCase(sl(), sl()));
   sl.registerLazySingleton<BankRepository>(() => BankRepositoryImpl(sl()));
   sl.registerLazySingleton<BankSaveRemoteDataSource>(
       () => BankSaveRemoteDataSourceImpl(sl()));
