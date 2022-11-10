@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
-import 'package:wmd/core/presentation/widgets/base_app_bar.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
@@ -11,9 +10,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/manager/bank_cubit.dart';
 import 'package:wmd/features/add_assets/core/constants.dart';
-import 'package:wmd/features/add_assets/core/data/models/currency.dart';
+import 'package:wmd/features/add_assets/core/data/models/account_type.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
+import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
 class AddBankManualPage extends StatefulWidget {
@@ -38,7 +38,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
     final termFormKey = GlobalKey<FormBuilderState>();
     final otherFormKey = GlobalKey<FormBuilderState>();
     late Widget changeItems;
-    final isDepositTerm = accountType == "Term deposit";
+    final isDepositTerm = accountType == "TermDeposit";
+    final endTermData;
     if (isDepositTerm) {
       changeItems = FormBuilder(
         key: termFormKey,
@@ -54,7 +55,9 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
             EachTextField(
               title: "Principal (original deposit amount)",
               child: AppTextFields.simpleTextField(
-                  name: "principal", hint: "\$20,000"),
+                name: "principal",
+                hint: "\$20,000",
+              ),
             ),
             EachTextField(
               title: "Rate (optional)",
@@ -167,6 +170,11 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
             buttonText: "Add asset",
             onTap: () {
               late Map<String, dynamic> finalMap;
+              // final userStatus = context.read<UserStatusCubit>().state;
+              // print(userStatus);
+              // if (userStatus is UserStatusLoaded) {
+              //   print(userStatus.userStatus.email);
+              // }
               if (isDepositTerm) {
                 finalMap = {
                   ...baseFormKey.currentState!.instantValue,
@@ -178,8 +186,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                   ...otherFormKey.currentState!.instantValue,
                 };
               }
-              print(finalMap);
-              print(finalMap['country'].toString());
+              // print(finalMap);
+              // print(finalMap['country'].toString());
               sl<BankCubit>().postBankDetails(map: finalMap);
             }),
         body: Theme(
@@ -196,7 +204,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                       child: Column(children: [
                         FormBuilder(
                           key: baseFormKey,
-                          initialValue: AddAssetConstants.initialJsonForAddAsset,
+                          initialValue:
+                              AddAssetConstants.initialJsonForAddAsset,
                           child: Column(
                             children: [
                               Text(
@@ -250,20 +259,17 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                 title: "Account Type",
                                 child: AppTextFields.dropDownTextField(
                                   onChanged: (val) {
+                                    print(val);
                                     setState(() {
                                       accountType = val;
                                     });
                                   },
                                   name: "accountType",
                                   hint: "Type or select account type",
-                                  items: [
-                                    "Saving account",
-                                    "current account",
-                                    "Term deposit"
-                                  ]
+                                  items: AccountType.accountList
                                       .map((e) => DropdownMenuItem(
-                                            value: e,
-                                            child: Text(e),
+                                            value: e.value,
+                                            child: Text(e.name),
                                           ))
                                       .toList(),
                                 ),
