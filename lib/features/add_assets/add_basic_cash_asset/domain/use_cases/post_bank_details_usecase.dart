@@ -1,20 +1,31 @@
+// import 'dart:ffi';
+
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
+import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/entities/bank_save_response.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/repositories/bank_repository.dart';
 import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 
-class PostBankDetailsUseCase extends UseCase<BankSaveResponse, Map<String, dynamic>> {
+class PostBankDetailsUseCase
+    extends UseCase<BankSaveResponse, Map<String, dynamic>> {
   final BankRepository bankRepository;
+  final LocalStorage localStorage;
 
-  PostBankDetailsUseCase(this.bankRepository);
+  PostBankDetailsUseCase(this.bankRepository, this.localStorage);
   @override
-  Future<Either<Failure, BankSaveResponse>> call(Map<String,dynamic> params) {
+  Future<Either<Failure, BankSaveResponse>> call(
+      Map<String, dynamic> params) async {
     //TODO: convert map into BankSaveParams and replace with tBankSaveParams
-    return bankRepository.postBankDetails(BankSaveParams.tBankSaveParams);
+    final currentBal = params['currentBalance'].toString().replaceAll(',', '');
+    final ownerId = localStorage.getOwnerId();
+    params['currentBalance'] = double.parse(currentBal);
+    params['owner'] = ownerId;
+    final bankAssetParam = BankSaveParams.fromJson(params);
+    return await bankRepository.postBankDetails(bankAssetParam);
   }
 }
 
@@ -59,11 +70,11 @@ class BankSaveParams extends Equatable {
         description: json["description"],
         accountType: json["accountType"],
         currencyCode: (json["currencyCode"] as Currency).symbol,
-        currentBalance: json["currentBalance"].toDouble(),
+        currentBalance: json["currentBalance"],
         isJointAccount: json["isJointAccount"],
         noOfCoOwners: json["noOfCoOwners"],
-        ownershipPercentage: json["ownershipPercentage"].toDouble(),
-        interestRate: json["interestRate"].toDouble(),
+        ownershipPercentage: json["ownershipPercentage"],
+        interestRate: json["interestRate"],
         startDate: json["startDate"],
         endDate: json["endDate"],
       );
