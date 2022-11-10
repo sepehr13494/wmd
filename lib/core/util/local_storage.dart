@@ -13,11 +13,28 @@ class LocalStorage {
   static const appIsLogin = "isLogin";
   static const appThemeMode = "themeMode";
   static const appLocale = "locale";
+  static const ownerId = "ownerId";
 
   Future<void> setTokenAndLogin(token) async {
     try {
       await authBox.put(appToken, "Bearer $token");
       await authBox.put(appIsLogin, true);
+    } catch (e) {
+      throw CacheException(message: e.toString());
+    }
+  }
+
+  Future<void> setOwnerId(val) async {
+    try {
+      await authBox.put(ownerId, val);
+    } catch (e) {
+      throw CacheException(message: e.toString());
+    }
+  }
+
+  String getOwnerId() {
+    try {
+      return authBox.get(ownerId, defaultValue: "");
     } catch (e) {
       throw CacheException(message: e.toString());
     }

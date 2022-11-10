@@ -24,6 +24,8 @@ class LoginSignUpCubit extends Cubit<LoginSignUpState> {
   postLogin({required Map<String, dynamic> map}) async {
     emit(LoadingState());
     final result = await postLoginUseCase(LoginParams.fromJson(map));
+    //TODO: Call get user usecase and manage navigation for the not verified
+    // TODO Create Login loaded state pass the route
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (appSuccess) => emit(SuccessState(appSuccess: appSuccess)));
   }

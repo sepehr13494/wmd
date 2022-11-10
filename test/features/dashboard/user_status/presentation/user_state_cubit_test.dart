@@ -41,7 +41,7 @@ void main() {
   );
 
   blocTest(
-    'when get userStatus use-case is emits the UserStatusLoaded whe success',
+    'when put userStatus use-case is emits the UserStatusLoaded whe success',
     build: () => userStatusCubit,
     setUp: () => when(mockPutUserStatusUseCase(any))
         .thenAnswer((realInvocation) async => Right(tUserStatus)),

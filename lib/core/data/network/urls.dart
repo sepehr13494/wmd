@@ -8,15 +8,17 @@ class AppUrls {
   static const String refreshUrl = "";
 
   // Base Paths
-  static String baseAuth = dotenv.env['BASE_URL_AUTH']!;
-  static String baseUser = dotenv.env['BASE_URL_USER']!;
+  static String authBase = dotenv.env['BASE_URL_AUTH']!;
+  static String userBase = dotenv.env['BASE_URL_USER']!;
+  static String wealthBase = dotenv.env['BASE_URL_WEALTH']!;
 
   //other urls
-  static String registerUser = "${baseAuth}client/sign-up";
-  static String resendEmail = "${baseAuth}send-verification-email";
-  static String loginUser = "${baseAuth}client/token";
-  static String verifyEmail = "${baseAuth}verify-email";
-  static String forgetPassword = "${baseAuth}client/reset-password";
-  static String getUserStatus = "${baseUser}user";
-  static String getUserNetWorth = "${baseUser}Wealth/totalnetworth";
+  static String registerUser = "${authBase}client/sign-up";
+  static String resendEmail = "${authBase}send-verification-email";
+  static String loginUser = "${authBase}client/token";
+  static String verifyEmail = "${authBase}verify-email";
+  static String forgetPassword = "${authBase}client/reset-password";
+  static String getUserStatus = "${userBase}user";
+  static String postBankDetails = "${wealthBase}BankAccount";
+  static String getUserNetWorth = "${wealthBase}Wealth/totalnetworth";
 }
