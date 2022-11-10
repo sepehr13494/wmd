@@ -23,14 +23,23 @@ class SummeryWidget extends AppStatelessWidget {
           children: [
             Text("Summery",style: textTheme.titleLarge),
             const Spacer(),
-            Row(
-              children: [
-                const Icon(Icons.calendar_today_outlined,size: 15,),
-                const SizedBox(width: 8),
-                Text("last 7 days",style: textTheme.bodyMedium!.toLinkStyle(context)),
-                const SizedBox(width: 4),
-                const Icon(Icons.keyboard_arrow_down,size: 15),
-              ],
+            InkWell(
+              onTap: (){
+                showDateRangePicker(context: context, firstDate: DateTime.now().subtract(const Duration(days: 360)), lastDate: DateTime.now()).then((value) {
+                  if(value != null){
+
+                  }
+                });
+              },
+              child: Row(
+                children: [
+                  const Icon(Icons.calendar_today_outlined,size: 15,),
+                  const SizedBox(width: 8),
+                  Text("last 7 days",style: textTheme.bodyMedium!.toLinkStyle(context)),
+                  const SizedBox(width: 4),
+                  const Icon(Icons.keyboard_arrow_down,size: 15),
+                ],
+              ),
             )
           ],
         ),

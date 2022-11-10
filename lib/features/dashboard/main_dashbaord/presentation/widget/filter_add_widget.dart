@@ -3,8 +3,8 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 
-class NetWorthWidget extends AppStatelessWidget {
-  const NetWorthWidget({Key? key}) : super(key: key);
+class filter_add_part extends AppStatelessWidget {
+  const filter_add_part({Key? key}) : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context,TextTheme textTheme, AppLocalizations appLocalizations) {
