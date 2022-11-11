@@ -18,7 +18,7 @@ class ForgetPasswordRepositoryImpl extends ForgetPasswordRepository{
       final result = await forgetPasswordServerDataSource.forgetPassword(forgetPasswordParams);
       return const Right(AppSuccess(message: 'Email sent successfully'));
     } on ServerException catch (error) {
-      return Left(ServerFailure(message: error.message));
+      return Left(ServerFailure.fromServerException(error));
     }
   }
 

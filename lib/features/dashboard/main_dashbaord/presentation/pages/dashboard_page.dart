@@ -11,7 +11,6 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/empty_state_dashboard.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
-import 'package:wmd/injection_container.dart';
 
 class DashboardPage extends AppStatelessWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -23,7 +22,13 @@ class DashboardPage extends AppStatelessWidget {
     return Scaffold(
       appBar: const CustomAuthAppBar(),
       body: BlocConsumer<UserStatusCubit, UserStatusState>(
-        listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
+        listener: BlocHelper.defaultBlocListener(listener: (context, state) {
+          if(state is UserStatusLoaded){
+            if(!(state.userStatus.emailVerified ?? true)){
+              context.goNamed(AppRoutes.verifyEmail,queryParams: {"email":state.userStatus.email??""});
+            }
+          }
+        }),
         builder: BlocHelper.defaultBlocBuilder(builder: (context, state) {
           return SingleChildScrollView(
             child: Container(

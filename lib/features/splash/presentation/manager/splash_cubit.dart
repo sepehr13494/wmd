@@ -24,7 +24,7 @@ class SplashCubit extends Cubit<SplashState> {
                 })), (r) {
           String routeName = "";
           if (r) {
-            routeName = AppRoutes.dashboard;
+            routeName = AppRoutes.main;
           } else {
             routeName = AppRoutes.welcome;
           }

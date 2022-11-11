@@ -18,7 +18,7 @@ class BankRepositoryImpl implements BankRepository {
           await bankSaveRemoteDataSource.postBankDetails(bankSaveParams);
       return Right(result);
     } on ServerException catch (error) {
-      return Left(ServerFailure(message: error.message));
+      return Left(ServerFailure.fromServerException(error));
     }
   }
 }

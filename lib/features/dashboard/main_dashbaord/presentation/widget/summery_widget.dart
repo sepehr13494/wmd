@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/text_with_info.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 
 class SummeryWidget extends AppStatelessWidget {
   const SummeryWidget({Key? key}) : super(key: key);
@@ -27,7 +29,7 @@ class SummeryWidget extends AppStatelessWidget {
               onTap: (){
                 showDateRangePicker(context: context, firstDate: DateTime.now().subtract(const Duration(days: 360)), lastDate: DateTime.now()).then((value) {
                   if(value != null){
-
+                    context.read<MainDashboardCubit>().getNetWorth(dateTimeRange: value);
                   }
                 });
               },
