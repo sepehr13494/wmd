@@ -297,6 +297,23 @@ class MockLocalStorage extends _i1.Mock implements _i5.LocalStorage {
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
   @override
+  _i4.Future<void> setOwnerId(dynamic val) => (super.noSuchMethod(
+        Invocation.method(
+          #setOwnerId,
+          [val],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+  @override
+  String getOwnerId() => (super.noSuchMethod(
+        Invocation.method(
+          #getOwnerId,
+          [],
+        ),
+        returnValue: '',
+      ) as String);
+  @override
   _i4.Future<void> setRefreshToken(dynamic token) => (super.noSuchMethod(
         Invocation.method(
           #setRefreshToken,

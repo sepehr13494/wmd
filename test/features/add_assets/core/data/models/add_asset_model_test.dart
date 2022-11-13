@@ -1,20 +1,20 @@
-import 'package:wmd/features/add_assets/add_basic_cash_asset/data/models/bank_save_response_model.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/entities/bank_save_response.dart';
+import 'package:wmd/features/add_assets/core/data/models/add_asset_model.dart';
+import 'package:wmd/features/add_assets/core/domain/entities/add_asset_response.dart';
 
 void main() {
-  const tBankSaveModel = BankSaveResponseModel(
+  const tBankSaveModel = AddAssetModel(
       currencyCode: "TRY",
       currencyRate: 1.5,
       startingBalance: 500.00,
       totalNetWorthChange: 750.00,
-      totalNetWorth: 0.0);
+      totalNetWorth: 0.00);
 
   test(
-    'should be a subclass of BankSaveResponse Entity',
+    'should be a subclass of AddAsset Entity',
     () async {
       // assert
-      expect(tBankSaveModel, isA<BankSaveResponse>());
+      expect(tBankSaveModel, isA<AddAsset>());
     },
   );
 
@@ -22,9 +22,9 @@ void main() {
     'should return a valid model from json',
     () async {
       // arrange
-      final jsonMap = BankSaveResponseModel.tBankSaveResponse;
+      final jsonMap = AddAssetModel.tAddAssetResponse;
       // act
-      final result = BankSaveResponseModel.fromJson(jsonMap);
+      final result = AddAssetModel.fromJson(jsonMap);
       // assert
       expect(result, tBankSaveModel);
     },
@@ -41,7 +41,7 @@ void main() {
     };
 
     // act
-    final result = BankSaveResponseModel.tBankSaveResponse;
+    final result = AddAssetModel.tAddAssetResponse;
     // assert
     expect(result, equals(exceptedJson));
   });

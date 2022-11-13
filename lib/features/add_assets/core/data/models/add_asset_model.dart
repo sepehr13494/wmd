@@ -1,16 +1,14 @@
 import 'dart:convert';
+import 'package:wmd/features/add_assets/core/domain/entities/add_asset_response.dart';
 
-import 'package:equatable/equatable.dart';
-import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/entities/bank_save_response.dart';
+AddAssetModel bankSaveResponseModelFromJson(String str) =>
+    AddAssetModel.fromJson(json.decode(str));
 
-BankSaveResponseModel bankSaveResponseModelFromJson(String str) =>
-    BankSaveResponseModel.fromJson(json.decode(str));
-
-String bankSaveResponseModelToJson(BankSaveResponseModel data) =>
+String bankSaveResponseModelToJson(AddAssetModel data) =>
     json.encode(data.toJson());
 
-class BankSaveResponseModel extends BankSaveResponse {
-  const BankSaveResponseModel({
+class AddAssetModel extends AddAsset {
+  const AddAssetModel({
     required String currencyCode,
     required double currencyRate,
     required double startingBalance,
@@ -24,8 +22,7 @@ class BankSaveResponseModel extends BankSaveResponse {
           totalNetWorthChange: totalNetWorthChange,
         );
 
-  factory BankSaveResponseModel.fromJson(Map<String, dynamic> json) =>
-      BankSaveResponseModel(
+  factory AddAssetModel.fromJson(Map<String, dynamic> json) => AddAssetModel(
         currencyCode: json["currencyCode"],
         currencyRate: json["currencyRate"].toDouble(),
         startingBalance: json["startingBalance"],
@@ -41,7 +38,7 @@ class BankSaveResponseModel extends BankSaveResponse {
         "totalNetWorth": totalNetWorth,
       };
 
-  static final tBankSaveResponse = {
+  static final tAddAssetResponse = {
     "currencyCode": "TRY",
     "currencyRate": 1.5,
     "startingBalance": 500.00,
@@ -49,7 +46,7 @@ class BankSaveResponseModel extends BankSaveResponse {
     "totalNetWorth": 0.00
   };
 
-  static const tBankSaveResponseModel = BankSaveResponseModel(
+  static const tAddAssetModel = AddAssetModel(
     currencyCode: "TRY",
     currencyRate: 1.5,
     startingBalance: 500.00,
