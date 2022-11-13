@@ -52,10 +52,13 @@ class AppTextFields {
     bool obscureText = false,
     Widget? suffixIcon,
     bool required = true,
+    List<String? Function(String?)>? extraValidators,
     onChanged,
   }) {
     final validators = <String? Function(String?)>[];
-
+    if(extraValidators != null){
+      validators.addAll(extraValidators);
+    }
     if (required) {
       validators.add(FormBuilderValidators.required());
     }
@@ -76,6 +79,7 @@ class AppTextFields {
     }
     return FormBuilderTextField(
       key: key,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       inputFormatters: type == TextFieldType.money ? [
       CurrencyInputFormatter()
       ] : null,
@@ -123,6 +127,7 @@ class AppTextFields {
       name: name,
       enabled: enabled,
       onChanged: onChanged,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         hintText: hint,
       ),
@@ -202,6 +207,7 @@ class FormBuilderSearchableDropdown<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FormBuilderField<T>(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
         builder: (FormFieldState field) {
           return DropdownSearch<T>(
             itemAsString: itemAsString,
