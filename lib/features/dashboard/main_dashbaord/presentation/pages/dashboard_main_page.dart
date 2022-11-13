@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
@@ -44,7 +45,7 @@ class DashboardMainPage extends AppStatelessWidget {
                   children: [
                     filter_add_part(),
                     const SizedBox(height: 12),
-                    SummeryWidget(),
+                    state is MainDashboardNetWorthLoaded ? SummeryWidget(netWorthEntity: state.netWorthObj!) : const LoadingWidget(),
                     LineChartSample2(),
                     RowOrColumn(
                       rowCrossAxisAlignment: CrossAxisAlignment.start,
