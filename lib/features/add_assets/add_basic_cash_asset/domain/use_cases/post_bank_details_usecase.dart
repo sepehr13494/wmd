@@ -73,8 +73,12 @@ class BankSaveParams extends Equatable {
         currentBalance: json["currentBalance"],
         isJointAccount: json["isJointAccount"],
         noOfCoOwners: json["noOfCoOwners"],
-        ownershipPercentage: json["ownershipPercentage"],
-        interestRate: json["interestRate"],
+        ownershipPercentage: json["ownershipPercentage"] != null
+            ? double.tryParse(json["ownershipPercentage"])
+            : json["ownershipPercentage"],
+        interestRate: json["interestRate"] != null
+            ? double.tryParse(json["interestRate"])
+            : json["interestRate"],
         startDate: json["startDate"],
         endDate: json["endDate"],
       );

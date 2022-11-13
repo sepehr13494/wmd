@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 
 class ModalWidget extends StatelessWidget {
@@ -106,7 +108,8 @@ class ModalWidget extends StatelessWidget {
       children: [
         IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              // Navigator.pop(context);
+              GoRouter.of(context).goNamed(AppRoutes.dashboard);
             },
             icon: const Icon(Icons.cancel_rounded)),
       ],

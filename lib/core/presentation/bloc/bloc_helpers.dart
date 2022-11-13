@@ -24,17 +24,18 @@ class BlocHelper {
                     child: Column(
                       children: [
                         Text(state.failure.message),
-                        state.tryAgainFunction == null ? SizedBox() : InkWell(
-                          onTap: () {
-                            if (state.tryAgainFunction != null) {
-                              Navigator.pop(context);
-                              state.tryAgainFunction!();
-                            }
-                          },
-                          child: ElevatedButton(onPressed: (){
-
-                          },child: Text("tryAgain")),
-                        ),
+                        state.tryAgainFunction == null
+                            ? SizedBox()
+                            : InkWell(
+                                onTap: () {
+                                  if (state.tryAgainFunction != null) {
+                                    Navigator.pop(context);
+                                    state.tryAgainFunction!();
+                                  }
+                                },
+                                child: ElevatedButton(
+                                    onPressed: () {}, child: Text("tryAgain")),
+                              ),
                       ],
                     ),
                   ),
