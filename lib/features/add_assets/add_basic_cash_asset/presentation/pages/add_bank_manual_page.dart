@@ -13,6 +13,7 @@ import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/manager/bank_cubit.dart';
 import 'package:wmd/features/add_assets/core/constants.dart';
 import 'package:wmd/features/add_assets/core/data/models/account_type.dart';
+import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
@@ -189,8 +190,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
       create: (context) => sl<BankCubit>(),
       child: Builder(builder: (context) {
         return Scaffold(
-          appBar: AppBar(
-            title: Text("Add Asset"),
+          appBar: const AddAssetHeader(
+            title: "Add asset",
           ),
           bottomSheet: AddAssetFooter(
               buttonText: "Add asset",
