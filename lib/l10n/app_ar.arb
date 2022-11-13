@@ -43,7 +43,7 @@
   "auth_verify_page_title": "Verify email",
   "auth_verify_page_description": "For further information, or inquiries about this User Agreement or Privacy Policy please contact:",
   "auth_verify_heading": "Verify your email",
-  "auth_verify_description": "To verify your email, please click the link in the message we sent to **%s**",
+  "auth_verify_description": "To verify your email, please click the link in the message we sent to %s",
   "auth_verify_text_alreadyVerified": "Already verified your email?",
   "auth_verify_text_noEmailReceived": "Didn't receive an email?",
   "auth_verify_link_resend": "Resend",

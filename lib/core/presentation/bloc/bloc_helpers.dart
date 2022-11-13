@@ -25,7 +25,7 @@ class BlocHelper {
                       children: [
                         Text(state.failure.message),
                         state.tryAgainFunction == null
-                            ? SizedBox()
+                            ? const SizedBox()
                             : InkWell(
                                 onTap: () {
                                   if (state.tryAgainFunction != null) {
@@ -34,7 +34,8 @@ class BlocHelper {
                                   }
                                 },
                                 child: ElevatedButton(
-                                    onPressed: () {}, child: Text("tryAgain")),
+                                    onPressed: () {},
+                                    child: const Text("tryAgain")),
                               ),
                       ],
                     ),

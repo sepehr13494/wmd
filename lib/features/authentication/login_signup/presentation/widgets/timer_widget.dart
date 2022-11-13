@@ -6,14 +6,16 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 
 class TimerWidget extends StatefulWidget {
   final Function sendCodeAgain;
-  const TimerWidget({Key? key, required this.sendCodeAgain}) : super(key: key);
+  final int timerTime;
+  const TimerWidget(
+      {Key? key, required this.sendCodeAgain, this.timerTime = 20})
+      : super(key: key);
 
   @override
-  AppState<TimerWidget> createState() => _TimerWidgetState();
+  AppState<TimerWidget> createState() => _TimerWidgetState(timerTime);
 }
 
 class _TimerWidgetState extends AppState<TimerWidget> {
-
   Timer? timer;
   final interval = const Duration(seconds: 1);
   bool canSend = true;
@@ -26,6 +28,8 @@ class _TimerWidgetState extends AppState<TimerWidget> {
 
   String get timerText =>
       '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
+
+  _TimerWidgetState(this.timerMaxSeconds);
 
   @override
   void initState() {
@@ -53,14 +57,15 @@ class _TimerWidgetState extends AppState<TimerWidget> {
 
   @override
   void dispose() {
-    if(timer != null){
+    if (timer != null) {
       timer!.cancel();
     }
     super.dispose();
   }
 
   @override
-  Widget buildWidget(BuildContext context, TextTheme textTheme, AppLocalizations appLocalizations) {
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -71,17 +76,18 @@ class _TimerWidgetState extends AppState<TimerWidget> {
         Flexible(
           child: !canSend
               ? Directionality(
-              textDirection: TextDirection.ltr,
-              child: Text(
-                timerText,
-                style: TextStyle(color: Theme.of(context).primaryColor),
-              ))
+                  textDirection: TextDirection.ltr,
+                  child: Text(
+                    timerText,
+                    style: TextStyle(color: Theme.of(context).primaryColor),
+                  ))
               : GestureDetector(
-              onTap: () {
-                _initTimer();
-                widget.sendCodeAgain();
-              },
-              child: Text(appLocalizations.auth_verify_link_resend, style: TextStyle(color: Theme.of(context).primaryColor))),
+                  onTap: () {
+                    _initTimer();
+                    widget.sendCodeAgain();
+                  },
+                  child: Text(appLocalizations.auth_verify_link_resend,
+                      style: TextStyle(color: Theme.of(context).primaryColor))),
         ),
       ],
     );
