@@ -19,7 +19,7 @@ class ErrorHandlerMiddleware {
           await serverRequestManager.sendRequest(appRequestOptions);
       if (response.statusCode == AppUrls.wrongTokenCode &&
           appRequestOptions.url != AppUrls.refreshUrl) {
-        throw ServerException(message: "wrong token");
+        throw ServerException(message: "wrong token",type: ServerExceptionType.auth,data: response.data);
       } else {
         if (appRequestOptions.showLog) {
           if (response.requestOptions.data is FormData) {
@@ -35,7 +35,7 @@ class ErrorHandlerMiddleware {
           if ((response.statusCode ?? 600) < 300) {
             return response.data;
           } else {
-            throw ServerException(message: response.data.toString());
+            throw ServerException(message: response.data["message"]??"Un expected error",data: response.data);
           }
         } else {
           return response.data;
@@ -43,10 +43,10 @@ class ErrorHandlerMiddleware {
       }
     } on ServerException catch (e) {
       debugPrint(e.toString());
-      throw ServerException(message: e.message);
+      rethrow;
     } catch (e) {
       debugPrint(e.toString());
-      throw ServerException(message: e.toString());
+      throw ServerException(message: e.toString(),type: ServerExceptionType.unExpected);
     }
   }
 }
