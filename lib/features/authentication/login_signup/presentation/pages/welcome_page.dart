@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -105,7 +107,7 @@ class WelcomePage extends AppStatelessWidget {
                             },
                             child:
                                 Text(appLocalizations.auth_signup_button_join)),
-                        const ContinueAppleButton(),
+                        if (Platform.isIOS) const ContinueAppleButton(),
                         const SizedBox(),
                         Stack(
                           alignment: Alignment.center,

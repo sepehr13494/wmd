@@ -41,7 +41,7 @@ class ForgetPasswordPage extends AppStatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 80),
+                    const SizedBox(height: 10),
                     Text(appLocalizations.auth_forgot_heading,
                         style: textTheme.titleLarge),
                     WidthLimiterWidget(

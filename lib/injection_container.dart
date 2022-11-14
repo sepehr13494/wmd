@@ -12,6 +12,7 @@ import 'package:wmd/features/authentication/forget_password/data/data_sources/fo
 import 'package:wmd/features/authentication/forget_password/data/repositories/forget_password_repository_impl.dart';
 import 'package:wmd/features/authentication/forget_password/domain/repositories/forget_password_repository.dart';
 import 'package:wmd/features/authentication/forget_password/domain/use_cases/forget_password_usecase.dart';
+import 'package:wmd/features/authentication/forget_password/domain/use_cases/reset_password_usecase.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/manager/forget_password_cubit.dart';
 import 'package:wmd/features/authentication/login_signup/data/data_sources/login_sign_up_remote_data_source.dart';
 import 'package:wmd/features/authentication/login_signup/data/repositories/login_sign_up_repository_impl.dart';
@@ -79,8 +80,9 @@ Future<void> init() async {
       () => VerifyEmailServerDataSourceImpl(sl()));
 
   // verifyEmail
-  sl.registerFactory(() => ForgetPasswordCubit(sl()));
+  sl.registerFactory(() => ForgetPasswordCubit(sl(), sl()));
   sl.registerLazySingleton(() => ForgetPasswordUseCase(sl()));
+  sl.registerLazySingleton(() => ResetPasswordUseCase(sl()));
   sl.registerLazySingleton<ForgetPasswordRepository>(
       () => ForgetPasswordRepositoryImpl(sl()));
   sl.registerLazySingleton<ForgetPasswordServerDataSource>(
