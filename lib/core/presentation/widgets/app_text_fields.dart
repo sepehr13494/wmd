@@ -12,10 +12,9 @@ import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 
 class CurrencyInputFormatter extends TextInputFormatter {
-
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-
-    if(newValue.selection.baseOffset == 0){
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.selection.baseOffset == 0) {
       return newValue;
     }
 
@@ -56,7 +55,7 @@ class AppTextFields {
     onChanged,
   }) {
     final validators = <String? Function(String?)>[];
-    if(extraValidators != null){
+    if (extraValidators != null) {
       validators.addAll(extraValidators);
     }
     if (required) {
@@ -80,9 +79,8 @@ class AppTextFields {
     return FormBuilderTextField(
       key: key,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      inputFormatters: type == TextFieldType.money ? [
-      CurrencyInputFormatter()
-      ] : null,
+      inputFormatters:
+          type == TextFieldType.money ? [CurrencyInputFormatter()] : null,
       scrollPadding:
           const EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 90),
       name: name,
@@ -179,7 +177,7 @@ class CountriesDropdown extends StatelessWidget {
       itemBuilder: (context, country, _) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text("${country.name} (${country.countryName})"),
+          child: Text(country.countryName),
         );
       },
     );
@@ -207,7 +205,7 @@ class FormBuilderSearchableDropdown<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FormBuilderField<T>(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         builder: (FormFieldState field) {
           return DropdownSearch<T>(
             itemAsString: itemAsString,

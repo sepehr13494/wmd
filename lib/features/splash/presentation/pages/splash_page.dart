@@ -23,7 +23,7 @@ class _SplashPageState extends State<SplashPage> {
         listener: BlocHelper.defaultBlocListener(
           listener: (context, state) {
             if (state is SplashLoaded) {
-              context.goNamed(AppRoutes.addBankManualPage);
+              context.goNamed(state.routeName);
             }
           },
         ),
