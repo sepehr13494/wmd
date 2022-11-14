@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -54,27 +56,31 @@ class LoginPage extends AppStatelessWidget {
                             AppTextFields.simpleTextField(
                                 name: "username",
                                 type: TextFieldType.email,
-                                hint: appLocalizations.auth_login_input_email_placeholder),
+                                hint: appLocalizations
+                                    .auth_login_input_email_placeholder),
                             const SizedBox(height: 16),
                             PasswordTextField(
-                              hint: appLocalizations.auth_login_input_password_placeholder,
+                              hint: appLocalizations
+                                  .auth_login_input_password_placeholder,
                             ),
                             TextButton(
                                 onPressed: () {
                                   context.pushNamed(AppRoutes.forgetPassword);
                                 },
                                 child: Text(
-                                  appLocalizations.auth_login_link_forgotPassword,
-                                  style: textTheme.bodySmall!
-                                      .toLinkStyle(context),
+                                  appLocalizations
+                                      .auth_login_link_forgotPassword,
+                                  style:
+                                      textTheme.bodySmall!.toLinkStyle(context),
                                 )),
-                            FormBuilderSwitch(
-                                name: "face_id",
-                                title: Text(
-                                    "Enable sign in with Face ID"),
-                                decoration: const InputDecoration(
-                                    border: InputBorder.none),
-                                contentPadding: EdgeInsets.zero),
+                            if (Platform.isIOS)
+                              FormBuilderSwitch(
+                                  name: "face_id",
+                                  title:
+                                      const Text("Enable sign in with Face ID"),
+                                  decoration: const InputDecoration(
+                                      border: InputBorder.none),
+                                  contentPadding: EdgeInsets.zero),
                           ],
                         ),
                       ),
@@ -85,31 +91,31 @@ class LoginPage extends AppStatelessWidget {
                                   map: formKey.currentState!.instantValue);
                             }
                           },
-                          child: Text(appLocalizations.auth_login_button_login)),
+                          child:
+                              Text(appLocalizations.auth_login_button_login)),
                       const SizedBox(),
                       RichText(
                           text: TextSpan(
                               style: const TextStyle(height: 1.3),
                               children: [
-                                TextSpan(
-                                    text:
+                            TextSpan(
+                                text:
                                     "${appLocalizations.auth_login_text_noAccount} ",
-                                    style: textTheme.bodyMedium),
-                                TextSpan(
-                                  text: appLocalizations.auth_login_link_signup,
-                                  style:
-                                  textTheme.bodyMedium!.toLinkStyle(context),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      context.goNamed(AppRoutes.register);
-                                    },
-                                ),
-                              ]))
+                                style: textTheme.bodyMedium),
+                            TextSpan(
+                              text: appLocalizations.auth_login_link_signup,
+                              style: textTheme.bodyMedium!.toLinkStyle(context),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  context.goNamed(AppRoutes.register);
+                                },
+                            ),
+                          ]))
                     ]
                         .map((e) => Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 24),
-                        child: e))
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 24),
+                            child: e))
                         .toList(),
                   ),
                 ),
