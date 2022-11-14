@@ -17,5 +17,6 @@ class AppUrls {
   static String loginUser = "${baseAuth}client/token";
   static String verifyEmail = "${baseAuth}verify-email";
   static String forgetPassword = "${baseAuth}client/reset-password";
+  static String resetPassword = "${baseAuth}client/update-password";
   static String getUserStatus = "${baseUser}user";
 }

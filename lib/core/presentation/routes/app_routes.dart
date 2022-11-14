@@ -9,6 +9,7 @@ class AppRoutes {
   static const String verifyEmail = "verify_email";
   static const String verifySuccess = "verify_success";
   static const String forgetPassword = "forget_password";
+  static const String resetPassword = "reset_password";
   static const String confirmEmail = "confirm_email";
 
   //main
@@ -19,5 +20,4 @@ class AppRoutes {
   static const String addAssetsView = "add_assets_view";
   static const String autoManualPage = "auto_manual";
   static const String addBankManualPage = "add_manual_bank";
-
 }
