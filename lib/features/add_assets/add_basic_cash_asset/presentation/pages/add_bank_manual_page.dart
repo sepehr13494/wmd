@@ -20,6 +20,7 @@ import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/ad
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/injection_container.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/core/extentions/string_ext.dart';
 
 class AddBankManualPage extends StatefulWidget {
   const AddBankManualPage({Key? key}) : super(key: key);
@@ -30,30 +31,53 @@ class AddBankManualPage extends StatefulWidget {
 
 class _AddBankManualPageState extends AppState<AddBankManualPage> {
   final baseFormKey = GlobalKey<FormBuilderState>();
+  GlobalKey<FormBuilderState> bottomFormKey = GlobalKey<FormBuilderState>();
+  String date = "--/--/--";
   String? accountType;
+  String endDateToParse = "";
+  bool? enableAddAssetButton = false;
 
   @override
   void didUpdateWidget(covariant AddBankManualPage oldWidget) {
     super.didUpdateWidget(oldWidget);
   }
 
+  checkFinalValid(val) {
+    bool finalValid = (baseFormKey.currentState!.isValid &&
+        bottomFormKey.currentState!.isValid);
+    // if (finalValid) {
+    //   print(finalValid);
+    // } else {
+    //   print(finalValid);
+    // }
+    setState(() {
+      enableAddAssetButton = finalValid;
+    });
+  }
+
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    final termFormKey = GlobalKey<FormBuilderState>();
-    final otherFormKey = GlobalKey<FormBuilderState>();
-    final rateFormKey = GlobalKey<FormBuilderState>();
     late Widget changeItems;
     final isDepositTerm = accountType == "TermDeposit";
     final isSavingAccount = accountType == "SavingAccount";
+
     if (isDepositTerm) {
       changeItems = FormBuilder(
-        key: termFormKey,
+        key: bottomFormKey,
         child: Column(
           children: [
             EachTextField(
               title: "Ownership",
               child: AppTextFields.simpleTextField(
+                  extraValidators: [
+                    (val) {
+                      return ((int.tryParse(val ?? "0") ?? 0) < 100)
+                          ? null
+                          : "Ownership can't be greater then 100";
+                    }
+                  ],
+                  onChanged: checkFinalValid,
                   name: "ownershipPercentage",
                   hint: "50%",
                   keyboardType: TextInputType.number),
@@ -61,14 +85,21 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
             EachTextField(
               title: "Principal (original deposit amount)",
               child: AppTextFields.simpleTextField(
+                type: TextFieldType.money,
+                onChanged: checkFinalValid,
                 name: "principal",
                 hint: "\$20,000",
               ),
             ),
             EachTextField(
               title: "Rate (optional)",
-              child: AppTextFields.simpleTextField(
-                  name: "interestRate", hint: "50.00", required: false),
+              child: AppTextFields.simpleTextField(extraValidators: [
+                (val) {
+                  return ((int.tryParse(val ?? "0") ?? 0) < 100)
+                      ? null
+                      : "Rate can't be greater then 100";
+                }
+              ], name: "interestRate", hint: "50.00", required: false),
             ),
             EachTextField(
               title: "Start date",
@@ -94,6 +125,11 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                           hasInfo: false,
                           title: "Years",
                           child: AppTextFields.simpleTextField(
+                              required: false,
+                              onChanged: (val) {
+                                checkFinalValid(val);
+                                changeDate();
+                              },
                               name: "years",
                               hint: "00",
                               keyboardType: TextInputType.number),
@@ -106,7 +142,19 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                           title: "Months",
                           child: AppTextFields.simpleTextField(
                               name: "months",
+                              extraValidators: [
+                                (val) {
+                                  return ((int.tryParse(val ?? "0") ?? 0) < 13)
+                                      ? null
+                                      : "< 12";
+                                }
+                              ],
+                              onChanged: (val) {
+                                checkFinalValid(val);
+                                changeDate();
+                              },
                               hint: "00",
+                              required: false,
                               keyboardType: TextInputType.number),
                         ),
                       ),
@@ -116,6 +164,18 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                           hasInfo: false,
                           title: "Days",
                           child: AppTextFields.simpleTextField(
+                              required: false,
+                              extraValidators: [
+                                (val) {
+                                  return ((int.tryParse(val ?? "0") ?? 0) < 32)
+                                      ? null
+                                      : "< 31";
+                                }
+                              ],
+                              onChanged: (val) {
+                                checkFinalValid(val);
+                                changeDate();
+                              },
                               name: "days",
                               hint: "00",
                               keyboardType: TextInputType.number),
@@ -136,7 +196,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                   children: [
                     Text("End term"),
                     const SizedBox(height: 8),
-                    Text("10/27/2022")
+                    Text(date)
                   ],
                 ),
               ),
@@ -151,11 +211,11 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
         ),
       );
     } else {
-      changeItems = Column(
-        children: [
-          FormBuilder(
-            key: otherFormKey,
-            child: Padding(
+      changeItems = FormBuilder(
+        key: bottomFormKey,
+        child: Column(
+          children: [
+            Padding(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               child: EachTextField(
                 title: "Current balance",
@@ -163,27 +223,34 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                     name: "currentBalance",
                     hint: "\$500,000",
                     type: TextFieldType.money,
+                    onChanged: checkFinalValid,
                     keyboardType: TextInputType.number),
               ),
             ),
-          ),
-          if (isSavingAccount) ...[
-            FormBuilder(
-              key: rateFormKey,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                child: EachTextField(
-                  title: "Rate (optional)",
-                  child: AppTextFields.simpleTextField(
-                      name: "interestRate",
-                      hint: "Enter rate",
-                      keyboardType: TextInputType.number),
-                ),
-              ),
-            ),
-          ]
-        ],
+            isSavingAccount
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 16),
+                    child: EachTextField(
+                      title: "Rate (optional)",
+                      child: AppTextFields.simpleTextField(
+                          name: "interestRate",
+                          required: false,
+                          hint: "Enter rate",
+                          onChanged: checkFinalValid,
+                          extraValidators: [
+                            (val) {
+                              return ((int.tryParse(val ?? "0") ?? 0) < 100)
+                                  ? null
+                                  : "Rate can't be greater then 100";
+                            }
+                          ],
+                          keyboardType: TextInputType.number),
+                    ),
+                  )
+                : const SizedBox()
+          ],
+        ),
       );
     }
     return BlocProvider(
@@ -194,25 +261,18 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
             title: "Add asset",
           ),
           bottomSheet: AddAssetFooter(
+              enableAddButton: enableAddAssetButton,
               buttonText: "Add asset",
               onTap: () {
-                late Map<String, dynamic> finalMap;
-                if (isDepositTerm) {
-                  finalMap = {
-                    ...baseFormKey.currentState!.instantValue,
-                    ...termFormKey.currentState!.instantValue,
-                  };
-                } else if (isSavingAccount) {
-                  finalMap = {
-                    ...baseFormKey.currentState!.instantValue,
-                    ...rateFormKey.currentState!.instantValue,
-                    ...otherFormKey.currentState!.instantValue,
-                  };
-                } else {
-                  finalMap = {
-                    ...baseFormKey.currentState!.instantValue,
-                    ...otherFormKey.currentState!.instantValue,
-                  };
+                Map<String, dynamic> finalMap = {
+                  ...baseFormKey.currentState!.instantValue,
+                  ...bottomFormKey.currentState!.instantValue,
+                };
+                print('this is end date 1');
+                print(date.isDate());
+                if (isDepositTerm && endDateToParse.isDate()) {
+                  print('this is end date 2');
+                  finalMap["endDate"] = endDateToParse;
                 }
                 context.read<BankCubit>().postBankDetails(map: finalMap);
               }),
@@ -325,6 +385,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                       onChanged: (val) {
                                         print(val);
                                         setState(() {
+                                          bottomFormKey =
+                                              GlobalKey<FormBuilderState>();
                                           accountType = val;
                                         });
                                       },
@@ -366,5 +428,27 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
         );
       }),
     );
+  }
+
+  void changeDate() {
+    final map = bottomFormKey.currentState!.instantValue;
+    var startDate = map["startDate"];
+    if (startDate != null) {
+      final int year = int.tryParse(map["years"] ?? "0") ?? 0;
+      final int month = int.tryParse(map["months"] ?? "0") ?? 0;
+      final int day = int.tryParse(map["days"] ?? "0") ?? 0;
+
+      setState(() {
+        startDate =
+            DateTime(startDate.year, startDate.month, startDate.day + day);
+        startDate =
+            DateTime(startDate.year, startDate.month + month, startDate.day);
+        startDate =
+            DateTime(startDate.year + year, startDate.month, startDate.day);
+        date = "${startDate.day}/${startDate.month}/${startDate.year}";
+        endDateToParse =
+            "${startDate.year}-${startDate.month}-${startDate.day}";
+      });
+    }
   }
 }

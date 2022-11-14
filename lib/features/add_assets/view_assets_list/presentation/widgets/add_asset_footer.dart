@@ -10,8 +10,12 @@ import 'package:wmd/global_functions.dart';
 class AddAssetFooter extends AppStatelessWidget {
   final String buttonText;
   final void Function()? onTap;
+  final bool? enableAddButton;
   const AddAssetFooter(
-      {Key? key, required this.buttonText, required this.onTap})
+      {Key? key,
+      required this.buttonText,
+      required this.onTap,
+      this.enableAddButton})
       : super(key: key);
 
   @override
@@ -61,7 +65,7 @@ class AddAssetFooter extends AppStatelessWidget {
                     const SizedBox(width: 12),
                     Expanded(
                         child: ElevatedButton(
-                            onPressed: onTap
+                            onPressed: enableAddButton == true ? onTap : null
                             //     () {
                             //   // onTap
                             //   showDialog(

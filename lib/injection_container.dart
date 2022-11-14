@@ -12,6 +12,7 @@ import 'package:wmd/features/authentication/forget_password/data/data_sources/fo
 import 'package:wmd/features/authentication/forget_password/data/repositories/forget_password_repository_impl.dart';
 import 'package:wmd/features/authentication/forget_password/domain/repositories/forget_password_repository.dart';
 import 'package:wmd/features/authentication/forget_password/domain/use_cases/forget_password_usecase.dart';
+import 'package:wmd/features/authentication/forget_password/domain/use_cases/reset_password_usecase.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/manager/forget_password_cubit.dart';
 import 'package:wmd/features/authentication/login_signup/data/data_sources/login_sign_up_remote_data_source.dart';
 import 'package:wmd/features/authentication/login_signup/data/repositories/login_sign_up_repository_impl.dart';
@@ -25,12 +26,18 @@ import 'package:wmd/features/authentication/verify_email/data/repositories/verif
 import 'package:wmd/features/authentication/verify_email/domain/repositories/verify_email_repository.dart';
 import 'package:wmd/features/authentication/verify_email/domain/use_cases/verify_email_usecase.dart';
 import 'package:wmd/features/authentication/verify_email/presentation/manager/verify_email_cubit.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/data/data_sources/main_dashboard_remote_data_source.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/data/repositories/main_dashboard_respository_impl.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/domain/repositories/main_dashboard_repository.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/domain/use_cases/user_net_worth_usecase.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/user_status/data/data_sources/user_status_remote_data_source.dart';
 import 'package:wmd/features/dashboard/user_status/data/repositories/user_status_respository_impl.dart';
 import 'package:wmd/features/dashboard/user_status/domain/repositories/user_status_repository.dart';
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/put_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
+import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'core/data/network/network_helper.dart';
 import 'core/data/network/server_request_manager.dart';
 import 'core/util/app_localization.dart';
@@ -73,12 +80,24 @@ Future<void> init() async {
       () => VerifyEmailServerDataSourceImpl(sl()));
 
   // verifyEmail
-  sl.registerFactory(() => ForgetPasswordCubit(sl()));
+  sl.registerFactory(() => ForgetPasswordCubit(sl(), sl()));
   sl.registerLazySingleton(() => ForgetPasswordUseCase(sl()));
+  sl.registerLazySingleton(() => ResetPasswordUseCase(sl()));
   sl.registerLazySingleton<ForgetPasswordRepository>(
       () => ForgetPasswordRepositoryImpl(sl()));
   sl.registerLazySingleton<ForgetPasswordServerDataSource>(
       () => ForgetPasswordServerDataSourceImpl(sl()));
+
+  //main_page
+  sl.registerFactory(() => MainPageCubit());
+
+  //MainDashboard
+  sl.registerFactory(() => MainDashboardCubit(sl()));
+  sl.registerLazySingleton(() => UserNetWorthUseCase(sl()));
+  sl.registerLazySingleton<MainDashboardRepository>(
+          () => MainDashboardRepositoryImpl(sl()));
+  sl.registerLazySingleton<MainDashboardRemoteDataSource>(
+          () => MainDashboardRemoteDataSourceImpl(sl()));
 
   // Dashboard - user status dependencies
   sl.registerFactory(() => UserStatusCubit(sl(), sl()));

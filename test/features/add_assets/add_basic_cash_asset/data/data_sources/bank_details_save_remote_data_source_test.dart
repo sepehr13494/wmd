@@ -23,7 +23,7 @@ void main() {
 
   group('post bank details', () {
     final tPostBankSaveRequestOptions = AppRequestOptions(RequestTypes.post,
-        AppUrls.postBankDetails, BankSaveParams.tBankSaveParams);
+        AppUrls.postBankDetails, BankSaveParams.tBankSaveParams.toJson());
     test('should return BankSaveResponse when API call is successful',
         () async {
       // arrange

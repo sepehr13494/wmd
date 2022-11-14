@@ -17,7 +17,7 @@ class BankSaveRemoteDataSourceImpl extends AppServerDataSource
   Future<BankSaveResponseModel> postBankDetails(
       BankSaveParams bankSaveParams) async {
     final tPostBankSaveRequestOptions = AppRequestOptions(
-        RequestTypes.post, AppUrls.postBankDetails, bankSaveParams);
+        RequestTypes.post, AppUrls.postBankDetails, bankSaveParams.toJson());
     final response =
         await errorHandlerMiddleware.sendRequest(tPostBankSaveRequestOptions);
     final result = BankSaveResponseModel.fromJson(response);

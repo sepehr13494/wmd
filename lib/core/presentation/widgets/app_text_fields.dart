@@ -12,10 +12,9 @@ import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 
 class CurrencyInputFormatter extends TextInputFormatter {
-
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-
-    if(newValue.selection.baseOffset == 0){
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.selection.baseOffset == 0) {
       return newValue;
     }
 
@@ -52,10 +51,13 @@ class AppTextFields {
     bool obscureText = false,
     Widget? suffixIcon,
     bool required = true,
+    List<String? Function(String?)>? extraValidators,
     onChanged,
   }) {
     final validators = <String? Function(String?)>[];
-
+    if (extraValidators != null) {
+      validators.addAll(extraValidators);
+    }
     if (required) {
       validators.add(FormBuilderValidators.required());
     }
@@ -76,9 +78,9 @@ class AppTextFields {
     }
     return FormBuilderTextField(
       key: key,
-      inputFormatters: type == TextFieldType.money ? [
-      CurrencyInputFormatter()
-      ] : null,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      inputFormatters:
+          type == TextFieldType.money ? [CurrencyInputFormatter()] : null,
       scrollPadding:
           const EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 90),
       name: name,
@@ -123,6 +125,7 @@ class AppTextFields {
       name: name,
       enabled: enabled,
       onChanged: onChanged,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         hintText: hint,
       ),
@@ -174,7 +177,7 @@ class CountriesDropdown extends StatelessWidget {
       itemBuilder: (context, country, _) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text("${country.name} (${country.countryName})"),
+          child: Text(country.countryName),
         );
       },
     );
@@ -202,6 +205,7 @@ class FormBuilderSearchableDropdown<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FormBuilderField<T>(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         builder: (FormFieldState field) {
           return DropdownSearch<T>(
             itemAsString: itemAsString,

@@ -19,7 +19,7 @@ class UserStatusRepositoryImpl implements UserStatusRepository {
       localStorage.setOwnerId(result.userId);
       return Right(result);
     } on ServerException catch (error) {
-      return Left(ServerFailure(message: error.message));
+      return Left(ServerFailure(message: error.message,type: error.type));
     }
   }
 
@@ -27,11 +27,10 @@ class UserStatusRepositoryImpl implements UserStatusRepository {
   Future<Either<Failure, UserStatus>> putUserStatus(
       UserStatus userStatusRequest) async {
     try {
-      final result =
-          await dashboardRemoteDataSource.putUserStatus(userStatusRequest);
+      final result = await dashboardRemoteDataSource.putUserStatus(userStatusRequest);
       return Right(result);
     } on ServerException catch (error) {
-      return Left(ServerFailure(message: error.message));
+      return Left(ServerFailure.fromServerException(error));
     }
   }
 }

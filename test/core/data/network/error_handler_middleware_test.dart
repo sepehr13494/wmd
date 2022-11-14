@@ -54,7 +54,7 @@ void main() {
       expect(
           () => call(tAppRequestOptions),
           throwsA(const TypeMatcher<ServerException>()
-              .having((e) => e.message, 'message', tResponse.data.toString())));
+              .having((e) => e.type, 'type', ServerExceptionType.normal)));
       verify(mockRequestManager.sendRequest(tAppRequestOptions));
     });
 
@@ -74,7 +74,7 @@ void main() {
       expect(
           () => call(tAppRequestOptions),
           throwsA(const TypeMatcher<ServerException>()
-              .having((e) => e.message, 'message', "wrong token")));
+              .having((e) => e.type, 'type', ServerExceptionType.auth)));
       verify(mockRequestManager.sendRequest(tAppRequestOptions));
     });
 
