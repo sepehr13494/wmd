@@ -18,7 +18,7 @@ class VerifyEmailRepositoryImpl extends VerifyEmailRepository{
       final result = await verifyEmailServerDataSource.verifyEmail(verifyEmailParams);
       return const Right(AppSuccess(message: 'Email verified successful'));
     } on ServerException catch (error) {
-      return Left(ServerFailure(message: error.message));
+      return Left(ServerFailure.fromServerException(error));
     }
   }
 

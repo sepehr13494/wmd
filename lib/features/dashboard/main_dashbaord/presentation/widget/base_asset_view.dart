@@ -67,6 +67,7 @@ class BaseAssetView extends AppStatelessWidget {
               ),
               const Divider(),
               ListView.separated(
+                physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     EachAssetViewModel asset = assets[index];

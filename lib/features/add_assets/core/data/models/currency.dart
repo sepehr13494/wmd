@@ -19,7 +19,7 @@ class Currency {
 
   @override
   String toString() {
-    return "$name ($symbol)";
+    return toJson().toString();
   }
 
   static final currenciesList = json.map((e) => Currency.fromJson(e)).toList();

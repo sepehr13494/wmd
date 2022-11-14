@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/manager/bank_cubit.dart';
+import 'package:wmd/features/add_assets/core/constants.dart';
+import 'package:wmd/features/add_assets/core/data/models/account_type.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
+import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
+import 'package:wmd/injection_container.dart';
 
 class AddBankManualPage extends StatefulWidget {
   const AddBankManualPage({Key? key}) : super(key: key);
@@ -21,12 +28,18 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
   String? accountType;
 
   @override
+  void didUpdateWidget(covariant AddBankManualPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final termFormKey = GlobalKey<FormBuilderState>();
     final otherFormKey = GlobalKey<FormBuilderState>();
     late Widget changeItems;
-    final isDepositTerm = accountType == "Term deposit";
+    final isDepositTerm = accountType == "TermDeposit";
+    final endTermData;
     if (isDepositTerm) {
       changeItems = FormBuilder(
         key: termFormKey,
@@ -35,19 +48,21 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
             EachTextField(
               title: "Ownership",
               child: AppTextFields.simpleTextField(
-                  name: "ownership",
+                  name: "ownershipPercentage",
                   hint: "50%",
                   keyboardType: TextInputType.number),
             ),
             EachTextField(
               title: "Principal (original deposit amount)",
               child: AppTextFields.simpleTextField(
-                  name: "principal", hint: "\$20,000"),
+                name: "principal",
+                hint: "\$20,000",
+              ),
             ),
             EachTextField(
               title: "Rate (optional)",
               child: AppTextFields.simpleTextField(
-                  name: "rate", hint: "50.00", required: false),
+                  name: "interestRate", hint: "50.00", required: false),
             ),
             EachTextField(
               title: "Start date",
@@ -120,7 +135,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                 ),
               ),
             ),
-          ].map((e) => Padding(
+          ]
+              .map((e) => Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 12, horizontal: 16),
                     child: e,
@@ -132,133 +148,155 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
       changeItems = FormBuilder(
         key: otherFormKey,
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-              vertical: 12, horizontal: 16),
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
           child: EachTextField(
             title: "Current balance",
             child: AppTextFields.simpleTextField(
                 name: "currentBalance",
                 hint: "\$500,000",
+                type: TextFieldType.money,
                 keyboardType: TextInputType.number),
           ),
         ),
       );
     }
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Add Asset"),
-      ),
-      bottomSheet: AddAssetFooter(buttonText: "Add asset", onTap: () {
-        late Map<String,dynamic> finalMap;
-        if(isDepositTerm){
-          finalMap  = {
-            ...baseFormKey.currentState!.instantValue,
-            ...termFormKey.currentState!.instantValue,
-          };
-        }else{
-          finalMap  = {
-            ...baseFormKey.currentState!.instantValue,
-            ...otherFormKey.currentState!.instantValue,
-          };
-        }
-        print(finalMap);
-      }),
-      body: Theme(
-        data: Theme.of(context).copyWith(),
-        child: Stack(
-          children: [
-            const LeafBackground(),
-            WidthLimiterWidget(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    FormBuilder(
-                      key: baseFormKey,
-                      child: Column(
-                        children: [
-                          Text(
-                            "Add bank account",
-                            style: textTheme.headlineSmall,
+    return BlocProvider(
+      create: (context) => sl<BankCubit>(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Add Asset"),
+        ),
+        bottomSheet: AddAssetFooter(
+            buttonText: "Add asset",
+            onTap: () {
+              late Map<String, dynamic> finalMap;
+              // final userStatus = context.read<UserStatusCubit>().state;
+              // print(userStatus);
+              // if (userStatus is UserStatusLoaded) {
+              //   print(userStatus.userStatus.email);
+              // }
+              if (isDepositTerm) {
+                finalMap = {
+                  ...baseFormKey.currentState!.instantValue,
+                  ...termFormKey.currentState!.instantValue,
+                };
+              } else {
+                finalMap = {
+                  ...baseFormKey.currentState!.instantValue,
+                  ...otherFormKey.currentState!.instantValue,
+                };
+              }
+              // print(finalMap);
+              // print(finalMap['country'].toString());
+              sl<BankCubit>().postBankDetails(map: finalMap);
+            }),
+        body: Theme(
+          data: Theme.of(context).copyWith(),
+          child: Stack(
+            children: [
+              const LeafBackground(),
+              WidthLimiterWidget(
+                child: BlocConsumer<BankCubit, BankSaveState>(
+                  listener: BlocHelper.defaultBlocListener(
+                      listener: (context, state) {}),
+                  builder: (context, state) {
+                    return SingleChildScrollView(
+                      child: Column(children: [
+                        FormBuilder(
+                          key: baseFormKey,
+                          initialValue:
+                              AddAssetConstants.initialJsonForAddAsset,
+                          child: Column(
+                            children: [
+                              Text(
+                                "Add bank account",
+                                style: textTheme.headlineSmall,
+                              ),
+                              Text(
+                                "Fill in your cash details",
+                                style: textTheme.titleMedium,
+                              ),
+                              EachTextField(
+                                  hasInfo: false,
+                                  title: "Bank Name",
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const FormBuilderTypeAhead(
+                                          name: "bankName",
+                                          hint: "Your bank name",
+                                          items: [
+                                            "Bank 1",
+                                            "Bank 2",
+                                            "Bank 3"
+                                          ]),
+                                      TextButton(
+                                        onPressed: () {},
+                                        child: Text(
+                                          "Link your bank account",
+                                          style: textTheme.titleSmall!.apply(
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                        ),
+                                      )
+                                    ],
+                                  )),
+                              EachTextField(
+                                hasInfo: false,
+                                title: "Description",
+                                child: AppTextFields.simpleTextField(
+                                    name: "description",
+                                    hint:
+                                        "A nickname you give to your account"),
+                              ),
+                              const EachTextField(
+                                hasInfo: false,
+                                title: "Country",
+                                child: CountriesDropdown(),
+                              ),
+                              EachTextField(
+                                title: "Account Type",
+                                child: AppTextFields.dropDownTextField(
+                                  onChanged: (val) {
+                                    print(val);
+                                    setState(() {
+                                      accountType = val;
+                                    });
+                                  },
+                                  name: "accountType",
+                                  hint: "Type or select account type",
+                                  items: AccountType.accountList
+                                      .map((e) => DropdownMenuItem(
+                                            value: e.value,
+                                            child: Text(e.name),
+                                          ))
+                                      .toList(),
+                                ),
+                              ),
+                              EachTextField(
+                                hasInfo: false,
+                                title: "Currency",
+                                child: CurrenciesDropdown(),
+                              ),
+                            ]
+                                .map((e) => Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 12, horizontal: 16),
+                                      child: e,
+                                    ))
+                                .toList(),
                           ),
-                          Text(
-                            "Fill in your cash details",
-                            style: textTheme.titleMedium,
-                          ),
-                          EachTextField(
-                              hasInfo: false,
-                              title: "Bank Name",
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const FormBuilderTypeAhead(
-                                      name: "bank",
-                                      hint: "bank hint",
-                                      items: ["bank1", "bank 2", "ARbsdfw"]),
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: Text(
-                                      "Link your bank account",
-                                      style: textTheme.titleSmall!.apply(
-                                          color: Theme.of(context).primaryColor),
-                                    ),
-                                  )
-                                ],
-                              )),
-                          EachTextField(
-                            hasInfo: false,
-                            title: "Description",
-                            child: AppTextFields.simpleTextField(
-                                name: "description",
-                                hint: "A nickname you give to your account"),
-                          ),
-                          const EachTextField(
-                            hasInfo: false,
-                            title: "Country",
-                            child: CountriesDropdown(),
-                          ),
-                          EachTextField(
-                            title: "Account Type",
-                            child: AppTextFields.dropDownTextField(
-                              onChanged: (val) {
-                                setState(() {
-                                  accountType = val;
-                                });
-                              },
-                              name: "accountType",
-                              hint: "Type or select account type",
-                              items: [
-                                "Saving account",
-                                "current account",
-                                "Term deposit"
-                              ]
-                                  .map((e) => DropdownMenuItem(
-                                        value: e,
-                                        child: Text(e),
-                                      ))
-                                  .toList(),
-                            ),
-                          ),
-                          const EachTextField(
-                            hasInfo: false,
-                            title: "currency",
-                            child: CurrenciesDropdown(),
-                          ),
-                        ]
-                            .map((e) =>Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 12, horizontal: 16),
-                                  child: e,
-                                ))
-                            .toList(),
-                      ),
-                    ),
-                    changeItems,
-                    const SizedBox(height: 60),
-                  ]
+                        ),
+                        changeItems,
+                        const SizedBox(height: 60),
+                      ]),
+                    );
+                  },
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

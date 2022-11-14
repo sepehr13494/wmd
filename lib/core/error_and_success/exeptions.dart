@@ -22,11 +22,19 @@ class InputValidationException implements Exception{
 
 class ServerException implements Exception{
   final String message;
+  final ServerExceptionType type;
+  final dynamic data;
 
-  ServerException({required this.message});
+  ServerException({required this.message, this.type = ServerExceptionType.normal,this.data});
 
   @override
   String toString() {
     return "ServerException : $message";
   }
+}
+
+enum ServerExceptionType{
+  normal,
+  auth,
+  unExpected,
 }
