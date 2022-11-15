@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/line_chart.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/filter_add_widget.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/pie_chart_sample.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/random_map.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/summery_widget.dart';
@@ -19,99 +24,57 @@ class DashboardMainPage extends AppStatelessWidget {
     final appTheme = Theme.of(context);
     return Scaffold(
       appBar: const CustomAuthAppBar(),
-      body: WidthLimiterWidget(
-        width: 700,
-        child: SingleChildScrollView(
-          child: Theme(
-            data: appTheme.copyWith(
-                outlinedButtonTheme: OutlinedButtonThemeData(
-                  style: appTheme.outlinedButtonTheme.style!.copyWith(
-                      minimumSize: MaterialStateProperty.all(Size(0, 48))),
-                ),
-                elevatedButtonTheme: ElevatedButtonThemeData(
-                  style: appTheme.outlinedButtonTheme.style!.copyWith(
-                      minimumSize: MaterialStateProperty.all(Size(0, 48))),
-                ),
-                iconTheme:
-                    appTheme.iconTheme.copyWith(color: appTheme.primaryColor)),
-            child: Column(
-              children: [
-                Row(
+      body: BlocBuilder<MainDashboardCubit, MainDashboardState>(
+        builder: BlocHelper.defaultBlocBuilder(builder: (context, state) {
+          return WidthLimiterWidget(
+            width: 700,
+            child: SingleChildScrollView(
+              child: Theme(
+                data: appTheme.copyWith(
+                    outlinedButtonTheme: OutlinedButtonThemeData(
+                      style: appTheme.outlinedButtonTheme.style!.copyWith(
+                          minimumSize:
+                              MaterialStateProperty.all(const Size(0, 48))),
+                    ),
+                    elevatedButtonTheme: ElevatedButtonThemeData(
+                      style: appTheme.outlinedButtonTheme.style!.copyWith(
+                          minimumSize:
+                              MaterialStateProperty.all(const Size(0, 48))),
+                    ),
+                    iconTheme: appTheme.iconTheme
+                        .copyWith(color: appTheme.primaryColor)),
+                child: Column(
                   children: [
-                    Text("Wealth Overview", style: textTheme.headlineSmall),
-                    const Spacer(),
-                    Row(
+                    const filter_add_part(),
+                    const SizedBox(height: 12),
+                    state is MainDashboardNetWorthLoaded
+                        ? SizedBox(height: 10)
+                        // SummeryWidget(netWorthEntity: state.netWorthObj!)
+                        : const LoadingWidget(),
+                    const LineChartSample2(),
+                    RowOrColumn(
+                      rowCrossAxisAlignment: CrossAxisAlignment.start,
+                      showRow: !isMobile,
                       children: [
-                        SizedBox(
-                          height: 32,
-                          child: OutlinedButton(
-                            onPressed: () {},
-                            child: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.filter_alt, size: 15),
-                                  isMobile
-                                      ? const SizedBox()
-                                      : Row(
-                                          children: [
-                                            const SizedBox(width: 8),
-                                            Text("Filter"),
-                                          ],
-                                        ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        SizedBox(
-                          height: 32,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            child: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.add_circle, size: 15),
-                                  isMobile
-                                      ? const SizedBox()
-                                      : Row(
-                                          children: [
-                                            const SizedBox(width: 8),
-                                            Text("Add"),
-                                          ],
-                                        ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
+                        ExpandedIf(
+                            expanded: !isMobile,
+                            child: RandomWorldMapGenrator()),
+                        ExpandedIf(
+                            expanded: !isMobile,
+                            child: const PieChartSample2()),
                       ],
                     ),
-                  ],
+                  ]
+                      .map((e) => Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 16),
+                          child: e))
+                      .toList(),
                 ),
-                const SizedBox(height: 12),
-                SummeryWidget(),
-                LineChartSample2(),
-                RowOrColumn(
-                  rowCrossAxisAlignment: CrossAxisAlignment.start,
-                  showRow: !isMobile,
-                  children: [
-                    ExpandedIf(
-                        expanded: !isMobile, child: RandomWorldMapGenrator()),
-                    ExpandedIf(expanded: !isMobile, child: PieChartSample2()),
-                  ],
-                ),
-              ]
-                  .map((e) => Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 16),
-                      child: e))
-                  .toList(),
+              ),
             ),
-          ),
-        ),
+          );
+        }),
       ),
     );
   }

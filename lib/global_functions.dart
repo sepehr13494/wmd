@@ -9,10 +9,25 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class GlobalFunctions {
   GlobalFunctions._();
 
-  static showSnackBar(context, content, {color = Colors.white}) {
+  static showSnackBar(context, content,
+      {color = Colors.white, type = 'default'}) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(content),
-      backgroundColor: color,
+      content: Row(
+        children: [
+          Icon(type == "error"
+              ? Icons.cancel_rounded
+              : type == "success"
+                  ? Icons.check_circle
+                  : Icons.info),
+          const SizedBox(width: 10),
+          Text(content)
+        ],
+      ),
+      backgroundColor: type == "error"
+          ? Colors.red[800]
+          : type == "success"
+              ? Colors.green[600]
+              : color,
     ));
   }
 
