@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
@@ -17,7 +18,6 @@ import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_head
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
-import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/injection_container.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/extentions/string_ext.dart';
@@ -35,24 +35,32 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
   String date = "--/--/--";
   String? accountType;
   String endDateToParse = "";
-  bool? enableAddAssetButton = false;
+  bool enableAddAssetButton = false;
 
   @override
   void didUpdateWidget(covariant AddBankManualPage oldWidget) {
     super.didUpdateWidget(oldWidget);
   }
 
-  checkFinalValid(val) {
+  void checkFinalValid(value) async{
+    print(value);
+    await Future.delayed(const Duration(milliseconds: 100));
     bool finalValid = (baseFormKey.currentState!.isValid &&
         bottomFormKey.currentState!.isValid);
-    // if (finalValid) {
-    //   print(finalValid);
-    // } else {
-    //   print(finalValid);
-    // }
-    setState(() {
-      enableAddAssetButton = finalValid;
-    });
+    print(finalValid);
+    if(finalValid){
+      if(!enableAddAssetButton){
+        setState(() {
+          enableAddAssetButton = true;
+        });
+      }
+    }else{
+      if(enableAddAssetButton){
+        setState(() {
+          enableAddAssetButton = false;
+        });
+      }
+    }
   }
 
   @override
@@ -93,19 +101,26 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
             ),
             EachTextField(
               title: "Rate (optional)",
-              child: AppTextFields.simpleTextField(extraValidators: [
-                (val) {
-                  return ((int.tryParse(val ?? "0") ?? 0) < 100)
-                      ? null
-                      : "Rate can't be greater then 100";
-                }
-              ], name: "interestRate", hint: "50.00", required: false),
+              child: AppTextFields.simpleTextField(
+                extraValidators: [
+                  (val) {
+                    return ((int.tryParse(val ?? "0") ?? 0) < 100)
+                        ? null
+                        : "Rate can't be greater then 100";
+                  }
+                ],
+                name: "interestRate",
+                hint: "50.00",
+                required: false,
+              ),
             ),
             EachTextField(
               title: "Start date",
               child: FormBuilderDateTimePicker(
                 inputType: InputType.date,
+                validator: FormBuilderValidators.required(),
                 name: "startDate",
+                onChanged: checkFinalValid,
                 decoration: InputDecoration(
                     suffixIcon: Icon(
                       Icons.calendar_today_outlined,
@@ -261,21 +276,21 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
             title: "Add asset",
           ),
           bottomSheet: AddAssetFooter(
-              enableAddButton: enableAddAssetButton,
-              buttonText: "Add asset",
-              onTap: () {
-                Map<String, dynamic> finalMap = {
-                  ...baseFormKey.currentState!.instantValue,
-                  ...bottomFormKey.currentState!.instantValue,
-                };
-                print('this is end date 1');
-                print(date.isDate());
-                if (isDepositTerm && endDateToParse.isDate()) {
-                  print('this is end date 2');
-                  finalMap["endDate"] = endDateToParse;
-                }
-                context.read<BankCubit>().postBankDetails(map: finalMap);
-              }),
+            buttonText: "Add asset",
+            onTap: !enableAddAssetButton ? null : () {
+              Map<String, dynamic> finalMap = {
+                ...baseFormKey.currentState!.instantValue,
+                ...bottomFormKey.currentState!.instantValue,
+              };
+              print('this is end date 1');
+              print(date.isDate());
+              if (isDepositTerm && endDateToParse.isDate()) {
+                print('this is end date 2');
+                finalMap["endDate"] = endDateToParse;
+              }
+              context.read<BankCubit>().postBankDetails(map: finalMap);
+            },
+          ),
           body: Theme(
             data: Theme.of(context).copyWith(),
             child: Stack(
@@ -299,12 +314,13 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                 cancelBtn: appLocalizations
                                     .common_formSuccessModal_buttons_addAsset,
                                 aquiredCost:
-                                    successValue.startingBalance.toMoney(),
-                                marketPrice:
-                                    successValue.totalNetWorthChange.toMoney(),
-                                netWorth: successValue.totalNetWorth.toMoney(),
-                                netWorthChange:
-                                    successValue.totalNetWorthChange.toMoney(),
+                                    successValue.startingBalance.convertMoney(),
+                                marketPrice: successValue.totalNetWorthChange
+                                    .convertMoney(),
+                                netWorth:
+                                    successValue.totalNetWorth.convertMoney(),
+                                netWorthChange: successValue.totalNetWorthChange
+                                    .convertMoney(),
                               );
                             },
                           ).then((isConfirm) {
@@ -346,10 +362,11 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          const FormBuilderTypeAhead(
+                                          FormBuilderTypeAhead(
                                               name: "bankName",
                                               hint: "Your bank name",
-                                              items: [
+                                              onChange: checkFinalValid,
+                                              items: const [
                                                 "Bank 1",
                                                 "Bank 2",
                                                 "Bank 3"
@@ -370,25 +387,28 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                     hasInfo: false,
                                     title: "Description",
                                     child: AppTextFields.simpleTextField(
+                                      required: false,
                                         name: "description",
                                         hint:
                                             "A nickname you give to your account"),
                                   ),
-                                  const EachTextField(
+                                  EachTextField(
                                     hasInfo: false,
                                     title: "Country",
-                                    child: CountriesDropdown(),
+                                    child: CountriesDropdown(
+                                      onChanged: checkFinalValid,
+                                    ),
                                   ),
                                   EachTextField(
                                     title: "Account Type",
                                     child: AppTextFields.dropDownTextField(
-                                      onChanged: (val) {
-                                        print(val);
+                                      onChanged: (val) async {
                                         setState(() {
-                                          bottomFormKey =
-                                              GlobalKey<FormBuilderState>();
+                                          bottomFormKey = GlobalKey<FormBuilderState>();
                                           accountType = val;
                                         });
+                                        await Future.delayed(const Duration(milliseconds: 200));
+                                        checkFinalValid(val);
                                       },
                                       name: "accountType",
                                       hint: "Type or select account type",
@@ -403,7 +423,9 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                   EachTextField(
                                     hasInfo: false,
                                     title: "Currency",
-                                    child: CurrenciesDropdown(),
+                                    child: CurrenciesDropdown(
+                                      onChanged: checkFinalValid,
+                                    ),
                                   ),
                                 ]
                                     .map((e) => Padding(
