@@ -6,7 +6,7 @@ import 'package:wmd/core/presentation/widgets/modal_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 
 class SuccessModalWidget extends ModalWidget {
-  final String aquiredCost, marketPrice, netWorth;
+  final String aquiredCost, marketPrice, netWorth, netWorthChange;
 
   const SuccessModalWidget({
     super.key,
@@ -17,6 +17,7 @@ class SuccessModalWidget extends ModalWidget {
     required this.aquiredCost,
     required this.marketPrice,
     required this.netWorth,
+    required this.netWorthChange,
   });
 
   @override
@@ -104,7 +105,7 @@ class SuccessModalWidget extends ModalWidget {
                                         color: Colors.green[400],
                                       ),
                                       Text(
-                                        marketPrice,
+                                        netWorthChange,
                                         textAlign: TextAlign.center,
                                         style: appTextTheme.bodySmall
                                             ?.merge(TextStyle(

@@ -13,9 +13,9 @@ class BankSaveResponseModel extends BankSaveResponse {
   const BankSaveResponseModel({
     required String currencyCode,
     required double currencyRate,
-    required int startingBalance,
-    required int totalNetWorthChange,
-    required int totalNetWorth,
+    required double startingBalance,
+    required double totalNetWorthChange,
+    required double totalNetWorth,
   }) : super(
           currencyCode: currencyCode,
           currencyRate: currencyRate,

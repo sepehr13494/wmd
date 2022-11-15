@@ -11,7 +11,9 @@ class AddAssetFooter extends AppStatelessWidget {
   final String buttonText;
   final void Function()? onTap;
   const AddAssetFooter(
-      {Key? key, required this.buttonText, required this.onTap})
+      {Key? key,
+      required this.buttonText,
+      required this.onTap,})
       : super(key: key);
 
   @override
@@ -61,31 +63,7 @@ class AddAssetFooter extends AppStatelessWidget {
                     const SizedBox(width: 12),
                     Expanded(
                         child: ElevatedButton(
-                            onPressed: onTap
-                            //     () {
-                            //   // onTap
-                            //   showDialog(
-                            //     context: context,
-                            //     builder: (context) {
-                            //       return SuccessModalWidget(
-                            //         title:
-                            //             '[Asset] is successfully added to wealth overview',
-                            //         confirmBtn: appLocalizations
-                            //             .common_formSuccessModal_buttons_viewAsset,
-                            //         cancelBtn: appLocalizations
-                            //             .common_formSuccessModal_buttons_addAsset,
-                            //         aquiredCost: '\$1,000,000',
-                            //         marketPrice: '\$3,000,000',
-                            //         netWorth: '\$5,000,000',
-                            //       );
-                            //     },
-                            //   ).then((isConfirm) {
-                            //     if (isConfirm != null && isConfirm == true) {
-                            //       context.pop();
-                            //     }
-                            //   });
-                            // }
-                            ,
+                            onPressed: onTap,
                             child: Text(buttonText))),
                   ],
                 ),

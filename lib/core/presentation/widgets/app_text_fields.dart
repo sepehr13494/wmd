@@ -12,10 +12,9 @@ import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 
 class CurrencyInputFormatter extends TextInputFormatter {
-
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-
-    if(newValue.selection.baseOffset == 0){
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.selection.baseOffset == 0) {
       return newValue;
     }
 
@@ -52,10 +51,13 @@ class AppTextFields {
     bool obscureText = false,
     Widget? suffixIcon,
     bool required = true,
-    onChanged,
+    List<String? Function(String?)>? extraValidators,
+    ValueChanged<String?>? onChanged,
   }) {
     final validators = <String? Function(String?)>[];
-
+    if (extraValidators != null) {
+      validators.addAll(extraValidators);
+    }
     if (required) {
       validators.add(FormBuilderValidators.required());
     }
@@ -76,9 +78,9 @@ class AppTextFields {
     }
     return FormBuilderTextField(
       key: key,
-      inputFormatters: type == TextFieldType.money ? [
-      CurrencyInputFormatter()
-      ] : null,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      inputFormatters:
+          type == TextFieldType.money ? [CurrencyInputFormatter()] : null,
       scrollPadding:
           const EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 90),
       name: name,
@@ -94,7 +96,6 @@ class AppTextFields {
           _getAutofillHint(type) == null ? null : [_getAutofillHint(type)!],
       validator: FormBuilderValidators.compose(validators),
       onChanged: onChanged,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
     );
   }
 
@@ -124,6 +125,7 @@ class AppTextFields {
       name: name,
       enabled: enabled,
       onChanged: onChanged,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         hintText: hint,
       ),
@@ -134,7 +136,8 @@ class AppTextFields {
 }
 
 class CurrenciesDropdown extends StatelessWidget {
-  const CurrenciesDropdown({Key? key}) : super(key: key);
+  final ValueChanged<Currency?>? onChanged;
+  const CurrenciesDropdown({Key? key, this.onChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -142,6 +145,7 @@ class CurrenciesDropdown extends StatelessWidget {
       name: "currencyCode",
       hint: "Type or select currency",
       items: Currency.currenciesList,
+      onChanged: onChanged,
       itemAsString: (Currency currency) =>
           "${currency.name} (${currency.symbol})",
       filterFn: (currency, string) {
@@ -159,7 +163,8 @@ class CurrenciesDropdown extends StatelessWidget {
 }
 
 class CountriesDropdown extends StatelessWidget {
-  const CountriesDropdown({Key? key}) : super(key: key);
+  final ValueChanged<Country?>? onChanged;
+  const CountriesDropdown({Key? key, this.onChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -167,6 +172,7 @@ class CountriesDropdown extends StatelessWidget {
       name: "country",
       hint: "Type or select a country",
       items: Country.countriesList,
+      onChanged: onChanged,
       itemAsString: (country) => "${country.name} (${country.countryName})",
       filterFn: (country, string) {
         return (country.name.toLowerCase().contains(string.toLowerCase()) ||
@@ -175,7 +181,7 @@ class CountriesDropdown extends StatelessWidget {
       itemBuilder: (context, country, _) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text("${country.name} (${country.countryName})"),
+          child: Text(country.countryName),
         );
       },
     );
@@ -189,6 +195,7 @@ class FormBuilderSearchableDropdown<T> extends StatelessWidget {
   final DropdownSearchFilterFn<T>? filterFn;
   final DropdownSearchPopupItemBuilder<T>? itemBuilder;
   final List<T> items;
+  final ValueChanged<T?>? onChanged;
 
   const FormBuilderSearchableDropdown(
       {Key? key,
@@ -197,12 +204,14 @@ class FormBuilderSearchableDropdown<T> extends StatelessWidget {
       this.itemAsString,
       this.filterFn,
       this.itemBuilder,
-      required this.items})
+      required this.items, this.onChanged})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return FormBuilderField<T>(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        onChanged: onChanged,
         builder: (FormFieldState field) {
           return DropdownSearch<T>(
             itemAsString: itemAsString,
@@ -227,8 +236,9 @@ class FormBuilderTypeAhead extends StatefulWidget {
   final String name;
   final String hint;
   final List<String> items;
+  final ValueChanged<String?>? onChange;
   const FormBuilderTypeAhead(
-      {Key? key, required this.name, required this.items, required this.hint})
+      {Key? key, required this.name, required this.items, required this.hint, this.onChange})
       : super(key: key);
 
   @override
@@ -271,6 +281,7 @@ class _FormBuilderTypeAheadState extends State<FormBuilderTypeAhead> {
             hideOnEmpty: true,
           );
         },
+        onChanged: widget.onChange,
         name: widget.name);
   }
 }
@@ -279,7 +290,7 @@ class _FormBuilderTypeAheadState extends State<FormBuilderTypeAhead> {
 class PasswordTextField extends StatefulWidget {
   final String? hint;
   final GlobalKey<FormBuilderFieldState>? passwordKey;
-  Function? onChange;
+  ValueChanged<String?>? onChange;
 
   PasswordTextField({Key? key, this.hint, this.onChange, this.passwordKey})
       : super(key: key);
