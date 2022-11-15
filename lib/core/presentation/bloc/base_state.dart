@@ -7,7 +7,9 @@ abstract class BaseState extends Equatable
         SplashState,
         VideoControllerState,
         VerifyEmailState,
-        UserStatusState {}
+        UserStatusState,
+        MainDashboardState,
+        BankSaveState {}
 
 class BaseInitialState extends BaseState {
   @override

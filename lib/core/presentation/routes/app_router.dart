@@ -11,8 +11,8 @@ import 'package:wmd/features/authentication/login_signup/presentation/pages/regi
 import 'package:wmd/features/authentication/login_signup/presentation/pages/verify_email_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/welcome_page.dart';
 import 'package:wmd/features/authentication/verify_email/presentation/pages/verify_response_page.dart';
-import 'package:wmd/features/dashboard/main_dashbaord/presentation/pages/dashboard_main_page.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/pages/dashboard_page.dart';
+import 'package:wmd/features/main_page/presentation/pages/main_page.dart';
 import 'package:wmd/features/splash/presentation/pages/splash_page.dart';
 
 class AppRouter {
@@ -75,10 +75,10 @@ class AppRouter {
         },
       ),
       GoRoute(
-          name: AppRoutes.dashboard,
-          path: "/dashboard",
-          builder: (BuildContext context, GoRouterState state) {
-            return const DashboardPage();
+          name: AppRoutes.main,
+          path: "/main",
+          builder: (context, state) {
+            return const MainPage();
           },
           routes: [
             GoRoute(
@@ -103,7 +103,7 @@ class AppRouter {
                     },
                   ),
                 ]),
-          ]),
+          ])
     ],
   );
 }

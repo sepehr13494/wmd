@@ -30,7 +30,7 @@ class LoginSignUpRepositoryImpl implements LoginSignUpRepository {
       localStorage.setRefreshToken(result.refreshToken);
       return const Right(AppSuccess(message: 'Login successful'));
     } on ServerException catch (error) {
-      return Left(ServerFailure(message: error.message));
+      return Left(ServerFailure.fromServerException(error));
     } on CacheException catch (cacheError) {
       return Left(CacheFailure(message: cacheError.message));
     }
@@ -45,7 +45,7 @@ class LoginSignUpRepositoryImpl implements LoginSignUpRepository {
       localStorage.setRefreshToken(result.refreshToken);
       return const Right(AppSuccess(message: 'Register successful'));
     } on ServerException catch (error) {
-      return Left(ServerFailure(message: error.message));
+      return Left(ServerFailure.fromServerException(error));
     } on CacheException catch (cacheError) {
       return Left(CacheFailure(message: cacheError.message));
     }
@@ -57,7 +57,7 @@ class LoginSignUpRepositoryImpl implements LoginSignUpRepository {
       final result = await loginSignUpRemoteDataSource.resendEmail(resendEmailParams);
       return const Right(AppSuccess(message: 'Email sent successful'));
     } on ServerException catch (error) {
-      return Left(ServerFailure(message: error.message));
+      return Left(ServerFailure.fromServerException(error));
     }
   }
 }
