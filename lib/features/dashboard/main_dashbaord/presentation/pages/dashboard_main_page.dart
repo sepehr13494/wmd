@@ -14,8 +14,14 @@ import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/pie_ch
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/random_map.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/summery_widget.dart';
 
-class DashboardMainPage extends AppStatelessWidget {
+class DashboardMainPage extends StatefulWidget {
   const DashboardMainPage({Key? key}) : super(key: key);
+
+  @override
+  AppState<DashboardMainPage> createState() => _DashboardMainPageState();
+}
+
+class _DashboardMainPageState extends AppState<DashboardMainPage> {
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -24,7 +30,10 @@ class DashboardMainPage extends AppStatelessWidget {
     final appTheme = Theme.of(context);
     return Scaffold(
       appBar: const CustomAuthAppBar(),
-      body: BlocBuilder<MainDashboardCubit, MainDashboardState>(
+      body: BlocConsumer<MainDashboardCubit, MainDashboardState>(
+        listener: BlocHelper.defaultBlocListener(listener: (context, state) {
+
+        },),
         builder: BlocHelper.defaultBlocBuilder(builder: (context, state) {
           return WidthLimiterWidget(
             width: 700,

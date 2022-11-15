@@ -3,17 +3,18 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i6;
 
-import 'package:dartz/dartz.dart' as _i3;
+import 'package:dartz/dartz.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:wmd/core/error_and_success/failures.dart' as _i6;
+import 'package:wmd/core/error_and_success/failures.dart' as _i7;
+import 'package:wmd/core/util/local_storage.dart' as _i3;
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/entities/bank_save_response.dart'
-    as _i7;
+    as _i8;
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/repositories/bank_repository.dart'
     as _i2;
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/use_cases/post_bank_details_usecase.dart'
-    as _i4;
+    as _i5;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -37,8 +38,18 @@ class _FakeBankRepository_0 extends _i1.SmartFake
         );
 }
 
-class _FakeEither_1<L, R> extends _i1.SmartFake implements _i3.Either<L, R> {
-  _FakeEither_1(
+class _FakeLocalStorage_1 extends _i1.SmartFake implements _i3.LocalStorage {
+  _FakeLocalStorage_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeEither_2<L, R> extends _i1.SmartFake implements _i4.Either<L, R> {
+  _FakeEither_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -51,7 +62,7 @@ class _FakeEither_1<L, R> extends _i1.SmartFake implements _i3.Either<L, R> {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockPostBankDetailsUseCase extends _i1.Mock
-    implements _i4.PostBankDetailsUseCase {
+    implements _i5.PostBankDetailsUseCase {
   MockPostBankDetailsUseCase() {
     _i1.throwOnMissingStub(this);
   }
@@ -65,7 +76,15 @@ class MockPostBankDetailsUseCase extends _i1.Mock
         ),
       ) as _i2.BankRepository);
   @override
-  _i5.Future<_i3.Either<_i6.Failure, _i7.BankSaveResponse>> call(
+  _i3.LocalStorage get localStorage => (super.noSuchMethod(
+        Invocation.getter(#localStorage),
+        returnValue: _FakeLocalStorage_1(
+          this,
+          Invocation.getter(#localStorage),
+        ),
+      ) as _i3.LocalStorage);
+  @override
+  _i6.Future<_i4.Either<_i7.Failure, _i8.BankSaveResponse>> call(
           Map<String, dynamic>? params) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -73,13 +92,13 @@ class MockPostBankDetailsUseCase extends _i1.Mock
           [params],
         ),
         returnValue:
-            _i5.Future<_i3.Either<_i6.Failure, _i7.BankSaveResponse>>.value(
-                _FakeEither_1<_i6.Failure, _i7.BankSaveResponse>(
+            _i6.Future<_i4.Either<_i7.Failure, _i8.BankSaveResponse>>.value(
+                _FakeEither_2<_i7.Failure, _i8.BankSaveResponse>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i5.Future<_i3.Either<_i6.Failure, _i7.BankSaveResponse>>);
+      ) as _i6.Future<_i4.Either<_i7.Failure, _i8.BankSaveResponse>>);
 }

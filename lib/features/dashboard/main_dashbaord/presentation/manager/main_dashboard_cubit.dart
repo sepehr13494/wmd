@@ -13,11 +13,13 @@ class MainDashboardCubit extends Cubit<MainDashboardState> {
 
   MainDashboardCubit(this.userNetWorthUseCase) : super(LoadingState());
 
+  initPage(){
+    getNetWorth();
+  }
+
   getNetWorth({DateTimeRange? dateTimeRange}) async {
-    print("hi");
     emit(LoadingState());
     final result = await userNetWorthUseCase(dateTimeRange);
-    print(result);
     result.fold(
         (failure) => emit(ErrorState(failure: failure)), (userNetWorth) {
       emit(MainDashboardNetWorthLoaded(netWorthObj: userNetWorth));
