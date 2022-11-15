@@ -37,9 +37,9 @@ class NetWorthResponseObj extends NetWorthEntity {
 
 class Assets extends AssetsEntity {
   const Assets({
-    required int newAsset,
-    required int currentValue,
-    required int change,
+    required double newAsset,
+    required double currentValue,
+    required double change,
   }) : super(
           newAsset: newAsset,
           currentValue: currentValue,
@@ -47,17 +47,17 @@ class Assets extends AssetsEntity {
         );
 
   factory Assets.fromJson(Map<String, dynamic> json) => Assets(
-        newAsset: json["newAsset"] ?? 0,
-        currentValue: json["currentValue"] ?? 0,
-        change: json["change"] ?? 0,
+        newAsset: double.tryParse(json["newAsset"].toString()) ?? 0,
+        currentValue: double.tryParse(json["currentValue"].toString()) ?? 0,
+        change: double.tryParse(json["change"].toString()) ?? 0,
       );
 }
 
 class Liabilities extends LiabilitiesEntity {
   const Liabilities({
-    required int newLiability,
-    required int currentValue,
-    required int change,
+    required double newLiability,
+    required double currentValue,
+    required double change,
   }) : super(
           newLiability: newLiability,
           currentValue: currentValue,
@@ -65,23 +65,23 @@ class Liabilities extends LiabilitiesEntity {
         );
 
   factory Liabilities.fromJson(Map<String, dynamic> json) => Liabilities(
-        newLiability: json["newLiability"] ?? 1,
-        currentValue: json["currentValue"] ?? 1,
-        change: json["change"] ?? 1,
+        newLiability: double.tryParse(json["newLiability"].toString()) ?? 1,
+        currentValue: double.tryParse(json["currentValue"].toString()) ?? 1,
+        change: double.tryParse(json["change"].toString()) ?? 1,
       );
 }
 
 class TotalNetWorth extends TotalNetWorthEntity {
   const TotalNetWorth({
-    required int currentValue,
-    required int change,
+    required double currentValue,
+    required double change,
   }) : super(
           currentValue: currentValue,
           change: change,
         );
 
   factory TotalNetWorth.fromJson(Map<String, dynamic> json) => TotalNetWorth(
-        currentValue: json["currentValue"] ?? 0,
-        change: json["change"] ?? 0,
+        currentValue: double.tryParse(json["currentValue"].toString()) ?? 0,
+        change: double.tryParse(json["change"].toString()) ?? 0,
       );
 }

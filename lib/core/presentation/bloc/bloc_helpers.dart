@@ -73,14 +73,6 @@ class BlocHelper {
           }
         }
       }
-      // else if (state is SuccessState) {
-      //   //showing a snackbar that it is successful
-      //   GlobalFunctions.showSnackBar(
-      //     context,
-      //     state.appSuccess.message,
-      //     color: Colors.green,
-      //   );
-      // }
       else {
         LoadingOverlay().hide();
         listener(context, state);
