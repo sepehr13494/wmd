@@ -268,10 +268,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                   ...baseFormKey.currentState!.instantValue,
                   ...bottomFormKey.currentState!.instantValue,
                 };
-                print('this is end date 1');
-                print(date.isDate());
                 if (isDepositTerm && endDateToParse.isDate()) {
-                  print('this is end date 2');
                   finalMap["endDate"] = endDateToParse;
                 }
                 context.read<BankCubit>().postBankDetails(map: finalMap);
