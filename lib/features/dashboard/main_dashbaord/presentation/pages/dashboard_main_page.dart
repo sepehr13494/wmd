@@ -33,20 +33,25 @@ class DashboardMainPage extends AppStatelessWidget {
                 data: appTheme.copyWith(
                     outlinedButtonTheme: OutlinedButtonThemeData(
                       style: appTheme.outlinedButtonTheme.style!.copyWith(
-                          minimumSize: MaterialStateProperty.all(Size(0, 48))),
+                          minimumSize:
+                              MaterialStateProperty.all(const Size(0, 48))),
                     ),
                     elevatedButtonTheme: ElevatedButtonThemeData(
                       style: appTheme.outlinedButtonTheme.style!.copyWith(
-                          minimumSize: MaterialStateProperty.all(Size(0, 48))),
+                          minimumSize:
+                              MaterialStateProperty.all(const Size(0, 48))),
                     ),
-                    iconTheme:
-                    appTheme.iconTheme.copyWith(color: appTheme.primaryColor)),
+                    iconTheme: appTheme.iconTheme
+                        .copyWith(color: appTheme.primaryColor)),
                 child: Column(
                   children: [
-                    filter_add_part(),
+                    const filter_add_part(),
                     const SizedBox(height: 12),
-                    state is MainDashboardNetWorthLoaded ? SummeryWidget(netWorthEntity: state.netWorthObj!) : const LoadingWidget(),
-                    LineChartSample2(),
+                    state is MainDashboardNetWorthLoaded
+                        ? SizedBox(height: 10)
+                        // SummeryWidget(netWorthEntity: state.netWorthObj!)
+                        : const LoadingWidget(),
+                    const LineChartSample2(),
                     RowOrColumn(
                       rowCrossAxisAlignment: CrossAxisAlignment.start,
                       showRow: !isMobile,
@@ -55,12 +60,12 @@ class DashboardMainPage extends AppStatelessWidget {
                             expanded: !isMobile,
                             child: RandomWorldMapGenrator()),
                         ExpandedIf(
-                            expanded: !isMobile, child: PieChartSample2()),
+                            expanded: !isMobile,
+                            child: const PieChartSample2()),
                       ],
                     ),
                   ]
-                      .map((e) =>
-                      Padding(
+                      .map((e) => Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 8, horizontal: 16),
                           child: e))
