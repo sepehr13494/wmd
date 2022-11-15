@@ -11,9 +11,9 @@ class BankSaveResponse extends Equatable {
 
   final String currencyCode;
   final double currencyRate;
-  final int startingBalance;
-  final int totalNetWorthChange;
-  final int totalNetWorth;
+  final double startingBalance;
+  final double totalNetWorthChange;
+  final double totalNetWorth;
 
   @override
   List<Object?> get props => [
