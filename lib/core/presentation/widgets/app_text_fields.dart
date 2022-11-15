@@ -96,6 +96,7 @@ class AppTextFields {
           _getAutofillHint(type) == null ? null : [_getAutofillHint(type)!],
       validator: FormBuilderValidators.compose(validators),
       onChanged: onChanged,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
     );
   }
 

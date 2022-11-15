@@ -30,9 +30,9 @@ class AssetsEntity extends Equatable{
     required this.change,
   });
 
-  final int newAsset;
-  final int currentValue;
-  final int change;
+  final double newAsset;
+  final double currentValue;
+  final double change;
 
   @override
   List<Object?> get props => [
@@ -56,9 +56,9 @@ class LiabilitiesEntity extends Equatable{
     required this.change,
   });
 
-  final int newLiability;
-  final int currentValue;
-  final int change;
+  final double newLiability;
+  final double currentValue;
+  final double change;
 
   @override
   List<Object?> get props => [
@@ -81,8 +81,8 @@ class TotalNetWorthEntity extends Equatable{
     required this.change,
   });
 
-  final int currentValue;
-  final int change;
+  final double currentValue;
+  final double change;
 
   @override
   List<Object?> get props => [

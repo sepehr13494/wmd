@@ -12,7 +12,3 @@ extension NumExt on num {
         .format(this);
   }
 }
-
-extension DoubleExt on double {
-  String toMoney() => NumberFormat("#,##0.00", "en_US").format(this);
-}

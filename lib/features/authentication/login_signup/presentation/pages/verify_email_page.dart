@@ -69,7 +69,7 @@ class VerifyEmailPage extends AppStatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: responsiveHelper.optimalDeviceWidth * 0.1),
+                      horizontal: responsiveHelper.optimalDeviceWidth * 0.05),
                   child: Text(
                     appLocalizations.auth_verify_description
                         .replaceFirst("%s", verifyMap["email"]),
@@ -82,7 +82,7 @@ class VerifyEmailPage extends AppStatelessWidget {
                     sendCodeAgain: () {
                       context.read<LoginSignUpCubit>().resendEmail();
                     },
-                    timerTime: _isForgotPasswordPage() ? 300 : 20),
+                    timerTime: _isForgotPasswordPage() ? 300 : 10),
                 const Spacer(),
                 const Divider(),
                 RichText(
