@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/global_functions.dart';
@@ -14,35 +16,8 @@ class BlocHelper {
         LoadingOverlay().show(context: context, text: state.message);
       } else if (state is ErrorState) {
         LoadingOverlay().hide();
-        showDialog(
-            context: context,
-            builder: (context) {
-              return Dialog(
-                child: Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Text(state.failure.message),
-                        state.tryAgainFunction == null
-                            ? const SizedBox()
-                            : InkWell(
-                                onTap: () {
-                                  if (state.tryAgainFunction != null) {
-                                    Navigator.pop(context);
-                                    state.tryAgainFunction!();
-                                  }
-                                },
-                                child: ElevatedButton(
-                                    onPressed: () {},
-                                    child: const Text("tryAgain")),
-                              ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            });
+        GlobalFunctions.showSnackBar(context, state.failure.message,
+            color: Colors.red[800], type: "error");
       }
       // else if (state is SuccessState) {
       //   //showing a snackbar that it is successful
