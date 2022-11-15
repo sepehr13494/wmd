@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -21,39 +23,47 @@ class BlocHelper {
         LoadingOverlay().show(context: context, text: state.message);
       } else if (state is ErrorState) {
         LoadingOverlay().hide();
-        if(state.failure is ServerFailure){
-          switch ((state.failure as ServerFailure).type){
+        // GlobalFunctions.showSnackBar(context, state.failure.message,
+        //     color: Colors.red[800], type: "error");
+        if (state.failure is ServerFailure) {
+          switch ((state.failure as ServerFailure).type) {
             case ServerExceptionType.normal:
             case ServerExceptionType.unExpected:
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return Dialog(
-                    child: Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            Text(state.failure.message),
-                            state.tryAgainFunction == null
-                                ? const SizedBox()
-                                : InkWell(
-                              onTap: () {
-                                if (state.tryAgainFunction != null) {
-                                  Navigator.pop(context);
-                                  state.tryAgainFunction!();
-                                }
-                              },
-                              child: ElevatedButton(
-                                  onPressed: () {},
-                                  child: const Text("tryAgain")),
+              if (state.tryAgainFunction != null) {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Dialog(
+                        child: Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Text(state.failure.message),
+                                state.tryAgainFunction == null
+                                    ? const SizedBox()
+                                    : InkWell(
+                                        onTap: () {
+                                          if (state.tryAgainFunction != null) {
+                                            Navigator.pop(context);
+                                            state.tryAgainFunction!();
+                                          }
+                                        },
+                                        child: ElevatedButton(
+                                            onPressed: () {},
+                                            child: const Text("tryAgain")),
+                                      ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  );
-                });
+                      );
+                    });
+              } else {
+                GlobalFunctions.showSnackBar(context, state.failure.message,
+                    color: Colors.red[800], type: "error");
+              }
+
               break;
             case ServerExceptionType.auth:
               GlobalFunctions.showSnackBar(context, state.failure.message);

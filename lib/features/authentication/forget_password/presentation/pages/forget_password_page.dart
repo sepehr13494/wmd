@@ -49,9 +49,10 @@ class ForgetPasswordPage extends AppStatelessWidget {
                       child: Text(appLocalizations.auth_forgot_subheading,
                           textAlign: TextAlign.center),
                     ),
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 70),
                     FormBuilder(
                       key: formKey,
+                      // autovalidateMode: AutovalidateMode.onUserInteraction,
                       child: AppTextFields.simpleTextField(
                           type: TextFieldType.email,
                           name: "emailOrUserName",
