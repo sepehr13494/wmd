@@ -65,7 +65,7 @@ Future<void> init() async {
 
   //Authentication dependency
   // login and sign up
-  sl.registerFactory(() => LoginSignUpCubit(sl(), sl(), sl(), sl()));
+  sl.registerFactory(() => LoginSignUpCubit(sl(), sl(), sl(), sl(), sl()));
   sl.registerLazySingleton(() => PostLoginUseCase(sl()));
   sl.registerLazySingleton(() => PostRegisterUseCase(sl()));
   sl.registerLazySingleton(() => ResendEmailUseCase(sl()));

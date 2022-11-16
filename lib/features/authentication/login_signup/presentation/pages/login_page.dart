@@ -15,7 +15,6 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/manager/login_sign_up_cubit.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
-import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 
 class LoginPage extends AppStatelessWidget {

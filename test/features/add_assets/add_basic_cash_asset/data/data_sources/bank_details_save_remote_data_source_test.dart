@@ -1,6 +1,5 @@
-import 'package:dartz/dartz.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:wmd/core/data/network/server_request_manager.dart';
 import 'package:wmd/core/data/network/urls.dart';
@@ -12,7 +11,8 @@ import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/use_cases/po
 
 import '../../../../../core/data/network/error_handler_middleware_test.mocks.dart';
 
-void main() {
+Future<void> main() async {
+  await dotenv.load(fileName: 'assets/env/.env');
   late MockErrorHandlerMiddleware mockErrorHandlerMiddleware;
   late BankSaveRemoteDataSourceImpl bankSaveRemoteDataSourceImpl;
   setUp(() {
