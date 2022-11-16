@@ -33,7 +33,9 @@ class AutoManualPage extends AppStatelessWidget {
                     title: "Automatically link your accounts",
                     description:
                         "Connect your financial account in seconds to securely and automatically synchronize your balances.",
-                    onTap: () {},
+                    onTap: () {
+                      context.pushNamed(AppRoutes.addBankAutoPage);
+                    },
                     buttonText: "Automatically connect",
                   ),
                   Stack(
@@ -41,9 +43,13 @@ class AutoManualPage extends AppStatelessWidget {
                     children: [
                       const Divider(),
                       Container(
-                        padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 8),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 4, horizontal: 8),
                         color: Theme.of(context).scaffoldBackgroundColor,
-                        child: Text("OR",style: textTheme.titleMedium,),
+                        child: Text(
+                          "OR",
+                          style: textTheme.titleMedium,
+                        ),
                       ),
                     ],
                   ),
@@ -51,14 +57,20 @@ class AutoManualPage extends AppStatelessWidget {
                     icon: Icons.link,
                     title: "Enter manually",
                     description:
-                    "Quickly add your checking or savings account. TFO will never sell your personal date and only use it with your permission.",
+                        "Quickly add your checking or savings account. TFO will never sell your personal date and only use it with your permission.",
                     onTap: () {
                       context.pushNamed(AppRoutes.addBankManualPage);
                     },
                     buttonText: "Enter manually",
                   ),
                   const SupportWidget(),
-                ].map((e) => Padding(padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),child: e,)).toList(),
+                ]
+                    .map((e) => Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 16),
+                          child: e,
+                        ))
+                    .toList(),
               ),
             ),
           ),
@@ -118,7 +130,9 @@ class AutoManualCard extends AppStatelessWidget {
                 ],
               ),
             ),
-            !isMobile ? SizedBox(width: responsiveHelper.bigger16Gap) : SizedBox(height: responsiveHelper.bigger16Gap),
+            !isMobile
+                ? SizedBox(width: responsiveHelper.bigger16Gap)
+                : SizedBox(height: responsiveHelper.bigger16Gap),
             ExpandedIf(
               expanded: !isMobile,
               child: ElevatedButton(
