@@ -12,8 +12,8 @@ class ServerRequestManager {
   Future<Response> sendRequest(AppRequestOptions appRequestOptions) async {
     String baseUrl = appRequestOptions.fullUrl ? "" : AppUrls.baseUrl;
     Response response;
-    Map<String,dynamic>? clearBody;
-    if(appRequestOptions.body != null){
+    dynamic clearBody;
+    if (appRequestOptions.body != null) {
       clearBody = appRequestOptions.body;
       clearBody!.removeWhere((key, value) => value == null);
     }
@@ -34,8 +34,8 @@ class ServerRequestManager {
         );
         break;
       case RequestTypes.del:
-        response = await dio.delete(baseUrl + appRequestOptions.url,
-            data: clearBody);
+        response =
+            await dio.delete(baseUrl + appRequestOptions.url, data: clearBody);
         break;
       case RequestTypes.put:
         response = await dio.put(
@@ -54,7 +54,9 @@ class ServerRequestManager {
       debugPrint(response.requestOptions.uri.toString());
       debugPrint(response.requestOptions.headers.toString());
       debugPrint(response.statusCode.toString());
+      debugPrint(response.data.toString());
     }
+
     return response;
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
@@ -52,9 +51,15 @@ class LoginSignUpRepositoryImpl implements LoginSignUpRepository {
   }
 
   @override
-  Future<Either<Failure, AppSuccess>> resendEmail(ResendEmailParams resendEmailParams) async {
+  Future<Either<Failure, AppSuccess>> resendEmail(
+      ResendEmailParams resendEmailParams) async {
     try {
-      final result = await loginSignUpRemoteDataSource.resendEmail(resendEmailParams);
+      final Map<String, dynamic> result =
+          await loginSignUpRemoteDataSource.resendEmail(resendEmailParams);
+      if (!result["success"]) {
+        return Left(ServerFailure(message: result["message"]));
+      }
+
       return const Right(AppSuccess(message: 'Email sent successful'));
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
