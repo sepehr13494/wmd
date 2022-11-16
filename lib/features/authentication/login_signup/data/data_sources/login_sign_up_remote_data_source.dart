@@ -12,7 +12,7 @@ abstract class LoginSignUpRemoteDataSource {
   /// Calls the login api endpoint in the TFO - WMD services
   Future<LoginResponse> login(LoginParams loginParams);
   Future<RegisterResponse> register(RegisterParams registerParams);
-  Future<void> resendEmail(ResendEmailParams resendEmailParams);
+  Future<Map<String, dynamic>> resendEmail(ResendEmailParams resendEmailParams);
 }
 
 class LoginSignUpRemoteDataSourceImpl extends AppServerDataSource
@@ -45,12 +45,15 @@ class LoginSignUpRemoteDataSourceImpl extends AppServerDataSource
   }
 
   @override
-  Future<void> resendEmail(ResendEmailParams resendEmailParams) async {
+  Future<Map<String, dynamic>> resendEmail(
+      ResendEmailParams resendEmailParams) async {
     final loginAppRequestOptions = AppRequestOptions(
       RequestTypes.post,
       AppUrls.resendEmail,
       resendEmailParams.toJson(),
     );
-    await errorHandlerMiddleware.sendRequest(loginAppRequestOptions);
+    final response =
+        await errorHandlerMiddleware.sendRequest(loginAppRequestOptions);
+    return response;
   }
 }

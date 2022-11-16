@@ -20,8 +20,6 @@ import 'package:wmd/features/authentication/login_signup/presentation/widgets/pa
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/terms_widget.dart';
 import 'package:wmd/injection_container.dart';
 
-
-
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
 
@@ -93,7 +91,6 @@ class _RegisterPageState extends AppState<RegisterPage> {
                     SingleChildScrollView(
                       child: FormBuilder(
                         key: formKey,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         child: Column(
                           children: [
                             const SizedBox(height: 24),

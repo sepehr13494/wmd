@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -73,7 +74,7 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
                     children: [
                       TextWithInfo(title: item[0], hasInfo: true),
                       const SizedBox(height: 8),
-                      Text(item[1],style: textTheme.headlineSmall),
+                      Text((item[1] as double).convertMoney(addDollar: true),style: textTheme.headlineSmall),
                       const SizedBox(height: 8),
                       Builder(
                         builder: (context) {
@@ -85,7 +86,7 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
                                 Text(item[2],style: textTheme.bodySmall!.apply(color: AppColors.dashBoardGreyTextColor),),
                                 const SizedBox(width: 8),
                                 isZero ? const SizedBox() : Icon(isPositive ? Icons.arrow_drop_up : Icons.arrow_drop_down,color: color,),
-                                Text(item[3],style: TextStyle(color: color),),
+                                Text((item[3] as double).convertMoney(addDollar: true),style: TextStyle(color: color),),
                               ],
                             ),
                           );

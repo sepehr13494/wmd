@@ -14,8 +14,14 @@ import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/pie_ch
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/random_map.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/summery_widget.dart';
 
-class DashboardMainPage extends AppStatelessWidget {
+class DashboardMainPage extends StatefulWidget {
   const DashboardMainPage({Key? key}) : super(key: key);
+
+  @override
+  AppState<DashboardMainPage> createState() => _DashboardMainPageState();
+}
+
+class _DashboardMainPageState extends AppState<DashboardMainPage> {
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -24,7 +30,10 @@ class DashboardMainPage extends AppStatelessWidget {
     final appTheme = Theme.of(context);
     return Scaffold(
       appBar: const CustomAuthAppBar(),
-      body: BlocBuilder<MainDashboardCubit, MainDashboardState>(
+      body: BlocConsumer<MainDashboardCubit, MainDashboardState>(
+        listener: BlocHelper.defaultBlocListener(listener: (context, state) {
+
+        },),
         builder: BlocHelper.defaultBlocBuilder(builder: (context, state) {
           return WidthLimiterWidget(
             width: 700,
@@ -33,20 +42,24 @@ class DashboardMainPage extends AppStatelessWidget {
                 data: appTheme.copyWith(
                     outlinedButtonTheme: OutlinedButtonThemeData(
                       style: appTheme.outlinedButtonTheme.style!.copyWith(
-                          minimumSize: MaterialStateProperty.all(Size(0, 48))),
+                          minimumSize:
+                              MaterialStateProperty.all(const Size(0, 48))),
                     ),
                     elevatedButtonTheme: ElevatedButtonThemeData(
                       style: appTheme.outlinedButtonTheme.style!.copyWith(
-                          minimumSize: MaterialStateProperty.all(Size(0, 48))),
+                          minimumSize:
+                              MaterialStateProperty.all(const Size(0, 48))),
                     ),
-                    iconTheme:
-                    appTheme.iconTheme.copyWith(color: appTheme.primaryColor)),
+                    iconTheme: appTheme.iconTheme
+                        .copyWith(color: appTheme.primaryColor)),
                 child: Column(
                   children: [
-                    filter_add_part(),
+                    const filter_add_part(),
                     const SizedBox(height: 12),
-                    state is MainDashboardNetWorthLoaded ? SummeryWidget(netWorthEntity: state.netWorthObj!) : const LoadingWidget(),
-                    LineChartSample2(),
+                    state is MainDashboardNetWorthLoaded
+                        ? SummeryWidget(netWorthEntity: state.netWorthObj!)
+                        : const LoadingWidget(),
+                    const LineChartSample2(),
                     RowOrColumn(
                       rowCrossAxisAlignment: CrossAxisAlignment.start,
                       showRow: !isMobile,
@@ -55,12 +68,12 @@ class DashboardMainPage extends AppStatelessWidget {
                             expanded: !isMobile,
                             child: RandomWorldMapGenrator()),
                         ExpandedIf(
-                            expanded: !isMobile, child: PieChartSample2()),
+                            expanded: !isMobile,
+                            child: const PieChartSample2()),
                       ],
                     ),
                   ]
-                      .map((e) =>
-                      Padding(
+                      .map((e) => Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 8, horizontal: 16),
                           child: e))

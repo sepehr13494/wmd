@@ -14,9 +14,4 @@ class MainPageCubit extends Cubit<int> {
     emit(selectedIndex);
   }
 
-  void initMainScreen(BuildContext context){
-    context.read<UserStatusCubit>().getUserStatus();
-    context.read<MainDashboardCubit>().getNetWorth();
-  }
-
 }
