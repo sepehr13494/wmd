@@ -60,7 +60,7 @@ Future<void> init() async {
 
   //Authentication dependency
   // login and sign up
-  sl.registerFactory(() => LoginSignUpCubit(sl(), sl(), sl(), sl()));
+  sl.registerFactory(() => LoginSignUpCubit(sl(), sl(), sl(), sl(), sl()));
   sl.registerLazySingleton(() => PostLoginUseCase(sl()));
   sl.registerLazySingleton(() => PostRegisterUseCase(sl()));
   sl.registerLazySingleton(() => ResendEmailUseCase(sl()));
@@ -95,9 +95,9 @@ Future<void> init() async {
   sl.registerFactory(() => MainDashboardCubit(sl()));
   sl.registerLazySingleton(() => UserNetWorthUseCase(sl()));
   sl.registerLazySingleton<MainDashboardRepository>(
-          () => MainDashboardRepositoryImpl(sl()));
+      () => MainDashboardRepositoryImpl(sl()));
   sl.registerLazySingleton<MainDashboardRemoteDataSource>(
-          () => MainDashboardRemoteDataSourceImpl(sl()));
+      () => MainDashboardRemoteDataSourceImpl(sl()));
 
   // Dashboard - user status dependencies
   sl.registerFactory(() => UserStatusCubit(sl(), sl()));
