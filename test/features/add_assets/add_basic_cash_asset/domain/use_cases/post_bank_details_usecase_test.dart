@@ -47,6 +47,8 @@ void main() {
       // arrange
       when(mockBankRepository.postBankDetails(BankSaveParams.tBankSaveParams))
           .thenAnswer((_) async => const Left(tServerFailure));
+      when(mockLocalStorage.getOwnerId())
+          .thenAnswer((realInvocation) => "ownerId");
       // act
       final result = await postBankDetailsUseCase(BankSaveParams.tBankFormMap);
       // assert

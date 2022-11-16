@@ -2,6 +2,7 @@
 
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/util/local_storage.dart';
@@ -16,23 +17,26 @@ class PostBankDetailsUseCase
   final LocalStorage localStorage;
 
   PostBankDetailsUseCase(this.bankRepository, this.localStorage);
+
   @override
   Future<Either<Failure, BankSaveResponse>> call(
       Map<String, dynamic> params) async {
-    // try {
-    final currentBal = params['currentBalance'].toString().replaceAll(',', '');
-    final ownerId = localStorage.getOwnerId();
-    final newMap = {
-      ...params,
-      "currentBalance": double.parse(currentBal),
-      "owner": ownerId,
-    };
-    final bankAssetParam = BankSaveParams.fromJson(newMap);
-    return await bankRepository.postBankDetails(bankAssetParam);
-    // } catch (e) {
-    //   print(e);
-    //   return const Left(AppFailure(message: "Something went wrong!"));
-    // }
+    try {
+      final currentBal =
+          params['currentBalance'].toString().replaceAll(',', '');
+      final ownerId = localStorage.getOwnerId();
+      final newMap = {
+        ...params,
+        "currentBalance": double.parse(currentBal),
+        "owner": ownerId,
+      };
+      final bankAssetParam = BankSaveParams.fromJson(newMap);
+      final result = await bankRepository.postBankDetails(bankAssetParam);
+      return result;
+    } catch (e) {
+      debugPrint("PostBankDetailsUseCase catch : ${e.toString()}");
+      return const Left(AppFailure(message: "Something went wrong!"));
+    }
   }
 }
 
@@ -109,20 +113,19 @@ class BankSaveParams extends Equatable {
 
   static final tBankFormMap = {
     'bankName': 'bank1',
-    'description': 'cnncnc',
-    'country': Country(name: "USA", countryName: "India"),
+    'country': Country(name: "USA", countryName: "USA"),
     'accountType': 'Saving account',
     'currencyCode': Currency(name: "USD", symbol: "USD"),
     'currentBalance': '100,000',
   };
 
   static const tBankSaveParams = BankSaveParams(
-    bankName: "Bank of America",
-    country: "USA",
-    accountType: "SAVING",
-    currencyCode: "USD",
-    currentBalance: 100000.0,
-  );
+      bankName: "bank1",
+      country: "USA",
+      accountType: "Saving account",
+      currencyCode: "USD",
+      currentBalance: 100000.0,
+      owner: "ownerId");
 
   @override
   List<Object?> get props => [
