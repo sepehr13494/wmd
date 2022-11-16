@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,7 +73,9 @@ class LoginPage extends AppStatelessWidget {
                                   style:
                                       textTheme.bodySmall!.toLinkStyle(context),
                                 )),
-                            if (Platform.isIOS)
+                            if (kIsWeb)
+                              SizedBox()
+                            else if (Platform.isIOS)
                               FormBuilderSwitch(
                                   name: "face_id",
                                   title:

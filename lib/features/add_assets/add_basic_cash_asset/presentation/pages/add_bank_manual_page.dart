@@ -42,20 +42,20 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
     super.didUpdateWidget(oldWidget);
   }
 
-  void checkFinalValid(value) async{
+  void checkFinalValid(value) async {
     print(value);
     await Future.delayed(const Duration(milliseconds: 100));
     bool finalValid = (baseFormKey.currentState!.isValid &&
         bottomFormKey.currentState!.isValid);
     print(finalValid);
-    if(finalValid){
-      if(!enableAddAssetButton){
+    if (finalValid) {
+      if (!enableAddAssetButton) {
         setState(() {
           enableAddAssetButton = true;
         });
       }
-    }else{
-      if(enableAddAssetButton){
+    } else {
+      if (enableAddAssetButton) {
         setState(() {
           enableAddAssetButton = false;
         });
@@ -277,19 +277,21 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
           ),
           bottomSheet: AddAssetFooter(
             buttonText: "Add asset",
-            onTap: !enableAddAssetButton ? null : () {
-              Map<String, dynamic> finalMap = {
-                ...baseFormKey.currentState!.instantValue,
-                ...bottomFormKey.currentState!.instantValue,
-              };
-              print('this is end date 1');
-              print(date.isDate());
-              if (isDepositTerm && endDateToParse.isDate()) {
-                print('this is end date 2');
-                finalMap["endDate"] = endDateToParse;
-              }
-              context.read<BankCubit>().postBankDetails(map: finalMap);
-            },
+            onTap: !enableAddAssetButton
+                ? null
+                : () {
+                    Map<String, dynamic> finalMap = {
+                      ...baseFormKey.currentState!.instantValue,
+                      ...bottomFormKey.currentState!.instantValue,
+                    };
+                    print('this is end date 1');
+                    print(date.isDate());
+                    if (isDepositTerm && endDateToParse.isDate()) {
+                      print('this is end date 2');
+                      finalMap["endDate"] = endDateToParse;
+                    }
+                    context.read<BankCubit>().postBankDetails(map: finalMap);
+                  },
           ),
           body: Theme(
             data: Theme.of(context).copyWith(),
@@ -387,7 +389,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                     hasInfo: false,
                                     title: "Description",
                                     child: AppTextFields.simpleTextField(
-                                      required: false,
+                                        required: false,
                                         name: "description",
                                         hint:
                                             "A nickname you give to your account"),
@@ -404,10 +406,12 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                     child: AppTextFields.dropDownTextField(
                                       onChanged: (val) async {
                                         setState(() {
-                                          bottomFormKey = GlobalKey<FormBuilderState>();
+                                          bottomFormKey =
+                                              GlobalKey<FormBuilderState>();
                                           accountType = val;
                                         });
-                                        await Future.delayed(const Duration(milliseconds: 200));
+                                        await Future.delayed(
+                                            const Duration(milliseconds: 200));
                                         checkFinalValid(val);
                                       },
                                       name: "accountType",

@@ -42,7 +42,7 @@ void main() {
         // act
         final result = await dashboardRepositoryImpl.getUserStatus(NoParams());
         // assert
-        verify(dashboardRepositoryImpl.getUserStatus(NoParams()));
+        verify(mockUserStatusRemoteDataSource.getUserStatus(NoParams()));
         expect(result, equals(Right(UserStatus.tUserStatusParam)));
       },
     );

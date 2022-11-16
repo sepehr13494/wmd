@@ -6,17 +6,19 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/manager/asset_view_cubit.dart';
 
-class EachAssetModel extends Equatable{
+class EachAssetModel extends Equatable {
   final int id;
   final String image;
   final String title;
   final String description;
+  final String pageRoute;
 
   const EachAssetModel({
     required this.id,
     required this.image,
     required this.title,
     required this.description,
+    required this.pageRoute,
   });
 
   @override
@@ -25,23 +27,25 @@ class EachAssetModel extends Equatable{
 
 class EachAssetWidget extends AppStatelessWidget {
   final EachAssetModel eachAssetModel;
-  const EachAssetWidget({Key? key,required this.eachAssetModel}) : super(key: key);
+  const EachAssetWidget({Key? key, required this.eachAssetModel})
+      : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final borderAsset = context.watch<AssetViewCubit>().state;
     return InkWell(
-      onTap: (){
+      onTap: () {
         context.read<AssetViewCubit>().selectAsset(eachAssetModel);
       },
       child: Card(
-        margin: const EdgeInsets.symmetric(horizontal: 16,vertical: 4),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            border: borderAsset != eachAssetModel ? null : Border.all(color: Theme.of(context).primaryColor)
-          ),
+              borderRadius: BorderRadius.circular(8),
+              border: borderAsset != eachAssetModel
+                  ? null
+                  : Border.all(color: Theme.of(context).primaryColor)),
           padding: const EdgeInsets.all(12),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,10 +54,13 @@ class EachAssetWidget extends AppStatelessWidget {
                 padding: const EdgeInsets.all(12),
                 margin: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: textTheme.bodySmall!.color!.withOpacity(0.2),
-                  shape: BoxShape.circle
+                    color: textTheme.bodySmall!.color!.withOpacity(0.2),
+                    shape: BoxShape.circle),
+                child: SvgPicture.asset(
+                  eachAssetModel.image,
+                  width: 20,
+                  height: 20,
                 ),
-                child: SvgPicture.asset(eachAssetModel.image,width: 20,height: 20,),
               ),
               const SizedBox(width: 8),
               Expanded(
@@ -61,14 +68,27 @@ class EachAssetWidget extends AppStatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 12),
-                    Text(eachAssetModel.title,style: textTheme.titleMedium,),
+                    Text(
+                      eachAssetModel.title,
+                      style: textTheme.titleMedium,
+                    ),
                     const SizedBox(height: 12),
-                    Text(eachAssetModel.description,style: textTheme.bodySmall,overflow: TextOverflow.ellipsis,maxLines: 3,),
+                    Text(
+                      eachAssetModel.description,
+                      style: textTheme.bodySmall,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                    ),
                   ],
                 ),
               ),
               const SizedBox(width: 12),
-              IconButton(onPressed: (){}, icon: Icon(Icons.add,color: Theme.of(context).primaryColor,))
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.add,
+                    color: Theme.of(context).primaryColor,
+                  ))
             ],
           ),
         ),
