@@ -11,7 +11,7 @@ import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_r
 import 'package:wmd/features/authentication/login_signup/domain/use_cases/resend_email_usecase.dart';
 import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_login_usecase.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
-
+import '../../../../dashboard/user_status/presentation/user_state_cubit_test.mocks.dart';
 import 'login_sign_up_cubit_test.mocks.dart';
 
 @GenerateMocks(
@@ -22,14 +22,20 @@ void main() {
   late MockResendEmailUseCase mockResendEmailUseCase;
   late LoginSignUpCubit loginSignUpCubit;
   late MockAppDeviceInfo mockAppDeviceInfo;
+  late MockGetUserStatusUseCase mockGetUserStatusUseCase;
 
   setUp(() {
     mockPostLoginUseCase = MockPostLoginUseCase();
     mockPostRegisterUseCase = MockPostRegisterUseCase();
     mockResendEmailUseCase = MockResendEmailUseCase();
     mockAppDeviceInfo = MockAppDeviceInfo();
-    loginSignUpCubit = LoginSignUpCubit(mockPostLoginUseCase,
-        mockPostRegisterUseCase, mockResendEmailUseCase, mockAppDeviceInfo);
+    mockGetUserStatusUseCase = MockGetUserStatusUseCase();
+    loginSignUpCubit = LoginSignUpCubit(
+        mockPostLoginUseCase,
+        mockPostRegisterUseCase,
+        mockResendEmailUseCase,
+        mockAppDeviceInfo,
+        mockGetUserStatusUseCase);
   });
 
   group('login cubit test', () {
@@ -83,7 +89,7 @@ void main() {
       },
       act: (bloc) async => await bloc.resendEmail(),
       expect: () =>
-      [isA<LoadingState>(), SuccessState(appSuccess: tAppSuccess)],
+          [isA<LoadingState>(), SuccessState(appSuccess: tAppSuccess)],
       verify: (_) {
         verify(mockResendEmailUseCase(ResendEmailParams.tResendEmailParams))
             .called(1);

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
@@ -7,7 +9,8 @@ class filter_add_part extends AppStatelessWidget {
   const filter_add_part({Key? key}) : super(key: key);
 
   @override
-  Widget buildWidget(BuildContext context,TextTheme textTheme, AppLocalizations appLocalizations) {
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
     return Row(
       children: [
@@ -27,11 +30,11 @@ class filter_add_part extends AppStatelessWidget {
                       isMobile
                           ? const SizedBox()
                           : Row(
-                        children: [
-                          const SizedBox(width: 8),
-                          Text("Filter"),
-                        ],
-                      ),
+                              children: const [
+                                SizedBox(width: 8),
+                                Text("Filter"),
+                              ],
+                            ),
                     ],
                   ),
                 ),
@@ -41,7 +44,9 @@ class filter_add_part extends AppStatelessWidget {
             SizedBox(
               height: 32,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.pushNamed(AppRoutes.addAssetsView);
+                },
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Row(
@@ -50,11 +55,11 @@ class filter_add_part extends AppStatelessWidget {
                       isMobile
                           ? const SizedBox()
                           : Row(
-                        children: [
-                          const SizedBox(width: 8),
-                          Text("Add"),
-                        ],
-                      ),
+                              children: const [
+                                SizedBox(width: 8),
+                                Text("Add"),
+                              ],
+                            ),
                     ],
                   ),
                 ),

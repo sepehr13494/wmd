@@ -108,15 +108,15 @@ class MockLoginSignUpRemoteDataSource extends _i1.Mock
         )),
       ) as _i6.Future<_i3.RegisterResponse>);
   @override
-  _i6.Future<void> resendEmail(_i9.ResendEmailParams? resendEmailParams) =>
+  _i6.Future<Map<String, dynamic>> resendEmail(
+          _i9.ResendEmailParams? resendEmailParams) =>
       (super.noSuchMethod(
         Invocation.method(
           #resendEmail,
           [resendEmailParams],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i6.Future<Map<String, dynamic>>.value({}),
+      ) as _i6.Future<Map<String, dynamic>>);
 }
 
 /// A class which mocks [LoginSignUpRepository].
