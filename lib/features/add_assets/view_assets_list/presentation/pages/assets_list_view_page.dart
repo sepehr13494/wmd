@@ -28,7 +28,6 @@ class AssetsListViewPage extends AppStatelessWidget {
         bottomSheet: Builder(builder: (context) {
           final assetModel = context.watch<AssetViewCubit>().state;
           return AddAssetFooter(
-              enableAddButton: true,
               buttonText: "Add Asset",
               onTap: assetModel == null
                   ? null

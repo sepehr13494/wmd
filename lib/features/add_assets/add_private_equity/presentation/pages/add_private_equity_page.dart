@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:intl/intl.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -8,6 +9,7 @@ import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/features/add_assets/add_private_equity/presentation/manager/private_equity_cubit.dart';
+import 'package:wmd/features/add_assets/core/constants.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
@@ -32,7 +34,16 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
             title: "Add private equity",
           ),
           bottomSheet: AddAssetFooter(
-              enableAddButton: true, buttonText: "Add asset", onTap: () {}),
+              buttonText: "Add asset",
+              onTap: () {
+                Map<String, dynamic> finalMap = {
+                  ...privateEquityFormKey.currentState!.instantValue,
+                };
+
+                print(finalMap);
+
+                // context.read<PrivateEquityCubit>().postPrivateEquity(map: finalMap);
+              }),
           body: Theme(
             data: Theme.of(context).copyWith(),
             child: Stack(
@@ -48,6 +59,8 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                             child: Column(children: [
                               FormBuilder(
                                 key: privateEquityFormKey,
+                                initialValue:
+                                    AddAssetConstants.initialJsonForAddAsset,
                                 child: Column(
                                   children: [
                                     Text(
@@ -80,10 +93,11 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                       child: CountriesDropdown(),
                                     ),
                                     EachTextField(
-                                      title: "Start date",
+                                      title: "Acquisition date",
                                       child: FormBuilderDateTimePicker(
                                         inputType: InputType.date,
-                                        name: "startDate",
+                                        format: DateFormat("dd/MM/yyyy"),
+                                        name: "acquisitionDate",
                                         decoration: InputDecoration(
                                             suffixIcon: Icon(
                                               Icons.calendar_today_outlined,
@@ -102,6 +116,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                       hasInfo: false,
                                       title: "Initial investment amount",
                                       child: AppTextFields.simpleTextField(
+                                          type: TextFieldType.money,
                                           name: "initialInvestmentAmount",
                                           hint:
                                               "Book value of initial investment"),
@@ -109,6 +124,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                     EachTextField(
                                       title: "Valuation date",
                                       child: FormBuilderDateTimePicker(
+                                        format: DateFormat("dd/MM/yyyy"),
                                         inputType: InputType.date,
                                         name: "valuationDate",
                                         decoration: InputDecoration(
@@ -124,6 +140,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                       hasInfo: false,
                                       title: "Current value",
                                       child: AppTextFields.simpleTextField(
+                                          type: TextFieldType.money,
                                           name: "currentValue",
                                           hint:
                                               "The current day value of the asset"),

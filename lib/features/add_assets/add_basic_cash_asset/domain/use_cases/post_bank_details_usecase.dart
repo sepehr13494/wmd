@@ -19,13 +19,20 @@ class PostBankDetailsUseCase
   @override
   Future<Either<Failure, BankSaveResponse>> call(
       Map<String, dynamic> params) async {
-    //TODO: convert map into BankSaveParams and replace with tBankSaveParams
+    // try {
     final currentBal = params['currentBalance'].toString().replaceAll(',', '');
     final ownerId = localStorage.getOwnerId();
-    params['currentBalance'] = double.parse(currentBal);
-    params['owner'] = ownerId;
-    final bankAssetParam = BankSaveParams.fromJson(params);
+    final newMap = {
+      ...params,
+      "currentBalance": double.parse(currentBal),
+      "owner": ownerId,
+    };
+    final bankAssetParam = BankSaveParams.fromJson(newMap);
     return await bankRepository.postBankDetails(bankAssetParam);
+    // } catch (e) {
+    //   print(e);
+    //   return const Left(AppFailure(message: "Something went wrong!"));
+    // }
   }
 }
 
@@ -100,13 +107,13 @@ class BankSaveParams extends Equatable {
         "endDate": endDate?.toIso8601String(),
       };
 
-  static const tBankFormMap = {
+  static final tBankFormMap = {
     'bankName': 'bank1',
     'description': 'cnncnc',
-    'country': {'name': 'BL', 'countryName': 'Saint Barthelemy'},
+    'country': Country(name: "USA", countryName: "India"),
     'accountType': 'Saving account',
-    'currencyCode': {'value': 'USD', 'label': 'United States dollar'},
-    'currentBalance': '100',
+    'currencyCode': Currency(name: "USD", symbol: "USD"),
+    'currentBalance': '100,000',
   };
 
   static const tBankSaveParams = BankSaveParams(
@@ -114,7 +121,7 @@ class BankSaveParams extends Equatable {
     country: "USA",
     accountType: "SAVING",
     currencyCode: "USD",
-    currentBalance: 1000,
+    currentBalance: 100000.0,
   );
 
   @override
