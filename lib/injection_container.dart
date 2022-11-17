@@ -3,6 +3,10 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:wmd/core/data/network/error_handler_middleware.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/data/data_sources/bank_list_data_source.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/data/repository/bank_list_repository_impl.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/domain/usecase/get_bank_list.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/presentation/manager/bank_list_cubit.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/data/data_sources/bank_details_save_remote_data_source.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/data/repositories/bank_repository_impl.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/repositories/bank_repository.dart';
@@ -44,6 +48,7 @@ import 'core/util/app_localization.dart';
 import 'core/util/app_theme.dart';
 import 'core/util/device_info.dart';
 import 'core/util/local_storage.dart';
+import 'features/add_assets/add_bank_auto/domain/repository/bank_list_repository.dart';
 import 'features/splash/data/repositories/splash_repository_impl.dart';
 import 'features/splash/domain/repositories/splash_repository.dart';
 import 'features/splash/domain/use_cases/check_login_usecase.dart';
@@ -95,9 +100,9 @@ Future<void> init() async {
   sl.registerFactory(() => MainDashboardCubit(sl()));
   sl.registerLazySingleton(() => UserNetWorthUseCase(sl()));
   sl.registerLazySingleton<MainDashboardRepository>(
-          () => MainDashboardRepositoryImpl(sl()));
+      () => MainDashboardRepositoryImpl(sl()));
   sl.registerLazySingleton<MainDashboardRemoteDataSource>(
-          () => MainDashboardRemoteDataSourceImpl(sl()));
+      () => MainDashboardRemoteDataSourceImpl(sl()));
 
   // Dashboard - user status dependencies
   sl.registerFactory(() => UserStatusCubit(sl(), sl()));
@@ -126,6 +131,14 @@ Future<void> init() async {
   sl.registerLazySingleton<BankRepository>(() => BankRepositoryImpl(sl()));
   sl.registerLazySingleton<BankSaveRemoteDataSource>(
       () => BankSaveRemoteDataSourceImpl(sl()));
+
+  // Bank List
+  sl.registerFactory(() => BankListCubit(sl(), sl()));
+  sl.registerLazySingleton(() => GetBankListsUseCase(sl()));
+  sl.registerLazySingleton<BankListRepository>(
+      () => BankListRepositoryImpl(sl()));
+  sl.registerLazySingleton<BankListRemoteDataSource>(
+      () => BankListRemoteDataSourceImpl(sl()));
 
   await initExternal();
 }

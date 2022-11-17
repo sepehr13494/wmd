@@ -9,7 +9,8 @@ abstract class BaseState extends Equatable
         VerifyEmailState,
         UserStatusState,
         MainDashboardState,
-        BankSaveState {}
+        BankSaveState,
+        BankListState {}
 
 class BaseInitialState extends BaseState {
   @override
