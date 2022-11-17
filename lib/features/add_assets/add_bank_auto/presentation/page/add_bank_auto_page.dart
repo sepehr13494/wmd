@@ -20,21 +20,20 @@ class AddBankAutoPage extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    return BlocProvider(
-      create: (context) => sl<BankListCubit>(),
-      child: Scaffold(
-        appBar: AppBar(title: Text("Connect your account")),
-        body: SafeArea(
-          child: Stack(
-            children: [
-              const LeafBackground(
-                opacity: 0.5,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+    return Scaffold(
+      appBar: AppBar(title: Text("Connect your account")),
+      body: Stack(
+        children: [
+          const LeafBackground(
+            opacity: 0.5,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: NestedScrollView(
+              headerSliverBuilder: (context, isInnerScroll) {
+                return [
+                  SliverList(
+                      delegate: SliverChildListDelegate([
                     const SizedBox(height: 16),
                     Text("Add listed asset details",
                         style: textTheme.headlineSmall),
@@ -46,63 +45,79 @@ class AddBankAutoPage extends AppStatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     const YourPrivacyWidget(),
-                    const SizedBox(height: 16),
-                    Text("Link you bank accounts",
-                        style: textTheme.headlineSmall),
-                    const SizedBox(height: 8),
-                    Text("Search for your bank or select an option below",
-                        style: textTheme.titleMedium),
-                    const SizedBox(height: 8),
-                    BlocConsumer<BankListCubit, BankListState>(
-                      listener: BlocHelper.defaultBlocListener(
-                          listener: (context, state) {
-                        // if (state is SuccessState) {
-                        //   context.goNamed(AppRoutes.main);
-                        // }
-                      }),
-                      builder: (context, state) {
-                        return Column(
-                          children: [
-                            SearchTextField(
-                              hint: 'Type a bank name',
-                              function: (text) {
-                                if (text == null || text.isEmpty) {
-                                  context
-                                      .read<BankListCubit>()
-                                      .getPopularBankList();
-                                } else {
-                                  context.read<BankListCubit>().getBankList();
-                                }
-                              },
-                            ),
-                            const SizedBox(height: 8),
-                            if (state is BankListSuccess)
-                              ...state.banks.map((e) => BankWidget(e)),
-                            if (state is PopularBankListSuccess)
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Most popular banks',
-                                    style: textTheme.titleMedium,
-                                  ),
-                                  ...state.banks.map((e) => BankWidget(e)),
-                                ],
-                              ),
-                            if (state is LoadingState)
-                              ...List.generate(
-                                  3, (index) => const Card(child: ListTile()))
-                          ],
-                        );
-                      },
-                    ),
-                    const SupportWidget(),
-                  ],
-                ),
-              ),
-            ],
+                  ]))
+                ];
+              },
+              body: const BankList(),
+            ),
           ),
-        ),
+        ],
+      ),
+    );
+  }
+}
+
+class BankList extends AppStatelessWidget {
+  const BankList({Key? key}) : super(key: key);
+
+  @override
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
+    return BlocProvider(
+      create: (context) => sl<BankListCubit>()..getPopularBankList(),
+      child: BlocConsumer<BankListCubit, BankListState>(
+        listener: BlocHelper.defaultBlocListener(listener: (context, state) {
+          // if (state is something) {
+          //  do something
+          // }
+        }),
+        builder: (context, state) {
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 16),
+                Text("Link you bank accounts", style: textTheme.headlineSmall),
+                const SizedBox(height: 8),
+                Text("Search for your bank or select an option below",
+                    style: textTheme.titleMedium),
+                const SizedBox(height: 8),
+                SearchTextField(
+                  hint: 'Type a bank name',
+                  function: (text) {
+                    if (text == null || text.isEmpty) {
+                      context.read<BankListCubit>().getPopularBankList();
+                    } else {
+                      context.read<BankListCubit>().getBankList();
+                    }
+                  },
+                ),
+                const SizedBox(height: 8),
+                if (state is BankListSuccess)
+                  ...state.banks.map((e) => BankWidget(e)),
+                if (state is PopularBankListSuccess)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Most popular banks',
+                          style: textTheme.titleMedium,
+                        ),
+                      ),
+                      ...state.banks.map((e) => BankWidget(e)),
+                    ],
+                  ),
+                if (state is LoadingState)
+                  ...List.generate(3, (index) => const Card(child: ListTile())),
+                const SizedBox(height: 8),
+                const SupportWidget()
+              ],
+            ),
+          );
+        },
       ),
     );
   }
