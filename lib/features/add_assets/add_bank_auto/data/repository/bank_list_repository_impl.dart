@@ -26,9 +26,9 @@ class BankListRepositoryImpl implements BankListRepository {
 
   @override
   Future<Either<Failure, List<BankEntity>>> getPopularBankList(
-      NoParams param) async {
+      int? count) async {
     try {
-      final result = await bankListRemoteDataSource.getPopularBankList(param);
+      final result = await bankListRemoteDataSource.getPopularBankList(count);
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure.fromServerException(e));

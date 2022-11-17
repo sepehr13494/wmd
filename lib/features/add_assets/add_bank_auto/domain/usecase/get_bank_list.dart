@@ -18,10 +18,14 @@ class GetBankListsUseCase extends UseCase<List<BankEntity>, NoParams> {
       return Right(banks!);
     } else {
       final temp = await bankListRepository.getBankList(params);
-      temp.fold((l) => null, (r) {
-        banks = List.from(r);
-      });
+      _cache(temp);
       return temp;
     }
+  }
+
+  void _cache(Either<Failure, List<BankEntity>> temp) {
+    temp.fold((l) => null, (r) {
+      banks = List.from(r);
+    });
   }
 }

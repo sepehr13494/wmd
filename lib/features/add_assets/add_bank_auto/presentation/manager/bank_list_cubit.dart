@@ -23,7 +23,7 @@ class BankListCubit extends Cubit<BankListState> {
 
   getPopularBankList() async {
     emit(LoadingState());
-    final result = await getPopularBankListUseCase(NoParams());
+    final result = await getPopularBankListUseCase(1); //number of popular banks
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (banks) => emit(PopularBankListSuccess(banks)));
   }

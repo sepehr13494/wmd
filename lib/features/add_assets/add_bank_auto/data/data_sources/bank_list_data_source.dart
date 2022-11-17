@@ -9,7 +9,7 @@ import '../models/bank_list_response.dart';
 
 abstract class BankListRemoteDataSource {
   Future<List<BankResponse>> getBankList(NoParams param);
-  Future<List<BankResponse>> getPopularBankList(NoParams param);
+  Future<List<BankResponse>> getPopularBankList(int? count);
 }
 
 class BankListRemoteDataSourceImpl extends AppServerDataSource
@@ -28,9 +28,15 @@ class BankListRemoteDataSourceImpl extends AppServerDataSource
   }
 
   @override
-  Future<List<BankResponse>> getPopularBankList(NoParams param) async {
-    final getBankListRequestOptions =
-        AppRequestOptions(RequestTypes.get, AppUrls.getPopularBankList, null);
+  Future<List<BankResponse>> getPopularBankList(int? count) async {
+    final getBankListRequestOptions = AppRequestOptions(
+        RequestTypes.get,
+        AppUrls.getPopularBankList,
+        count == null
+            ? null
+            : {
+                'count': count,
+              });
     final List<dynamic> response =
         await errorHandlerMiddleware.sendRequest(getBankListRequestOptions);
     return response.map((e) => BankResponse.fromJson(e)).toList();
