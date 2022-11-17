@@ -94,25 +94,47 @@ class BankList extends AppStatelessWidget {
                   },
                 ),
                 const SizedBox(height: 8),
-                if (state is BankListSuccess)
-                  ...state.banks.map((e) => BankWidget(e)),
-                if (state is PopularBankListSuccess)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Most popular banks',
-                          style: textTheme.titleMedium,
-                        ),
-                      ),
-                      ...state.banks.map((e) => BankWidget(e)),
-                    ],
-                  ),
-                if (state is LoadingState)
-                  ...List.generate(3, (index) => const Card(child: ListTile())),
-                const SizedBox(height: 8),
+                Builder(
+                  builder: (context) {
+                    if (state is BankListSuccess) {
+                      if (state.banks.isEmpty) {
+                        return Text('No bank found');
+                      } else {
+                        return Column(
+                          children: state.banks
+                              .map((e) => BankWidget(e, key: Key(e.code)))
+                              .toList(),
+                        );
+                      }
+                    } else if (state is BankListSuccess) {
+                      return Column(
+                          children: state.banks
+                              .map((e) => BankWidget(e, key: Key(e.code)))
+                              .toList());
+                    } else if (state is PopularBankListSuccess) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Most popular banks',
+                              style: textTheme.titleMedium,
+                            ),
+                          ),
+                          ...state.banks
+                              .map((e) => BankWidget(e, key: Key(e.code))),
+                        ],
+                      );
+                    } else {
+                      return Column(
+                        children: List.generate(
+                            3, (index) => const Card(child: ListTile())),
+                      );
+                    }
+                  },
+                ),
+                const SizedBox(height: 16),
                 const SupportWidget()
               ],
             ),
