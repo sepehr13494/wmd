@@ -22,35 +22,42 @@ class AssetsListViewPage extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     return BlocProvider(
-  create: (context) => AssetViewCubit(),
-  child: Scaffold(
-      appBar: BaseAppBar(title: "Add assets"),
-      bottomSheet: Builder(
-        builder: (context) {
+      create: (context) => AssetViewCubit(),
+      child: Scaffold(
+        appBar: const BaseAppBar(title: "Add assets"),
+        bottomSheet: Builder(builder: (context) {
           final assetModel = context.watch<AssetViewCubit>().state;
-          return AddAssetFooter(buttonText: "Add Asset",onTap: assetModel == null ? null : (){
-            print(assetModel);
-            context.pushNamed(AppRoutes.autoManualPage);
-          });
-        }
-      ),
-      body: Stack(
-        children: const [
-          LeafBackground(
-            opacity: 0.5,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: ResponsiveWidget(
-              mobile: AddAssetMobileWidget(),
-              desktop: AddAssetTabletView(),
-              tablet: AddAssetTabletView(),
+          return AddAssetFooter(
+              buttonText: "Add Asset",
+              onTap: assetModel == null
+                  ? null
+                  : () {
+                      print(assetModel);
+                      Map<String, dynamic> dataMap = {
+                        "route": assetModel.route,
+                      };
+
+                      context.pushNamed(AppRoutes.autoManualPage,
+                          queryParams: dataMap);
+                    });
+        }),
+        body: Stack(
+          children: const [
+            LeafBackground(
+              opacity: 0.5,
             ),
-          ),
-        ],
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: ResponsiveWidget(
+                mobile: AddAssetMobileWidget(),
+                desktop: AddAssetTabletView(),
+                tablet: AddAssetTabletView(),
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-);
+    );
   }
 }
 
@@ -102,7 +109,7 @@ class AddAssetMobileWidget extends AppStatelessWidget {
           child: Column(
             children: [
               Row(
-                children: [
+                children: const [
                   SizedBox(
                     width: 300,
                     child: TabBar(tabs: [
@@ -117,7 +124,7 @@ class AddAssetMobileWidget extends AppStatelessWidget {
                 height: 0.5,
                 thickness: 0.5,
               ),
-              Expanded(
+              const Expanded(
                   child: TabBarView(children: [
                 AssetsPart(isLiability: false),
                 AssetsPart(
@@ -175,37 +182,39 @@ class AssetsPart extends AppStatelessWidget {
       ];
     } else {
       assets = [
-        EachAssetModel(
+        const EachAssetModel(
             id: 2,
             image: "assets/images/add_assets/bank_asset.svg",
             title: "Bank Account",
             description:
-                "Current account, savings account and term deposit accounts."),
-        EachAssetModel(
+                "Current account, savings account and term deposit accounts.",
+            route: AppRoutes.addBankManualPage),
+        const EachAssetModel(
             id: 3,
             image: "assets/images/add_assets/listed_asset.svg",
             title: "Listed assets",
             description:
                 "Investments made in stocks, ETFs, bonds and mutual funds."),
-        EachAssetModel(
+        const EachAssetModel(
             id: 4,
             image: "assets/images/add_assets/privet_debt.svg",
             title: "Private debt",
             description:
-                "Asset defined by non-bank lending where debt is not issued or traded on the public markets"),
-        EachAssetModel(
+                "Asset defined by non-bank lending where debt is not issued or traded on the public markets",
+            route: AppRoutes.addPrivateDebtManualPage),
+        const EachAssetModel(
             id: 5,
             image: "assets/images/add_assets/real_estate.svg",
             title: "Real estate",
             description:
                 "Current account, savings account and term deposit accounts."),
-        EachAssetModel(
+        const EachAssetModel(
             id: 6,
             image: "assets/images/add_assets/private_equity.svg",
             title: "Private equity",
             description:
                 "Current account, savings account and term deposit accounts."),
-        EachAssetModel(
+        const EachAssetModel(
             id: 7,
             image: "assets/images/add_assets/others.svg",
             title: "Others",
@@ -257,7 +266,7 @@ class AddAssetTopWidget extends AppStatelessWidget {
         const SizedBox(height: 16),
         Text("Hi Ahmad!", style: textTheme.headlineSmall),
         const SizedBox(height: 8),
-        WidthLimiterWidget(
+        const WidthLimiterWidget(
           width: 350,
           child: Text(
               "Diversify your portfolio by adding an asset or a liability"),
