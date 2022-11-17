@@ -27,8 +27,8 @@ class BlocHelper {
         //     color: Colors.red[800], type: "error");
         if (state.failure is ServerFailure) {
           switch ((state.failure as ServerFailure).type) {
-            case ServerExceptionType.normal:
-            case ServerExceptionType.unExpected:
+            case ExceptionType.normal:
+            case ExceptionType.unExpected:
               if (state.tryAgainFunction != null) {
                 showDialog(
                     context: context,
@@ -65,15 +65,14 @@ class BlocHelper {
               }
 
               break;
-            case ServerExceptionType.auth:
+            case ExceptionType.auth:
               GlobalFunctions.showSnackBar(context, state.failure.message);
               sl<LocalStorage>().logout();
               context.replaceNamed(AppRoutes.splash);
               break;
           }
         }
-      }
-      else {
+      } else {
         LoadingOverlay().hide();
         listener(context, state);
       }
