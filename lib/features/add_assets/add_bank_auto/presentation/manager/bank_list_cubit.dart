@@ -12,19 +12,19 @@ class BankListCubit extends Cubit<BankListState> {
   final GetPopularBankListUseCase getPopularBankListUseCase;
 
   BankListCubit(this.getBankListsUseCase, this.getPopularBankListUseCase)
-      : super(LoadingState());
+      : super(GetBankListInitial());
 
   getBankList() async {
     emit(LoadingState());
     final result = await getBankListsUseCase(NoParams());
     result.fold((failure) => emit(ErrorState(failure: failure)),
-        (banks) => BankListSuccess(banks));
+        (banks) => emit(BankListSuccess(banks)));
   }
 
   getPopularBankList() async {
     emit(LoadingState());
     final result = await getPopularBankListUseCase(NoParams());
     result.fold((failure) => emit(ErrorState(failure: failure)),
-        (banks) => PopularBankListSuccess(banks));
+        (banks) => emit(PopularBankListSuccess(banks)));
   }
 }

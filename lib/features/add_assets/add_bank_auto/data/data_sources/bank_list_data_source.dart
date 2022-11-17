@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:wmd/core/data/network/server_request_manager.dart';
 import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/data/repository/app_data_source.dart';
@@ -17,29 +18,19 @@ class BankListRemoteDataSourceImpl extends AppServerDataSource
 
   @override
   Future<List<BankResponse>> getBankList(NoParams param) async {
-    // final getBankListRequestOptions =
-    //     AppRequestOptions(RequestTypes.post, AppUrls.getBankList, param);
-    // final response =
-    //     await errorHandlerMiddleware.sendRequest(getBankListRequestOptions);
-    return const [
-      BankResponse(code: 'akb', name: 'Akbanks'),
-      BankResponse(code: 'isb', name: 'Is Banks'),
-      BankResponse(code: 'qnb', name: 'Finans QNB'),
-      BankResponse(code: 'grn', name: 'Garanti'),
-    ];
+    final getBankListRequestOptions =
+        AppRequestOptions(RequestTypes.get, AppUrls.getBankList, null);
+    final response = await errorHandlerMiddleware
+        .sendRequestType<List<dynamic>>(getBankListRequestOptions);
+    return response.map((e) => BankResponse.fromJson(e)).toList();
   }
 
   @override
   Future<List<BankResponse>> getPopularBankList(NoParams param) async {
-    // final getBankListRequestOptions =
-    //     AppRequestOptions(RequestTypes.post, AppUrls.getPopularBankList, param);
-    // final response =
-    //     await errorHandlerMiddleware.sendRequest(getBankListRequestOptions);
-    return const [
-      BankResponse(code: 'akb', name: 'Akbanks'),
-      BankResponse(code: 'isb', name: 'Is Banks'),
-      BankResponse(code: 'qnb', name: 'Finans QNB'),
-      BankResponse(code: 'grn', name: 'Garanti'),
-    ];
+    final getBankListRequestOptions =
+        AppRequestOptions(RequestTypes.get, AppUrls.getPopularBankList, null);
+    final response = await errorHandlerMiddleware
+        .sendRequestType<List<dynamic>>(getBankListRequestOptions);
+    return response.map((e) => BankResponse.fromJson(e)).toList();
   }
 }

@@ -12,6 +12,8 @@ import 'package:wmd/features/add_assets/add_bank_auto/presentation/widget/your_p
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/support_widget.dart';
 import 'package:wmd/injection_container.dart';
 
+import '../widget/bank_widget.dart';
+
 class AddBankAutoPage extends AppStatelessWidget {
   const AddBankAutoPage({Key? key}) : super(key: key);
 
@@ -45,45 +47,53 @@ class AddBankAutoPage extends AppStatelessWidget {
                     const SizedBox(height: 16),
                     const YourPrivacyWidget(),
                     const SizedBox(height: 16),
-                    Text("Link you bank accounts", style: textTheme.headline6),
+                    Text("Link you bank accounts",
+                        style: textTheme.headlineSmall),
                     const SizedBox(height: 8),
                     Text("Search for your bank or select an option below",
-                        style: textTheme.bodyLarge),
+                        style: textTheme.titleMedium),
                     const SizedBox(height: 8),
-                    SearchTextField(
-                      hint: 'Type a bank name',
-                      function: (text) {
-                        context.read<BankListCubit>().getBankList();
-                      },
-                    ),
                     BlocConsumer<BankListCubit, BankListState>(
                       listener: BlocHelper.defaultBlocListener(
                           listener: (context, state) {
-                        debugPrint(state);
                         // if (state is SuccessState) {
                         //   context.goNamed(AppRoutes.main);
                         // }
                       }),
                       builder: (context, state) {
-                        if (state is BankListSuccess) {
-                          return Column(
-                            children: [
-                              ...state.banks
-                                  .map((e) => Text(e.toJson().toString()))
-                            ],
-                          );
-                        } else if (state is PopularBankListSuccess) {
-                          return Column(
-                            children: [
-                              Text('Most popular banks'),
-                              ...state.banks
-                                  .map((e) => Text(e.toJson().toString())),
-                            ],
-                          );
-                        } else if (state is LoadingState) {
-                          return CircularProgressIndicator();
-                        }
-                        return Container();
+                        return Column(
+                          children: [
+                            SearchTextField(
+                              hint: 'Type a bank name',
+                              function: (text) {
+                                if (text == null || text.isEmpty) {
+                                  context
+                                      .read<BankListCubit>()
+                                      .getPopularBankList();
+                                } else {
+                                  context.read<BankListCubit>().getBankList();
+                                }
+                              },
+                            ),
+                            const SizedBox(height: 8),
+                            if (state is BankListSuccess)
+                              ...state.banks.map((e) => BankWidget(e)),
+                            if (state is PopularBankListSuccess)
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Most popular banks',
+                                    style: textTheme.titleMedium,
+                                  ),
+                                  ...state.banks.map((e) => BankWidget(e)),
+                                ],
+                              ),
+                            if (state is LoadingState)
+                              ...List.generate(
+                                  3, (index) => const Card(child: ListTile()))
+                          ],
+                        );
                       },
                     ),
                     const SupportWidget(),
