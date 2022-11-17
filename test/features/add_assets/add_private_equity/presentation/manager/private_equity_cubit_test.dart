@@ -25,7 +25,7 @@ void main() {
     setUp: () => when(mockAddPrivateEquityUseCase(any)).thenAnswer(
         (realInvocation) async => const Right(AddAssetModel.tAddAssetModel)),
     act: (bloc) async => await bloc.postPrivateEquity(
-        map: AddPrivateEquityParams.tAddPrivateEquityParams.toJson()),
+        map: AddPrivateEquityParams.tAddPrivateEquityMap),
     expect: () => [
       isA<LoadingState>(),
       PrivateEquitySaved(

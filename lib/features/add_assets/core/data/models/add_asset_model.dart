@@ -24,7 +24,7 @@ class AddAssetModel extends AddAsset {
 
   factory AddAssetModel.fromJson(Map<String, dynamic> json) => AddAssetModel(
         currencyCode: json["currencyCode"],
-        currencyRate: json["currencyRate"].toDouble(),
+        currencyRate: json["currencyRate"],
         startingBalance: json["startingBalance"],
         totalNetWorthChange: json["totalNetWorthChange"],
         totalNetWorth: json["totalNetWorth"],

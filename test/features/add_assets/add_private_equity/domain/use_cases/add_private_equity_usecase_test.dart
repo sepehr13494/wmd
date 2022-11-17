@@ -32,6 +32,8 @@ void main() {
       when(mockPrivateEquityRepository.postPrivateEquity(
               AddPrivateEquityParams.tAddPrivateEquityParams))
           .thenAnswer((_) async => Right(tAddPrivateEquityResponse));
+      when(mockLocalStorage.getOwnerId())
+          .thenAnswer((realInvocation) => "ownerId");
       // act
       final result = await addPrivateEquityUseCase(
           AddPrivateEquityParams.tAddPrivateEquityMap);
@@ -48,6 +50,8 @@ void main() {
       when(mockPrivateEquityRepository.postPrivateEquity(
               AddPrivateEquityParams.tAddPrivateEquityParams))
           .thenAnswer((_) async => const Left(tServerFailure));
+      when(mockLocalStorage.getOwnerId())
+          .thenAnswer((realInvocation) => "ownerId");
       // act
       final result = await addPrivateEquityUseCase(
           AddPrivateEquityParams.tAddPrivateEquityMap);
