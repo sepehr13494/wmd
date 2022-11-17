@@ -20,7 +20,7 @@ class PrivateDebtSaveRemoteDataSourceImpl extends AppServerDataSource
       AddPrivateDebtParams addPrivateDebtParams) async {
     final tPostPrivateDebtSaveRequestOptions = AppRequestOptions(
         RequestTypes.post,
-        AppUrls.postBankDetails,
+        AppUrls.postPrivateDebt,
         addPrivateDebtParams.toJson());
 
     final response = await errorHandlerMiddleware
