@@ -89,7 +89,7 @@ class BankList extends AppStatelessWidget {
                     if (text == null || text.isEmpty) {
                       context.read<BankListCubit>().getPopularBankList();
                     } else {
-                      context.read<BankListCubit>().getBankList();
+                      context.read<BankListCubit>().getBankList(text);
                     }
                   },
                 ),
