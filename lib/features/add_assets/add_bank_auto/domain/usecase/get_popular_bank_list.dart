@@ -9,8 +9,18 @@ class GetPopularBankListUseCase extends UseCase<List<BankEntity>, NoParams> {
 
   GetPopularBankListUseCase(this.bankListRepository);
 
+  List<BankEntity>? banks;
+
   @override
   Future<Either<Failure, List<BankEntity>>> call(NoParams params) async {
-    return await bankListRepository.getPopularBankList(params);
+    if (banks != null && banks!.isNotEmpty) {
+      return Right(banks!);
+    } else {
+      final temp = await bankListRepository.getPopularBankList(params);
+      temp.fold((l) => null, (r) {
+        banks = List.from(r);
+      });
+      return temp;
+    }
   }
 }
