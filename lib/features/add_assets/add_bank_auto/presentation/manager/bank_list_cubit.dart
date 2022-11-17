@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/data/models/bank_list_response.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/domain/entity/bank_entity.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/domain/usecase/get_bank_list.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/domain/usecase/get_popular_bank_list.dart';
 

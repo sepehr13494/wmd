@@ -20,17 +20,19 @@ class BankListRemoteDataSourceImpl extends AppServerDataSource
   Future<List<BankResponse>> getBankList(NoParams param) async {
     final getBankListRequestOptions =
         AppRequestOptions(RequestTypes.get, AppUrls.getBankList, null);
-    final response = await errorHandlerMiddleware
-        .sendRequestType<List<dynamic>>(getBankListRequestOptions);
-    return response.map((e) => BankResponse.fromJson(e)).toList();
+    final response =
+        await errorHandlerMiddleware.sendRequest(getBankListRequestOptions);
+    return [...response, ...response, ...response]
+        .map((e) => BankResponse.fromJson(e))
+        .toList();
   }
 
   @override
   Future<List<BankResponse>> getPopularBankList(NoParams param) async {
     final getBankListRequestOptions =
         AppRequestOptions(RequestTypes.get, AppUrls.getPopularBankList, null);
-    final response = await errorHandlerMiddleware
-        .sendRequestType<List<dynamic>>(getBankListRequestOptions);
+    final List<dynamic> response =
+        await errorHandlerMiddleware.sendRequest(getBankListRequestOptions);
     return response.map((e) => BankResponse.fromJson(e)).toList();
   }
 }
