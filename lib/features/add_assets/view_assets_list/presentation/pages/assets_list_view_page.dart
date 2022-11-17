@@ -33,12 +33,7 @@ class AssetsListViewPage extends AppStatelessWidget {
                   ? null
                   : () {
                       print(assetModel);
-                      Map<String, dynamic> dataMap = {
-                        "route": assetModel.route,
-                      };
-
-                      context.pushNamed(AppRoutes.autoManualPage,
-                          queryParams: dataMap);
+                      context.pushNamed(assetModel.pageRoute);
                     });
         }),
         body: Stack(
@@ -178,44 +173,51 @@ class AssetsPart extends AppStatelessWidget {
             id: 1,
             image: "assets/images/add_assets/bank_asset.svg",
             title: "Liability",
+            pageRoute: AppRoutes.addLiability,
             description: loroIpsum)
       ];
     } else {
       assets = [
         const EachAssetModel(
-            id: 2,
-            image: "assets/images/add_assets/bank_asset.svg",
-            title: "Bank Account",
-            description:
-                "Current account, savings account and term deposit accounts.",
-            route: AppRoutes.addBankManualPage),
+          id: 2,
+          pageRoute: AppRoutes.autoManualPage,
+          image: "assets/images/add_assets/bank_asset.svg",
+          title: "Bank Account",
+          description:
+              "Current account, savings account and term deposit accounts.",
+        ),
         const EachAssetModel(
             id: 3,
+            pageRoute: AppRoutes.addListedAsset,
             image: "assets/images/add_assets/listed_asset.svg",
             title: "Listed assets",
             description:
                 "Investments made in stocks, ETFs, bonds and mutual funds."),
         const EachAssetModel(
-            id: 4,
-            image: "assets/images/add_assets/privet_debt.svg",
-            title: "Private debt",
-            description:
-                "Asset defined by non-bank lending where debt is not issued or traded on the public markets",
-            route: AppRoutes.addPrivateDebtManualPage),
+          id: 4,
+          pageRoute: AppRoutes.addPrivateDebt,
+          image: "assets/images/add_assets/privet_debt.svg",
+          title: "Private debt",
+          description:
+              "Asset defined by non-bank lending where debt is not issued or traded on the public markets",
+        ),
         const EachAssetModel(
             id: 5,
+            pageRoute: AppRoutes.addRealEstate,
             image: "assets/images/add_assets/real_estate.svg",
             title: "Real estate",
             description:
                 "Current account, savings account and term deposit accounts."),
         const EachAssetModel(
             id: 6,
+            pageRoute: AppRoutes.addPrivateEquity,
             image: "assets/images/add_assets/private_equity.svg",
             title: "Private equity",
             description:
                 "Current account, savings account and term deposit accounts."),
         const EachAssetModel(
             id: 7,
+            pageRoute: AppRoutes.addOther,
             image: "assets/images/add_assets/others.svg",
             title: "Others",
             description:

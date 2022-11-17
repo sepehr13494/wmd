@@ -11,18 +11,18 @@ class EachAssetModel extends Equatable {
   final String image;
   final String title;
   final String description;
-  final String route;
+  final String pageRoute;
 
   const EachAssetModel({
     required this.id,
     required this.image,
     required this.title,
     required this.description,
-    this.route = "",
+    required this.pageRoute,
   });
 
   @override
-  List<Object?> get props => [id, route];
+  List<Object?> get props => [id];
 }
 
 class EachAssetWidget extends AppStatelessWidget {

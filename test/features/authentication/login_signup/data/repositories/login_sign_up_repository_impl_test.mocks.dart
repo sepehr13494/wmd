@@ -115,7 +115,8 @@ class MockLoginSignUpRemoteDataSource extends _i1.Mock
           #resendEmail,
           [resendEmailParams],
         ),
-        returnValue: _i6.Future<Map<String, dynamic>>.value({}),
+        returnValue:
+            _i6.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
       ) as _i6.Future<Map<String, dynamic>>);
 }
 

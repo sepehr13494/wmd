@@ -24,7 +24,7 @@ void main() {
       "loginAt": CustomizableDateTime.currentDate,
       "externalId": "externalId",
       "userId": "userId",
-      "emailVerified": "emailVerified"
+      "emailVerified": false
     };
 
     // act

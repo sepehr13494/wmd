@@ -147,14 +147,14 @@ void main() {
 
     test(
       'should return server failure on cache exception',
-          () async {
+      () async {
         // arrange
-            when(mockLoginSignUpRemoteDataSource.register(any))
-                .thenAnswer((_) async => tRegisterResponse);
+        when(mockLoginSignUpRemoteDataSource.register(any))
+            .thenAnswer((_) async => tRegisterResponse);
         when(mockLocalStorage.setTokenAndLogin(any)).thenThrow(tCacheException);
         // act
         final result =
-        await loginSignUpRepositoryImpl.register(tRegisterParams);
+            await loginSignUpRepositoryImpl.register(tRegisterParams);
         // assert
         verify(mockLoginSignUpRemoteDataSource.register(tRegisterParams));
 
@@ -169,10 +169,13 @@ void main() {
     const tSuccess = AppSuccess(message: 'Email sent successful');
     test(
       'should return AppSuccess when the call to login_sing_up_remote_data_source is successful',
-          () async {
+      () async {
         // arrange
+        when(mockLoginSignUpRemoteDataSource.resendEmail(any))
+            .thenAnswer((realInvocation) async => {"success": true});
         // act
-        final result = await loginSignUpRepositoryImpl.resendEmail(tResendEmailParams);
+        final result =
+            await loginSignUpRepositoryImpl.resendEmail(tResendEmailParams);
         // assert
         verify(mockLoginSignUpRemoteDataSource.resendEmail(tResendEmailParams));
         expect(result, equals(const Right(tSuccess)));
@@ -181,12 +184,13 @@ void main() {
 
     test(
       'should return server failure on server exception',
-          () async {
+      () async {
         // arrange
         when(mockLoginSignUpRemoteDataSource.resendEmail(any))
             .thenThrow(tServerException);
         // act
-        final result = await loginSignUpRepositoryImpl.resendEmail(tResendEmailParams);
+        final result =
+            await loginSignUpRepositoryImpl.resendEmail(tResendEmailParams);
         // assert
         verify(mockLoginSignUpRemoteDataSource.resendEmail(tResendEmailParams));
 
