@@ -10,6 +10,7 @@ abstract class BaseState extends Equatable
         UserStatusState,
         BankSaveState,
         PrivateEquityState,
+        PrivateDebtState,
         MainDashboardState,
         BankSaveState {}
 

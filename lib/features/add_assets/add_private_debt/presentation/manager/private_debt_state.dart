@@ -5,7 +5,7 @@ abstract class PrivateDebtState {}
 class PrivateDebtInitial extends PrivateDebtState {}
 
 class PrivateDebtSaved extends Equatable with PrivateDebtState {
-  final PrivateDebtSaveResponse privateDebtSaveResponse;
+  final AddAsset privateDebtSaveResponse;
 
   PrivateDebtSaved({required this.privateDebtSaveResponse});
   @override

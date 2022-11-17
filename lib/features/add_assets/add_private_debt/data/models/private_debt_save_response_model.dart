@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:wmd/features/add_assets/add_basic_private_debt/domain/entities/private_debt_save_response.dart';
+import 'package:wmd/features/add_assets/add_private_debt/domain/entities/private_debt_save_response.dart';
 
 PrivateDebtSaveResponseModel privateDebtFailResponseModelFromJson(String str) =>
     PrivateDebtSaveResponseModel.fromJson(json.decode(str));

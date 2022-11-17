@@ -2,12 +2,13 @@ import 'package:wmd/core/data/network/server_request_manager.dart';
 import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/data/repository/app_data_source.dart';
 import 'package:wmd/core/models/app_request_options.dart';
-import 'package:wmd/features/add_assets/add_basic_private_debt/data/models/private_debt_save_response_model.dart';
-import 'package:wmd/features/add_assets/add_basic_private_debt/domain/use_cases/post_private_debt_usecase.dart';
+import 'package:wmd/features/add_assets/add_private_debt/data/models/private_debt_save_response_model.dart';
+import 'package:wmd/features/add_assets/add_private_debt/domain/use_cases/add_private_debt_usecase.dart';
+import 'package:wmd/features/add_assets/core/data/models/add_asset_model.dart';
 
 abstract class PrivateDebtSaveRemoteDataSource {
-  Future<PrivateDebtSaveResponseModel> postPrivateDebt(
-      PrivateDebtSaveParams privateDebtSaveParams);
+  Future<AddAssetModel> postPrivateDebt(
+      AddPrivateDebtParams privateDebtSaveParams);
 }
 
 class PrivateDebtSaveRemoteDataSourceImpl extends AppServerDataSource
@@ -15,16 +16,16 @@ class PrivateDebtSaveRemoteDataSourceImpl extends AppServerDataSource
   PrivateDebtSaveRemoteDataSourceImpl(super.errorHandlerMiddleware);
 
   @override
-  Future<PrivateDebtSaveResponseModel> postPrivateDebt(
-      PrivateDebtSaveParams privateDebtSaveParams) async {
+  Future<AddAssetModel> postPrivateDebt(
+      AddPrivateDebtParams addPrivateDebtParams) async {
     final tPostPrivateDebtSaveRequestOptions = AppRequestOptions(
         RequestTypes.post,
         AppUrls.postBankDetails,
-        privateDebtSaveParams.toJson());
+        addPrivateDebtParams.toJson());
 
     final response = await errorHandlerMiddleware
         .sendRequest(tPostPrivateDebtSaveRequestOptions);
-    final result = PrivateDebtSaveResponseModel.fromJson(response);
+    final result = AddAssetModel.fromJson(response);
 
     return result;
   }
