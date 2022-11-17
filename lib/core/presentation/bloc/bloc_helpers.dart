@@ -28,6 +28,7 @@ class BlocHelper {
         if (state.failure is ServerFailure) {
           switch ((state.failure as ServerFailure).type) {
             case ExceptionType.normal:
+            case ExceptionType.format:
             case ExceptionType.unExpected:
               if (state.tryAgainFunction != null) {
                 showDialog(
