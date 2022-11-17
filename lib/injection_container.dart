@@ -49,6 +49,7 @@ import 'core/util/app_theme.dart';
 import 'core/util/device_info.dart';
 import 'core/util/local_storage.dart';
 import 'features/add_assets/add_bank_auto/domain/repository/bank_list_repository.dart';
+import 'features/add_assets/add_bank_auto/domain/usecase/get_popular_bank_list.dart';
 import 'features/splash/data/repositories/splash_repository_impl.dart';
 import 'features/splash/domain/repositories/splash_repository.dart';
 import 'features/splash/domain/use_cases/check_login_usecase.dart';
@@ -135,6 +136,7 @@ Future<void> init() async {
   // Bank List
   sl.registerFactory(() => BankListCubit(sl(), sl()));
   sl.registerLazySingleton(() => GetBankListsUseCase(sl()));
+  sl.registerLazySingleton(() => GetPopularBankListUseCase(sl()));
   sl.registerLazySingleton<BankListRepository>(
       () => BankListRepositoryImpl(sl()));
   sl.registerLazySingleton<BankListRemoteDataSource>(
