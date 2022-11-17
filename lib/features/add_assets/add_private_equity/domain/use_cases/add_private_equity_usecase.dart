@@ -1,11 +1,13 @@
 import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
-import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/features/add_assets/add_private_equity/domain/repositories/private_equity_repository.dart';
+import 'package:wmd/features/add_assets/core/data/models/country.dart';
+import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 import 'package:wmd/features/add_assets/core/domain/entities/add_asset_response.dart';
 
 class AddPrivateEquityUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
@@ -15,10 +17,24 @@ class AddPrivateEquityUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
   AddPrivateEquityUseCase(this.privateEquityRepository, this.localStorage);
   @override
   Future<Either<Failure, AddAsset>> call(Map<String, dynamic> params) async {
-    final ownerId = localStorage.getOwnerId();
-    params['owner'] = ownerId;
-    final privateEquityParams = AddPrivateEquityParams.fromJson(params);
-    return await privateEquityRepository.postPrivateEquity(privateEquityParams);
+    try {
+      final ownerId = localStorage.getOwnerId();
+      final investmentAmount =
+          params['investmentAmount'].toString().replaceAll(',', '');
+      final marketValue = params['marketValue'].toString().replaceAll(',', '');
+      final newMap = {
+        ...params,
+        "owner": ownerId,
+        "investmentAmount": investmentAmount,
+        "marketValue": marketValue
+      };
+      final privateEquityParams = AddPrivateEquityParams.fromJson(newMap);
+      return await privateEquityRepository
+          .postPrivateEquity(privateEquityParams);
+    } catch (e) {
+      debugPrint("AddPrivateEquityUseCase catch : ${e.toString()}");
+      return const Left(AppFailure(message: "Something went wrong!"));
+    }
   }
 }
 
@@ -28,7 +44,7 @@ AddPrivateEquityParams addPrivateEquityParamsFromJson(String str) =>
 String addPrivateEquityParamsToJson(AddPrivateEquityParams data) =>
     json.encode(data.toJson());
 
-class AddPrivateEquityParams {
+class AddPrivateEquityParams extends Equatable {
   const AddPrivateEquityParams({
     this.isActive,
     required this.investmentName,
@@ -46,8 +62,8 @@ class AddPrivateEquityParams {
   final String investmentName;
   final String country;
   final String currencyCode;
-  final int investmentAmount;
-  final int marketValue;
+  final double investmentAmount;
+  final double marketValue;
   final DateTime investmentDate;
   final DateTime valuationDate;
   final String? wealthManager;
@@ -57,10 +73,14 @@ class AddPrivateEquityParams {
       AddPrivateEquityParams(
         isActive: json["isActive"],
         investmentName: json["investmentName"],
-        country: json["country"],
-        currencyCode: json["currencyCode"],
-        investmentAmount: json["investmentAmount"],
-        marketValue: json["marketValue"],
+        country: (json["country"] as Country).countryName,
+        currencyCode: (json["currencyCode"] as Currency).symbol,
+        investmentAmount: json["investmentAmount"] != null
+            ? double.tryParse(json["investmentAmount"])
+            : json["investmentAmount"],
+        marketValue: json["marketValue"] != null
+            ? double.tryParse(json["marketValue"])
+            : json["marketValue"],
         investmentDate: DateTime.parse(json["investmentDate"]),
         valuationDate: DateTime.parse(json["valuationDate"]),
         wealthManager: json["wealthManager"],
@@ -80,27 +100,40 @@ class AddPrivateEquityParams {
         "owner": owner,
       };
 
-  static const tAddPrivateEquityMap = {
-    "isActive": false,
-    "investmentName": "Faizan",
-    "country": "BH",
-    "currencyCode": "USD",
-    "investmentAmount": 100000,
-    "marketValue": 100000,
+  static final tAddPrivateEquityMap = {
+    "investmentName": "investmentName",
+    "country": Country(name: "USA", countryName: "USA"),
+    "currencyCode": Currency(name: "USD", symbol: "USD"),
+    "investmentAmount": '100,000',
+    "marketValue": '100,000',
     "investmentDate": "2022-10-05T21:00:00.000Z",
     "valuationDate": "2022-10-05T21:00:00.000Z",
-    "wealthManager": "Faizan",
+    "wealthManager": "wealthManager",
     "owner": "ownerId"
   };
 
   static final tAddPrivateEquityParams = AddPrivateEquityParams(
-    investmentName: "investmentName",
-    country: "country",
-    currencyCode: "currencyCode",
-    investmentAmount: 10000,
-    marketValue: 10000,
-    investmentDate: DateTime.now(),
-    valuationDate: DateTime.now(),
-    owner: "owner",
-  );
+      investmentName: "investmentName",
+      country: "USA",
+      currencyCode: "USD",
+      investmentAmount: 100000.0,
+      marketValue: 100000.0,
+      investmentDate: DateTime.parse('2022-10-05T21:00:00.000Z'),
+      valuationDate: DateTime.parse('2022-10-05T21:00:00.000Z'),
+      owner: "ownerId",
+      wealthManager: "wealthManager");
+
+  @override
+  List<Object?> get props => [
+        isActive,
+        investmentName,
+        country,
+        currencyCode,
+        investmentAmount,
+        marketValue,
+        investmentDate,
+        valuationDate,
+        wealthManager,
+        owner
+      ];
 }
