@@ -20,14 +20,19 @@ class AddPrivateDebtUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
     try {
       final ownerId = localStorage.getOwnerId();
       final investmentAmount =
-          params['investmentAmount'].toString().replaceAll(',', '');
-      final marketValue = params['marketValue'].toString().replaceAll(',', '');
+          params['initialInvestmentAmount'].toString().replaceAll(',', '');
+      final marketValue = params['currentValue'].toString().replaceAll(',', '');
       final newMap = {
         ...params,
         "owner": ownerId,
         "investmentAmount": investmentAmount,
-        "marketValue": marketValue
+        "marketValue": marketValue,
+        "investmentName": params["name"],
+        "wealthManager": params["custodian"],
+        "investmentDate": params["acquisitionDate"]
       };
+
+      print(params["acquisitionDate"].runtimeType);
 
       final privateDebtAssetParam = AddPrivateDebtParams.fromJson(newMap);
       return await privateDebtRepository.postPrivateDebt(privateDebtAssetParam);
@@ -81,8 +86,12 @@ class AddPrivateDebtParams extends Equatable {
         marketValue: json["marketValue"] != null
             ? double.tryParse(json["marketValue"])
             : json["marketValue"],
-        investmentDate: DateTime.parse(json["investmentDate"]),
-        valuationDate: DateTime.parse(json["valuationDate"]),
+        investmentDate: json["investmentDate"].runtimeType == DateTime
+            ? json["investmentDate"]
+            : DateTime.parse(json["investmentDate"]),
+        valuationDate: json["valuationDate"].runtimeType == DateTime
+            ? json["valuationDate"]
+            : DateTime.parse(json["valuationDate"]),
         wealthManager: json["wealthManager"],
         owner: json["owner"],
       );
