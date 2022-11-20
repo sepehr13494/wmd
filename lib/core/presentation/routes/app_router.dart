@@ -94,7 +94,7 @@ class AppRouter {
                     name: AppRoutes.autoManualPage,
                     path: "auto_manual",
                     builder: (BuildContext context, GoRouterState state) {
-                      return AutoManualPage(verifyMap: state.queryParams);
+                      return const AutoManualPage();
                     },
                   ),
                   GoRoute(

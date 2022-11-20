@@ -9,9 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/support_widget.dart';
 
 class AutoManualPage extends AppStatelessWidget {
-  final Map<String, dynamic> verifyMap;
-
-  const AutoManualPage({Key? key, required this.verifyMap}) : super(key: key);
+  const AutoManualPage({Key? key}) : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -58,12 +56,9 @@ class AutoManualPage extends AppStatelessWidget {
                     title: "Enter manually",
                     description:
                         "Quickly add your checking or savings account. TFO will never sell your personal date and only use it with your permission.",
-                    onTap:
-                        verifyMap["route"] == "" || verifyMap["route"] == null
-                            ? null
-                            : () {
-                                context.pushNamed(verifyMap["route"]);
-                              },
+                    onTap: () {
+                      context.pushNamed(AppRoutes.addBankManualPage);
+                    },
                     buttonText: "Enter manually",
                   ),
                   const SupportWidget(),
@@ -88,7 +83,7 @@ class AutoManualCard extends AppStatelessWidget {
   final String title;
   final String description;
   final String buttonText;
-  final VoidCallback? onTap;
+  final Function onTap;
 
   const AutoManualCard(
       {Key? key,
@@ -138,7 +133,11 @@ class AutoManualCard extends AppStatelessWidget {
                 : SizedBox(height: responsiveHelper.bigger16Gap),
             ExpandedIf(
               expanded: !isMobile,
-              child: ElevatedButton(onPressed: onTap, child: Text(buttonText)),
+              child: ElevatedButton(
+                  onPressed: () {
+                    onTap();
+                  },
+                  child: Text(buttonText)),
             )
           ],
         ),

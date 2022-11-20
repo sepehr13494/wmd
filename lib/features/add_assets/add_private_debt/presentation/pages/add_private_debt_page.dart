@@ -11,6 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/add_private_debt/presentation/manager/private_debt_cubit.dart';
 import 'package:wmd/features/add_assets/core/constants.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
@@ -120,13 +121,13 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                       hint:
                                           "Type the name of your private equity"),
                                 ),
-                                EachTextField(
+                                const EachTextField(
                                   hasInfo: false,
                                   title: "Custodian (optional)",
-                                  child: AppTextFields.simpleTextField(
-                                      required: false,
+                                  child: FormBuilderTypeAhead(
                                       name: "custodian",
-                                      hint: "Type the name of custodian"),
+                                      hint: "Type the name of custodian",
+                                      items: AppConstants.custodianList),
                                 ),
                                 const EachTextField(
                                   hasInfo: false,
