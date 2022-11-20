@@ -20,6 +20,7 @@ class NetworkHelper {
       headers: headers,
       connectTimeout: 15000,
     );
+    options.headers.remove(Headers.contentLengthHeader);
     Dio dio = Dio(options);
     // For refreshing token every request
     dio.interceptors.clear();
