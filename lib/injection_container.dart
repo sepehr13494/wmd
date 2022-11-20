@@ -12,6 +12,11 @@ import 'package:wmd/features/add_assets/add_basic_cash_asset/data/repositories/b
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/repositories/bank_repository.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/use_cases/post_bank_details_usecase.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/manager/bank_cubit.dart';
+import 'package:wmd/features/add_assets/add_private_equity/data/data_sources/private_equity_remote_data_source.dart';
+import 'package:wmd/features/add_assets/add_private_equity/data/repositories/private_equity_repository_impl.dart';
+import 'package:wmd/features/add_assets/add_private_equity/domain/repositories/private_equity_repository.dart';
+import 'package:wmd/features/add_assets/add_private_equity/domain/use_cases/add_private_equity_usecase.dart';
+import 'package:wmd/features/add_assets/add_private_equity/presentation/manager/private_equity_cubit.dart';
 import 'package:wmd/features/authentication/forget_password/data/data_sources/forget_password_server_datasource.dart';
 import 'package:wmd/features/authentication/forget_password/data/repositories/forget_password_repository_impl.dart';
 import 'package:wmd/features/authentication/forget_password/domain/repositories/forget_password_repository.dart';
@@ -66,7 +71,7 @@ Future<void> init() async {
 
   //Authentication dependency
   // login and sign up
-  sl.registerFactory(() => LoginSignUpCubit(sl(), sl(), sl(), sl()));
+  sl.registerFactory(() => LoginSignUpCubit(sl(), sl(), sl(), sl(), sl()));
   sl.registerLazySingleton(() => PostLoginUseCase(sl()));
   sl.registerLazySingleton(() => PostRegisterUseCase(sl()));
   sl.registerLazySingleton(() => ResendEmailUseCase(sl()));
@@ -141,6 +146,14 @@ Future<void> init() async {
       () => BankListRepositoryImpl(sl()));
   sl.registerLazySingleton<BankListRemoteDataSource>(
       () => BankListRemoteDataSourceImpl(sl()));
+
+  // Add private equity
+  sl.registerFactory(() => PrivateEquityCubit(sl()));
+  sl.registerLazySingleton(() => AddPrivateEquityUseCase(sl(), sl()));
+  sl.registerLazySingleton<PrivateEquityRepository>(
+      () => PrivateEquityRepositoryImpl(sl()));
+  sl.registerLazySingleton<PrivateEquityRemoteDataSource>(
+      () => PrivateEquityRemoteDataSourceImpl(sl()));
 
   await initExternal();
 }

@@ -22,35 +22,37 @@ class AssetsListViewPage extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     return BlocProvider(
-  create: (context) => AssetViewCubit(),
-  child: Scaffold(
-      appBar: BaseAppBar(title: "Add assets"),
-      bottomSheet: Builder(
-        builder: (context) {
+      create: (context) => AssetViewCubit(),
+      child: Scaffold(
+        appBar: BaseAppBar(title: "Add assets"),
+        bottomSheet: Builder(builder: (context) {
           final assetModel = context.watch<AssetViewCubit>().state;
-          return AddAssetFooter(buttonText: "Add Asset",onTap: assetModel == null ? null : (){
-            print(assetModel);
-            context.pushNamed(AppRoutes.autoManualPage);
-          });
-        }
-      ),
-      body: Stack(
-        children: const [
-          LeafBackground(
-            opacity: 0.5,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: ResponsiveWidget(
-              mobile: AddAssetMobileWidget(),
-              desktop: AddAssetTabletView(),
-              tablet: AddAssetTabletView(),
+          return AddAssetFooter(
+              buttonText: "Add Asset",
+              onTap: assetModel == null
+                  ? null
+                  : () {
+                      print(assetModel);
+                      context.pushNamed(assetModel.pageRoute);
+                    });
+        }),
+        body: Stack(
+          children: const [
+            LeafBackground(
+              opacity: 0.5,
             ),
-          ),
-        ],
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: ResponsiveWidget(
+                mobile: AddAssetMobileWidget(),
+                desktop: AddAssetTabletView(),
+                tablet: AddAssetTabletView(),
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-);
+    );
   }
 }
 
@@ -171,42 +173,49 @@ class AssetsPart extends AppStatelessWidget {
             id: 1,
             image: "assets/images/add_assets/bank_asset.svg",
             title: "Liability",
+            pageRoute: AppRoutes.addLiability,
             description: loroIpsum)
       ];
     } else {
       assets = [
         EachAssetModel(
             id: 2,
+            pageRoute: AppRoutes.autoManualPage,
             image: "assets/images/add_assets/bank_asset.svg",
             title: "Bank Account",
             description:
                 "Current account, savings account and term deposit accounts."),
         EachAssetModel(
             id: 3,
+            pageRoute: AppRoutes.addListedAsset,
             image: "assets/images/add_assets/listed_asset.svg",
             title: "Listed assets",
             description:
                 "Investments made in stocks, ETFs, bonds and mutual funds."),
         EachAssetModel(
             id: 4,
+            pageRoute: AppRoutes.addPrivateDebt,
             image: "assets/images/add_assets/privet_debt.svg",
             title: "Private debt",
             description:
                 "Asset defined by non-bank lending where debt is not issued or traded on the public markets"),
         EachAssetModel(
             id: 5,
+            pageRoute: AppRoutes.addRealEstate,
             image: "assets/images/add_assets/real_estate.svg",
             title: "Real estate",
             description:
                 "Current account, savings account and term deposit accounts."),
         EachAssetModel(
             id: 6,
+            pageRoute: AppRoutes.addPrivateEquity,
             image: "assets/images/add_assets/private_equity.svg",
             title: "Private equity",
             description:
                 "Current account, savings account and term deposit accounts."),
         EachAssetModel(
             id: 7,
+            pageRoute: AppRoutes.addOther,
             image: "assets/images/add_assets/others.svg",
             title: "Others",
             description:

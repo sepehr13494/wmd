@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:wmd/core/data/network/server_request_manager.dart';
@@ -10,7 +11,8 @@ import 'package:wmd/features/dashboard/user_status/data/models/user_status.dart'
 
 import '../../../../../core/data/network/error_handler_middleware_test.mocks.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: 'assets/env/.env');
   late MockErrorHandlerMiddleware mockErrorHandlerMiddleware;
   late UserStatusRemoteDataSourceImpl dashboardRemoteDataSourceImpl;
 

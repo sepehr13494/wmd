@@ -77,9 +77,13 @@ class _RegisterPageState extends AppState<RegisterPage> {
             listener: BlocHelper.defaultBlocListener(
               listener: (context, state) {
                 if (state is SuccessState) {
-                  context.goNamed(AppRoutes.verifyEmail, queryParams: {
-                    "email": formKey.currentState!.instantValue["email"]
-                  });
+                  if (state.appSuccess.message == "true") {
+                    context.goNamed(AppRoutes.main);
+                  } else {
+                    context.goNamed(AppRoutes.verifyEmail, queryParams: {
+                      "email": formKey.currentState!.instantValue["email"]
+                    });
+                  }
                 }
               },
             ),

@@ -8,6 +8,8 @@ abstract class BaseState extends Equatable
         VideoControllerState,
         VerifyEmailState,
         UserStatusState,
+        BankSaveState,
+        PrivateEquityState,
         MainDashboardState,
         BankSaveState,
         BankListState {}
