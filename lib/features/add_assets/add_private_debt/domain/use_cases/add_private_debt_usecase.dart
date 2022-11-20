@@ -20,19 +20,14 @@ class AddPrivateDebtUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
     try {
       final ownerId = localStorage.getOwnerId();
       final investmentAmount =
-          params['initialInvestmentAmount'].toString().replaceAll(',', '');
-      final marketValue = params['currentValue'].toString().replaceAll(',', '');
+          params['investmentAmount'].toString().replaceAll(',', '');
+      final marketValue = params['marketValue'].toString().replaceAll(',', '');
       final newMap = {
         ...params,
         "owner": ownerId,
         "investmentAmount": investmentAmount,
         "marketValue": marketValue,
-        "investmentName": params["name"],
-        "wealthManager": params["custodian"],
-        "investmentDate": params["acquisitionDate"]
       };
-
-      print(params["acquisitionDate"].runtimeType);
 
       final privateDebtAssetParam = AddPrivateDebtParams.fromJson(newMap);
       return await privateDebtRepository.postPrivateDebt(privateDebtAssetParam);
@@ -86,12 +81,8 @@ class AddPrivateDebtParams extends Equatable {
         marketValue: json["marketValue"] != null
             ? double.tryParse(json["marketValue"])
             : json["marketValue"],
-        investmentDate: json["investmentDate"].runtimeType == DateTime
-            ? json["investmentDate"]
-            : DateTime.parse(json["investmentDate"]),
-        valuationDate: json["valuationDate"].runtimeType == DateTime
-            ? json["valuationDate"]
-            : DateTime.parse(json["valuationDate"]),
+        investmentDate: DateTime.parse(json["investmentDate"].toString()),
+        valuationDate: DateTime.parse(json["valuationDate"].toString()),
         wealthManager: json["wealthManager"],
         owner: json["owner"],
       );
@@ -115,8 +106,8 @@ class AddPrivateDebtParams extends Equatable {
     "currencyCode": Currency(name: "USD", symbol: "USD"),
     "investmentAmount": '100,000',
     "marketValue": '100,000',
-    "investmentDate": "2022-10-05T21:00:00.000Z",
-    "valuationDate": "2022-10-05T21:00:00.000Z",
+    "investmentDate": DateTime.parse('2022-10-05T21:00:00.000Z'),
+    "valuationDate": DateTime.parse('2022-10-05T21:00:00.000Z'),
     "wealthManager": "wealthManager",
     "owner": "ownerId"
   };

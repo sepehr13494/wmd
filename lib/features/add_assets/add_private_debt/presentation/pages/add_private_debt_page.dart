@@ -29,6 +29,30 @@ class AddPrivateDebtPage extends StatefulWidget {
 
 class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
   final privateDebtFormKey = GlobalKey<FormBuilderState>();
+  bool enableAddAssetButton = false;
+  @override
+  void didUpdateWidget(covariant AddPrivateDebtPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+  }
+
+  void checkFinalValid(value) async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    bool finalValid = privateDebtFormKey.currentState!.isValid;
+    if (finalValid) {
+      if (!enableAddAssetButton) {
+        setState(() {
+          enableAddAssetButton = true;
+        });
+      }
+    } else {
+      if (enableAddAssetButton) {
+        setState(() {
+          enableAddAssetButton = false;
+        });
+      }
+    }
+  }
+
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
@@ -41,15 +65,19 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
           ),
           bottomSheet: AddAssetFooter(
               buttonText: "Add asset",
-              onTap: () {
-                Map<String, dynamic> finalMap = {
-                  ...privateDebtFormKey.currentState!.instantValue,
-                };
+              onTap: !enableAddAssetButton
+                  ? null
+                  : () {
+                      Map<String, dynamic> finalMap = {
+                        ...privateDebtFormKey.currentState!.instantValue,
+                      };
 
-                print(finalMap);
+                      print(finalMap);
 
-                context.read<PrivateDebtCubit>().postPrivateDebt(map: finalMap);
-              }),
+                      context
+                          .read<PrivateDebtCubit>()
+                          .postPrivateDebt(map: finalMap);
+                    }),
           body: Theme(
             data: Theme.of(context).copyWith(),
             child: Stack(
@@ -107,29 +135,35 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                   hasInfo: false,
                                   title: "Name",
                                   child: AppTextFields.simpleTextField(
-                                      name: "name",
+                                      title: "Name",
+                                      name: "investmentName",
+                                      onChanged: checkFinalValid,
                                       hint:
                                           "Type the name of your private equity"),
                                 ),
-                                const EachTextField(
+                                EachTextField(
                                   hasInfo: false,
                                   title: "Custodian (optional)",
                                   child: FormBuilderTypeAhead(
-                                      name: "custodian",
+                                      onChange: checkFinalValid,
+                                      name: "wealthManager",
                                       hint: "Type the name of custodian",
                                       items: AppConstants.custodianList),
                                 ),
-                                const EachTextField(
+                                EachTextField(
                                   hasInfo: false,
                                   title: "Country",
-                                  child: CountriesDropdown(),
+                                  child: CountriesDropdown(
+                                    onChanged: checkFinalValid,
+                                  ),
                                 ),
                                 EachTextField(
                                   title: "Acquisition date",
                                   child: FormBuilderDateTimePicker(
                                     inputType: InputType.date,
                                     format: DateFormat("dd/MM/yyyy"),
-                                    name: "acquisitionDate",
+                                    name: "investmentDate",
+                                    onChanged: checkFinalValid,
                                     decoration: InputDecoration(
                                         suffixIcon: Icon(
                                           Icons.calendar_today_outlined,
@@ -138,17 +172,21 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                         hintText: "DD/MM/YYYY"),
                                   ),
                                 ),
-                                const EachTextField(
+                                EachTextField(
                                   hasInfo: false,
                                   title: "Currency",
-                                  child: CurrenciesDropdown(),
+                                  child: CurrenciesDropdown(
+                                    onChanged: checkFinalValid,
+                                    showExchange: true,
+                                  ),
                                 ),
                                 EachTextField(
                                   hasInfo: false,
                                   title: "Initial investment amount",
                                   child: AppTextFields.simpleTextField(
+                                      onChanged: checkFinalValid,
                                       type: TextFieldType.money,
-                                      name: "initialInvestmentAmount",
+                                      name: "investmentAmount",
                                       hint: "Book value of initial investment"),
                                 ),
                                 EachTextField(
@@ -157,6 +195,7 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                     format: DateFormat("dd/MM/yyyy"),
                                     inputType: InputType.date,
                                     name: "valuationDate",
+                                    onChanged: checkFinalValid,
                                     decoration: InputDecoration(
                                         suffixIcon: Icon(
                                           Icons.calendar_today_outlined,
@@ -169,8 +208,9 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                   hasInfo: false,
                                   title: "Current value",
                                   child: AppTextFields.simpleTextField(
+                                      onChanged: checkFinalValid,
                                       type: TextFieldType.money,
-                                      name: "currentValue",
+                                      name: "marketValue",
                                       hint:
                                           "The current day value of the asset"),
                                 ),
