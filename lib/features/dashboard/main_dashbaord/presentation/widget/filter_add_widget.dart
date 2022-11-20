@@ -9,7 +9,8 @@ class FilterAddPart extends AppStatelessWidget {
   const FilterAddPart({Key? key}) : super(key: key);
 
   @override
-  Widget buildWidget(BuildContext context,TextTheme textTheme, AppLocalizations appLocalizations) {
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
     return Row(
       children: [
@@ -29,11 +30,11 @@ class FilterAddPart extends AppStatelessWidget {
                       isMobile
                           ? const SizedBox()
                           : Row(
-                        children: [
-                          const SizedBox(width: 8),
-                          Text("Filter"),
-                        ],
-                      ),
+                              children: const [
+                                SizedBox(width: 8),
+                                Text("Filter"),
+                              ],
+                            ),
                     ],
                   ),
                 ),
@@ -54,11 +55,11 @@ class FilterAddPart extends AppStatelessWidget {
                       isMobile
                           ? const SizedBox()
                           : Row(
-                        children: [
-                          const SizedBox(width: 8),
-                          Text("Add"),
-                        ],
-                      ),
+                              children: const [
+                                SizedBox(width: 8),
+                                Text("Add"),
+                              ],
+                            ),
                     ],
                   ),
                 ),
