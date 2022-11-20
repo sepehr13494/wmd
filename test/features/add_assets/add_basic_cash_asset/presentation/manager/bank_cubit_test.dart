@@ -26,16 +26,15 @@ void main() {
     setUp: () => when(mockPostBankDetailsUseCase(any)).thenAnswer(
         (realInvocation) async =>
             const Right(BankSaveResponseModel.tBankSaveResponseModel)),
-    act: (bloc) async => await bloc.postBankDetails(
-        map: BankSaveParams.tBankSaveParams.toJson()),
+    act: (bloc) async =>
+        await bloc.postBankDetails(map: BankSaveParams.tBankFormMap),
     expect: () => [
       isA<LoadingState>(),
       BankDetailSaved(
           bankSaveResponse: BankSaveResponseModel.tBankSaveResponseModel)
     ],
     verify: (_) {
-      verify(mockPostBankDetailsUseCase(BankSaveParams.tBankFormMap))
-          .called(1);
+      verify(mockPostBankDetailsUseCase(BankSaveParams.tBankFormMap)).called(1);
     },
   );
 }

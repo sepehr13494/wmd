@@ -54,7 +54,7 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                         .copyWith(color: appTheme.primaryColor)),
                 child: Column(
                   children: [
-                    const filter_add_part(),
+                    const FilterAddPart(),
                     const SizedBox(height: 12),
                     state is MainDashboardNetWorthLoaded
                         ? SummeryWidget(netWorthEntity: state.netWorthObj!)

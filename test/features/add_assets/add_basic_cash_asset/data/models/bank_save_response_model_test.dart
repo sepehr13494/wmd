@@ -6,9 +6,9 @@ void main() {
   const tBankSaveModel = BankSaveResponseModel(
       currencyCode: "TRY",
       currencyRate: 1.5,
-      startingBalance: 500,
-      totalNetWorthChange: 750,
-      totalNetWorth: 0);
+      startingBalance: 500.00,
+      totalNetWorthChange: 750.00,
+      totalNetWorth: 0.0);
 
   test(
     'should be a subclass of BankSaveResponse Entity',
