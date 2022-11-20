@@ -8,8 +8,10 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/bar_chart.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/line_chart.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/filter_add_widget.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/net_worth_base_chart.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/pie_chart_sample.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/random_map.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/summery_widget.dart';
@@ -59,7 +61,7 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                     state is MainDashboardNetWorthLoaded
                         ? SummeryWidget(netWorthEntity: state.netWorthObj!)
                         : const LoadingWidget(),
-                    const LineChartSample2(),
+                    const NetWorthBaseChart(),
                     RowOrColumn(
                       rowCrossAxisAlignment: CrossAxisAlignment.start,
                       showRow: !isMobile,
