@@ -27,7 +27,7 @@ class BankListRemoteDataSourceImpl extends AppServerDataSource
 
   @override
   Future<List<BankResponse>> getPopularBankList(int? count) async {
-    final getBankListRequestOptions = AppRequestOptions(
+    final getPopularBankListRequestOptions = AppRequestOptions(
         RequestTypes.get,
         AppUrls.getPopularBankList,
         count == null
@@ -35,8 +35,8 @@ class BankListRemoteDataSourceImpl extends AppServerDataSource
             : {
                 'count': count,
               });
-    final List<dynamic> response =
-        await errorHandlerMiddleware.sendRequest(getBankListRequestOptions);
+    final List<dynamic> response = await errorHandlerMiddleware
+        .sendRequest(getPopularBankListRequestOptions);
     return response.map((e) => BankResponse.fromJson(e)).toList();
   }
 }

@@ -52,4 +52,18 @@ class BankResponse extends BankEntity {
         providerCode: providerCode,
         sortOrder: sortOrder);
   }
+
+  static final tBankResponse = {
+    "code": "bank-code-1",
+    "name": "Red Platypus Bank",
+    "commonName": "Red Platypus Bank",
+    "provider": "Plaid",
+    "providerCode": "ins_118923",
+    "logo": "https://cdn.leantech.me/img/banks/white-lean.png",
+    "homeUrl": "https://www.test.com",
+    "loginUrl": "https://www.test.com",
+    "countryCode": "USA",
+    "automaticFetch": true,
+    "sortOrder": 15
+  };
 }

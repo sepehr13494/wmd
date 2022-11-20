@@ -107,14 +107,12 @@ class MockErrorHandlerMiddleware extends _i1.Mock
         ),
       ) as _i3.ServerRequestManager);
   @override
-  _i4.Future<Map<String, dynamic>> sendRequest(
-          _i5.AppRequestOptions? appRequestOptions) =>
+  _i4.Future<dynamic> sendRequest(_i5.AppRequestOptions? appRequestOptions) =>
       (super.noSuchMethod(
         Invocation.method(
           #sendRequest,
           [appRequestOptions],
         ),
-        returnValue:
-            _i4.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
-      ) as _i4.Future<Map<String, dynamic>>);
+        returnValue: _i4.Future<dynamic>.value(),
+      ) as _i4.Future<dynamic>);
 }
