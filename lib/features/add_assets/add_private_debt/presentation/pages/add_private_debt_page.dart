@@ -18,6 +18,7 @@ import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_head
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
 class AddPrivateDebtPage extends StatefulWidget {
@@ -60,8 +61,8 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                         listener: BlocHelper.defaultBlocListener(
                             listener: (context, state) {
                       if (state is PrivateDebtSaved) {
+                        context.read<MainDashboardCubit>().initPage();
                         final successValue = state.privateDebtSaveResponse;
-
                         showDialog(
                           context: context,
                           builder: (context) {
@@ -82,18 +83,7 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                   .convertMoney(),
                             );
                           },
-                        ).then((isConfirm) {
-                          if (isConfirm != null && isConfirm == true) {
-                            // View Asset detail button
-                            GoRouter.of(context).goNamed(AppRoutes.dashboard);
-                            // context.goNamed(AppRoutes.dashboard);
-                          } else if (isConfirm != null && isConfirm == false) {
-                            // add another asset button
-                            GoRouter.of(context)
-                                .goNamed(AppRoutes.addAssetsView);
-                            // context.goNamed(AppRoutes.dashboard);
-                          }
-                        });
+                        );
                       }
                     }), builder: (context, state) {
                       return SingleChildScrollView(

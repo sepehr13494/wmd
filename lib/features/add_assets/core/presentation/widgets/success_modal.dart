@@ -2,8 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/modal_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import 'package:go_router/go_router.dart';
 
 class SuccessModalWidget extends ModalWidget {
   final String aquiredCost, marketPrice, netWorth, netWorthChange;
@@ -147,7 +149,10 @@ class SuccessModalWidget extends ModalWidget {
             ExpandedIf(
               expanded: !isMobile,
               child: OutlinedButton(
-                onPressed: () => Navigator.pop(context, false),
+                onPressed: () {
+                  // View Asset detail button
+                  context.goNamed(AppRoutes.addAssetsView);
+                },
                 style:
                     OutlinedButton.styleFrom(minimumSize: const Size(100, 50)),
                 child: Text(
@@ -161,7 +166,9 @@ class SuccessModalWidget extends ModalWidget {
             ExpandedIf(
                 expanded: !isMobile,
                 child: ElevatedButton(
-                  onPressed: () => Navigator.pop(context, true),
+                  onPressed: () {
+                    context.goNamed(AppRoutes.main);
+                  },
                   style: ElevatedButton.styleFrom(
                       minimumSize: const Size(100, 50)),
                   child: Text(confirmBtn),

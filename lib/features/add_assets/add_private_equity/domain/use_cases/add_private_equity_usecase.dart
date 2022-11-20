@@ -81,8 +81,8 @@ class AddPrivateEquityParams extends Equatable {
         marketValue: json["marketValue"] != null
             ? double.tryParse(json["marketValue"])
             : json["marketValue"],
-        investmentDate: DateTime.parse(json["investmentDate"]),
-        valuationDate: DateTime.parse(json["valuationDate"]),
+        investmentDate: DateTime.parse(json["investmentDate"].toString()),
+        valuationDate: DateTime.parse(json["valuationDate"].toString()),
         wealthManager: json["wealthManager"],
         owner: json["owner"],
       );

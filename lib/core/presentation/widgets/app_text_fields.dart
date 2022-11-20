@@ -10,6 +10,7 @@ import 'package:wmd/core/extentions/app_form_validators.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
+import 'package:wmd/core/extentions/date_time_ext.dart';
 
 class CurrencyInputFormatter extends TextInputFormatter {
   TextEditingValue formatEditUpdate(
@@ -41,6 +42,7 @@ class AppTextFields {
 
   static FormBuilderTextField simpleTextField({
     required String name,
+    bool showTitle = false,
     TextFieldType type = TextFieldType.simpleText,
     GlobalKey<FormBuilderFieldState>? key,
     String? title,
@@ -59,7 +61,9 @@ class AppTextFields {
       validators.addAll(extraValidators);
     }
     if (required) {
-      validators.add(FormBuilderValidators.required());
+      validators.add(FormBuilderValidators.required(
+          errorText:
+              title != null ? 'Please enter ${title.toLowerCase()}' : null));
     }
     switch (type) {
       case TextFieldType.email:
@@ -88,7 +92,9 @@ class AppTextFields {
       maxLines: (type == TextFieldType.password) ? 1 : 5,
       enabled: enabled,
       decoration: InputDecoration(
-          labelText: title, hintText: hint, suffixIcon: suffixIcon),
+          labelText: showTitle ? title : null,
+          hintText: hint,
+          suffixIcon: suffixIcon),
       obscureText: obscureText,
       keyboardType: keyboardType,
       textInputAction: TextInputAction.next,
@@ -135,29 +141,62 @@ class AppTextFields {
   }
 }
 
-class CurrenciesDropdown extends StatelessWidget {
+class CurrenciesDropdown extends StatefulWidget {
   final ValueChanged<Currency?>? onChanged;
-  const CurrenciesDropdown({Key? key, this.onChanged}) : super(key: key);
+  final bool showExchange;
+  const CurrenciesDropdown(
+      {Key? key, this.onChanged, this.showExchange = false})
+      : super(key: key);
 
   @override
+  State<CurrenciesDropdown> createState() => _CurrenciesDropdownState();
+}
+
+class _CurrenciesDropdownState extends State<CurrenciesDropdown> {
+  Currency? selectedCurrency =
+      Currency(symbol: "USD", name: "United States dollar");
+  @override
   Widget build(BuildContext context) {
-    return FormBuilderSearchableDropdown<Currency>(
-      name: "currencyCode",
-      hint: "Type or select currency",
-      items: Currency.currenciesList,
-      onChanged: onChanged,
-      itemAsString: (Currency currency) =>
-          "${currency.name} (${currency.symbol})",
-      filterFn: (currency, string) {
-        return (currency.name.toLowerCase().contains(string.toLowerCase()) ||
-            currency.symbol.toLowerCase().contains(string.toLowerCase()));
-      },
-      itemBuilder: (context, currency, _) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text("${currency.name} (${currency.symbol})"),
-        );
-      },
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        FormBuilderSearchableDropdown<Currency>(
+          name: "currencyCode",
+          hint: "Type or select currency",
+          items: Currency.currenciesList,
+          onChanged: (val) {
+            // setState
+            if (widget.onChanged != null) {
+              widget.onChanged!(val);
+            }
+            setState(() {
+              selectedCurrency = val;
+            });
+          },
+          itemAsString: (Currency currency) =>
+              "${currency.name} (${currency.symbol})",
+          filterFn: (currency, string) {
+            return (currency.name
+                    .toLowerCase()
+                    .contains(string.toLowerCase()) ||
+                currency.symbol.toLowerCase().contains(string.toLowerCase()));
+          },
+          itemBuilder: (context, currency, _) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text("${currency.name} (${currency.symbol})"),
+            );
+          },
+        ),
+        if (widget.showExchange) ...[
+          const SizedBox(
+            height: 10,
+          ),
+          Text('1 USD = 1.5 ${selectedCurrency?.symbol}'),
+          Text(
+              'Exchange rate for ${DateFormat('d MMM, yyyy').format(DateTime.now()).toString()}')
+        ]
+      ],
     );
   }
 }
@@ -204,7 +243,8 @@ class FormBuilderSearchableDropdown<T> extends StatelessWidget {
       this.itemAsString,
       this.filterFn,
       this.itemBuilder,
-      required this.items, this.onChanged})
+      required this.items,
+      this.onChanged})
       : super(key: key);
 
   @override
@@ -238,7 +278,11 @@ class FormBuilderTypeAhead extends StatefulWidget {
   final List<String> items;
   final ValueChanged<String?>? onChange;
   const FormBuilderTypeAhead(
-      {Key? key, required this.name, required this.items, required this.hint, this.onChange})
+      {Key? key,
+      required this.name,
+      required this.items,
+      required this.hint,
+      this.onChange})
       : super(key: key);
 
   @override
