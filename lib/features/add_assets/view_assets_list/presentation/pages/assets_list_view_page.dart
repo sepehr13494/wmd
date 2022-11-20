@@ -24,7 +24,7 @@ class AssetsListViewPage extends AppStatelessWidget {
     return BlocProvider(
       create: (context) => AssetViewCubit(),
       child: Scaffold(
-        appBar: BaseAppBar(title: "Add assets"),
+        appBar: const BaseAppBar(title: "Add assets"),
         bottomSheet: Builder(builder: (context) {
           final assetModel = context.watch<AssetViewCubit>().state;
           return AddAssetFooter(
@@ -104,7 +104,7 @@ class AddAssetMobileWidget extends AppStatelessWidget {
           child: Column(
             children: [
               Row(
-                children: [
+                children: const [
                   SizedBox(
                     width: 300,
                     child: TabBar(tabs: [
@@ -119,7 +119,7 @@ class AddAssetMobileWidget extends AppStatelessWidget {
                 height: 0.5,
                 thickness: 0.5,
               ),
-              Expanded(
+              const Expanded(
                   child: TabBarView(children: [
                 AssetsPart(isLiability: false),
                 AssetsPart(
@@ -178,42 +178,44 @@ class AssetsPart extends AppStatelessWidget {
       ];
     } else {
       assets = [
-        EachAssetModel(
-            id: 2,
-            pageRoute: AppRoutes.autoManualPage,
-            image: "assets/images/add_assets/bank_asset.svg",
-            title: "Bank Account",
-            description:
-                "Current account, savings account and term deposit accounts."),
-        EachAssetModel(
+        const EachAssetModel(
+          id: 2,
+          pageRoute: AppRoutes.autoManualPage,
+          image: "assets/images/add_assets/bank_asset.svg",
+          title: "Bank Account",
+          description:
+              "Current account, savings account and term deposit accounts.",
+        ),
+        const EachAssetModel(
             id: 3,
             pageRoute: AppRoutes.addListedAsset,
             image: "assets/images/add_assets/listed_asset.svg",
             title: "Listed assets",
             description:
                 "Investments made in stocks, ETFs, bonds and mutual funds."),
-        EachAssetModel(
-            id: 4,
-            pageRoute: AppRoutes.addPrivateDebt,
-            image: "assets/images/add_assets/privet_debt.svg",
-            title: "Private debt",
-            description:
-                "Asset defined by non-bank lending where debt is not issued or traded on the public markets"),
-        EachAssetModel(
+        const EachAssetModel(
+          id: 4,
+          pageRoute: AppRoutes.addPrivateDebt,
+          image: "assets/images/add_assets/privet_debt.svg",
+          title: "Private debt",
+          description:
+              "Asset defined by non-bank lending where debt is not issued or traded on the public markets",
+        ),
+        const EachAssetModel(
             id: 5,
             pageRoute: AppRoutes.addRealEstate,
             image: "assets/images/add_assets/real_estate.svg",
             title: "Real estate",
             description:
                 "Current account, savings account and term deposit accounts."),
-        EachAssetModel(
+        const EachAssetModel(
             id: 6,
             pageRoute: AppRoutes.addPrivateEquity,
             image: "assets/images/add_assets/private_equity.svg",
             title: "Private equity",
             description:
                 "Current account, savings account and term deposit accounts."),
-        EachAssetModel(
+        const EachAssetModel(
             id: 7,
             pageRoute: AppRoutes.addOther,
             image: "assets/images/add_assets/others.svg",
@@ -266,7 +268,7 @@ class AddAssetTopWidget extends AppStatelessWidget {
         const SizedBox(height: 16),
         Text("Hi Ahmad!", style: textTheme.headlineSmall),
         const SizedBox(height: 8),
-        WidthLimiterWidget(
+        const WidthLimiterWidget(
           width: 350,
           child: Text(
               "Diversify your portfolio by adding an asset or a liability"),

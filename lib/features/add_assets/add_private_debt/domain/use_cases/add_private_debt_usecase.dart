@@ -5,32 +5,37 @@ import 'package:flutter/material.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/util/local_storage.dart';
-import 'package:wmd/features/add_assets/add_private_equity/domain/repositories/private_equity_repository.dart';
+import 'package:wmd/features/add_assets/add_private_debt/domain/repositories/private_debt_repository.dart';
 import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 import 'package:wmd/features/add_assets/core/domain/entities/add_asset_response.dart';
 
-class AddPrivateEquityUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
-  final PrivateEquityRepository privateEquityRepository;
+class AddPrivateDebtUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
+  final PrivateDebtRepository privateDebtRepository;
   final LocalStorage localStorage;
 
-  AddPrivateEquityUseCase(this.privateEquityRepository, this.localStorage);
+  AddPrivateDebtUseCase(this.privateDebtRepository, this.localStorage);
   @override
   Future<Either<Failure, AddAsset>> call(Map<String, dynamic> params) async {
     try {
       final ownerId = localStorage.getOwnerId();
       final investmentAmount =
-          params['investmentAmount'].toString().replaceAll(',', '');
-      final marketValue = params['marketValue'].toString().replaceAll(',', '');
+          params['initialInvestmentAmount'].toString().replaceAll(',', '');
+      final marketValue = params['currentValue'].toString().replaceAll(',', '');
       final newMap = {
         ...params,
         "owner": ownerId,
         "investmentAmount": investmentAmount,
-        "marketValue": marketValue
+        "marketValue": marketValue,
+        "investmentName": params["name"],
+        "wealthManager": params["custodian"],
+        "investmentDate": params["acquisitionDate"]
       };
-      final privateEquityParams = AddPrivateEquityParams.fromJson(newMap);
-      return await privateEquityRepository
-          .postPrivateEquity(privateEquityParams);
+
+      print(params["acquisitionDate"].runtimeType);
+
+      final privateDebtAssetParam = AddPrivateDebtParams.fromJson(newMap);
+      return await privateDebtRepository.postPrivateDebt(privateDebtAssetParam);
     } catch (e) {
       debugPrint("AddPrivateEquityUseCase catch : ${e.toString()}");
       return const Left(AppFailure(message: "Something went wrong!"));
@@ -38,14 +43,14 @@ class AddPrivateEquityUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
   }
 }
 
-AddPrivateEquityParams addPrivateEquityParamsFromJson(String str) =>
-    AddPrivateEquityParams.fromJson(json.decode(str));
+AddPrivateDebtParams addPrivateDebtParamsFromJson(String str) =>
+    AddPrivateDebtParams.fromJson(json.decode(str));
 
-String addPrivateEquityParamsToJson(AddPrivateEquityParams data) =>
+String addPrivateDebtParamsToJson(AddPrivateDebtParams data) =>
     json.encode(data.toJson());
 
-class AddPrivateEquityParams extends Equatable {
-  const AddPrivateEquityParams({
+class AddPrivateDebtParams extends Equatable {
+  const AddPrivateDebtParams({
     this.isActive,
     required this.investmentName,
     required this.country,
@@ -69,8 +74,8 @@ class AddPrivateEquityParams extends Equatable {
   final String? wealthManager;
   final String owner;
 
-  factory AddPrivateEquityParams.fromJson(Map<String, dynamic> json) =>
-      AddPrivateEquityParams(
+  factory AddPrivateDebtParams.fromJson(Map<String, dynamic> json) =>
+      AddPrivateDebtParams(
         isActive: json["isActive"],
         investmentName: json["investmentName"],
         country: (json["country"] as Country).countryName,
@@ -81,8 +86,12 @@ class AddPrivateEquityParams extends Equatable {
         marketValue: json["marketValue"] != null
             ? double.tryParse(json["marketValue"])
             : json["marketValue"],
-        investmentDate: DateTime.parse(json["investmentDate"].toString()),
-        valuationDate: DateTime.parse(json["valuationDate"].toString()),
+        investmentDate: json["investmentDate"].runtimeType == DateTime
+            ? json["investmentDate"]
+            : DateTime.parse(json["investmentDate"]),
+        valuationDate: json["valuationDate"].runtimeType == DateTime
+            ? json["valuationDate"]
+            : DateTime.parse(json["valuationDate"]),
         wealthManager: json["wealthManager"],
         owner: json["owner"],
       );
@@ -100,7 +109,7 @@ class AddPrivateEquityParams extends Equatable {
         "owner": owner,
       };
 
-  static final tAddPrivateEquityMap = {
+  static final tAddPrivateDebtMap = {
     "investmentName": "investmentName",
     "country": Country(name: "USA", countryName: "USA"),
     "currencyCode": Currency(name: "USD", symbol: "USD"),
@@ -112,7 +121,7 @@ class AddPrivateEquityParams extends Equatable {
     "owner": "ownerId"
   };
 
-  static final tAddPrivateEquityParams = AddPrivateEquityParams(
+  static final tAddPrivateDebtParams = AddPrivateDebtParams(
       investmentName: "investmentName",
       country: "USA",
       currencyCode: "USD",

@@ -8,6 +8,11 @@ import 'package:wmd/features/add_assets/add_basic_cash_asset/data/repositories/b
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/repositories/bank_repository.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/use_cases/post_bank_details_usecase.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/manager/bank_cubit.dart';
+import 'package:wmd/features/add_assets/add_private_debt/data/data_sources/private_debt_save_remote_data_source.dart';
+import 'package:wmd/features/add_assets/add_private_debt/data/repositories/private_debt_repository_impl.dart';
+import 'package:wmd/features/add_assets/add_private_debt/domain/repositories/private_debt_repository.dart';
+import 'package:wmd/features/add_assets/add_private_debt/domain/use_cases/add_private_debt_usecase.dart';
+import 'package:wmd/features/add_assets/add_private_debt/presentation/manager/private_debt_cubit.dart';
 import 'package:wmd/features/add_assets/add_private_equity/data/data_sources/private_equity_remote_data_source.dart';
 import 'package:wmd/features/add_assets/add_private_equity/data/repositories/private_equity_repository_impl.dart';
 import 'package:wmd/features/add_assets/add_private_equity/domain/repositories/private_equity_repository.dart';
@@ -131,6 +136,14 @@ Future<void> init() async {
   sl.registerLazySingleton<BankRepository>(() => BankRepositoryImpl(sl()));
   sl.registerLazySingleton<BankSaveRemoteDataSource>(
       () => BankSaveRemoteDataSourceImpl(sl()));
+
+  // Add base private debt
+  sl.registerFactory(() => PrivateDebtCubit(sl()));
+  sl.registerLazySingleton(() => AddPrivateDebtUseCase(sl(), sl()));
+  sl.registerLazySingleton<PrivateDebtRepository>(
+      () => PrivateDebtRepositoryImpl(sl()));
+  sl.registerLazySingleton<PrivateDebtSaveRemoteDataSource>(
+      () => PrivateDebtSaveRemoteDataSourceImpl(sl()));
 
   // Add private equity
   sl.registerFactory(() => PrivateEquityCubit(sl()));

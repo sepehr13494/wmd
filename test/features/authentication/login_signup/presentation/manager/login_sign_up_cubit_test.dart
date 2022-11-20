@@ -32,6 +32,7 @@ void main() {
     mockGetUserStatusUseCase = MockGetUserStatusUseCase();
     mockResendEmailUseCase = MockResendEmailUseCase();
     mockAppDeviceInfo = MockAppDeviceInfo();
+    mockGetUserStatusUseCase = MockGetUserStatusUseCase();
     loginSignUpCubit = LoginSignUpCubit(
         mockPostLoginUseCase,
         mockPostRegisterUseCase,
