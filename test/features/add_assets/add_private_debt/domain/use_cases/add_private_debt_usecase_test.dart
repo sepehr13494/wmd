@@ -22,7 +22,7 @@ void main() {
         AddPrivateDebtUseCase(mockPrivateDebtRepository, mockLocalStorage);
   });
 
-  final tAddPrivateEquityResponse =
+  final tAddPrivateDebtResponse =
       AddAssetModel.fromJson(AddAssetModel.tAddAssetResponse);
 
   test(
@@ -31,14 +31,14 @@ void main() {
       // arrange
       when(mockPrivateDebtRepository
               .postPrivateDebt(AddPrivateDebtParams.tAddPrivateDebtParams))
-          .thenAnswer((_) async => Right(tAddPrivateEquityResponse));
+          .thenAnswer((_) async => Right(tAddPrivateDebtResponse));
       when(mockLocalStorage.getOwnerId())
           .thenAnswer((realInvocation) => "ownerId");
       // act
       final result =
           await addPrivateDebtUseCase(AddPrivateDebtParams.tAddPrivateDebtMap);
       // assert
-      expect(result, Right(tAddPrivateEquityResponse));
+      expect(result, Right(tAddPrivateDebtResponse));
     },
   );
 

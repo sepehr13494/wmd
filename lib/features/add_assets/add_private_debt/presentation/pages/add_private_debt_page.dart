@@ -107,7 +107,7 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                   hasInfo: false,
                                   title: "Name",
                                   child: AppTextFields.simpleTextField(
-                                      name: "name",
+                                      name: "investmentName",
                                       hint:
                                           "Type the name of your private equity"),
                                 ),
@@ -115,7 +115,7 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                   hasInfo: false,
                                   title: "Custodian (optional)",
                                   child: FormBuilderTypeAhead(
-                                      name: "custodian",
+                                      name: "wealthManager",
                                       hint: "Type the name of custodian",
                                       items: AppConstants.custodianList),
                                 ),
@@ -129,7 +129,7 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                   child: FormBuilderDateTimePicker(
                                     inputType: InputType.date,
                                     format: DateFormat("dd/MM/yyyy"),
-                                    name: "acquisitionDate",
+                                    name: "investmentDate",
                                     decoration: InputDecoration(
                                         suffixIcon: Icon(
                                           Icons.calendar_today_outlined,
@@ -148,7 +148,7 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                   title: "Initial investment amount",
                                   child: AppTextFields.simpleTextField(
                                       type: TextFieldType.money,
-                                      name: "initialInvestmentAmount",
+                                      name: "investmentAmount",
                                       hint: "Book value of initial investment"),
                                 ),
                                 EachTextField(
@@ -170,7 +170,7 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                   title: "Current value",
                                   child: AppTextFields.simpleTextField(
                                       type: TextFieldType.money,
-                                      name: "currentValue",
+                                      name: "marketValue",
                                       hint:
                                           "The current day value of the asset"),
                                 ),
