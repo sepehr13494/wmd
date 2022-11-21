@@ -9,13 +9,13 @@ import 'package:dartz/dartz.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:wmd/core/domain/usecases/usercase.dart' as _i9;
 import 'package:wmd/core/error_and_success/failures.dart' as _i7;
-import 'package:wmd/features/add_assets/add_bank_auto/domain/entity/bank_entity.dart'
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/entity/bank_entity.dart'
     as _i5;
-import 'package:wmd/features/add_assets/add_bank_auto/domain/repository/bank_list_repository.dart'
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/repository/bank_list_repository.dart'
     as _i2;
-import 'package:wmd/features/add_assets/add_bank_auto/domain/usecase/get_bank_list.dart'
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_bank_list.dart'
     as _i4;
-import 'package:wmd/features/add_assets/add_bank_auto/domain/usecase/get_popular_bank_list.dart'
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_popular_bank_list.dart'
     as _i8;
 
 // ignore_for_file: type=lint

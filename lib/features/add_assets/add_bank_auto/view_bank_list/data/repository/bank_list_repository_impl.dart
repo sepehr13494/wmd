@@ -2,7 +2,7 @@ import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:dartz/dartz.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/domain/entity/bank_entity.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/entity/bank_entity.dart';
 import '../../domain/repository/bank_list_repository.dart';
 import '../data_sources/bank_list_data_source.dart';
 

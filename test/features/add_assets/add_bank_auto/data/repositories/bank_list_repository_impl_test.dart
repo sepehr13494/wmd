@@ -5,9 +5,9 @@ import 'package:mockito/mockito.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/data/data_sources/bank_list_data_source.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/data/models/bank_list_response.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/data/repository/bank_list_repository_impl.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/data_sources/bank_list_data_source.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/models/bank_list_response.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/repository/bank_list_repository_impl.dart';
 
 import 'bank_list_repository_impl_test.mocks.dart';
 

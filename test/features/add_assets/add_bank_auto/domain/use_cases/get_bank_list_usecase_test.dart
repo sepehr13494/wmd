@@ -4,10 +4,10 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/data/models/bank_list_response.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/domain/repository/bank_list_repository.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/domain/usecase/get_bank_list.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/domain/usecase/get_popular_bank_list.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/models/bank_list_response.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/repository/bank_list_repository.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_bank_list.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_popular_bank_list.dart';
 
 import 'get_bank_list_usecase_test.mocks.dart';
 

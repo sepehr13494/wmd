@@ -1,8 +1,6 @@
-import 'package:wmd/features/add_assets/add_bank_auto/data/models/bank_list_response.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/domain/entity/bank_entity.dart';
-import 'package:wmd/features/add_assets/add_basic_cash_asset/data/models/bank_save_response_model.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/models/bank_list_response.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/entity/bank_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/entities/bank_save_response.dart';
 
 void main() {
   const tBankSaveModel = BankResponse(

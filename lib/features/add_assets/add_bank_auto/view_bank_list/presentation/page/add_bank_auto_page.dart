@@ -7,8 +7,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/search_text_field.dart';
 import 'package:wmd/core/util/colors.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/presentation/manager/bank_list_cubit.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/presentation/widget/your_privacy.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentation/manager/bank_list_cubit.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentation/widget/your_privacy.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/support_widget.dart';
 import 'package:wmd/injection_container.dart';
 

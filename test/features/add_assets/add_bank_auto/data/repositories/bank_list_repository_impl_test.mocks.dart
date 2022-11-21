@@ -7,9 +7,9 @@ import 'dart:async' as _i3;
 
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:wmd/core/domain/usecases/usercase.dart' as _i5;
-import 'package:wmd/features/add_assets/add_bank_auto/data/data_sources/bank_list_data_source.dart'
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/data_sources/bank_list_data_source.dart'
     as _i2;
-import 'package:wmd/features/add_assets/add_bank_auto/data/models/bank_list_response.dart'
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/models/bank_list_response.dart'
     as _i4;
 
 // ignore_for_file: type=lint

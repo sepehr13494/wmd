@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/presentation/page/add_bank_auto_page.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentation/page/add_bank_auto_page.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/pages/add_bank_manual_page.dart';
 import 'package:wmd/features/add_assets/add_private_equity/presentation/pages/add_private_equity_page.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/pages/assets_list_view_page.dart';

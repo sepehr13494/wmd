@@ -6,10 +6,10 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/data/models/bank_list_response.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/domain/usecase/get_bank_list.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/domain/usecase/get_popular_bank_list.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/presentation/manager/bank_list_cubit.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/models/bank_list_response.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_bank_list.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_popular_bank_list.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentation/manager/bank_list_cubit.dart';
 
 import 'bank_list_cubit_test.mocks.dart';
 
