@@ -25,14 +25,14 @@ void main() {
   const int count = 1;
   final tBankResponse = BankResponse.fromJson(BankResponse.tBankResponse);
   final tList = List<BankResponse>.generate(count, (index) => tBankResponse);
-  final either = Right<Failure, List<BankResponse>>(tList);
+  final tEither = Right<Failure, List<BankResponse>>(tList);
   group('BankList usecase test', () {
     test(
       'should get BankEntity from bankListRepository',
       () async {
         // arrange
         when(mockBankListRepository.getBankList(NoParams()))
-            .thenAnswer((_) async => either);
+            .thenAnswer((_) async => tEither);
         // act
         final result = await getBankListsUseCase.call('Red');
         // assert
@@ -60,7 +60,7 @@ void main() {
       () async {
         // arrange
         when(mockBankListRepository.getPopularBankList(null))
-            .thenAnswer((_) async => either);
+            .thenAnswer((_) async => tEither);
         // act
         final result = await getPopularBankListUseCase.call(NoParams());
         // assert
