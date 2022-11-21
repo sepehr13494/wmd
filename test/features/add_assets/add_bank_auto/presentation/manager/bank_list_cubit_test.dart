@@ -39,7 +39,6 @@ void main() {
         .thenAnswer((realInvocation) async => tEither),
     act: (bloc) async => await bloc.getBankList(value),
     expect: () => [
-      // isA<GetBankListInitial>(),
       isA<LoadingState>(),
       isA<BankListSuccess>(),
       // BankListSuccess(tList), //Ask this why not working
@@ -56,10 +55,9 @@ void main() {
         .thenAnswer((realInvocation) async => tEither),
     act: (bloc) async => await bloc.getPopularBankList(),
     expect: () => [
-      // isA<GetBankListInitial>(),
       isA<LoadingState>(),
       isA<PopularBankListSuccess>(),
-      // PopularBankListSuccess(tList),
+      // PopularBankListSuccess(tList),//No working either any comment
     ],
     verify: (_) {
       verify(mockGetPopularBankListUseCase(NoParams())).called(1);
