@@ -212,7 +212,7 @@ class CountriesDropdown extends StatelessWidget {
       hint: "Type or select a country",
       items: Country.countriesList,
       onChanged: onChanged,
-      itemAsString: (country) => "${country.name} (${country.countryName})",
+      itemAsString: (country) => country.countryName,
       filterFn: (country, string) {
         return (country.name.toLowerCase().contains(string.toLowerCase()) ||
             country.countryName.toLowerCase().contains(string.toLowerCase()));
