@@ -30,6 +30,7 @@ class AddPrivateDebtPage extends StatefulWidget {
 class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
   final privateDebtFormKey = GlobalKey<FormBuilderState>();
   bool enableAddAssetButton = false;
+  DateTime? aqusitionDateValue;
   @override
   void didUpdateWidget(covariant AddPrivateDebtPage oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -131,6 +132,10 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                   "Asset defined by non-bank lending where debt is not issued or traded on the public markets",
                                   style: textTheme.bodySmall,
                                 ),
+                                Text(
+                                  "Fill in the private debt details",
+                                  style: textTheme.titleSmall,
+                                ),
                                 EachTextField(
                                   hasInfo: false,
                                   title: "Name",
@@ -138,6 +143,14 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                       title: "Name",
                                       name: "investmentName",
                                       onChanged: checkFinalValid,
+                                      extraValidators: [
+                                        (val) {
+                                          return (val != null &&
+                                                  val.length > 100)
+                                              ? "Name cannot be more than 100 characters"
+                                              : null;
+                                        }
+                                      ],
                                       hint:
                                           "Type the name of your private debt"),
                                 ),
@@ -160,10 +173,16 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                 EachTextField(
                                   title: "Acquisition date",
                                   child: FormBuilderDateTimePicker(
+                                    onChanged: (selectedDate) {
+                                      checkFinalValid(selectedDate);
+                                      setState(() {
+                                        aqusitionDateValue = selectedDate;
+                                      });
+                                    },
+                                    lastDate: DateTime.now(),
                                     inputType: InputType.date,
                                     format: DateFormat("dd/MM/yyyy"),
                                     name: "investmentDate",
-                                    onChanged: checkFinalValid,
                                     decoration: InputDecoration(
                                         suffixIcon: Icon(
                                           Icons.calendar_today_outlined,
@@ -192,6 +211,8 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                 EachTextField(
                                   title: "Valuation date",
                                   child: FormBuilderDateTimePicker(
+                                    firstDate: aqusitionDateValue,
+                                    lastDate: DateTime.now(),
                                     format: DateFormat("dd/MM/yyyy"),
                                     inputType: InputType.date,
                                     name: "valuationDate",
