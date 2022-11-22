@@ -250,15 +250,16 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                 EachTextField(
                                   title: "Value per unit (optional)",
                                   child: AppTextFields.simpleTextField(
+                                      required: false,
                                       type: TextFieldType.money,
                                       keyboardType: TextInputType.number,
-                                      onChanged: checkFinalValid,
                                       name: "marketValue",
                                       hint: "Current market value"),
                                 ),
                                 EachTextField(
                                   title: "Valuation date (optional)",
                                   child: FormBuilderDateTimePicker(
+                                    //  required: false,
                                     format: DateFormat("dd/MM/yyyy"),
                                     inputType: InputType.date,
                                     name: "valuationDate",
