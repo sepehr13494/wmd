@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
+import 'package:wmd/core/util/app_theme.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/bar_chart.dart';
@@ -45,12 +46,12 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                     outlinedButtonTheme: OutlinedButtonThemeData(
                       style: appTheme.outlinedButtonTheme.style!.copyWith(
                           minimumSize:
-                              MaterialStateProperty.all(const Size(0, 48))),
+                          MaterialStateProperty.all(const Size(0, 48))),
                     ),
                     elevatedButtonTheme: ElevatedButtonThemeData(
                       style: appTheme.outlinedButtonTheme.style!.copyWith(
                           minimumSize:
-                              MaterialStateProperty.all(const Size(0, 48))),
+                          MaterialStateProperty.all(const Size(0, 48))),
                     ),
                     iconTheme: appTheme.iconTheme
                         .copyWith(color: appTheme.primaryColor)),
