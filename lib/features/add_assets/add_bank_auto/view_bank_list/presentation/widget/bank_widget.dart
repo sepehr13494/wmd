@@ -68,7 +68,7 @@ class Connectbutton extends AppStatelessWidget {
           listener:
               BlocHelper.defaultBlocListener(listener: (context, state) {}),
           builder: (context, state) {
-            if (state is PlaidInitialState) {
+            if (state is PlaidInitialState || state is ErrorState) {
               return InkWell(
                 onTap: () {
                   context.read<PlaidCubit>().linkPlaidAccount(bank);

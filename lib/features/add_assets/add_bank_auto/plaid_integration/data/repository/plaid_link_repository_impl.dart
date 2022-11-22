@@ -26,7 +26,7 @@ class PlaidLinkRepositoryImpl implements PlaidLinkRepository {
           await plaidIntegrationRemoteDataSource.getPublicToken(linkToken);
       return Right(publicToken);
     } catch (e) {
-      return Left(ServerFailure(message: e.toString()));
+      return Left(ServerFailure(message: 'hadled here: $e'));
     }
   }
 
