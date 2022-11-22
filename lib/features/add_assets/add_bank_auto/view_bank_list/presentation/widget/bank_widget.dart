@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wmd/core/presentation/bloc/base_cubit.dart';
+import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/presentation/manager/plaid_cubit.dart';
+import 'package:wmd/injection_container.dart';
 
 import '../../domain/entity/bank_entity.dart';
 
@@ -14,11 +19,16 @@ class BankWidget extends StatefulWidget {
 
 class _BankWidgetState extends AppState<BankWidget> {
   bool isSelected = false;
+  late final BankEntity bank;
+  @override
+  void initState() {
+    super.initState();
+    bank = widget.bank;
+  }
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    final BankEntity bank = widget.bank;
     final primaryColor = Theme.of(context).primaryColor;
 
     return AnimatedSwitcher(
@@ -35,7 +45,7 @@ class _BankWidgetState extends AppState<BankWidget> {
           leading: bank.logo == null
               ? Icon(Icons.account_balance, color: primaryColor)
               : Image.network(bank.logo!),
-          trailing: isSelected ? const Connectbutton() : null,
+          trailing: isSelected ? Connectbutton(bank) : null,
           selected: isSelected,
           selectedColor: null,
         ),
@@ -45,22 +55,43 @@ class _BankWidgetState extends AppState<BankWidget> {
 }
 
 class Connectbutton extends AppStatelessWidget {
-  const Connectbutton({Key? key}) : super(key: key);
+  final BankEntity bank;
+  const Connectbutton(this.bank, {Key? key}) : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final primaryColor = Theme.of(context).primaryColor;
-    return InkWell(
-      onTap: () {},
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: primaryColor),
-        ),
-        child: const Padding(
-          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-          child: Text('Connect'),
-        ),
+    return BlocProvider(
+      create: (context) => sl<PlaidCubit>(),
+      child: BlocConsumer<PlaidCubit, PlaidState>(
+          listener:
+              BlocHelper.defaultBlocListener(listener: (context, state) {}),
+          builder: (context, state) {
+            if (state is PlaidInitialState) {
+              return InkWell(
+                onTap: () {
+                  context.read<PlaidCubit>().linkPlaidAccount(bank);
+                },
+                child: _buildContainerWithborder(primaryColor, 'Connect'),
+              );
+            } else if (state is PlaidLinkSuccess) {
+              return _buildContainerWithborder(primaryColor, 'Connected');
+            } else {
+              return _buildContainerWithborder(primaryColor, '...');
+            }
+          }),
+    );
+  }
+
+  Container _buildContainerWithborder(Color borderColor, String message) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: borderColor),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        child: Text(message),
       ),
     );
   }

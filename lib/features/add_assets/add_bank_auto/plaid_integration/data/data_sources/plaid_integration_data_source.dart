@@ -10,14 +10,13 @@ class PlaidIntegrationRemoteDataSourceImpl extends AppServerDataSource
   PlaidIntegrationRemoteDataSourceImpl(super.errorHandlerMiddleware);
 
   @override
-  Future<String> getLinkToken(String redirectUrl) {
-    // TODO: implement getLinkToken
-    throw UnimplementedError();
+  Future<String> getLinkToken(String redirectUrl) async {
+    return 'mockLinkToken';
   }
 
   @override
-  Future<String> postPublicToken(String linkToken) {
-    // TODO: implement postPublicToken
-    throw UnimplementedError();
+  Future<String> postPublicToken(String publicToken) async {
+    print(publicToken);
+    return publicToken;
   }
 }

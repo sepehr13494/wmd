@@ -57,6 +57,7 @@ import 'core/util/app_localization.dart';
 import 'core/util/app_theme.dart';
 import 'core/util/device_info.dart';
 import 'core/util/local_storage.dart';
+import 'features/add_assets/add_bank_auto/plaid_integration/presentation/manager/plaid_cubit.dart';
 import 'features/add_assets/add_bank_auto/view_bank_list/domain/repository/bank_list_repository.dart';
 import 'features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_popular_bank_list.dart';
 import 'features/splash/data/repositories/splash_repository_impl.dart';
@@ -160,7 +161,7 @@ Future<void> init() async {
       () => PrivateEquityRemoteDataSourceImpl(sl()));
 
   // Plaid integration
-  // sl.registerFactory(() => PlaidLinkCubit(sl(), sl()));
+  sl.registerFactory(() => PlaidCubit(sl()));
   sl.registerLazySingleton(() => PlaidLinkUseCase(sl()));
   sl.registerLazySingleton<PlaidLinkRepository>(
       () => PlaidLinkRepositoryImpl(sl()));

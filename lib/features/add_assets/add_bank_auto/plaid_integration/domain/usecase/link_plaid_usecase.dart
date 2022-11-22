@@ -3,6 +3,7 @@ import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/domain/repository/plaid_link_repository.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/entity/bank_entity.dart';
+import 'package:plaid_flutter/plaid_flutter.dart';
 
 class PlaidLinkUseCase extends UseCase<String, BankEntity> {
   final PlaidLinkRepository plaidLinkRepository;
@@ -14,6 +15,10 @@ class PlaidLinkUseCase extends UseCase<String, BankEntity> {
     final linkTokenResult =
         await plaidLinkRepository.getLinkToken('redirectUrl');
     if (linkTokenResult.isRight()) {
+      LinkConfiguration configuration = LinkTokenConfiguration(
+        token: linkTokenResult.fold((l) => 'unused', (r) => r),
+      );
+      PlaidLink.open(configuration: configuration);
       final publicToken = 'get public token with OAuth';
       final result = await plaidLinkRepository.postPublicToken(publicToken);
       return result;
