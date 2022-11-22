@@ -20,13 +20,24 @@ class PlaidLinkRepositoryImpl implements PlaidLinkRepository {
   }
 
   @override
-  Future<Either<Failure, String>> postPublicToken(String linkToken) async {
+  Future<Either<Failure, String>> getPublicToken(String linkToken) async {
+    try {
+      final publicToken =
+          await plaidIntegrationRemoteDataSource.getPublicToken(linkToken);
+      return Right(publicToken);
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> postPublicToken(String publicToken) async {
     try {
       final result =
-          await plaidIntegrationRemoteDataSource.postPublicToken(linkToken);
+          await plaidIntegrationRemoteDataSource.postPublicToken(publicToken);
       return Right(result);
-    } on ServerException catch (e) {
-      return Left(ServerFailure.fromServerException(e));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 }
