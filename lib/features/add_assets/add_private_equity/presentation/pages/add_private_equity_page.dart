@@ -133,6 +133,13 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                   title: "Name",
                                   child: AppTextFields.simpleTextField(
                                       onChanged: checkFinalValid,
+                                      extraValidators: [
+                                        (val) {
+                                          return ((val?.length ?? 0) > 100
+                                              ? "Name must be at most 100 characters"
+                                              : null);
+                                        }
+                                      ],
                                       title: "Name",
                                       name: "investmentName",
                                       hint:
