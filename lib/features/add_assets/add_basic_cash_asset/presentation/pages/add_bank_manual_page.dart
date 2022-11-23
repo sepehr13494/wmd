@@ -106,12 +106,15 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                 extraValidators: [
                   (val) {
                     return ((int.tryParse(val ?? "0") ?? 0) < 100)
-                        ? null
+                        ? (int.tryParse(val ?? "0") ?? 0) < 0
+                            ? "Rate cannot be negative"
+                            : null
                         : "Rate can't be greater then 100";
                   }
                 ],
                 name: "interestRate",
                 hint: "50.00",
+                type: TextFieldType.rate,
                 required: false,
               ),
             ),
@@ -251,13 +254,16 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                       title: "Rate (optional)",
                       child: AppTextFields.simpleTextField(
                           name: "interestRate",
+                          type: TextFieldType.rate,
                           required: false,
                           hint: "Enter rate",
                           onChanged: checkFinalValid,
                           extraValidators: [
                             (val) {
                               return ((int.tryParse(val ?? "0") ?? 0) < 100)
-                                  ? null
+                                  ? (int.tryParse(val ?? "0") ?? 0) < 0
+                                      ? "Rate cannot be negative"
+                                      : null
                                   : "Rate can't be greater then 100";
                             }
                           ],
