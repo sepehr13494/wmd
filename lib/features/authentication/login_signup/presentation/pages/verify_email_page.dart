@@ -39,10 +39,8 @@ class VerifyEmailPage extends AppStatelessWidget {
             child: BlocConsumer<LoginSignUpCubit, LoginSignUpState>(
           listener: BlocHelper.defaultBlocListener(listener: (context, state) {
             if (state is SuccessState) {
-              GlobalFunctions.showSnackBar(
-                context,
-                'Magic link sent again to your email',
-              );
+              GlobalFunctions.showSnackBar(context, 'Email verification sent',
+                  type: "success");
             }
           }),
           builder: (context, state) {

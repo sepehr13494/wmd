@@ -18,7 +18,7 @@ class AddAssetHeader extends StatelessWidget with PreferredSizeWidget {
       centerTitle: false,
       title: Row(
         children: [
-          const AppLogoWidget(),
+          // const AppLogoWidget(),
           Expanded(
             child: Center(
               child: Text(title),

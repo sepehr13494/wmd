@@ -29,6 +29,7 @@ class AddRealEstatePage extends StatefulWidget {
 class _AddRealEstateState extends AppState<AddRealEstatePage> {
   final privateDebtFormKey = GlobalKey<FormBuilderState>();
   bool enableAddAssetButton = false;
+  DateTime? aqusitionDateValue;
   @override
   void didUpdateWidget(covariant AddRealEstatePage oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -142,6 +143,14 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                       title: "Name",
                                       name: "name",
                                       onChanged: checkFinalValid,
+                                      extraValidators: [
+                                        (val) {
+                                          return (val != null &&
+                                                  val.length > 100)
+                                              ? "Name cannot be more than 100 characters"
+                                              : null;
+                                        }
+                                      ],
                                       hint:
                                           "A nickname to identify your property"),
                                 ),
@@ -216,10 +225,16 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                 EachTextField(
                                   title: "Acquisition date",
                                   child: FormBuilderDateTimePicker(
+                                    onChanged: (selectedDate) {
+                                      checkFinalValid(selectedDate);
+                                      setState(() {
+                                        aqusitionDateValue = selectedDate;
+                                      });
+                                    },
+                                    lastDate: DateTime.now(),
                                     inputType: InputType.date,
                                     format: DateFormat("dd/MM/yyyy"),
                                     name: "acquisitionDate",
-                                    onChanged: checkFinalValid,
                                     decoration: InputDecoration(
                                         suffixIcon: Icon(
                                           Icons.calendar_today_outlined,
@@ -259,7 +274,8 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                 EachTextField(
                                   title: "Valuation date (optional)",
                                   child: FormBuilderDateTimePicker(
-                                    //  required: false,
+                                    firstDate: aqusitionDateValue,
+                                    lastDate: DateTime.now(),
                                     format: DateFormat("dd/MM/yyyy"),
                                     inputType: InputType.date,
                                     name: "valuationDate",
