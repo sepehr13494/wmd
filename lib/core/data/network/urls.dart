@@ -26,4 +26,5 @@ class AppUrls {
   static String getUserNetWorth = "${wealthBase}Wealth/totalnetworth";
   static String getBankList = "${banking}Bank";
   static String getPopularBankList = "${banking}Bank/Popular";
+  static String linkToken = "${banking}openbanking/link-token";
 }

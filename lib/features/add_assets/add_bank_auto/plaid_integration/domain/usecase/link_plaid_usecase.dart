@@ -11,8 +11,11 @@ class PlaidLinkUseCase extends UseCase<String, BankEntity> {
 
   @override
   Future<Either<Failure, String>> call(BankEntity params) async {
-    final linkTokenResult =
-        await plaidLinkRepository.getLinkToken('redirectUrl');
+    if (params.provider == null) {
+      return const Left(AppFailure(message: 'Unknown provider'));
+    }
+    final linkTokenResult = await plaidLinkRepository.getLinkToken(
+        'app://wmd.com/home', params.provider!);
     if (linkTokenResult.isLeft()) return linkTokenResult;
     final linkToken = linkTokenResult.fold((l) => null, (r) => r);
     final publicTokenResult =
