@@ -4,6 +4,7 @@ import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/presentation/manager/plaid_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
@@ -45,7 +46,21 @@ class _BankWidgetState extends AppState<BankWidget> {
           leading: bank.logo == null
               ? Icon(Icons.account_balance, color: primaryColor)
               : Image.network(bank.logo!),
-          trailing: isSelected ? Connectbutton(bank) : null,
+          subtitle: Text(bank.provider ?? 'No provider'),
+          trailing: !isSelected
+              ? null
+              : Builder(
+                  builder: (context) {
+                    switch (bank.provider) {
+                      case BankProviders.plaid:
+                        return PlaidConnectButton(bank);
+                      case BankProviders.lean:
+                        return const Text('Lean connect');
+                      default:
+                        return const SizedBox.shrink();
+                    }
+                  },
+                ),
           selected: isSelected,
           selectedColor: null,
         ),
@@ -54,9 +69,9 @@ class _BankWidgetState extends AppState<BankWidget> {
   }
 }
 
-class Connectbutton extends AppStatelessWidget {
+class PlaidConnectButton extends AppStatelessWidget {
   final BankEntity bank;
-  const Connectbutton(this.bank, {Key? key}) : super(key: key);
+  const PlaidConnectButton(this.bank, {Key? key}) : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -73,21 +88,21 @@ class Connectbutton extends AppStatelessWidget {
                 onTap: () {
                   context.read<PlaidCubit>().linkPlaidAccount(bank);
                 },
-                child: _buildContainerWithborder(primaryColor, 'Connect'),
+                child: _buildContainerWithborder('Connect', primaryColor),
               );
             } else if (state is PlaidLinkSuccess) {
-              return _buildContainerWithborder(primaryColor, 'Connected');
+              return _buildContainerWithborder('Connected');
             } else {
-              return _buildContainerWithborder(primaryColor, '...');
+              return _buildContainerWithborder('...');
             }
           }),
     );
   }
 
-  Container _buildContainerWithborder(Color borderColor, String message) {
+  Container _buildContainerWithborder(String message, [Color? borderColor]) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: borderColor),
+        border: borderColor != null ? Border.all(color: borderColor) : null,
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),

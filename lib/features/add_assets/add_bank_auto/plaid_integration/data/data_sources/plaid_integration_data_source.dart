@@ -28,6 +28,7 @@ class PlaidIntegrationRemoteDataSourceImpl extends AppServerDataSource
 
   @override
   Future<String> postPublicToken(String publicToken) async {
+    //TODO post publicToken to backend
     return publicToken;
   }
 
@@ -35,7 +36,7 @@ class PlaidIntegrationRemoteDataSourceImpl extends AppServerDataSource
   Future<Stream<LinkEvent>> getPublicToken(String linkToken) async {
     LinkConfiguration configuration = LinkTokenConfiguration(
       token: linkToken,
-      receivedRedirectUri: 'app://wmd.com/home',
+      // receivedRedirectUri: 'app://wmd.com/home',
     );
     PlaidLink.open(configuration: configuration);
     return PlaidLink.onEvent;
