@@ -165,6 +165,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                 EachTextField(
                                   title: "Acquisition date",
                                   child: FormBuilderDateTimePicker(
+                                    validator: FormBuilderValidators.required(),
                                     inputType: InputType.date,
                                     format: DateFormat("dd/MM/yyyy"),
                                     lastDate: DateTime.now(),
@@ -204,6 +205,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                 EachTextField(
                                   title: "Valuation date",
                                   child: FormBuilderDateTimePicker(
+                                    validator: FormBuilderValidators.required(),
                                     enabled: acquisitionDateValue != null,
                                     format: DateFormat("dd/MM/yyyy"),
                                     inputType: InputType.date,
