@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wmd/core/presentation/widgets/change_language_button.dart';
 import 'package:wmd/core/util/app_theme.dart';
+import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
 
 class AddAssetHeader extends StatelessWidget with PreferredSizeWidget {
   final Color? backgroundColor;
@@ -19,8 +20,7 @@ class AddAssetHeader extends StatelessWidget with PreferredSizeWidget {
         children: [
           // const AppLogoWidget(),
           Expanded(
-            child: Align(
-              alignment: Alignment.centerRight,
+            child: Center(
               child: Text(title),
             ),
           ),
