@@ -18,6 +18,11 @@ import 'package:wmd/features/add_assets/add_private_equity/data/repositories/pri
 import 'package:wmd/features/add_assets/add_private_equity/domain/repositories/private_equity_repository.dart';
 import 'package:wmd/features/add_assets/add_private_equity/domain/use_cases/add_private_equity_usecase.dart';
 import 'package:wmd/features/add_assets/add_private_equity/presentation/manager/private_equity_cubit.dart';
+import 'package:wmd/features/add_assets/add_real_estate/data/data_sources/real_estate_remote_data_source.dart';
+import 'package:wmd/features/add_assets/add_real_estate/data/repositories/real_estate_repository_impl.dart';
+import 'package:wmd/features/add_assets/add_real_estate/domain/repositories/real_estate_repository.dart';
+import 'package:wmd/features/add_assets/add_real_estate/domain/use_cases/add_real_estate_usecase.dart';
+import 'package:wmd/features/add_assets/add_real_estate/presentation/manager/real_estate_cubit.dart';
 import 'package:wmd/features/authentication/forget_password/data/data_sources/forget_password_server_datasource.dart';
 import 'package:wmd/features/authentication/forget_password/data/repositories/forget_password_repository_impl.dart';
 import 'package:wmd/features/authentication/forget_password/domain/repositories/forget_password_repository.dart';
@@ -152,6 +157,14 @@ Future<void> init() async {
       () => PrivateEquityRepositoryImpl(sl()));
   sl.registerLazySingleton<PrivateEquityRemoteDataSource>(
       () => PrivateEquityRemoteDataSourceImpl(sl()));
+
+  // Add real estate
+  sl.registerFactory(() => RealEstateCubit(sl()));
+  sl.registerLazySingleton(() => AddRealEstateUseCase(sl()));
+  sl.registerLazySingleton<RealEstateRepository>(
+      () => RealEstateRepositoryImpl(sl()));
+  sl.registerLazySingleton<RealEstateRemoteDataSource>(
+      () => RealEstateRemoteDataSourceImpl(sl()));
 
   await initExternal();
 }

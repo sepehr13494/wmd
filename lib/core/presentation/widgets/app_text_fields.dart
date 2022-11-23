@@ -29,13 +29,7 @@ class CurrencyInputFormatter extends TextInputFormatter {
   }
 }
 
-enum TextFieldType {
-  email,
-  password,
-  phone,
-  simpleText,
-  money,
-}
+enum TextFieldType { email, password, phone, simpleText, money, number, rate }
 
 class AppTextFields {
   AppTextFields._();
@@ -79,12 +73,24 @@ class AppTextFields {
         break;
       case TextFieldType.money:
         break;
+      case TextFieldType.number:
+        break;
+      case TextFieldType.rate:
+        break;
     }
     return FormBuilderTextField(
       key: key,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      inputFormatters:
-          type == TextFieldType.money ? [CurrencyInputFormatter()] : null,
+      inputFormatters: type == TextFieldType.money
+          ? [CurrencyInputFormatter()]
+          : type == TextFieldType.number
+              ? <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]
+              : type == TextFieldType.rate
+                  ? [
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d+\.?\d{0,2}'))
+                    ]
+                  : null,
       scrollPadding:
           const EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 90),
       name: name,
