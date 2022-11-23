@@ -386,6 +386,13 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                     title: "Description",
                                     child: AppTextFields.simpleTextField(
                                         required: false,
+                                        extraValidators: [
+                                          (val) {
+                                            return ((val?.length ?? 0) > 100
+                                                ? "Description must be at most 100 characters"
+                                                : null);
+                                          }
+                                        ],
                                         name: "description",
                                         hint:
                                             "A nickname you give to your account"),
