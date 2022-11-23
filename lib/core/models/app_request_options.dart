@@ -10,6 +10,7 @@ class AppRequestOptions extends Equatable {
   final bool showLog;
   final void Function(int, int)? onSendProgress;
   final bool fullUrl;
+  final Map<String, String>? additionalHeaders;
 
   AppRequestOptions(
     this.type,
@@ -19,6 +20,7 @@ class AppRequestOptions extends Equatable {
     this.showLog = true,
     this.onSendProgress,
     this.fullUrl = false,
+    this.additionalHeaders,
   });
 
   @override
