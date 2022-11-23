@@ -31,7 +31,6 @@ class AddPrivateEquityPage extends StatefulWidget {
 class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
   final privateEquityFormKey = GlobalKey<FormBuilderState>();
   DateTime? acquisitionDateValue;
-  DateTime? valuationDateValue;
   bool enableAddAssetButton = false;
   @override
   void didUpdateWidget(covariant AddPrivateEquityPage oldWidget) {
