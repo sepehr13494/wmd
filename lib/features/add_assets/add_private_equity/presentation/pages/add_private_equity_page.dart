@@ -30,6 +30,7 @@ class AddPrivateEquityPage extends StatefulWidget {
 
 class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
   final privateEquityFormKey = GlobalKey<FormBuilderState>();
+  DateTime? acquisitionDateValue;
   bool enableAddAssetButton = false;
   @override
   void didUpdateWidget(covariant AddPrivateEquityPage oldWidget) {
@@ -168,7 +169,12 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                     format: DateFormat("dd/MM/yyyy"),
                                     lastDate: DateTime.now(),
                                     name: "investmentDate",
-                                    onChanged: checkFinalValid,
+                                    onChanged: (selectedDate) {
+                                      checkFinalValid(selectedDate);
+                                      setState(() {
+                                        acquisitionDateValue = selectedDate;
+                                      });
+                                    },
                                     decoration: InputDecoration(
                                         suffixIcon: Icon(
                                           Icons.calendar_today_outlined,
@@ -198,8 +204,10 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                 EachTextField(
                                   title: "Valuation date",
                                   child: FormBuilderDateTimePicker(
+                                    enabled: acquisitionDateValue != null,
                                     format: DateFormat("dd/MM/yyyy"),
                                     inputType: InputType.date,
+                                    firstDate: acquisitionDateValue,
                                     lastDate: DateTime.now(),
                                     name: "valuationDate",
                                     onChanged: checkFinalValid,
