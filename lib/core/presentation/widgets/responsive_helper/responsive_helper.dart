@@ -70,10 +70,10 @@ class ResponsiveHelper {
           : 32;
 
   double get bigger24Gap => isDesktop
-      ? 54
+      ? 44
       : isMobile
       ? 24
-      : 48;
+      : 32;
 
   double get smallFontSize => isDesktop
       ? 14

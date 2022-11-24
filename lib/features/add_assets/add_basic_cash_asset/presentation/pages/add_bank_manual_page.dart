@@ -202,7 +202,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                  color: AppColors.anotherCardColor,
+                  color: Theme.of(context).brightness == Brightness.dark ? AppColors.anotherCardColorForDarkTheme : AppColors.anotherCardColorForLightTheme,
                   borderRadius: BorderRadius.circular(8)),
               child: Align(
                 alignment: AlignmentDirectional.centerStart,

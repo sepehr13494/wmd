@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wmd/core/util/colors.dart';
 
 class ChangeWidget extends StatelessWidget {
   final double number;
@@ -9,7 +10,7 @@ class ChangeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isPositive = number > 0;
     final bool isZero = number == 0;
-    final color = isZero ? null : (isPositive ? Colors.green : Colors.red);
+    final color = isZero ? null : (isPositive ? AppColors.green : Colors.red);
     return Row(
       children: [
         isZero ? const SizedBox() : Icon(isPositive ? Icons.arrow_drop_up : Icons.arrow_drop_down,color: color,),
