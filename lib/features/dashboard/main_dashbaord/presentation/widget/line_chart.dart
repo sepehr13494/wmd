@@ -1,6 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
 
 class LineChartSample2 extends StatelessWidget {
@@ -8,26 +7,8 @@ class LineChartSample2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          children: [
-            Text("Total Net Worth", style: TextStyle(fontSize: 18)),
-            const SizedBox(height: 12),
-            AspectRatio(
-              aspectRatio:
-                  ResponsiveHelper(context: context).isMobile ? 1.6 : 2.2,
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: LineChart(
-                  mainData(context),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return LineChart(
+      mainData(context),
     );
   }
 
@@ -129,11 +110,11 @@ class LineChartSample2 extends StatelessWidget {
         LineChartBarData(
           spots: const [
             FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 6),
-            FlSpot(6.8, -3),
+            FlSpot(1, -3),
+            FlSpot(3, 2),
+            FlSpot(5, 6),
             FlSpot(8, -2),
-            FlSpot(9.5, 3),
+            FlSpot(10, 3),
             FlSpot(11, 4),
           ],
           isCurved: false,
