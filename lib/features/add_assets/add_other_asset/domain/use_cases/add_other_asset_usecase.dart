@@ -28,6 +28,7 @@ class AddOtherAssetUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
         "acquisitionCost": acquisitionCost,
         "valuePerUnit": valuePerUnit,
         "currentDayValue": currentDayValue,
+        "valuationDate": DateTime.now(),
       };
 
       final privateDebtAssetParam = AddOtherAssetParams.fromJson(newMap);
@@ -99,11 +100,11 @@ class AddOtherAssetParams extends Equatable {
         "assetType": assetType,
         "country": country,
         "currencyCode": currencyCode,
-        "units": units,
-        "acquisitionCost": acquisitionCost,
+        "noOfUnits": units,
+        "acquisitionCostPerUnit": acquisitionCost,
         "acquisitionDate": acquisitionDate.toIso8601String(),
         "valuationDate": valuationDate?.toIso8601String(),
-        "ownerShip": ownerShip,
+        "ownershipPercentage": ownerShip,
         "valuePerUnit": valuePerUnit,
         "currentDayValue": currentDayValue
       };

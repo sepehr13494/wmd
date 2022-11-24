@@ -11,7 +11,7 @@ class OtherAssetCubit extends Cubit<OtherAssetState> {
 
   OtherAssetCubit(this.addOtherAssetUseCase) : super(OtherAssetInitial());
 
-  postRealEstate({required Map<String, dynamic> map}) async {
+  postOtherAsset({required Map<String, dynamic> map}) async {
     print(map);
     emit(LoadingState());
     final result = await addOtherAssetUseCase(map);

@@ -11,6 +11,7 @@ import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/add_assets/add_other_asset/presentation/manager/other_asset_cubit.dart';
 import 'package:wmd/features/add_assets/add_real_estate/presentation/manager/real_estate_cubit.dart';
 import 'package:wmd/features/add_assets/core/constants.dart';
 import 'package:wmd/features/add_assets/core/data/models/other_asset_type.dart';
@@ -86,7 +87,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     return BlocProvider(
-      create: (context) => sl<RealEstateCubit>(),
+      create: (context) => sl<OtherAssetCubit>(),
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: const AddAssetHeader(
@@ -99,13 +100,15 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                   : () {
                       Map<String, dynamic> finalMap = {
                         ...privateDebtFormKey.currentState!.instantValue,
+                        "currentDayValue":
+                            currentDayValue == "--" ? "0" : currentDayValue
                       };
 
                       print(finalMap);
 
                       context
-                          .read<RealEstateCubit>()
-                          .postRealEstate(map: finalMap);
+                          .read<OtherAssetCubit>()
+                          .postOtherAsset(map: finalMap);
                     }),
           body: Theme(
             data: Theme.of(context).copyWith(),
@@ -114,13 +117,13 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                 const LeafBackground(),
                 WidthLimiterWidget(
                   child: Builder(builder: (context) {
-                    return BlocConsumer<RealEstateCubit, RealEstateState>(
+                    return BlocConsumer<OtherAssetCubit, OtherAssetState>(
                         listener: BlocHelper.defaultBlocListener(
                             listener: (context, state) {
-                      if (state is RealEstateSaved) {
+                      if (state is OtherAssetSaved) {
                         context.read<MainDashboardCubit>().initPage();
 
-                        final successValue = state.realEstateSaveResponse;
+                        final successValue = state.otherAssetSaveResponse;
                         showDialog(
                           context: context,
                           builder: (context) {

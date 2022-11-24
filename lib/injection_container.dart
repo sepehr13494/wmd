@@ -8,6 +8,11 @@ import 'package:wmd/features/add_assets/add_basic_cash_asset/data/repositories/b
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/repositories/bank_repository.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/use_cases/post_bank_details_usecase.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/manager/bank_cubit.dart';
+import 'package:wmd/features/add_assets/add_other_asset/data/data_sources/other_asset_remote_data_source.dart';
+import 'package:wmd/features/add_assets/add_other_asset/data/repositories/other_asset_repository_impl.dart';
+import 'package:wmd/features/add_assets/add_other_asset/domain/repositories/other_asset_repository.dart';
+import 'package:wmd/features/add_assets/add_other_asset/domain/use_cases/add_other_asset_usecase.dart';
+import 'package:wmd/features/add_assets/add_other_asset/presentation/manager/other_asset_cubit.dart';
 import 'package:wmd/features/add_assets/add_private_debt/data/data_sources/private_debt_save_remote_data_source.dart';
 import 'package:wmd/features/add_assets/add_private_debt/data/repositories/private_debt_repository_impl.dart';
 import 'package:wmd/features/add_assets/add_private_debt/domain/repositories/private_debt_repository.dart';
@@ -165,6 +170,14 @@ Future<void> init() async {
       () => RealEstateRepositoryImpl(sl()));
   sl.registerLazySingleton<RealEstateRemoteDataSource>(
       () => RealEstateRemoteDataSourceImpl(sl()));
+
+  // Add other asset
+  sl.registerFactory(() => OtherAssetCubit(sl()));
+  sl.registerLazySingleton(() => AddOtherAssetUseCase(sl()));
+  sl.registerLazySingleton<OtherAssetRepository>(
+      () => OtherAssetRepositoryImpl(sl()));
+  sl.registerLazySingleton<OtherAssetRemoteDataSource>(
+      () => OtherAssetRemoteDataSourceImpl(sl()));
 
   await initExternal();
 }
