@@ -336,6 +336,73 @@ class _FormBuilderTypeAheadState extends State<FormBuilderTypeAhead> {
   }
 }
 
+class DropDownTypeAhead extends StatefulWidget {
+  final String name;
+  final String hint;
+  final List<String> items;
+  final ValueChanged<String?>? onChange;
+  const DropDownTypeAhead(
+      {Key? key,
+      required this.name,
+      required this.items,
+      required this.hint,
+      this.onChange})
+      : super(key: key);
+
+  @override
+  State<DropDownTypeAhead> createState() => _DropDownTypeAheadState();
+}
+
+class _DropDownTypeAheadState extends State<DropDownTypeAhead> {
+  TextEditingController typeController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return FormBuilderField<String?>(
+        builder: (state) {
+          return Stack(
+            children: [
+              Positioned(
+                right: 0,
+                child: IconButton(
+                    onPressed: () {}, icon: Icon(Icons.arrow_drop_down)),
+              ),
+              TypeAheadField(
+                animationStart: 0,
+                animationDuration: Duration.zero,
+                textFieldConfiguration: TextFieldConfiguration(
+                  decoration: InputDecoration(
+                    hintText: widget.hint,
+                  ),
+                  controller: typeController,
+                  onChanged: (value) {
+                    state.didChange(value);
+                  },
+                ),
+                suggestionsCallback: (pattern) {
+                  return widget.items.where((element) =>
+                      element.toLowerCase().contains(pattern.toLowerCase()));
+                },
+                itemBuilder: (context, suggestion) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(suggestion),
+                  );
+                },
+                onSuggestionSelected: (suggestion) {
+                  typeController.text = suggestion;
+                  state.didChange(suggestion);
+                },
+                hideOnEmpty: true,
+              ),
+            ],
+          );
+        },
+        onChanged: widget.onChange,
+        name: widget.name);
+  }
+}
+
 // ignore: must_be_immutable
 class PasswordTextField extends StatefulWidget {
   final String? hint;

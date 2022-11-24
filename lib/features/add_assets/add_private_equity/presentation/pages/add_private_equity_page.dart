@@ -63,10 +63,10 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: const AddAssetHeader(
-            title: "Add private equity",
+            title: "Add asset",
           ),
           bottomSheet: AddAssetFooter(
-              buttonText: "Add asset",
+              buttonText: "Save asset",
               onTap: !enableAddAssetButton
                   ? null
                   : () {
@@ -120,10 +120,13 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                             initialValue:
                                 AddAssetConstants.initialJsonForAddAsset,
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   "Add private equity",
                                   style: textTheme.headlineSmall,
+                                  textAlign: TextAlign.start,
                                 ),
                                 Text(
                                   "Investment in an entity that is not publicly listed.",
