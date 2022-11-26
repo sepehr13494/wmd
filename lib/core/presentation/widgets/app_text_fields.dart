@@ -123,6 +123,10 @@ class AppTextFields {
         return null;
       case TextFieldType.money:
         return null;
+      case TextFieldType.number:
+        return null;
+      case TextFieldType.rate:
+        return null;
     }
   }
 
