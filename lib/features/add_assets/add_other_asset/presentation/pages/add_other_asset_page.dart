@@ -9,9 +9,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
+import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/add_assets/add_other_asset/presentation/manager/other_asset_cubit.dart';
 import 'package:wmd/features/add_assets/add_real_estate/presentation/manager/real_estate_cubit.dart';
 import 'package:wmd/features/add_assets/core/constants.dart';
-import 'package:wmd/features/add_assets/core/data/models/real_estate_type.dart';
+import 'package:wmd/features/add_assets/core/data/models/other_asset_type.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal.dart';
@@ -19,18 +22,20 @@ import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/ad
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
-class AddRealEstatePage extends StatefulWidget {
-  const AddRealEstatePage({Key? key}) : super(key: key);
+class AddOtherAssetPage extends StatefulWidget {
+  const AddOtherAssetPage({Key? key}) : super(key: key);
   @override
-  AppState<AddRealEstatePage> createState() => _AddRealEstateState();
+  AppState<AddOtherAssetPage> createState() => _AddOtherAssetState();
 }
 
-class _AddRealEstateState extends AppState<AddRealEstatePage> {
+class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
   final privateDebtFormKey = GlobalKey<FormBuilderState>();
   bool enableAddAssetButton = false;
-  DateTime? aqusitionDateValue;
+  String currentDayValue = "--";
+  String? noOfUnits = "";
+  String? valuePerUnit = "";
   @override
-  void didUpdateWidget(covariant AddRealEstatePage oldWidget) {
+  void didUpdateWidget(covariant AddOtherAssetPage oldWidget) {
     super.didUpdateWidget(oldWidget);
   }
 
@@ -52,15 +57,41 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
     }
   }
 
+  void calculateCurrentValue() {
+    const defaultValue = "--";
+    if (noOfUnits == "" || noOfUnits == null) {
+      setState(() {
+        currentDayValue = defaultValue;
+      });
+      return;
+    }
+    if (valuePerUnit == "" || valuePerUnit == null) {
+      setState(() {
+        currentDayValue = defaultValue;
+      });
+      return;
+    }
+
+    final noOfUnitsParsed = noOfUnits != null ? int.tryParse(noOfUnits!) : 0;
+    final valuePerUnitParsed = valuePerUnit != null
+        ? int.tryParse(valuePerUnit!.toString().replaceAll(',', ''))
+        : 0;
+
+    setState(() {
+      currentDayValue = NumberFormat("#,##0", "en_US")
+          .format(noOfUnitsParsed! * valuePerUnitParsed!);
+    });
+  }
+
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     return BlocProvider(
-      create: (context) => sl<RealEstateCubit>(),
+      create: (context) => sl<OtherAssetCubit>(),
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: const AddAssetHeader(
-            title: "Add Real Estate",
+            title: "Add Asset Details",
           ),
           bottomSheet: AddAssetFooter(
               buttonText: "Add asset",
@@ -69,13 +100,15 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                   : () {
                       Map<String, dynamic> finalMap = {
                         ...privateDebtFormKey.currentState!.instantValue,
+                        "currentDayValue":
+                            currentDayValue == "--" ? "0" : currentDayValue
                       };
 
                       print(finalMap);
 
                       context
-                          .read<RealEstateCubit>()
-                          .postRealEstate(map: finalMap);
+                          .read<OtherAssetCubit>()
+                          .postOtherAsset(map: finalMap);
                     }),
           body: Theme(
             data: Theme.of(context).copyWith(),
@@ -84,13 +117,13 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                 const LeafBackground(),
                 WidthLimiterWidget(
                   child: Builder(builder: (context) {
-                    return BlocConsumer<RealEstateCubit, RealEstateState>(
+                    return BlocConsumer<OtherAssetCubit, OtherAssetState>(
                         listener: BlocHelper.defaultBlocListener(
                             listener: (context, state) {
-                      if (state is RealEstateSaved) {
+                      if (state is OtherAssetSaved) {
                         context.read<MainDashboardCubit>().initPage();
 
-                        final successValue = state.realEstateSaveResponse;
+                        final successValue = state.otherAssetSaveResponse;
                         showDialog(
                           context: context,
                           builder: (context) {
@@ -124,15 +157,15 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Add Real Estate",
+                                  "Add other asset",
                                   style: textTheme.headlineSmall,
                                 ),
                                 Text(
-                                  "Investments made in residential, commercial and land real estate.",
+                                  "Uncategorized other investments including vehicles, jewelry and art.",
                                   style: textTheme.bodySmall,
                                 ),
                                 Text(
-                                  "Fill in your property details",
+                                  "Fill in your asset details",
                                   style: textTheme.titleSmall,
                                 ),
                                 EachTextField(
@@ -153,39 +186,32 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                       hint:
                                           "A nickname to identify your property"),
                                 ),
+                                const EachTextField(
+                                  hasInfo: false,
+                                  title: "Wealth manager (optional)",
+                                  child: FormBuilderTypeAhead(
+                                      name: "wealthManager",
+                                      hint: "Type the name of custodian",
+                                      items: AppConstants.custodianList),
+                                ),
                                 EachTextField(
                                   hasInfo: false,
-                                  title: "Type of real estate",
+                                  title: "Type of asset",
                                   child: AppTextFields.dropDownTextField(
                                     onChanged: (val) async {
-                                      // setState(() {
-                                      //   bottomFormKey =
-                                      //       GlobalKey<FormBuilderState>();
-                                      //   accountType = val;
-                                      // });
                                       await Future.delayed(
                                           const Duration(milliseconds: 200));
                                       checkFinalValid(val);
                                     },
-                                    name: "realEstateType",
+                                    name: "assetType",
                                     hint: "Type or select real estate type",
-                                    items: RealEstateType.realEstateList
+                                    items: OtherAssetType.otherAssetList
                                         .map((e) => DropdownMenuItem(
                                               value: e.value,
                                               child: Text(e.name),
                                             ))
                                         .toList(),
                                   ),
-                                ),
-                                EachTextField(
-                                  hasInfo: false,
-                                  title: "Address (optional)",
-                                  child: AppTextFields.simpleTextField(
-                                      title: "Address",
-                                      name: "address",
-                                      required: false,
-                                      // onChanged: checkFinalValid,
-                                      hint: "Address"),
                                 ),
                                 EachTextField(
                                   hasInfo: false,
@@ -207,28 +233,31 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                   title: "Number of units",
                                   child: AppTextFields.simpleTextField(
                                       type: TextFieldType.number,
+                                      onChanged: (val) {
+                                        setState(() {
+                                          noOfUnits = val;
+                                        });
+                                        calculateCurrentValue();
+                                        checkFinalValid(val);
+                                      },
                                       keyboardType: TextInputType.number,
-                                      onChanged: checkFinalValid,
-                                      name: "noOfUnits",
+                                      name: "units",
                                       hint: "No. of Units"),
                                 ),
                                 EachTextField(
-                                  title: "Acquisition cost per unit",
+                                  title: "Acquisition cost",
                                   child: AppTextFields.simpleTextField(
                                       onChanged: checkFinalValid,
                                       type: TextFieldType.money,
                                       keyboardType: TextInputType.number,
-                                      name: "acquisitionCostPerUnit",
-                                      hint: "Type a cost"),
+                                      name: "acquisitionCost",
+                                      hint: "Type the purchase price of asset"),
                                 ),
                                 EachTextField(
                                   title: "Acquisition date",
                                   child: FormBuilderDateTimePicker(
                                     onChanged: (selectedDate) {
                                       checkFinalValid(selectedDate);
-                                      setState(() {
-                                        aqusitionDateValue = selectedDate;
-                                      });
                                     },
                                     lastDate: DateTime.now(),
                                     inputType: InputType.date,
@@ -244,7 +273,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                 ),
                                 EachTextField(
                                   hasInfo: false,
-                                  title: "Your ownership",
+                                  title: "Ownership",
                                   child: AppTextFields.simpleTextField(
                                       extraValidators: [
                                         (val) {
@@ -258,33 +287,40 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                       type: TextFieldType.number,
                                       keyboardType: TextInputType.number,
                                       onChanged: checkFinalValid,
-                                      name: "ownershipPercentage",
+                                      name: "ownerShip",
                                       hint: "Type in a figure e.g 72%"),
                                 ),
                                 EachTextField(
                                   title: "Value per unit (optional)",
                                   child: AppTextFields.simpleTextField(
                                       required: false,
+                                      onChanged: (val) {
+                                        setState(() {
+                                          valuePerUnit = val;
+                                        });
+                                        calculateCurrentValue();
+                                      },
                                       type: TextFieldType.money,
                                       keyboardType: TextInputType.number,
-                                      name: "marketValue",
-                                      hint: "Current market value"),
+                                      name: "valuePerUnit",
+                                      hint: "The current day value of asset"),
                                 ),
-                                EachTextField(
-                                  title: "Valuation date (optional)",
-                                  child: FormBuilderDateTimePicker(
-                                    firstDate: aqusitionDateValue,
-                                    lastDate: DateTime.now(),
-                                    format: DateFormat("dd/MM/yyyy"),
-                                    inputType: InputType.date,
-                                    name: "valuationDate",
-                                    onChanged: checkFinalValid,
-                                    decoration: InputDecoration(
-                                        suffixIcon: Icon(
-                                          Icons.calendar_today_outlined,
-                                          color: Theme.of(context).primaryColor,
-                                        ),
-                                        hintText: "DD/MM/YYYY"),
+                                Container(
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                      color: AppColors.anotherCardColor,
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: Align(
+                                    alignment: AlignmentDirectional.centerStart,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text("Current day value"),
+                                        const SizedBox(height: 8),
+                                        Text(currentDayValue)
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(height: 60),
