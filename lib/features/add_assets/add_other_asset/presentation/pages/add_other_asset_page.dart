@@ -278,7 +278,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                       extraValidators: [
                                         (val) {
                                           return ((int.tryParse(val ?? "0") ??
-                                                      0) <
+                                                      0) <=
                                                   100)
                                               ? null
                                               : "Ownership can't be greater then 100";

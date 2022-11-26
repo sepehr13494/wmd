@@ -28,10 +28,16 @@ class AddOtherAssetUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
         "acquisitionCost": acquisitionCost,
         "valuePerUnit": valuePerUnit,
         "currentDayValue": currentDayValue,
-        "valuationDate": DateTime.now(),
+        "valuationDate": (params['valuationDate']) != null
+            ? params['valuationDate']
+            : DateTime.now(),
       };
 
       final privateDebtAssetParam = AddOtherAssetParams.fromJson(newMap);
+
+      debugPrint(privateDebtAssetParam.toString());
+      debugPrint(AddOtherAssetParams.tAddOtherAssetParams.toString());
+
       return await otherAssetRepository.postOtherAsset(privateDebtAssetParam);
     } catch (e) {
       debugPrint("AddOtherAssetUseCase catch : ${e.toString()}");
@@ -115,7 +121,7 @@ class AddOtherAssetParams extends Equatable {
     "assetType": "Painting",
     "country": Country(name: "USA", countryName: "USA"),
     "currencyCode": Currency(name: "USD", symbol: "USD"),
-    "units": 1,
+    "units": "1",
     "acquisitionCost": "123",
     "acquisitionDate": DateTime.parse('2022-10-05T21:00:00.000Z'),
     "valuationDate": DateTime.parse('2022-10-05T21:00:00.000Z'),
@@ -131,12 +137,12 @@ class AddOtherAssetParams extends Equatable {
     country: "USA",
     currencyCode: "USD",
     units: 1,
-    acquisitionCost: 123,
+    acquisitionCost: 123.0,
     acquisitionDate: DateTime.parse('2022-10-05T21:00:00.000Z'),
     valuationDate: DateTime.parse('2022-10-05T21:00:00.000Z'),
-    ownerShip: 50,
-    valuePerUnit: 30000,
-    currentDayValue: 30000,
+    ownerShip: 50.0,
+    valuePerUnit: 30000.0,
+    currentDayValue: 30000.0,
   );
 
   @override

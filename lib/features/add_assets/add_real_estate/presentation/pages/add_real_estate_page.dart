@@ -9,7 +9,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
-import 'package:wmd/features/add_assets/add_private_debt/presentation/manager/private_debt_cubit.dart';
 import 'package:wmd/features/add_assets/add_real_estate/presentation/manager/real_estate_cubit.dart';
 import 'package:wmd/features/add_assets/core/constants.dart';
 import 'package:wmd/features/add_assets/core/data/models/real_estate_type.dart';
@@ -250,7 +249,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                       extraValidators: [
                                         (val) {
                                           return ((int.tryParse(val ?? "0") ??
-                                                      0) <
+                                                      0) <=
                                                   100)
                                               ? null
                                               : "Ownership can't be greater then 100";
