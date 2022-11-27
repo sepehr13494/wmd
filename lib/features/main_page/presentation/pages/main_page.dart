@@ -1,6 +1,7 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wmd/features/assets_overview/assets_overview/presentation/pages/assets_overview_page.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/pages/dashboard_main_page.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/pages/dashboard_page.dart';
@@ -20,11 +21,13 @@ class _MainPageState extends State<MainPage> {
   static final List<Widget> _widgetOptions = <Widget>[
     const DashboardMainPage(),
     const DashboardPage(),
+    const AssetsOverView(),
   ];
 
   static final List<List> items = [
     [Icons.home, 'Home'],
     [Icons.account_box, 'Main'],
+    [Icons.bar_chart, 'Assets'],
   ];
 
   @override
