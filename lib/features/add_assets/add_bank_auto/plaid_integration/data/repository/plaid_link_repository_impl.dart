@@ -37,7 +37,7 @@ class PlaidLinkRepositoryImpl implements PlaidLinkRepository {
       });
       return converted.first;
     } catch (e) {
-      return Left(ServerFailure(message: 'hadled here: $e'));
+      return Left(ServerFailure(message: '$e'));
     }
   }
 

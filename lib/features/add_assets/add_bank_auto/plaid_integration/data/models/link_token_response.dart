@@ -1,9 +1,9 @@
 class LinkTokenResponse {
-  String expiration;
-  String linkToken;
-  String requestId;
+  final String expiration;
+  final String linkToken;
+  final String requestId;
 
-  LinkTokenResponse({
+  const LinkTokenResponse({
     required this.expiration,
     required this.linkToken,
     required this.requestId,
@@ -23,4 +23,10 @@ class LinkTokenResponse {
     data['requestId'] = requestId;
     return data;
   }
+
+  static final tLinkTokenResponse = {
+    "expiration": "2022-11-23T13:20:20Z",
+    "linkToken": "link-sandbox-5180c00b-478d-430d-a7f0-b11835e099e5",
+    "requestId": "qsNAI33QvnsUqRF"
+  };
 }
