@@ -12,8 +12,7 @@ class ErrorHandlerMiddleware {
 
   ErrorHandlerMiddleware(this.serverRequestManager);
 
-  Future<Map<String, dynamic>> sendRequest(
-      AppRequestOptions appRequestOptions) async {
+  Future<dynamic> sendRequest(AppRequestOptions appRequestOptions) async {
     try {
       Response response =
           await serverRequestManager.sendRequest(appRequestOptions);
@@ -21,7 +20,7 @@ class ErrorHandlerMiddleware {
           appRequestOptions.url != AppUrls.refreshUrl) {
         throw ServerException(
             message: "wrong token",
-            type: ServerExceptionType.auth,
+            type: ExceptionType.auth,
             data: response.data);
       } else {
         if (appRequestOptions.showLog) {
@@ -36,11 +35,11 @@ class ErrorHandlerMiddleware {
         }
         if (appRequestOptions.checkResponse) {
           if ((response.statusCode ?? 600) < 300) {
-            return response.data as Map<String, dynamic>;
+            return response.data;
           } else if ((response.statusCode ?? 600) >= 500) {
             throw ServerException(
                 data: response.data,
-                type: ServerExceptionType.unExpected,
+                type: ExceptionType.unExpected,
                 message:
                     "Something went wrong on server with ${response.statusCode}");
           } else {
@@ -49,7 +48,7 @@ class ErrorHandlerMiddleware {
                 data: response.data);
           }
         } else {
-          return response.data as Map<String, dynamic>;
+          return response.data;
         }
       }
     } on ServerException catch (e) {
@@ -58,7 +57,7 @@ class ErrorHandlerMiddleware {
     } catch (e) {
       debugPrint(e.toString());
       throw ServerException(
-          message: e.toString(), type: ServerExceptionType.unExpected);
+          message: e.toString(), type: ExceptionType.unExpected);
     }
   }
 }
