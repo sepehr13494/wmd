@@ -77,7 +77,7 @@ class BankSaveParams extends Equatable {
         isActive: json["isActive"],
         owner: json["owner"],
         bankName: json["bankName"],
-        country: (json["country"] as Country).countryName,
+        country: (json["country"] as Country).name,
         description: json["description"],
         accountType: json["accountType"],
         currencyCode: (json["currencyCode"] as Currency).symbol,

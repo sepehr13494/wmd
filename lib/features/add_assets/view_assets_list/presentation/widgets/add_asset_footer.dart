@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -10,11 +11,11 @@ import 'package:wmd/global_functions.dart';
 class AddAssetFooter extends AppStatelessWidget {
   final String buttonText;
   final void Function()? onTap;
-  const AddAssetFooter(
-      {Key? key,
-      required this.buttonText,
-      required this.onTap,})
-      : super(key: key);
+  const AddAssetFooter({
+    Key? key,
+    required this.buttonText,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -54,17 +55,20 @@ class AddAssetFooter extends AppStatelessWidget {
                     Expanded(
                         child: OutlinedButton(
                             onPressed: () {
-                              // context.pop();
-                              GlobalFunctions.showExitDialog(
-                                  context: context,
-                                  onExitClick: () => context.pop());
+                              if (GoRouter.of(context).location ==
+                                  "/${AppRoutes.main}/${AppRoutes.addAssetsView}") {
+                                context.pop();
+                              } else {
+                                GlobalFunctions.showExitDialog(
+                                    context: context,
+                                    onExitClick: () => context.pop());
+                              }
                             },
                             child: const Text("Back"))),
                     const SizedBox(width: 12),
                     Expanded(
                         child: ElevatedButton(
-                            onPressed: onTap,
-                            child: Text(buttonText))),
+                            onPressed: onTap, child: Text(buttonText))),
                   ],
                 ),
               ),

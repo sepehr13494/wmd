@@ -17,8 +17,8 @@ class PrivateEquityRemoteDataSourceImpl extends AppServerDataSource
   @override
   Future<AddAssetModel> postPrivateEquityDetails(
       AddPrivateEquityParams addPrivateEquityParams) async {
-    final tPostBankSaveRequestOptions = AppRequestOptions(
-        RequestTypes.post, AppUrls.postPrivateEquity, addPrivateEquityParams);
+    final tPostBankSaveRequestOptions = AppRequestOptions(RequestTypes.post,
+        AppUrls.postPrivateEquity, addPrivateEquityParams.toJson());
     final response =
         await errorHandlerMiddleware.sendRequest(tPostBankSaveRequestOptions);
     final result = AddAssetModel.fromJson(response);

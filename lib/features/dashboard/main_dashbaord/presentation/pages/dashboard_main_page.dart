@@ -25,7 +25,6 @@ class DashboardMainPage extends StatefulWidget {
 }
 
 class _DashboardMainPageState extends AppState<DashboardMainPage> {
-
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
@@ -34,9 +33,9 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
     return Scaffold(
       appBar: const CustomAuthAppBar(),
       body: BlocConsumer<MainDashboardCubit, MainDashboardState>(
-        listener: BlocHelper.defaultBlocListener(listener: (context, state) {
-
-        },),
+        listener: BlocHelper.defaultBlocListener(
+          listener: (context, state) {},
+        ),
         builder: BlocHelper.defaultBlocBuilder(builder: (context, state) {
           return WidthLimiterWidget(
             width: 700,
