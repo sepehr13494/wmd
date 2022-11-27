@@ -9,7 +9,7 @@ import 'package:wmd/core/models/app_request_options.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/data_sources/bank_list_data_source.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/models/bank_list_response.dart';
 
-import '../../../../../core/data/network/error_handler_middleware_test.mocks.dart';
+import '../../../../../../core/data/network/error_handler_middleware_test.mocks.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: 'assets/env/.env');
