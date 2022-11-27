@@ -7,5 +7,29 @@ void main() {
       linkToken: "link-sandbox-5180c00b-478d-430d-a7f0-b11835e099e5",
       requestId: "qsNAI33QvnsUqRF");
 
-  test('should return valid model from json', () async {});
+  test(
+    'should return a valid model from json',
+    () async {
+      // arrange
+      final jsonMap = LinkTokenResponse.tLinkTokenResponse;
+      // act
+      final result = LinkTokenResponse.fromJson(jsonMap);
+      // assert
+      expect(result, equals(tLinkTokenResponseModel));
+    },
+  );
+
+  test('should return a json map containing proper data', () {
+    // arrange
+    final exceptedJson = {
+      "expiration": "2022-11-23T13:20:20Z",
+      "linkToken": "link-sandbox-5180c00b-478d-430d-a7f0-b11835e099e5",
+      "requestId": "qsNAI33QvnsUqRF"
+    };
+
+    // act
+    final result = LinkTokenResponse.tLinkTokenResponse;
+    // assert
+    expect(result, equals(exceptedJson));
+  });
 }

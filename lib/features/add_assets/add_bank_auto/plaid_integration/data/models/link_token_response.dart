@@ -1,4 +1,6 @@
-class LinkTokenResponse {
+import 'package:equatable/equatable.dart';
+
+class LinkTokenResponse extends Equatable {
   final String expiration;
   final String linkToken;
   final String requestId;
@@ -29,4 +31,7 @@ class LinkTokenResponse {
     "linkToken": "link-sandbox-5180c00b-478d-430d-a7f0-b11835e099e5",
     "requestId": "qsNAI33QvnsUqRF"
   };
+
+  @override
+  List<Object?> get props => [expiration, linkToken, requestId];
 }
