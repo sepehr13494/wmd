@@ -11,6 +11,7 @@ abstract class BaseState extends Equatable
         BankSaveState,
         PrivateEquityState,
         MainDashboardState,
+        AssetsOverviewState,
         BankSaveState {}
 
 class BaseInitialState extends BaseState {

@@ -60,7 +60,7 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                     const FilterAddPart(),
                     const SizedBox(height: 12),
                     state is MainDashboardNetWorthLoaded
-                        ? SummeryWidget(netWorthEntity: state.netWorthObj!)
+                        ? SummeryWidget(netWorthEntity: state.netWorthObj)
                         : const LoadingWidget(),
                     const NetWorthBaseChart(),
                     RowOrColumn(

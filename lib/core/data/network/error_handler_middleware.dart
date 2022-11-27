@@ -12,7 +12,7 @@ class ErrorHandlerMiddleware {
 
   ErrorHandlerMiddleware(this.serverRequestManager);
 
-  Future<Map<String, dynamic>> sendRequest(
+  Future<dynamic> sendRequest(
       AppRequestOptions appRequestOptions) async {
     try {
       Response response =
@@ -36,14 +36,14 @@ class ErrorHandlerMiddleware {
         }
         if (appRequestOptions.checkResponse) {
           if ((response.statusCode ?? 600) < 300) {
-            return response.data as Map<String, dynamic>;
+            return response.data;
           } else {
             throw ServerException(
                 message: response.data["message"] ?? "Un expected error",
                 data: response.data);
           }
         } else {
-          return response.data as Map<String, dynamic>;
+          return response.data;
         }
       }
     } on ServerException catch (e) {

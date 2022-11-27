@@ -13,6 +13,11 @@ import 'package:wmd/features/add_assets/add_private_equity/data/repositories/pri
 import 'package:wmd/features/add_assets/add_private_equity/domain/repositories/private_equity_repository.dart';
 import 'package:wmd/features/add_assets/add_private_equity/domain/use_cases/add_private_equity_usecase.dart';
 import 'package:wmd/features/add_assets/add_private_equity/presentation/manager/private_equity_cubit.dart';
+import 'package:wmd/features/assets_overview/assets_overview/data/data_sources/asset_overview_remote_datasource.dart';
+import 'package:wmd/features/assets_overview/assets_overview/data/repositories/assets_overview_repository_impl.dart';
+import 'package:wmd/features/assets_overview/assets_overview/domain/repositories/assets_overview_repository.dart';
+import 'package:wmd/features/assets_overview/assets_overview/domain/use_cases/get_assets_overview_usecase.dart';
+import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
 import 'package:wmd/features/authentication/forget_password/data/data_sources/forget_password_server_datasource.dart';
 import 'package:wmd/features/authentication/forget_password/data/repositories/forget_password_repository_impl.dart';
 import 'package:wmd/features/authentication/forget_password/domain/repositories/forget_password_repository.dart';
@@ -103,6 +108,14 @@ Future<void> init() async {
       () => MainDashboardRepositoryImpl(sl()));
   sl.registerLazySingleton<MainDashboardRemoteDataSource>(
       () => MainDashboardRemoteDataSourceImpl(sl()));
+
+  //AssetOverview
+  sl.registerFactory(() => AssetsOverviewCubit(sl()));
+  sl.registerLazySingleton(() => GetAssetsOverviewUseCase(sl()));
+  sl.registerLazySingleton<AssetsOverviewRepository>(
+          () => AssetsOverviewRepositoryImpl(sl()));
+  sl.registerLazySingleton<AssetsOverviewRemoteDataSource>(
+          () => AssetsOverviewRemoteDataSourceImpl(sl()));
 
   // Dashboard - user status dependencies
   sl.registerFactory(() => UserStatusCubit(sl(), sl()));

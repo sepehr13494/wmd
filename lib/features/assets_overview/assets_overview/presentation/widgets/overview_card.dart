@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 
 import 'ytd_itd_widget.dart';
 
@@ -14,6 +17,8 @@ class OverViewCard extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
     bool isMobile = responsiveHelper.isMobile;
+    return BlocBuilder<MainDashboardCubit, MainDashboardState>(
+  builder: (context, state) {
     return Stack(
       alignment: AlignmentDirectional.bottomEnd,
       children: [
@@ -44,7 +49,7 @@ class OverViewCard extends AppStatelessWidget {
                         FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Text(
-                            "\$8,845,000",
+                            state is MainDashboardNetWorthLoaded ? state.netWorthObj.assets.currentValue.convertMoney(addDollar: true) : "...",
                             style: TextStyle(
                                 fontSize: 28, fontWeight: FontWeight.w300),
                           ),
@@ -99,7 +104,7 @@ class OverViewCard extends AppStatelessWidget {
                           const SizedBox(height: 24, width: 4),
                           ExpandedIf(
                             expanded: !isMobile,
-                            child: YtdItdWidget(expand: !isMobile),
+                            child: YtdItdWidget(expand: !isMobile,ytd: 0,itd: 0),
                           )
                         ],
                       )
@@ -119,5 +124,7 @@ class OverViewCard extends AppStatelessWidget {
         )
       ],
     );
+  },
+);
   }
 }

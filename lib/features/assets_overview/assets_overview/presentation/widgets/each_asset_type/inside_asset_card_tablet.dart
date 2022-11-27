@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/features/assets_overview/assets_overview/domain/entities/assets_overview_entity.dart';
 
-import '../parametr_flex.dart';
+import '../assets_overview_inherit.dart';
 
 class InsideAssetCardTablet extends AppStatelessWidget {
-  const InsideAssetCardTablet({Key? key}) : super(key: key);
+  final AssetList asset;
+  const InsideAssetCardTablet({Key? key,required this.asset}) : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    final flexList = ParameterFlex.of(context).flexList;
+    final flexList = AssetsOverviewInherit.of(context).flexList;
     return Padding(
       padding: const EdgeInsets.all(12),
       child: Row(
@@ -22,7 +25,7 @@ class InsideAssetCardTablet extends AppStatelessWidget {
             flex: flexList[index],
             child: SizedBox(
               width: flexList[index] == 0
-                  ? ParameterFlex.of(context).nonExpandedWidth
+                  ? AssetsOverviewInherit.of(context).nonExpandedWidth
                   : null,
               child: Builder(
                 builder: (context) {
@@ -37,7 +40,7 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              "Saudi Investment Bank",
+                              asset.assetName,
                               style: TextStyle(
                                   color: Theme.of(context).primaryColor),
                             ),
@@ -50,26 +53,26 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                           alignment: AlignmentDirectional.centerStart,
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
-                            child: Text("USD 1,000,000"),
+                            child: Text(asset.currentValue.convertMoney(addDollar: true,textDollar: true)),
                           ),
                         ),
                       );
                     case 2:
-                      return ChangeWidget(number: 10.0, text: "10.0%");
+                      return ChangeWidget(number: asset.yearToDate, text: "${asset.yearToDate}%");
                     case 3:
-                      return ChangeWidget(number: -10.0, text: "-10.0%");
+                      return ChangeWidget(number: asset.inceptionToDate, text: "${asset.inceptionToDate}%");
                     case 4:
                       return Expanded(
                         child: Align(
                           alignment: AlignmentDirectional.centerEnd,
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
-                            child: Text("North Africa"),
+                            child: Text(asset.geography),
                           ),
                         ),
                       );
                     default:
-                      return SizedBox();
+                      return const SizedBox();
                   }
                 },
               ),
