@@ -33,7 +33,9 @@ class AutoManualPage extends AppStatelessWidget {
                     title: "Automatically link your accounts",
                     description:
                         "Connect your financial account in seconds to securely and automatically synchronize your balances.",
-                    onTap: () {},
+                    onTap: () {
+                      context.pushNamed(AppRoutes.addBankAutoPage);
+                    },
                     buttonText: "Automatically connect",
                   ),
                   Stack(

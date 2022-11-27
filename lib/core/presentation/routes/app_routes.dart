@@ -20,6 +20,7 @@ class AppRoutes {
   static const String addAssetsView = "add_assets_view";
   static const String autoManualPage = "auto_manual";
   static const String addBankManualPage = "add_manual_bank";
+  static const String addBankAutoPage = "add_auto_bank";
   static const String addPrivateEquity = "add_private_equity";
   static const String addListedAsset = "add_listed_asset";
   static const String addRealEstate = "add_real_estate";
