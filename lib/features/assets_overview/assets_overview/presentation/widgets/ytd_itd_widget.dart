@@ -3,10 +3,13 @@ import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/info_icon.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 
+
 class YtdItdWidget extends StatelessWidget {
   final bool expand;
+  final double ytd;
+  final double itd;
   const YtdItdWidget({
-    Key? key, this.expand = false
+    Key? key, this.expand = false,required this.ytd,required this.itd
   }) : super(key: key);
 
   @override
@@ -14,8 +17,8 @@ class YtdItdWidget extends StatelessWidget {
     return Row(
       children: List.generate(2, (index) {
         final List items = [
-          ["YTD", 8.03, "8.03%"],
-          ["ITD", 30.51, "30.51%"],
+          ["YTD", ytd, "$ytd%"],
+          ["ITD", itd, "$itd%"],
         ];
         final item = items[index];
         return ExpandedIf(

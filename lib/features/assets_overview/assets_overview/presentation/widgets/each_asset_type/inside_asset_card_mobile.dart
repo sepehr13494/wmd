@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../domain/entities/assets_overview_entity.dart';
+
 class InsideAssetCardMobile extends AppStatelessWidget {
-  const InsideAssetCardMobile({Key? key}) : super(key: key);
+  final AssetList asset;
+  const InsideAssetCardMobile({Key? key,required this.asset}) : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -32,12 +36,12 @@ class InsideAssetCardMobile extends AppStatelessWidget {
                           FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
-                              "Alphabet Inc class A",
+                              asset.assetName,
                               style: TextStyle(
                                   color: Theme.of(context).primaryColor),
                             ),
                           ),
-                          Text("North America"),
+                          Text(asset.geography),
                         ],
                       ),
                     ),
@@ -48,12 +52,12 @@ class InsideAssetCardMobile extends AppStatelessWidget {
           ),
           Column(
             children: [
-              Text("\$1,000,000"),
+              Text(asset.currentValue.convertMoney(addDollar: true)),
               Row(
                 children: [
-                  ChangeWidget(number: 10.0, text: "00.0%"),
+                  ChangeWidget(number: asset.yearToDate, text: "${asset.yearToDate}%"),
                   const SizedBox(width: 8),
-                  ChangeWidget(number: -20.0, text: "00.0%"),
+                  ChangeWidget(number: asset.inceptionToDate, text: "${asset.inceptionToDate}%"),
                 ],
               )
             ],

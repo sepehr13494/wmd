@@ -20,7 +20,7 @@ class GlobalFunctions {
                   ? Icons.check_circle
                   : Icons.info),
           const SizedBox(width: 10),
-          Text(content)
+          Expanded(child: Text(content))
         ],
       ),
       backgroundColor: type == "error"
