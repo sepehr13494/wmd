@@ -13,7 +13,8 @@ class ServerRequestManager {
     String baseUrl = appRequestOptions.fullUrl ? "" : AppUrls.baseUrl;
     Response response;
     dynamic clearBody;
-    if (appRequestOptions.body != null) {
+    if (appRequestOptions.body != null &&
+        appRequestOptions.body is Map<String, dynamic>) {
       clearBody = appRequestOptions.body;
       clearBody!.removeWhere((key, value) => value == null);
     }

@@ -15,7 +15,7 @@ class AutoManualPage extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     return Scaffold(
-      appBar: AppBar(title: Text("Asset Detail")),
+      appBar: AppBar(title: const Text("Asset Detail")),
       body: Stack(
         children: [
           const LeafBackground(),

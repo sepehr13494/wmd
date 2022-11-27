@@ -18,6 +18,7 @@ import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_head
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/injection_container.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/extentions/string_ext.dart';
@@ -105,12 +106,15 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                 extraValidators: [
                   (val) {
                     return ((int.tryParse(val ?? "0") ?? 0) < 100)
-                        ? null
+                        ? (int.tryParse(val ?? "0") ?? 0) < 0
+                            ? "Rate cannot be negative"
+                            : null
                         : "Rate can't be greater then 100";
                   }
                 ],
                 name: "interestRate",
                 hint: "50.00",
+                type: TextFieldType.rate,
                 required: false,
               ),
             ),
@@ -202,7 +206,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                  color: AppColors.anotherCardColor,
+                  color: Theme.of(context).brightness == Brightness.dark ? AppColors.anotherCardColorForDarkTheme : AppColors.anotherCardColorForLightTheme,
                   borderRadius: BorderRadius.circular(8)),
               child: Align(
                 alignment: AlignmentDirectional.centerStart,
@@ -250,13 +254,16 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                       title: "Rate (optional)",
                       child: AppTextFields.simpleTextField(
                           name: "interestRate",
+                          type: TextFieldType.rate,
                           required: false,
                           hint: "Enter rate",
                           onChanged: checkFinalValid,
                           extraValidators: [
                             (val) {
                               return ((int.tryParse(val ?? "0") ?? 0) < 100)
-                                  ? null
+                                  ? (int.tryParse(val ?? "0") ?? 0) < 0
+                                      ? "Rate cannot be negative"
+                                      : null
                                   : "Rate can't be greater then 100";
                             }
                           ],
@@ -304,6 +311,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                       listener: BlocHelper.defaultBlocListener(
                           listener: (context, state) {
                         if (state is BankDetailSaved) {
+                          context.read<MainDashboardCubit>().initPage();
                           final successValue = state.bankSaveResponse;
                           showDialog(
                             context: context,
@@ -325,19 +333,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                     .convertMoney(),
                               );
                             },
-                          ).then((isConfirm) {
-                            if (isConfirm != null && isConfirm == true) {
-                              // View Asset detail button
-                              GoRouter.of(context).goNamed(AppRoutes.dashboard);
-                              // context.goNamed(AppRoutes.dashboard);
-                            } else if (isConfirm != null &&
-                                isConfirm == false) {
-                              // add another asset button
-                              GoRouter.of(context)
-                                  .goNamed(AppRoutes.addAssetsView);
-                              // context.goNamed(AppRoutes.dashboard);
-                            }
-                          });
+                          );
                         }
                       }),
                       builder: (context, state) {
@@ -390,6 +386,13 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                     title: "Description",
                                     child: AppTextFields.simpleTextField(
                                         required: false,
+                                        extraValidators: [
+                                          (val) {
+                                            return ((val?.length ?? 0) > 100
+                                                ? "Description must be at most 100 characters"
+                                                : null);
+                                          }
+                                        ],
                                         name: "description",
                                         hint:
                                             "A nickname you give to your account"),

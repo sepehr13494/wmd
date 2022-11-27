@@ -68,8 +68,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (context) => sl<LocalizationManager>()
               ..changeLang(sl<LocalStorage>().getLocale())),
-        BlocProvider(
-            create: (context) => sl<UserStatusCubit>()..getUserStatus()),
+        BlocProvider(create: (context) => sl<UserStatusCubit>()),
         BlocProvider(create: (context) => sl<MainDashboardCubit>()),
       ],
       child: Builder(builder: (context) {

@@ -36,6 +36,12 @@ class ErrorHandlerMiddleware {
         if (appRequestOptions.checkResponse) {
           if ((response.statusCode ?? 600) < 300) {
             return response.data;
+          } else if ((response.statusCode ?? 600) >= 500) {
+            throw ServerException(
+                data: response.data,
+                type: ExceptionType.unExpected,
+                message:
+                    "Something went wrong on server with ${response.statusCode}");
           } else {
             throw ServerException(
                 message: response.data["message"] ?? "Un expected error",

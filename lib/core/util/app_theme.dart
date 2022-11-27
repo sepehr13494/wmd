@@ -104,4 +104,5 @@ class AppThemes {
           headlineSmall: TextStyle(height: 1.3),
         ));
   }
+
 }

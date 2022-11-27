@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wmd/core/presentation/widgets/info_icon.dart';
 
 class TextWithInfo extends StatelessWidget {
   final String title;
@@ -14,7 +15,7 @@ class TextWithInfo extends StatelessWidget {
         const SizedBox(width: 4),
         hasInfo? InkWell(
           onTap: onInfoTap,
-          child: Icon(Icons.info_outline,color: Theme.of(context).primaryColor,size: 15,),
+          child: const InfoIcon(),
         ) : const SizedBox()
       ],
     );

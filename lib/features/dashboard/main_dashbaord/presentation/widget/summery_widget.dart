@@ -4,6 +4,7 @@ import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/text_with_info.dart';
 import 'package:wmd/core/util/colors.dart';
@@ -62,8 +63,6 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
           showRow: !isMobile,
           children: List.generate(items.length, (index) {
             final item = items[index];
-            final bool isPositive = item[3] > 0;
-            final bool isZero = item[3] == 0;
             return ExpandedIf(
               expanded: !isMobile,
               child: Card(
@@ -78,15 +77,13 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
                       const SizedBox(height: 8),
                       Builder(
                         builder: (context) {
-                          final color = isZero ? null : (isPositive ? Colors.green : Colors.red);
                           return FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Row(
                               children: [
                                 Text(item[2],style: textTheme.bodySmall!.apply(color: AppColors.dashBoardGreyTextColor),),
                                 const SizedBox(width: 8),
-                                isZero ? const SizedBox() : Icon(isPositive ? Icons.arrow_drop_up : Icons.arrow_drop_down,color: color,),
-                                Text((item[3] as double).convertMoney(addDollar: true),style: TextStyle(color: color),),
+                                ChangeWidget(number: item[3], text: (item[3] as double).convertMoney(addDollar: true))
                               ],
                             ),
                           );
