@@ -97,7 +97,7 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                           builder: (context) {
                             return SuccessModalWidget(
                               title:
-                                  '[Asset] is successfully added to wealth overview',
+                                  'Private debt is successfully added to wealth overview',
                               confirmBtn: appLocalizations
                                   .common_formSuccessModal_buttons_viewAsset,
                               cancelBtn: appLocalizations
@@ -125,11 +125,13 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Add private debt",
+                                  appLocalizations
+                                      .assetLiabilityForms_heading_privateDebt,
                                   style: textTheme.headlineSmall,
                                 ),
                                 Text(
-                                  "Asset defined by non-bank lending where debt is not issued or traded on the public markets",
+                                  appLocalizations
+                                      .assetLiabilityForms_subHeading_privateDebt,
                                   style: textTheme.bodySmall,
                                 ),
                                 Text(

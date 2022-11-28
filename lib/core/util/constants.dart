@@ -276,4 +276,57 @@ class AppConstants {
     "Zuger Kantonalbank (ZGKB)",
     "Zürcher Kantonalbank (ZKB)"
   ];
+
+  static const securityList = [
+    {
+      "category": "Equity",
+      "currencyCode": "USD",
+      "isin": "US02079K1079",
+      "label": "Amazon.com, Inc.",
+      "securityName": "Amazon.com, Inc.",
+      "securityShortName": "AMZN",
+      "tradedExchange": "Nasdaq",
+      "value": "Amazon.com, Inc."
+    },
+    {
+      "category": "ETFs",
+      "currencyCode": "IND",
+      "isin": "US02079K1079",
+      "label": "Alphabet Inc Class A",
+      "securityName": "Alphabet Inc Class A",
+      "securityShortName": "GOOGL",
+      "tradedExchange": "S&P",
+      "value": "Alphabet Inc Class A"
+    },
+    {
+      "category": "EFF",
+      "currencyCode": "UAD",
+      "isin": "US02079K1079",
+      "label": "Tesla, Inc.",
+      "securityName": "Tesla, Inc.",
+      "securityShortName": "TSLA",
+      "tradedExchange": "DOW",
+      "value": "Tesla, Inc."
+    },
+    {
+      "category": "ETFs",
+      "currencyCode": "USD",
+      "isin": "US02079K1079",
+      "label": "Meta Platforms, Inc. ",
+      "securityName": "Meta Platforms, Inc. ",
+      "securityShortName": "META",
+      "tradedExchange": "Russell",
+      "value": "Meta Platforms, Inc. "
+    },
+    {
+      "category": "Mutual Fund",
+      "currencyCode": "USD",
+      "isin": "US02079K1079",
+      "label": "Alphabet Inc Class C",
+      "securityName": "Alphabet Inc Class C",
+      "securityShortName": "GOOGL",
+      "tradedExchange": "Nasdaq",
+      "value": "Alphabet Inc Class C"
+    }
+  ];
 }

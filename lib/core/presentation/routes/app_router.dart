@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/pages/add_bank_manual_page.dart';
+import 'package:wmd/features/add_assets/add_listed_security/presentation/pages/add_listed_security_page.dart';
 import 'package:wmd/features/add_assets/add_other_asset/presentation/pages/add_other_asset_page.dart';
 import 'package:wmd/features/add_assets/add_private_debt/presentation/pages/add_private_debt_page.dart';
 import 'package:wmd/features/add_assets/add_private_equity/presentation/pages/add_private_equity_page.dart';
@@ -130,6 +131,12 @@ class AppRouter {
                       path: "add_other",
                       builder: (BuildContext context, GoRouterState state) {
                         return const AddOtherAssetPage();
+                      }),
+                  GoRoute(
+                      name: AppRoutes.addListedAsset,
+                      path: "add_listed_asset",
+                      builder: (BuildContext context, GoRouterState state) {
+                        return const AddListedSecurityPage();
                       }),
                 ]),
           ])

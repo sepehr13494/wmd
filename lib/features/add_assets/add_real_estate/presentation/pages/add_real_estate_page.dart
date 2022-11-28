@@ -96,7 +96,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                           builder: (context) {
                             return SuccessModalWidget(
                               title:
-                                  '[Asset] is successfully added to wealth overview',
+                                  'Real Estate is successfully added to wealth overview',
                               confirmBtn: appLocalizations
                                   .common_formSuccessModal_buttons_viewAsset,
                               cancelBtn: appLocalizations
@@ -128,7 +128,8 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                   style: textTheme.headlineSmall,
                                 ),
                                 Text(
-                                  "Investments made in residential, commercial and land real estate.",
+                                  appLocalizations
+                                      .manage_assetAndLiability_assetAndLiabilityList_realEstate_description,
                                   style: textTheme.bodySmall,
                                 ),
                                 Text(
