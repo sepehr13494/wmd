@@ -28,7 +28,7 @@ class YourPrivacyWidget extends AppStatelessWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
-                  "Your privacy & data security is our utmost priority",
+                  appLocalizations.manage_securityInfoWidget_title,
                   style: textTheme.titleMedium!.apply(color: primaryColor),
                 ),
               )
@@ -39,7 +39,7 @@ class YourPrivacyWidget extends AppStatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  "Your credentials are never accessible to any other service. Your data is secured in transit using bank grade TLS 1.2 technology.",
+                  appLocalizations.manage_securityInfoWidget_description,
                   style: textTheme.bodyMedium!
                       .apply(color: AppColors.dashBoardGreyTextColor),
                 ),
