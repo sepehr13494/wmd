@@ -32,6 +32,8 @@ class ServerFailure extends Failure {
           message: exception.message,
           data: exception.data,
           type: exception.type);
+
+  static const tServerFailure = ServerFailure(message: "test message");
 }
 
 class AppFailure extends Failure {
