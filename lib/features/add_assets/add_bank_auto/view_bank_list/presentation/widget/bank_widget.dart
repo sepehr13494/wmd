@@ -41,14 +41,13 @@ class _BankWidgetState extends AppState<BankWidget> {
           leading: bank.logo == null
               ? Icon(Icons.account_balance, color: primaryColor)
               : Image.network(bank.logo!),
-          subtitle: Text(bank.providerCode ?? 'No provider'),
+          subtitle: Text(bank.provider ?? 'No provider'),
           trailing: !isSelected
               ? null
               : Builder(
                   builder: (context) {
                     switch (bank.provider) {
                       case BankProviders.plaid:
-                        // return const Text('Plain connect');
                         return PlaidConnectButton(bank);
                       case BankProviders.lean:
                         return const Text('Lean connect');

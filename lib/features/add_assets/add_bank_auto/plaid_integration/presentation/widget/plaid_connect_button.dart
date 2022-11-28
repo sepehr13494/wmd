@@ -24,13 +24,12 @@ class PlaidConnectButton extends AppStatelessWidget {
           builder: (context, state) {
             if (state is PlaidInitialState || state is ErrorState) {
               //Should handle initial state
-              // return InkWell(
-              //   onTap: () {
-              //     context.read<PlaidCubit>().linkPlaidAccount(bank);
-              //   },
-              //   child: _buildContainerWithborder('Connect', primaryColor),
-              // );
-              return _buildContainerWithborder('Connect');
+              return InkWell(
+                onTap: () {
+                  context.read<PlaidCubit>().linkPlaidAccount(bank);
+                },
+                child: _buildContainerWithborder('Connect', primaryColor),
+              );
             } else if (state is PlaidLinkSuccess) {
               return _buildContainerWithborder('Connected');
             } else {
