@@ -25,3 +25,4 @@ class AssetsOverviewRemoteDataSourceImpl extends AppServerDataSource
     return result;
   }
 }
+
