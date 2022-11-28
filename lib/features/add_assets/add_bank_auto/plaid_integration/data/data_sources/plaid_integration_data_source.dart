@@ -5,15 +5,15 @@ import 'package:plaid_flutter/plaid_flutter.dart';
 import 'package:wmd/core/models/app_request_options.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/data/models/link_token_response.dart';
 
-abstract class PlaidIntegrationRemoteDataSource {
+abstract class PlaidLinkRemoteDataSource {
   Future<LinkTokenResponse> getLinkToken(String redirectUrl, String provider);
   Future<Stream<LinkEvent>> getPublicToken(String linkToken);
   Future<String> postPublicToken(String publicToken);
 }
 
-class PlaidIntegrationRemoteDataSourceImpl extends AppServerDataSource
-    implements PlaidIntegrationRemoteDataSource {
-  PlaidIntegrationRemoteDataSourceImpl(super.errorHandlerMiddleware);
+class PlaidLinkRemoteDataSourceImpl extends AppServerDataSource
+    implements PlaidLinkRemoteDataSource {
+  PlaidLinkRemoteDataSourceImpl(super.errorHandlerMiddleware);
 
   @override
   Future<LinkTokenResponse> getLinkToken(

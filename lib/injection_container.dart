@@ -166,6 +166,17 @@ Future<void> init() async {
       () => BankListRepositoryImpl(sl()));
   sl.registerLazySingleton<BankListRemoteDataSource>(
       () => BankListRemoteDataSourceImpl(sl()));
+
+  // Plaid integration
+  sl.registerFactory(() => PlaidCubit(
+        sl(),
+      ));
+  sl.registerLazySingleton(() => PlaidLinkUseCase(sl()));
+  sl.registerLazySingleton<PlaidLinkRepository>(
+      () => PlaidLinkRepositoryImpl(sl()));
+  sl.registerLazySingleton<PlaidLinkRemoteDataSource>(
+      () => PlaidLinkRemoteDataSourceImpl(sl()));
+
   // Add base private debt
   sl.registerFactory(() => PrivateDebtCubit(sl()));
   sl.registerLazySingleton(() => AddPrivateDebtUseCase(sl(), sl()));

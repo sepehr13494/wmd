@@ -6,7 +6,7 @@ import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/data/dat
 import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/domain/repository/plaid_link_repository.dart';
 
 class PlaidLinkRepositoryImpl implements PlaidLinkRepository {
-  final PlaidIntegrationRemoteDataSource plaidIntegrationRemoteDataSource;
+  final PlaidLinkRemoteDataSource plaidIntegrationRemoteDataSource;
 
   PlaidLinkRepositoryImpl(this.plaidIntegrationRemoteDataSource);
   @override
