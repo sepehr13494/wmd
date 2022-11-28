@@ -54,7 +54,7 @@ void main() {
       expect(
           () => call(tAppRequestOptions),
           throwsA(const TypeMatcher<ServerException>()
-              .having((e) => e.type, 'type', ServerExceptionType.normal)));
+              .having((e) => e.type, 'type', ExceptionType.normal)));
       verify(mockRequestManager.sendRequest(tAppRequestOptions));
     });
 
@@ -74,7 +74,7 @@ void main() {
       expect(
           () => call(tAppRequestOptions),
           throwsA(const TypeMatcher<ServerException>()
-              .having((e) => e.type, 'type', ServerExceptionType.auth)));
+              .having((e) => e.type, 'type', ExceptionType.auth)));
       verify(mockRequestManager.sendRequest(tAppRequestOptions));
     });
 

@@ -42,7 +42,7 @@ Future<void> main() async {
           await mainDashboardRemoteDataSourceImpl.userNetWorth(NetWorthParams.tNetWorthParams);
       //assert
       verify(mockErrorHandlerMiddleware.sendRequest(tGetNetWorthOptions));
-      expect(result, NetWorthResponseObj.fromJson(NetWorthResponseObj.tNetWorthResponseObj.toJson()));
+      expect(result, NetWorthResponseObj.tNetWorthResponseObj);
     });
 
     test('should throws ServerException when API call is not successful',

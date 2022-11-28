@@ -3,8 +3,11 @@ import 'package:wmd/core/error_and_success/exeptions.dart';
 
 abstract class Failure extends Equatable {
   final String message;
+  final ExceptionType type;
+  final dynamic data;
 
-  const Failure({required this.message});
+  const Failure(
+      {required this.message, this.type = ExceptionType.normal, this.data});
 
   @override
   List<Object?> get props => [message];
@@ -15,22 +18,28 @@ class CacheFailure extends Failure {
 }
 
 class ServerFailure extends Failure {
-  final ServerExceptionType type;
-  final dynamic data;
-
   const ServerFailure(
       {required String message,
-      this.type = ServerExceptionType.normal,
-      this.data})
-      : super(message: message);
+      ExceptionType type = ExceptionType.normal,
+      dynamic data})
+      : super(message: message, data: data, type: type);
 
   @override
   List<Object?> get props => [message, type, data];
 
   factory ServerFailure.fromServerException(ServerException exception) =>
-      ServerFailure(message: exception.message,data: exception.data,type: exception.type);
+      ServerFailure(
+          message: exception.message,
+          data: exception.data,
+          type: exception.type);
+
+  static const tServerFailure = ServerFailure(message: "test message");
 }
 
 class AppFailure extends Failure {
-  const AppFailure({required String message}) : super(message: message);
+  const AppFailure(
+      {required String message,
+      ExceptionType type = ExceptionType.normal,
+      dynamic data})
+      : super(message: message, data: data, type: type);
 }

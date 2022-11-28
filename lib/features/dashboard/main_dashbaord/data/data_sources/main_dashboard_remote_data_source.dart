@@ -1,7 +1,6 @@
 import 'package:wmd/core/data/network/server_request_manager.dart';
 import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/data/repository/app_data_source.dart';
-import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/models/app_request_options.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/data/models/net_worth_response_obj.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/data/models/net_worth_params.dart';

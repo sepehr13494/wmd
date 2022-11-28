@@ -3,6 +3,10 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:wmd/core/data/network/error_handler_middleware.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/data/data_sources/bank_list_data_source.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/data/repository/bank_list_repository_impl.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/domain/usecase/get_bank_list.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/presentation/manager/bank_list_cubit.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/data/data_sources/bank_details_save_remote_data_source.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/data/repositories/bank_repository_impl.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/repositories/bank_repository.dart';
@@ -23,6 +27,11 @@ import 'package:wmd/features/add_assets/add_private_equity/data/repositories/pri
 import 'package:wmd/features/add_assets/add_private_equity/domain/repositories/private_equity_repository.dart';
 import 'package:wmd/features/add_assets/add_private_equity/domain/use_cases/add_private_equity_usecase.dart';
 import 'package:wmd/features/add_assets/add_private_equity/presentation/manager/private_equity_cubit.dart';
+import 'package:wmd/features/assets_overview/assets_overview/data/data_sources/asset_overview_remote_datasource.dart';
+import 'package:wmd/features/assets_overview/assets_overview/data/repositories/assets_overview_repository_impl.dart';
+import 'package:wmd/features/assets_overview/assets_overview/domain/repositories/assets_overview_repository.dart';
+import 'package:wmd/features/assets_overview/assets_overview/domain/use_cases/get_assets_overview_usecase.dart';
+import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
 import 'package:wmd/features/add_assets/add_real_estate/data/data_sources/real_estate_remote_data_source.dart';
 import 'package:wmd/features/add_assets/add_real_estate/data/repositories/real_estate_repository_impl.dart';
 import 'package:wmd/features/add_assets/add_real_estate/domain/repositories/real_estate_repository.dart';
@@ -64,6 +73,8 @@ import 'core/util/app_localization.dart';
 import 'core/util/app_theme.dart';
 import 'core/util/device_info.dart';
 import 'core/util/local_storage.dart';
+import 'features/add_assets/add_bank_auto/domain/repository/bank_list_repository.dart';
+import 'features/add_assets/add_bank_auto/domain/usecase/get_popular_bank_list.dart';
 import 'features/splash/data/repositories/splash_repository_impl.dart';
 import 'features/splash/domain/repositories/splash_repository.dart';
 import 'features/splash/domain/use_cases/check_login_usecase.dart';
@@ -119,6 +130,14 @@ Future<void> init() async {
   sl.registerLazySingleton<MainDashboardRemoteDataSource>(
       () => MainDashboardRemoteDataSourceImpl(sl()));
 
+  //AssetOverview
+  sl.registerFactory(() => AssetsOverviewCubit(sl()));
+  sl.registerLazySingleton(() => GetAssetsOverviewUseCase(sl()));
+  sl.registerLazySingleton<AssetsOverviewRepository>(
+          () => AssetsOverviewRepositoryImpl(sl()));
+  sl.registerLazySingleton<AssetsOverviewRemoteDataSource>(
+          () => AssetsOverviewRemoteDataSourceImpl(sl()));
+
   // Dashboard - user status dependencies
   sl.registerFactory(() => UserStatusCubit(sl(), sl()));
   sl.registerLazySingleton(() => GetUserStatusUseCase(sl()));
@@ -147,6 +166,14 @@ Future<void> init() async {
   sl.registerLazySingleton<BankSaveRemoteDataSource>(
       () => BankSaveRemoteDataSourceImpl(sl()));
 
+  // Bank List
+  sl.registerFactory(() => BankListCubit(sl(), sl()));
+  sl.registerLazySingleton(() => GetBankListsUseCase(sl()));
+  sl.registerLazySingleton(() => GetPopularBankListUseCase(sl()));
+  sl.registerLazySingleton<BankListRepository>(
+      () => BankListRepositoryImpl(sl()));
+  sl.registerLazySingleton<BankListRemoteDataSource>(
+      () => BankListRemoteDataSourceImpl(sl()));
   // Add base private debt
   sl.registerFactory(() => PrivateDebtCubit(sl()));
   sl.registerLazySingleton(() => AddPrivateDebtUseCase(sl(), sl()));
