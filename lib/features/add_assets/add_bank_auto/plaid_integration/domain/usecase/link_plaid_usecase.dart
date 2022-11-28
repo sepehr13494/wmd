@@ -9,13 +9,15 @@ class PlaidLinkUseCase extends UseCase<String, BankEntity> {
 
   PlaidLinkUseCase(this.plaidLinkRepository);
 
+  static const redirectUrl = 'app://wmd.com/home';
+
   @override
   Future<Either<Failure, String>> call(BankEntity params) async {
     if (params.provider == null) {
       return const Left(AppFailure(message: 'Unknown provider'));
     }
-    final linkTokenResult = await plaidLinkRepository.getLinkToken(
-        'app://wmd.com/home', params.provider!);
+    final linkTokenResult =
+        await plaidLinkRepository.getLinkToken(redirectUrl, params.provider!);
     if (linkTokenResult.isLeft()) return linkTokenResult;
     final linkToken = linkTokenResult.fold((l) => null, (r) => r);
     final publicTokenResult =
