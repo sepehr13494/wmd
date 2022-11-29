@@ -14,8 +14,9 @@ import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/add_listed_security/presentation/manager/listed_security_cubit.dart';
 import 'package:wmd/features/add_assets/add_other_asset/presentation/manager/other_asset_cubit.dart';
 import 'package:wmd/features/add_assets/core/constants.dart';
+import 'package:wmd/features/add_assets/core/data/models/currency.dart';
+import 'package:wmd/features/add_assets/core/data/models/listed_security_name.dart';
 import 'package:wmd/features/add_assets/core/data/models/listed_security_type.dart';
-import 'package:wmd/features/add_assets/core/data/models/other_asset_type.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal.dart';
@@ -35,7 +36,8 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
   String currentDayValue = "--";
   String? noOfUnits = "";
   String? valuePerUnit = "";
-  Map<String, String>? securityName;
+  ListedSecurityName? securityName;
+  bool isFixedIncome = false;
   @override
   void didUpdateWidget(covariant AddListedSecurityPage oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -102,6 +104,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                   : () {
                       Map<String, dynamic> finalMap = {
                         ...formKey.currentState!.instantValue,
+                        "totalCost": currentDayValue,
                       };
 
                       print(finalMap);
@@ -121,10 +124,10 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                             ListedSecurityState>(
                         listener: BlocHelper.defaultBlocListener(
                             listener: (context, state) {
-                      if (state is OtherAssetSaved) {
+                      if (state is ListedSecuritySaved) {
                         context.read<MainDashboardCubit>().initPage();
 
-                        final successValue = state.otherAssetSaveResponse;
+                        final successValue = state.listedSecuritySaveResponse;
                         showDialog(
                           context: context,
                           builder: (context) {
@@ -179,11 +182,27 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                     child: ListedSecurityTypeAhead(
                                         name: "name",
                                         onChange: (e) {
+                                          // final currentCurrency = Currency
+                                          //     .currenciesList
+                                          //     .firstWhere((element) =>
+                                          //         element.symbol ==
+                                          //         e?.currencyCode);
+                                          // if (currentCurrency != null) {
+                                          // formKey.currentState
+                                          //     ?.setInternalFieldValue(
+                                          //         "currencyCode",
+                                          //         currentCurrency,
+                                          //         isSetState: true);
+                                          // }
+
+                                          checkFinalValid(e);
+
                                           setState(() {
                                             securityName = e;
                                           });
                                         },
-                                        items: AppConstants.securityList,
+                                        items: ListedSecurityName
+                                            .listedSecurityNameList,
                                         hint: appLocalizations
                                             .assetLiabilityForms_forms_listedAssets_inputFields_securityName_placeholder)),
                                 Container(
@@ -215,14 +234,14 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                                           MainAxisAlignment
                                                               .spaceBetween,
                                                       children: [
-                                                        Text(securityName![
-                                                                "securityName"] ??
+                                                        Text(securityName
+                                                                ?.securityName ??
                                                             ""),
-                                                        Text(securityName![
-                                                                "currencyCode"] ??
+                                                        Text(securityName
+                                                                ?.currencyCode ??
                                                             ""),
-                                                        Text(securityName![
-                                                                "category"] ??
+                                                        Text(securityName
+                                                                ?.category ??
                                                             "")
                                                       ],
                                                     ),
@@ -230,22 +249,22 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                                     Row(
                                                       children: [
                                                         Text(
-                                                            securityName![
-                                                                    "securityShortName"] ??
+                                                            securityName
+                                                                    ?.securityShortName ??
                                                                 "",
                                                             style: textTheme
                                                                 .bodySmall),
                                                         const Text(" . "),
                                                         Text(
-                                                            securityName![
-                                                                    "tradedExchange"] ??
+                                                            securityName
+                                                                    ?.tradedExchange ??
                                                                 "",
                                                             style: textTheme
                                                                 .bodySmall),
                                                       ],
                                                     ),
                                                     Text(
-                                                        securityName!["isin"] ??
+                                                        securityName?.isin ??
                                                             "",
                                                         style:
                                                             textTheme.bodySmall)
@@ -272,6 +291,25 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                     onChanged: (val) async {
                                       await Future.delayed(
                                           const Duration(milliseconds: 200));
+
+                                      if (val == "Fixed Income") {
+                                        setState(() {
+                                          isFixedIncome = true;
+                                        });
+                                      } else {
+                                        formKey.currentState
+                                            ?.setInternalFieldValue(
+                                                "maturityDate", null,
+                                                isSetState: true);
+                                        formKey.currentState
+                                            ?.setInternalFieldValue(
+                                                "couponRate", null,
+                                                isSetState: true);
+                                        setState(() {
+                                          isFixedIncome = false;
+                                        });
+                                      }
+
                                       checkFinalValid(val);
                                     },
                                     name: "category",
@@ -383,6 +421,55 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                     ),
                                   ),
                                 ),
+                                if (isFixedIncome)
+                                  Column(children: [
+                                    EachTextField(
+                                      hasInfo: false,
+                                      title: "Coupon Rate",
+                                      child: AppTextFields.simpleTextField(
+                                          extraValidators: [
+                                            (val) {
+                                              return ((int.tryParse(
+                                                              val ?? "0") ??
+                                                          0) <=
+                                                      100)
+                                                  ? null
+                                                  : "Ownership can't be greater then 100";
+                                            }
+                                          ],
+                                          type: TextFieldType.number,
+                                          keyboardType: TextInputType.number,
+                                          onChanged: checkFinalValid,
+                                          name: "couponRate",
+                                          hint: "00",
+                                          suffixIcon: Icon(
+                                            Icons.percent,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                          )),
+                                    ),
+                                    const SizedBox(height: 30),
+                                    EachTextField(
+                                      title: "Maturity Date",
+                                      child: FormBuilderDateTimePicker(
+                                        onChanged: (selectedDate) {
+                                          checkFinalValid(selectedDate);
+                                        },
+                                        lastDate: DateTime.now(),
+                                        inputType: InputType.date,
+                                        format: DateFormat("dd/MM/yyyy"),
+                                        name: "maturityDate",
+                                        decoration: InputDecoration(
+                                            suffixIcon: Icon(
+                                              Icons.calendar_today_outlined,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                            ),
+                                            hintText: appLocalizations
+                                                .assetLiabilityForms_forms_listedAssets_inputFields_acquisitionDate_placeholder),
+                                      ),
+                                    ),
+                                  ]),
                                 const SizedBox(height: 60),
                               ]
                                   .map((e) => Padding(

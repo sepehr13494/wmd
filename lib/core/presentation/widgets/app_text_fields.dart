@@ -6,13 +6,13 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
-import 'package:wmd/core/extentions/app_form_validators.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
-import 'package:wmd/core/extentions/date_time_ext.dart';
+import 'package:wmd/features/add_assets/core/data/models/listed_security_name.dart';
 
 class CurrencyInputFormatter extends TextInputFormatter {
+  @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
     if (newValue.selection.baseOffset == 0) {
@@ -165,6 +165,7 @@ class CurrenciesDropdown extends StatefulWidget {
 class _CurrenciesDropdownState extends State<CurrenciesDropdown> {
   Currency? selectedCurrency =
       Currency(symbol: "USD", name: "United States dollar");
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -343,8 +344,8 @@ class _FormBuilderTypeAheadState extends State<FormBuilderTypeAhead> {
 class ListedSecurityTypeAhead extends StatefulWidget {
   final String name;
   final String hint;
-  final List<Map<String, String>> items;
-  final ValueChanged<Map<String, String>?>? onChange;
+  final List<ListedSecurityName> items;
+  final ValueChanged<ListedSecurityName?>? onChange;
 
   const ListedSecurityTypeAhead(
       {Key? key,
@@ -366,7 +367,7 @@ class _ListedSecurityTypeAheadState extends State<ListedSecurityTypeAhead> {
   Widget build(BuildContext context) {
     final appTextTheme = Theme.of(context).textTheme;
 
-    return FormBuilderField<Map<String, String>?>(
+    return FormBuilderField<ListedSecurityName?>(
         builder: (state) {
           return TypeAheadField(
             animationStart: 0,
@@ -378,21 +379,19 @@ class _ListedSecurityTypeAheadState extends State<ListedSecurityTypeAhead> {
               controller: typeController,
               onChanged: (value) {
                 final currentValue = widget.items
-                    .firstWhere((element) => element["securityName"] == value);
+                    .firstWhere((element) => element.securityName == value);
                 state.didChange(currentValue);
               },
             ),
             suggestionsCallback: (pattern) {
               return widget.items.where((element) =>
-                  element["securityName"]!
+                  element.securityName
                       .toLowerCase()
                       .contains(pattern.toLowerCase()) ||
-                  element["securityShortName"]!
+                  element.securityShortName
                       .toLowerCase()
                       .contains(pattern.toLowerCase()) ||
-                  element["isin"]!
-                      .toLowerCase()
-                      .contains(pattern.toLowerCase()));
+                  element.isin.toLowerCase().contains(pattern.toLowerCase()));
             },
             itemBuilder: (context, suggestion) {
               return Padding(
@@ -403,28 +402,27 @@ class _ListedSecurityTypeAheadState extends State<ListedSecurityTypeAhead> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(suggestion["securityName"] ?? ""),
-                          Text(suggestion["currencyCode"] ?? ""),
-                          Text(suggestion["category"] ?? "")
+                          Text(suggestion.securityName),
+                          Text(suggestion.currencyCode ?? ""),
+                          Text(suggestion.category)
                         ],
                       ),
                       const SizedBox(height: 5),
                       Row(
                         children: [
-                          Text(suggestion["securityShortName"] ?? "",
+                          Text(suggestion.securityShortName,
                               style: appTextTheme.bodySmall),
                           const Text(" . "),
-                          Text(suggestion["tradedExchange"] ?? "",
+                          Text(suggestion.tradedExchange,
                               style: appTextTheme.bodySmall),
                         ],
                       ),
-                      Text(suggestion["isin"] ?? "",
-                          style: appTextTheme.bodySmall)
+                      Text(suggestion.isin, style: appTextTheme.bodySmall)
                     ]),
               );
             },
             onSuggestionSelected: (suggestion) {
-              typeController.text = suggestion["securityName"] ?? "";
+              typeController.text = suggestion.securityName;
               state.didChange(suggestion);
             },
             hideOnEmpty: true,

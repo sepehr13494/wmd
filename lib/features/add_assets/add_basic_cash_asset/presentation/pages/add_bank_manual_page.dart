@@ -44,11 +44,10 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
   }
 
   void checkFinalValid(value) async {
-    print(value);
     await Future.delayed(const Duration(milliseconds: 100));
     bool finalValid = (baseFormKey.currentState!.isValid &&
         bottomFormKey.currentState!.isValid);
-    print(finalValid);
+
     if (finalValid) {
       if (!enableAddAssetButton) {
         setState(() {
@@ -206,7 +205,9 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                  color: Theme.of(context).brightness == Brightness.dark ? AppColors.anotherCardColorForDarkTheme : AppColors.anotherCardColorForLightTheme,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? AppColors.anotherCardColorForDarkTheme
+                      : AppColors.anotherCardColorForLightTheme,
                   borderRadius: BorderRadius.circular(8)),
               child: Align(
                 alignment: AlignmentDirectional.centerStart,
@@ -291,10 +292,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                       ...baseFormKey.currentState!.instantValue,
                       ...bottomFormKey.currentState!.instantValue,
                     };
-                    print('this is end date 1');
-                    print(date.isDate());
+
                     if (isDepositTerm && endDateToParse.isDate()) {
-                      print('this is end date 2');
                       finalMap["endDate"] = endDateToParse;
                     }
                     context.read<BankCubit>().postBankDetails(map: finalMap);

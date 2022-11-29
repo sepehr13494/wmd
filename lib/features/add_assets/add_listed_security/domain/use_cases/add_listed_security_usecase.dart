@@ -7,6 +7,7 @@ import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/features/add_assets/add_listed_security/domain/repositories/listed_security_repository.dart';
 import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
+import 'package:wmd/features/add_assets/core/data/models/listed_security_name.dart';
 import 'package:wmd/features/add_assets/core/domain/entities/add_asset_response.dart';
 
 class AddListedSecurityUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
@@ -16,27 +17,30 @@ class AddListedSecurityUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
   @override
   Future<Either<Failure, AddAsset>> call(Map<String, dynamic> params) async {
     try {
-      final acquisitionCost =
-          params['acquisitionCost'].toString().replaceAll(',', '');
-      final valuePerUnit =
-          params['valuePerUnit'].toString().replaceAll(',', '');
-      final currentDayValue =
-          params['currentDayValue'].toString().replaceAll(',', '');
+      final marketValue = params['marketValue'].toString().replaceAll(',', '');
+      final totalCost = params['totalCost'].toString().replaceAll(',', '');
+
+      final ListedSecurityName name = params['name'];
+
+      debugPrint("ListedSecurityName");
 
       final newMap = {
         ...params,
-        "acquisitionCost": acquisitionCost,
-        "valuePerUnit": valuePerUnit,
-        "currentDayValue": currentDayValue,
-        "valuationDate": (params['valuationDate']) != null
-            ? params['valuationDate']
-            : DateTime.now(),
+        "securityName": name.securityName,
+        "securityShortName": name.securityShortName,
+        "tradedExchange": name.tradedExchange,
+        "isin": name.isin,
+        "category": name.category,
+        "marketValue": marketValue,
+        "totalCost": totalCost,
       };
 
-      final privateDebtAssetParam = AddListedSecurityParams.fromJson(newMap);
+      debugPrint("newmap");
+      debugPrint(newMap.toString());
 
-      return await listedSecurityRepository
-          .postListedSecurity(privateDebtAssetParam);
+      final assetParam = AddListedSecurityParams.fromJson(newMap);
+
+      return await listedSecurityRepository.postListedSecurity(assetParam);
     } catch (e) {
       debugPrint("AddOtherAssetUseCase catch : ${e.toString()}");
       return const Left(AppFailure(message: "Something went wrong!"));
@@ -58,9 +62,8 @@ class AddListedSecurityParams extends Equatable {
     required this.marketValue,
     required this.quantity,
     required this.totalCost,
-    required this.maturityDate,
-    required this.buyPricePerUnit,
-    required this.valuationDate,
+    this.maturityDate,
+    this.couponRate,
   });
 
   final String securityName;
@@ -75,9 +78,8 @@ class AddListedSecurityParams extends Equatable {
   final double marketValue;
   final double quantity;
   final double totalCost;
-  final DateTime maturityDate;
-  final double buyPricePerUnit;
-  final DateTime valuationDate;
+  final DateTime? maturityDate;
+  final double? couponRate;
 
   factory AddListedSecurityParams.fromJson(Map<String, dynamic> json) =>
       AddListedSecurityParams(
@@ -89,13 +91,22 @@ class AddListedSecurityParams extends Equatable {
         category: json["category"],
         country: (json["country"] as Country).name,
         currencyCode: (json["currencyCode"] as Currency).symbol,
-        investmentDate: json["investmentDate"],
-        marketValue: json["marketValue"],
-        quantity: json["quantity"],
-        totalCost: json["totalCost"],
-        maturityDate: json["maturityDate"],
-        buyPricePerUnit: json["buyPricePerUnit"],
-        valuationDate: json["valuationDate"],
+        investmentDate: DateTime.parse(json["investmentDate"].toString()),
+        marketValue: json["marketValue"] != null
+            ? double.tryParse(json["marketValue"])
+            : json["marketValue"],
+        quantity: json["quantity"] != null
+            ? double.tryParse(json["quantity"])
+            : json["quantity"],
+        totalCost: json["totalCost"] != null
+            ? double.tryParse(json["totalCost"])
+            : json["totalCost"],
+        maturityDate: json["maturityDate"] != null
+            ? DateTime.parse(json["maturityDate"].toString())
+            : json["maturityDate"],
+        couponRate: json["couponRate"] != null
+            ? double.tryParse(json["couponRate"])
+            : json["couponRate"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -111,18 +122,21 @@ class AddListedSecurityParams extends Equatable {
         "marketValue": marketValue,
         "quantity": quantity,
         "totalCost": totalCost,
-        "maturityDate": maturityDate.toIso8601String(),
-        "buyPricePerUnit": buyPricePerUnit,
-        "valuationDate": valuationDate.toIso8601String(),
+        "maturityDate": maturityDate != null
+            ? maturityDate!.toIso8601String()
+            : maturityDate,
+        "couponRate": couponRate
       };
 
   static final tAddListedSecurityMap = {
-    "securityName": "Test Security Asset",
-    "securityShortName": "Test",
-    "tradedExchange": "test",
+    "name": ListedSecurityName.fromJson({
+      "securityName": "Test Security Asset",
+      "securityShortName": "Test",
+      "tradedExchange": "test",
+      "isin": "us209878",
+      "category": "FixedIncome",
+    }),
     "brokerName": "Abbot Downing",
-    "isin": "us209878",
-    "category": "FixedIncome",
     "country": Country(name: "USA", countryName: "USA"),
     "currencyCode": Currency(name: "USD", symbol: "USD"),
     "investmentDate": DateTime.parse('2022-10-05T21:00:00.000Z'),
@@ -130,27 +144,24 @@ class AddListedSecurityParams extends Equatable {
     "quantity": "3",
     "totalCost": "20000",
     "maturityDate": DateTime.parse('2022-10-05T21:00:00.000Z'),
-    "buyPricePerUnit": "20000",
-    "valuationDate": DateTime.parse('2022-10-05T21:00:00.000Z'),
+    "couponRate": "10"
   };
 
   static final tAddListedSecurityParams = AddListedSecurityParams(
-    securityName: "Test Security Asset",
-    securityShortName: "Test",
-    tradedExchange: "test",
-    brokerName: "Abbot Downing",
-    isin: "us209878",
-    category: "FixedIncome",
-    country: "USA",
-    currencyCode: "USD",
-    investmentDate: DateTime.parse('2022-10-05T21:00:00.000Z'),
-    marketValue: 30000,
-    quantity: 3,
-    totalCost: 20000,
-    maturityDate: DateTime.parse('2022-10-05T21:00:00.000Z'),
-    buyPricePerUnit: 20000,
-    valuationDate: DateTime.parse('2022-10-05T21:00:00.000Z'),
-  );
+      securityName: "Test Security Asset",
+      securityShortName: "Test",
+      tradedExchange: "test",
+      brokerName: "Abbot Downing",
+      isin: "us209878",
+      category: "FixedIncome",
+      country: "USA",
+      currencyCode: "USD",
+      investmentDate: DateTime.parse('2022-10-05T21:00:00.000Z'),
+      marketValue: 30000.0,
+      quantity: 3.0,
+      totalCost: 20000.0,
+      maturityDate: DateTime.parse('2022-10-05T21:00:00.000Z'),
+      couponRate: 10.0);
 
   @override
   List<Object?> get props => [
@@ -167,7 +178,6 @@ class AddListedSecurityParams extends Equatable {
         quantity,
         totalCost,
         maturityDate,
-        buyPricePerUnit,
-        valuationDate
+        couponRate
       ];
 }
