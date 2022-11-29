@@ -9,7 +9,7 @@ class PlaidLinkUseCase extends UseCase<String, BankEntity> {
 
   PlaidLinkUseCase(this.plaidLinkRepository);
 
-  static const redirectUrl = 'app://wmd.com/home';
+  static const redirectUrl = 'app://wmd.com';
 
   @override
   Future<Either<Failure, String>> call(BankEntity params) async {

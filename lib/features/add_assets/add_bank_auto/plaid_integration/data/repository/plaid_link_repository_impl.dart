@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:plaid_flutter/plaid_flutter.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
@@ -26,13 +28,16 @@ class PlaidLinkRepositoryImpl implements PlaidLinkRepository {
     try {
       final respStream =
           await plaidIntegrationRemoteDataSource.getPublicToken(linkToken);
+
       final converted = respStream.map<Either<Failure, String>>((e) {
+        log('Plaid output: ${e.toJson()}');
         if (e is LinkExit) {
-          return Left(ServerFailure(message: e.metadata.errorMesssage));
+          return Left(
+              ServerFailure(message: e.error?.message ?? e.metadata.status));
         } else if (e is LinkSuccess) {
-          return Right((e as LinkSuccess).publicToken);
+          return Right((e).publicToken);
         } else {
-          return Left(ServerFailure(message: e.name));
+          return Left(ServerFailure(message: e.toString()));
         }
       });
       return converted.first;
