@@ -1,13 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/domain/repository/plaid_link_repository.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/domain/repository/plaid_repository.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/entity/bank_entity.dart';
 
-class PlaidLinkUseCase extends UseCase<String, BankEntity> {
-  final PlaidLinkRepository plaidLinkRepository;
+class PlaidUseCase extends UseCase<String, BankEntity> {
+  final PlaidRepository plaidLinkRepository;
 
-  PlaidLinkUseCase(this.plaidLinkRepository);
+  PlaidUseCase(this.plaidLinkRepository);
 
   static const redirectUrl = 'app://wmd.com';
 

@@ -3,10 +3,10 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:wmd/core/data/network/error_handler_middleware.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/data/data_sources/plaid_integration_data_source.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/data/repository/plaid_link_repository_impl.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/domain/repository/plaid_link_repository.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/domain/usecase/link_plaid_usecase.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/data/data_sources/plaid_data_source.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/data/repository/plaid_repository_impl.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/domain/repository/plaid_repository.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/domain/usecase/plaid_usecase.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/data_sources/bank_list_data_source.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/repository/bank_list_repository_impl.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_bank_list.dart';
@@ -168,14 +168,11 @@ Future<void> init() async {
       () => BankListRemoteDataSourceImpl(sl()));
 
   // Plaid integration
-  sl.registerFactory(() => PlaidCubit(
-        sl(),
-      ));
-  sl.registerLazySingleton(() => PlaidLinkUseCase(sl()));
-  sl.registerLazySingleton<PlaidLinkRepository>(
-      () => PlaidLinkRepositoryImpl(sl()));
-  sl.registerLazySingleton<PlaidLinkRemoteDataSource>(
-      () => PlaidLinkRemoteDataSourceImpl(sl()));
+  sl.registerFactory(() => PlaidCubit(sl()));
+  sl.registerLazySingleton(() => PlaidUseCase(sl()));
+  sl.registerLazySingleton<PlaidRepository>(() => PlaidRepositoryImpl(sl()));
+  sl.registerLazySingleton<PlaidRemoteDataSource>(
+      () => PlaidRemoteDataSourceImpl(sl()));
 
   // Add base private debt
   sl.registerFactory(() => PrivateDebtCubit(sl()));

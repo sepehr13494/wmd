@@ -8,7 +8,7 @@ import 'dart:async' as _i4;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:wmd/core/error_and_success/failures.dart' as _i5;
-import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/domain/repository/plaid_link_repository.dart'
+import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/domain/repository/plaid_repository.dart'
     as _i3;
 
 // ignore_for_file: type=lint
@@ -35,8 +35,7 @@ class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
 /// A class which mocks [PlaidLinkRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPlaidLinkRepository extends _i1.Mock
-    implements _i3.PlaidLinkRepository {
+class MockPlaidLinkRepository extends _i1.Mock implements _i3.PlaidRepository {
   MockPlaidLinkRepository() {
     _i1.throwOnMissingStub(this);
   }
