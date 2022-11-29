@@ -455,7 +455,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                         onChanged: (selectedDate) {
                                           checkFinalValid(selectedDate);
                                         },
-                                        lastDate: DateTime.now(),
+                                        firstDate: DateTime.now(),
                                         inputType: InputType.date,
                                         format: DateFormat("dd/MM/yyyy"),
                                         name: "maturityDate",
