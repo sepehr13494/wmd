@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
 class LinkTokenResponse extends Equatable {
-  final String expiration;
-  final String linkToken;
-  final String requestId;
+  final String? expiration;
+  final String? linkToken;
+  final String? requestId;
 
   const LinkTokenResponse({
     required this.expiration,
@@ -11,9 +11,10 @@ class LinkTokenResponse extends Equatable {
     required this.requestId,
   });
   factory LinkTokenResponse.fromJson(Map<String, dynamic> json) {
-    final expiration = json['expiration'].toString();
-    final linkToken = json['linkToken'].toString();
-    final requestId = json['requestId'].toString();
+    final expiration = json['expiration']?.toString();
+    final linkToken = json['linkToken']?.toString();
+    final requestId = json['requestId']?.toString();
+
     return LinkTokenResponse(
         expiration: expiration, linkToken: linkToken, requestId: requestId);
   }

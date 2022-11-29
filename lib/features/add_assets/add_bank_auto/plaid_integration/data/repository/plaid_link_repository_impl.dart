@@ -15,7 +15,7 @@ class PlaidLinkRepositoryImpl implements PlaidLinkRepository {
     try {
       final result = await plaidIntegrationRemoteDataSource.getLinkToken(
           redirectUrl, provider);
-      return Right(result.linkToken);
+      return Right(result.linkToken!);
     } on ServerException catch (e) {
       return Left(ServerFailure.fromServerException(e));
     }
