@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:wmd/core/data/network/server_request_manager.dart';
 import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/data/repository/app_data_source.dart';
@@ -25,7 +23,7 @@ class PlaidRemoteDataSourceImpl extends AppServerDataSource
       String redirectUrl, String provider) async {
     final getBankListRequestOptions =
         AppRequestOptions(RequestTypes.post, AppUrls.linkToken, {
-      'RedirectUrl': redirectUrl,
+      'redirectUrl': redirectUrl,
     }, additionalHeaders: {
       'Provider': provider
     });

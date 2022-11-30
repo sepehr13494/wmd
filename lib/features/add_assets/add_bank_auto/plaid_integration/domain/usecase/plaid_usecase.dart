@@ -23,6 +23,7 @@ class PlaidUseCase extends UseCase<String, BankEntity> {
     final publicTokenResult =
         await plaidLinkRepository.getPublicToken(linkToken!);
     if (publicTokenResult.isLeft()) return publicTokenResult;
+    //done until here
     final publicToken = publicTokenResult.fold((l) => null, (r) => r);
     return await plaidLinkRepository.postPublicToken(publicToken!);
   }

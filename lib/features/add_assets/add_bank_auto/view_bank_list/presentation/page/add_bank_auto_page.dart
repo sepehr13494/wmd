@@ -5,6 +5,7 @@ import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
+import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/search_text_field.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentation/manager/bank_list_cubit.dart';
@@ -23,36 +24,87 @@ class AddBankAutoPage extends AppStatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text("Connect your account")),
       body: Stack(
-        children: [
-          const LeafBackground(
+        children: const [
+          LeafBackground(
             opacity: 0.5,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: NestedScrollView(
-              headerSliverBuilder: (context, isInnerScroll) {
-                return [
-                  SliverList(
-                      delegate: SliverChildListDelegate([
-                    const SizedBox(height: 16),
-                    Text("Add listed asset details",
-                        style: textTheme.headlineSmall),
-                    const SizedBox(height: 16),
-                    Text(
-                      "Current account, savings account and term deposit accounts.",
-                      style: textTheme.titleSmall!
-                          .apply(color: AppColors.dashBoardGreyTextColor),
-                    ),
-                    const SizedBox(height: 16),
-                    const YourPrivacyWidget(),
-                  ]))
-                ];
-              },
-              body: const BankList(),
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: ResponsiveWidget(
+              mobile: BankListMobileView(),
+              desktop: BankListTabletView(),
+              tablet: BankListTabletView(),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class BankListMobileView extends AppStatelessWidget {
+  const BankListMobileView({Key? key}) : super(key: key);
+
+  @override
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
+    return SingleChildScrollView(
+      child: Column(
+        children: const [
+          BankListHeader(),
+          BankList(),
+        ],
+      ),
+    );
+  }
+}
+
+class BankListTabletView extends AppStatelessWidget {
+  const BankListTabletView({Key? key}) : super(key: key);
+
+  @override
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Expanded(flex: 3, child: BankListHeader()),
+        const SizedBox(width: 16),
+        Container(
+          margin: const EdgeInsets.only(top: 24),
+          width: 0.5,
+          height: 300,
+          color: Theme.of(context).dividerColor,
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+            flex: ResponsiveHelper(context: context).isDesktop ? 6 : 4,
+            child: const BankList())
+      ],
+    );
+  }
+}
+
+class BankListHeader extends AppStatelessWidget {
+  const BankListHeader({Key? key}) : super(key: key);
+
+  @override
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const SizedBox(height: 16),
+        Text("Add listed asset details", style: textTheme.headlineSmall),
+        const SizedBox(height: 16),
+        Text(
+          "Current account, savings account and term deposit accounts.",
+          style: textTheme.titleSmall!
+              .apply(color: AppColors.dashBoardGreyTextColor),
+        ),
+        const SizedBox(height: 16),
+        const YourPrivacyWidget(),
+      ],
     );
   }
 }
@@ -106,11 +158,6 @@ class BankList extends AppStatelessWidget {
                               .toList(),
                         );
                       }
-                    } else if (state is BankListSuccess) {
-                      return Column(
-                          children: state.banks
-                              .map((e) => BankWidget(e, key: Key(e.code)))
-                              .toList());
                     } else if (state is PopularBankListSuccess) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

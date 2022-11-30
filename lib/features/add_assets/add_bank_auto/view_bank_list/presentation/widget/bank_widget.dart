@@ -30,6 +30,9 @@ class _BankWidgetState extends AppState<BankWidget> {
     return AnimatedSwitcher(
       duration: const Duration(seconds: 1),
       child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(6),
+        ),
         color: isSelected ? primaryColor.withOpacity(0.2) : null,
         child: ListTile(
           onTap: () {
