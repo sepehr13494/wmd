@@ -1,5 +1,7 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/assets_overview/assets_overview/domain/entities/assets_overview_entity.dart';
@@ -24,38 +26,47 @@ class AssetTypeBaseCard extends StatelessWidget {
     final bool minimum = assetList.length <= 2;
     return Column(
       children: [
-        ...List.generate((minimum || showMore) ? assetList.length : 2 , (index) {
-          return Card(
-            color: index % 2 == 0
-                ? null
-                : Theme.of(context).brightness == Brightness.dark
-                ? AppColors.darkCardColorForDarkTheme
-                : AppColors.darkCardColorForLightTheme,
-            child: ResponsiveWidget(
-                mobile: InsideAssetCardMobile(asset: assetList[index]),
-                tablet: InsideAssetCardTablet(asset: assetList[index]),
-                desktop: InsideAssetCardTablet(asset: assetList[index])),
+        ...List.generate((minimum || showMore) ? assetList.length : 2, (index) {
+          final item = assetList[index];
+          return InkWell(
+            onTap: () {
+              context.goNamed(AppRoutes.bankAccountDetails, extra: item);
+            },
+            child: Card(
+              color: index % 2 == 0
+                  ? null
+                  : Theme.of(context).brightness == Brightness.dark
+                      ? AppColors.darkCardColorForDarkTheme
+                      : AppColors.darkCardColorForLightTheme,
+              child: ResponsiveWidget(
+                  mobile: InsideAssetCardMobile(asset: item),
+                  tablet: InsideAssetCardTablet(asset: item),
+                  desktop: InsideAssetCardTablet(asset: item)),
+            ),
           );
         }),
-        minimum ? const SizedBox() : InkWell(
-          onTap: () {
-            controller.toggle();
-          },
-          child: Card(
-            child: SizedBox(
-              width: double.maxFinite,
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Text(
-                    showMore ? "Show less" : "Show more",
-                    style: TextStyle(color: Theme.of(context).primaryColor),
+        minimum
+            ? const SizedBox()
+            : InkWell(
+                onTap: () {
+                  controller.toggle();
+                },
+                child: Card(
+                  child: SizedBox(
+                    width: double.maxFinite,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Text(
+                          showMore ? "Show less" : "Show more",
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ),
-        )
+              )
       ],
     );
   }

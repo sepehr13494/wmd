@@ -10,6 +10,8 @@ import 'package:wmd/features/add_assets/add_private_equity/presentation/pages/ad
 import 'package:wmd/features/add_assets/add_real_estate/presentation/pages/add_real_estate_page.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/pages/assets_list_view_page.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/pages/auto_manual_page.dart';
+import 'package:wmd/features/assets_overview/asset_detail/bank_account/presentation/page/bank_account_detail_page.dart';
+import 'package:wmd/features/assets_overview/assets_overview/domain/entities/assets_overview_entity.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/forget_password_page.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/reset_password_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/login_page.dart';
@@ -87,6 +89,15 @@ class AppRouter {
             return const MainPage();
           },
           routes: [
+            GoRoute(
+              name: AppRoutes.bankAccountDetails,
+              path: "bank_account_detail",
+              builder: (BuildContext context, GoRouterState state) {
+                return BankAccountDetailPage(
+                  asset: (state.extra as AssetList),
+                );
+              },
+            ),
             GoRoute(
                 name: AppRoutes.addAssetsView,
                 path: "add_assets_view",
