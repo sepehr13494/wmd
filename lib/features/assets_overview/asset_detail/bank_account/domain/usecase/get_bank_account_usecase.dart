@@ -6,13 +6,12 @@ import 'package:wmd/features/assets_overview/asset_detail/bank_account/domain/en
 import 'package:wmd/features/assets_overview/asset_detail/bank_account/domain/repository/bank_account_repository.dart';
 
 class GetBankAccountUseCase
-    extends UseCase<List<BankAccountEntity>, BankAccountParams> {
+    extends UseCase<BankAccountEntity, BankAccountParams> {
   final BankAccountRepository bankAccountRepository;
 
   GetBankAccountUseCase(this.bankAccountRepository);
   @override
-  Future<Either<Failure, List<BankAccountEntity>>> call(
-      BankAccountParams params) {
+  Future<Either<Failure, BankAccountEntity>> call(BankAccountParams params) {
     return bankAccountRepository.getBankAccount(params);
   }
 }

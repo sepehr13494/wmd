@@ -12,7 +12,7 @@ class BankAccountRepositoryImpl extends BankAccountRepository {
 
   BankAccountRepositoryImpl(this.bankAccountRemoteDataSource);
   @override
-  Future<Either<Failure, List<BankAccountEntity>>> getBankAccount(
+  Future<Either<Failure, BankAccountEntity>> getBankAccount(
       BankAccountParams params) async {
     try {
       final result = await bankAccountRemoteDataSource.getBankAccount(params);

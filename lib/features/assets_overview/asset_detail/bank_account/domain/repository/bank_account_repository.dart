@@ -4,6 +4,6 @@ import 'package:wmd/features/assets_overview/asset_detail/bank_account/data/mode
 import '../entities/bank_account_entity.dart';
 
 abstract class BankAccountRepository {
-  Future<Either<Failure, List<BankAccountEntity>>> getBankAccount(
+  Future<Either<Failure, BankAccountEntity>> getBankAccount(
       BankAccountParams params);
 }

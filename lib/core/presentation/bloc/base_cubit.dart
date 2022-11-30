@@ -6,6 +6,7 @@ import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/manage
 import 'package:wmd/features/add_assets/add_listed_security/presentation/manager/listed_security_cubit.dart';
 import 'package:wmd/features/add_assets/add_private_debt/presentation/manager/private_debt_cubit.dart';
 import 'package:wmd/features/add_assets/add_private_equity/presentation/manager/private_equity_cubit.dart';
+import 'package:wmd/features/assets_overview/asset_detail/bank_account/presentation/manager/bank_account_cubit.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
 import 'package:wmd/features/add_assets/add_other_asset/presentation/manager/other_asset_cubit.dart';
 import 'package:wmd/features/add_assets/add_real_estate/presentation/manager/real_estate_cubit.dart';

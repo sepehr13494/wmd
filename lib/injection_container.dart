@@ -32,6 +32,10 @@ import 'package:wmd/features/add_assets/add_private_equity/data/repositories/pri
 import 'package:wmd/features/add_assets/add_private_equity/domain/repositories/private_equity_repository.dart';
 import 'package:wmd/features/add_assets/add_private_equity/domain/use_cases/add_private_equity_usecase.dart';
 import 'package:wmd/features/add_assets/add_private_equity/presentation/manager/private_equity_cubit.dart';
+import 'package:wmd/features/assets_overview/asset_detail/bank_account/data/data_sources/bank_account_remote_datasource.dart';
+import 'package:wmd/features/assets_overview/asset_detail/bank_account/domain/repository/bank_account_repository.dart';
+import 'package:wmd/features/assets_overview/asset_detail/bank_account/domain/usecase/get_bank_account_usecase.dart';
+import 'package:wmd/features/assets_overview/asset_detail/bank_account/presentation/manager/bank_account_cubit.dart';
 import 'package:wmd/features/assets_overview/assets_overview/data/data_sources/asset_overview_remote_datasource.dart';
 import 'package:wmd/features/assets_overview/assets_overview/data/repositories/assets_overview_repository_impl.dart';
 import 'package:wmd/features/assets_overview/assets_overview/domain/repositories/assets_overview_repository.dart';
@@ -80,6 +84,7 @@ import 'core/util/device_info.dart';
 import 'core/util/local_storage.dart';
 import 'features/add_assets/add_bank_auto/domain/repository/bank_list_repository.dart';
 import 'features/add_assets/add_bank_auto/domain/usecase/get_popular_bank_list.dart';
+import 'features/assets_overview/asset_detail/bank_account/data/repository/bank_account_repository_impl.dart';
 import 'features/splash/data/repositories/splash_repository_impl.dart';
 import 'features/splash/domain/repositories/splash_repository.dart';
 import 'features/splash/domain/use_cases/check_login_usecase.dart';
@@ -139,9 +144,9 @@ Future<void> init() async {
   sl.registerFactory(() => AssetsOverviewCubit(sl()));
   sl.registerLazySingleton(() => GetAssetsOverviewUseCase(sl()));
   sl.registerLazySingleton<AssetsOverviewRepository>(
-          () => AssetsOverviewRepositoryImpl(sl()));
+      () => AssetsOverviewRepositoryImpl(sl()));
   sl.registerLazySingleton<AssetsOverviewRemoteDataSource>(
-          () => AssetsOverviewRemoteDataSourceImpl(sl()));
+      () => AssetsOverviewRemoteDataSourceImpl(sl()));
 
   // Dashboard - user status dependencies
   sl.registerFactory(() => UserStatusCubit(sl(), sl()));
@@ -218,6 +223,14 @@ Future<void> init() async {
       () => ListedSecurityRepositoryImpl(sl()));
   sl.registerLazySingleton<ListedSecurityRemoteDataSource>(
       () => ListedSecurityRemoteDataSourceImpl(sl()));
+
+  // BankAccount detail
+  sl.registerFactory(() => BankAccountCubit(sl()));
+  sl.registerLazySingleton(() => GetBankAccountUseCase(sl()));
+  sl.registerLazySingleton<BankAccountRepository>(
+      () => BankAccountRepositoryImpl(sl()));
+  sl.registerLazySingleton<BankAccountRemoteDataSource>(
+      () => BankAccountRemoteDataSourceImpl(sl()));
 
   await initExternal();
 }
