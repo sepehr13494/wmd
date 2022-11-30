@@ -30,4 +30,5 @@ class AppUrls {
   static String getAssetsOverview = "${wealthBase}Assets/All";
   static String getBankList = "${banking}Bank";
   static String getPopularBankList = "${banking}Bank/Popular";
+  static String getBankAccount = "${wealthBase}BankAccount";
 }
