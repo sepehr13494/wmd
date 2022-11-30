@@ -6,13 +6,13 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
-import 'package:wmd/core/extentions/app_form_validators.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
-import 'package:wmd/core/extentions/date_time_ext.dart';
+import 'package:wmd/features/add_assets/core/data/models/listed_security_name.dart';
 
 class CurrencyInputFormatter extends TextInputFormatter {
+  @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
     if (newValue.selection.baseOffset == 0) {
@@ -165,6 +165,7 @@ class CurrenciesDropdown extends StatefulWidget {
 class _CurrenciesDropdownState extends State<CurrenciesDropdown> {
   Currency? selectedCurrency =
       Currency(symbol: "USD", name: "United States dollar");
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -340,6 +341,98 @@ class _FormBuilderTypeAheadState extends State<FormBuilderTypeAhead> {
   }
 }
 
+class ListedSecurityTypeAhead extends StatefulWidget {
+  final String name;
+  final String hint;
+  final List<ListedSecurityName> items;
+  final ValueChanged<ListedSecurityName?>? onChange;
+
+  const ListedSecurityTypeAhead(
+      {Key? key,
+      required this.name,
+      required this.items,
+      required this.hint,
+      this.onChange})
+      : super(key: key);
+
+  @override
+  State<ListedSecurityTypeAhead> createState() =>
+      _ListedSecurityTypeAheadState();
+}
+
+class _ListedSecurityTypeAheadState extends State<ListedSecurityTypeAhead> {
+  TextEditingController typeController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    final appTextTheme = Theme.of(context).textTheme;
+
+    return FormBuilderField<ListedSecurityName?>(
+        builder: (state) {
+          return TypeAheadField(
+            animationStart: 0,
+            animationDuration: Duration.zero,
+            textFieldConfiguration: TextFieldConfiguration(
+              decoration: InputDecoration(
+                hintText: widget.hint,
+              ),
+              controller: typeController,
+              onChanged: (value) {
+                final currentValue = widget.items
+                    .firstWhere((element) => element.securityName == value);
+                state.didChange(currentValue);
+              },
+            ),
+            suggestionsCallback: (pattern) {
+              return widget.items.where((element) =>
+                  element.securityName
+                      .toLowerCase()
+                      .contains(pattern.toLowerCase()) ||
+                  element.securityShortName
+                      .toLowerCase()
+                      .contains(pattern.toLowerCase()) ||
+                  element.isin.toLowerCase().contains(pattern.toLowerCase()));
+            },
+            itemBuilder: (context, suggestion) {
+              return Padding(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(suggestion.securityName),
+                          Text(suggestion.currencyCode ?? ""),
+                          Text(suggestion.category)
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        children: [
+                          Text(suggestion.securityShortName,
+                              style: appTextTheme.bodySmall),
+                          const Text(" . "),
+                          Text(suggestion.tradedExchange,
+                              style: appTextTheme.bodySmall),
+                        ],
+                      ),
+                      Text(suggestion.isin, style: appTextTheme.bodySmall)
+                    ]),
+              );
+            },
+            onSuggestionSelected: (suggestion) {
+              typeController.text = suggestion.securityName;
+              state.didChange(suggestion);
+            },
+            hideOnEmpty: true,
+          );
+        },
+        onChanged: widget.onChange,
+        name: widget.name);
+  }
+}
+
 class DropDownTypeAhead extends StatefulWidget {
   final String name;
   final String hint;
@@ -369,7 +462,7 @@ class _DropDownTypeAheadState extends State<DropDownTypeAhead> {
               Positioned(
                 right: 0,
                 child: IconButton(
-                    onPressed: () {}, icon: Icon(Icons.arrow_drop_down)),
+                    onPressed: () {}, icon: const Icon(Icons.arrow_drop_down)),
               ),
               TypeAheadField(
                 animationStart: 0,
