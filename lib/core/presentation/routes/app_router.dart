@@ -10,6 +10,7 @@ import 'package:wmd/features/add_assets/add_private_equity/presentation/pages/ad
 import 'package:wmd/features/add_assets/add_real_estate/presentation/pages/add_real_estate_page.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/pages/assets_list_view_page.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/pages/auto_manual_page.dart';
+import 'package:wmd/features/asset_detail/presentation/pages/asset_detail_page.dart';
 import 'package:wmd/features/assets_overview/asset_detail/bank_account/presentation/page/bank_account_detail_page.dart';
 import 'package:wmd/features/assets_overview/assets_overview/domain/entities/assets_overview_entity.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/forget_password_page.dart';
@@ -91,10 +92,21 @@ class AppRouter {
           routes: [
             GoRoute(
               name: AppRoutes.bankAccountDetails,
-              path: "bank_account_detail",
+              path: "asset_detail_page",
               builder: (BuildContext context, GoRouterState state) {
-                return BankAccountDetailPage(
-                  asset: (state.extra as AssetList),
+                return BankAccountDetailsPage(
+                  assetId: state.queryParams['assetId'] as String,
+                  type: state.queryParams['type'] as String,
+                );
+              },
+            ),
+            GoRoute(
+              name: AppRoutes.assetDetailPage,
+              path: "asset_detail",
+              builder: (BuildContext context, GoRouterState state) {
+                return AssetDetailPage(
+                  assetId: state.queryParams['assetId'] as String,
+                  type: state.queryParams['type'] as String,
                 );
               },
             ),

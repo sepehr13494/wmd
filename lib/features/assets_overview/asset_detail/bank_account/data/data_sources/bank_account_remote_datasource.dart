@@ -22,7 +22,13 @@ class BankAccountRemoteDataSourceImpl extends AppServerDataSource
         AppRequestOptions(RequestTypes.get, url.toString(), params.toJson());
     final response =
         await errorHandlerMiddleware.sendRequest(appRequestOptions);
+    //     switch (param.type) {
+    //       case value:
 
+    //         break;
+    //       default:
+    //     }
+    // return AssetDetail
     return BankAccountResponse.fromJson(response);
   }
 }

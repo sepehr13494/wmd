@@ -23,14 +23,16 @@ class AssetTypeBaseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<AssetList> assetList = AssetsOverviewInherit.of(context).assetList;
+    String type = AssetsOverviewInherit.of(context).type;
     final bool minimum = assetList.length <= 2;
     return Column(
       children: [
         ...List.generate((minimum || showMore) ? assetList.length : 2, (index) {
-          final item = assetList[index];
+          final AssetList item = assetList[index];
           return InkWell(
             onTap: () {
-              context.goNamed(AppRoutes.bankAccountDetails, extra: item);
+              context.goNamed(AppRoutes.assetDetailPage,
+                  queryParams: {'assetId': item.assetId, 'type': type});
             },
             child: Card(
               color: index % 2 == 0
