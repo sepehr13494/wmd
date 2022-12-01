@@ -4,9 +4,11 @@ import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/asset_detail/data/models/get_detail_params.dart';
+import 'package:wmd/features/asset_detail/domain/entities/assets/bank_account_entity.dart';
 import 'package:wmd/injection_container.dart';
 
 import '../manager/asset_detail_cubit.dart';
+import 'assets/bank_account_page.dart';
 
 class AssetDetailPage extends AppStatelessWidget {
   final String assetId;
@@ -30,7 +32,14 @@ class AssetDetailPage extends AppStatelessWidget {
             ),
             builder: (context, state) {
               if (state is AssetLoaded) {
-                return Text(state.assetDetailEntity.toString());
+                switch (type) {
+                  case 'BankAccount':
+                    return BankAccountDetailPage(
+                        bankEntity:
+                            state.assetDetailEntity as BankAccountEntity);
+                  default:
+                    return Text(state.assetDetailEntity.toString());
+                }
               }
               return const Center(
                 child: CircularProgressIndicator(),
