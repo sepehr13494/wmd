@@ -6,10 +6,10 @@ class RealEstateEntity extends Equatable {
   final String address;
   final double noOfUnits;
   final double acquisitionCostPerUnit;
-  final String acquisitionDate;
+  final DateTime acquisitionDate;
   final double ownershipPercentage;
   final String marketValue;
-  final String valuationDate;
+  final DateTime valuationDate;
   final String id;
   final String type;
   final bool isActive;
@@ -42,10 +42,10 @@ class RealEstateEntity extends Equatable {
       'address': address,
       'noOfUnits': noOfUnits,
       'acquisitionCostPerUnit': acquisitionCostPerUnit,
-      'acquisitionDate': acquisitionDate,
+      'acquisitionDate': acquisitionDate.toIso8601String(),
       'ownershipPercentage': ownershipPercentage,
       'marketValue': marketValue,
-      'valuationDate': valuationDate,
+      'valuationDate': valuationDate.toIso8601String(),
       'id': id,
       'type': type,
       'isActive': isActive,
