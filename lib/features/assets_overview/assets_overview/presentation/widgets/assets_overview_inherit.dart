@@ -7,21 +7,26 @@ class AssetsOverviewInherit extends InheritedWidget {
     this.flexList = const [6, 4, 0, 0, 3],
     this.nonExpandedWidth = 80,
     required this.assetList,
+    required this.type,
     required super.child,
   });
 
   final List<int> flexList;
   final double nonExpandedWidth;
   final List<AssetList> assetList;
+  final String type;
 
   static AssetsOverviewInherit of(BuildContext context) {
-    final AssetsOverviewInherit? result = context.dependOnInheritedWidgetOfExactType<AssetsOverviewInherit>();
+    final AssetsOverviewInherit? result =
+        context.dependOnInheritedWidgetOfExactType<AssetsOverviewInherit>();
     assert(result != null, 'No ParameterFlex found in context');
     return result!;
   }
 
   @override
   bool updateShouldNotify(AssetsOverviewInherit oldWidget) {
-    return (flexList != oldWidget.flexList || nonExpandedWidth != oldWidget.nonExpandedWidth || assetList != oldWidget.assetList);
+    return (flexList != oldWidget.flexList ||
+        nonExpandedWidth != oldWidget.nonExpandedWidth ||
+        assetList != oldWidget.assetList);
   }
 }

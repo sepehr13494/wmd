@@ -10,6 +10,7 @@ import 'package:wmd/features/add_assets/add_private_equity/presentation/pages/ad
 import 'package:wmd/features/add_assets/add_real_estate/presentation/pages/add_real_estate_page.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/pages/assets_list_view_page.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/pages/auto_manual_page.dart';
+import 'package:wmd/features/asset_detail/core/presentation/pages/asset_detail_page.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/forget_password_page.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/reset_password_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/login_page.dart';
@@ -17,7 +18,6 @@ import 'package:wmd/features/authentication/login_signup/presentation/pages/regi
 import 'package:wmd/features/authentication/login_signup/presentation/pages/verify_email_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/welcome_page.dart';
 import 'package:wmd/features/authentication/verify_email/presentation/pages/verify_response_page.dart';
-import 'package:wmd/features/dashboard/main_dashbaord/presentation/pages/dashboard_page.dart';
 import 'package:wmd/features/main_page/presentation/pages/main_page.dart';
 import 'package:wmd/features/splash/presentation/pages/splash_page.dart';
 
@@ -87,6 +87,16 @@ class AppRouter {
             return const MainPage();
           },
           routes: [
+            GoRoute(
+              name: AppRoutes.assetDetailPage,
+              path: "asset_detail",
+              builder: (BuildContext context, GoRouterState state) {
+                return AssetDetailPage(
+                  assetId: state.queryParams['assetId'] as String,
+                  type: state.queryParams['type'] as String,
+                );
+              },
+            ),
             GoRoute(
                 name: AppRoutes.addAssetsView,
                 path: "add_assets_view",

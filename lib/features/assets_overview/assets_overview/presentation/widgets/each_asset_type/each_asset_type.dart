@@ -18,7 +18,8 @@ import 'asset_type_tablet_title.dart';
 
 class EachAssetType extends AppStatelessWidget {
   final AssetsOverviewEntity assetsOverview;
-  const EachAssetType({Key? key, required this.assetsOverview}) : super(key: key);
+  const EachAssetType({Key? key, required this.assetsOverview})
+      : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -43,9 +44,11 @@ class EachAssetType extends AppStatelessWidget {
                         const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     child: Row(
                       children: [
-                        DotWidget(color: _getAssetColorByType(assetsOverview.type)),
+                        DotWidget(
+                            color: _getAssetColorByType(assetsOverview.type)),
                         const SizedBox(width: 8),
-                        Text(_getAssetNameByType(assetsOverview.type), style: textTheme.titleSmall)
+                        Text(_getAssetNameByType(assetsOverview.type),
+                            style: textTheme.titleSmall)
                       ],
                     ),
                   ),
@@ -59,49 +62,56 @@ class EachAssetType extends AppStatelessWidget {
                       style: const TextStyle(fontSize: 28),
                     ),
                     SizedBox(width: responsiveHelper.bigger16Gap, height: 16),
-                    YtdItdWidget(ytd: assetsOverview.yearToDate,itd: assetsOverview.inceptionToDate),
+                    YtdItdWidget(
+                        ytd: assetsOverview.yearToDate,
+                        itd: assetsOverview.inceptionToDate),
                   ],
                 )
               ],
             ),
             Padding(
               padding: const EdgeInsets.only(top: 4, bottom: 8),
-              child: AddButton(onTap: _getAssetOnTapByType(context,assetsOverview.type), addAsset: true),
+              child: AddButton(
+                  onTap: _getAssetOnTapByType(context, assetsOverview.type),
+                  addAsset: true),
             ),
           ],
         ),
         AssetsOverviewInherit(
           assetList: assetsOverview.assetList,
+          type: assetsOverview.type,
           child: Builder(builder: (context) {
             ExpandableController controller = ExpandableController();
-            return assetsOverview.assetList.isEmpty ? const SizedBox() : Column(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 12,bottom: 4,right: 4,left: 4),
-                  child: ResponsiveWidget(
-                    mobile: AssetTypeMobileTableTitle(),
-                    tablet: AssetTypeTabletTableTitle(),
-                    desktop: AssetTypeTabletTableTitle(),
-                  ),
-                ),
-                ExpandablePanel(
-                  collapsed: AssetTypeBaseCard(
-                     showMore: false, controller: controller),
-                  expanded: AssetTypeBaseCard(
-                      showMore: true, controller: controller),
-                  controller: controller,
-                )
-              ],
-            );
+            return assetsOverview.assetList.isEmpty
+                ? const SizedBox()
+                : Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(
+                            top: 12, bottom: 4, right: 4, left: 4),
+                        child: ResponsiveWidget(
+                          mobile: AssetTypeMobileTableTitle(),
+                          tablet: AssetTypeTabletTableTitle(),
+                          desktop: AssetTypeTabletTableTitle(),
+                        ),
+                      ),
+                      ExpandablePanel(
+                        collapsed: AssetTypeBaseCard(
+                            showMore: false, controller: controller),
+                        expanded: AssetTypeBaseCard(
+                            showMore: true, controller: controller),
+                        controller: controller,
+                      )
+                    ],
+                  );
           }),
         )
       ],
     );
   }
 
-
-  String _getAssetNameByType(String type){
-    switch (type){
+  String _getAssetNameByType(String type) {
+    switch (type) {
       case "BankAccount":
         return "Bank Account";
       case "PrivateEquity":
@@ -119,8 +129,8 @@ class EachAssetType extends AppStatelessWidget {
     }
   }
 
-  Color _getAssetColorByType(String type){
-    switch (type){
+  Color _getAssetColorByType(String type) {
+    switch (type) {
       case "BankAccount":
         return const Color(0xff6C5379);
       case "PrivateEquity":
@@ -138,34 +148,34 @@ class EachAssetType extends AppStatelessWidget {
     }
   }
 
-  void Function() _getAssetOnTapByType(BuildContext context,String type){
-    switch (type){
+  void Function() _getAssetOnTapByType(BuildContext context, String type) {
+    switch (type) {
       case "BankAccount":
-        return (){
+        return () {
           context.goNamed(AppRoutes.addBankManualPage);
         };
       case "PrivateEquity":
-        return (){
+        return () {
           context.goNamed(AppRoutes.addPrivateEquity);
         };
       case "PrivateDebt":
-        return (){
+        return () {
           context.goNamed(AppRoutes.addPrivateDebt);
         };
       case "RealEstate":
-        return (){
+        return () {
           context.goNamed(AppRoutes.addRealEstate);
         };
       case "ListedAsset":
-        return (){
+        return () {
           context.goNamed(AppRoutes.addListedAsset);
         };
       case "OtherAssets":
-        return (){
+        return () {
           context.goNamed(AppRoutes.addOther);
         };
       default:
-        return (){};
+        return () {};
     }
   }
 }
