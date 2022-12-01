@@ -69,6 +69,8 @@ dependencies:
   countries_world_map: ^0.0.7
   fl_chart: ^0.55.2
   carousel_slider: ^4.1.1
+  plaid_flutter: ^3.0.0
+  async: ^2.9.0
 
 dev_dependencies:
   flutter_test:
