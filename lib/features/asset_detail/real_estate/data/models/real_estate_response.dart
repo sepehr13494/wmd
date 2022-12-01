@@ -1,5 +1,6 @@
-import 'package:wmd/features/asset_detail/data/models/get_detail_response.dart';
-import 'package:wmd/features/asset_detail/domain/entities/assets/real_estate_entity.dart';
+import 'package:wmd/features/asset_detail/core/data/models/get_detail_response.dart';
+
+import '../../domain/entity/real_estate_entity.dart';
 
 class RealEstateResponse extends RealEstateEntity implements GetDetailResponse {
   RealEstateResponse({

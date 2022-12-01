@@ -10,7 +10,7 @@ import 'package:wmd/features/add_assets/add_private_equity/presentation/pages/ad
 import 'package:wmd/features/add_assets/add_real_estate/presentation/pages/add_real_estate_page.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/pages/assets_list_view_page.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/pages/auto_manual_page.dart';
-import 'package:wmd/features/asset_detail/presentation/pages/asset_detail_page.dart';
+import 'package:wmd/features/asset_detail/core/presentation/pages/asset_detail_page.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/forget_password_page.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/reset_password_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/login_page.dart';

@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
-import 'package:wmd/features/asset_detail/domain/entities/get_detail_entity.dart';
+import 'package:wmd/features/asset_detail/core/domain/entities/get_detail_entity.dart';
 
 import '../../data/models/get_detail_params.dart';
 import '../../domain/use_cases/get_detail_usecase.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
-import 'package:wmd/features/asset_detail/domain/entities/assets/bank_account_entity.dart';
+import 'package:wmd/features/asset_detail/bank_account/domain/entity/bank_account_entity.dart';
 
 class BankAccountDetailPage extends AppStatelessWidget {
   final BankAccountEntity bankEntity;

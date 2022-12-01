@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:wmd/features/asset_detail/domain/entities/get_detail_entity.dart';
 
 class BankAccountEntity extends Equatable {
   final String? bankName;
@@ -38,7 +37,6 @@ class BankAccountEntity extends Equatable {
     this.currencyCode,
   );
 
-  @override
   Map<String, dynamic> toJson() => {
         'bankName': bankName,
         'description': description,

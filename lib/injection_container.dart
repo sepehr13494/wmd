@@ -32,11 +32,11 @@ import 'package:wmd/features/add_assets/add_private_equity/data/repositories/pri
 import 'package:wmd/features/add_assets/add_private_equity/domain/repositories/private_equity_repository.dart';
 import 'package:wmd/features/add_assets/add_private_equity/domain/use_cases/add_private_equity_usecase.dart';
 import 'package:wmd/features/add_assets/add_private_equity/presentation/manager/private_equity_cubit.dart';
-import 'package:wmd/features/asset_detail/data/data_sources/asset_detail_remote_datasource.dart';
-import 'package:wmd/features/asset_detail/data/repositories/asset_detail_repository_impl.dart';
-import 'package:wmd/features/asset_detail/domain/repositories/asset_detail_repository.dart';
-import 'package:wmd/features/asset_detail/domain/use_cases/get_detail_usecase.dart';
-import 'package:wmd/features/asset_detail/presentation/manager/asset_detail_cubit.dart';
+import 'package:wmd/features/asset_detail/core/data/data_sources/asset_detail_remote_datasource.dart';
+import 'package:wmd/features/asset_detail/core/data/repositories/asset_detail_repository_impl.dart';
+import 'package:wmd/features/asset_detail/core/domain/repositories/asset_detail_repository.dart';
+import 'package:wmd/features/asset_detail/core/domain/use_cases/get_detail_usecase.dart';
+import 'package:wmd/features/asset_detail/core/presentation/manager/asset_detail_cubit.dart';
 import 'package:wmd/features/assets_overview/assets_overview/data/data_sources/asset_overview_remote_datasource.dart';
 import 'package:wmd/features/assets_overview/assets_overview/data/repositories/assets_overview_repository_impl.dart';
 import 'package:wmd/features/assets_overview/assets_overview/domain/repositories/assets_overview_repository.dart';

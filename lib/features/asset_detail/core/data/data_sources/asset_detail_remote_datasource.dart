@@ -3,10 +3,8 @@ import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/data/repository/app_data_source.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/models/app_request_options.dart';
-import 'package:wmd/core/presentation/routes/app_routes.dart';
-import 'package:wmd/features/asset_detail/data/models/asset/bank_account_response.dart';
-import 'package:wmd/features/asset_detail/data/models/asset/real_estate_response.dart';
-import 'package:wmd/features/asset_detail/domain/entities/assets/bank_account_entity.dart';
+import 'package:wmd/features/asset_detail/bank_account/data/models/bank_account_response.dart';
+import 'package:wmd/features/asset_detail/real_estate/data/models/real_estate_response.dart';
 
 import '../models/get_detail_params.dart';
 import '../models/get_detail_response.dart';
