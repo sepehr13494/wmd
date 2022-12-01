@@ -5,6 +5,7 @@ import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/models/app_request_options.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/features/asset_detail/data/models/asset/bank_account_response.dart';
+import 'package:wmd/features/asset_detail/data/models/asset/real_estate_response.dart';
 import 'package:wmd/features/asset_detail/domain/entities/assets/bank_account_entity.dart';
 
 import '../models/get_detail_params.dart';
@@ -51,12 +52,13 @@ class AssetDetailRemoteDataSourceImpl extends AppServerDataSource
 
     switch (params.type) {
       case 'BankAccount':
-      // return BankAccountResponse.fromJson(response);
+        return BankAccountResponse.fromJson(response);
+      case 'RealEstate':
+        return RealEstateResponse.fromJson(response);
       case 'PrivateDept':
       case 'PrivateEquity':
       case 'ListedAsset':
       case 'OtherAsset':
-      case 'RealEstate':
         return GetDetailResponse.fromJson(response);
       default:
         throw AppException(message: 'Unkonwn type');

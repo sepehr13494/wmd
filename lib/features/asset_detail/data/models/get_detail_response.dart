@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import '../../domain/entities/get_detail_entity.dart';
 
 class GetDetailResponse extends GetDetailEntity {
@@ -14,3 +15,10 @@ class GetDetailResponse extends GetDetailEntity {
     return {};
   }
 }
+
+// abstract class GetDetailResponse extends Equatable {
+//   Map<String, dynamic> toJson();
+
+//   @override
+//   List<Object?> get props;
+// }

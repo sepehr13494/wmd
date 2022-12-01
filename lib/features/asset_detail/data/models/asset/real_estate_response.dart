@@ -1,0 +1,60 @@
+import 'package:wmd/features/asset_detail/data/models/get_detail_response.dart';
+import 'package:wmd/features/asset_detail/domain/entities/assets/real_estate_entity.dart';
+
+class RealEstateResponse extends RealEstateEntity implements GetDetailResponse {
+  RealEstateResponse({
+    required String name,
+    required String realEstateType,
+    required String address,
+    required double noOfUnits,
+    required double acquisitionCostPerUnit,
+    required String acquisitionDate,
+    required double ownershipPercentage,
+    required String marketValue,
+    required String valuationDate,
+    required String id,
+    required String type,
+    required bool isActive,
+    required String country,
+    required String region,
+    required String currencyCode,
+  }) : super(
+          name: name,
+          realEstateType: realEstateType,
+          address: address,
+          noOfUnits: noOfUnits,
+          acquisitionCostPerUnit: acquisitionCostPerUnit,
+          acquisitionDate: acquisitionDate,
+          ownershipPercentage: ownershipPercentage,
+          marketValue: marketValue,
+          valuationDate: valuationDate,
+          id: id,
+          type: type,
+          isActive: isActive,
+          country: country,
+          region: region,
+          currencyCode: currencyCode,
+        );
+
+  factory RealEstateResponse.fromJson(Map<String, dynamic> json) {
+    return RealEstateResponse(
+      name: json['name'] ?? '',
+      realEstateType: json['realEstateType'] ?? '',
+      address: json['address'] ?? '',
+      noOfUnits: double.tryParse(json['noOfUnits'].toString()) ?? 0,
+      acquisitionCostPerUnit:
+          double.tryParse(json['acquisitionCostPerUnit'].toString()) ?? 0,
+      acquisitionDate: json['acquisitionDate'] ?? '',
+      ownershipPercentage:
+          double.tryParse(json['ownershipPercentage'].toString()) ?? 0,
+      marketValue: json['marketValue'] ?? '',
+      valuationDate: json['valuationDate'] ?? '',
+      id: json['id'] ?? '',
+      type: json['type'] ?? '',
+      isActive: json['isActive'] ?? '',
+      country: json['country'] ?? '',
+      region: json['region'] ?? '',
+      currencyCode: json['currencyCode'] ?? '',
+    );
+  }
+}

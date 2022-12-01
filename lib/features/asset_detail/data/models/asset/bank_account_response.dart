@@ -2,7 +2,8 @@ import 'package:wmd/features/asset_detail/data/models/get_detail_response.dart';
 import 'package:wmd/features/asset_detail/domain/entities/assets/bank_account_entity.dart';
 import 'package:wmd/features/asset_detail/domain/entities/get_detail_entity.dart';
 
-class BankAccountResponse extends BankAccountEntity {
+class BankAccountResponse extends BankAccountEntity
+    implements GetDetailResponse {
   const BankAccountResponse(
     String? bankName,
     String? description,
