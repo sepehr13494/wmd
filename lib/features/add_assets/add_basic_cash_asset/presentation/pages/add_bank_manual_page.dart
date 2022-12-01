@@ -73,6 +73,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
     if (isDepositTerm) {
       changeItems = FormBuilder(
         key: bottomFormKey,
+        // initialValue: ,
         child: Column(
           children: [
             EachTextField(
