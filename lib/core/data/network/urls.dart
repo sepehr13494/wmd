@@ -30,4 +30,14 @@ class AppUrls {
   static String getAssetsOverview = "${wealthBase}Assets/All";
   static String getBankList = "${banking}Bank";
   static String getPopularBankList = "${banking}Bank/Popular";
+
+  //get asset details
+  static String getBankAccount = "${wealthBase}BankAccount";
+  static String getPrivateDept = "${wealthBase}PrivateDept";
+  static String getPrivateEquity = "${wealthBase}PrivateEquity";
+  static String getListedAsset = "${wealthBase}ListedAsset";
+  static String getOtherAsset = "${wealthBase}OtherAsset";
+  static String getRealEstate = "${wealthBase}RealEstate";
+
+  static String linkToken = "${banking}openbanking/link-token";
 }
