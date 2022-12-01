@@ -30,7 +30,7 @@ class AssetDetailPage extends AppStatelessWidget {
             ),
             builder: (context, state) {
               if (state is AssetLoaded) {
-                return Text(state.assetDetailEntity.value);
+                return Text(state.assetDetailEntity.toString());
               }
               return const Center(
                 child: CircularProgressIndicator(),

@@ -1,6 +1,8 @@
-class GetDetailEntity {
-  final String value;
-  GetDetailEntity(this.value);
+import 'package:equatable/equatable.dart';
 
-  Map<String, dynamic> toJson() => {};
+abstract class GetDetailEntity extends Equatable {
+  Map<String, dynamic> toJson();
+
+  @override
+  List<Object?> get props;
 }
