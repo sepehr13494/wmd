@@ -5,6 +5,7 @@ import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/presenta
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentation/manager/bank_list_cubit.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/manager/bank_cubit.dart';
 import 'package:wmd/features/add_assets/add_listed_security/presentation/manager/listed_security_cubit.dart';
+import 'package:wmd/features/add_assets/add_loan_liability/presentation/manager/loan_liability_cubit.dart';
 import 'package:wmd/features/add_assets/add_private_debt/presentation/manager/private_debt_cubit.dart';
 import 'package:wmd/features/add_assets/add_private_equity/presentation/manager/private_equity_cubit.dart';
 import 'package:wmd/features/asset_detail/core/presentation/manager/asset_detail_cubit.dart';

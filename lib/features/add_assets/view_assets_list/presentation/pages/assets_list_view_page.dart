@@ -172,56 +172,64 @@ class AssetsPart extends AppStatelessWidget {
         EachAssetModel(
             id: 1,
             image: "assets/images/add_assets/bank_asset.svg",
-            title: "Liability",
+            title: appLocalizations
+                .manage_assetAndLiability_assetAndLiabilityList_loan_title,
             pageRoute: AppRoutes.addLiability,
-            description: loroIpsum)
+            description: appLocalizations
+                .manage_assetAndLiability_assetAndLiabilityList_loan_description)
       ];
     } else {
       assets = [
-        const EachAssetModel(
+        EachAssetModel(
           id: 2,
           pageRoute: AppRoutes.autoManualPage,
           image: "assets/images/add_assets/bank_asset.svg",
-          title: "Bank Account",
-          description:
-              "Current account, savings account and term deposit accounts.",
+          title: appLocalizations
+              .manage_assetAndLiability_assetAndLiabilityList_bankAccount_title,
+          description: appLocalizations
+              .manage_assetAndLiability_assetAndLiabilityList_bankAccount_description,
         ),
-        const EachAssetModel(
+        EachAssetModel(
             id: 3,
             pageRoute: AppRoutes.addListedAsset,
             image: "assets/images/add_assets/listed_asset.svg",
-            title: "Listed assets",
-            description:
-                "Investments made in stocks, ETFs, bonds and mutual funds."),
-        const EachAssetModel(
+            title: appLocalizations
+                .manage_assetAndLiability_assetAndLiabilityList_listedAssets_title,
+            description: appLocalizations
+                .manage_assetAndLiability_assetAndLiabilityList_listedAssets_description),
+        EachAssetModel(
           id: 4,
           pageRoute: AppRoutes.addPrivateDebt,
           image: "assets/images/add_assets/privet_debt.svg",
-          title: "Private debt",
-          description:
-              "Asset defined by non-bank lending where debt is not issued or traded on the public markets",
+          title: appLocalizations
+              .manage_assetAndLiability_assetAndLiabilityList_privateDebt_title,
+          description: appLocalizations
+              .manage_assetAndLiability_assetAndLiabilityList_privateDebt_description,
         ),
-        const EachAssetModel(
+        EachAssetModel(
             id: 5,
             pageRoute: AppRoutes.addRealEstate,
             image: "assets/images/add_assets/real_estate.svg",
-            title: "Real estate",
-            description:
-                "Current account, savings account and term deposit accounts."),
-        const EachAssetModel(
+            title: appLocalizations
+                .manage_assetAndLiability_assetAndLiabilityList_realEstate_title,
+            description: appLocalizations
+                .manage_assetAndLiability_assetAndLiabilityList_realEstate_description),
+        EachAssetModel(
             id: 6,
             pageRoute: AppRoutes.addPrivateEquity,
             image: "assets/images/add_assets/private_equity.svg",
-            title: "Private equity",
-            description:
-                "Current account, savings account and term deposit accounts."),
-        const EachAssetModel(
+            title: appLocalizations
+                .manage_assetAndLiability_assetAndLiabilityList_privateEquity_title,
+            description: appLocalizations
+                .manage_assetAndLiability_assetAndLiabilityList_privateEquity_description),
+        EachAssetModel(
             id: 7,
             pageRoute: AppRoutes.addOther,
             image: "assets/images/add_assets/others.svg",
-            title: "Others",
-            description:
-                "Current account, savings account and term deposit accounts."),
+            title: appLocalizations
+                .manage_assetAndLiability_assetAndLiabilityList_others_title,
+            description: appLocalizations
+                .manage_assetAndLiability_assetAndLiabilityList_others_description),
       ];
     }
     return SingleChildScrollView(
