@@ -6,6 +6,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:wmd/core/models/radio_button_options.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
@@ -288,11 +289,15 @@ class FormBuilderTypeAhead extends StatefulWidget {
   final String hint;
   final List<String> items;
   final ValueChanged<String?>? onChange;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
   const FormBuilderTypeAhead(
       {Key? key,
       required this.name,
       required this.items,
       required this.hint,
+      this.prefixIcon,
+      this.suffixIcon,
       this.onChange})
       : super(key: key);
 
@@ -313,6 +318,8 @@ class _FormBuilderTypeAheadState extends State<FormBuilderTypeAhead> {
             textFieldConfiguration: TextFieldConfiguration(
               decoration: InputDecoration(
                 hintText: widget.hint,
+                prefixIcon: widget.prefixIcon,
+                suffixIcon: widget.suffixIcon,
               ),
               controller: typeController,
               onChanged: (value) {
@@ -438,6 +445,7 @@ class DropDownTypeAhead extends StatefulWidget {
   final String hint;
   final List<String> items;
   final ValueChanged<String?>? onChange;
+
   const DropDownTypeAhead(
       {Key? key,
       required this.name,
@@ -543,5 +551,140 @@ class _PasswordTextFieldState extends AppState<PasswordTextField> {
             onChanged: widget.onChange),
       ],
     );
+  }
+}
+
+class RadioButton<T> extends StatefulWidget {
+  final String? hint;
+  final List<RadioButtonOptions<T>> items;
+  final String? initialValue;
+  final String name;
+  final ValueChanged<String?>? onChange;
+
+  const RadioButton({
+    Key? key,
+    this.hint,
+    this.onChange,
+    this.initialValue,
+    required this.items,
+    required this.name,
+  }) : super(key: key);
+
+  @override
+  AppState<RadioButton> createState() => _RadioButtontate<T>();
+}
+
+class _RadioButtontate<T> extends AppState<RadioButton> {
+  bool visible = false;
+
+  @override
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
+    return SizedBox(
+      child: Row(children: [
+        Expanded(
+            child: FormBuilderRadioGroup(
+                onChanged: (value) {
+                  // String paymentMethod = value.toString();
+                  // paymentViewModel.setPaymentMethod(paymentMethod);
+
+                  print(value.toString());
+                },
+                initialValue: widget.initialValue,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                ),
+                orientation: OptionsOrientation.horizontal,
+                name: widget.name,
+                activeColor: Theme.of(context).primaryColor,
+                options: widget.items
+                    .map((option) => FormBuilderFieldOption(
+                          value: option.value,
+                          child: Text(option.label),
+                        ))
+                    .toList(growable: false))),
+      ]
+
+          // widget.items
+          //     .map((e) => Expanded(
+          //             child: ListTile(
+          //           title: Text(e.label, style: textTheme.bodySmall),
+          //           leading: Radio<T>(
+          //             value: e.value,
+          //             groupValue: e.value,
+          //             activeColor: Theme.of(context).primaryColor,
+          //             onChanged: (value) {
+          //               // setState(() {
+          //               //   _character = value;
+          //               // });
+          //             },
+          //           ),
+          //         )))
+          //     .toList()
+
+          ),
+    );
+
+    // ListTile(
+    //         title: Text(e.label),
+    //         leading: Radio<T>(
+    //           value: e.value,
+    //           groupValue: e.value,
+    //           onChanged: (value) {
+    //             // setState(() {
+    //             //   _character = value;
+    //             // });
+    //           },
+    //         ),
+    //       )
+
+    // ListView.builder(
+    //     itemCount: widget.items.length,
+    //     itemBuilder: (BuildContext bctx, int index) {
+    //       return ListTile(
+    //         title: Text(widget.items[index].label),
+    //         leading: Radio<T>(
+    //           value: widget.items[index].value,
+    //           groupValue: widget.items[index].value,
+    //           onChanged: (value) {
+    //             // setState(() {
+    //             //   _character = value;
+    //             // });
+    //           },
+    //         ),
+    //       );
+    //     });
+
+    // Column(
+    //   children:
+
+    //   <Widget>[
+    //     ListTile(
+    //       title: const Text('Lafayette'),
+    //       leading: Radio<String>(
+    //         value: SingingCharacter.lafayette,
+    //         groupValue: _character,
+    //         onChanged: (SingingCharacter? value) {
+    //           setState(() {
+    //             _character = value;
+    //           });
+    //         },
+    //       ),
+    //     ),
+    //     ListTile(
+    //       title: const Text('Thomas Jefferson'),
+    //       leading: Radio<SingingCharacter>(
+    //         value: SingingCharacter.jefferson,
+    //         groupValue: _character,
+    //         onChanged: (SingingCharacter? value) {
+    //           setState(() {
+    //             _character = value;
+    //           });
+    //         },
+    //       ),
+    //     ),
+    //   ],
+    // );
   }
 }
