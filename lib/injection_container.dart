@@ -3,10 +3,14 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:wmd/core/data/network/error_handler_middleware.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/data/data_sources/bank_list_data_source.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/data/repository/bank_list_repository_impl.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/domain/usecase/get_bank_list.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/presentation/manager/bank_list_cubit.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/data/data_sources/plaid_data_source.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/data/repository/plaid_repository_impl.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/domain/repository/plaid_repository.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/domain/usecase/plaid_usecase.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/data_sources/bank_list_data_source.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/repository/bank_list_repository_impl.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_bank_list.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentation/manager/bank_list_cubit.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/data/data_sources/bank_details_save_remote_data_source.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/data/repositories/bank_repository_impl.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/repositories/bank_repository.dart';
@@ -37,6 +41,11 @@ import 'package:wmd/features/add_assets/add_private_equity/data/repositories/pri
 import 'package:wmd/features/add_assets/add_private_equity/domain/repositories/private_equity_repository.dart';
 import 'package:wmd/features/add_assets/add_private_equity/domain/use_cases/add_private_equity_usecase.dart';
 import 'package:wmd/features/add_assets/add_private_equity/presentation/manager/private_equity_cubit.dart';
+import 'package:wmd/features/asset_detail/core/data/data_sources/asset_detail_remote_datasource.dart';
+import 'package:wmd/features/asset_detail/core/data/repositories/asset_detail_repository_impl.dart';
+import 'package:wmd/features/asset_detail/core/domain/repositories/asset_detail_repository.dart';
+import 'package:wmd/features/asset_detail/core/domain/use_cases/get_detail_usecase.dart';
+import 'package:wmd/features/asset_detail/core/presentation/manager/asset_detail_cubit.dart';
 import 'package:wmd/features/assets_overview/assets_overview/data/data_sources/asset_overview_remote_datasource.dart';
 import 'package:wmd/features/assets_overview/assets_overview/data/repositories/assets_overview_repository_impl.dart';
 import 'package:wmd/features/assets_overview/assets_overview/domain/repositories/assets_overview_repository.dart';
@@ -83,8 +92,9 @@ import 'core/util/app_localization.dart';
 import 'core/util/app_theme.dart';
 import 'core/util/device_info.dart';
 import 'core/util/local_storage.dart';
-import 'features/add_assets/add_bank_auto/domain/repository/bank_list_repository.dart';
-import 'features/add_assets/add_bank_auto/domain/usecase/get_popular_bank_list.dart';
+import 'features/add_assets/add_bank_auto/plaid_integration/presentation/manager/plaid_cubit.dart';
+import 'features/add_assets/add_bank_auto/view_bank_list/domain/repository/bank_list_repository.dart';
+import 'features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_popular_bank_list.dart';
 import 'features/splash/data/repositories/splash_repository_impl.dart';
 import 'features/splash/domain/repositories/splash_repository.dart';
 import 'features/splash/domain/use_cases/check_login_usecase.dart';
@@ -184,6 +194,14 @@ Future<void> init() async {
       () => BankListRepositoryImpl(sl()));
   sl.registerLazySingleton<BankListRemoteDataSource>(
       () => BankListRemoteDataSourceImpl(sl()));
+
+  // Plaid integration
+  sl.registerFactory(() => PlaidCubit(sl()));
+  sl.registerLazySingleton(() => PlaidUseCase(sl()));
+  sl.registerLazySingleton<PlaidRepository>(() => PlaidRepositoryImpl(sl()));
+  sl.registerLazySingleton<PlaidRemoteDataSource>(
+      () => PlaidRemoteDataSourceImpl(sl()));
+
   // Add base private debt
   sl.registerFactory(() => PrivateDebtCubit(sl()));
   sl.registerLazySingleton(() => AddPrivateDebtUseCase(sl(), sl()));
@@ -231,6 +249,14 @@ Future<void> init() async {
       () => LoanLiabilityRepositoryImpl(sl()));
   sl.registerLazySingleton<LoanLiabilityRemoteDataSource>(
       () => LoanLiabilityRemoteDataSourceImpl(sl()));
+
+  //AssetDetail
+  sl.registerFactory(() => AssetDetailCubit(sl()));
+  sl.registerLazySingleton(() => GetDetailUseCase(sl()));
+  sl.registerLazySingleton<AssetDetailRepository>(
+      () => AssetDetailRepositoryImpl(sl()));
+  sl.registerLazySingleton<AssetDetailRemoteDataSource>(
+      () => AssetDetailRemoteDataSourceImpl(sl()));
 
   await initExternal();
 }

@@ -1,12 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/presentation/manager/bank_list_cubit.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/presentation/manager/plaid_cubit.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentation/manager/bank_list_cubit.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/manager/bank_cubit.dart';
 import 'package:wmd/features/add_assets/add_listed_security/presentation/manager/listed_security_cubit.dart';
 import 'package:wmd/features/add_assets/add_loan_liability/presentation/manager/loan_liability_cubit.dart';
 import 'package:wmd/features/add_assets/add_private_debt/presentation/manager/private_debt_cubit.dart';
 import 'package:wmd/features/add_assets/add_private_equity/presentation/manager/private_equity_cubit.dart';
+import 'package:wmd/features/asset_detail/core/presentation/manager/asset_detail_cubit.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
 import 'package:wmd/features/add_assets/add_other_asset/presentation/manager/other_asset_cubit.dart';
 import 'package:wmd/features/add_assets/add_real_estate/presentation/manager/real_estate_cubit.dart';

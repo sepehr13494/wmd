@@ -30,7 +30,7 @@ packages:
     source: hosted
     version: "2.3.1"
   async:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: async
       url: "https://pub.dartlang.org"
@@ -882,6 +882,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.0"
+  plaid_flutter:
+    dependency: "direct main"
+    description:
+      name: plaid_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.0"
   platform:
     dependency: transitive
     description:

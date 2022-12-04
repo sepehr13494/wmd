@@ -1,3 +1,10 @@
+enum ExceptionType {
+  normal,
+  auth,
+  unExpected,
+  format,
+}
+
 class CacheException implements Exception {
   final String message;
 
@@ -33,9 +40,16 @@ class ServerException implements Exception {
   }
 }
 
-enum ExceptionType {
-  normal,
-  auth,
-  unExpected,
-  format,
+class AppException implements Exception {
+  final String message;
+  final ExceptionType type;
+  final dynamic data;
+
+  AppException(
+      {required this.message, this.type = ExceptionType.normal, this.data});
+
+  @override
+  String toString() {
+    return "AppException : $message";
+  }
 }

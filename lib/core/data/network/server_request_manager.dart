@@ -18,36 +18,46 @@ class ServerRequestManager {
       clearBody = appRequestOptions.body;
       clearBody!.removeWhere((key, value) => value == null);
     }
+
     switch (appRequestOptions.type) {
       case RequestTypes.post:
-        response = await dio.post(baseUrl + appRequestOptions.url,
-            data: clearBody,
-            onSendProgress: appRequestOptions.onSendProgress == null
-                ? null
-                : (int sent, int total) {
-                    appRequestOptions.onSendProgress!(sent, total);
-                  });
+        response = await dio.post(
+          baseUrl + appRequestOptions.url,
+          data: clearBody,
+          onSendProgress: appRequestOptions.onSendProgress == null
+              ? null
+              : (int sent, int total) {
+                  appRequestOptions.onSendProgress!(sent, total);
+                },
+          options: Options(headers: appRequestOptions.additionalHeaders),
+        );
         break;
       case RequestTypes.get:
         response = await dio.get(
           baseUrl + appRequestOptions.url,
           queryParameters: clearBody,
+          options: Options(headers: appRequestOptions.additionalHeaders),
         );
         break;
       case RequestTypes.del:
-        response =
-            await dio.delete(baseUrl + appRequestOptions.url, data: clearBody);
+        response = await dio.delete(
+          baseUrl + appRequestOptions.url,
+          data: clearBody,
+          options: Options(headers: appRequestOptions.additionalHeaders),
+        );
         break;
       case RequestTypes.put:
         response = await dio.put(
           baseUrl + appRequestOptions.url,
           data: clearBody,
+          options: Options(headers: appRequestOptions.additionalHeaders),
         );
         break;
       case RequestTypes.patch:
         response = await dio.patch(
           baseUrl + appRequestOptions.url,
           data: clearBody,
+          options: Options(headers: appRequestOptions.additionalHeaders),
         );
         break;
     }
