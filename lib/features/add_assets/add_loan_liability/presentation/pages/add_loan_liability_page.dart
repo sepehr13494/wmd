@@ -100,10 +100,10 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                     return BlocConsumer<LoanLiabilityCubit, LoanLiabilityState>(
                         listener: BlocHelper.defaultBlocListener(
                             listener: (context, state) {
-                      if (state is RealEstateSaved) {
+                      if (state is LoanLiabilitySaved) {
                         context.read<MainDashboardCubit>().initPage();
 
-                        final successValue = state.realEstateSaveResponse;
+                        final successValue = state.loanLiabilitySaveResponse;
                         showDialog(
                           context: context,
                           builder: (context) {
@@ -199,7 +199,7 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                                   title: "Type",
                                   child: AppTextFields.dropDownTextField(
                                     onChanged: (e) {
-                                      if (e == "Personal Loan") {
+                                      if (e == "Personal") {
                                         setState(() {
                                           isPersonalLoan = true;
                                         });

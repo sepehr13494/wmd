@@ -126,18 +126,18 @@ class AddLoanLiabilityParams extends Equatable {
   };
 
   static final tAddLoanLiabilityParams = AddLoanLiabilityParams(
-      loanName: "investmentName",
-      bankName: "Residential",
-      loanType: "test",
+      loanName: "loantest",
+      bankName: "test",
+      loanType: "Home",
       currencyCode: "USD",
-      loanAmountOutstanding: 40000,
-      loanAmountSanctioned: 20000,
+      loanAmountOutstanding: 500000,
+      loanAmountSanctioned: 700000,
       startDate: DateTime.parse('2022-10-05T21:00:00.000Z'),
       endDate: DateTime.parse('2022-10-05T21:00:00.000Z'),
-      rate: 30,
-      monthlyPayment: 30000,
+      rate: 5,
+      monthlyPayment: 50000,
       collateral: true,
-      insurance: false);
+      insurance: true);
 
   @override
   List<Object?> get props => [

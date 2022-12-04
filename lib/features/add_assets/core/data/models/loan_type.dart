@@ -5,9 +5,9 @@ class LoanType {
   LoanType({required this.name, required this.value});
 
   static const json = [
-    {"value": "Home Loan", "name": "Home Loan"},
-    {"value": "Vehicle Loan", "name": "Vehicle Loan"},
-    {"value": "Personal Loan", "name": "Personal Loan"},
+    {"value": "Home", "name": "Home"},
+    {"value": "Vehicle", "name": "Vehicle"},
+    {"value": "Personal", "name": "Personal"},
     {"value": "Other", "name": "Other"},
   ];
 
