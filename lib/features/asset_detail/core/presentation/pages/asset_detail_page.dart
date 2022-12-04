@@ -35,7 +35,7 @@ class AssetDetailPage extends AppStatelessWidget {
                 switch (type) {
                   case 'BankAccount':
                     return BankAccountDetailPage(
-                        bankEntity:
+                        bankAccountEntity:
                             state.assetDetailEntity as BankAccountEntity);
                   default:
                     return Text(state.assetDetailEntity.toString());

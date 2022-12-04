@@ -329,6 +329,15 @@ class AppConstants {
       "value": "Alphabet Inc Class C"
     }
   ];
+
+  static String getCurrencySymbolByCode(String? currencyCode) {
+    switch (currencyCode) {
+      case "USD":
+        return '\$';
+      default:
+        return '\$';
+    }
+  }
 }
 
 class BankProviders {

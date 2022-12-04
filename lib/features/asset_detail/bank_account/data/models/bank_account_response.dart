@@ -96,4 +96,23 @@ class BankAccountResponse extends BankAccountEntity
         region,
         currencyCode,
       ];
+
+  static final tBankAccountResponse = {
+    "bankName": "Isbank",
+    "description": "Softtech",
+    "accountType": "CurrentAccount",
+    "currentBalance": 1071.0,
+    "isJointAccount": false,
+    "noOfCoOwners": 0,
+    "ownershipPercentage": 0.0,
+    "interestRate": 0.0,
+    "startDate": null,
+    "endDate": null,
+    "id": "6e2bd58f-6d3f-46f1-9480-46a0f96cbeff",
+    "type": "BankAccount",
+    "isActive": true,
+    "country": "TR",
+    "region": "Asia",
+    "currencyCode": "USD"
+  };
 }

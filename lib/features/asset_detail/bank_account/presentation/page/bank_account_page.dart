@@ -3,47 +3,41 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/features/asset_detail/bank_account/domain/entity/bank_account_entity.dart';
+import 'package:wmd/features/asset_detail/bank_account/presentation/widgets/summary_widget.dart';
 
 class BankAccountDetailPage extends AppStatelessWidget {
-  final BankAccountEntity bankEntity;
+  final BankAccountEntity bankAccountEntity;
   const BankAccountDetailPage({
     Key? key,
-    required this.bankEntity,
+    required this.bankAccountEntity,
   }) : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    final lineColor = Theme.of(context).scaffoldBackgroundColor;
     return Stack(
       children: [
         const LeafBackground(
-          opacity: 0.5,
+          opacity: 0.1,
         ),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(bankEntity.bankName ?? 'Bank account',
+              Text(bankAccountEntity.bankName ?? 'Bank account',
                   style: textTheme.headlineSmall),
-              const SizedBox(height: 16),
+              const SizedBox(height: 12),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(bankEntity.description ?? ''),
+                  if (bankAccountEntity.description != null)
+                    Text(bankAccountEntity.description!),
                   const EditButton(),
                 ],
               ),
               const SizedBox(height: 16),
-              Container(
-                padding: const EdgeInsets.all(16),
-                width: double.maxFinite,
-                decoration: BoxDecoration(
-                    border: Border.all(color: lineColor),
-                    borderRadius: BorderRadius.circular(8)),
-                child: Column(),
-              ),
+              BankAccountSummaryWidget(bankAccountEntity),
             ],
           ),
         ),
