@@ -7,6 +7,7 @@ import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/pages/dashboard_main_page.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/pages/dashboard_page.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
+import 'package:wmd/features/profile/presentation/pages/profile_page.dart';
 import 'package:wmd/injection_container.dart';
 
 import '../manager/main_page_cubit.dart';
@@ -23,12 +24,14 @@ class _MainPageState extends State<MainPage> {
     const DashboardMainPage(),
     const DashboardPage(),
     const AssetsOverView(),
+    const ProfilePage(),
   ];
 
   static final List<List> items = [
     [Icons.home, 'Home'],
     [Icons.account_box, 'Main'],
     [Icons.bar_chart, 'Assets'],
+    [Icons.person, 'Profile'],
   ];
 
   @override
@@ -73,9 +76,9 @@ class _MainPageState extends State<MainPage> {
                         );
                       }),
                       unselectedLabelStyle:
-                          const TextStyle(fontSize: 10, color: Colors.black),
+                          const TextStyle(fontSize: 10),
                       selectedLabelStyle:
-                          const TextStyle(fontSize: 12, color: Colors.black),
+                          const TextStyle(fontSize: 12),
                       currentIndex: state,
                       showUnselectedLabels: true,
                       type: BottomNavigationBarType.fixed,
