@@ -27,86 +27,89 @@ class EachAssetType extends AppStatelessWidget {
     final responsiveHelper = ResponsiveHelper(context: context);
     bool isMobile = responsiveHelper.isMobile;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          crossAxisAlignment:
-              isMobile ? CrossAxisAlignment.start : CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Card(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    child: Row(
-                      children: [
-                        DotWidget(
-                            color: _getAssetColorByType(assetsOverview.type)),
-                        const SizedBox(width: 8),
-                        Text(_getAssetNameByType(assetsOverview.type),
-                            style: textTheme.titleSmall)
-                      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment:
+                isMobile ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Card(
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      child: Row(
+                        children: [
+                          DotWidget(
+                              color: _getAssetColorByType(assetsOverview.type)),
+                          const SizedBox(width: 8),
+                          Text(_getAssetNameByType(assetsOverview.type),
+                              style: textTheme.titleSmall)
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                RowOrColumn(
-                  columnCrossAxisAlignment: CrossAxisAlignment.start,
-                  showRow: !isMobile,
-                  children: [
-                    Text(
-                      assetsOverview.totalAmount.convertMoney(addDollar: true),
-                      style: const TextStyle(fontSize: 28),
-                    ),
-                    SizedBox(width: responsiveHelper.bigger16Gap, height: 16),
-                    YtdItdWidget(
-                        ytd: assetsOverview.yearToDate,
-                        itd: assetsOverview.inceptionToDate),
-                  ],
-                )
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 4, bottom: 8),
-              child: AddButton(
-                  onTap: _getAssetOnTapByType(context, assetsOverview.type),
-                  addAsset: true),
-            ),
-          ],
-        ),
-        AssetsOverviewInherit(
-          assetList: assetsOverview.assetList,
-          type: assetsOverview.type,
-          child: Builder(builder: (context) {
-            ExpandableController controller = ExpandableController();
-            return assetsOverview.assetList.isEmpty
-                ? const SizedBox()
-                : Column(
+                  RowOrColumn(
+                    columnCrossAxisAlignment: CrossAxisAlignment.start,
+                    showRow: !isMobile,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(
-                            top: 12, bottom: 4, right: 4, left: 4),
-                        child: ResponsiveWidget(
-                          mobile: AssetTypeMobileTableTitle(),
-                          tablet: AssetTypeTabletTableTitle(),
-                          desktop: AssetTypeTabletTableTitle(),
-                        ),
+                      Text(
+                        assetsOverview.totalAmount.convertMoney(addDollar: true),
+                        style: const TextStyle(fontSize: 28),
                       ),
-                      ExpandablePanel(
-                        collapsed: AssetTypeBaseCard(
-                            showMore: false, controller: controller),
-                        expanded: AssetTypeBaseCard(
-                            showMore: true, controller: controller),
-                        controller: controller,
-                      )
+                      SizedBox(width: responsiveHelper.bigger16Gap, height: 16),
+                      YtdItdWidget(
+                          ytd: assetsOverview.yearToDate,
+                          itd: assetsOverview.inceptionToDate),
                     ],
-                  );
-          }),
-        )
-      ],
+                  )
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4, bottom: 8),
+                child: AddButton(
+                    onTap: _getAssetOnTapByType(context, assetsOverview.type),
+                    addAsset: true),
+              ),
+            ],
+          ),
+          AssetsOverviewInherit(
+            assetList: assetsOverview.assetList,
+            type: assetsOverview.type,
+            child: Builder(builder: (context) {
+              ExpandableController controller = ExpandableController();
+              return assetsOverview.assetList.isEmpty
+                  ? const SizedBox()
+                  : Column(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(
+                              top: 12, bottom: 4, right: 4, left: 4),
+                          child: ResponsiveWidget(
+                            mobile: AssetTypeMobileTableTitle(),
+                            tablet: AssetTypeTabletTableTitle(),
+                            desktop: AssetTypeTabletTableTitle(),
+                          ),
+                        ),
+                        ExpandablePanel(
+                          collapsed: AssetTypeBaseCard(
+                              showMore: false, controller: controller),
+                          expanded: AssetTypeBaseCard(
+                              showMore: true, controller: controller),
+                          controller: controller,
+                        )
+                      ],
+                    );
+            }),
+          )
+        ],
+      ),
     );
   }
 
