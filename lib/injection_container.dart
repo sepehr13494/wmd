@@ -17,6 +17,11 @@ import 'package:wmd/features/add_assets/add_listed_security/data/repositories/li
 import 'package:wmd/features/add_assets/add_listed_security/domain/repositories/listed_security_repository.dart';
 import 'package:wmd/features/add_assets/add_listed_security/domain/use_cases/add_listed_security_usecase.dart';
 import 'package:wmd/features/add_assets/add_listed_security/presentation/manager/listed_security_cubit.dart';
+import 'package:wmd/features/add_assets/add_loan_liability/data/data_sources/loan_liability_remote_data_source.dart';
+import 'package:wmd/features/add_assets/add_loan_liability/data/repositories/loan_liability_repository_impl.dart';
+import 'package:wmd/features/add_assets/add_loan_liability/domain/repositories/loan_liability_repository.dart';
+import 'package:wmd/features/add_assets/add_loan_liability/domain/use_cases/add_loan_liability_usecase.dart';
+import 'package:wmd/features/add_assets/add_loan_liability/presentation/manager/loan_liability_cubit.dart';
 import 'package:wmd/features/add_assets/add_other_asset/data/data_sources/other_asset_remote_data_source.dart';
 import 'package:wmd/features/add_assets/add_other_asset/data/repositories/other_asset_repository_impl.dart';
 import 'package:wmd/features/add_assets/add_other_asset/domain/repositories/other_asset_repository.dart';
@@ -139,9 +144,9 @@ Future<void> init() async {
   sl.registerFactory(() => AssetsOverviewCubit(sl()));
   sl.registerLazySingleton(() => GetAssetsOverviewUseCase(sl()));
   sl.registerLazySingleton<AssetsOverviewRepository>(
-          () => AssetsOverviewRepositoryImpl(sl()));
+      () => AssetsOverviewRepositoryImpl(sl()));
   sl.registerLazySingleton<AssetsOverviewRemoteDataSource>(
-          () => AssetsOverviewRemoteDataSourceImpl(sl()));
+      () => AssetsOverviewRemoteDataSourceImpl(sl()));
 
   // Dashboard - user status dependencies
   sl.registerFactory(() => UserStatusCubit(sl(), sl()));
@@ -218,6 +223,14 @@ Future<void> init() async {
       () => ListedSecurityRepositoryImpl(sl()));
   sl.registerLazySingleton<ListedSecurityRemoteDataSource>(
       () => ListedSecurityRemoteDataSourceImpl(sl()));
+
+  // Add loan liability
+  sl.registerFactory(() => LoanLiabilityCubit(sl()));
+  sl.registerLazySingleton(() => AddLoanLiabilityUseCase(sl()));
+  sl.registerLazySingleton<LoanLiabilityRepository>(
+      () => LoanLiabilityRepositoryImpl(sl()));
+  sl.registerLazySingleton<LoanLiabilityRemoteDataSource>(
+      () => LoanLiabilityRemoteDataSourceImpl(sl()));
 
   await initExternal();
 }
