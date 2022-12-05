@@ -3,7 +3,7 @@ import 'package:wmd/features/asset_detail/core/data/models/get_detail_response.d
 import '../../domain/entity/real_estate_entity.dart';
 
 class RealEstateResponse extends RealEstateEntity implements GetDetailResponse {
-  RealEstateResponse({
+  const RealEstateResponse({
     required String name,
     required String realEstateType,
     required String address,

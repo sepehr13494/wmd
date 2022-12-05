@@ -1,21 +1,21 @@
-import 'package:wmd/features/asset_detail/bank_account/domain/entity/bank_account_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/asset_detail/real_estate/domain/entity/real_estate_entity.dart';
 
-class BankAccountSummaryWidget extends AppStatelessWidget {
-  final BankAccountEntity bankAccountEntity;
-  const BankAccountSummaryWidget(this.bankAccountEntity, {Key? key})
+class RealEstateSummaryWidget extends AppStatelessWidget {
+  final RealEstateEntity realEstateEntity;
+  const RealEstateSummaryWidget(this.realEstateEntity, {Key? key})
       : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final String currencySymbol =
-        AppConstants.getCurrencySymbolByCode(bankAccountEntity.currencyCode);
+        AppConstants.getCurrencySymbolByCode(realEstateEntity.currencyCode);
     final lineColor = Theme.of(context).dividerColor;
     final responsiveHelper = ResponsiveHelper(context: context);
     bool isMobile = responsiveHelper.isMobile;
@@ -44,17 +44,68 @@ class BankAccountSummaryWidget extends AppStatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Balance',
+                        'Your holdings',
                         style: textTheme.titleSmall,
                       ),
                       SizedBox(height: responsiveHelper.bigger16Gap),
-                      if (bankAccountEntity.currentBalance != null)
-                        Text(
-                          currencySymbol +
-                              bankAccountEntity.currentBalance.toString(),
-                          style: const TextStyle(
-                              fontSize: 28, fontWeight: FontWeight.w300),
-                        ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Ownership based value",
+                            style: textTheme.bodySmall,
+                          ),
+                          const SizedBox(width: 8),
+                          Icon(
+                            Icons.info_outline,
+                            color: Theme.of(context).primaryColor,
+                            size: 14,
+                          )
+                        ],
+                      ),
+                      Text(
+                        currencySymbol + realEstateEntity.marketValue,
+                        style: const TextStyle(
+                            fontSize: 28, fontWeight: FontWeight.w300),
+                      ),
+                      SizedBox(height: responsiveHelper.bigger16Gap),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ExpandedIf(
+                            expanded: !isMobile,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Total value",
+                                  style: textTheme.bodySmall,
+                                ),
+                                Text(
+                                  currencySymbol + realEstateEntity.marketValue,
+                                  style: textTheme.bodyLarge,
+                                ),
+                              ],
+                            ),
+                          ),
+                          ExpandedIf(
+                            expanded: !isMobile,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Ownership",
+                                  style: textTheme.bodySmall,
+                                ),
+                                Text(
+                                  "%${realEstateEntity.ownershipPercentage}",
+                                  style: textTheme.bodyLarge,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),
@@ -100,17 +151,18 @@ class BankAccountSummaryWidget extends AppStatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Last 30 days",
+                                  "YTD",
                                   style: textTheme.bodySmall,
                                 ),
                                 Row(
                                   children: [
                                     Text(
-                                      "\$1,326,320",
+                                      currencySymbol +
+                                          realEstateEntity.marketValue,
                                       style: textTheme.bodyLarge,
                                     ),
                                     const ChangeWidget(
-                                        number: 8.03, text: "8.03%"),
+                                        number: 60, text: "60.0%"),
                                   ],
                                 ),
                               ],
@@ -121,19 +173,28 @@ class BankAccountSummaryWidget extends AppStatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  "Portfolio contribution",
-                                  style: textTheme.bodySmall,
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "ITD",
+                                      style: textTheme.bodySmall,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Icon(
+                                      Icons.info_outline,
+                                      color: Theme.of(context).primaryColor,
+                                      size: 14,
+                                    )
+                                  ],
                                 ),
-                                Text(
-                                  "2.76% of \$8,676,200",
-                                  style: textTheme.bodyLarge,
-                                ),
+                                const ChangeWidget(
+                                    number: 12.12, text: "12.12%"),
                               ],
                             ),
                           ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 )
