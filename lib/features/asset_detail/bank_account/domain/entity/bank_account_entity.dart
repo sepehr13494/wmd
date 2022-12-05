@@ -4,11 +4,11 @@ class BankAccountEntity extends Equatable {
   final String? bankName;
   final String? description;
   final String? accountType;
-  final int? currentBalance;
+  final double? currentBalance;
   final bool? isJointAccount;
-  final int? noOfCoOwners;
-  final int? ownershipPercentage;
-  final int? interestRate;
+  final double? noOfCoOwners;
+  final double? ownershipPercentage;
+  final double? interestRate;
   final String? startDate;
   final String? endDate;
   final String? id;
