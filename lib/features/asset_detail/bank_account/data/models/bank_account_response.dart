@@ -7,11 +7,11 @@ class BankAccountResponse extends BankAccountEntity
     String? bankName,
     String? description,
     String? accountType,
-    int? currentBalance,
+    double? currentBalance,
     bool? isJointAccount,
-    int? noOfCoOwners,
-    int? ownershipPercentage,
-    int? interestRate,
+    double? noOfCoOwners,
+    double? ownershipPercentage,
+    double? interestRate,
     String? startDate,
     String? endDate,
     String? id,
@@ -43,11 +43,13 @@ class BankAccountResponse extends BankAccountEntity
     final bankName = json['bankName']?.toString();
     final description = json['description']?.toString();
     final accountType = json['accountType']?.toString();
-    final currentBalance = json['currentBalance']?.toInt();
+    final currentBalance =
+        double.tryParse(json['currentBalance'].toString()) ?? 0;
     final isJointAccount = json['isJointAccount'];
-    final noOfCoOwners = json['noOfCoOwners']?.toInt();
-    final ownershipPercentage = json['ownershipPercentage']?.toInt();
-    final interestRate = json['interestRate']?.toInt();
+    final noOfCoOwners = double.tryParse(json['noOfCoOwners'].toString()) ?? 0;
+    final ownershipPercentage =
+        double.tryParse(json['ownershipPercentage'].toString()) ?? 0;
+    final interestRate = double.tryParse(json['interestRate'].toString()) ?? 0;
     final startDate = json['startDate']?.toString();
     final endDate = json['endDate']?.toString();
     final id = json['id']?.toString();
@@ -56,7 +58,6 @@ class BankAccountResponse extends BankAccountEntity
     final country = json['country']?.toString();
     final region = json['region']?.toString();
     final currencyCode = json['currencyCode']?.toString();
-    final value = json.toString();
     return BankAccountResponse(
       bankName,
       description,

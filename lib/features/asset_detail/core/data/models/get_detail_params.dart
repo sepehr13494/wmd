@@ -1,7 +1,9 @@
-class GetDetailParams {
+import 'package:equatable/equatable.dart';
+
+class GetDetailParams extends Equatable {
   final String type;
   final String assetId;
-  GetDetailParams({required this.type, required this.assetId});
+  const GetDetailParams({required this.type, required this.assetId});
 
   factory GetDetailParams.fromJson(Map<String, dynamic> json) {
     return GetDetailParams(assetId: json['assetId'], type: json['type']);
@@ -11,4 +13,15 @@ class GetDetailParams {
         'assetId': assetId,
         'type': type,
       };
+
+  static final tGetDetailsJson = {
+    'assetId': 'assetId',
+    'type': 'BankAccount',
+  };
+
+  @override
+  List<Object?> get props => [
+        type,
+        assetId,
+      ];
 }

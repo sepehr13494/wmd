@@ -32,11 +32,11 @@ class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
         );
 }
 
-/// A class which mocks [PlaidLinkRepository].
+/// A class which mocks [PlaidRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPlaidLinkRepository extends _i1.Mock implements _i3.PlaidRepository {
-  MockPlaidLinkRepository() {
+class MockPlaidRepository extends _i1.Mock implements _i3.PlaidRepository {
+  MockPlaidRepository() {
     _i1.throwOnMissingStub(this);
   }
 

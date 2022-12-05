@@ -52,24 +52,4 @@ Future<void> main() async {
       verify(mockErrorHandlerMiddleware.sendRequest(any));
     });
   });
-
-  // group('GetDetails server exceptions test', () {
-  //   GetDetailParams params = GetDetailParams(type: '', assetId: 'assetId');
-
-  //   test('should throws ServerException when API call is not successful',
-  //       () async {
-  //     final tServerException = ServerException(message: 'exception message');
-  //     //arrange
-  //     when(mockErrorHandlerMiddleware.sendRequest(any))
-  //         .thenThrow(tServerException);
-  //     final call = assetDetailRemoteDataSourceImpl.getDetail;
-
-  //     //assert
-  //     expect(
-  //         () => call(params),
-  //         throwsA(const TypeMatcher<ServerException>()
-  //             .having((e) => e.message, 'message', tServerException.message)));
-  //     verify(mockErrorHandlerMiddleware.sendRequest(any));
-  //   });
-  // });
 }
