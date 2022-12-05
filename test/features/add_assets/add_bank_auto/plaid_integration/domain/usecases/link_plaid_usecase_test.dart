@@ -10,11 +10,11 @@ import 'link_plaid_usecase_test.mocks.dart';
 
 @GenerateMocks([PlaidRepository])
 void main() {
-  late MockPlaidLinkRepository mockPlaidLinkRepository;
+  late MockPlaidRepository mockPlaidLinkRepository;
   late PlaidUseCase plaidLinkUseCase;
 
   setUp(() {
-    mockPlaidLinkRepository = MockPlaidLinkRepository();
+    mockPlaidLinkRepository = MockPlaidRepository();
     plaidLinkUseCase = PlaidUseCase(mockPlaidLinkRepository);
   });
 
