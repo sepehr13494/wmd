@@ -68,14 +68,12 @@ class AssetsOverView extends AppStatelessWidget {
                         builder: BlocHelper.defaultBlocBuilder(
                             builder: (context, state) {
                           if (state is AssetsOverviewLoaded) {
-                            return ListView.separated(
+                            return ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: state.assetsOverviews.length,
-                              itemBuilder: (context, index) => EachAssetType(
+                              itemBuilder: (context, index) => state.assetsOverviews[index].assetList.isEmpty ? const SizedBox() : EachAssetType(
                                   assetsOverview: state.assetsOverviews[index]),
-                              separatorBuilder: (context, _) =>
-                                  const Divider(height: 24),
                             );
                           } else {
                             return const LoadingWidget();

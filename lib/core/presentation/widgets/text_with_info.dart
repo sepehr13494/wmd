@@ -11,7 +11,7 @@ class TextWithInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(title),
+        Text(title,style: TextStyle(color: Color(0xffAAAAAA)),),
         const SizedBox(width: 4),
         hasInfo? InkWell(
           onTap: onInfoTap,
