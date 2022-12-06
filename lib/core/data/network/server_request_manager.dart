@@ -65,7 +65,6 @@ class ServerRequestManager {
       debugPrint(response.requestOptions.uri.toString());
       debugPrint(response.requestOptions.headers.toString());
       debugPrint(response.statusCode.toString());
-      debugPrint(response.data.toString());
     }
 
     return response;

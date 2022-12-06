@@ -21,6 +21,7 @@ import 'package:wmd/features/authentication/login_signup/presentation/pages/welc
 import 'package:wmd/features/authentication/verify_email/presentation/pages/verify_response_page.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:wmd/features/main_page/presentation/pages/main_page.dart';
+import 'package:wmd/features/profile/presentation/pages/profile_page.dart';
 import 'package:wmd/features/splash/presentation/pages/splash_page.dart';
 
 class AppRouter {
@@ -104,6 +105,13 @@ class AppRouter {
                   assetId: state.queryParams['assetId'] as String,
                   type: state.queryParams['type'] as String,
                 );
+              },
+            ),
+            GoRoute(
+              name: AppRoutes.settings,
+              path: "settings",
+              builder: (BuildContext context, GoRouterState state) {
+                return const ProfilePage();
               },
             ),
             GoRoute(

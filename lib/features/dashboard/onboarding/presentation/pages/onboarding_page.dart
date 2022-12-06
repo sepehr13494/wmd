@@ -9,6 +9,7 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/dashboard_app_bar.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/onboarding_asset_view.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/onboarding_security_view.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/onboarding_wealth_view.dart';
@@ -40,7 +41,7 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
     ];
 
     return Scaffold(
-        appBar: const CustomAuthAppBar(),
+        appBar: const DashboardAppBar(),
         body: BlocConsumer<UserStatusCubit, UserStatusState>(
           listener: BlocHelper.defaultBlocListener(listener: (context, state) {
             if (state is UserStatusLoaded) {

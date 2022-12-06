@@ -8,13 +8,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
-import 'package:wmd/core/util/app_theme.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/data/models/net_worth_response_obj.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/domain/entities/net_worth_entity.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
-import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/bar_chart.dart';
-import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/line_chart.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/dashboard_app_bar.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/filter_add_widget.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/net_worth_base_chart.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/pie_chart_sample.dart';
@@ -45,7 +43,7 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
     final appTheme = Theme.of(context);
     return Scaffold(
-      appBar: const CustomAuthAppBar(),
+      appBar: const DashboardAppBar(),
       body: BlocConsumer<UserStatusCubit, UserStatusState>(
         listener: BlocHelper.defaultBlocListener(listener: (context, state) {
           if (state is UserStatusLoaded) {
