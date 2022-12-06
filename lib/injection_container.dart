@@ -41,6 +41,11 @@ import 'package:wmd/features/add_assets/add_private_equity/data/repositories/pri
 import 'package:wmd/features/add_assets/add_private_equity/domain/repositories/private_equity_repository.dart';
 import 'package:wmd/features/add_assets/add_private_equity/domain/use_cases/add_private_equity_usecase.dart';
 import 'package:wmd/features/add_assets/add_private_equity/presentation/manager/private_equity_cubit.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/data/data_sources/custodian_bank_auth_remote_datasource.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/data/repositories/custodian_bank_auth_repository_impl.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/domain/repositories/custodian_bank_auth_repository.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_bank_list_usecase.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_auth_cubit.dart';
 import 'package:wmd/features/asset_detail/core/data/data_sources/asset_detail_remote_datasource.dart';
 import 'package:wmd/features/asset_detail/core/data/repositories/asset_detail_repository_impl.dart';
 import 'package:wmd/features/asset_detail/core/domain/repositories/asset_detail_repository.dart';
@@ -95,6 +100,8 @@ import 'core/util/local_storage.dart';
 import 'features/add_assets/add_bank_auto/plaid_integration/presentation/manager/plaid_cubit.dart';
 import 'features/add_assets/add_bank_auto/view_bank_list/domain/repository/bank_list_repository.dart';
 import 'features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_popular_bank_list.dart';
+import 'features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_bank_status_usecase.dart';
+import 'features/add_assets/custodian_bank_auth/domain/use_cases/post_custodian_bank_status_usecase.dart';
 import 'features/splash/data/repositories/splash_repository_impl.dart';
 import 'features/splash/domain/repositories/splash_repository.dart';
 import 'features/splash/domain/use_cases/check_login_usecase.dart';
@@ -257,6 +264,16 @@ Future<void> init() async {
       () => AssetDetailRepositoryImpl(sl()));
   sl.registerLazySingleton<AssetDetailRemoteDataSource>(
       () => AssetDetailRemoteDataSourceImpl(sl()));
+
+//CustodianBankAuth
+  sl.registerFactory(() => CustodianBankAuthCubit(sl(), sl(), sl()));
+  sl.registerLazySingleton(() => GetCustodianBankListUseCase(sl()));
+  sl.registerLazySingleton(() => PostCustodianBankStatusUseCase(sl()));
+  sl.registerLazySingleton(() => GetCustodianBankStatusUseCase(sl()));
+  sl.registerLazySingleton<CustodianBankAuthRepository>(
+      () => CustodianBankAuthRepositoryImpl(sl()));
+  sl.registerLazySingleton<CustodianBankAuthRemoteDataSource>(
+      () => CustodianBankAuthRemoteDataSourceImpl(sl()));
 
   await initExternal();
 }
