@@ -4,6 +4,8 @@ import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import 'package:wmd/core/util/local_storage.dart';
+import 'package:wmd/injection_container.dart';
 
 class FilterAddPart extends AppStatelessWidget {
   const FilterAddPart({Key? key}) : super(key: key);
@@ -45,7 +47,10 @@ class FilterAddPart extends AppStatelessWidget {
               height: 32,
               child: ElevatedButton(
                 onPressed: () {
-                  context.pushNamed(AppRoutes.addAssetsView);
+                  sl<LocalStorage>().logout();
+                  context.replaceNamed(AppRoutes.splash);
+
+                  // context.pushNamed(AppRoutes.addAssetsView);
                 },
                 child: FittedBox(
                   fit: BoxFit.scaleDown,

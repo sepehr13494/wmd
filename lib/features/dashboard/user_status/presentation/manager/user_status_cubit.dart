@@ -21,8 +21,7 @@ class UserStatusCubit extends Cubit<UserStatusState> {
     final result = await getUserStatusUseCase(NoParams());
     result.fold((failure) {
       emit(ErrorState(failure: failure));
-    },
-        (userStatusSuccess) {
+    }, (userStatusSuccess) {
       if (userStatusSuccess.loginAt == null) {
         postUserStatus(map: {
           "email": userStatusSuccess.email,
@@ -34,7 +33,11 @@ class UserStatusCubit extends Cubit<UserStatusState> {
   }
 
   postUserStatus({required Map<String, dynamic> map}) async {
+    emit(LoadingState());
     final result = await putUserStatusUseCase(UserStatus.fromJson(map));
-    result.fold((failure) => {}, (userStatusSuccess) => {});
+    result.fold(
+        (failure) => {emit(ErrorState(failure: failure))},
+        (userStatusSuccess) =>
+            {emit(UserStatusLoaded(userStatus: userStatusSuccess))});
   }
 }
