@@ -96,14 +96,14 @@ class AppThemes {
           seedColor: AppColors.primary,
           brightness: brightness,
         ),
-        textTheme: const TextTheme(
-          bodyLarge: TextStyle(height: 1.3),
-          bodySmall: TextStyle(height: 1.3,color: Color(0xffC7C7C7)),
-          bodyMedium: TextStyle(height: 1.3,color: Color(0xffC7C7C7)),
-          titleSmall: TextStyle(height: 1.3),
-          titleMedium: TextStyle(height: 1.3),
-          titleLarge: TextStyle(height: 1.3),
-          headlineSmall: TextStyle(height: 1.3),
+        textTheme: TextTheme(
+          bodyLarge: const TextStyle(height: 1.3),
+          bodySmall: TextStyle(height: 1.3,color: brightness == Brightness.dark ? const Color(0xffC7C7C7) : Colors.black),
+          bodyMedium: TextStyle(height: 1.3,color: brightness == Brightness.dark ? const Color(0xffC7C7C7) : Colors.black),
+          titleSmall: const TextStyle(height: 1.3),
+          titleMedium: const TextStyle(height: 1.3),
+          titleLarge: const TextStyle(height: 1.3),
+          headlineSmall: const TextStyle(height: 1.3),
         ));
   }
 

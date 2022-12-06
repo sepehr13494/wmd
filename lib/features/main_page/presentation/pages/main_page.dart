@@ -24,14 +24,12 @@ class _MainPageState extends State<MainPage> {
     const DashboardMainPage(),
     const DashboardPage(),
     const AssetsOverView(),
-    const ProfilePage(),
   ];
 
   static final List<List> items = [
     [Icons.home, 'Home'],
     [Icons.account_box, 'Main'],
     [Icons.bar_chart, 'Assets'],
-    [Icons.person, 'Profile'],
   ];
 
   @override
