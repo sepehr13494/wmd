@@ -37,17 +37,17 @@ class OnBoardingConfigModel extends Equatable {
       "text":
           "Add all your investments, assets and liabilities from all of your wealth managers in one place.",
       "image":
-          "assets/images/dashboard/onboarding/onboarding_wealth_overview.svg"
+          "assets/images/dashboard/onboarding/onboarding_wealth_overview.png"
     },
     {
       "text":
           "Asset allocation charts by class, geography & currency help you understand your portfolio diversity.",
-      "image": "assets/images/dashboard/onboarding/onboarding_wealth_asset.svg"
+      "image": "assets/images/dashboard/onboarding/onboarding_wealth_asset.png"
     },
     {
       "text":
           "Get personalized insights about your wealth which will help you manage your wealth better.",
-      "image": "assets/images/dashboard/onboarding/onboarding_wealth_charts.svg"
+      "image": "assets/images/dashboard/onboarding/onboarding_wealth_charts.png"
     },
   ];
 

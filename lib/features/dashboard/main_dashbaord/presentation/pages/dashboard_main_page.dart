@@ -50,6 +50,7 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
             if (state.userStatus.loginAt == null) {
               context.goNamed(AppRoutes.onboarding);
             }
+            context.goNamed(AppRoutes.onboarding);
           }
         }),
         builder: BlocHelper.defaultBlocBuilder(builder: (context, state) {
