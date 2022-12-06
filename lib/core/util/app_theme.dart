@@ -68,7 +68,9 @@ class AppThemes {
           contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           border: OutlineInputBorder(),
         ),
-        dividerColor: textColor,
+        dividerTheme: DividerThemeData(
+          color: brightness == Brightness.dark ? const Color(0xff222222) : textColor,
+        ),
         listTileTheme: const ListTileThemeData(
           horizontalTitleGap: 0,
         ),
@@ -94,14 +96,14 @@ class AppThemes {
           seedColor: AppColors.primary,
           brightness: brightness,
         ),
-        textTheme: const TextTheme(
-          bodyLarge: TextStyle(height: 1.3),
-          bodySmall: TextStyle(height: 1.3),
-          bodyMedium: TextStyle(height: 1.3),
-          titleSmall: TextStyle(height: 1.3),
-          titleMedium: TextStyle(height: 1.3),
-          titleLarge: TextStyle(height: 1.3),
-          headlineSmall: TextStyle(height: 1.3),
+        textTheme: TextTheme(
+          bodyLarge: const TextStyle(height: 1.3),
+          bodySmall: TextStyle(height: 1.3,color: brightness == Brightness.dark ? const Color(0xffC7C7C7) : Colors.black),
+          bodyMedium: TextStyle(height: 1.3,color: brightness == Brightness.dark ? const Color(0xffC7C7C7) : Colors.black),
+          titleSmall: const TextStyle(height: 1.3),
+          titleMedium: const TextStyle(height: 1.3),
+          titleLarge: const TextStyle(height: 1.3),
+          headlineSmall: const TextStyle(height: 1.3),
         ));
   }
 
