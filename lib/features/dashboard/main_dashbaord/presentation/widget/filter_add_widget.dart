@@ -47,10 +47,7 @@ class FilterAddPart extends AppStatelessWidget {
               height: 32,
               child: ElevatedButton(
                 onPressed: () {
-                  sl<LocalStorage>().logout();
-                  context.replaceNamed(AppRoutes.splash);
-
-                  // context.pushNamed(AppRoutes.addAssetsView);
+                  context.pushNamed(AppRoutes.addAssetsView);
                 },
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
