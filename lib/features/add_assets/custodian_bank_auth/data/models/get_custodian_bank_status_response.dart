@@ -4,13 +4,13 @@ class GetCustodianBankStatusResponse extends GetCustodianBankStatusEntity {
   const GetCustodianBankStatusResponse({
     required String bankId,
     required bool signLetter,
-    required String downloadLink,
+    required String signLetterLink,
     required bool shareWithBank,
     required bool bankConfirmation,
   }) : super(
             bankId: bankId,
             signLetter: signLetter,
-            downloadLink: downloadLink,
+            signLetterLink: signLetterLink,
             shareWithBank: shareWithBank,
             bankConfirmation: bankConfirmation);
 
@@ -18,7 +18,7 @@ class GetCustodianBankStatusResponse extends GetCustodianBankStatusEntity {
       GetCustodianBankStatusResponse(
         bankId: json["bankId"],
         signLetter: json["signLetter"],
-        downloadLink: json["downloadLink"],
+        signLetterLink: json["signLetterLink"],
         shareWithBank: json["shareWithBank"],
         bankConfirmation: json["bankConfirmation"],
       );
