@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/core/presentation/widgets/base_app_bar.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
-import 'package:wmd/features/profile/presentation/widgets/contact_information_widget.dart';
-import 'package:wmd/features/profile/presentation/widgets/personal_imformation_widget.dart';
+import 'package:wmd/features/profile/core/presentation/widgets/contact_information_widget.dart';
+import 'package:wmd/features/profile/core/presentation/widgets/personal_imformation_widget.dart';
 
 class ProfilePage extends AppStatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);

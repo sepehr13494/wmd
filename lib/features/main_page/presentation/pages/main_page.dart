@@ -7,7 +7,6 @@ import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/pages/dashboard_main_page.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/pages/dashboard_page.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
-import 'package:wmd/features/profile/presentation/pages/profile_page.dart';
 import 'package:wmd/injection_container.dart';
 
 import '../manager/main_page_cubit.dart';
