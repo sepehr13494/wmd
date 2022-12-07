@@ -26,12 +26,19 @@ class IconText extends AppStatelessWidget {
             child: SizedBox(
               height: 150,
               width: 150,
-              child: SvgPicture.asset(
-                image,
-                height: 120,
-                width: 120,
-                fit: BoxFit.fitWidth,
-              ),
+              child: image.split('.').last == 'svg'
+                  ? SvgPicture.asset(
+                      image,
+                      height: 120,
+                      width: 120,
+                      fit: BoxFit.fitWidth,
+                    )
+                  : Image.asset(
+                      image,
+                      height: 120,
+                      width: 120,
+                      fit: BoxFit.fitWidth,
+                    ),
             ),
           ),
           Padding(
