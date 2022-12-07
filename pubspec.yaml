@@ -71,6 +71,7 @@ dependencies:
   carousel_slider: ^4.1.1
   plaid_flutter: ^3.0.0
   async: ^2.9.0
+  country_picker: ^2.0.18
 
 dev_dependencies:
   flutter_test:
@@ -104,6 +105,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/dashboard/
+    - assets/images/dashboard/onboarding/
     - assets/images/add_assets/
     - assets/env/.env
     - assets/env/qa.env

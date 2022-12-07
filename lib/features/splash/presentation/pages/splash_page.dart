@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wmd/core/presentation/routes/app_routes.dart';
 import '../../../../core/presentation/bloc/bloc_helpers.dart';
 import '../manager/splash_cubit.dart';
 import '../../../../injection_container.dart';

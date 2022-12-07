@@ -31,6 +31,7 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
   final privateDebtFormKey = GlobalKey<FormBuilderState>();
   bool enableAddAssetButton = false;
   DateTime? aqusitionDateValue;
+  DateTime? valuationDateValue;
   @override
   void didUpdateWidget(covariant AddPrivateDebtPage oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -181,7 +182,8 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                         aqusitionDateValue = selectedDate;
                                       });
                                     },
-                                    lastDate: DateTime.now(),
+                                    initialDate: valuationDateValue ?? DateTime.now(),
+                                    lastDate: valuationDateValue ?? DateTime.now(),
                                     inputType: InputType.date,
                                     format: DateFormat("dd/MM/yyyy"),
                                     name: "investmentDate",
@@ -218,7 +220,12 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                     format: DateFormat("dd/MM/yyyy"),
                                     inputType: InputType.date,
                                     name: "valuationDate",
-                                    onChanged: checkFinalValid,
+                                    onChanged: (val){
+                                      setState(() {
+                                        valuationDateValue = val;
+                                      });
+                                      checkFinalValid(val);
+                                    },
                                     decoration: InputDecoration(
                                         suffixIcon: Icon(
                                           Icons.calendar_today_outlined,
