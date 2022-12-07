@@ -7,9 +7,7 @@ import 'package:wmd/core/util/device_info.dart';
 import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_login_usecase.dart';
 import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_register_usecase.dart';
 import 'package:wmd/features/authentication/login_signup/domain/use_cases/resend_email_usecase.dart';
-import 'package:wmd/features/dashboard/user_status/data/models/user_status.dart';
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
-import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 
 part 'login_sign_up_state.dart';
 

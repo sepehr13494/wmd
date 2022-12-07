@@ -42,4 +42,12 @@ class AppFailure extends Failure {
       ExceptionType type = ExceptionType.normal,
       dynamic data})
       : super(message: message, data: data, type: type);
+
+  factory AppFailure.fromAppException(AppException exception) =>
+      AppFailure(
+          message: exception.message,
+          data: exception.data,
+          type: exception.type);
+
+  static const tAppFailure = AppFailure(message: "test message");
 }
