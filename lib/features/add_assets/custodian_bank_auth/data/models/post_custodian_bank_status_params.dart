@@ -1,16 +1,38 @@
 import 'package:equatable/equatable.dart';
 
-class PostCustodianBankStatusParams extends Equatable{
-    const PostCustodianBankStatusParams();
+class PostCustodianBankStatusParams extends Equatable {
+  const PostCustodianBankStatusParams({
+    required this.bankId,
+    required this.signLetter,
+    required this.shareWithBank,
+    required this.bankConfirmation,
+  });
 
-    factory PostCustodianBankStatusParams.fromJson(Map<String, dynamic> json) => const PostCustodianBankStatusParams(
-    );
+  final String bankId;
+  final bool signLetter;
+  final bool shareWithBank;
+  final bool bankConfirmation;
 
-    Map<String, dynamic> toJson() => {
-    };
+  factory PostCustodianBankStatusParams.fromJson(Map<String, dynamic> json) =>
+      PostCustodianBankStatusParams(
+        bankId: json["bankId"],
+        signLetter: json["signLetter"],
+        shareWithBank: json["shareWithBank"],
+        bankConfirmation: json["bankConfirmation"],
+      );
 
-    @override
-    // TODO: implement props
-    List<Object?> get props => throw UnimplementedError();
+  Map<String, dynamic> toJson() => {
+        "bankId": bankId,
+        "signLetter": signLetter,
+        "shareWithBank": shareWithBank,
+        "bankConfirmation": bankConfirmation,
+      };
+
+  @override
+  List<Object?> get props => [
+        bankId,
+        signLetter,
+        shareWithBank,
+        bankConfirmation,
+      ];
 }
-    

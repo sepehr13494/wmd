@@ -1,16 +1,8 @@
-import 'package:equatable/equatable.dart';
+import 'package:wmd/core/domain/usecases/usercase.dart';
 
-class GetCustodianBankListParams extends Equatable{
-    const GetCustodianBankListParams();
+class GetCustodianBankListParams extends NoParams {
+  GetCustodianBankListParams();
 
-    factory GetCustodianBankListParams.fromJson(Map<String, dynamic> json) => const GetCustodianBankListParams(
-    );
-
-    Map<String, dynamic> toJson() => {
-    };
-
-    @override
-    // TODO: implement props
-    List<Object?> get props => throw UnimplementedError();
+  // factory GetCustodianBankListParams.fromJson(Map<String, dynamic> json) =>
+  //     GetCustodianBankListParams();
 }
-    

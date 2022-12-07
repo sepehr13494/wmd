@@ -12,15 +12,12 @@ import '../../data/models/get_custodian_bank_status_params.dart';
 import '../../domain/use_cases/get_custodian_bank_status_usecase.dart';
 import '../../domain/entities/get_custodian_bank_status_entity.dart';
 
-
 part 'custodian_bank_auth_state.dart';
 
 class CustodianBankAuthCubit extends Cubit<CustodianBankAuthState> {
-
   final GetCustodianBankListUseCase getCustodianBankListUseCase;
   final PostCustodianBankStatusUseCase postCustodianBankStatusUseCase;
   final GetCustodianBankStatusUseCase getCustodianBankStatusUseCase;
-
 
   CustodianBankAuthCubit(
     this.getCustodianBankListUseCase,
@@ -30,32 +27,20 @@ class CustodianBankAuthCubit extends Cubit<CustodianBankAuthState> {
 
   getCustodianBankList() async {
     emit(LoadingState());
-    final result = await getCustodianBankListUseCase(GetCustodianBankListParams());
-    result.fold((failure) => emit(ErrorState(failure: failure)),
-        (entities) {
-      
-    });
+    final result =
+        await getCustodianBankListUseCase(GetCustodianBankListParams());
+    result.fold((failure) => emit(ErrorState(failure: failure)), (entities) {});
   }
-  
-  postCustodianBankStatus() async {
-    emit(LoadingState());
-    final result = await postCustodianBankStatusUseCase(PostCustodianBankStatusParams());
-    result.fold((failure) => emit(ErrorState(failure: failure)),
-        (entity) {
-      
-    });
-  }
-  
-  getCustodianBankStatus() async {
-    emit(LoadingState());
-    final result = await getCustodianBankStatusUseCase(GetCustodianBankStatusParams());
-    result.fold((failure) => emit(ErrorState(failure: failure)),
-        (entity) {
-      
-    });
-  }
-  
 
+  postCustodianBankStatus(PostCustodianBankStatusParams params) async {
+    emit(LoadingState());
+    final result = await postCustodianBankStatusUseCase(params);
+    result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {});
+  }
+
+  getCustodianBankStatus(GetCustodianBankStatusParams params) async {
+    emit(LoadingState());
+    final result = await getCustodianBankStatusUseCase(params);
+    result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {});
+  }
 }
-
-    

@@ -1,14 +1,22 @@
 import 'package:equatable/equatable.dart';
 
 class GetCustodianBankListEntity extends Equatable {
-    const GetCustodianBankListEntity();
-    
-    Map<String, dynamic> toJson() => {
-    
-    };
+  const GetCustodianBankListEntity({
+    required this.bankId,
+    required this.bankName,
+  });
 
-    @override
-    // TODO: implement props
-    List<Object?> get props => throw UnimplementedError();
+  final String bankId;
+  final String bankName;
+
+  Map<String, dynamic> toJson() => {
+        "bankId": bankId,
+        "bankName": bankName,
+      };
+
+  @override
+  List<Object?> get props => [
+        bankId,
+        bankName,
+      ];
 }
-    
