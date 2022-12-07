@@ -4,14 +4,14 @@ import 'package:wmd/core/data/repository/app_data_source.dart';
 import 'package:wmd/core/models/app_request_options.dart';
 
 import '../models/get_custodian_bank_list_params.dart';
-import '../models/get_custodian_bank_list_response.dart';
+import '../models/custodian_bank_response.dart';
 import '../models/post_custodian_bank_status_params.dart';
 import '../models/post_custodian_bank_status_response.dart';
 import '../models/get_custodian_bank_status_params.dart';
 import '../models/get_custodian_bank_status_response.dart';
 
 abstract class CustodianBankAuthRemoteDataSource {
-  Future<List<GetCustodianBankListResponse>> getCustodianBankList(
+  Future<List<CustodianBankResponse>> getCustodianBankList(
       GetCustodianBankListParams params);
   Future<PostCustodianBankStatusResponse> postCustodianBankStatus(
       PostCustodianBankStatusParams params);
@@ -24,14 +24,14 @@ class CustodianBankAuthRemoteDataSourceImpl extends AppServerDataSource
   CustodianBankAuthRemoteDataSourceImpl(super.errorHandlerMiddleware);
 
   @override
-  Future<List<GetCustodianBankListResponse>> getCustodianBankList(
+  Future<List<CustodianBankResponse>> getCustodianBankList(
       GetCustodianBankListParams params) async {
     final appRequestOptions = AppRequestOptions(
         RequestTypes.get, AppUrls.getCustodianBankList, params.toJson());
     final response =
         await errorHandlerMiddleware.sendRequest(appRequestOptions);
     final result = (response as List<dynamic>)
-        .map((e) => GetCustodianBankListResponse.fromJson(e))
+        .map((e) => CustodianBankResponse.fromJson(e))
         .toList();
     return result;
   }
