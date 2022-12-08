@@ -23,6 +23,7 @@ class AppUrls {
   static String getUserStatus = "${userBase}user";
   static String getName = "${userBase}user/identity";
   static String setName = "${userBase}user/personal-info";
+  static String setNumber = "${userBase}user/phone-number";
 
 
   static String postBankDetails = "${wealthBase}BankAccount";

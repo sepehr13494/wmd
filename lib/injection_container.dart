@@ -91,6 +91,7 @@ import 'package:wmd/features/profile/personal_information/data/repositories/pers
 import 'package:wmd/features/profile/personal_information/domain/repositories/personal_information_repository.dart';
 import 'package:wmd/features/profile/personal_information/domain/use_cases/get_name_usecase.dart';
 import 'package:wmd/features/profile/personal_information/domain/use_cases/set_name_usecase.dart';
+import 'package:wmd/features/profile/personal_information/domain/use_cases/set_number_usecase.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 import 'core/data/network/network_helper.dart';
 import 'core/data/network/server_request_manager.dart';
@@ -146,9 +147,10 @@ Future<void> init() async {
       () => ForgetPasswordServerDataSourceImpl(sl()));
 
   //PersonalInformation
-  sl.registerFactory(() => PersonalInformationCubit(sl(),sl()));
+  sl.registerFactory(() => PersonalInformationCubit(sl(),sl(),sl()));
   sl.registerLazySingleton(() => GetNameUseCase(sl()));
   sl.registerLazySingleton(() => SetNameUseCase(sl()));
+  sl.registerLazySingleton(() => SetNumberUseCase(sl()));
 
   sl.registerLazySingleton<PersonalInformationRepository>(
           () => PersonalInformationRepositoryImpl(sl()));
