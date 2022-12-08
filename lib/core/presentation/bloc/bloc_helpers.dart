@@ -61,7 +61,6 @@ class BlocHelper {
                 GlobalFunctions.showSnackBar(context, state.failure.message,
                     color: Colors.red[800], type: "error");
               }
-
               break;
             case ExceptionType.auth:
               GlobalFunctions.showSnackBar(context, state.failure.message);
@@ -69,8 +68,14 @@ class BlocHelper {
               context.replaceNamed(AppRoutes.splash);
               break;
           }
+        }else{
+          GlobalFunctions.showSnackBar(context, state.failure.message,
+              color: Colors.red[800], type: "error");
         }
       } else {
+        if(state is SuccessState){
+          debugPrint(state.appSuccess.message);
+        }
         LoadingOverlay().hide();
         listener(context, state);
       }

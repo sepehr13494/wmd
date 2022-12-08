@@ -6,7 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
-import 'package:wmd/features/profile/presentation/widgets/country_code_picker.dart';
+import 'package:wmd/features/profile/core/presentation/widgets/country_code_picker.dart';
 
 class ContactInformationWidget extends AppStatelessWidget {
   const ContactInformationWidget({Key? key}) : super(key: key);

@@ -105,6 +105,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/dashboard/
+    - assets/images/dashboard/onboarding/
     - assets/images/add_assets/
     - assets/env/.env
     - assets/env/qa.env

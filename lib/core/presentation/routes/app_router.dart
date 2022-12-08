@@ -19,9 +19,10 @@ import 'package:wmd/features/authentication/login_signup/presentation/pages/regi
 import 'package:wmd/features/authentication/login_signup/presentation/pages/verify_email_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/welcome_page.dart';
 import 'package:wmd/features/authentication/verify_email/presentation/pages/verify_response_page.dart';
+import 'package:wmd/features/dashboard/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:wmd/features/main_page/presentation/pages/main_page.dart';
-import 'package:wmd/features/profile/presentation/pages/profile_page.dart';
 import 'package:wmd/features/splash/presentation/pages/splash_page.dart';
+import 'package:wmd/features/profile/core/presentation/pages/profile_page.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
@@ -80,6 +81,13 @@ class AppRouter {
         path: "/verify-response",
         builder: (BuildContext context, GoRouterState state) {
           return VerifyResponsePage(verifyMap: state.queryParams);
+        },
+      ),
+      GoRoute(
+        name: AppRoutes.onboarding,
+        path: "/onboarding",
+        builder: (BuildContext context, GoRouterState state) {
+          return OnBoardingPage();
         },
       ),
       GoRoute(
