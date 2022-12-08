@@ -78,7 +78,7 @@ class _RegisterPageState extends AppState<RegisterPage> {
               listener: (context, state) {
                 if (state is SuccessState) {
                   if (state.appSuccess.message == "true") {
-                    context.goNamed(AppRoutes.main);
+                    context.goNamed(AppRoutes.onboarding);
                   } else {
                     context.goNamed(AppRoutes.verifyEmail, queryParams: {
                       "email": formKey.currentState!.instantValue["email"]

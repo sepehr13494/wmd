@@ -22,12 +22,6 @@ class UserStatusCubit extends Cubit<UserStatusState> {
     result.fold((failure) {
       emit(ErrorState(failure: failure));
     }, (userStatusSuccess) {
-      if (userStatusSuccess.loginAt == null) {
-        postUserStatus(map: {
-          "email": userStatusSuccess.email,
-          "loginAt": CustomizableDateTime.currentDate
-        });
-      }
       emit(UserStatusLoaded(userStatus: userStatusSuccess));
     });
   }
