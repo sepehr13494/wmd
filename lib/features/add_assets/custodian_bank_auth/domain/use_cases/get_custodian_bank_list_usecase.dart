@@ -10,9 +10,28 @@ class GetCustodianBankListUseCase
     extends UseCase<List<CustodianBankEntity>, GetCustodianBankListParams> {
   final CustodianBankAuthRepository repository;
 
+  List<CustodianBankEntity>? banks = List.generate(
+    5,
+    (index) =>
+        CustodianBankEntity(bankId: 'bank$index', bankName: 'bank$index'),
+  );
+
   GetCustodianBankListUseCase(this.repository);
   @override
   Future<Either<Failure, List<CustodianBankEntity>>> call(
-          GetCustodianBankListParams params) =>
-      repository.getCustodianBankList(params);
+      GetCustodianBankListParams params) async {
+    if (banks != null && banks!.isNotEmpty) {
+      return Right(banks!);
+    } else {
+      final temp = await repository.getCustodianBankList(params);
+      _cache(temp);
+      return temp;
+    }
+  }
+
+  void _cache(Either<Failure, List<CustodianBankEntity>> temp) {
+    temp.fold((l) => null, (r) {
+      banks = List.from(r);
+    });
+  }
 }
