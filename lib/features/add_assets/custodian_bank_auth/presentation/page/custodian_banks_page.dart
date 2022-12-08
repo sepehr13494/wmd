@@ -26,6 +26,7 @@ class AddCustodianBanksPage extends AppStatelessWidget {
               Text("Link you bank accounts", style: textTheme.headlineSmall),
               const SizedBox(height: 8),
               Text("Select bank", style: textTheme.titleMedium),
+              const SizedBox(height: 8),
               Builder(builder: (context) {
                 if (state is CustodianBankListLoaded) {
                   return Column(

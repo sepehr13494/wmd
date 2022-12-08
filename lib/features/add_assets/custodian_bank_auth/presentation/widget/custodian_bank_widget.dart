@@ -40,20 +40,22 @@ class _CustodianBankWidgetState extends AppState<CustodianBankWidget> {
           },
           title: Text(bank.bankName),
           leading: Icon(Icons.account_balance, color: primaryColor),
-          subtitle: Text(bank.bankId),
+          // subtitle: Text(bank.bankId),
           trailing: !isSelected
               ? null
               : Builder(
                   builder: (context) {
-                    return const Text('Connect');
-                    // switch (bank.provider) {
-                    //   case BankProviders.plaid:
-                    //     return PlaidConnectButton(bank);
-                    //   case BankProviders.lean:
-                    //     return const Text('Lean connect');
-                    //   default:
-                    //     return const SizedBox.shrink();
-                    // }
+                    return Container(
+                      decoration: BoxDecoration(
+                        border:
+                            Border.all(color: Theme.of(context).primaryColor),
+                      ),
+                      child: const Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                        child: Text('Connect'),
+                      ),
+                    );
                   },
                 ),
           selected: isSelected,
