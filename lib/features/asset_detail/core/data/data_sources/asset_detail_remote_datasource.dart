@@ -5,6 +5,7 @@ import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/models/app_request_options.dart';
 import 'package:wmd/features/asset_detail/bank_account/data/models/bank_account_response.dart';
 import 'package:wmd/features/asset_detail/listed_asset/data/models/listed_asset_response.dart';
+import 'package:wmd/features/asset_detail/private_debt/data/models/private_debt_response.dart';
 import 'package:wmd/features/asset_detail/private_equity/data/models/private_equity_response.dart';
 import 'package:wmd/features/asset_detail/real_estate/data/models/real_estate_response.dart';
 
@@ -27,7 +28,7 @@ class AssetDetailRemoteDataSourceImpl extends AppServerDataSource
         url = AppUrls.getBankAccount;
         break;
       case 'PrivateDept':
-        url = AppUrls.getPrivateDept;
+        url = AppUrls.getPrivateDebt;
         break;
       case 'PrivateEquity':
         url = AppUrls.getPrivateEquity;
@@ -42,7 +43,7 @@ class AssetDetailRemoteDataSourceImpl extends AppServerDataSource
         url = AppUrls.getRealEstate;
         break;
       case 'PrivateDebt':
-        url = AppUrls.getPrivateDept;
+        url = AppUrls.getPrivateDebt;
         break;
       default:
         throw AppException(message: 'Unkonwn type to get');
@@ -63,7 +64,8 @@ class AssetDetailRemoteDataSourceImpl extends AppServerDataSource
           return PrivateEquityResponse.fromJson(response);
         case 'ListedAsset':
           return ListedAssetResponse.fromJson(response);
-        case 'PrivateDept':
+        case 'PrivateDebt':
+          return PrivateDebtResponse.fromJson(response);
         case 'OtherAsset':
           return GetDetailResponse.fromJson(response);
         default:
