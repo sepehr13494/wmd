@@ -10,5 +10,21 @@ class NoParams extends Equatable {
   @override
   List<Object?> get props => [];
 
-  Map<String,dynamic>? toJson() => null;
+  Map<String, dynamic>? toJson() => null;
 }
+
+class OwnerIdParams extends Equatable {
+
+  final String ownerId;
+
+  const OwnerIdParams({required this.ownerId});
+
+  @override
+  List<Object?> get props => [];
+
+  Map<String, dynamic>? toJson() =>
+      {
+        "ownerId": ownerId
+      };
+}
+
