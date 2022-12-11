@@ -12,7 +12,7 @@ class GetCustodianBankListUseCase
 
   // List<CustodianBankEntity>? banks;
   List<CustodianBankEntity>? banks = List.generate(
-    5,
+    3,
     (index) =>
         CustodianBankEntity(bankId: 'bank$index', bankName: 'bank$index'),
   );
