@@ -7,7 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
-import 'package:wmd/features/profile/core/presentation/widgets/country_code_picker.dart';
+import 'package:wmd/features/profile/personal_information/presentation/widgets/country_code_picker.dart';
 
 import '../manager/personal_information_cubit.dart';
 
@@ -70,12 +70,14 @@ class ContactInformationWidget extends AppStatelessWidget {
                                   child: AppTextFields.simpleTextField(
                                       name: "phoneNumber",
                                       hint: "Enter Phone Number",
-                                      type: TextFieldType.number),
+                                      type: TextFieldType.number,
+                                    keyboardType: TextInputType.number
+                                  ),
                                 ),
                               ],
                             ),
                           ),
-                          RichText(
+                         /* RichText(
                             text: TextSpan(children: [
                               TextSpan(
                                 text:
@@ -88,6 +90,20 @@ class ContactInformationWidget extends AppStatelessWidget {
                                     context),
                               )
                             ]),
+                          ),*/
+                          Align(
+                            alignment: AlignmentDirectional.centerEnd,
+                            child: SizedBox(
+                              width: isTablet ? 160 : null,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  if(formKey.currentState!.validate()){
+                                    context.read<PersonalInformationCubit>().setNumber(map: formKey.currentState!.instantValue);
+                                  }
+                                },
+                                child: Text("Apply Changes"),
+                              ),
+                            ),
                           ),
                         ].map((e) =>
                             Padding(padding: const EdgeInsets.symmetric(

@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:dartz/dartz.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
@@ -15,7 +16,7 @@ class SetNumberUseCase extends UseCase<AppSuccess, Map<String,dynamic>> {
   @override
   Future<Either<Failure, AppSuccess>> call(Map<String,dynamic> params) async {
     try{
-      final map = SetNumberParams(countryCode: "+${params["country"]["phoneCode"]}", phoneNumber: params["phoneNumber"]);
+      final map = SetNumberParams(countryCode: "+${(params["country"] as Country).phoneCode}", phoneNumber: params["phoneNumber"]);
       return await repository.setNumber(map);
     } catch (e){
       return Left(AppFailure(message: e.toString()));

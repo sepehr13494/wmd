@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
-import 'package:wmd/features/profile/core/presentation/widgets/contact_information_widget.dart';
 import 'package:wmd/features/profile/personal_information/presentation/widgets/personal_imformation_widget.dart';
 import 'package:wmd/injection_container.dart';
 
 import '../../../personal_information/presentation/manager/personal_information_cubit.dart';
+import '../../../personal_information/presentation/widgets/contact_information_widget.dart';
 
 class ProfilePage extends AppStatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
