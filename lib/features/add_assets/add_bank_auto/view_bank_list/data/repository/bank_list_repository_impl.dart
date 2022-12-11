@@ -18,9 +18,8 @@ class BankListRepositoryImpl implements BankListRepository {
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure.fromServerException(e));
-    } catch (e) {
-      return Left(AppFailure(
-          message: 'Format exceptions', data: e, type: ExceptionType.format));
+    } on AppException catch (error) {
+      return Left(AppFailure.fromAppException(error));
     }
   }
 
@@ -32,9 +31,8 @@ class BankListRepositoryImpl implements BankListRepository {
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure.fromServerException(e));
-    } catch (e) {
-      return Left(AppFailure(
-          message: 'Format exceptions', data: e, type: ExceptionType.format));
+    } on AppException catch (error) {
+      return Left(AppFailure.fromAppException(error));
     }
   }
 }
