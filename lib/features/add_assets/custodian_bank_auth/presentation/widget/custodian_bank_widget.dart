@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/custodian_bank_entity.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/widget/custodian_auth_status_modal.dart';
 
 class CustodianBankWidget extends StatefulWidget {
   const CustodianBankWidget(this.bank, {required super.key});
@@ -45,15 +46,20 @@ class _CustodianBankWidgetState extends AppState<CustodianBankWidget> {
               ? null
               : Builder(
                   builder: (context) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        border:
-                            Border.all(color: Theme.of(context).primaryColor),
-                      ),
-                      child: const Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                        child: Text('Connect'),
+                    return InkWell(
+                      onTap: () {
+                        showCustodianBankStatus(context: context, bank: bank);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border:
+                              Border.all(color: Theme.of(context).primaryColor),
+                        ),
+                        child: const Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                          child: Text('Connect'),
+                        ),
                       ),
                     );
                   },

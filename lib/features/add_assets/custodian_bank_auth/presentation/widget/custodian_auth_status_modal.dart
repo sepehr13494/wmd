@@ -85,7 +85,7 @@ class StatusStepWidget extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
     return ListTile(
       leading: isDone
-          ? const Icon(Icons.check_circle_outline_outlined)
+          ? const Icon(Icons.check_circle_outline_rounded)
           : Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
