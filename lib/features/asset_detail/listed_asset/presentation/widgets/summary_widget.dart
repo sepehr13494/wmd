@@ -1,21 +1,22 @@
+import 'package:wmd/features/asset_detail/bank_account/domain/entity/bank_account_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
-import 'package:wmd/features/asset_detail/real_estate/domain/entity/real_estate_entity.dart';
+import 'package:wmd/features/asset_detail/listed_asset/domain/entity/listed_asset_entity.dart';
 
-class RealEstateSummaryWidget extends AppStatelessWidget {
-  final RealEstateEntity realEstateEntity;
-  const RealEstateSummaryWidget(this.realEstateEntity, {Key? key})
+class ListedAssetSummaryWidget extends AppStatelessWidget {
+  final ListedAssetEntity listedAssetEntity;
+  const ListedAssetSummaryWidget(this.listedAssetEntity, {Key? key})
       : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final String currencySymbol =
-        AppConstants.getCurrencySymbolByCode(realEstateEntity.currencyCode);
+        AppConstants.getCurrencySymbolByCode(listedAssetEntity.currencyCode);
     final lineColor = Theme.of(context).dividerColor;
     final responsiveHelper = ResponsiveHelper(context: context);
     bool isMobile = responsiveHelper.isMobile;
@@ -46,64 +47,11 @@ class RealEstateSummaryWidget extends AppStatelessWidget {
                         style: textTheme.titleSmall,
                       ),
                       SizedBox(height: responsiveHelper.bigger16Gap),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Ownership based value",
-                            style: textTheme.bodySmall,
-                          ),
-                          const SizedBox(width: 8),
-                          Icon(
-                            Icons.info_outline,
-                            color: Theme.of(context).primaryColor,
-                            size: 14,
-                          )
-                        ],
-                      ),
                       Text(
-                        currencySymbol + realEstateEntity.marketValue,
+                        currencySymbol + listedAssetEntity.totalCost.toString(),
                         style: const TextStyle(
                             fontSize: 28, fontWeight: FontWeight.w300),
                       ),
-                      SizedBox(height: responsiveHelper.bigger16Gap),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ExpandedIf(
-                            expanded: !isMobile,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Total value",
-                                  style: textTheme.bodySmall,
-                                ),
-                                Text(
-                                  currencySymbol + realEstateEntity.marketValue,
-                                  style: textTheme.bodyLarge,
-                                ),
-                              ],
-                            ),
-                          ),
-                          ExpandedIf(
-                            expanded: !isMobile,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Ownership",
-                                  style: textTheme.bodySmall,
-                                ),
-                                Text(
-                                  "%${realEstateEntity.ownershipPercentage}",
-                                  style: textTheme.bodyLarge,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      )
                     ],
                   ),
                 ),
@@ -149,20 +97,26 @@ class RealEstateSummaryWidget extends AppStatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
+                                  "Last 30 days",
+                                  style: textTheme.bodySmall,
+                                ),
+                                Text(
+                                  currencySymbol + '5000'.toString(),
+                                  style: textTheme.bodyLarge,
+                                ),
+                              ],
+                            ),
+                          ),
+                          ExpandedIf(
+                            expanded: !isMobile,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
                                   "YTD",
                                   style: textTheme.bodySmall,
                                 ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      currencySymbol +
-                                          realEstateEntity.marketValue,
-                                      style: textTheme.bodyLarge,
-                                    ),
-                                    const ChangeWidget(
-                                        number: 60, text: "60.0%"),
-                                  ],
-                                ),
+                                const ChangeWidget(number: 60, text: "60.0%"),
                               ],
                             ),
                           ),
@@ -192,6 +146,25 @@ class RealEstateSummaryWidget extends AppStatelessWidget {
                             ),
                           ),
                         ],
+                      ),
+                      ExpandedIf(
+                        expanded: !isMobile,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Portfolio contribution",
+                                style: textTheme.bodySmall,
+                              ),
+                              Text(
+                                "2.76% of \$8,676,200",
+                                style: textTheme.bodyLarge,
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
