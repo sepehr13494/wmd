@@ -18,7 +18,7 @@ class BottomModalWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appTextTheme = Theme.of(context).textTheme;
+    // final appTextTheme = Theme.of(context).textTheme;
     final responsiveHelper = ResponsiveHelper(context: context);
     final isMobile = responsiveHelper.isMobile;
 

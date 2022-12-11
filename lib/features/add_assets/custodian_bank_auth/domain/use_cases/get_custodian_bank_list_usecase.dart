@@ -10,6 +10,7 @@ class GetCustodianBankListUseCase
     extends UseCase<List<CustodianBankEntity>, GetCustodianBankListParams> {
   final CustodianBankAuthRepository repository;
 
+  // List<CustodianBankEntity>? banks;
   List<CustodianBankEntity>? banks = List.generate(
     5,
     (index) =>

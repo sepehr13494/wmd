@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/bottom_modal_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/custodian_bank_entity.dart';
 
-showCustodianBankStatus({required BuildContext context}) async {
+showCustodianBankStatus(
+    {required BuildContext context, required CustodianBankEntity bank}) async {
   final textTheme = Theme.of(context).textTheme;
   final appLocalization = AppLocalizations.of(context);
   await showDialog(
@@ -22,6 +24,7 @@ showCustodianBankStatus({required BuildContext context}) async {
               'Now you can proceed with linking your bank account following the steps below ',
               style: textTheme.labelMedium,
             ),
+            // bank.
           ],
         ),
         // cancelBtn: 'Cancel',

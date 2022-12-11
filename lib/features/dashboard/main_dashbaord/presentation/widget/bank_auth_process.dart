@@ -113,7 +113,7 @@ class BanksAuthorizationProcess extends AppStatelessWidget {
             alignment: Alignment.centerRight,
             child: InkWell(
               onTap: () {
-                showCustodianBankStatus(context: context);
+                showCustodianBankStatus(context: context, bank: e);
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
