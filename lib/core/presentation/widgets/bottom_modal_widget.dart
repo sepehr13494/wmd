@@ -39,12 +39,15 @@ class BottomModalWidget extends StatelessWidget {
           child: Container(
             color: Theme.of(context).scaffoldBackgroundColor,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 buildModalHeader(context),
                 Expanded(
-                  child: Padding(
-                    padding: contentPadding,
-                    child: body,
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: contentPadding,
+                      child: body,
+                    ),
                   ),
                 ),
                 buildActionContainer(context),
