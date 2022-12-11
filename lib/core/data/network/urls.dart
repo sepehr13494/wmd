@@ -21,6 +21,10 @@ class AppUrls {
   static String forgetPassword = "${authBase}client/reset-password";
   static String resetPassword = "${authBase}client/update-password";
   static String getUserStatus = "${userBase}user";
+  static String getName = "${userBase}user/identity";
+  static String setName = "${userBase}user/personal-info";
+
+
   static String postBankDetails = "${wealthBase}BankAccount";
   static String postPrivateEquity = "${wealthBase}PrivateEquity";
   static String postPrivateDebt = "${wealthBase}PrivateDebt";

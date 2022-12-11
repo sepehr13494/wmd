@@ -18,6 +18,7 @@ import 'package:wmd/features/authentication/login_signup/presentation/widgets/vi
 import 'package:wmd/features/authentication/verify_email/presentation/manager/verify_email_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
+import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 import '../../error_and_success/failures.dart';
 import '../../error_and_success/succeses.dart';
 import '../../../features/splash/presentation/manager/splash_cubit.dart';

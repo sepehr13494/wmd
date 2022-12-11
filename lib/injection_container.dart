@@ -91,6 +91,12 @@ import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_sta
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/put_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
+import 'package:wmd/features/profile/personal_information/data/data_sources/personal_information_remote_datasource.dart';
+import 'package:wmd/features/profile/personal_information/data/repositories/personal_information_repository_impl.dart';
+import 'package:wmd/features/profile/personal_information/domain/repositories/personal_information_repository.dart';
+import 'package:wmd/features/profile/personal_information/domain/use_cases/get_name_usecase.dart';
+import 'package:wmd/features/profile/personal_information/domain/use_cases/set_name_usecase.dart';
+import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 import 'core/data/network/network_helper.dart';
 import 'core/data/network/server_request_manager.dart';
 import 'core/util/app_localization.dart';
@@ -145,6 +151,16 @@ Future<void> init() async {
       () => ForgetPasswordRepositoryImpl(sl()));
   sl.registerLazySingleton<ForgetPasswordServerDataSource>(
       () => ForgetPasswordServerDataSourceImpl(sl()));
+
+  //PersonalInformation
+  sl.registerFactory(() => PersonalInformationCubit(sl(),sl()));
+  sl.registerLazySingleton(() => GetNameUseCase(sl()));
+  sl.registerLazySingleton(() => SetNameUseCase(sl()));
+
+  sl.registerLazySingleton<PersonalInformationRepository>(
+          () => PersonalInformationRepositoryImpl(sl()));
+  sl.registerLazySingleton<PersonalInformationRemoteDataSource>(
+          () => PersonalInformationRemoteDataSourceImpl(sl()));
 
   //main_page
   sl.registerFactory(() => MainPageCubit());

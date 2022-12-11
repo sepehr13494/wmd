@@ -47,13 +47,7 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
     return Scaffold(
       appBar: const DashboardAppBar(),
       body: BlocConsumer<UserStatusCubit, UserStatusState>(
-        listener: BlocHelper.defaultBlocListener(listener: (context, state) {
-          if (state is UserStatusLoaded) {
-            if (state.userStatus.loginAt == null) {
-              context.goNamed(AppRoutes.onboarding);
-            }
-          }
-        }),
+        listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
         builder: BlocHelper.defaultBlocBuilder(builder: (context, state) {
           return WidthLimiterWidget(
             width: 700,
