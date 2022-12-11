@@ -23,6 +23,8 @@ import 'package:wmd/features/dashboard/onboarding/presentation/widget/onboarding
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/onboarding_wealth_view.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 
+import '../widget/bank_auth_process.dart';
+
 class DashboardMainPage extends StatefulWidget {
   const DashboardMainPage({Key? key}) : super(key: key);
 
@@ -68,6 +70,7 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                   children: [
                     const FilterAddPart(),
                     const SizedBox(height: 12),
+                    const BanksAuthorizationProcess(),
                     BlocSelector<MainDashboardCubit, MainDashboardState,
                             NetWorthEntity?>(
                         selector: (state) =>

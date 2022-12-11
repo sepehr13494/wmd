@@ -10,5 +10,5 @@ class NoParams extends Equatable {
   @override
   List<Object?> get props => [];
 
-  Map<String,dynamic>? toJson() => null;
+  Map<String, dynamic>? toJson() => null;
 }
