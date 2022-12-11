@@ -16,4 +16,9 @@ class GetPieResponse extends GetPieEntity {
         value: json["value"].toDouble(),
         percentage: json["percentage"].toDouble(),
       );
+
+  static final tResponse = [
+    GetPieResponse(name: "testName", percentage: 60, value: 6000),
+    GetPieResponse(name: "testName2", percentage: 40, value: 4000),
+  ];
 }

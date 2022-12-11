@@ -5,6 +5,7 @@ class GetAllocationResponse  extends GetAllocationEntity{
 
     factory GetAllocationResponse.fromJson(Map<String, dynamic> json) => GetAllocationResponse(
     );
-    
+
+    static final tResponse = [GetAllocationResponse()];
 }
     

@@ -5,6 +5,7 @@ class GetGeographicResponse  extends GetGeographicEntity{
 
     factory GetGeographicResponse.fromJson(Map<String, dynamic> json) => GetGeographicResponse(
     );
-    
+
+    static final tResponse = [GetGeographicResponse()];
 }
     
