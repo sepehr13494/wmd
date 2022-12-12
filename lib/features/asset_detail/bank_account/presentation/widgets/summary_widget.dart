@@ -55,6 +55,7 @@ class BankAccountSummaryWidget extends AppStatelessWidget {
                           style: const TextStyle(
                               fontSize: 28, fontWeight: FontWeight.w300),
                         ),
+                      Text(bankAccountEntity.type!),
                     ],
                   ),
                 ),

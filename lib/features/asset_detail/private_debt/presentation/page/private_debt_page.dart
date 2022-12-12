@@ -16,32 +16,25 @@ class PrivateDebtDetailPage extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    return Stack(
-      children: [
-        const LeafBackground(
-          opacity: 0.1,
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(privateDebtEntity.investmentName,
+              style: textTheme.headlineSmall),
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(privateDebtEntity.investmentName,
-                  style: textTheme.headlineSmall),
-              const SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(privateDebtEntity.wealthManager),
-                  // const EditButton(),
-                ],
-              ),
-              const SizedBox(height: 16),
-              PrivateDebtSummaryWidget(privateDebtEntity),
+              Text(privateDebtEntity.wealthManager),
+              // const EditButton(),
             ],
           ),
-        ),
-      ],
+          const SizedBox(height: 16),
+          PrivateDebtSummaryWidget(privateDebtEntity),
+        ],
+      ),
     );
   }
 }

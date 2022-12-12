@@ -1,4 +1,3 @@
-import 'package:wmd/features/asset_detail/bank_account/domain/entity/bank_account_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -48,7 +47,10 @@ class ListedAssetSummaryWidget extends AppStatelessWidget {
                       ),
                       SizedBox(height: responsiveHelper.bigger16Gap),
                       Text(
-                        currencySymbol + listedAssetEntity.totalCost.toString(),
+                        currencySymbol +
+                            (listedAssetEntity.totalCost * 1.5)
+                                .toInt()
+                                .toString(),
                         style: const TextStyle(
                             fontSize: 28, fontWeight: FontWeight.w300),
                       ),
@@ -77,15 +79,15 @@ class ListedAssetSummaryWidget extends AppStatelessWidget {
                             "Net change",
                             style: textTheme.titleSmall,
                           ),
-                          TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              'See more >',
-                              style: textTheme.labelSmall!.apply(
-                                  color: Theme.of(context).primaryColor,
-                                  decoration: TextDecoration.underline),
-                            ),
-                          )
+                          // TextButton(
+                          //   onPressed: () {},
+                          //   child: Text(
+                          //     'See more >',
+                          //     style: textTheme.labelSmall!.apply(
+                          //         color: Theme.of(context).primaryColor,
+                          //         decoration: TextDecoration.underline),
+                          //   ),
+                          // )
                         ],
                       ),
                       Row(
@@ -158,10 +160,15 @@ class ListedAssetSummaryWidget extends AppStatelessWidget {
                                 "Portfolio contribution",
                                 style: textTheme.bodySmall,
                               ),
-                              Text(
-                                "2.76% of \$8,676,200",
-                                style: textTheme.bodyLarge,
-                              ),
+                              Builder(builder: (context) {
+                                final double portfolioPercentage =
+                                    listedAssetEntity.portfolioContribution *
+                                        100;
+                                return Text(
+                                  "$portfolioPercentage% of $currencySymbol${listedAssetEntity.totalCost}",
+                                  style: textTheme.bodyLarge,
+                                );
+                              }),
                             ],
                           ),
                         ),
