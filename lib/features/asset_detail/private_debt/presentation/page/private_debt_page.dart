@@ -33,7 +33,7 @@ class PrivateDebtDetailPage extends AppStatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(privateDebtEntity.wealthManager),
-                  const EditButton(),
+                  // const EditButton(),
                 ],
               ),
               const SizedBox(height: 16),

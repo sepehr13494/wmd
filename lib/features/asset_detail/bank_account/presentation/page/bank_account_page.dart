@@ -33,7 +33,7 @@ class BankAccountDetailPage extends AppStatelessWidget {
                 children: [
                   if (bankAccountEntity.description != null)
                     Text(bankAccountEntity.description!),
-                  const EditButton(),
+                  // const EditButton(),
                 ],
               ),
               const SizedBox(height: 16),

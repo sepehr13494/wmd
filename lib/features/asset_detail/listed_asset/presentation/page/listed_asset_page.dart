@@ -32,7 +32,7 @@ class ListedAssetDetailPage extends AppStatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(listedAssetEntity.brokerName),
-                  const EditButton(),
+                  // const EditButton(),
                 ],
               ),
               const SizedBox(height: 16),
