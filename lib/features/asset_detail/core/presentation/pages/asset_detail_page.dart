@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/bank_account/domain/entity/bank_account_entity.dart';
 import 'package:wmd/features/asset_detail/core/data/models/get_detail_params.dart';
 import 'package:wmd/features/asset_detail/listed_asset/domain/entity/listed_asset_entity.dart';
@@ -40,23 +41,23 @@ class AssetDetailPage extends AppStatelessWidget {
             builder: (context, state) {
               if (state is AssetLoaded) {
                 switch (type) {
-                  case 'BankAccount':
+                  case AssetTypes.bankAccount:
                     return BankAccountDetailPage(
                         bankAccountEntity:
                             state.assetDetailEntity as BankAccountEntity);
-                  case 'RealEstate':
+                  case AssetTypes.realEstate:
                     return RealEstateDetailPage(
                         realEstateEntity:
                             state.assetDetailEntity as RealEstateEntity);
-                  case 'ListedAsset':
+                  case AssetTypes.listedAsset:
                     return ListedAssetDetailPage(
                         listedAssetEntity:
                             state.assetDetailEntity as ListedAssetEntity);
-                  case 'PrivateDebt':
+                  case AssetTypes.privateDebt:
                     return PrivateDebtDetailPage(
                         privateDebtEntity:
                             state.assetDetailEntity as PrivateDebtEntity);
-                  case 'PrivateEquity':
+                  case AssetTypes.privateEquity:
                     return PrivateEquityDetailPage(
                         privateEquityEntity:
                             state.assetDetailEntity as PrivateEquityEntity);

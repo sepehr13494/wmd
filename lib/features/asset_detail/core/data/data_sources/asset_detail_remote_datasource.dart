@@ -3,6 +3,7 @@ import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/data/repository/app_data_source.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/models/app_request_options.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/bank_account/data/models/bank_account_response.dart';
 import 'package:wmd/features/asset_detail/listed_asset/data/models/listed_asset_response.dart';
 import 'package:wmd/features/asset_detail/private_debt/data/models/private_debt_response.dart';
@@ -24,26 +25,23 @@ class AssetDetailRemoteDataSourceImpl extends AppServerDataSource
   Future<GetDetailResponse> getDetail(GetDetailParams params) async {
     late final String url;
     switch (params.type) {
-      case 'BankAccount':
+      case AssetTypes.bankAccount:
         url = AppUrls.getBankAccount;
         break;
-      case 'PrivateDept':
+      case AssetTypes.privateDebt:
         url = AppUrls.getPrivateDebt;
         break;
-      case 'PrivateEquity':
+      case AssetTypes.privateEquity:
         url = AppUrls.getPrivateEquity;
         break;
-      case 'ListedAsset':
+      case AssetTypes.listedAsset:
         url = AppUrls.getListedAsset;
         break;
-      case 'OtherAsset':
+      case AssetTypes.otherAsset:
         url = AppUrls.getOtherAsset;
         break;
-      case 'RealEstate':
+      case AssetTypes.realEstate:
         url = AppUrls.getRealEstate;
-        break;
-      case 'PrivateDebt':
-        url = AppUrls.getPrivateDebt;
         break;
       default:
         throw AppException(message: 'Unkonwn type to get');
@@ -56,20 +54,19 @@ class AssetDetailRemoteDataSourceImpl extends AppServerDataSource
 
     try {
       switch (params.type) {
-        case 'BankAccount':
+        case AssetTypes.bankAccount:
           return BankAccountResponse.fromJson(response);
-        case 'RealEstate':
+        case AssetTypes.realEstate:
           return RealEstateResponse.fromJson(response);
-        case 'PrivateEquity':
+        case AssetTypes.privateEquity:
           return PrivateEquityResponse.fromJson(response);
-        case 'ListedAsset':
+        case AssetTypes.listedAsset:
           return ListedAssetResponse.fromJson(response);
-        case 'PrivateDebt':
+        case AssetTypes.privateDebt:
           return PrivateDebtResponse.fromJson(response);
-        case 'OtherAsset':
-          return GetDetailResponse.fromJson(response);
         default:
-          throw AppException(message: 'Unkonwn type');
+          return GetDetailResponse.fromJson(response);
+        // throw AppException(message: 'Unkonwn type');
       }
     } catch (e) {
       throw AppException(
