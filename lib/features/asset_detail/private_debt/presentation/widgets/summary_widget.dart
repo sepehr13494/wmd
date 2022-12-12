@@ -48,7 +48,9 @@ class PrivateDebtSummaryWidget extends AppStatelessWidget {
                       SizedBox(height: responsiveHelper.bigger16Gap),
                       Text(
                         currencySymbol +
-                            privateDebtEntity.investmentAmount.toString(),
+                            privateDebtEntity.investmentAmount
+                                .toInt()
+                                .toString(),
                         style: const TextStyle(
                             fontSize: 28, fontWeight: FontWeight.w300),
                       ),

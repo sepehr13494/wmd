@@ -51,7 +51,9 @@ class BankAccountSummaryWidget extends AppStatelessWidget {
                       if (bankAccountEntity.currentBalance != null)
                         Text(
                           currencySymbol +
-                              bankAccountEntity.currentBalance.toString(),
+                              bankAccountEntity.currentBalance!
+                                  .toInt()
+                                  .toString(),
                           style: const TextStyle(
                               fontSize: 28, fontWeight: FontWeight.w300),
                         ),

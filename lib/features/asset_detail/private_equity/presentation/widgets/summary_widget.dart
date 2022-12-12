@@ -48,7 +48,7 @@ class PrivateEquitySummaryWidget extends AppStatelessWidget {
                       SizedBox(height: responsiveHelper.bigger16Gap),
                       Text(
                         currencySymbol +
-                            privateDebtEntity.marketValue.toString(),
+                            privateDebtEntity.marketValue.toInt().toString(),
                         style: const TextStyle(
                             fontSize: 28, fontWeight: FontWeight.w300),
                       ),
