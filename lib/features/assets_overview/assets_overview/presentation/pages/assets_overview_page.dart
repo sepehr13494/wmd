@@ -69,7 +69,7 @@ class AssetsOverView extends AppStatelessWidget {
                             builder: (context, state) {
                           if (state is AssetsOverviewLoaded) {
                             return ListView.builder(
-                              // physics: const NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: state.assetsOverviews.length,
                               itemBuilder: (context, index) =>
