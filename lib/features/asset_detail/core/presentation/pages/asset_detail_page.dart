@@ -7,6 +7,8 @@ import 'package:wmd/features/asset_detail/bank_account/domain/entity/bank_accoun
 import 'package:wmd/features/asset_detail/core/data/models/get_detail_params.dart';
 import 'package:wmd/features/asset_detail/listed_asset/domain/entity/listed_asset_entity.dart';
 import 'package:wmd/features/asset_detail/listed_asset/presentation/page/listed_asset_page.dart';
+import 'package:wmd/features/asset_detail/private_debt/domain/entity/private_debt_entity.dart';
+import 'package:wmd/features/asset_detail/private_debt/presentation/page/private_debt_page.dart';
 import 'package:wmd/features/asset_detail/real_estate/domain/entity/real_estate_entity.dart';
 import 'package:wmd/features/asset_detail/real_estate/presentation/page/real_estate_page.dart';
 import 'package:wmd/injection_container.dart';
@@ -48,6 +50,10 @@ class AssetDetailPage extends AppStatelessWidget {
                     return ListedAssetDetailPage(
                         listedAssetEntity:
                             state.assetDetailEntity as ListedAssetEntity);
+                  case 'PrivateDebt':
+                    return PrivateDebtDetailPage(
+                        privateDebtEntity:
+                            state.assetDetailEntity as PrivateDebtEntity);
                   default:
                     return Text(state.assetDetailEntity.toString());
                 }
