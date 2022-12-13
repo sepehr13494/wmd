@@ -74,7 +74,6 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
                             ? BarChartMainDashboard(allocations: state.getAllocationEntity)
                             : LineChartSample2(allocations: [
                               ...state.getAllocationEntity,
-                              GetAllocationEntity(name: 'name', asset: 0, liability: 0, netWorth: 1000),
                         ]),
                       ),
                     ),
