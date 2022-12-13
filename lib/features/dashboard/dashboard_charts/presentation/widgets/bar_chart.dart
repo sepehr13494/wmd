@@ -1,9 +1,11 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_allocation_entity.dart';
 
 class BarChartMainDashboard extends StatelessWidget {
-  const BarChartMainDashboard({super.key});
+  final List<GetAllocationEntity> allocations;
+  const BarChartMainDashboard({super.key, required this.allocations});
 
   @override
   Widget build(BuildContext context) {

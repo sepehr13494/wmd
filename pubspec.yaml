@@ -72,6 +72,7 @@ dependencies:
   plaid_flutter: ^3.0.0
   async: ^2.9.0
   country_picker: ^2.0.18
+  shimmer: ^2.0.0
 
 dev_dependencies:
   flutter_test:

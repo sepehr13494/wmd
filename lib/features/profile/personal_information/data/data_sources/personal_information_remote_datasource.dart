@@ -8,12 +8,15 @@ import '../models/get_name_params.dart';
 import '../models/get_name_response.dart';
 import '../models/set_name_params.dart';
 import '../models/set_name_response.dart';
+import '../models/set_number_params.dart';
+import '../models/set_number_response.dart';
 
 
 
 abstract class PersonalInformationRemoteDataSource {
   Future<GetNameResponse> getName(GetNameParams params);
   Future<SetNameResponse> setName(SetNameParams params);
+  Future<SetNumberResponse> setNumber(SetNumberParams params);
 
 }
 
@@ -44,6 +47,15 @@ class PersonalInformationRemoteDataSourceImpl extends AppServerDataSource
         throw AppException(message: "format exception",data: e,type: ExceptionType.format);
       }
 
+  }
+
+  @override
+  Future<SetNumberResponse> setNumber(SetNumberParams params) async {
+    final appRequestOptions =
+    AppRequestOptions(RequestTypes.get, AppUrls.setNumber, params.toJson());
+    final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
+    final result = SetNumberResponse.fromJson(response);
+    return result;
   }
   
     
