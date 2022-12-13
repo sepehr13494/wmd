@@ -75,7 +75,6 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
                             : LineChartSample2(allocations: [
                               ...state.getAllocationEntity,
                               GetAllocationEntity(name: 'name', asset: 0, liability: 0, netWorth: 1000),
-                              GetAllocationEntity(name: 'name', asset: 0, liability: 0, netWorth: 700),
                         ]),
                       ),
                     ),
