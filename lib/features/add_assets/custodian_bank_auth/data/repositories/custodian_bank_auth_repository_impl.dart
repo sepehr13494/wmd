@@ -40,7 +40,7 @@ class CustodianBankAuthRepositoryImpl implements CustodianBankAuthRepository {
   }
 
   @override
-  Future<Either<Failure, GetCustodianBankStatusEntity>> getCustodianBankStatus(
+  Future<Either<Failure, CustodianBankStatusEntity>> getCustodianBankStatus(
       GetCustodianBankStatusParams params) async {
     try {
       final result = await remoteDataSource.getCustodianBankStatus(params);

@@ -1,6 +1,6 @@
 import '../../domain/entities/get_custodian_bank_status_entity.dart';
 
-class GetCustodianBankStatusResponse extends GetCustodianBankStatusEntity {
+class GetCustodianBankStatusResponse extends CustodianBankStatusEntity {
   const GetCustodianBankStatusResponse({
     required String bankId,
     required bool signLetter,

@@ -24,7 +24,6 @@ class AppUrls {
   static String getName = "${userBase}user/identity";
   static String setName = "${userBase}user/personal-info";
 
-
   static String postBankDetails = "${wealthBase}BankAccount";
   static String postPrivateEquity = "${wealthBase}PrivateEquity";
   static String postPrivateDebt = "${wealthBase}PrivateDebt";
@@ -47,6 +46,6 @@ class AppUrls {
   static String linkToken = "${banking}openbanking/link-token";
 
   //CustodianBankList
-  static String getCustodianBankList = "${banking}custodianbanks/list";
-  static String custodianBank = "${banking}custodianbanks";
+  static String getCustodianBankList = "${wealthBase}CustodianBank/list";
+  static String custodianBank = "${wealthBase}custodianbank";
 }

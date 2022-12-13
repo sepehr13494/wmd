@@ -2,15 +2,28 @@ part of 'custodian_bank_auth_cubit.dart';
 
 abstract class CustodianBankAuthState {}
 
-class CustodianBankListLoaded extends Equatable with CustodianBankAuthState {
-  final List<CustodianBankEntity> getCustodianBankListEntity;
+class OngoingCustodianListLoaded extends Equatable with CustodianBankAuthState {
+  final List<CustodianBankEntity> ongoingList;
 
-  CustodianBankListLoaded({
-    required this.getCustodianBankListEntity,
+  OngoingCustodianListLoaded({
+    required this.ongoingList,
   });
 
   @override
   List<Object> get props => [
-        getCustodianBankListEntity,
+        ongoingList,
+      ];
+}
+
+class CustodianBankStateLoaded extends Equatable with CustodianBankAuthState {
+  final CustodianBankStatusEntity custodianBankStatusEntity;
+
+  CustodianBankStateLoaded({
+    required this.custodianBankStatusEntity,
+  });
+
+  @override
+  List<Object> get props => [
+        custodianBankStatusEntity,
       ];
 }

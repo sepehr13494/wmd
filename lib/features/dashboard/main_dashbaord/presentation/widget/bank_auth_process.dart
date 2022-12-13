@@ -5,6 +5,7 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/custodian_bank_entity.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_auth_cubit.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_list_cubit.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/widget/custodian_auth_status_modal.dart';
 import 'package:wmd/injection_container.dart';
 
@@ -17,8 +18,8 @@ class BanksAuthorizationProcess extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     return BlocProvider(
-      create: (context) => sl<CustodianBankAuthCubit>()..getCustodianBankList(),
-      child: BlocConsumer<CustodianBankAuthCubit, CustodianBankAuthState>(
+      create: (context) => sl<CustodianBankListCubit>()..getCustodianBankList(),
+      child: BlocConsumer<CustodianBankListCubit, CustodianBankListState>(
         listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
         builder: (context, state) {
           if (state is CustodianBankListLoaded) {
@@ -45,7 +46,7 @@ class BanksAuthorizationProcess extends AppStatelessWidget {
                         },
                         children: [
                           buildTableHeader(textTheme),
-                          ...state.getCustodianBankListEntity
+                          ...state.custodianBankList
                               .map((e) => buildTableRow(context, e, textTheme))
                         ],
                       ),
