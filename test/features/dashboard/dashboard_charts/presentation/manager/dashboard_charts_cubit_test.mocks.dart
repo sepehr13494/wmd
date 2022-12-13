@@ -7,13 +7,13 @@ import 'dart:async' as _i6;
 
 import 'package:dartz/dartz.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:wmd/core/domain/usecases/usercase.dart' as _i9;
+import 'package:wmd/core/domain/usecases/usercase.dart' as _i11;
 import 'package:wmd/core/error_and_success/failures.dart' as _i7;
 import 'package:wmd/core/util/local_storage.dart' as _i3;
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_allocation_entity.dart'
     as _i8;
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_geographic_entity.dart'
-    as _i11;
+    as _i10;
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_pie_entity.dart'
     as _i13;
 import 'package:wmd/features/dashboard/dashboard_charts/domain/repositories/dashboard_charts_repository.dart'
@@ -21,7 +21,7 @@ import 'package:wmd/features/dashboard/dashboard_charts/domain/repositories/dash
 import 'package:wmd/features/dashboard/dashboard_charts/domain/use_cases/get_allocation_usecase.dart'
     as _i5;
 import 'package:wmd/features/dashboard/dashboard_charts/domain/use_cases/get_geographic_usecase.dart'
-    as _i10;
+    as _i9;
 import 'package:wmd/features/dashboard/dashboard_charts/domain/use_cases/get_pie_usecase.dart'
     as _i12;
 
@@ -94,7 +94,7 @@ class MockGetAllocationUseCase extends _i1.Mock
       ) as _i3.LocalStorage);
   @override
   _i6.Future<_i4.Either<_i7.Failure, List<_i8.GetAllocationEntity>>> call(
-          _i9.NoParams? params) =>
+          DateTime? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
@@ -116,7 +116,7 @@ class MockGetAllocationUseCase extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGetGeographicUseCase extends _i1.Mock
-    implements _i10.GetGeographicUseCase {
+    implements _i9.GetGeographicUseCase {
   MockGetGeographicUseCase() {
     _i1.throwOnMissingStub(this);
   }
@@ -138,23 +138,23 @@ class MockGetGeographicUseCase extends _i1.Mock
         ),
       ) as _i3.LocalStorage);
   @override
-  _i6.Future<_i4.Either<_i7.Failure, List<_i11.GetGeographicEntity>>> call(
-          _i9.NoParams? params) =>
+  _i6.Future<_i4.Either<_i7.Failure, List<_i10.GetGeographicEntity>>> call(
+          _i11.NoParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
         returnValue: _i6.Future<
-                _i4.Either<_i7.Failure, List<_i11.GetGeographicEntity>>>.value(
-            _FakeEither_2<_i7.Failure, List<_i11.GetGeographicEntity>>(
+                _i4.Either<_i7.Failure, List<_i10.GetGeographicEntity>>>.value(
+            _FakeEither_2<_i7.Failure, List<_i10.GetGeographicEntity>>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i6.Future<_i4.Either<_i7.Failure, List<_i11.GetGeographicEntity>>>);
+      ) as _i6.Future<_i4.Either<_i7.Failure, List<_i10.GetGeographicEntity>>>);
 }
 
 /// A class which mocks [GetPieUseCase].
@@ -183,7 +183,7 @@ class MockGetPieUseCase extends _i1.Mock implements _i12.GetPieUseCase {
       ) as _i3.LocalStorage);
   @override
   _i6.Future<_i4.Either<_i7.Failure, List<_i13.GetPieEntity>>> call(
-          _i9.NoParams? params) =>
+          _i11.NoParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,

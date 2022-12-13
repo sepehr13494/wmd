@@ -1,6 +1,7 @@
 import 'package:wmd/core/data/network/server_request_manager.dart';
 import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/data/repository/app_data_source.dart';
+import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/models/app_request_options.dart';
 
 import '../models/get_allocation_params.dart';
@@ -26,7 +27,9 @@ class DashboardChartsRemoteDataSourceImpl extends AppServerDataSource
     @override
   Future<List<GetAllocationResponse>> getAllocation(GetAllocationParams params) async {
     final appRequestOptions =
-        AppRequestOptions(RequestTypes.get, AppUrls.getAllocation, params.toJson());
+        AppRequestOptions(RequestTypes.get, "${AppUrls.getAllocation}${params.ownerId}/history", {
+          "To":params.to,
+        });
     final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
     final result = (response as List<dynamic>)
                 .map((e) => GetAllocationResponse.fromJson(e))
@@ -47,13 +50,17 @@ class DashboardChartsRemoteDataSourceImpl extends AppServerDataSource
   
       @override
   Future<List<GetPieResponse>> getPie(GetPieParams params) async {
-    final appRequestOptions =
-        AppRequestOptions(RequestTypes.get, AppUrls.getPie, params.toJson());
-    final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
-    final result = (response as List<dynamic>)
-                .map((e) => GetPieResponse.fromJson(e))
-                .toList();
-    return result;
+    try{
+      final appRequestOptions =
+      AppRequestOptions(RequestTypes.get, AppUrls.getPie, params.toJson());
+      final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
+      final result = (response as List<dynamic>)
+          .map((e) => GetPieResponse.fromJson(e))
+          .toList();
+      return result;
+    }catch (e){
+      throw AppException(message: "format Exception",type: ExceptionType.format);
+    }
   }
 
 }

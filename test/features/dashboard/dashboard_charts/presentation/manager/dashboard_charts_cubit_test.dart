@@ -60,7 +60,7 @@ void main() {
       expect: () =>
       [isA<LoadingState>(), GetAllocationLoaded(getAllocationEntity: GetAllocationResponse.tResponse)],
       verify: (_) {
-        verify(mockGetAllocationUseCase(NoParams()));
+        verify(mockGetAllocationUseCase(null));
       },
     );
 
@@ -73,7 +73,7 @@ void main() {
       expect: () =>
       [isA<LoadingState>(), ErrorState(failure: ServerFailure.tServerFailure)],
       verify: (_) {
-        verify(mockGetAllocationUseCase(NoParams()));
+        verify(mockGetAllocationUseCase(null));
       },
     );
   });

@@ -4,6 +4,7 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_allocation_entity.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/line_chart.dart';
 import 'package:wmd/injection_container.dart';
 
@@ -70,8 +71,12 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
                       child: Padding(
                         padding: const EdgeInsets.all(12),
                         child: barChart
-                            ? BarChartMainDashboard()
-                            : LineChartSample2(),
+                            ? BarChartMainDashboard(allocations: state.getAllocationEntity)
+                            : LineChartSample2(allocations: [
+                              ...state.getAllocationEntity,
+                              GetAllocationEntity(name: 'name', asset: 0, liability: 0, netWorth: 1000),
+                              GetAllocationEntity(name: 'name', asset: 0, liability: 0, netWorth: 700),
+                        ]),
                       ),
                     ),
                   ],
