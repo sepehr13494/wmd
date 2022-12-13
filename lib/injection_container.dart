@@ -162,7 +162,7 @@ Future<void> init() async {
       () => ForgetPasswordServerDataSourceImpl(sl()));
 
   //PersonalInformation
-  sl.registerFactory(() => PersonalInformationCubit(sl(),sl(),sl()));
+  sl.registerFactory(() => PersonalInformationCubit(sl(), sl(), sl()));
   sl.registerLazySingleton(() => GetNameUseCase(sl()));
   sl.registerLazySingleton(() => SetNameUseCase(sl()));
   sl.registerLazySingleton(() => SetNumberUseCase(sl()));
@@ -184,15 +184,15 @@ Future<void> init() async {
       () => MainDashboardRemoteDataSourceImpl(sl()));
 
   //DashboardCharts
-  sl.registerFactory(() => DashboardChartsCubit(sl(),sl(),sl()));
-  sl.registerLazySingleton(() => GetAllocationUseCase(sl(),sl()));
-  sl.registerLazySingleton(() => GetGeographicUseCase(sl(),sl()));
-  sl.registerLazySingleton(() => GetPieUseCase(sl(),sl()));
+  sl.registerFactory(() => DashboardChartsCubit(sl(), sl(), sl()));
+  sl.registerLazySingleton(() => GetAllocationUseCase(sl(), sl()));
+  sl.registerLazySingleton(() => GetGeographicUseCase(sl(), sl()));
+  sl.registerLazySingleton(() => GetPieUseCase(sl(), sl()));
 
   sl.registerLazySingleton<DashboardChartsRepository>(
-          () => DashboardChartsRepositoryImpl(sl()));
+      () => DashboardChartsRepositoryImpl(sl()));
   sl.registerLazySingleton<DashboardChartsRemoteDataSource>(
-          () => DashboardChartsRemoteDataSourceImpl(sl()));
+      () => DashboardChartsRemoteDataSourceImpl(sl()));
 
   //AssetOverview
   sl.registerFactory(() => AssetsOverviewCubit(sl()));
