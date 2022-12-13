@@ -48,18 +48,23 @@ class AssetDetailRemoteDataSourceImpl extends AppServerDataSource
     final response =
         await errorHandlerMiddleware.sendRequest(appRequestOptions);
 
-    switch (params.type) {
-      case 'BankAccount':
-        return BankAccountResponse.fromJson(response);
-      case 'RealEstate':
-        return RealEstateResponse.fromJson(response);
-      case 'PrivateDept':
-      case 'PrivateEquity':
-      case 'ListedAsset':
-      case 'OtherAsset':
-        return GetDetailResponse.fromJson(response);
-      default:
-        throw AppException(message: 'Unkonwn type');
+    try {
+      switch (params.type) {
+        case 'BankAccount':
+          return BankAccountResponse.fromJson(response);
+        case 'RealEstate':
+          return RealEstateResponse.fromJson(response);
+        case 'PrivateDept':
+        case 'PrivateEquity':
+        case 'ListedAsset':
+        case 'OtherAsset':
+          return GetDetailResponse.fromJson(response);
+        default:
+          throw AppException(message: 'Unkonwn type');
+      }
+    } catch (e) {
+      throw AppException(
+          message: 'Format exceptions', type: ExceptionType.format);
     }
   }
 }

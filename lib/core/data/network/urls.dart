@@ -23,7 +23,7 @@ class AppUrls {
   static String getUserStatus = "${userBase}user";
   static String getName = "${userBase}user/identity";
   static String setName = "${userBase}user/personal-info";
-
+  static String setNumber = "${userBase}user/phone-number";
 
   static String postBankDetails = "${wealthBase}BankAccount";
   static String postPrivateEquity = "${wealthBase}PrivateEquity";
@@ -32,6 +32,9 @@ class AppUrls {
   static String postListedAsset = "${wealthBase}ListedAsset";
   static String postLoanLiability = "${wealthBase}Loans";
   static String getUserNetWorth = "${wealthBase}Wealth/totalnetworth";
+  static String getAllocation = "${wealthBase}wealth/";
+  static String getGeographic = "${wealthBase}GeographicAllocation";
+  static String getPie = "${wealthBase}Assets";
   static String getAssetsOverview = "${wealthBase}Assets/All";
   static String getBankList = "${banking}Bank";
   static String getPopularBankList = "${banking}Bank/Popular";
@@ -45,4 +48,8 @@ class AppUrls {
   static String getRealEstate = "${wealthBase}RealEstate";
 
   static String linkToken = "${banking}openbanking/link-token";
+
+  //CustodianBankList
+  static String getCustodianBankList = "${wealthBase}CustodianBank/list";
+  static String custodianBank = "${wealthBase}custodianbank";
 }

@@ -9,6 +9,7 @@ import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/page/custodian_banks_page.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/manager/asset_view_cubit.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/each_asset_widget.dart';
@@ -102,17 +103,21 @@ class AddAssetMobileWidget extends AppStatelessWidget {
           ];
         },
         body: DefaultTabController(
-          length: 2,
+          length: 3,
           child: Column(
             children: [
               Row(
                 children: const [
                   SizedBox(
                     width: 300,
-                    child: TabBar(tabs: [
-                      Tab(text: "Assets"),
-                      Tab(text: "Liability"),
-                    ]),
+                    child: TabBar(
+                      tabs: [
+                        Tab(text: "Assets"),
+                        Tab(text: "Liability"),
+                        Tab(text: "Custodian Banks"),
+                      ],
+                      isScrollable: true,
+                    ),
                   ),
                   Spacer(),
                 ],
@@ -126,7 +131,8 @@ class AddAssetMobileWidget extends AppStatelessWidget {
                 AssetsPart(isLiability: false),
                 AssetsPart(
                   isLiability: true,
-                )
+                ),
+                AddCustodianBanksPage(),
               ]))
             ],
           ),

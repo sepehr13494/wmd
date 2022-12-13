@@ -12,4 +12,6 @@ abstract class Success extends Equatable{
 
 class AppSuccess extends Success{
   const AppSuccess({required String message}) : super(message: message);
+
+  static const tAppSuccess = AppSuccess(message: "test success");
 }

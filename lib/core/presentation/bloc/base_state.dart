@@ -20,7 +20,10 @@ abstract class BaseState extends Equatable
         BankSaveState,
         AssetDetailState,
         PlaidState,
+        CustodianBankAuthState,
+        CustodianBankListState,
         PersonalInformationState,
+        DashboardChartsState,
         BankListState {}
 
 class BaseInitialState extends BaseState {

@@ -13,4 +13,8 @@ extension CustomizableDateTime on DateTime {
   static String get currentDate {
     return DateFormat('yyyy-MM-dd').format(current).toString();
   }
+
+  static DateTime get currentDateTime {
+    return DateTime.parse(DateFormat('yyyy-MM-dd').format(current).toString());
+  }
 }

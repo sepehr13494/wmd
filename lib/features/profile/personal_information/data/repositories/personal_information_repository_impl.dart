@@ -5,7 +5,8 @@ import 'package:dartz/dartz.dart';
 
 import '../models/get_name_params.dart';
 import '../../domain/entities/get_name_entity.dart';
-    import '../models/set_name_params.dart';
+import '../models/set_name_params.dart';
+import '../models/set_number_params.dart';
 
     
 import '../../domain/repositories/personal_information_repository.dart';
@@ -36,6 +37,16 @@ class PersonalInformationRepositoryImpl implements PersonalInformationRepository
     } on AppException catch (error) {
       print(error);
       return Left(AppFailure.fromAppException(error));
+    }
+  }
+
+  @override
+  Future<Either<Failure, AppSuccess>> setNumber(SetNumberParams params) async {
+    try {
+      final result = await remoteDataSource.setNumber(params);
+      return const Right(AppSuccess(message: "successfully done"));
+    } on ServerException catch (error) {
+      return Left(ServerFailure.fromServerException(error));
     }
   }
   
