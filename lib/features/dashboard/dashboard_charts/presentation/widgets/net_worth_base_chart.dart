@@ -25,11 +25,11 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     return BlocProvider(
-      create: (context) => sl<DashboardChartsCubit>()..getAllocation(),
+      create: (context) => sl<DashboardChartsCubit>()..getAllocation(dateTime: DateTime.now()),
       child: Builder(builder: (context) {
         return BlocBuilder<DashboardChartsCubit, DashboardChartsState>(
           builder: (context, state) {
-            return state is GetAllocationLoaded ? Card(
+            return state is GetAllocationLoaded ? state.getAllocationEntity.isEmpty ? const SizedBox() : Card(
               child: Padding(
                 padding: const EdgeInsets.all(12),
                 child: Column(

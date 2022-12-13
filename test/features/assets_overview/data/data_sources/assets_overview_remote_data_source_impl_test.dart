@@ -11,6 +11,7 @@ import 'package:wmd/features/assets_overview/assets_overview/data/models/assets_
 
 import '../../../../core/data/network/error_handler_middleware_test.mocks.dart';
 
+
 Future<void> main() async {
   await dotenv.load(fileName: 'assets/env/.env');
   late MockErrorHandlerMiddleware mockErrorHandlerMiddleware;
@@ -43,12 +44,11 @@ Future<void> main() async {
 
     test('should throws ServerException when API call is not successful',
         () async {
-      final tServerException = ServerException(message: 'exception message',data: {"test":"testData"});
+      const tServerException = ServerException(message: 'exception message',data: {"test":"testData"});
       //arrange
       when(mockErrorHandlerMiddleware.sendRequest(any))
           .thenThrow(tServerException);
       //act
-      // final result = await loginSignUpRemoteDataSourceImpl.login(tLoginParams);
       final call = remoteDataSourceImpl.getAssetsOverview;
       //assert
       expect(
