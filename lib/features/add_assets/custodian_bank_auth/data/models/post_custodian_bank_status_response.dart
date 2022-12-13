@@ -1,9 +1,8 @@
 import '../../domain/entities/post_custodian_bank_status_entity.dart';
 
 class PostCustodianBankStatusResponse extends PostCustodianBankStatusEntity {
-  final bool success;
-  const PostCustodianBankStatusResponse({required this.success});
+  const PostCustodianBankStatusResponse(super.success);
 
   factory PostCustodianBankStatusResponse.fromJson(bool resp) =>
-      PostCustodianBankStatusResponse(success: resp);
+      PostCustodianBankStatusResponse(resp);
 }

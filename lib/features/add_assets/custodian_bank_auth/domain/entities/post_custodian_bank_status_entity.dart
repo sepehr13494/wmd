@@ -1,14 +1,13 @@
 import 'package:equatable/equatable.dart';
 
 class PostCustodianBankStatusEntity extends Equatable {
-    const PostCustodianBankStatusEntity();
-    
-    Map<String, dynamic> toJson() => {
-    
-    };
+  final bool success;
+  const PostCustodianBankStatusEntity(this.success);
 
-    @override
-    // TODO: implement props
-    List<Object?> get props => throw UnimplementedError();
+  Map<String, dynamic> toJson() => {};
+
+  @override
+  List<Object?> get props => [success];
+
+  static const tResponse = true;
 }
-    
