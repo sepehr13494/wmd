@@ -116,6 +116,7 @@ import 'features/add_assets/add_bank_auto/view_bank_list/domain/repository/bank_
 import 'features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_popular_bank_list.dart';
 import 'features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_bank_status_usecase.dart';
 import 'features/add_assets/custodian_bank_auth/domain/use_cases/post_custodian_bank_status_usecase.dart';
+import 'features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_list_cubit.dart';
 import 'features/splash/data/repositories/splash_repository_impl.dart';
 import 'features/splash/domain/repositories/splash_repository.dart';
 import 'features/splash/domain/use_cases/check_login_usecase.dart';
@@ -161,15 +162,15 @@ Future<void> init() async {
       () => ForgetPasswordServerDataSourceImpl(sl()));
 
   //PersonalInformation
-  sl.registerFactory(() => PersonalInformationCubit(sl(),sl(),sl()));
+  sl.registerFactory(() => PersonalInformationCubit(sl(), sl(), sl()));
   sl.registerLazySingleton(() => GetNameUseCase(sl()));
   sl.registerLazySingleton(() => SetNameUseCase(sl()));
   sl.registerLazySingleton(() => SetNumberUseCase(sl()));
 
   sl.registerLazySingleton<PersonalInformationRepository>(
-          () => PersonalInformationRepositoryImpl(sl()));
+      () => PersonalInformationRepositoryImpl(sl()));
   sl.registerLazySingleton<PersonalInformationRemoteDataSource>(
-          () => PersonalInformationRemoteDataSourceImpl(sl()));
+      () => PersonalInformationRemoteDataSourceImpl(sl()));
 
   //main_page
   sl.registerFactory(() => MainPageCubit());
@@ -183,15 +184,15 @@ Future<void> init() async {
       () => MainDashboardRemoteDataSourceImpl(sl()));
 
   //DashboardCharts
-  sl.registerFactory(() => DashboardChartsCubit(sl(),sl(),sl()));
-  sl.registerLazySingleton(() => GetAllocationUseCase(sl(),sl()));
-  sl.registerLazySingleton(() => GetGeographicUseCase(sl(),sl()));
-  sl.registerLazySingleton(() => GetPieUseCase(sl(),sl()));
+  sl.registerFactory(() => DashboardChartsCubit(sl(), sl(), sl()));
+  sl.registerLazySingleton(() => GetAllocationUseCase(sl(), sl()));
+  sl.registerLazySingleton(() => GetGeographicUseCase(sl(), sl()));
+  sl.registerLazySingleton(() => GetPieUseCase(sl(), sl()));
 
   sl.registerLazySingleton<DashboardChartsRepository>(
-          () => DashboardChartsRepositoryImpl(sl()));
+      () => DashboardChartsRepositoryImpl(sl()));
   sl.registerLazySingleton<DashboardChartsRemoteDataSource>(
-          () => DashboardChartsRemoteDataSourceImpl(sl()));
+      () => DashboardChartsRemoteDataSourceImpl(sl()));
 
   //AssetOverview
   sl.registerFactory(() => AssetsOverviewCubit(sl()));
@@ -302,7 +303,8 @@ Future<void> init() async {
       () => AssetDetailRemoteDataSourceImpl(sl()));
 
 //CustodianBankAuth
-  sl.registerFactory(() => CustodianBankAuthCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => CustodianBankListCubit(sl()));
+  sl.registerFactory(() => CustodianBankAuthCubit(sl(), sl()));
   sl.registerLazySingleton(() => GetCustodianBankListUseCase(sl()));
   sl.registerLazySingleton(() => PostCustodianBankStatusUseCase(sl()));
   sl.registerLazySingleton(() => GetCustodianBankStatusUseCase(sl()));

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-class GetCustodianBankStatusEntity extends Equatable {
-  const GetCustodianBankStatusEntity({
+class CustodianBankStatusEntity extends Equatable {
+  const CustodianBankStatusEntity({
     required this.bankId,
     required this.signLetter,
     required this.signLetterLink,

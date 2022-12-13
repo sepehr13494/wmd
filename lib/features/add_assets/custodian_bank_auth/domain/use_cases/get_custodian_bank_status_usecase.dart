@@ -6,15 +6,14 @@ import '../../data/models/get_custodian_bank_status_params.dart';
 import '../entities/get_custodian_bank_status_entity.dart';
 import '../repositories/custodian_bank_auth_repository.dart';
 
-class GetCustodianBankStatusUseCase extends UseCase<GetCustodianBankStatusEntity, GetCustodianBankStatusParams> {
+class GetCustodianBankStatusUseCase
+    extends UseCase<CustodianBankStatusEntity, GetCustodianBankStatusParams> {
   final CustodianBankAuthRepository repository;
 
   GetCustodianBankStatusUseCase(this.repository);
-  
+
   @override
-  Future<Either<Failure, GetCustodianBankStatusEntity>> call(GetCustodianBankStatusParams params) =>
+  Future<Either<Failure, CustodianBankStatusEntity>> call(
+          GetCustodianBankStatusParams params) =>
       repository.getCustodianBankStatus(params);
 }
-      
-
-    

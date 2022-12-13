@@ -13,6 +13,6 @@ abstract class CustodianBankAuthRepository {
       GetCustodianBankListParams params);
   Future<Either<Failure, PostCustodianBankStatusEntity>>
       postCustodianBankStatus(PostCustodianBankStatusParams params);
-  Future<Either<Failure, GetCustodianBankStatusEntity>> getCustodianBankStatus(
+  Future<Either<Failure, CustodianBankStatusEntity>> getCustodianBankStatus(
       GetCustodianBankStatusParams params);
 }

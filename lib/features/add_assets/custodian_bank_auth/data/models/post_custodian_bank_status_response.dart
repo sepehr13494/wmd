@@ -4,6 +4,6 @@ class PostCustodianBankStatusResponse extends PostCustodianBankStatusEntity {
   final bool success;
   const PostCustodianBankStatusResponse({required this.success});
 
-  factory PostCustodianBankStatusResponse.fromJson(Map<String, dynamic> json) =>
-      PostCustodianBankStatusResponse(success: json['success']);
+  factory PostCustodianBankStatusResponse.fromJson(bool resp) =>
+      PostCustodianBankStatusResponse(success: resp);
 }

@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../domain/entities/custodian_bank_entity.dart';
+
 class PostCustodianBankStatusParams extends Equatable {
   const PostCustodianBankStatusParams({
     required this.bankId,
@@ -19,6 +21,13 @@ class PostCustodianBankStatusParams extends Equatable {
         signLetter: json["signLetter"],
         shareWithBank: json["shareWithBank"],
         bankConfirmation: json["bankConfirmation"],
+      );
+  factory PostCustodianBankStatusParams.fromEntity(CustodianBankEntity bank) =>
+      PostCustodianBankStatusParams(
+        bankId: bank.bankId,
+        signLetter: false,
+        shareWithBank: false,
+        bankConfirmation: false,
       );
 
   Map<String, dynamic> toJson() => {
