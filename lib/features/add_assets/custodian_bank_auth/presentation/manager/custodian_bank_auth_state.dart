@@ -27,3 +27,16 @@ class CustodianBankStateLoaded extends Equatable with CustodianBankAuthState {
         custodianBankStatusEntity,
       ];
 }
+
+class CustodianBankStateUpdated extends Equatable with CustodianBankAuthState {
+  final PostCustodianBankStatusEntity postCustodianBankStatusEntity;
+
+  CustodianBankStateUpdated({
+    required this.postCustodianBankStatusEntity,
+  });
+
+  @override
+  List<Object> get props => [
+        postCustodianBankStatusEntity,
+      ];
+}

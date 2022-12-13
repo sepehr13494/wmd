@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/get_custodian_bank_status_entity.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/post_custodian_bank_status_entity.dart';
 import '../../domain/entities/custodian_bank_entity.dart';
 import '../../data/models/post_custodian_bank_status_params.dart';
 import '../../domain/use_cases/post_custodian_bank_status_usecase.dart';
@@ -23,7 +24,7 @@ class CustodianBankAuthCubit extends Cubit<CustodianBankAuthState> {
     emit(LoadingState());
     final result = await postCustodianBankStatusUseCase(params);
     result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
-      // emit(CustodianBankStateLoaded(custodianBankStatusEntity: entity));
+      emit(CustodianBankStateUpdated(postCustodianBankStatusEntity: entity));
     });
   }
 

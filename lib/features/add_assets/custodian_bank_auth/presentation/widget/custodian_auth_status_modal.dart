@@ -46,8 +46,6 @@ class BankStatusModalBody extends StatefulWidget {
 }
 
 class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
-  bool haveTried = false;
-
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
     return BlocProvider(
@@ -56,12 +54,9 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
             GetCustodianBankStatusParams(bankId: widget.bank.bankId)),
       child: BlocConsumer<CustodianBankAuthCubit, CustodianBankAuthState>(
           listener: (context, state) {
-        if (state is ErrorState) {
-          // if (!haveTried) {
-          //   context.read<CustodianBankAuthCubit>().postCustodianBankStatus(
-          //       PostCustodianBankStatusParams.fromEntity(widget.bank));
-          //   haveTried = true;
-          // }
+        if (state is CustodianBankStateUpdated) {
+          context.read<CustodianBankAuthCubit>().getCustodianBankStatus(
+              GetCustodianBankStatusParams(bankId: widget.bank.bankId));
         }
       }, builder: (context, state) {
         if (state is ErrorState) {
@@ -88,8 +83,16 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                 subtitle: 'Download and sign letter',
                 doneSubtitle: 'Download again',
                 isDone: status.signLetter,
-                onDone: () {},
-                onDoneAgain: () {},
+                onDone: () {
+                  context
+                      .read<CustodianBankAuthCubit>()
+                      .postCustodianBankStatus(PostCustodianBankStatusParams(
+                          bankId: widget.bank.bankId,
+                          signLetter: true,
+                          shareWithBank: false,
+                          bankConfirmation: false));
+                },
+                onDoneAgain: () => downloadLetter,
               ),
               StatusStepWidget(
                 stepNumber: '2',
@@ -114,5 +117,15 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
         }
       }),
     );
+  }
+
+  void downloadLetter() {
+    context.read<CustodianBankAuthCubit>().postCustodianBankStatus(
+        PostCustodianBankStatusParams(
+            bankId: widget.bank.bankId,
+            signLetter: true,
+            shareWithBank: false,
+            bankConfirmation: false));
+    Navigator.pop(context);
   }
 }
