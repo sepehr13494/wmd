@@ -3,6 +3,7 @@ import 'package:wmd/core/data/network/server_request_manager.dart';
 import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/data/repository/app_data_source.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
+import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/models/app_request_options.dart';
 
 import '../models/bank_list_response.dart';
@@ -22,7 +23,12 @@ class BankListRemoteDataSourceImpl extends AppServerDataSource
         AppRequestOptions(RequestTypes.get, AppUrls.getBankList, null);
     final List<dynamic> response =
         await errorHandlerMiddleware.sendRequest(getBankListRequestOptions);
-    return response.map((e) => BankResponse.fromJson(e)).toList();
+    try {
+      return response.map((e) => BankResponse.fromJson(e)).toList();
+    } catch (e) {
+      throw AppException(
+          message: 'Format exceptions', type: ExceptionType.format);
+    }
   }
 
   @override
@@ -37,6 +43,11 @@ class BankListRemoteDataSourceImpl extends AppServerDataSource
               });
     final List<dynamic> response = await errorHandlerMiddleware
         .sendRequest(getPopularBankListRequestOptions);
-    return response.map((e) => BankResponse.fromJson(e)).toList();
+    try {
+      return response.map((e) => BankResponse.fromJson(e)).toList();
+    } catch (e) {
+      throw AppException(
+          message: 'Format exceptions', type: ExceptionType.format);
+    }
   }
 }

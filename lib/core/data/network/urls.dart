@@ -49,4 +49,8 @@ class AppUrls {
   static String getRealEstate = "${wealthBase}RealEstate";
 
   static String linkToken = "${banking}openbanking/link-token";
+
+  //CustodianBankList
+  static String getCustodianBankList = "${banking}custodianbanks/list";
+  static String custodianBank = "${banking}custodianbanks";
 }
