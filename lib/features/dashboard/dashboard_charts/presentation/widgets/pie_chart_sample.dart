@@ -38,7 +38,7 @@ class PieChart2State extends State {
               Colors.purple.shade200,
             ];
             return state is GetPieLoaded
-                ? BaseAssetView(
+                ? state.getPieEntity.isEmpty ? const SizedBox() : BaseAssetView(
                     title: "Asset Class Allocation",
                     assets: List.generate(
                       state.getPieEntity.length,

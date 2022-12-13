@@ -31,13 +31,15 @@ class ServerException implements Exception {
   final ExceptionType type;
   final dynamic data;
 
-  ServerException(
+  const ServerException(
       {required this.message, this.type = ExceptionType.normal, this.data});
 
   @override
   String toString() {
     return "ServerException : $message";
   }
+
+  static const tServerException = ServerException(message: 'exception message',data: {"test":"testData"});
 }
 
 class AppException implements Exception {

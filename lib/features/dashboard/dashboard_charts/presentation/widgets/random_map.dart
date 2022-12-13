@@ -28,7 +28,7 @@ class _RandomWorldMapGenratorState extends State<RandomWorldMapGenrator> {
       child: Builder(builder: (context) {
         return BlocBuilder<DashboardChartsCubit, DashboardChartsState>(
           builder: (context, state) {
-            return state is GetGeographicLoaded ? BaseAssetView(
+            return state is GetGeographicLoaded ? state.getGeographicEntity.isEmpty ? const SizedBox() : BaseAssetView(
               title: "Geographical Allocation",
               assets: [
                 EachAssetViewModel(

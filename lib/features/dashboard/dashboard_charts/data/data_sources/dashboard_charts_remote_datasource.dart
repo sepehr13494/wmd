@@ -58,7 +58,10 @@ class DashboardChartsRemoteDataSourceImpl extends AppServerDataSource
           .map((e) => GetPieResponse.fromJson(e))
           .toList();
       return result;
-    }catch (e){
+    } on ServerException {
+      rethrow;
+    }
+    catch (e){
       throw AppException(message: "format Exception",type: ExceptionType.format);
     }
   }

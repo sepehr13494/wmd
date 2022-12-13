@@ -55,7 +55,7 @@ void main() {
       'when GetAllocationUseCase emits the GetAllocationLoaded when success',
       build: () => dashboardChartsCubit,
       setUp: () => when(mockGetAllocationUseCase(any))
-          .thenAnswer((realInvocation) async => Right(GetAllocationResponse.tResponse)),
+          .thenAnswer((realInvocation) async => const Right(GetAllocationResponse.tResponse)),
       act: (bloc) async => await bloc.getAllocation(),
       expect: () =>
       [isA<LoadingState>(), GetAllocationLoaded(getAllocationEntity: GetAllocationResponse.tResponse)],

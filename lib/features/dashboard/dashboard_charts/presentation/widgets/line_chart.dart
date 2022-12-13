@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/util/colors.dart';
 
 import '../../domain/entities/get_allocation_entity.dart';
@@ -17,6 +18,8 @@ class LineChartSample2 extends StatelessWidget {
     );
   }
 
+
+  
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     return SideTitleWidget(
       axisSide: meta.axisSide,
@@ -47,9 +50,9 @@ class LineChartSample2 extends StatelessWidget {
     return FittedBox(
         fit: BoxFit.scaleDown,
         child: Text(
-          "\$ ${(value * x)}",
+          "\$ ${(value * x).formatNumber}",
           textAlign: TextAlign.left,
-          style: TextStyle(fontSize: 10),
+          style: const TextStyle(fontSize: 10),
         ),
     );
   }
@@ -77,9 +80,6 @@ class LineChartSample2 extends StatelessWidget {
     minY = (minY/x);
     maxY = (maxY/x);
     double maxTotal = max(minY.abs(), maxY.abs());
-    print(maxTotal);
-    print(minY);
-    print(maxY);
     double gradientStop =  maxY/(maxY - minY);
     if(gradientStop>1){
       gradientStop = 1;

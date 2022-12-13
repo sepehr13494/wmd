@@ -12,7 +12,7 @@ class GetPieEntity extends Equatable {
   final double percentage;
 
   Map<String, dynamic> toJson() => {
-        "name": name,
+        "type": name,
         "value": value,
         "percentage": percentage,
       };

@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_allocation_entity.dart';
 
@@ -15,46 +18,65 @@ class BarChartMainDashboard extends StatelessWidget {
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(fontSize: 8);
-    Widget text;
-    switch (value.toInt()) {
-      case 1:
-        text = const Text('Jan 2022', style: style);
-        break;
-      case 3:
-        text = const Text('Feb 2022', style: style);
-        break;
-      case 5:
-        text = const Text('Mar 2022', style: style);
-        break;
-      case 7:
-        text = const Text('Apr 2022', style: style);
-        break;
-      case 9:
-        text = const Text('Jun 2022', style: style);
-        break;
-      default:
-        text = const Text('', style: style);
-        break;
-    }
-
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      child: text,
+      child: Text(allocations[value.toInt()].name, style: const TextStyle(fontSize: 8)),
     );
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
+    double minY = 0;
+    if(allocations.isNotEmpty){
+      minY = allocations[0].netWorth;
+      for (var element in allocations) {
+        if(element.netWorth<minY){
+          minY = element.netWorth;
+        }
+      }
+    }
+    double maxY = 0;
+    if(allocations.isNotEmpty){
+      maxY = allocations[0].netWorth;
+      for (var element in allocations) {
+        if(element.netWorth>maxY){
+          maxY = element.netWorth;
+        }
+      }
+    }
+    double x = max(maxY.abs() , minY.abs()) / 5;
     return FittedBox(
-        fit: BoxFit.scaleDown,
-        child: Text(
-          "\$ ${(value * 2.5)}M",
-          textAlign: TextAlign.left,
-          style: TextStyle(fontSize: 10),
-        ));
+      fit: BoxFit.scaleDown,
+      child: Text(
+        "\$ ${(value * x).formatNumber}",
+        textAlign: TextAlign.left,
+        style: const TextStyle(fontSize: 10),
+      ),
+    );
   }
 
   BarChartData mainData(context) {
+    double minY = 0;
+    if(allocations.isNotEmpty){
+      minY = allocations[0].netWorth;
+      for (var element in allocations) {
+        if(element.netWorth<minY){
+          minY = element.netWorth;
+        }
+      }
+    }
+    double maxY = 0;
+    if(allocations.isNotEmpty){
+      maxY = allocations[0].netWorth;
+      for (var element in allocations) {
+        if(element.netWorth>maxY){
+          maxY = element.netWorth;
+        }
+      }
+    }
+    double x = max(maxY.abs() , minY.abs()) / 5;
+    minY = (minY/x);
+    maxY = (maxY/x);
+    double maxTotal = max(minY.abs(), maxY.abs());
     return BarChartData(
       gridData: FlGridData(
         show: true,
@@ -104,140 +126,28 @@ class BarChartMainDashboard extends StatelessWidget {
           border: const Border.symmetric(
               horizontal: BorderSide(
                   width: 0.3, color: AppColors.dashBoardGreyTextColor))),
-      minY: -3,
-      maxY: 6,
-      barGroups: getData()
+        minY: minY.abs() == maxTotal ? minY : minY >= 0 ? 0 : (- (minY.abs()).ceil().toDouble()),
+        maxY: maxY.abs() == maxTotal ? maxY : maxY <= 0 ? 0 : (maxY.abs()).ceil().toDouble(),
+      barGroups: getData(x)
     );
   }
 
-  List<BarChartGroupData> getData() {
-    return [
-      BarChartGroupData(
-        x: 1,
+  List<BarChartGroupData> getData(double x) {
+    return List.generate(allocations.length, (index) {
+      return BarChartGroupData(
+        x: index,
         barsSpace: 4,
         barRods: [
           BarChartRodData(
-            toY: 5,
+            toY: allocations[index].asset/x,
             rodStackItems: [
-              BarChartRodStackItem(0, 3, AppColors.chartColor),
-              BarChartRodStackItem(3, 5, AppColors.redChartColor),
+              BarChartRodStackItem(0, allocations[index].netWorth/x, AppColors.chartColor),
+              BarChartRodStackItem(allocations[index].netWorth/x, allocations[index].asset/x, AppColors.redChartColor),
             ],
             borderRadius: BorderRadius.zero,
           ),
         ],
-      ),
-      BarChartGroupData(
-        x: 2,
-        barsSpace: 4,
-        barRods: [
-          BarChartRodData(
-            toY: 6,
-            rodStackItems: [
-              BarChartRodStackItem(0, 1.5, AppColors.chartColor),
-              BarChartRodStackItem(1.5, 6, AppColors.redChartColor),
-            ],
-            borderRadius: BorderRadius.zero,
-          ),
-        ],
-      ),
-      BarChartGroupData(
-        x: 3,
-        barsSpace: 4,
-        barRods: [
-          BarChartRodData(
-            toY: 5,
-            rodStackItems: [
-              BarChartRodStackItem(0, 3, AppColors.chartColor),
-              BarChartRodStackItem(3, 5, AppColors.redChartColor),
-            ],
-            borderRadius: BorderRadius.zero,
-          ),
-        ],
-      ),
-      BarChartGroupData(
-        x: 4,
-        barsSpace: 4,
-        barRods: [
-          BarChartRodData(
-            toY: 4,
-            rodStackItems: [
-              BarChartRodStackItem(0, 2, AppColors.chartColor),
-              BarChartRodStackItem(2, 4, AppColors.redChartColor),
-            ],
-            borderRadius: BorderRadius.zero,
-          ),
-        ],
-      ),
-      BarChartGroupData(
-        x: 5,
-        barsSpace: 4,
-        barRods: [
-          BarChartRodData(
-            toY: 4,
-            rodStackItems: [
-              BarChartRodStackItem(0, 3, AppColors.chartColor),
-              BarChartRodStackItem(3, 4, AppColors.redChartColor),
-            ],
-            borderRadius: BorderRadius.zero,
-          ),
-        ],
-      ),
-      BarChartGroupData(
-        x: 6,
-        barsSpace: 4,
-        barRods: [
-          BarChartRodData(
-            toY: 5,
-            rodStackItems: [
-              BarChartRodStackItem(0, 1.5, AppColors.chartColor),
-              BarChartRodStackItem(1.5, 5, AppColors.redChartColor),
-            ],
-            borderRadius: BorderRadius.zero,
-          ),
-        ],
-      ),
-      BarChartGroupData(
-        x: 7,
-        barsSpace: 4,
-        barRods: [
-          BarChartRodData(
-            toY: 5,
-            rodStackItems: [
-              BarChartRodStackItem(0, 1.5, AppColors.chartColor),
-              BarChartRodStackItem(1.5, 5, AppColors.redChartColor),
-            ],
-            borderRadius: BorderRadius.zero,
-          ),
-        ],
-      ),
-      BarChartGroupData(
-        x: 8,
-        barsSpace: 4,
-        barRods: [
-          BarChartRodData(
-            toY: 5,
-            rodStackItems: [
-              BarChartRodStackItem(0, 1.5, AppColors.chartColor),
-              BarChartRodStackItem(1.5, 5, AppColors.redChartColor),
-            ],
-            borderRadius: BorderRadius.zero,
-          ),
-        ],
-      ),
-      BarChartGroupData(
-        x: 9,
-        barsSpace: 4,
-        barRods: [
-          BarChartRodData(
-            toY: 5,
-            rodStackItems: [
-              BarChartRodStackItem(0, 1.5, AppColors.chartColor),
-              BarChartRodStackItem(1.5, 5, AppColors.redChartColor),
-            ],
-            borderRadius: BorderRadius.zero,
-          ),
-        ],
-      ),
-    ];
+      );
+    });
   }
 }
