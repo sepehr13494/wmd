@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/bottom_modal_widget.dart';
@@ -8,7 +9,7 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/get_cust
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/post_custodian_bank_status_params.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/custodian_bank_entity.dart';
 import 'package:wmd/injection_container.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import '../manager/custodian_bank_auth_cubit.dart';
 import 'status_step_widget.dart';
 
@@ -84,6 +85,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                 doneSubtitle: 'Download again',
                 isDone: status.signLetter,
                 onDone: () {
+                  launchUrlString(status.signLetterLink);
                   context
                       .read<CustodianBankAuthCubit>()
                       .postCustodianBankStatus(PostCustodianBankStatusParams(
@@ -92,7 +94,9 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                           shareWithBank: false,
                           bankConfirmation: false));
                 },
-                onDoneAgain: () => downloadLetter,
+                onDoneAgain: () {
+                  launchUrlString(status.signLetterLink);
+                },
               ),
               StatusStepWidget(
                 stepNumber: '2',
@@ -102,7 +106,15 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                     ? 'Mark as completed'
                     : null,
                 isDone: status.shareWithBank,
-                onDone: () {},
+                onDone: () {
+                  context
+                      .read<CustodianBankAuthCubit>()
+                      .postCustodianBankStatus(PostCustodianBankStatusParams(
+                          bankId: widget.bank.bankId,
+                          signLetter: true,
+                          shareWithBank: true,
+                          bankConfirmation: false));
+                },
               ),
               StatusStepWidget(
                 stepNumber: '3',
@@ -117,15 +129,5 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
         }
       }),
     );
-  }
-
-  void downloadLetter() {
-    context.read<CustodianBankAuthCubit>().postCustodianBankStatus(
-        PostCustodianBankStatusParams(
-            bankId: widget.bank.bankId,
-            signLetter: true,
-            shareWithBank: false,
-            bankConfirmation: false));
-    Navigator.pop(context);
   }
 }
