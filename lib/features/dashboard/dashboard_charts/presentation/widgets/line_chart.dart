@@ -1,9 +1,14 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:wmd/core/util/colors.dart';
 
+import '../../domain/entities/get_allocation_entity.dart';
+
 class LineChartSample2 extends StatelessWidget {
-  const LineChartSample2({super.key});
+  final List<GetAllocationEntity> allocations;
+  const LineChartSample2({super.key, required this.allocations});
 
   @override
   Widget build(BuildContext context) {
@@ -13,46 +18,74 @@ class LineChartSample2 extends StatelessWidget {
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(fontSize: 8);
-    Widget text;
-    switch (value.toInt()) {
-      case 1:
-        text = const Text('Jan 2022', style: style);
-        break;
-      case 3:
-        text = const Text('Feb 2022', style: style);
-        break;
-      case 5:
-        text = const Text('Mar 2022', style: style);
-        break;
-      case 7:
-        text = const Text('Apr 2022', style: style);
-        break;
-      case 9:
-        text = const Text('Jun 2022', style: style);
-        break;
-      default:
-        text = const Text('', style: style);
-        break;
-    }
-
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      child: text,
+      child: Text(allocations[value.toInt()].name, style: const TextStyle(fontSize: 8)),
     );
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
+    double minY = 0;
+    if(allocations.isNotEmpty){
+      minY = allocations[0].netWorth;
+      for (var element in allocations) {
+        if(element.netWorth<minY){
+          minY = element.netWorth;
+        }
+      }
+    }
+    double maxY = 0;
+    if(allocations.isNotEmpty){
+      maxY = allocations[0].netWorth;
+      for (var element in allocations) {
+        if(element.netWorth>maxY){
+          maxY = element.netWorth;
+        }
+      }
+    }
+    double x = max(maxY.abs() , minY.abs()) / 5;
     return FittedBox(
         fit: BoxFit.scaleDown,
         child: Text(
-          "\$ ${(value * 2.5)}M",
+          "\$ ${(value * x)}",
           textAlign: TextAlign.left,
           style: TextStyle(fontSize: 10),
-        ));
+        ),
+    );
   }
 
   LineChartData mainData(context) {
+    double minY = 0;
+    if(allocations.isNotEmpty){
+      minY = allocations[0].netWorth;
+      for (var element in allocations) {
+        if(element.netWorth<minY){
+          minY = element.netWorth;
+        }
+      }
+    }
+    double maxY = 0;
+    if(allocations.isNotEmpty){
+      maxY = allocations[0].netWorth;
+      for (var element in allocations) {
+        if(element.netWorth>maxY){
+          maxY = element.netWorth;
+        }
+      }
+    }
+    double x = max(maxY.abs() , minY.abs()) / 5;
+    minY = (minY/x);
+    maxY = (maxY/x);
+    double maxTotal = max(minY.abs(), maxY.abs());
+    print(maxTotal);
+    print(minY);
+    print(maxY);
+    double gradientStop =  maxY/(maxY - minY);
+    if(gradientStop>1){
+      gradientStop = 1;
+    }else if(gradientStop<0){
+      gradientStop = 0;
+    }
     return LineChartData(
       gridData: FlGridData(
         show: true,
@@ -103,25 +136,19 @@ class LineChartSample2 extends StatelessWidget {
               horizontal: BorderSide(
                   width: 0.3, color: AppColors.dashBoardGreyTextColor))),
       minX: 0,
-      maxX: 11,
-      minY: -3,
-      maxY: 6,
+      maxX: allocations.length.toDouble()-1,
+      minY: minY.abs() == maxTotal ? minY : minY >= 0 ? 0 : (- (minY.abs()).ceil().toDouble()),
+      maxY: maxY.abs() == maxTotal ? maxY : maxY <= 0 ? 0 : (maxY.abs()).ceil().toDouble(),
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 3),
-            FlSpot(1, -3),
-            FlSpot(3, 2),
-            FlSpot(5, 6),
-            FlSpot(8, -2),
-            FlSpot(10, 3),
-            FlSpot(11, 4),
-          ],
+          spots: List.generate(allocations.length, (index) {
+            return FlSpot(index.toDouble(), allocations[index].netWorth/x);
+          }),
           isCurved: false,
           color: AppColors.chartColor,
           gradient: LinearGradient(
-            colors: [AppColors.chartColor,AppColors.chartColor, AppColors.errorColor,AppColors.errorColor],
-            stops: [0,6/9,6/9,1],
+            colors: const [AppColors.chartColor,AppColors.chartColor, AppColors.errorColor,AppColors.errorColor],
+            stops: [0,gradientStop,gradientStop,1],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter
           ),
