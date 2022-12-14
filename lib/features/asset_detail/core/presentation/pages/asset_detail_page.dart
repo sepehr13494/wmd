@@ -4,6 +4,7 @@ import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
+import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/bank_account/domain/entity/bank_account_entity.dart';
 import 'package:wmd/features/asset_detail/core/data/models/get_detail_params.dart';
@@ -15,6 +16,7 @@ import 'package:wmd/features/asset_detail/private_equity/domain/entity/private_e
 import 'package:wmd/features/asset_detail/private_equity/presentation/page/private_equity_page.dart';
 import 'package:wmd/features/asset_detail/real_estate/domain/entity/real_estate_entity.dart';
 import 'package:wmd/features/asset_detail/real_estate/presentation/page/real_estate_page.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/net_worth_base_chart.dart';
 import 'package:wmd/injection_container.dart';
 import '../manager/asset_detail_cubit.dart';
 import '../../../bank_account/presentation/page/bank_account_page.dart';
@@ -29,6 +31,7 @@ class AssetDetailPage extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    final responsiveHelper = ResponsiveHelper(context: context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Asset details'),
@@ -75,13 +78,21 @@ class AssetDetailPage extends AppStatelessWidget {
                               return Text(state.assetDetailEntity.toString());
                           }
                         }
-                        return const Center(
-                          child: CircularProgressIndicator(),
+                        return Padding(
+                          padding: EdgeInsets.all(responsiveHelper.bigger24Gap),
+                          child: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
                         );
                       }),
                 ),
+                Padding(
+                  padding: EdgeInsets.all(responsiveHelper.biggerGap),
+                  child: const NetWorthBaseChart(),
+                ),
+                SizedBox(height: responsiveHelper.biggerGap),
                 const ValuationWidget(),
-                const SizedBox(height: 16),
+                SizedBox(height: responsiveHelper.biggerGap),
               ],
             ),
           ),

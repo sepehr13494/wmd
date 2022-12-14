@@ -1,3 +1,4 @@
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:wmd/features/asset_detail/bank_account/domain/entity/bank_account_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
@@ -6,6 +7,7 @@ import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/current_date_widget.dart';
+import 'package:wmd/features/asset_detail/core/presentation/widgets/net_change_widget.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/portfolio_contribution_widget.dart';
 
 class BankAccountSummaryWidget extends AppStatelessWidget {
@@ -76,46 +78,11 @@ class BankAccountSummaryWidget extends AppStatelessWidget {
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Net change",
-                            style: textTheme.titleSmall,
-                          ),
-                          // TextButton(
-                          //   onPressed: () {},
-                          //   child: Text(
-                          //     'See more >',
-                          //     style: textTheme.labelSmall!.apply(
-                          //         color: Theme.of(context).primaryColor,
-                          //         decoration: TextDecoration.underline),
-                          //   ),
-                          // ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           ExpandedIf(
                             expanded: !isMobile,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Last 30 days",
-                                  style: textTheme.bodySmall,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "\$1,326,320",
-                                      style: textTheme.bodyLarge,
-                                    ),
-                                    const ChangeWidget(
-                                        number: 8.03, text: "8.03%"),
-                                  ],
-                                ),
-                              ],
-                            ),
+                            child: const NetChangeWidget(),
                           ),
                           ExpandedIf(
                             expanded: !isMobile,

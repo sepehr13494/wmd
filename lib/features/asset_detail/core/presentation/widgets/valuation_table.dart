@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 
 class ValuationWidget extends AppStatelessWidget {
   const ValuationWidget({
@@ -9,8 +10,9 @@ class ValuationWidget extends AppStatelessWidget {
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
+    final responsiveHelper = ResponsiveHelper(context: context);
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(responsiveHelper.biggerGap),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -5,6 +5,7 @@ import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/current_date_widget.dart';
+import 'package:wmd/features/asset_detail/core/presentation/widgets/net_change_widget.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/portfolio_contribution_widget.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/your_holdings_widget.dart';
 import 'package:wmd/features/asset_detail/listed_asset/domain/entity/listed_asset_entity.dart';
@@ -63,40 +64,11 @@ class ListedAssetSummaryWidget extends AppStatelessWidget {
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Net change",
-                            style: textTheme.titleSmall,
-                          ),
-                          // TextButton(
-                          //   onPressed: () {},
-                          //   child: Text(
-                          //     'See more >',
-                          //     style: textTheme.labelSmall!.apply(
-                          //         color: Theme.of(context).primaryColor,
-                          //         decoration: TextDecoration.underline),
-                          //   ),
-                          // )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           ExpandedIf(
                             expanded: !isMobile,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Last 30 days",
-                                  style: textTheme.bodySmall,
-                                ),
-                                Text(
-                                  currencySymbol + '5000'.toString(),
-                                  style: textTheme.bodyLarge,
-                                ),
-                              ],
-                            ),
+                            child: const NetChangeWidget(),
                           ),
                           ExpandedIf(
                             expanded: !isMobile,
