@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:mockito/annotations.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:mockito/mockito.dart';
@@ -15,8 +14,6 @@ void main() {
   late AppSuccess tSuccessForLogin;
 
   setUp(() {
-    // loginEntity =
-    //     LoginModel.fromJson(jsonDecode(fixture('login_success_response.json')));
     tSuccessForLogin = const AppSuccess(message: "Login is successful");
     mockLoginSignUpRepository = MockLoginSignUpRepository();
     postLoginUseCase = PostLoginUseCase(mockLoginSignUpRepository);

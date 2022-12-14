@@ -20,6 +20,8 @@ class UserStatusRepositoryImpl implements UserStatusRepository {
       return Right(result);
     } on ServerException catch (error) {
       return Left(ServerFailure(message: error.message,type: error.type));
+    } on AppException catch (error){
+      return Left(AppFailure.fromAppException(error));
     }
   }
 
@@ -31,6 +33,8 @@ class UserStatusRepositoryImpl implements UserStatusRepository {
       return Right(result);
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
+    } on AppException catch (error){
+      return Left(AppFailure.fromAppException(error));
     }
   }
 }
