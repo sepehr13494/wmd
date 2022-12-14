@@ -12,9 +12,7 @@ import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/add_listed_security/presentation/manager/listed_security_cubit.dart';
-import 'package:wmd/features/add_assets/add_other_asset/presentation/manager/other_asset_cubit.dart';
 import 'package:wmd/features/add_assets/core/constants.dart';
-import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 import 'package:wmd/features/add_assets/core/data/models/listed_security_name.dart';
 import 'package:wmd/features/add_assets/core/data/models/listed_security_type.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
@@ -182,18 +180,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                     child: ListedSecurityTypeAhead(
                                         name: "name",
                                         onChange: (e) {
-                                          // final currentCurrency = Currency
-                                          //     .currenciesList
-                                          //     .firstWhere((element) =>
-                                          //         element.symbol ==
-                                          //         e?.currencyCode);
-                                          // if (currentCurrency != null) {
-                                          // formKey.currentState
-                                          //     ?.setInternalFieldValue(
-                                          //         "currencyCode",
-                                          //         currentCurrency,
-                                          //         isSetState: true);
-                                          // }
+                                 
 
                                           checkFinalValid(e);
 
