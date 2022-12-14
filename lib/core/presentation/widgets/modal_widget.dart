@@ -12,8 +12,8 @@ class ModalWidget extends StatelessWidget {
     super.key,
     required this.title,
     this.body = '',
-    required this.confirmBtn,
-    required this.cancelBtn,
+    this.confirmBtn = "",
+    this.cancelBtn = "",
   });
 
   @override
@@ -108,8 +108,8 @@ class ModalWidget extends StatelessWidget {
       children: [
         IconButton(
             onPressed: () {
-              // Navigator.pop(context);
-              GoRouter.of(context).goNamed(AppRoutes.dashboard);
+              Navigator.pop(context, false);
+              // GoRouter.of(context).goNamed(AppRoutes.dashboard);
             },
             icon: const Icon(Icons.cancel_rounded)),
       ],
