@@ -3,20 +3,22 @@ import 'package:wmd/features/asset_detail/private_equity/domain/entity/private_e
 
 class PrivateEquityResponse extends PrivateEquityEntity
     implements GetDetailResponse {
-  const PrivateEquityResponse(
-      {required super.investmentName,
-      required super.investmentAmount,
-      required super.investmentDate,
-      required super.wealthManager,
-      required super.marketValue,
-      required super.valuationDate,
-      required super.id,
-      required super.type,
-      required super.isActive,
-      required super.country,
-      required super.region,
-      required super.currencyCode,
-      required super.portfolioContribution});
+  const PrivateEquityResponse({
+    required super.investmentName,
+    required super.investmentAmount,
+    required super.investmentDate,
+    required super.wealthManager,
+    required super.marketValue,
+    required super.valuationDate,
+    required super.id,
+    required super.type,
+    required super.isActive,
+    required super.country,
+    required super.region,
+    required super.currencyCode,
+    required super.portfolioContribution,
+    required super.holdings,
+  });
 
   factory PrivateEquityResponse.fromJson(Map<String, dynamic> json) =>
       PrivateEquityResponse(
@@ -37,5 +39,6 @@ class PrivateEquityResponse extends PrivateEquityEntity
         currencyCode: json["currencyCode"],
         portfolioContribution:
             double.tryParse(json["portfolioContribution"].toString()) ?? 0,
+        holdings: double.tryParse(json["holdings"].toString()) ?? 0,
       );
 }

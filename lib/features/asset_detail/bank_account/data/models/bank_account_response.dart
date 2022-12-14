@@ -3,80 +3,51 @@ import 'package:wmd/features/asset_detail/core/data/models/get_detail_response.d
 
 class BankAccountResponse extends BankAccountEntity
     implements GetDetailResponse {
-  const BankAccountResponse(
-    String? bankName,
-    String? description,
-    String? accountType,
-    double? currentBalance,
-    bool? isJointAccount,
-    double? noOfCoOwners,
-    double? ownershipPercentage,
-    double? interestRate,
-    String? startDate,
-    String? endDate,
-    String? id,
-    String? type,
-    bool? isActive,
-    String? country,
-    String? region,
-    String? currencyCode,
-  ) : super(
-          bankName,
-          description,
-          accountType,
-          currentBalance,
-          isJointAccount,
-          noOfCoOwners,
-          ownershipPercentage,
-          interestRate,
-          startDate,
-          endDate,
-          id,
-          type,
-          isActive,
-          country,
-          region,
-          currencyCode,
-        );
+  const BankAccountResponse({
+    required super.bankName,
+    required super.description,
+    required super.accountType,
+    required super.currentBalance,
+    required super.isJointAccount,
+    required super.noOfCoOwners,
+    required super.ownershipPercentage,
+    required super.interestRate,
+    required super.startDate,
+    required super.endDate,
+    required super.id,
+    required super.type,
+    required super.isActive,
+    required super.country,
+    required super.region,
+    required super.currencyCode,
+    required super.portfolioContribution,
+    required super.holdings,
+  });
 
-  factory BankAccountResponse.fromJson(Map<String, dynamic> json) {
-    final bankName = json['bankName']?.toString();
-    final description = json['description']?.toString();
-    final accountType = json['accountType']?.toString();
-    final currentBalance =
-        double.tryParse(json['currentBalance'].toString()) ?? 0;
-    final isJointAccount = json['isJointAccount'];
-    final noOfCoOwners = double.tryParse(json['noOfCoOwners'].toString()) ?? 0;
-    final ownershipPercentage =
-        double.tryParse(json['ownershipPercentage'].toString()) ?? 0;
-    final interestRate = double.tryParse(json['interestRate'].toString()) ?? 0;
-    final startDate = json['startDate']?.toString();
-    final endDate = json['endDate']?.toString();
-    final id = json['id']?.toString();
-    final type = json['type']?.toString();
-    final isActive = json['isActive'];
-    final country = json['country']?.toString();
-    final region = json['region']?.toString();
-    final currencyCode = json['currencyCode']?.toString();
-    return BankAccountResponse(
-      bankName,
-      description,
-      accountType,
-      currentBalance,
-      isJointAccount,
-      noOfCoOwners,
-      ownershipPercentage,
-      interestRate,
-      startDate,
-      endDate,
-      id,
-      type,
-      isActive,
-      country,
-      region,
-      currencyCode,
-    );
-  }
+  factory BankAccountResponse.fromJson(Map<String, dynamic> json) =>
+      BankAccountResponse(
+        bankName: json["bankName"] ?? '',
+        description: json["description"] ?? '',
+        accountType: json["accountType"] ?? '',
+        currentBalance: json["currentBalance"],
+        isJointAccount: json["isJointAccount"] ?? false,
+        noOfCoOwners: double.tryParse(json['noOfCoOwners'].toString()) ?? 0,
+        ownershipPercentage:
+            double.tryParse(json['ownershipPercentage'].toString()) ?? 0,
+        interestRate: double.tryParse(json['interestRate'].toString()) ?? 0,
+        startDate: DateTime.parse(json["startDate"] ??
+            DateTime.fromMillisecondsSinceEpoch(0).toIso8601String()),
+        endDate: DateTime.parse(json["endDate"] ??
+            DateTime.fromMillisecondsSinceEpoch(0).toIso8601String()),
+        id: json["id"] ?? '',
+        type: json["type"] ?? '',
+        isActive: json["isActive"] ?? false,
+        country: json["country"] ?? '',
+        region: json["region"] ?? '',
+        currencyCode: json["currencyCode"] ?? '',
+        portfolioContribution: json["portfolioContribution"].toDouble(),
+        holdings: double.tryParse(json['holdings'].toString()) ?? 0,
+      );
 
   @override
   List<Object?> get props => [

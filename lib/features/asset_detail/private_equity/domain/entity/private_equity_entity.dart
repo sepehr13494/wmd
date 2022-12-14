@@ -15,6 +15,7 @@ class PrivateEquityEntity extends Equatable {
     required this.region,
     required this.currencyCode,
     required this.portfolioContribution,
+    required this.holdings,
   });
 
   final String investmentName;
@@ -30,6 +31,7 @@ class PrivateEquityEntity extends Equatable {
   final String region;
   final String currencyCode;
   final double portfolioContribution;
+  final double holdings;
 
   Map<String, dynamic> toJson() => {
         "investmentName": investmentName,
@@ -45,6 +47,7 @@ class PrivateEquityEntity extends Equatable {
         "region": region,
         "currencyCode": currencyCode,
         "portfolioContribution": portfolioContribution,
+        "holdings": holdings,
       };
 
   @override
@@ -62,5 +65,6 @@ class PrivateEquityEntity extends Equatable {
         region,
         currencyCode,
         portfolioContribution,
+        holdings,
       ];
 }

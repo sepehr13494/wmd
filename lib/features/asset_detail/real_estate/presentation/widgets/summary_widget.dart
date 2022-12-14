@@ -62,7 +62,8 @@ class RealEstateSummaryWidget extends AppStatelessWidget {
                         ],
                       ),
                       Text(
-                        currencySymbol + realEstateEntity.marketValue,
+                        currencySymbol +
+                            realEstateEntity.holdings.toInt().toString(),
                         style: const TextStyle(
                             fontSize: 28, fontWeight: FontWeight.w300),
                       ),
@@ -80,7 +81,10 @@ class RealEstateSummaryWidget extends AppStatelessWidget {
                                   style: textTheme.bodySmall,
                                 ),
                                 Text(
-                                  currencySymbol + realEstateEntity.marketValue,
+                                  currencySymbol +
+                                      realEstateEntity.marketValue
+                                          .toInt()
+                                          .toString(),
                                   style: textTheme.bodyLarge,
                                 ),
                               ],
@@ -129,17 +133,18 @@ class RealEstateSummaryWidget extends AppStatelessWidget {
                             "Net change",
                             style: textTheme.titleSmall,
                           ),
-                          TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              'See more >',
-                              style: textTheme.labelSmall!.apply(
-                                  color: Theme.of(context).primaryColor,
-                                  decoration: TextDecoration.underline),
-                            ),
-                          )
+                          // TextButton(
+                          //   onPressed: () {},
+                          //   child: Text(
+                          //     'See more >',
+                          //     style: textTheme.labelSmall!.apply(
+                          //         color: Theme.of(context).primaryColor,
+                          //         decoration: TextDecoration.underline),
+                          //   ),
+                          // ),
                         ],
                       ),
+                      const SizedBox(height: 4),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -155,8 +160,9 @@ class RealEstateSummaryWidget extends AppStatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                      currencySymbol +
-                                          realEstateEntity.marketValue,
+                                      '10',
+                                      // currencySymbol +
+                                      //     realEstateEntity.marketValue,
                                       style: textTheme.bodyLarge,
                                     ),
                                     const ChangeWidget(

@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/asset_detail/core/presentation/widgets/portfolio_contribution_widget.dart';
 
 class BankAccountSummaryWidget extends AppStatelessWidget {
   final BankAccountEntity bankAccountEntity;
@@ -48,16 +49,12 @@ class BankAccountSummaryWidget extends AppStatelessWidget {
                         style: textTheme.titleSmall,
                       ),
                       SizedBox(height: responsiveHelper.bigger16Gap),
-                      if (bankAccountEntity.currentBalance != null)
-                        Text(
-                          currencySymbol +
-                              bankAccountEntity.currentBalance!
-                                  .toInt()
-                                  .toString(),
-                          style: const TextStyle(
-                              fontSize: 28, fontWeight: FontWeight.w300),
-                        ),
-                      Text(bankAccountEntity.type!),
+                      Text(
+                        currencySymbol +
+                            bankAccountEntity.holdings.toInt().toString(),
+                        style: const TextStyle(
+                            fontSize: 28, fontWeight: FontWeight.w300),
+                      ),
                     ],
                   ),
                 ),
@@ -83,15 +80,15 @@ class BankAccountSummaryWidget extends AppStatelessWidget {
                             "Net change",
                             style: textTheme.titleSmall,
                           ),
-                          TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              'See more >',
-                              style: textTheme.labelSmall!.apply(
-                                  color: Theme.of(context).primaryColor,
-                                  decoration: TextDecoration.underline),
-                            ),
-                          )
+                          // TextButton(
+                          //   onPressed: () {},
+                          //   child: Text(
+                          //     'See more >',
+                          //     style: textTheme.labelSmall!.apply(
+                          //         color: Theme.of(context).primaryColor,
+                          //         decoration: TextDecoration.underline),
+                          //   ),
+                          // ),
                         ],
                       ),
                       Row(
@@ -121,19 +118,11 @@ class BankAccountSummaryWidget extends AppStatelessWidget {
                           ),
                           ExpandedIf(
                             expanded: !isMobile,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Portfolio contribution",
-                                  style: textTheme.bodySmall,
-                                ),
-                                Text(
-                                  "2.76% of \$8,676,200",
-                                  style: textTheme.bodyLarge,
-                                ),
-                              ],
-                            ),
+                            child: PortfolioContributionWidget(
+                                portfolioContribution:
+                                    bankAccountEntity.portfolioContribution,
+                                holdings: bankAccountEntity.holdings,
+                                currencyCode: bankAccountEntity.currencyCode),
                           ),
                         ],
                       )

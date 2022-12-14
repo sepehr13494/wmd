@@ -4,18 +4,20 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/asset_detail/core/presentation/widgets/portfolio_contribution_widget.dart';
+import 'package:wmd/features/asset_detail/core/presentation/widgets/your_holdings_widget.dart';
 import 'package:wmd/features/asset_detail/private_equity/domain/entity/private_equity_entity.dart';
 
 class PrivateEquitySummaryWidget extends AppStatelessWidget {
-  final PrivateEquityEntity privateDebtEntity;
-  const PrivateEquitySummaryWidget(this.privateDebtEntity, {Key? key})
+  final PrivateEquityEntity privateEquityEntity;
+  const PrivateEquitySummaryWidget(this.privateEquityEntity, {Key? key})
       : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final String currencySymbol =
-        AppConstants.getCurrencySymbolByCode(privateDebtEntity.currencyCode);
+        AppConstants.getCurrencySymbolByCode(privateEquityEntity.currencyCode);
     final lineColor = Theme.of(context).dividerColor;
     final responsiveHelper = ResponsiveHelper(context: context);
     bool isMobile = responsiveHelper.isMobile;
@@ -38,21 +40,9 @@ class PrivateEquitySummaryWidget extends AppStatelessWidget {
               children: [
                 ExpandedIf(
                   expanded: !isMobile,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Your holdings',
-                        style: textTheme.titleSmall,
-                      ),
-                      SizedBox(height: responsiveHelper.bigger16Gap),
-                      Text(
-                        currencySymbol +
-                            privateDebtEntity.marketValue.toInt().toString(),
-                        style: const TextStyle(
-                            fontSize: 28, fontWeight: FontWeight.w300),
-                      ),
-                    ],
+                  child: YourHoldingsWidget(
+                    holdings: privateEquityEntity.holdings,
+                    currencyCode: privateEquityEntity.currencyCode,
                   ),
                 ),
                 !isMobile
@@ -77,15 +67,15 @@ class PrivateEquitySummaryWidget extends AppStatelessWidget {
                             "Net change",
                             style: textTheme.titleSmall,
                           ),
-                          TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              'See more >',
-                              style: textTheme.labelSmall!.apply(
-                                  color: Theme.of(context).primaryColor,
-                                  decoration: TextDecoration.underline),
-                            ),
-                          )
+                          // TextButton(
+                          //   onPressed: () {},
+                          //   child: Text(
+                          //     'See more >',
+                          //     style: textTheme.labelSmall!.apply(
+                          //         color: Theme.of(context).primaryColor,
+                          //         decoration: TextDecoration.underline),
+                          //   ),
+                          // ),
                         ],
                       ),
                       Row(
@@ -151,19 +141,11 @@ class PrivateEquitySummaryWidget extends AppStatelessWidget {
                         expanded: !isMobile,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Portfolio contribution",
-                                style: textTheme.bodySmall,
-                              ),
-                              Text(
-                                "2.76% of \$8,676,200",
-                                style: textTheme.bodyLarge,
-                              ),
-                            ],
-                          ),
+                          child: PortfolioContributionWidget(
+                              portfolioContribution:
+                                  privateEquityEntity.portfolioContribution,
+                              holdings: privateEquityEntity.holdings,
+                              currencyCode: privateEquityEntity.currencyCode),
                         ),
                       ),
                     ],

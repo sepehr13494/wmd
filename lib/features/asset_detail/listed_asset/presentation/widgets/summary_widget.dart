@@ -4,6 +4,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/asset_detail/core/presentation/widgets/portfolio_contribution_widget.dart';
+import 'package:wmd/features/asset_detail/core/presentation/widgets/your_holdings_widget.dart';
 import 'package:wmd/features/asset_detail/listed_asset/domain/entity/listed_asset_entity.dart';
 
 class ListedAssetSummaryWidget extends AppStatelessWidget {
@@ -38,23 +40,9 @@ class ListedAssetSummaryWidget extends AppStatelessWidget {
               children: [
                 ExpandedIf(
                   expanded: !isMobile,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Your holdings',
-                        style: textTheme.titleSmall,
-                      ),
-                      SizedBox(height: responsiveHelper.bigger16Gap),
-                      Text(
-                        currencySymbol +
-                            (listedAssetEntity.totalCost * 1.5)
-                                .toInt()
-                                .toString(),
-                        style: const TextStyle(
-                            fontSize: 28, fontWeight: FontWeight.w300),
-                      ),
-                    ],
+                  child: YourHoldingsWidget(
+                    holdings: listedAssetEntity.holdings,
+                    currencyCode: listedAssetEntity.currencyCode,
                   ),
                 ),
                 !isMobile
@@ -153,24 +141,11 @@ class ListedAssetSummaryWidget extends AppStatelessWidget {
                         expanded: !isMobile,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Portfolio contribution",
-                                style: textTheme.bodySmall,
-                              ),
-                              Builder(builder: (context) {
-                                final double portfolioPercentage =
-                                    listedAssetEntity.portfolioContribution *
-                                        100;
-                                return Text(
-                                  "$portfolioPercentage% of $currencySymbol${listedAssetEntity.totalCost}",
-                                  style: textTheme.bodyLarge,
-                                );
-                              }),
-                            ],
-                          ),
+                          child: PortfolioContributionWidget(
+                              portfolioContribution:
+                                  listedAssetEntity.portfolioContribution,
+                              holdings: listedAssetEntity.holdings,
+                              currencyCode: listedAssetEntity.currencyCode),
                         ),
                       ),
                     ],

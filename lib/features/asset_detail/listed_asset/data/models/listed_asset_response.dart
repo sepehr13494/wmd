@@ -3,26 +3,28 @@ import 'package:wmd/features/asset_detail/listed_asset/domain/entity/listed_asse
 
 class ListedAssetResponse extends ListedAssetEntity
     implements GetDetailResponse {
-  const ListedAssetResponse(
-      {required super.securityName,
-      required super.securityShortName,
-      required super.tradedExchange,
-      required super.brokerName,
-      required super.isin,
-      required super.category,
-      required super.investmentDate,
-      required super.marketValue,
-      required super.quantity,
-      required super.totalCost,
-      required super.couponRate,
-      required super.maturityDate,
-      required super.id,
-      required super.type,
-      required super.isActive,
-      required super.country,
-      required super.region,
-      required super.currencyCode,
-      required super.portfolioContribution});
+  const ListedAssetResponse({
+    required super.securityName,
+    required super.securityShortName,
+    required super.tradedExchange,
+    required super.brokerName,
+    required super.isin,
+    required super.category,
+    required super.investmentDate,
+    required super.marketValue,
+    required super.quantity,
+    required super.totalCost,
+    required super.couponRate,
+    required super.maturityDate,
+    required super.id,
+    required super.type,
+    required super.isActive,
+    required super.country,
+    required super.region,
+    required super.currencyCode,
+    required super.portfolioContribution,
+    required super.holdings,
+  });
 
   factory ListedAssetResponse.fromJson(Map<String, dynamic> json) =>
       ListedAssetResponse(
@@ -47,5 +49,6 @@ class ListedAssetResponse extends ListedAssetEntity
         region: json["region"],
         currencyCode: json["currencyCode"],
         portfolioContribution: json["portfolioContribution"].toDouble(),
+        holdings: double.tryParse(json['holdings'].toString()) ?? 0,
       );
 }

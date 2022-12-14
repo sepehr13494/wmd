@@ -8,7 +8,7 @@ class RealEstateEntity extends Equatable {
   final double acquisitionCostPerUnit;
   final DateTime acquisitionDate;
   final double ownershipPercentage;
-  final String marketValue;
+  final double marketValue;
   final DateTime valuationDate;
   final String id;
   final String type;
@@ -16,6 +16,7 @@ class RealEstateEntity extends Equatable {
   final String country;
   final String region;
   final String currencyCode;
+  final double holdings;
 
   const RealEstateEntity({
     required this.name,
@@ -33,6 +34,7 @@ class RealEstateEntity extends Equatable {
     required this.country,
     required this.region,
     required this.currencyCode,
+    required this.holdings,
   });
 
   Map<String, dynamic> toJson() {
@@ -52,6 +54,7 @@ class RealEstateEntity extends Equatable {
       'country': country,
       'region': region,
       'currencyCode': currencyCode,
+      'holdings': holdings,
     };
   }
 
@@ -72,5 +75,6 @@ class RealEstateEntity extends Equatable {
         country,
         region,
         currencyCode,
+        holdings,
       ];
 }
