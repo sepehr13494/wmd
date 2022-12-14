@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/asset_detail/core/presentation/widgets/current_date_widget.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/portfolio_contribution_widget.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/your_holdings_widget.dart';
 import 'package:wmd/features/asset_detail/private_debt/domain/entity/private_debt_entity.dart';
@@ -155,16 +156,7 @@ class PrivateDebtSummaryWidget extends AppStatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(
-                "As of 17th Apr 2022, 10:22 a.m.",
-                style: textTheme.bodySmall,
-              ),
-            ),
-          )
+          const CurrentDateWidget(),
         ],
       ),
     );
