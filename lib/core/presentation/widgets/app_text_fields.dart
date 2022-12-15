@@ -409,9 +409,10 @@ class _ListedSecurityTypeAheadState extends State<ListedSecurityTypeAhead> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(suggestion.securityName),
-                          Text(suggestion.currencyCode ?? ""),
-                          Text(suggestion.category)
+                          Expanded(child: Text(suggestion.securityName)),
+                          const SizedBox(width: 24),
+                          Expanded(child: Text(suggestion.currencyCode ?? "")),
+                          Expanded(child: Text(suggestion.category)),
                         ],
                       ),
                       const SizedBox(height: 5),

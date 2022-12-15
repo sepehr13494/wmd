@@ -22,12 +22,13 @@ class PostBankDetailsUseCase
   Future<Either<Failure, BankSaveResponse>> call(
       Map<String, dynamic> params) async {
     try {
-      final currentBal =
-          params['currentBalance'].toString().replaceAll(',', '');
+      final currentBal = params['currentBalance'] != null
+          ? params['currentBalance'].toString().replaceAll(',', '')
+          : params['currentBalance'];
       final ownerId = localStorage.getOwnerId();
       final newMap = {
         ...params,
-        "currentBalance": double.parse(currentBal),
+        "currentBalance": currentBal != null ? double.parse(currentBal) : null,
         "owner": ownerId,
       };
       final bankAssetParam = BankSaveParams.fromJson(newMap);
@@ -49,7 +50,7 @@ class BankSaveParams extends Equatable {
     this.description,
     required this.accountType,
     required this.currencyCode,
-    required this.currentBalance,
+    this.currentBalance,
     this.isJointAccount,
     this.noOfCoOwners,
     this.ownershipPercentage,
@@ -65,7 +66,7 @@ class BankSaveParams extends Equatable {
   final String? description;
   final String accountType;
   final String currencyCode;
-  final double currentBalance;
+  final double? currentBalance;
   final bool? isJointAccount;
   final int? noOfCoOwners;
   final double? ownershipPercentage;

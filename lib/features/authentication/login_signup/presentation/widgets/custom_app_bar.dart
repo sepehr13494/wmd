@@ -13,7 +13,6 @@ class CustomAuthAppBar extends StatelessWidget with PreferredSizeWidget {
     return AppBar(
       backgroundColor: backgroundColor,
       centerTitle: false,
-      title: const AppLogoWidget(),
       actions: [
         const ChangeLanguageButton(),
         Switch(

@@ -109,7 +109,7 @@ class WelcomePage extends AppStatelessWidget {
                             child:
                                 Text(appLocalizations.auth_signup_button_join)),
                         if (kIsWeb)
-                          SizedBox()
+                          const SizedBox()
                         else if (Platform.isIOS)
                           const ContinueAppleButton(),
                         const SizedBox(),
@@ -210,7 +210,7 @@ class WelcomePage extends AppStatelessWidget {
     );
   }
 
-  void _linkedInLogin(context) {
+  static void _linkedInLogin(context) {
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -236,7 +236,7 @@ class WelcomePage extends AppStatelessWidget {
                 ))));
   }
 
-  Future<void> _googleLogin() async {
+  static Future<void> _googleLogin() async {
     try {
       GoogleSignIn googleSignIn = GoogleSignIn(
         clientId: "xxxِ",
@@ -251,7 +251,7 @@ class WelcomePage extends AppStatelessWidget {
     }
   }
 
-  Future<void> _twitterLogin() async {
+  static Future<void> _twitterLogin() async {
     final twitterLogin = TwitterLogin(
       // Consumer API keys
       apiKey: 'xxxx',
