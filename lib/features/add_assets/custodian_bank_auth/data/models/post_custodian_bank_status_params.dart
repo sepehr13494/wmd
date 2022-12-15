@@ -44,4 +44,11 @@ class PostCustodianBankStatusParams extends Equatable {
         shareWithBank,
         bankConfirmation,
       ];
+
+  static const tResponse = {
+    "bankId": "hsbc",
+    "signLetter": true,
+    "shareWithBank": true,
+    "bankConfirmation": false
+  };
 }

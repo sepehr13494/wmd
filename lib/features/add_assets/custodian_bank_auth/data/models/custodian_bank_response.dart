@@ -11,4 +11,9 @@ class CustodianBankResponse extends CustodianBankEntity {
         bankId: json["bankId"],
         bankName: json["bankName"],
       );
+
+  static final tResponse = {
+    "bankId": "hsbc",
+    "bankName": "HSBC",
+  };
 }
