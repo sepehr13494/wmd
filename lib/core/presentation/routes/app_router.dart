@@ -20,6 +20,7 @@ import 'package:wmd/features/authentication/login_signup/presentation/pages/veri
 import 'package:wmd/features/authentication/login_signup/presentation/pages/welcome_page.dart';
 import 'package:wmd/features/authentication/verify_email/presentation/pages/verify_response_page.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/pages/onboarding_page.dart';
+import 'package:wmd/features/help/support/presentation/pages/support_page.dart';
 import 'package:wmd/features/main_page/presentation/pages/main_page.dart';
 import 'package:wmd/features/splash/presentation/pages/splash_page.dart';
 import 'package:wmd/features/profile/core/presentation/pages/profile_page.dart';
@@ -112,6 +113,13 @@ class AppRouter {
               path: "settings",
               builder: (BuildContext context, GoRouterState state) {
                 return const ProfilePage();
+              },
+            ),
+            GoRoute(
+              name: AppRoutes.support,
+              path: "support",
+              builder: (BuildContext context, GoRouterState state) {
+                return const SupportPage();
               },
             ),
             GoRoute(
