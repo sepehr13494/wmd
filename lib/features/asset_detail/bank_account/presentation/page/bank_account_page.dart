@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/features/asset_detail/bank_account/domain/entity/bank_account_entity.dart';
 import 'package:wmd/features/asset_detail/bank_account/presentation/widgets/summary_widget.dart';
 
@@ -15,33 +14,24 @@ class BankAccountDetailPage extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    return Stack(
-      children: [
-        const LeafBackground(
-          opacity: 0.1,
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(bankAccountEntity.bankName, style: textTheme.headlineSmall),
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(bankAccountEntity.bankName ?? 'Bank account',
-                  style: textTheme.headlineSmall),
-              const SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  if (bankAccountEntity.description != null)
-                    Text(bankAccountEntity.description!),
-                  const EditButton(),
-                ],
-              ),
-              const SizedBox(height: 16),
-              BankAccountSummaryWidget(bankAccountEntity),
+              Text(bankAccountEntity.description),
+              // const EditButton(),
             ],
           ),
-        ),
-      ],
+          const SizedBox(height: 16),
+          BankAccountSummaryWidget(bankAccountEntity),
+        ],
+      ),
     );
   }
 }

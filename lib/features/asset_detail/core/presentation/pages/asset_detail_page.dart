@@ -3,13 +3,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/presentation/widgets/leaf_background.dart';
+import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/bank_account/domain/entity/bank_account_entity.dart';
 import 'package:wmd/features/asset_detail/core/data/models/get_detail_params.dart';
+import 'package:wmd/features/asset_detail/listed_asset/domain/entity/listed_asset_entity.dart';
+import 'package:wmd/features/asset_detail/listed_asset/presentation/page/listed_asset_page.dart';
+import 'package:wmd/features/asset_detail/private_debt/domain/entity/private_debt_entity.dart';
+import 'package:wmd/features/asset_detail/private_debt/presentation/page/private_debt_page.dart';
+import 'package:wmd/features/asset_detail/private_equity/domain/entity/private_equity_entity.dart';
+import 'package:wmd/features/asset_detail/private_equity/presentation/page/private_equity_page.dart';
 import 'package:wmd/features/asset_detail/real_estate/domain/entity/real_estate_entity.dart';
 import 'package:wmd/features/asset_detail/real_estate/presentation/page/real_estate_page.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/net_worth_base_chart.dart';
 import 'package:wmd/injection_container.dart';
 import '../manager/asset_detail_cubit.dart';
 import '../../../bank_account/presentation/page/bank_account_page.dart';
+import '../widgets/valuation_table.dart';
 
 class AssetDetailPage extends AppStatelessWidget {
   final String assetId;
@@ -20,36 +31,72 @@ class AssetDetailPage extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    final responsiveHelper = ResponsiveHelper(context: context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Asset details'),
       ),
-      body: BlocProvider(
-        create: (context) => sl<AssetDetailCubit>()
-          ..getDetail(GetDetailParams(type: type, assetId: assetId)),
-        child: BlocConsumer<AssetDetailCubit, AssetDetailState>(
-            listener: BlocHelper.defaultBlocListener(
-              listener: (context, state) {},
+      body: Stack(
+        children: [
+          const LeafBackground(
+            opacity: 0.1,
+          ),
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                BlocProvider(
+                  create: (context) => sl<AssetDetailCubit>()
+                    ..getDetail(GetDetailParams(type: type, assetId: assetId)),
+                  child: BlocConsumer<AssetDetailCubit, AssetDetailState>(
+                      listener: BlocHelper.defaultBlocListener(
+                        listener: (context, state) {},
+                      ),
+                      builder: (context, state) {
+                        if (state is AssetLoaded) {
+                          switch (type) {
+                            case AssetTypes.bankAccount:
+                              return BankAccountDetailPage(
+                                  bankAccountEntity: state.assetDetailEntity
+                                      as BankAccountEntity);
+                            case AssetTypes.realEstate:
+                              return RealEstateDetailPage(
+                                  realEstateEntity: state.assetDetailEntity
+                                      as RealEstateEntity);
+                            case AssetTypes.listedAsset:
+                              return ListedAssetDetailPage(
+                                  listedAssetEntity: state.assetDetailEntity
+                                      as ListedAssetEntity);
+                            case AssetTypes.privateDebt:
+                              return PrivateDebtDetailPage(
+                                  privateDebtEntity: state.assetDetailEntity
+                                      as PrivateDebtEntity);
+                            case AssetTypes.privateEquity:
+                              return PrivateEquityDetailPage(
+                                  privateEquityEntity: state.assetDetailEntity
+                                      as PrivateEquityEntity);
+                            default:
+                              return Text(state.assetDetailEntity.toString());
+                          }
+                        }
+                        return Padding(
+                          padding: EdgeInsets.all(responsiveHelper.bigger24Gap),
+                          child: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      }),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(responsiveHelper.biggerGap),
+                  child: const NetWorthBaseChart(),
+                ),
+                SizedBox(height: responsiveHelper.biggerGap),
+                const ValuationWidget(),
+                SizedBox(height: responsiveHelper.biggerGap),
+              ],
             ),
-            builder: (context, state) {
-              if (state is AssetLoaded) {
-                switch (type) {
-                  case 'BankAccount':
-                    return BankAccountDetailPage(
-                        bankAccountEntity:
-                            state.assetDetailEntity as BankAccountEntity);
-                  case 'RealEstate':
-                    return RealEstateDetailPage(
-                        realEstateEntity:
-                            state.assetDetailEntity as RealEstateEntity);
-                  default:
-                    return Text(state.assetDetailEntity.toString());
-                }
-              }
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }),
+          ),
+        ],
       ),
     );
   }

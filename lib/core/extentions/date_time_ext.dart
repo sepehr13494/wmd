@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:jiffy/jiffy.dart';
 
 extension CustomizableDateTime on DateTime {
   static DateTime? _customTime;
@@ -12,6 +13,10 @@ extension CustomizableDateTime on DateTime {
 
   static String get currentDate {
     return DateFormat('yyyy-MM-dd').format(current).toString();
+  }
+
+  static String get currentDateLocalized {
+    return Jiffy().format("do MMMM yyyy kk:mm aaa");
   }
 
   static DateTime get currentDateTime {

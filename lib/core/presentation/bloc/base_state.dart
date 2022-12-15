@@ -22,6 +22,7 @@ abstract class BaseState extends Equatable
         PlaidState,
         CustodianBankAuthState,
         CustodianBankListState,
+        CustodianStatusListState,
         PersonalInformationState,
         DashboardChartsState,
         BankListState {}
