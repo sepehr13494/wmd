@@ -43,11 +43,11 @@ void main() {
       () async {
         // arrange
         when(mockCustodianBankAuthRepository.getCustodianBankStatus(
-                GetCustodianBankStatusParams(bankId: resp.bankId)))
+                GetCustodianBankStatusParams(id: resp.bankId)))
             .thenAnswer((_) async => tEither);
         // act
         final result = await getCustodianBankStatusUseCase
-            .call(GetCustodianBankStatusParams(bankId: resp.bankId));
+            .call(GetCustodianBankStatusParams(id: resp.bankId));
         // assert
         expect(result.fold((l) => l, (r) => r), resp);
       },
@@ -59,11 +59,11 @@ void main() {
         const tServerFailure = ServerFailure(message: 'Server failure');
         // arrange
         when(mockCustodianBankAuthRepository.getCustodianBankStatus(
-                GetCustodianBankStatusParams(bankId: resp.bankId)))
+                GetCustodianBankStatusParams(id: resp.bankId)))
             .thenAnswer((_) async => const Left(tServerFailure));
         // act
         final result = await getCustodianBankStatusUseCase
-            .call(GetCustodianBankStatusParams(bankId: resp.bankId));
+            .call(GetCustodianBankStatusParams(id: resp.bankId));
         // assert
         expect(result, const Left(tServerFailure));
       },

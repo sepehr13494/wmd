@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/status_entity.dart';
 
 import '../../data/models/get_custodian_bank_list_params.dart';
 import '../entities/custodian_bank_entity.dart';
@@ -15,4 +16,6 @@ abstract class CustodianBankAuthRepository {
       postCustodianBankStatus(PostCustodianBankStatusParams params);
   Future<Either<Failure, CustodianBankStatusEntity>> getCustodianBankStatus(
       GetCustodianBankStatusParams params);
+  Future<Either<Failure, List<StatusEntity>>> getCustodianStatusList(
+      GetCustodianBankListParams params);
 }

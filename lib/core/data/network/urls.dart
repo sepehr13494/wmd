@@ -51,5 +51,7 @@ class AppUrls {
 
   //CustodianBankList
   static String getCustodianBankList = "${wealthBase}CustodianBank/list";
+  static String getCustodianStatusList =
+      "${wealthBase}CustodianBank/status-list";
   static String custodianBank = "${wealthBase}custodianbank";
 }

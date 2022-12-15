@@ -82,10 +82,10 @@ void main() {
         // act
         final result =
             await custodianBankAuthRepositoryImpl.getCustodianBankStatus(
-                GetCustodianBankStatusParams(bankId: resp.bankId));
+                GetCustodianBankStatusParams(id: resp.bankId));
         // assert
         verify(mockCustodianBankAuthRemoteDataSource.getCustodianBankStatus(
-            GetCustodianBankStatusParams(bankId: resp.bankId)));
+            GetCustodianBankStatusParams(id: resp.bankId)));
         expect(
           result,
           equals(Right(resp)),
@@ -102,10 +102,10 @@ void main() {
         // act
         final result =
             await custodianBankAuthRepositoryImpl.getCustodianBankStatus(
-                GetCustodianBankStatusParams(bankId: resp.bankId));
+                GetCustodianBankStatusParams(id: resp.bankId));
         // assert
         verify(mockCustodianBankAuthRemoteDataSource.getCustodianBankStatus(
-            GetCustodianBankStatusParams(bankId: resp.bankId)));
+            GetCustodianBankStatusParams(id: resp.bankId)));
 
         expect(result,
             equals(Left(ServerFailure(message: tServerException.message))));

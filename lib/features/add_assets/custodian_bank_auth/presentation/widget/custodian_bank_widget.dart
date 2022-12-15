@@ -48,7 +48,7 @@ class _CustodianBankWidgetState extends AppState<CustodianBankWidget> {
                   builder: (context) {
                     return InkWell(
                       onTap: () {
-                        showCustodianBankStatus(context: context, bank: bank);
+                        // showCustodianBankStatus(context: context, bank: bank);
                       },
                       child: Container(
                         decoration: BoxDecoration(
