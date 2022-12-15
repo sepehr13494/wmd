@@ -41,7 +41,6 @@ class _CustodianBankWidgetState extends AppState<CustodianBankWidget> {
           },
           title: Text(bank.bankName),
           leading: Icon(Icons.account_balance, color: primaryColor),
-          // subtitle: Text(bank.bankId),
           trailing: !isSelected
               ? null
               : Builder(

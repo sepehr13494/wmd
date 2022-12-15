@@ -23,6 +23,9 @@ class BanksAuthorizationProcess extends AppStatelessWidget {
         listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
         builder: (context, state) {
           if (state is StatusListLoaded) {
+            if (state.statusEntity.isEmpty) {
+              return const SizedBox.shrink();
+            }
             return SizedBox(
               width: double.infinity,
               child: Card(
@@ -41,8 +44,8 @@ class BanksAuthorizationProcess extends AppStatelessWidget {
                             TableCellVerticalAlignment.middle,
                         columnWidths: const {
                           0: FractionColumnWidth(0.25),
-                          1: FractionColumnWidth(0.25),
-                          3: FractionColumnWidth(0.5),
+                          1: FractionColumnWidth(0.5),
+                          3: FractionColumnWidth(0.25),
                         },
                         children: [
                           buildTableHeader(textTheme),
@@ -89,7 +92,8 @@ class BanksAuthorizationProcess extends AppStatelessWidget {
   TableRow buildTableRow(
       BuildContext context, StatusEntity e, TextTheme textTheme,
       {EdgeInsetsGeometry padding =
-          const EdgeInsets.symmetric(vertical: 8.0)}) {
+          const EdgeInsets.symmetric(vertical: 8.0, horizontal: 2)}) {
+    final appLocalizations = AppLocalizations.of(context);
     return TableRow(
       decoration: BoxDecoration(
         border: Border(
@@ -106,15 +110,20 @@ class BanksAuthorizationProcess extends AppStatelessWidget {
         ),
         Padding(
           padding: padding,
-          child: Text(e.id, style: textTheme.labelMedium),
+          child: Text(e.statusText(appLocalizations),
+              style: textTheme.labelMedium),
         ),
         Padding(
           padding: padding,
           child: Align(
             alignment: Alignment.centerRight,
             child: InkWell(
-              onTap: () {
-                showCustodianBankStatus(context: context, bankId: e.bankId);
+              onTap: () async {
+                await showCustodianBankStatus(
+                    context: context, bankId: e.bankId);
+                context
+                    .read<CustodianStatusListCubit>()
+                    .getCustodianStatusList();
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StatusEntity extends Equatable {
   const StatusEntity({
@@ -35,4 +36,13 @@ class StatusEntity extends Equatable {
         shareWithBank,
         bankConfirmation,
       ];
+
+  String statusText(AppLocalizations appLocalizations) {
+    if (shareWithBank && signLetter && !bankConfirmation) {
+      return 'Awating confirmation from the bank';
+    } else if (signLetter && !shareWithBank) {
+      return 'Waiting for you to share with the bank';
+    }
+    return 'Download and sign the letter';
+  }
 }
