@@ -37,7 +37,7 @@ class VideoControllerCubit extends Cubit<VideoControllerState> {
   void _createChewieController() {
     _chewieController = ChewieController(
       videoPlayerController: _videoPlayerController,
-      autoPlay: false,
+      autoPlay: true,
       // showControls: false,
       looping: false,
       hideControlsTimer: const Duration(seconds: 1),

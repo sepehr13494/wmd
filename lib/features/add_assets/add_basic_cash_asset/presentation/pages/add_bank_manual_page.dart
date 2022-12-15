@@ -11,6 +11,7 @@ import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentation/manager/bank_list_cubit.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/manager/bank_cubit.dart';
 import 'package:wmd/features/add_assets/core/constants.dart';
 import 'package:wmd/features/add_assets/core/data/models/account_type.dart';
@@ -277,8 +278,16 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
         ),
       );
     }
-    return BlocProvider(
-      create: (context) => sl<BankCubit>(),
+
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => sl<BankCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => sl<BankListCubit>()..getBankList(""),
+        ),
+      ],
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: const AddAssetHeader(
@@ -353,34 +362,55 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                     "Fill in your cash details",
                                     style: textTheme.titleMedium,
                                   ),
-                                  EachTextField(
-                                      hasInfo: false,
-                                      title: "Bank Name",
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          FormBuilderTypeAhead(
-                                              name: "bankName",
-                                              hint: "Your bank name",
-                                              onChange: checkFinalValid,
-                                              items: const [
-                                                "Bank 1",
-                                                "Bank 2",
-                                                "Bank 3"
-                                              ]),
-                                          TextButton(
-                                            onPressed: () {},
-                                            child: Text(
-                                              "Link your bank account",
-                                              style: textTheme.titleSmall!
-                                                  .apply(
-                                                      color: Theme.of(context)
-                                                          .primaryColor),
-                                            ),
-                                          )
-                                        ],
-                                      )),
+                                  BlocSelector<BankListCubit, BankListState,
+                                      List<String>>(
+                                    selector: (state) =>
+                                        state is BankListSuccess
+                                            ? state.banks.isEmpty
+                                                ? ["No bank found"]
+                                                : state.banks
+                                                    .map((e) => e.name)
+                                                    .toList()
+                                            : ["No bank found"],
+                                    builder: (context, state) {
+                                      return EachTextField(
+                                          hasInfo: false,
+                                          title: "Bank Name",
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              FormBuilderTypeAhead(
+                                                  name: "bankName",
+                                                  onChange: (e) {
+                                                    if (e != null) {
+                                                      context
+                                                          .read<BankListCubit>()
+                                                          .getBankList(e);
+
+                                                      checkFinalValid(e);
+                                                    }
+                                                  },
+                                                  prefixIcon: const Icon(
+                                                    Icons.search,
+                                                  ),
+                                                  hint: "Your bank name",
+                                                  items: state),
+                                              TextButton(
+                                                onPressed: () {},
+                                                child: Text(
+                                                  "Link your bank account",
+                                                  style: textTheme.titleSmall!
+                                                      .apply(
+                                                          color: Theme.of(
+                                                                  context)
+                                                              .primaryColor),
+                                                ),
+                                              )
+                                            ],
+                                          ));
+                                    },
+                                  ),
                                   EachTextField(
                                     hasInfo: false,
                                     title: "Description",
