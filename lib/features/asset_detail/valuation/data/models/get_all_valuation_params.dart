@@ -1,18 +1,16 @@
 import 'package:equatable/equatable.dart';
 
-class GetAllValuationParams extends Equatable{
-    const GetAllValuationParams();
+class GetAllValuationParams extends Equatable {
+  final String id;
+  const GetAllValuationParams(this.id);
 
-    factory GetAllValuationParams.fromJson(Map<String, dynamic> json) => const GetAllValuationParams(
-    );
+  factory GetAllValuationParams.fromJson(Map<String, dynamic> json) =>
+      GetAllValuationParams(json['id']);
 
-    Map<String, dynamic> toJson() => {
-    };
+  Map<String, dynamic> toJson() => {'id': id};
 
-    @override
-    // TODO: implement props
-    List<Object?> get props => [];
-    
-    static final tParams = GetAllValuationParams();
+  @override
+  List<Object?> get props => [id];
+
+  static const tParams = GetAllValuationParams('id');
 }
-    

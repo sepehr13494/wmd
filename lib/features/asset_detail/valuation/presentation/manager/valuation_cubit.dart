@@ -25,9 +25,9 @@ class ValuationCubit extends Cubit<ValuationState> {
     this.getValuationPerformanceUseCase,
   ) : super(LoadingState());
 
-  getAllValuation() async {
+  getAllValuation(GetAllValuationParams params) async {
     emit(LoadingState());
-    final result = await getAllValuationUseCase(GetAllValuationParams());
+    final result = await getAllValuationUseCase(params);
     result.fold((failure) => emit(ErrorState(failure: failure)), (entities) {
       emit(GetAllValuationLoaded(getAllValuationEntities: entities));
     });

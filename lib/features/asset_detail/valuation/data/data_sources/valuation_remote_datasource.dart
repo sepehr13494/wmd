@@ -39,7 +39,7 @@ class ValuationRemoteDataSourceImpl extends AppServerDataSource
       rethrow;
     } catch (e) {
       throw AppException(
-          message: "format Exception", type: ExceptionType.format);
+          message: "format Exception", type: ExceptionType.format, data: e);
     }
   }
 
