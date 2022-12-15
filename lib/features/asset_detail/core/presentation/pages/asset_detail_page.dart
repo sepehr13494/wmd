@@ -20,7 +20,7 @@ import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/net
 import 'package:wmd/injection_container.dart';
 import '../manager/asset_detail_cubit.dart';
 import '../../../bank_account/presentation/page/bank_account_page.dart';
-import '../widgets/valuation_table.dart';
+import '../../../valuation/presentation/manager/widget/valuation_table.dart';
 
 class AssetDetailPage extends AppStatelessWidget {
   final String assetId;
@@ -86,12 +86,12 @@ class AssetDetailPage extends AppStatelessWidget {
                         );
                       }),
                 ),
-                Padding(
-                  padding: EdgeInsets.all(responsiveHelper.biggerGap),
-                  child: const NetWorthBaseChart(),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.all(responsiveHelper.biggerGap),
+                //   child: const NetWorthBaseChart(),
+                // ),
                 SizedBox(height: responsiveHelper.biggerGap),
-                const ValuationWidget(),
+                ValuationWidget(assetId: assetId),
                 SizedBox(height: responsiveHelper.biggerGap),
               ],
             ),

@@ -22,4 +22,8 @@ extension CustomizableDateTime on DateTime {
   static DateTime get currentDateTime {
     return DateTime.parse(DateFormat('yyyy-MM-dd').format(current).toString());
   }
+
+  static String ddMmYyyy(DateTime dateTime) {
+    return Jiffy(dateTime).format("dd.MM.yyyy");
+  }
 }

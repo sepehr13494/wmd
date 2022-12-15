@@ -54,4 +54,10 @@ class AppUrls {
   static String getCustodianStatusList =
       "${wealthBase}CustodianBank/status-list";
   static String custodianBank = "${wealthBase}custodianbank";
+
+  //valuation
+  static String getAllValuation = "${wealthBase}Valuation/All";
+  static String postValuation = "${wealthBase}Valuation";
+  static String getValuationPerformance(String id) =>
+      "${wealthBase}Valuation/$id/history";
 }
