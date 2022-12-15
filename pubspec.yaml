@@ -73,6 +73,7 @@ dependencies:
   async: ^2.9.0
   country_picker: ^2.0.18
   jiffy: ^5.0.0
+  shimmer: ^2.0.0
 
 dev_dependencies:
   flutter_test:

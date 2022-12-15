@@ -12,4 +12,11 @@ extension NumExt on num {
     return NumberFormat("${addDollar ? (textDollar ? "USD" : "\$") : ""}#,##0${digits == 0 ? '' : '.$s'}", "en_US")
         .format(this);
   }
+
+  String get formatNumber{
+    return NumberFormat.compactCurrency(
+      decimalDigits: 2,
+      symbol: '', // if you want to add currency symbol then pass that in this else leave it empty.
+    ).format(this);
+  }
 }

@@ -8,7 +8,6 @@ import 'package:wmd/features/assets_overview/assets_overview/data/data_sources/a
 import 'package:wmd/features/assets_overview/assets_overview/data/models/assets_overview_params.dart';
 import 'package:wmd/features/assets_overview/assets_overview/data/models/assets_overview_response.dart';
 import 'package:wmd/features/assets_overview/assets_overview/data/repositories/assets_overview_repository_impl.dart';
-import 'package:wmd/features/assets_overview/assets_overview/domain/entities/assets_overview_entity.dart';
 import 'package:wmd/features/assets_overview/assets_overview/domain/repositories/assets_overview_repository.dart';
 
 import 'assets_overview_repository_impl_test.mocks.dart';
@@ -16,29 +15,27 @@ import 'assets_overview_repository_impl_test.mocks.dart';
 
 @GenerateMocks([AssetsOverviewRemoteDataSource,AssetsOverviewRepository])
 void main() {
-  late MockAssetsOverviewRemoteDataSource assetsOverviewRemoteDataSource;
+  late MockAssetsOverviewRemoteDataSource remoteDataSource;
   late AssetsOverviewRepositoryImpl repositoryImpl;
 
   setUp(() async {
-    assetsOverviewRemoteDataSource = MockAssetsOverviewRemoteDataSource();
+    remoteDataSource = MockAssetsOverviewRemoteDataSource();
     repositoryImpl = AssetsOverviewRepositoryImpl(
-        assetsOverviewRemoteDataSource);
+        remoteDataSource);
   });
-
-  final tServerException = ServerException(message: 'test server message');
 
   group('test for getAssetsOverview in AssetsOverviewRepository', () {
     test(
       'should return remote data when the call to remote data source is successful',
       () async {
         // arrange
-        when(assetsOverviewRemoteDataSource.getAssetsOverview(any))
+        when(remoteDataSource.getAssetsOverview(any))
             .thenAnswer((_) async => AssetsOverviewResponse.tAssetsOverviewList);
         // act
         final result = await repositoryImpl.getAssetsOverview(AssetsOverviewParams.tParams);
         // assert
         expect(result, equals(Right(AssetsOverviewResponse.tAssetsOverviewList)));
-        verify(assetsOverviewRemoteDataSource.getAssetsOverview(AssetsOverviewParams.tParams));
+        verify(remoteDataSource.getAssetsOverview(AssetsOverviewParams.tParams));
       },
     );
 
@@ -46,15 +43,15 @@ void main() {
       'should return server failure on server exception',
       () async {
         // arrange
-        when(assetsOverviewRemoteDataSource.getAssetsOverview(any))
-            .thenThrow(tServerException);
+        when(remoteDataSource.getAssetsOverview(any))
+            .thenThrow(ServerException.tServerException);
         // act
         final result = await repositoryImpl.getAssetsOverview(AssetsOverviewParams.tParams);
         // assert
-        verify(assetsOverviewRemoteDataSource.getAssetsOverview(AssetsOverviewParams.tParams));
+        verify(remoteDataSource.getAssetsOverview(AssetsOverviewParams.tParams));
 
         expect(result,
-            equals(Left(ServerFailure.fromServerException(tServerException))));
+            equals(Left(ServerFailure.fromServerException(ServerException.tServerException))));
       },
     );
   });

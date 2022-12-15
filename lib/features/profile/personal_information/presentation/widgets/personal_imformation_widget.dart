@@ -19,85 +19,76 @@ class PersonalInformationWidget extends AppStatelessWidget {
     final responsiveHelper = ResponsiveHelper(context: context);
     final isTablet = !responsiveHelper.isMobile;
     final formKey = GlobalKey<FormBuilderState>();
-    return BlocProvider(
-      create: (context) => sl<PersonalInformationCubit>()..getName(),
-      child: Builder(
-          builder: (context) {
-            return BlocConsumer<PersonalInformationCubit, PersonalInformationState>(
-              listener: BlocHelper.defaultBlocListener(listener: (context,state){
-                if(state is PersonalInformationLoaded){
-                  formKey.currentState!.patchValue(state.getNameEntity.toJson());
-                }
-              }),
-              builder: (context, state) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: FormBuilder(
-                    key: formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Personal information",
-                          style: textTheme.titleMedium,
-                        ),
-                        const SizedBox(height: 16),
-                        RowOrColumn(
-                            rowCrossAxisAlignment: CrossAxisAlignment.start,
-                            showRow: isTablet,
-                            children: [
-                              ExpandedIf(
-                                expanded: isTablet,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 8),
-                                  child: EachTextField(
-                                    title: "First Name",
-                                    child: AppTextFields.simpleTextField(
-                                        name: "firstName",
-                                        hint: "Enter First Name",
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 16),
-                              ExpandedIf(
-                                expanded: isTablet,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 8),
-                                  child: EachTextField(
-                                    title: "Last Name",
-                                    child: AppTextFields.simpleTextField(
-                                      name: "lastName",
-                                      hint: "Enter Last Name",
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ]),
-                        const SizedBox(height: 16),
-                        Align(
-                          alignment: AlignmentDirectional.centerEnd,
-                          child: SizedBox(
-                            width: isTablet ? 160 : null,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                if(formKey.currentState!.validate()){
-                                  context.read<PersonalInformationCubit>().setName(map: formKey.currentState!.instantValue);
-                                }
-                              },
-                              child: Text("Apply Changes"),
-                            ),
+    return BlocListener<PersonalInformationCubit, PersonalInformationState>(
+      listener: (context,state){
+        if(state is PersonalInformationLoaded){
+          formKey.currentState!.patchValue(state.getNameEntity.toJson());
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: FormBuilder(
+          key: formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Personal information",
+                style: textTheme.titleMedium,
+              ),
+              const SizedBox(height: 16),
+              RowOrColumn(
+                  rowCrossAxisAlignment: CrossAxisAlignment.start,
+                  showRow: isTablet,
+                  children: [
+                    ExpandedIf(
+                      expanded: isTablet,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8),
+                        child: EachTextField(
+                          title: "First Name",
+                          child: AppTextFields.simpleTextField(
+                            name: "firstName",
+                            hint: "Enter First Name",
                           ),
                         ),
-                      ],
+                      ),
                     ),
+                    const SizedBox(width: 16),
+                    ExpandedIf(
+                      expanded: isTablet,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8),
+                        child: EachTextField(
+                          title: "Last Name",
+                          child: AppTextFields.simpleTextField(
+                            name: "lastName",
+                            hint: "Enter Last Name",
+                          ),
+                        ),
+                      ),
+                    ),
+                  ]),
+              const SizedBox(height: 16),
+              Align(
+                alignment: AlignmentDirectional.centerEnd,
+                child: SizedBox(
+                  width: isTablet ? 160 : null,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if(formKey.currentState!.validate()){
+                        context.read<PersonalInformationCubit>().setName(map: formKey.currentState!.instantValue);
+                      }
+                    },
+                    child: Text("Apply Changes"),
                   ),
-                );
-              },
-            );
-          }
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

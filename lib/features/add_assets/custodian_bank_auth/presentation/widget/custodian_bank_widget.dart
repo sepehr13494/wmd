@@ -41,14 +41,14 @@ class _CustodianBankWidgetState extends AppState<CustodianBankWidget> {
           },
           title: Text(bank.bankName),
           leading: Icon(Icons.account_balance, color: primaryColor),
-          // subtitle: Text(bank.bankId),
           trailing: !isSelected
               ? null
               : Builder(
                   builder: (context) {
                     return InkWell(
                       onTap: () {
-                        showCustodianBankStatus(context: context, bank: bank);
+                        showCustodianBankStatus(
+                            context: context, bankId: bank.bankId);
                       },
                       child: Container(
                         decoration: BoxDecoration(

@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/custodian_bank_entity.dart';
-import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_auth_cubit.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/status_entity.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/widget/custodian_auth_status_modal.dart';
 import 'package:wmd/injection_container.dart';
 
@@ -17,11 +17,15 @@ class BanksAuthorizationProcess extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     return BlocProvider(
-      create: (context) => sl<CustodianBankAuthCubit>()..getCustodianBankList(),
-      child: BlocConsumer<CustodianBankAuthCubit, CustodianBankAuthState>(
+      create: (context) =>
+          sl<CustodianStatusListCubit>()..getCustodianStatusList(),
+      child: BlocConsumer<CustodianStatusListCubit, CustodianStatusListState>(
         listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
         builder: (context, state) {
-          if (state is CustodianBankListLoaded) {
+          if (state is StatusListLoaded) {
+            if (state.statusEntity.isEmpty) {
+              return const SizedBox.shrink();
+            }
             return SizedBox(
               width: double.infinity,
               child: Card(
@@ -40,12 +44,12 @@ class BanksAuthorizationProcess extends AppStatelessWidget {
                             TableCellVerticalAlignment.middle,
                         columnWidths: const {
                           0: FractionColumnWidth(0.25),
-                          1: FractionColumnWidth(0.25),
-                          3: FractionColumnWidth(0.5),
+                          1: FractionColumnWidth(0.5),
+                          3: FractionColumnWidth(0.25),
                         },
                         children: [
                           buildTableHeader(textTheme),
-                          ...state.getCustodianBankListEntity
+                          ...state.statusEntity
                               .map((e) => buildTableRow(context, e, textTheme))
                         ],
                       ),
@@ -86,9 +90,10 @@ class BanksAuthorizationProcess extends AppStatelessWidget {
   }
 
   TableRow buildTableRow(
-      BuildContext context, CustodianBankEntity e, TextTheme textTheme,
+      BuildContext context, StatusEntity e, TextTheme textTheme,
       {EdgeInsetsGeometry padding =
-          const EdgeInsets.symmetric(vertical: 8.0)}) {
+          const EdgeInsets.symmetric(vertical: 8.0, horizontal: 2)}) {
+    final appLocalizations = AppLocalizations.of(context);
     return TableRow(
       decoration: BoxDecoration(
         border: Border(
@@ -105,15 +110,20 @@ class BanksAuthorizationProcess extends AppStatelessWidget {
         ),
         Padding(
           padding: padding,
-          child: Text(e.bankId, style: textTheme.labelMedium),
+          child: Text(e.statusText(appLocalizations),
+              style: textTheme.labelMedium),
         ),
         Padding(
           padding: padding,
           child: Align(
             alignment: Alignment.centerRight,
             child: InkWell(
-              onTap: () {
-                showCustodianBankStatus(context: context, bank: e);
+              onTap: () async {
+                await showCustodianBankStatus(
+                    context: context, bankId: e.bankId);
+                context
+                    .read<CustodianStatusListCubit>()
+                    .getCustodianStatusList();
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,

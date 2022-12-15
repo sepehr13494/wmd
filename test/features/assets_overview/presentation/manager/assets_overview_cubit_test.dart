@@ -14,7 +14,10 @@ import 'assets_overview_cubit_test.mocks.dart';
 
 
 
-@GenerateMocks([GetAssetsOverviewUseCase])
+@GenerateMocks([
+  GetAssetsOverviewUseCase
+
+])
 void main() {
   late MockGetAssetsOverviewUseCase mockGetAssetsOverviewUseCase;
   late AssetsOverviewCubit assetsOverviewCubit;
@@ -26,31 +29,33 @@ void main() {
         AssetsOverviewCubit(mockGetAssetsOverviewUseCase);
   });
 
-  blocTest(
-    'when GetAssetsOverviewUseCase is emits the AssetsOverviewLoaded when success',
-    build: () => assetsOverviewCubit,
-    setUp: () => when(mockGetAssetsOverviewUseCase(any))
-        .thenAnswer((realInvocation) async => Right(AssetsOverviewResponse.tAssetsOverviewList)),
-    act: (bloc) async => await bloc.getAssetsOverview(),
-    expect: () =>
-        [isA<LoadingState>(), AssetsOverviewLoaded(assetsOverviews: AssetsOverviewResponse.tAssetsOverviewList)],
-    verify: (_) {
-      verify(mockGetAssetsOverviewUseCase(AssetsOverviewParams.tParams));
-    },
-  );
 
-  const tServerFailure = ServerFailure(message: "test");
+  group("getAssetsOverview", () {
+    blocTest(
+      'when GetAssetsOverviewUseCase is emits the AssetsOverviewLoaded when success',
+      build: () => assetsOverviewCubit,
+      setUp: () => when(mockGetAssetsOverviewUseCase(any))
+          .thenAnswer((realInvocation) async => Right(AssetsOverviewResponse.tAssetsOverviewList)),
+      act: (bloc) async => await bloc.getAssetsOverview(),
+      expect: () =>
+      [isA<LoadingState>(), AssetsOverviewLoaded(assetsOverviews: AssetsOverviewResponse.tAssetsOverviewList)],
+      verify: (_) {
+        verify(mockGetAssetsOverviewUseCase(AssetsOverviewParams.tParams));
+      },
+    );
 
-  blocTest(
-    'when GetAssetsOverviewUseCase is emits the ErrorState when error',
-    build: () => assetsOverviewCubit,
-    setUp: () => when(mockGetAssetsOverviewUseCase(any))
-        .thenAnswer((realInvocation) async => const Left(tServerFailure)),
-    act: (bloc) async => await bloc.getAssetsOverview(),
-    expect: () =>
-    [isA<LoadingState>(), ErrorState(failure: tServerFailure)],
-    verify: (_) {
-      verify(mockGetAssetsOverviewUseCase(AssetsOverviewParams.tParams));
-    },
-  );
+
+    blocTest(
+      'when GetAssetsOverviewUseCase is emits the ErrorState when error',
+      build: () => assetsOverviewCubit,
+      setUp: () => when(mockGetAssetsOverviewUseCase(any))
+          .thenAnswer((realInvocation) async => const Left(ServerFailure.tServerFailure)),
+      act: (bloc) async => await bloc.getAssetsOverview(),
+      expect: () =>
+      [isA<LoadingState>(), ErrorState(failure: ServerFailure.tServerFailure)],
+      verify: (_) {
+        verify(mockGetAssetsOverviewUseCase(AssetsOverviewParams.tParams));
+      },
+    );
+  });
 }

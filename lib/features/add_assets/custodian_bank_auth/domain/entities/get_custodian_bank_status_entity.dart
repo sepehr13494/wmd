@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-class GetCustodianBankStatusEntity extends Equatable {
-  const GetCustodianBankStatusEntity({
+class CustodianBankStatusEntity extends Equatable {
+  const CustodianBankStatusEntity({
     required this.bankId,
     required this.signLetter,
     required this.signLetterLink,
@@ -31,4 +31,14 @@ class GetCustodianBankStatusEntity extends Equatable {
         shareWithBank,
         bankConfirmation,
       ];
+
+  static const tResponse = {
+    "id": "844cc294-7cbf-41a6-9bdd-b6c839444364",
+    "bankId": "hsbc",
+    "signLetter": true,
+    "signLetterLink":
+        "https://a.storyblok.com/f/187108/x/169d159c71/creditsuisse.pdf",
+    "shareWithBank": true,
+    "bankConfirmation": false
+  };
 }

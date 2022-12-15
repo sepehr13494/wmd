@@ -45,6 +45,6 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
           },
         ),
       );
-    }), name: "country");
+    }), name: "country",initialValue: defaultCountry,);
   }
 }

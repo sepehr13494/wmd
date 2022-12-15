@@ -46,6 +46,7 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/data/repositories/cu
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/repositories/custodian_bank_auth_repository.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_bank_list_usecase.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_auth_cubit.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/features/asset_detail/core/data/data_sources/asset_detail_remote_datasource.dart';
 import 'package:wmd/features/asset_detail/core/data/repositories/asset_detail_repository_impl.dart';
 import 'package:wmd/features/asset_detail/core/domain/repositories/asset_detail_repository.dart';
@@ -79,6 +80,13 @@ import 'package:wmd/features/authentication/verify_email/data/repositories/verif
 import 'package:wmd/features/authentication/verify_email/domain/repositories/verify_email_repository.dart';
 import 'package:wmd/features/authentication/verify_email/domain/use_cases/verify_email_usecase.dart';
 import 'package:wmd/features/authentication/verify_email/presentation/manager/verify_email_cubit.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/data/data_sources/dashboard_charts_remote_datasource.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/data/repositories/dashboard_charts_repository_impl.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/domain/repositories/dashboard_charts_repository.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/domain/use_cases/get_allocation_usecase.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/domain/use_cases/get_geographic_usecase.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/domain/use_cases/get_pie_usecase.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/data/data_sources/main_dashboard_remote_data_source.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/data/repositories/main_dashboard_respository_impl.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/domain/repositories/main_dashboard_repository.dart';
@@ -96,6 +104,7 @@ import 'package:wmd/features/profile/personal_information/data/repositories/pers
 import 'package:wmd/features/profile/personal_information/domain/repositories/personal_information_repository.dart';
 import 'package:wmd/features/profile/personal_information/domain/use_cases/get_name_usecase.dart';
 import 'package:wmd/features/profile/personal_information/domain/use_cases/set_name_usecase.dart';
+import 'package:wmd/features/profile/personal_information/domain/use_cases/set_number_usecase.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 import 'core/data/network/network_helper.dart';
 import 'core/data/network/server_request_manager.dart';
@@ -107,7 +116,9 @@ import 'features/add_assets/add_bank_auto/plaid_integration/presentation/manager
 import 'features/add_assets/add_bank_auto/view_bank_list/domain/repository/bank_list_repository.dart';
 import 'features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_popular_bank_list.dart';
 import 'features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_bank_status_usecase.dart';
+import 'features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_status_list_usecase.dart';
 import 'features/add_assets/custodian_bank_auth/domain/use_cases/post_custodian_bank_status_usecase.dart';
+import 'features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_list_cubit.dart';
 import 'features/splash/data/repositories/splash_repository_impl.dart';
 import 'features/splash/domain/repositories/splash_repository.dart';
 import 'features/splash/domain/use_cases/check_login_usecase.dart';
@@ -153,14 +164,15 @@ Future<void> init() async {
       () => ForgetPasswordServerDataSourceImpl(sl()));
 
   //PersonalInformation
-  sl.registerFactory(() => PersonalInformationCubit(sl(),sl()));
+  sl.registerFactory(() => PersonalInformationCubit(sl(), sl(), sl()));
   sl.registerLazySingleton(() => GetNameUseCase(sl()));
   sl.registerLazySingleton(() => SetNameUseCase(sl()));
+  sl.registerLazySingleton(() => SetNumberUseCase(sl()));
 
   sl.registerLazySingleton<PersonalInformationRepository>(
-          () => PersonalInformationRepositoryImpl(sl()));
+      () => PersonalInformationRepositoryImpl(sl()));
   sl.registerLazySingleton<PersonalInformationRemoteDataSource>(
-          () => PersonalInformationRemoteDataSourceImpl(sl()));
+      () => PersonalInformationRemoteDataSourceImpl(sl()));
 
   //main_page
   sl.registerFactory(() => MainPageCubit());
@@ -172,6 +184,17 @@ Future<void> init() async {
       () => MainDashboardRepositoryImpl(sl()));
   sl.registerLazySingleton<MainDashboardRemoteDataSource>(
       () => MainDashboardRemoteDataSourceImpl(sl()));
+
+  //DashboardCharts
+  sl.registerFactory(() => DashboardChartsCubit(sl(), sl(), sl()));
+  sl.registerLazySingleton(() => GetAllocationUseCase(sl(), sl()));
+  sl.registerLazySingleton(() => GetGeographicUseCase(sl(), sl()));
+  sl.registerLazySingleton(() => GetPieUseCase(sl(), sl()));
+
+  sl.registerLazySingleton<DashboardChartsRepository>(
+      () => DashboardChartsRepositoryImpl(sl()));
+  sl.registerLazySingleton<DashboardChartsRemoteDataSource>(
+      () => DashboardChartsRemoteDataSourceImpl(sl()));
 
   //AssetOverview
   sl.registerFactory(() => AssetsOverviewCubit(sl()));
@@ -282,7 +305,10 @@ Future<void> init() async {
       () => AssetDetailRemoteDataSourceImpl(sl()));
 
 //CustodianBankAuth
-  sl.registerFactory(() => CustodianBankAuthCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => CustodianStatusListCubit(sl()));
+  sl.registerFactory(() => CustodianBankListCubit(sl()));
+  sl.registerFactory(() => CustodianBankAuthCubit(sl(), sl()));
+  sl.registerLazySingleton(() => GetCustodianStatusListUseCase(sl()));
   sl.registerLazySingleton(() => GetCustodianBankListUseCase(sl()));
   sl.registerLazySingleton(() => PostCustodianBankStatusUseCase(sl()));
   sl.registerLazySingleton(() => GetCustodianBankStatusUseCase(sl()));

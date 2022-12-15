@@ -18,4 +18,8 @@ extension CustomizableDateTime on DateTime {
   static String get currentDateLocalized {
     return Jiffy().format("do MMMM yyyy kk:mm aaa");
   }
+
+  static DateTime get currentDateTime {
+    return DateTime.parse(DateFormat('yyyy-MM-dd').format(current).toString());
+  }
 }

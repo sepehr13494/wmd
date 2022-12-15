@@ -7,6 +7,8 @@ import '../../domain/use_cases/get_name_usecase.dart';
 import '../../domain/entities/get_name_entity.dart';
 import '../../data/models/set_name_params.dart';
 import '../../domain/use_cases/set_name_usecase.dart';
+import '../../data/models/set_number_params.dart';
+import '../../domain/use_cases/set_number_usecase.dart';
 
 
 
@@ -16,11 +18,13 @@ class PersonalInformationCubit extends Cubit<PersonalInformationState> {
 
   final GetNameUseCase getNameUseCase;
   final SetNameUseCase setNameUseCase;
+  final SetNumberUseCase setNumberUseCase;
 
 
   PersonalInformationCubit(
     this.getNameUseCase,
     this.setNameUseCase,
+    this.setNumberUseCase,
   ) : super(LoadingState());
 
   getName() async {
@@ -41,6 +45,15 @@ class PersonalInformationCubit extends Cubit<PersonalInformationState> {
         (appSuccess) {
       emit(SuccessState(appSuccess: appSuccess));
     });
+  }
+
+  setNumber({required Map<String,dynamic> map}) async {
+    emit(LoadingState());
+    final result = await setNumberUseCase(map);
+    result.fold((failure) => emit(ErrorState(failure: failure)),
+            (appSuccess) {
+          emit(SuccessState(appSuccess: appSuccess));
+        });
   }
 
 }
