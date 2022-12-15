@@ -1,5 +1,3 @@
-import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:wmd/features/asset_detail/bank_account/domain/entity/bank_account_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -9,24 +7,24 @@ import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/current_date_widget.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/net_change_widget.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/portfolio_contribution_widget.dart';
+import 'package:wmd/features/asset_detail/core/presentation/widgets/your_holdings_widget.dart';
+import 'package:wmd/features/asset_detail/private_debt/domain/entity/private_debt_entity.dart';
 
-class BankAccountSummaryWidget extends AppStatelessWidget {
-  final BankAccountEntity bankAccountEntity;
-  const BankAccountSummaryWidget(this.bankAccountEntity, {Key? key})
+class PrivateDebtSummaryWidget extends AppStatelessWidget {
+  final PrivateDebtEntity privateDebtEntity;
+  const PrivateDebtSummaryWidget(this.privateDebtEntity, {Key? key})
       : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final String currencySymbol =
-        AppConstants.getCurrencySymbolByCode(bankAccountEntity.currencyCode);
+        AppConstants.getCurrencySymbolByCode(privateDebtEntity.currencyCode);
     final lineColor = Theme.of(context).dividerColor;
     final responsiveHelper = ResponsiveHelper(context: context);
     bool isMobile = responsiveHelper.isMobile;
-    // isMobile = false;
     final gap = responsiveHelper.bigger24Gap;
     return Container(
-      // padding: EdgeInsets.all(responsiveHelper.bigger24Gap),
       width: double.maxFinite,
       decoration: BoxDecoration(
           border: Border.all(color: lineColor),
@@ -44,21 +42,9 @@ class BankAccountSummaryWidget extends AppStatelessWidget {
               children: [
                 ExpandedIf(
                   expanded: !isMobile,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Balance',
-                        style: textTheme.titleSmall,
-                      ),
-                      SizedBox(height: responsiveHelper.bigger16Gap),
-                      Text(
-                        currencySymbol +
-                            bankAccountEntity.holdings.toInt().toString(),
-                        style: const TextStyle(
-                            fontSize: 28, fontWeight: FontWeight.w300),
-                      ),
-                    ],
+                  child: YourHoldingsWidget(
+                    holdings: privateDebtEntity.holdings,
+                    currencyCode: privateDebtEntity.currencyCode,
                   ),
                 ),
                 !isMobile
@@ -86,14 +72,55 @@ class BankAccountSummaryWidget extends AppStatelessWidget {
                           ),
                           ExpandedIf(
                             expanded: !isMobile,
-                            child: PortfolioContributionWidget(
-                                portfolioContribution:
-                                    bankAccountEntity.portfolioContribution,
-                                holdings: bankAccountEntity.holdings,
-                                currencyCode: bankAccountEntity.currencyCode),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "YTD",
+                                  style: textTheme.bodySmall,
+                                ),
+                                const ChangeWidget(number: 60, text: "60.0%"),
+                              ],
+                            ),
+                          ),
+                          ExpandedIf(
+                            expanded: !isMobile,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "ITD",
+                                      style: textTheme.bodySmall,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Icon(
+                                      Icons.info_outline,
+                                      color: Theme.of(context).primaryColor,
+                                      size: 14,
+                                    )
+                                  ],
+                                ),
+                                const ChangeWidget(
+                                    number: 12.12, text: "12.12%"),
+                              ],
+                            ),
                           ),
                         ],
-                      )
+                      ),
+                      ExpandedIf(
+                        expanded: !isMobile,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          child: PortfolioContributionWidget(
+                              portfolioContribution:
+                                  privateDebtEntity.portfolioContribution,
+                              holdings: privateDebtEntity.holdings,
+                              currencyCode: privateDebtEntity.currencyCode),
+                        ),
+                      ),
                     ],
                   ),
                 )

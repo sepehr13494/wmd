@@ -2,23 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:wmd/features/asset_detail/bank_account/data/models/bank_account_response.dart';
 
 void main() {
-  const tBankAccountResponseModel = BankAccountResponse(
-      "Isbank",
-      "Softtech",
-      "CurrentAccount",
-      1071.0,
-      false,
-      0,
-      0.0,
-      0.0,
-      null,
-      null,
-      "6e2bd58f-6d3f-46f1-9480-46a0f96cbeff",
-      "BankAccount",
-      true,
-      "TR",
-      "Asia",
-      "USD");
+  final tBankAccountResponseModel =
+      BankAccountResponse.fromJson(BankAccountResponse.tBankAccountResponse);
 
   test(
     'should return a valid model from json',

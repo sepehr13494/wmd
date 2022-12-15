@@ -41,7 +41,7 @@ class AppUrls {
 
   //get asset details
   static String getBankAccount = "${wealthBase}BankAccount";
-  static String getPrivateDept = "${wealthBase}PrivateDept";
+  static String getPrivateDebt = "${wealthBase}PrivateDebt";
   static String getPrivateEquity = "${wealthBase}PrivateEquity";
   static String getListedAsset = "${wealthBase}ListedAsset";
   static String getOtherAsset = "${wealthBase}OtherAsset";

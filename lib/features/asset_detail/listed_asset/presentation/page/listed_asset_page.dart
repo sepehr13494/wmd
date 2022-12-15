@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/features/asset_detail/bank_account/domain/entity/bank_account_entity.dart';
-import 'package:wmd/features/asset_detail/bank_account/presentation/widgets/summary_widget.dart';
+import 'package:wmd/features/asset_detail/listed_asset/domain/entity/listed_asset_entity.dart';
+import 'package:wmd/features/asset_detail/listed_asset/presentation/widgets/summary_widget.dart';
 
-class BankAccountDetailPage extends AppStatelessWidget {
-  final BankAccountEntity bankAccountEntity;
-  const BankAccountDetailPage({
+class ListedAssetDetailPage extends AppStatelessWidget {
+  final ListedAssetEntity listedAssetEntity;
+  const ListedAssetDetailPage({
     Key? key,
-    required this.bankAccountEntity,
+    required this.listedAssetEntity,
   }) : super(key: key);
 
   @override
@@ -19,17 +19,17 @@ class BankAccountDetailPage extends AppStatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(bankAccountEntity.bankName, style: textTheme.headlineSmall),
+          Text(listedAssetEntity.securityName, style: textTheme.headlineSmall),
           const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(bankAccountEntity.description),
+              Text(listedAssetEntity.brokerName),
               // const EditButton(),
             ],
           ),
           const SizedBox(height: 16),
-          BankAccountSummaryWidget(bankAccountEntity),
+          ListedAssetSummaryWidget(listedAssetEntity),
         ],
       ),
     );

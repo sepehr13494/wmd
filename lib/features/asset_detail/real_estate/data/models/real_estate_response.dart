@@ -11,7 +11,7 @@ class RealEstateResponse extends RealEstateEntity implements GetDetailResponse {
     required double acquisitionCostPerUnit,
     required DateTime acquisitionDate,
     required double ownershipPercentage,
-    required String marketValue,
+    required double marketValue,
     required DateTime valuationDate,
     required String id,
     required String type,
@@ -19,6 +19,7 @@ class RealEstateResponse extends RealEstateEntity implements GetDetailResponse {
     required String country,
     required String region,
     required String currencyCode,
+    required double holdings,
   }) : super(
           name: name,
           realEstateType: realEstateType,
@@ -35,6 +36,7 @@ class RealEstateResponse extends RealEstateEntity implements GetDetailResponse {
           country: country,
           region: region,
           currencyCode: currencyCode,
+          holdings: holdings,
         );
 
   factory RealEstateResponse.fromJson(Map<String, dynamic> json) {
@@ -49,7 +51,8 @@ class RealEstateResponse extends RealEstateEntity implements GetDetailResponse {
           DateTime.fromMillisecondsSinceEpoch(0).toIso8601String()),
       ownershipPercentage:
           double.tryParse(json['ownershipPercentage'].toString()) ?? 0,
-      marketValue: json['marketValue'] ?? '',
+      holdings: double.tryParse(json['holdings'].toString()) ?? 0,
+      marketValue: double.tryParse(json['marketValue'].toString()) ?? 0,
       valuationDate: DateTime.parse(json["valuationDate"] ??
           DateTime.fromMillisecondsSinceEpoch(0).toIso8601String()),
       id: json['id'] ?? '',
