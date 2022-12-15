@@ -1,4 +1,4 @@
-import 'package:wmd/core/domain/usecases/usercase.dart';
+import 'owner_id_model.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
 
 class GetAllocationParams extends OwnerIdParams{
