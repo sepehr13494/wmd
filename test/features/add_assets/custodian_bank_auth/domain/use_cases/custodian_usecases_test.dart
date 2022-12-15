@@ -43,11 +43,11 @@ void main() {
       () async {
         // arrange
         when(mockCustodianBankAuthRepository.getCustodianBankStatus(
-                GetCustodianBankStatusParams(id: resp.bankId)))
+                GetCustodianBankStatusParams(bankId: resp.bankId)))
             .thenAnswer((_) async => tEither);
         // act
         final result = await getCustodianBankStatusUseCase
-            .call(GetCustodianBankStatusParams(id: resp.bankId));
+            .call(GetCustodianBankStatusParams(bankId: resp.bankId));
         // assert
         expect(result.fold((l) => l, (r) => r), resp);
       },
@@ -59,11 +59,11 @@ void main() {
         const tServerFailure = ServerFailure(message: 'Server failure');
         // arrange
         when(mockCustodianBankAuthRepository.getCustodianBankStatus(
-                GetCustodianBankStatusParams(id: resp.bankId)))
+                GetCustodianBankStatusParams(bankId: resp.bankId)))
             .thenAnswer((_) async => const Left(tServerFailure));
         // act
         final result = await getCustodianBankStatusUseCase
-            .call(GetCustodianBankStatusParams(id: resp.bankId));
+            .call(GetCustodianBankStatusParams(bankId: resp.bankId));
         // assert
         expect(result, const Left(tServerFailure));
       },
@@ -111,9 +111,8 @@ void main() {
   group('postCustodianBankStatusUseCase usecase test', () {
     final tModel = PostCustodianBankStatusParams.fromJson(
         PostCustodianBankStatusParams.tResponse);
-    final resp = PostCustodianBankStatusResponse.fromJson(
-        PostCustodianBankStatusEntity.tResponse);
-    final tEither = Right<Failure, PostCustodianBankStatusEntity>(resp);
+    const resp = PostCustodianBankStatusResponse();
+    const tEither = Right<Failure, PostCustodianBankStatusEntity>(resp);
     test(
       'should get bool from repository',
       () async {
