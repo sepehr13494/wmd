@@ -97,6 +97,11 @@ import 'package:wmd/features/dashboard/user_status/domain/repositories/user_stat
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/put_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
+import 'package:wmd/features/help/faq/data/data_sources/faq_remote_data_source.dart';
+import 'package:wmd/features/help/faq/data/repositories/faq_respository_impl.dart';
+import 'package:wmd/features/help/faq/domain/repositories/faq_repository.dart';
+import 'package:wmd/features/help/faq/domain/use_cases/get_faq_usecase.dart';
+import 'package:wmd/features/help/faq/presentation/manager/faq_cubit.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/features/profile/personal_information/data/data_sources/personal_information_remote_datasource.dart';
 import 'package:wmd/features/profile/personal_information/data/repositories/personal_information_repository_impl.dart';
@@ -312,6 +317,13 @@ Future<void> init() async {
       () => CustodianBankAuthRepositoryImpl(sl()));
   sl.registerLazySingleton<CustodianBankAuthRemoteDataSource>(
       () => CustodianBankAuthRemoteDataSourceImpl(sl()));
+
+  //help FAQ
+  sl.registerFactory(() => FaqCubit(sl()));
+  sl.registerLazySingleton(() => GetFaqUseCase(sl()));
+  sl.registerLazySingleton<FaqRepository>(() => FaqRepositoryImpl(sl()));
+  sl.registerLazySingleton<FaqRemoteDataSource>(
+      () => FaqRemoteDataSourceImpl(sl()));
 
   await initExternal();
 }
