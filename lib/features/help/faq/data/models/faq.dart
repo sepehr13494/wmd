@@ -45,16 +45,21 @@ class Faq extends Equatable {
   @override
   List<Object?> get props => [id, title, description, sortOrder];
 
-  // static final tUserStatusParam =
-  //     Faq(email: "test@yopmail.com", loginAt: CustomizableDateTime.currentDate);
-  // static final tUserStatusResponse = {
-  //   "email": "test@yopmail.com",
-  //   "loginAt": CustomizableDateTime.currentDate,
-  //   "externalId": "externalId",
-  //   "userId": "userId",
-  //   "emailVerified": false
-  // };
+  static const tFaqParam = Faq(
+      id: 2,
+      title: "In Which Jurisdictions Is The Family Office Regulated?",
+      description:
+          "The Family Office and Petiole Asset Management AG are subject to the oversight of six regulators in Bahrain, the Cayman Islands, Hong Kong, Saudi Arabia, Switzerland and the U.S.",
+      sortOrder: 2);
 
-  // static final tUserStatus =
-  //     Faq(email: "test@yopmail.com", loginAt: CustomizableDateTime.currentDate);
+  static final tFaqResponse = {
+    "id": 2,
+    "title": "In Which Jurisdictions Is The Family Office Regulated?",
+    "description":
+        "The Family Office and Petiole Asset Management AG are subject to the oversight of six regulators in Bahrain, the Cayman Islands, Hong Kong, Saudi Arabia, Switzerland and the U.S.",
+    "sortOrder": 2
+  };
+
+  static final tFaqListResponse = [tFaqResponse, tFaqResponse];
+  static final tFaqListParams = [tFaqParam, tFaqParam];
 }
