@@ -1,41 +1,45 @@
 import 'package:equatable/equatable.dart';
 
 class BankAccountEntity extends Equatable {
-  final String? bankName;
-  final String? description;
-  final String? accountType;
-  final double? currentBalance;
-  final bool? isJointAccount;
-  final double? noOfCoOwners;
-  final double? ownershipPercentage;
-  final double? interestRate;
-  final String? startDate;
-  final String? endDate;
-  final String? id;
-  final String? type;
-  final bool? isActive;
-  final String? country;
-  final String? region;
-  final String? currencyCode;
+  final String bankName;
+  final String description;
+  final String accountType;
+  final double currentBalance;
+  final bool isJointAccount;
+  final double noOfCoOwners;
+  final double ownershipPercentage;
+  final double interestRate;
+  final DateTime startDate;
+  final DateTime endDate;
+  final String id;
+  final String type;
+  final bool isActive;
+  final String country;
+  final String region;
+  final String currencyCode;
+  final double portfolioContribution;
+  final double holdings;
 
-  const BankAccountEntity(
-    this.bankName,
-    this.description,
-    this.accountType,
-    this.currentBalance,
-    this.isJointAccount,
-    this.noOfCoOwners,
-    this.ownershipPercentage,
-    this.interestRate,
-    this.startDate,
-    this.endDate,
-    this.id,
-    this.type,
-    this.isActive,
-    this.country,
-    this.region,
-    this.currencyCode,
-  );
+  const BankAccountEntity({
+    required this.bankName,
+    required this.description,
+    required this.accountType,
+    required this.currentBalance,
+    required this.isJointAccount,
+    required this.noOfCoOwners,
+    required this.ownershipPercentage,
+    required this.interestRate,
+    required this.startDate,
+    required this.endDate,
+    required this.id,
+    required this.type,
+    required this.isActive,
+    required this.country,
+    required this.region,
+    required this.currencyCode,
+    required this.portfolioContribution,
+    required this.holdings,
+  });
 
   Map<String, dynamic> toJson() => {
         'bankName': bankName,
@@ -54,6 +58,8 @@ class BankAccountEntity extends Equatable {
         'country': country,
         'region': region,
         'currencyCode': currencyCode,
+        'portfolioContribution': portfolioContribution,
+        'holdings': holdings,
       };
 
   @override
@@ -74,5 +80,7 @@ class BankAccountEntity extends Equatable {
         country,
         region,
         currencyCode,
+        portfolioContribution,
+        holdings,
       ];
 }

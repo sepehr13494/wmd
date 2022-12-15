@@ -43,7 +43,7 @@ class AppUrls {
 
   //get asset details
   static String getBankAccount = "${wealthBase}BankAccount";
-  static String getPrivateDept = "${wealthBase}PrivateDept";
+  static String getPrivateDebt = "${wealthBase}PrivateDebt";
   static String getPrivateEquity = "${wealthBase}PrivateEquity";
   static String getListedAsset = "${wealthBase}ListedAsset";
   static String getOtherAsset = "${wealthBase}OtherAsset";
@@ -53,5 +53,13 @@ class AppUrls {
 
   //CustodianBankList
   static String getCustodianBankList = "${wealthBase}CustodianBank/list";
+  static String getCustodianStatusList =
+      "${wealthBase}CustodianBank/status-list";
   static String custodianBank = "${wealthBase}custodianbank";
+
+  //valuation
+  static String getAllValuation = "${wealthBase}Valuation/All";
+  static String postValuation = "${wealthBase}Valuation";
+  static String getValuationPerformance(String id) =>
+      "${wealthBase}Valuation/$id/history";
 }

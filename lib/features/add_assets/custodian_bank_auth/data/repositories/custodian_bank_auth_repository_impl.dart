@@ -1,6 +1,7 @@
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:dartz/dartz.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/status_entity.dart';
 
 import '../models/get_custodian_bank_list_params.dart';
 import '../../domain/entities/custodian_bank_entity.dart';
@@ -44,6 +45,17 @@ class CustodianBankAuthRepositoryImpl implements CustodianBankAuthRepository {
       GetCustodianBankStatusParams params) async {
     try {
       final result = await remoteDataSource.getCustodianBankStatus(params);
+      return Right(result);
+    } on ServerException catch (error) {
+      return Left(ServerFailure.fromServerException(error));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<StatusEntity>>> getCustodianStatusList(
+      GetCustodianBankListParams params) async {
+    try {
+      final result = await remoteDataSource.getStatusList(params);
       return Right(result);
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));

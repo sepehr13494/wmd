@@ -46,6 +46,7 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/data/repositories/cu
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/repositories/custodian_bank_auth_repository.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_bank_list_usecase.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_auth_cubit.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/features/asset_detail/core/data/data_sources/asset_detail_remote_datasource.dart';
 import 'package:wmd/features/asset_detail/core/data/repositories/asset_detail_repository_impl.dart';
 import 'package:wmd/features/asset_detail/core/domain/repositories/asset_detail_repository.dart';
@@ -120,8 +121,16 @@ import 'features/add_assets/add_bank_auto/plaid_integration/presentation/manager
 import 'features/add_assets/add_bank_auto/view_bank_list/domain/repository/bank_list_repository.dart';
 import 'features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_popular_bank_list.dart';
 import 'features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_bank_status_usecase.dart';
+import 'features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_status_list_usecase.dart';
 import 'features/add_assets/custodian_bank_auth/domain/use_cases/post_custodian_bank_status_usecase.dart';
 import 'features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_list_cubit.dart';
+import 'features/asset_detail/valuation/data/data_sources/valuation_remote_datasource.dart';
+import 'features/asset_detail/valuation/data/repositories/valuation_repository_impl.dart';
+import 'features/asset_detail/valuation/domain/repositories/valuation_repository.dart';
+import 'features/asset_detail/valuation/domain/use_cases/get_all_valuation_usecase.dart';
+import 'features/asset_detail/valuation/domain/use_cases/get_valuation_performance_usecase.dart';
+import 'features/asset_detail/valuation/domain/use_cases/post_valuation_usecase.dart';
+import 'features/asset_detail/valuation/presentation/manager/valuation_cubit.dart';
 import 'features/splash/data/repositories/splash_repository_impl.dart';
 import 'features/splash/domain/repositories/splash_repository.dart';
 import 'features/splash/domain/use_cases/check_login_usecase.dart';
@@ -308,8 +317,10 @@ Future<void> init() async {
       () => AssetDetailRemoteDataSourceImpl(sl()));
 
 //CustodianBankAuth
+  sl.registerFactory(() => CustodianStatusListCubit(sl()));
   sl.registerFactory(() => CustodianBankListCubit(sl()));
   sl.registerFactory(() => CustodianBankAuthCubit(sl(), sl()));
+  sl.registerLazySingleton(() => GetCustodianStatusListUseCase(sl()));
   sl.registerLazySingleton(() => GetCustodianBankListUseCase(sl()));
   sl.registerLazySingleton(() => PostCustodianBankStatusUseCase(sl()));
   sl.registerLazySingleton(() => GetCustodianBankStatusUseCase(sl()));
@@ -324,6 +335,16 @@ Future<void> init() async {
   sl.registerLazySingleton<FaqRepository>(() => FaqRepositoryImpl(sl()));
   sl.registerLazySingleton<FaqRemoteDataSource>(
       () => FaqRemoteDataSourceImpl(sl()));
+
+  //Valuation
+  sl.registerFactory(() => ValuationCubit(sl(), sl(), sl()));
+  sl.registerLazySingleton(() => GetAllValuationUseCase(sl()));
+  sl.registerLazySingleton(() => PostValuationUseCase(sl()));
+  sl.registerLazySingleton(() => GetValuationPerformanceUseCase(sl()));
+  sl.registerLazySingleton<ValuationRepository>(
+      () => ValuationRepositoryImpl(sl()));
+  sl.registerLazySingleton<ValuationRemoteDataSource>(
+      () => ValuationRemoteDataSourceImpl(sl()));
 
   await initExternal();
 }

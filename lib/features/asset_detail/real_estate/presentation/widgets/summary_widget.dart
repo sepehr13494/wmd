@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/asset_detail/core/presentation/widgets/current_date_widget.dart';
 import 'package:wmd/features/asset_detail/real_estate/domain/entity/real_estate_entity.dart';
 
 class RealEstateSummaryWidget extends AppStatelessWidget {
@@ -19,10 +20,8 @@ class RealEstateSummaryWidget extends AppStatelessWidget {
     final lineColor = Theme.of(context).dividerColor;
     final responsiveHelper = ResponsiveHelper(context: context);
     bool isMobile = responsiveHelper.isMobile;
-    // isMobile = false;
     final gap = responsiveHelper.bigger24Gap;
     return Container(
-      // padding: EdgeInsets.all(responsiveHelper.bigger24Gap),
       width: double.maxFinite,
       decoration: BoxDecoration(
           border: Border.all(color: lineColor),
@@ -64,7 +63,8 @@ class RealEstateSummaryWidget extends AppStatelessWidget {
                         ],
                       ),
                       Text(
-                        currencySymbol + realEstateEntity.marketValue,
+                        currencySymbol +
+                            realEstateEntity.holdings.toInt().toString(),
                         style: const TextStyle(
                             fontSize: 28, fontWeight: FontWeight.w300),
                       ),
@@ -82,7 +82,10 @@ class RealEstateSummaryWidget extends AppStatelessWidget {
                                   style: textTheme.bodySmall,
                                 ),
                                 Text(
-                                  currencySymbol + realEstateEntity.marketValue,
+                                  currencySymbol +
+                                      realEstateEntity.marketValue
+                                          .toInt()
+                                          .toString(),
                                   style: textTheme.bodyLarge,
                                 ),
                               ],
@@ -131,17 +134,18 @@ class RealEstateSummaryWidget extends AppStatelessWidget {
                             "Net change",
                             style: textTheme.titleSmall,
                           ),
-                          TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              'See more >',
-                              style: textTheme.labelSmall!.apply(
-                                  color: Theme.of(context).primaryColor,
-                                  decoration: TextDecoration.underline),
-                            ),
-                          )
+                          // TextButton(
+                          //   onPressed: () {},
+                          //   child: Text(
+                          //     'See more >',
+                          //     style: textTheme.labelSmall!.apply(
+                          //         color: Theme.of(context).primaryColor,
+                          //         decoration: TextDecoration.underline),
+                          //   ),
+                          // ),
                         ],
                       ),
+                      const SizedBox(height: 4),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -157,8 +161,9 @@ class RealEstateSummaryWidget extends AppStatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                      currencySymbol +
-                                          realEstateEntity.marketValue,
+                                      '10',
+                                      // currencySymbol +
+                                      //     realEstateEntity.marketValue,
                                       style: textTheme.bodyLarge,
                                     ),
                                     const ChangeWidget(
@@ -202,16 +207,7 @@ class RealEstateSummaryWidget extends AppStatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(
-                "As of 17th Apr 2022, 10:22 a.m.",
-                style: textTheme.bodySmall,
-              ),
-            ),
-          )
+          const CurrentDateWidget(),
         ],
       ),
     );

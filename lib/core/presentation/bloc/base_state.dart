@@ -24,9 +24,11 @@ abstract class BaseState extends Equatable
         GeneralInquiryState,
         CustodianBankAuthState,
         CustodianBankListState,
+        CustodianStatusListState,
         PersonalInformationState,
         DashboardChartsState,
-        BankListState {}
+        BankListState,
+        ValuationState {}
 
 class BaseInitialState extends BaseState {
   @override

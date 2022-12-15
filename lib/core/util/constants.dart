@@ -344,3 +344,12 @@ class BankProviders {
   static const String plaid = "Plaid";
   static const String lean = "Lean";
 }
+
+class AssetTypes {
+  static const String bankAccount = 'BankAccount';
+  static const String realEstate = 'RealEstate';
+  static const String listedAsset = 'ListedAsset';
+  static const String privateDebt = 'PrivateDebt';
+  static const String privateEquity = 'PrivateEquity';
+  static const String otherAsset = 'OtherAsset';
+}
