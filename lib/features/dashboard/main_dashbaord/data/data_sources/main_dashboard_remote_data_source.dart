@@ -1,6 +1,7 @@
 import 'package:wmd/core/data/network/server_request_manager.dart';
 import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/data/repository/app_data_source.dart';
+import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/models/app_request_options.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/data/models/net_worth_response_obj.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/data/models/net_worth_params.dart';
@@ -15,11 +16,18 @@ class MainDashboardRemoteDataSourceImpl extends AppServerDataSource
 
   @override
   Future<NetWorthResponseObj> userNetWorth(NetWorthParams params) async {
-    final getUserStatusRequestOptions =
-        AppRequestOptions(RequestTypes.get, AppUrls.getUserNetWorth, params.toJson());
-    final response =
-        await errorHandlerMiddleware.sendRequest(getUserStatusRequestOptions);
-    final result = NetWorthResponseObj.fromJson(response);
-    return result;
+    try {
+      final getUserStatusRequestOptions = AppRequestOptions(
+          RequestTypes.get, AppUrls.getUserNetWorth, params.toJson());
+      final response =
+          await errorHandlerMiddleware.sendRequest(getUserStatusRequestOptions);
+      final result = NetWorthResponseObj.fromJson(response);
+      return result;
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw AppException(
+          message: "format Exception", type: ExceptionType.format);
+    }
   }
 }

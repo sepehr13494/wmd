@@ -1,9 +1,10 @@
-import 'package:wmd/core/domain/usecases/usercase.dart';
+
+import 'owner_id_model.dart';
 
 class GetPieParams extends OwnerIdParams{
   const GetPieParams({required super.ownerId});
 
-  static final tParams = GetPieParams(ownerId: "testId");
+  static const tParams = GetPieParams(ownerId: "testId");
     
 }
     

@@ -18,6 +18,8 @@ class MainDashboardRepositoryImpl implements MainDashboardRepository {
       return Right(result);
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
+    } on AppException catch (error){
+      return Left(AppFailure.fromAppException(error));
     }
   }
 }

@@ -8,6 +8,7 @@ import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/das
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/base_asset_view.dart';
 import 'package:wmd/injection_container.dart';
 
+import '../constants.dart';
 import '../models/each_asset_model.dart';
 
 class PieChartSample2 extends StatefulWidget {
@@ -27,16 +28,6 @@ class PieChart2State extends State {
       child: Builder(builder: (context) {
         return BlocBuilder<DashboardChartsCubit, DashboardChartsState>(
           builder: (context, state) {
-            List<Color> colors = [
-              Colors.purple,
-              Colors.blueGrey,
-              Colors.blueGrey.shade200,
-              Colors.blueGrey.shade800,
-              Colors.purple.shade800,
-              Colors.purple.shade200,
-              Colors.purple.shade200,
-              Colors.purple.shade200,
-            ];
             return state is GetPieLoaded
                 ? state.getPieEntity.isEmpty ? const SizedBox() : BaseAssetView(
                     title: "Asset Class Allocation",
@@ -45,7 +36,7 @@ class PieChart2State extends State {
                       (index){
                         GetPieEntity pieEntity = state.getPieEntity[index];
                         return EachAssetViewModel(
-                          color: colors[index],
+                          color: DashboardChartsConstants.colors[index],
                           name: pieEntity.name,
                           price: pieEntity.value.convertMoney(addDollar: true),
                           percentage: "${pieEntity.percentage.toStringAsFixed(1)}%",
@@ -80,7 +71,7 @@ class PieChart2State extends State {
                             ),
                             sectionsSpace: 0,
                             centerSpaceRadius: inside,
-                            sections: showingSections((height - inside) / 4,colors,state.getPieEntity),
+                            sections: showingSections((height - inside) / 4,state.getPieEntity),
                           ),
                         ),
                       );
@@ -93,14 +84,14 @@ class PieChart2State extends State {
     );
   }
 
-  List<PieChartSectionData> showingSections(double outside, List<Color> colors, List<GetPieEntity> getPieEntity) {
+  List<PieChartSectionData> showingSections(double outside, List<GetPieEntity> getPieEntity) {
     return List.generate(getPieEntity.length, (index) {
       final pieStrokeWidth = outside;
       final isTouched = index == touchedIndex;
       final radius = isTouched ? pieStrokeWidth + 10 : pieStrokeWidth;
       GetPieEntity pieEntity = getPieEntity[index];
       return PieChartSectionData(
-        color: colors[index],
+        color: DashboardChartsConstants.colors[index],
         value: pieEntity.percentage,
         title: '',
         radius: radius,
