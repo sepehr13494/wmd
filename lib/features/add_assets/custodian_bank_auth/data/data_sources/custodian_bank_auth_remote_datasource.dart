@@ -45,8 +45,7 @@ class CustodianBankAuthRemoteDataSourceImpl extends AppServerDataSource
         RequestTypes.post, AppUrls.custodianBank, params.toJson());
     final response =
         await errorHandlerMiddleware.sendRequest(appRequestOptions);
-    final result = PostCustodianBankStatusResponse.fromJson(response);
-    return result;
+    return const PostCustodianBankStatusResponse();
   }
 
   @override

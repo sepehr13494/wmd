@@ -1,7 +1,5 @@
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/status_entity.dart';
 
-import '../../domain/entities/custodian_bank_entity.dart';
-
 class StatusResponse extends StatusEntity {
   const StatusResponse({
     required super.id,

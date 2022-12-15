@@ -7,25 +7,21 @@ import 'package:wmd/core/presentation/widgets/bottom_modal_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/get_custodian_bank_status_params.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/post_custodian_bank_status_params.dart';
-import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/status_entity.dart';
 import 'package:wmd/injection_container.dart';
 import '../manager/custodian_bank_auth_cubit.dart';
 import 'status_step_widget.dart';
 
 showCustodianBankStatus({
   required BuildContext context,
-  required StatusEntity? bank,
+  required String bankId,
 }) async {
   final appLocalization = AppLocalizations.of(context);
   await showDialog(
     context: context,
     builder: (context) {
-      if (bank == null) {
-        return const Text('First attemp');
-      }
       return BottomModalWidget(
         confirmBtn: 'Ok',
-        body: BankStatusModalBody(bank: bank),
+        body: BankStatusModalBody(bankId: bankId),
         // cancelBtn: 'Cancel',
       );
     },
@@ -39,10 +35,10 @@ showCustodianBankStatus({
 class BankStatusModalBody extends StatefulWidget {
   const BankStatusModalBody({
     Key? key,
-    required this.bank,
+    required this.bankId,
   }) : super(key: key);
 
-  final StatusEntity bank;
+  final String bankId;
 
   @override
   AppState<BankStatusModalBody> createState() => _BankStatusModalBodyState();
@@ -54,12 +50,12 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
     return BlocProvider(
       create: (context) => sl<CustodianBankAuthCubit>()
         ..getCustodianBankStatus(
-            GetCustodianBankStatusParams(id: widget.bank.id)),
+            GetCustodianBankStatusParams(bankId: widget.bankId)),
       child: BlocConsumer<CustodianBankAuthCubit, CustodianBankAuthState>(
           listener: (context, state) {
         if (state is CustodianBankStateUpdated) {
           context.read<CustodianBankAuthCubit>().getCustodianBankStatus(
-              GetCustodianBankStatusParams(id: widget.bank.id));
+              GetCustodianBankStatusParams(bankId: widget.bankId));
         }
       }, builder: (context, state) {
         if (state is ErrorState) {
@@ -91,13 +87,20 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                   context
                       .read<CustodianBankAuthCubit>()
                       .postCustodianBankStatus(PostCustodianBankStatusParams(
-                          bankId: widget.bank.id,
+                          bankId: widget.bankId,
                           signLetter: true,
                           shareWithBank: false,
                           bankConfirmation: false));
                 },
                 onDoneAgain: () {
                   launchUrlString(status.signLetterLink);
+                  // context
+                  //     .read<CustodianBankAuthCubit>()
+                  //     .postCustodianBankStatus(PostCustodianBankStatusParams(
+                  //         bankId: widget.bankId,
+                  //         signLetter: false,
+                  //         shareWithBank: false,
+                  //         bankConfirmation: false));
                 },
               ),
               StatusStepWidget(
@@ -112,7 +115,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                   context
                       .read<CustodianBankAuthCubit>()
                       .postCustodianBankStatus(PostCustodianBankStatusParams(
-                          bankId: widget.bank.id,
+                          bankId: widget.bankId,
                           signLetter: true,
                           shareWithBank: true,
                           bankConfirmation: false));

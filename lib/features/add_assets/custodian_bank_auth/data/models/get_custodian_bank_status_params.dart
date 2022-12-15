@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
 
 class GetCustodianBankStatusParams extends Equatable {
-  final String id;
-  const GetCustodianBankStatusParams({required this.id});
+  final String bankId;
+  const GetCustodianBankStatusParams({required this.bankId});
 
   factory GetCustodianBankStatusParams.fromJson(Map<String, dynamic> json) =>
-      GetCustodianBankStatusParams(id: json['id']);
+      GetCustodianBankStatusParams(bankId: json['bankId']);
 
-  Map<String, dynamic> toJson() => {'id': id};
+  Map<String, dynamic> toJson() => {'bankId': bankId};
 
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [bankId];
 }
