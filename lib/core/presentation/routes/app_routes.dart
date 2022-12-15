@@ -17,6 +17,7 @@ class AppRoutes {
   static const String dashboard = "dashboard";
   static const String onboarding = "onboarding";
   static const String settings = "settings";
+  static const String support = "support";
 
   //asset details
   static const String bankAccountDetails = "bank_account_details";

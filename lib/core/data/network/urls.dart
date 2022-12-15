@@ -12,6 +12,7 @@ class AppUrls {
   static String userBase = dotenv.env['BASE_URL_USER']!;
   static String wealthBase = dotenv.env['BASE_URL_WEALTH']!;
   static String banking = dotenv.env['BASE_URL_BANKING']!;
+  static String contentBase = dotenv.env['BASE_URL_CONTENT']!;
 
   //other urls
   static String registerUser = "${authBase}client/sign-up";
@@ -24,6 +25,7 @@ class AppUrls {
   static String getName = "${userBase}user/identity";
   static String setName = "${userBase}user/personal-info";
   static String setNumber = "${userBase}user/phone-number";
+  static String faqsContent = "${contentBase}faqs";
 
   static String postBankDetails = "${wealthBase}BankAccount";
   static String postPrivateEquity = "${wealthBase}PrivateEquity";
