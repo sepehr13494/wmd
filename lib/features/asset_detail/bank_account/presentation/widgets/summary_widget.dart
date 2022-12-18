@@ -83,7 +83,10 @@ class BankAccountSummaryWidget extends AppStatelessWidget {
                         children: [
                           ExpandedIf(
                             expanded: !isMobile,
-                            child: const NetChangeWidget(),
+                            child: NetChangeWidget(
+                              current: bankAccountEntity.holdings,
+                              old: bankAccountEntity.currentBalance,
+                            ),
                           ),
                           ExpandedIf(
                             expanded: !isMobile,

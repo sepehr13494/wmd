@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 
 class NetChangeWidget extends AppStatelessWidget {
+  final double current;
+  final double old;
   const NetChangeWidget({
+    required this.current,
+    required this.old,
     Key? key,
   }) : super(key: key);
 
@@ -12,6 +17,9 @@ class NetChangeWidget extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
     final ResponsiveHelper responsiveHelper =
         ResponsiveHelper(context: context);
+    final diff = (current - old);
+    final value = diff.convertMoney(addDollar: true);
+    final percent = diff / old * 100;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -41,10 +49,10 @@ class NetChangeWidget extends AppStatelessWidget {
         Row(
           children: [
             Text(
-              "\$1,326,320",
+              value,
               style: textTheme.bodyLarge,
             ),
-            const ChangeWidget(number: 8.03, text: "8.03%"),
+            ChangeWidget(number: percent, text: "$percent%"),
           ],
         ),
       ],

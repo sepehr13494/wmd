@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
@@ -66,7 +67,10 @@ class ListedAssetSummaryWidget extends AppStatelessWidget {
                         children: [
                           ExpandedIf(
                             expanded: !isMobile,
-                            child: const NetChangeWidget(),
+                            child: NetChangeWidget(
+                              current: listedAssetEntity.holdings,
+                              old: listedAssetEntity.marketValue,
+                            ),
                           ),
                           ExpandedIf(
                             expanded: !isMobile,
