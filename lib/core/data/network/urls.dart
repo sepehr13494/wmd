@@ -36,6 +36,7 @@ class AppUrls {
   static String getUserNetWorth = "${wealthBase}Wealth/totalnetworth";
   static String getAllocation = "${wealthBase}wealth/";
   static String getGeographic = "${wealthBase}Assets/GeographicAllocation";
+  static String getChart = "${wealthBase}Assets";
   static String getPie = "${wealthBase}Assets";
   static String getAssetsOverview = "${wealthBase}Assets/All";
   static String getBankList = "${banking}Bank";

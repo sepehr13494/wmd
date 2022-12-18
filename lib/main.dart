@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'core/presentation/routes/app_router.dart';
 import 'core/util/app_localization.dart';
@@ -70,6 +71,9 @@ class MyApp extends StatelessWidget {
               ..changeLang(sl<LocalStorage>().getLocale())),
         BlocProvider(create: (context) => sl<UserStatusCubit>()),
         BlocProvider(create: (context) => sl<MainDashboardCubit>()),
+        BlocProvider(
+          create: (context) => sl<ChartsCubit>()..getChart(to: DateTime.now()),
+        ),
       ],
       child: Builder(builder: (context) {
         return MaterialApp.router(

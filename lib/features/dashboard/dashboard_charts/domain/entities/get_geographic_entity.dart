@@ -12,8 +12,8 @@ class GetGeographicEntity extends Equatable {
     final double percentage;
 
     Map<String, dynamic> toJson() => {
-        "type": continent,
-        "value": amount,
+        "continent": continent,
+        "amount": amount,
         "percentage": percentage,
     };
 

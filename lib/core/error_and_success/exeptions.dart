@@ -18,6 +18,7 @@ class CacheException implements Exception {
 
 class InputValidationException implements Exception {
   final String message;
+
   InputValidationException({required this.message});
 
   @override
@@ -39,7 +40,8 @@ class ServerException implements Exception {
     return "ServerException : $message";
   }
 
-  static const tServerException = ServerException(message: 'exception message',data: {"test":"testData"});
+  static const tServerException =
+      ServerException(message: 'exception message', data: {"test": "testData"});
 }
 
 class AppException implements Exception {
@@ -47,11 +49,20 @@ class AppException implements Exception {
   final ExceptionType type;
   final dynamic data;
 
-  AppException(
-      {required this.message, this.type = ExceptionType.normal, this.data});
+  const AppException({
+    required this.message,
+    this.type = ExceptionType.normal,
+    this.data,
+  });
 
   @override
   String toString() {
     return "AppException : $message";
   }
+
+  static const tAppException = AppException(
+    message: 'format exception',
+    data: {"test": "testData"},
+    type: ExceptionType.format,
+  );
 }
