@@ -1,4 +1,5 @@
-import 'package:wmd/core/domain/usecases/usercase.dart';
+
+import 'owner_id_model.dart';
 
 class GetGeographicParams extends OwnerIdParams{
   const GetGeographicParams({required super.ownerId});

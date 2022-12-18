@@ -1,11 +1,20 @@
 import 'package:countries_world_map/countries_world_map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
+import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_geographic_entity.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/base_asset_view.dart';
 import 'package:wmd/injection_container.dart';
 
+import '../../data/models/get_geographic_response.dart';
+import '../constants.dart';
 import '../models/each_asset_model.dart';
 
 class RandomWorldMapGenrator extends StatefulWidget {
@@ -16,10 +25,6 @@ class RandomWorldMapGenrator extends StatefulWidget {
 }
 
 class _RandomWorldMapGenratorState extends State<RandomWorldMapGenrator> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,24 +35,17 @@ class _RandomWorldMapGenratorState extends State<RandomWorldMapGenrator> {
           builder: (context, state) {
             return state is GetGeographicLoaded ? state.getGeographicEntity.isEmpty ? const SizedBox() : BaseAssetView(
               title: "Geographical Allocation",
-              assets: [
-                EachAssetViewModel(
-                    name: "Asia", price: "\$1,000,000", percentage: "51.0%"),
-                EachAssetViewModel(
-                    name: "North America",
-                    price: "\$500,000",
-                    percentage: "26.0%"),
-                EachAssetViewModel(
-                    name: "Africa", price: "\$200,000", percentage: "10.0%"),
-                EachAssetViewModel(
-                    name: "Europe", price: "\$175,000", percentage: "9.0%"),
-                EachAssetViewModel(
-                    name: "Australia", price: "\$50,000", percentage: "2.5%"),
-                EachAssetViewModel(
-                    name: "South America",
-                    price: "\$25,000",
-                    percentage: "1.5%"),
-              ],
+              assets: List.generate(
+                state.getGeographicEntity.length,
+                    (index){
+                      GetGeographicEntity eographicEntity = state.getGeographicEntity[index];
+                  return EachAssetViewModel(
+                    name: eographicEntity.continent,
+                    price: eographicEntity.amount.convertMoney(addDollar: true),
+                    percentage: "${eographicEntity.percentage.toStringAsFixed(1)}%",
+                  );
+                },
+              ),
               onMoreTap: () {},
               child: LayoutBuilder(builder: (context, snap) {
                 return SizedBox(
@@ -58,11 +56,242 @@ class _RandomWorldMapGenratorState extends State<RandomWorldMapGenrator> {
                         SizedBox(
                           width: snap.maxWidth * 0.92,
                           // Actual widget from the Countries_world_map package.
-                          child: SimpleWorldMap(
-                            callback: (c, x) {
-                              print(c);
-                            },
-                            countryColors: SimpleWorldCountryColors(),
+                          child: Builder(
+                            builder: (context) {
+                              final asiaPercentage = state.getGeographicEntity.firstWhere((element) => element.continent.toLowerCase() == "asia",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "Asia")).percentage/100;
+                              final euroPercentage = state.getGeographicEntity.firstWhere((element) => element.continent.toLowerCase() == "euro",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "euro")).percentage/100;
+                              final australiaPercentage = state.getGeographicEntity.firstWhere((element) => element.continent.toLowerCase() == "australia",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "australia")).percentage/100;
+                              final africaPercentage = state.getGeographicEntity.firstWhere((element) => element.continent.toLowerCase() == "africa",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "africa")).percentage/100;
+                              final northAmericaPercentage = state.getGeographicEntity.firstWhere((element) => element.continent.toLowerCase() == "northAmerica",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "northAmerica")).percentage/100;
+                              final southAmericaPercentage = state.getGeographicEntity.firstWhere((element) => element.continent.toLowerCase() == "southAmerica",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "southAmerica")).percentage/100;
+                              final asiaColor = asiaPercentage == 0 ? Colors.grey : AppColors.primary.withOpacity(asiaPercentage);
+                              final euroColor = euroPercentage == 0 ? Colors.grey : AppColors.primary.withOpacity(euroPercentage);
+                              final australiaColor = australiaPercentage == 0 ? Colors.grey : AppColors.primary.withOpacity(australiaPercentage);
+                              final africaColor = africaPercentage == 0 ? Colors.grey : AppColors.primary.withOpacity(africaPercentage);
+                              final northAmericaColor = northAmericaPercentage == 0 ? Colors.grey : AppColors.primary.withOpacity(northAmericaPercentage);
+                              final southAmericaColor = southAmericaPercentage == 0 ? Colors.grey : AppColors.primary.withOpacity(southAmericaPercentage);
+                              return SimpleWorldMap(
+                                countryColors: SimpleWorldCountryColors(
+                                  iR: asiaColor,
+                                  rU: asiaColor,
+                                  aF: asiaColor,
+                                  aM: asiaColor,
+                                  aZ: asiaColor,
+                                  bH: asiaColor,
+                                  bD: asiaColor,
+                                  bT: asiaColor,
+                                  bN: asiaColor,
+                                  kH: asiaColor,
+                                  cN: asiaColor,
+                                  cX: asiaColor,
+                                  cC: asiaColor,
+                                  iO: asiaColor,
+                                  gE: asiaColor,
+                                  hK: asiaColor,
+                                  iN: asiaColor,
+                                  iD: asiaColor,
+                                  iQ: asiaColor,
+                                  iL: asiaColor,
+                                  jP: asiaColor,
+                                  jO: asiaColor,
+                                  kZ: asiaColor,
+                                  kW: asiaColor,
+                                  kG: asiaColor,
+                                  lA: asiaColor,
+                                  lB: asiaColor,
+                                  mO: asiaColor,
+                                  mY: asiaColor,
+                                  mV: asiaColor,
+                                  mN: asiaColor,
+                                  mM: asiaColor,
+                                  nP: asiaColor,
+                                  kP: asiaColor,
+                                  oM: asiaColor,
+                                  pK: asiaColor,
+                                  pS: asiaColor,
+                                  pH: asiaColor,
+                                  qA: asiaColor,
+                                  sA: asiaColor,
+                                  sG: asiaColor,
+                                  kR: asiaColor,
+                                  lK: asiaColor,
+                                  sY: asiaColor,
+                                  tW: asiaColor,
+                                  tJ: asiaColor,
+                                  tH: asiaColor,
+                                  tR: asiaColor,
+                                  tM: asiaColor,
+                                  aE: asiaColor,
+                                  uZ: asiaColor,
+                                  vN: asiaColor,
+                                  yE: asiaColor,
+                                  fR: euroColor,
+                                  aT: euroColor,
+                                  bE: euroColor,
+                                  bG: euroColor,
+                                  hR: euroColor,
+                                  cY: euroColor,
+                                  cZ: euroColor,
+                                  dK: euroColor,
+                                  eE: euroColor,
+                                  fI: euroColor,
+                                  dE: euroColor,
+                                  gR: euroColor,
+                                  hU: euroColor,
+                                  iE: euroColor,
+                                  iT: euroColor,
+                                  lV: euroColor,
+                                  lT: euroColor,
+                                  lU: euroColor,
+                                  mT: euroColor,
+                                  nL: euroColor,
+                                  pL: euroColor,
+                                  rO: euroColor,
+                                  sK: euroColor,
+                                  sI: euroColor,
+                                  eS: euroColor,
+                                  sE: euroColor,
+                                  gB: euroColor,
+                                  dZ: africaColor,
+                                  aO: africaColor,
+                                  sH: africaColor,
+                                  bJ: africaColor,
+                                  bW: africaColor,
+                                  bF: africaColor,
+                                  bI: africaColor,
+                                  cM: africaColor,
+                                  cV: africaColor,
+                                  cF: africaColor,
+                                  tD: africaColor,
+                                  kM: africaColor,
+                                  cG: africaColor,
+                                  cD: africaColor,
+                                  dJ: africaColor,
+                                  eG: africaColor,
+                                  gQ: africaColor,
+                                  eR: africaColor,
+                                  sZ: africaColor,
+                                  eT: africaColor,
+                                  gA: africaColor,
+                                  gM: africaColor,
+                                  gH: africaColor,
+                                  gN: africaColor,
+                                  gW: africaColor,
+                                  cI: africaColor,
+                                  kE: africaColor,
+                                  lS: africaColor,
+                                  lR: africaColor,
+                                  lY: africaColor,
+                                  mG: africaColor,
+                                  mW: africaColor,
+                                  mL: africaColor,
+                                  mR: africaColor,
+                                  mU: africaColor,
+                                  yT: africaColor,
+                                  mA: africaColor,
+                                  mZ: africaColor,
+                                  nA: africaColor,
+                                  nG: africaColor,
+                                  sT: africaColor,
+                                  rE: africaColor,
+                                  rW: africaColor,
+                                  sN: africaColor,
+                                  sC: africaColor,
+                                  sL: africaColor,
+                                  sO: africaColor,
+                                  zA: africaColor,
+                                  sS: africaColor,
+                                  sD: africaColor,
+                                  tZ: africaColor,
+                                  tG: africaColor,
+                                  tN: africaColor,
+                                  uG: africaColor,
+                                  zM: africaColor,
+                                  zW: africaColor,
+                                  aI: northAmericaColor,
+                                  aG: northAmericaColor,
+                                  aW: northAmericaColor,
+                                  bB: northAmericaColor,
+                                  bZ: northAmericaColor,
+                                  bM: northAmericaColor,
+                                  bQ: northAmericaColor,
+                                  vG: northAmericaColor,
+                                  cA: northAmericaColor,
+                                  kY: northAmericaColor,
+                                  cR: northAmericaColor,
+                                  cU: northAmericaColor,
+                                  cW: northAmericaColor,
+                                  dM: northAmericaColor,
+                                  dO: northAmericaColor,
+                                  sV: northAmericaColor,
+                                  gL: northAmericaColor,
+                                  gD: northAmericaColor,
+                                  gP: northAmericaColor,
+                                  gT: northAmericaColor,
+                                  hT: northAmericaColor,
+                                  hN: northAmericaColor,
+                                  jM: northAmericaColor,
+                                  mQ: northAmericaColor,
+                                  mX: northAmericaColor,
+                                  mS: northAmericaColor,
+                                  aN: northAmericaColor,
+                                  nI: northAmericaColor,
+                                  pA: northAmericaColor,
+                                  pR: northAmericaColor,
+                                  bL: northAmericaColor,
+                                  kN: northAmericaColor,
+                                  lC: northAmericaColor,
+                                  mP: northAmericaColor,
+                                  pM: northAmericaColor,
+                                  vC: northAmericaColor,
+                                  sX: northAmericaColor,
+                                  bS: northAmericaColor,
+                                  tT: northAmericaColor,
+                                  tC: northAmericaColor,
+                                  uS: northAmericaColor,
+                                  vI: northAmericaColor,
+                                  aR: southAmericaColor,
+                                  bO: southAmericaColor,
+                                  bR: southAmericaColor,
+                                  cL: southAmericaColor,
+                                  cO: southAmericaColor,
+                                  eC: southAmericaColor,
+                                  fK: southAmericaColor,
+                                  gF: southAmericaColor,
+                                  gY: southAmericaColor,
+                                  pY: southAmericaColor,
+                                  pE: southAmericaColor,
+                                  sR: southAmericaColor,
+                                  uY: southAmericaColor,
+                                  vE: southAmericaColor,
+                                  aU: australiaColor,
+                                  aS: australiaColor,
+                                  nZ: australiaColor,
+                                  cK: australiaColor,
+                                  tL: australiaColor,
+                                  fM: australiaColor,
+                                  fJ: australiaColor,
+                                  pF: australiaColor,
+                                  gU: australiaColor,
+                                  kI: australiaColor,
+                                  mH: australiaColor,
+                                  uM: australiaColor,
+                                  nR: australiaColor,
+                                  nC: australiaColor,
+                                  nU: australiaColor,
+                                  nF: australiaColor,
+                                  pW: australiaColor,
+                                  pG: australiaColor,
+                                  wS: australiaColor,
+                                  sB: australiaColor,
+                                  tK: australiaColor,
+                                  tO: australiaColor,
+                                  tV: australiaColor,
+                                  vU: australiaColor,
+                                  wF: australiaColor,
+                                ),
+                              );
+                            }
                           ),
                         ),
                         // Creates 8% from right side so the map looks more centered.
