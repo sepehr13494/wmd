@@ -5,7 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
-import 'package:wmd/features/asset_detail/core/presentation/widgets/current_date_widget.dart';
+import 'package:wmd/features/asset_detail/core/presentation/widgets/as_of_date_widget.dart';
 import 'package:wmd/features/asset_detail/real_estate/domain/entity/real_estate_entity.dart';
 
 class RealEstateSummaryWidget extends AppStatelessWidget {
@@ -205,7 +205,7 @@ class RealEstateSummaryWidget extends AppStatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          const CurrentDateWidget(),
+          AsOfDateWidget(shownDate: realEstateEntity.acquisitionDate),
         ],
       ),
     );

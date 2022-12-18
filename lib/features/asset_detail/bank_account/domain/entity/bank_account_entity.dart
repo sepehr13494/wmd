@@ -9,8 +9,8 @@ class BankAccountEntity extends Equatable {
   final double noOfCoOwners;
   final double ownershipPercentage;
   final double interestRate;
-  final DateTime startDate;
-  final DateTime endDate;
+  final DateTime? startDate;
+  final DateTime? endDate;
   final String id;
   final String type;
   final bool isActive;

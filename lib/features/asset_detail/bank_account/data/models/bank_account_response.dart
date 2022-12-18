@@ -35,10 +35,11 @@ class BankAccountResponse extends BankAccountEntity
         ownershipPercentage:
             double.tryParse(json['ownershipPercentage'].toString()) ?? 0,
         interestRate: double.tryParse(json['interestRate'].toString()) ?? 0,
-        startDate: DateTime.parse(json["startDate"] ??
-            DateTime.fromMillisecondsSinceEpoch(0).toIso8601String()),
-        endDate: DateTime.parse(json["endDate"] ??
-            DateTime.fromMillisecondsSinceEpoch(0).toIso8601String()),
+        startDate: json["startDate"] == null
+            ? null
+            : DateTime.parse(json["startDate"]),
+        endDate:
+            json["endDate"] == null ? null : DateTime.parse(json["endDate"]),
         id: json["id"] ?? '',
         type: json["type"] ?? '',
         isActive: json["isActive"] ?? false,

@@ -15,8 +15,8 @@ extension CustomizableDateTime on DateTime {
     return DateFormat('yyyy-MM-dd').format(current).toString();
   }
 
-  static String get currentDateLocalized {
-    return Jiffy().format("do MMMM yyyy kk:mm aaa");
+  static String dateLocalized(dynamic input) {
+    return Jiffy(input).format("do MMMM yyyy kk:mm aaa");
   }
 
   static DateTime get currentDateTime {
