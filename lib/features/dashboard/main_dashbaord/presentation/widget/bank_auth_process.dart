@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/status_entity.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/widget/custodian_auth_status_modal.dart';
@@ -16,6 +17,7 @@ class BanksAuthorizationProcess extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    final responsiveHelper = ResponsiveHelper(context: context);
     return BlocProvider(
       create: (context) =>
           sl<CustodianStatusListCubit>()..getCustodianStatusList(),
@@ -26,36 +28,32 @@ class BanksAuthorizationProcess extends AppStatelessWidget {
             if (state.statusEntity.isEmpty) {
               return const SizedBox.shrink();
             }
-            return SizedBox(
-              width: double.infinity,
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Your banks authorization process',
-                        style: textTheme.labelLarge,
-                      ),
-                      const SizedBox(height: 8),
-                      Table(
-                        defaultVerticalAlignment:
-                            TableCellVerticalAlignment.middle,
-                        columnWidths: const {
-                          0: FractionColumnWidth(0.25),
-                          1: FractionColumnWidth(0.5),
-                          3: FractionColumnWidth(0.25),
-                        },
-                        children: [
-                          buildTableHeader(textTheme),
-                          ...state.statusEntity
-                              .map((e) => buildTableRow(context, e, textTheme))
-                        ],
-                      ),
-                    ],
-                  ),
+            return Card(
+              child: ExpansionTile(
+                title: Text(
+                  'Your banks authorization process',
+                  style: textTheme.labelLarge,
                 ),
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: responsiveHelper.bigger16Gap),
+                    child: Table(
+                      defaultVerticalAlignment:
+                          TableCellVerticalAlignment.middle,
+                      columnWidths: const {
+                        0: FractionColumnWidth(0.25),
+                        1: FractionColumnWidth(0.5),
+                        3: FractionColumnWidth(0.25),
+                      },
+                      children: [
+                        buildTableHeader(textTheme),
+                        ...state.statusEntity
+                            .map((e) => buildTableRow(context, e, textTheme))
+                      ],
+                    ),
+                  ),
+                ],
               ),
             );
           }
