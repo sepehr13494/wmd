@@ -8,6 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/widgets/base_chart_view.dart';
 
 import '../../../charts/presentation/widgets/charts_widget.dart';
 import '../manager/assets_overview_cubit.dart';
@@ -62,7 +63,8 @@ class AssetsOverView extends AppStatelessWidget {
                         ],
                       ),
                       const OverViewCard(),
-                      const AssetsOverviewCharts(),
+                      const SizedBox(height: 16),
+                      const BaseAssetsOverviewChartsWidget(),
                       BlocConsumer<AssetsOverviewCubit, AssetsOverviewState>(
                         listener: BlocHelper.defaultBlocListener(
                           listener: (context, state) {},

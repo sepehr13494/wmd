@@ -11,6 +11,7 @@ import 'error_handler_middleware_test.mocks.dart';
 
 @GenerateMocks([ServerRequestManager, ErrorHandlerMiddleware])
 void main() {
+
   group('error handler middleware test', () {
     final tAppRequestOptions =
         AppRequestOptions(RequestTypes.put, "testUrl", null);
@@ -18,10 +19,12 @@ void main() {
 
     late MockServerRequestManager mockRequestManager;
     late ErrorHandlerMiddleware errorHandlerMiddleware;
+
     setUp(() {
       mockRequestManager = MockServerRequestManager();
       errorHandlerMiddleware = ErrorHandlerMiddleware(mockRequestManager);
     });
+
     test('test when request manager returns a response with status code 200',
         () async {
       final tResponse = Response(
