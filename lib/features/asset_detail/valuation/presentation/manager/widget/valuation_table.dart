@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
@@ -86,12 +87,10 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
               buildTableHeader(context),
               ...List.generate(length > 3 ? 3 : length, (index) {
                 final e = widget.getAllValuationEntities[index];
-                final code =
-                    AppConstants.getCurrencySymbolByCode(e.currencyCode);
                 return buildTableRow(context,
                     date: CustomizableDateTime.ddMmYyyy(e.createdAt),
                     note: e.note ?? '',
-                    value: code + e.amountInUsd.toInt().toString(),
+                    value: e.amountInUsd.convertMoney(addDollar: true),
                     index: index);
               }),
             ],
@@ -134,11 +133,10 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
         buildTableHeader(context),
         ...List.generate(widget.getAllValuationEntities.length, (index) {
           final e = widget.getAllValuationEntities[index];
-          final code = AppConstants.getCurrencySymbolByCode(e.currencyCode);
           return buildTableRow(context,
               date: CustomizableDateTime.ddMmYyyy(e.createdAt),
               note: e.note ?? '',
-              value: code + e.amountInUsd.toInt().toString(),
+              value: e.amountInUsd.convertMoney(addDollar: true),
               index: index);
         }),
       ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
@@ -63,8 +64,7 @@ class RealEstateSummaryWidget extends AppStatelessWidget {
                         ],
                       ),
                       Text(
-                        currencySymbol +
-                            realEstateEntity.holdings.toInt().toString(),
+                        realEstateEntity.holdings.convertMoney(addDollar: true),
                         style: const TextStyle(
                             fontSize: 28, fontWeight: FontWeight.w300),
                       ),
@@ -82,10 +82,8 @@ class RealEstateSummaryWidget extends AppStatelessWidget {
                                   style: textTheme.bodySmall,
                                 ),
                                 Text(
-                                  currencySymbol +
-                                      realEstateEntity.marketValue
-                                          .toInt()
-                                          .toString(),
+                                  realEstateEntity.marketValue
+                                      .convertMoney(addDollar: true),
                                   style: textTheme.bodyLarge,
                                 ),
                               ],

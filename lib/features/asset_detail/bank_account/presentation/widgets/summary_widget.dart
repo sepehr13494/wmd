@@ -1,4 +1,5 @@
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/features/asset_detail/bank_account/domain/entity/bank_account_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
@@ -53,8 +54,8 @@ class BankAccountSummaryWidget extends AppStatelessWidget {
                       ),
                       SizedBox(height: responsiveHelper.bigger16Gap),
                       Text(
-                        currencySymbol +
-                            bankAccountEntity.holdings.toInt().toString(),
+                        bankAccountEntity.holdings
+                            .convertMoney(addDollar: true),
                         style: const TextStyle(
                             fontSize: 28, fontWeight: FontWeight.w300),
                       ),

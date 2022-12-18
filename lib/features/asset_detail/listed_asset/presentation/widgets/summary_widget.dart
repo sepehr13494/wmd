@@ -18,8 +18,6 @@ class ListedAssetSummaryWidget extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    final String currencySymbol =
-        AppConstants.getCurrencySymbolByCode(listedAssetEntity.currencyCode);
     final lineColor = Theme.of(context).dividerColor;
     final responsiveHelper = ResponsiveHelper(context: context);
     bool isMobile = responsiveHelper.isMobile;
