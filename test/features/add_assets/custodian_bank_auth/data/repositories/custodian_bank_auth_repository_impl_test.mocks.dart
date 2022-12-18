@@ -20,6 +20,8 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/post_cus
     as _i8;
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/post_custodian_bank_status_response.dart'
     as _i2;
+import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/status_response.dart'
+    as _i10;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -108,4 +110,15 @@ class MockCustodianBankAuthRemoteDataSource extends _i1.Mock
           ),
         )),
       ) as _i5.Future<_i3.GetCustodianBankStatusResponse>);
+  @override
+  _i5.Future<List<_i10.StatusResponse>> getStatusList(
+          _i7.GetCustodianBankListParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getStatusList,
+          [params],
+        ),
+        returnValue: _i5.Future<List<_i10.StatusResponse>>.value(
+            <_i10.StatusResponse>[]),
+      ) as _i5.Future<List<_i10.StatusResponse>>);
 }

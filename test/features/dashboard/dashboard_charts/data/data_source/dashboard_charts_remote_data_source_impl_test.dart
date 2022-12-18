@@ -62,6 +62,7 @@ Future<void> main() async {
               .having((e) => e.data, 'data', ServerException.tServerException.data)));
       verify(mockErrorHandlerMiddleware.sendRequest(tGetAllocationOptions));
     });
+
   });
 
   group('getGeographic', () {

@@ -59,6 +59,22 @@ void main() {
             equals(Left(ServerFailure.fromServerException(ServerException.tServerException))));
       },
     );
+
+    test(
+      'should return app failure on app exception',
+          () async {
+        // arrange
+        when(remoteDataSource.getAllocation(any))
+            .thenThrow(AppException.tAppException);
+        // act
+        final result = await repositoryImpl.getAllocation(GetAllocationParams.tParams);
+        // assert
+        verify(remoteDataSource.getAllocation(GetAllocationParams.tParams));
+
+        expect(result,
+            equals(Left(AppFailure.fromAppException(AppException.tAppException))));
+      },
+    );
   });
   group('GetGeographic', () {
     test(
@@ -90,6 +106,21 @@ void main() {
             equals(Left(ServerFailure.fromServerException(ServerException.tServerException))));
       },
     );
+
+    test(
+      'should return app failure on app exception',
+          () async {
+        // arrange
+        when(remoteDataSource.getGeographic(any))
+            .thenThrow(AppException.tAppException);
+        // act
+        final result = await repositoryImpl.getGeographic(GetGeographicParams.tParams);
+        // assert
+        verify(remoteDataSource.getGeographic(GetGeographicParams.tParams));
+
+        expect(result, equals(Left(AppFailure.fromAppException(AppException.tAppException))));
+      },
+    );
   });
   group('GetPie', () {
     test(
@@ -108,7 +139,7 @@ void main() {
 
     test(
       'should return server failure on server exception',
-      () async {
+          () async {
         // arrange
         when(remoteDataSource.getPie(any))
             .thenThrow(ServerException.tServerException);
@@ -119,6 +150,22 @@ void main() {
 
         expect(result,
             equals(Left(ServerFailure.fromServerException(ServerException.tServerException))));
+      },
+    );
+
+    test(
+      'should return app failure on app exception',
+          () async {
+        // arrange
+        when(remoteDataSource.getPie(any))
+            .thenThrow(AppException.tAppException);
+        // act
+        final result = await repositoryImpl.getPie(GetPieParams.tParams);
+        // assert
+        verify(remoteDataSource.getPie(GetPieParams.tParams));
+
+        expect(result,
+            equals(Left(AppFailure.fromAppException(AppException.tAppException))));
       },
     );
   });
