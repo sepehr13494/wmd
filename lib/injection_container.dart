@@ -135,6 +135,7 @@ import 'features/asset_detail/valuation/domain/repositories/valuation_repository
 import 'features/asset_detail/valuation/domain/use_cases/get_all_valuation_usecase.dart';
 import 'features/asset_detail/valuation/domain/use_cases/get_valuation_performance_usecase.dart';
 import 'features/asset_detail/valuation/domain/use_cases/post_valuation_usecase.dart';
+import 'features/asset_detail/valuation/presentation/manager/performance_chart_cubit.dart';
 import 'features/asset_detail/valuation/presentation/manager/valuation_cubit.dart';
 import 'features/splash/data/repositories/splash_repository_impl.dart';
 import 'features/splash/domain/repositories/splash_repository.dart';
@@ -223,12 +224,11 @@ Future<void> init() async {
 
   //Charts
   sl.registerFactory(() => ChartsCubit(sl()));
-  sl.registerLazySingleton(() => GetChartUseCase(sl(),sl()));
+  sl.registerLazySingleton(() => GetChartUseCase(sl(), sl()));
 
-  sl.registerLazySingleton<ChartsRepository>(
-          () => ChartsRepositoryImpl(sl()));
+  sl.registerLazySingleton<ChartsRepository>(() => ChartsRepositoryImpl(sl()));
   sl.registerLazySingleton<ChartsRemoteDataSource>(
-          () => ChartsRemoteDataSourceImpl(sl()));
+      () => ChartsRemoteDataSourceImpl(sl()));
 
   // Dashboard - user status dependencies
   sl.registerFactory(() => UserStatusCubit(sl(), sl()));
@@ -351,7 +351,8 @@ Future<void> init() async {
       () => FaqRemoteDataSourceImpl(sl()));
 
   //Valuation
-  sl.registerFactory(() => ValuationCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => ValuationCubit(sl(), sl()));
+  sl.registerFactory(() => PerformanceChartCubit(sl()));
   sl.registerLazySingleton(() => GetAllValuationUseCase(sl()));
   sl.registerLazySingleton(() => PostValuationUseCase(sl()));
   sl.registerLazySingleton(() => GetValuationPerformanceUseCase(sl()));

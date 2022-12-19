@@ -19,11 +19,23 @@ extension CustomizableDateTime on DateTime {
     return Jiffy(input).format("do MMMM yyyy kk:mm aaa");
   }
 
+  static String localizedDdMm(dynamic input) {
+    return Jiffy(input).format("do\nMMM");
+  }
+
+  static String localizedDdMmYyyy(dynamic input) {
+    return Jiffy(input).format("do MMM yyyy");
+  }
+
   static DateTime get currentDateTime {
     return DateTime.parse(DateFormat('yyyy-MM-dd').format(current).toString());
   }
 
   static String ddMmYyyy(DateTime dateTime) {
     return Jiffy(dateTime).format("dd.MM.yyyy");
+  }
+
+  static String yyyyMmDd(DateTime dateTime) {
+    return Jiffy(dateTime).format("yyyy.MM.dd");
   }
 }

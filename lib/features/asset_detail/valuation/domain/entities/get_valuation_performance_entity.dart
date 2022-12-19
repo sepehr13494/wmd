@@ -1,14 +1,13 @@
 import 'package:equatable/equatable.dart';
 
 class GetValuationPerformanceEntity extends Equatable {
-    const GetValuationPerformanceEntity();
-    
-    Map<String, dynamic> toJson() => {
-    
-    };
+  final DateTime date;
+  final double value;
+  const GetValuationPerformanceEntity(
+      {required this.date, required this.value});
 
-    @override
-    // TODO: implement props
-    List<Object?> get props => throw UnimplementedError();
+  Map<String, dynamic> toJson() => {};
+
+  @override
+  List<Object?> get props => [date, value];
 }
-    

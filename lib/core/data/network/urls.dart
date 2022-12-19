@@ -62,5 +62,5 @@ class AppUrls {
   static String getAllValuation = "${wealthBase}Valuation/All";
   static String postValuation = "${wealthBase}Valuation";
   static String getValuationPerformance(String id) =>
-      "${wealthBase}Valuation/$id/history";
+      "${wealthBase}Valuation/$id/performance";
 }
