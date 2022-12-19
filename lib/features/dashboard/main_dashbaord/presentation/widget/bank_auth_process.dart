@@ -4,15 +4,23 @@ import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import 'package:wmd/core/util/custom_expansion_tile.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/status_entity.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/widget/custodian_auth_status_modal.dart';
 import 'package:wmd/injection_container.dart';
 
-class BanksAuthorizationProcess extends AppStatelessWidget {
-  const BanksAuthorizationProcess({
-    Key? key,
-  }) : super(key: key);
+class BanksAuthorizationProcess extends StatefulWidget {
+  const BanksAuthorizationProcess({super.key});
+
+  @override
+  AppState<BanksAuthorizationProcess> createState() =>
+      _BanksAuthorizationProcessState();
+}
+
+class _BanksAuthorizationProcessState
+    extends AppState<BanksAuthorizationProcess> {
+  bool isExpanded = false;
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -29,7 +37,9 @@ class BanksAuthorizationProcess extends AppStatelessWidget {
               return const SizedBox.shrink();
             }
             return Card(
-              child: ExpansionTile(
+              child: CustomExpansionTile(
+                initiallyExpanded: isExpanded,
+                onExpansionChanged: (value) => isExpanded = value,
                 title: Text(
                   'Your banks authorization process',
                   style: textTheme.labelLarge,
@@ -42,8 +52,8 @@ class BanksAuthorizationProcess extends AppStatelessWidget {
                       defaultVerticalAlignment:
                           TableCellVerticalAlignment.middle,
                       columnWidths: const {
-                        0: FractionColumnWidth(0.25),
-                        1: FractionColumnWidth(0.5),
+                        0: FractionColumnWidth(0.35),
+                        1: FractionColumnWidth(0.4),
                         3: FractionColumnWidth(0.25),
                       },
                       children: [
@@ -65,21 +75,21 @@ class BanksAuthorizationProcess extends AppStatelessWidget {
 
   TableRow buildTableHeader(TextTheme textTheme,
       {EdgeInsetsGeometry padding =
-          const EdgeInsets.symmetric(vertical: 8.0)}) {
+          const EdgeInsets.only(top: 8.0, bottom: 8)}) {
     return TableRow(
       children: [
         Padding(
           padding: padding,
           child: Text(
             'Bank Name',
-            style: textTheme.bodySmall,
+            style: textTheme.bodyMedium,
           ),
         ),
         Padding(
           padding: padding,
           child: Text(
             'Status',
-            style: textTheme.bodySmall,
+            style: textTheme.bodyMedium,
           ),
         ),
         const SizedBox.shrink()
@@ -90,7 +100,7 @@ class BanksAuthorizationProcess extends AppStatelessWidget {
   TableRow buildTableRow(
       BuildContext context, StatusEntity e, TextTheme textTheme,
       {EdgeInsetsGeometry padding =
-          const EdgeInsets.symmetric(vertical: 8.0, horizontal: 2)}) {
+          const EdgeInsets.only(top: 8.0, bottom: 8)}) {
     final appLocalizations = AppLocalizations.of(context);
     return TableRow(
       decoration: BoxDecoration(
@@ -103,13 +113,16 @@ class BanksAuthorizationProcess extends AppStatelessWidget {
           padding: padding,
           child: Text(
             e.bankName,
-            style: textTheme.labelMedium,
+            style: textTheme.bodyLarge,
           ),
         ),
         Padding(
           padding: padding,
-          child: Text(e.statusText(appLocalizations),
-              style: textTheme.labelMedium),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: Text(e.statusText(appLocalizations),
+                style: textTheme.bodyLarge),
+          ),
         ),
         Padding(
           padding: padding,
@@ -119,9 +132,6 @@ class BanksAuthorizationProcess extends AppStatelessWidget {
               onTap: () async {
                 await showCustodianBankStatus(
                     context: context, bankId: e.bankId);
-                context
-                    .read<CustodianStatusListCubit>()
-                    .getCustodianStatusList();
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -129,14 +139,14 @@ class BanksAuthorizationProcess extends AppStatelessWidget {
                 children: [
                   Text(
                     'View',
-                    style: textTheme.bodySmall!.apply(
+                    style: textTheme.bodyLarge!.apply(
                         color: Theme.of(context).primaryColor,
                         decoration: TextDecoration.underline),
                   ),
                   const SizedBox(width: 4),
                   const Icon(
                     Icons.arrow_forward_ios_rounded,
-                    size: 8,
+                    size: 12,
                   )
                 ],
               ),

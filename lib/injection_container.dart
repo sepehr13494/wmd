@@ -223,12 +223,11 @@ Future<void> init() async {
 
   //Charts
   sl.registerFactory(() => ChartsCubit(sl()));
-  sl.registerLazySingleton(() => GetChartUseCase(sl(),sl()));
+  sl.registerLazySingleton(() => GetChartUseCase(sl(), sl()));
 
-  sl.registerLazySingleton<ChartsRepository>(
-          () => ChartsRepositoryImpl(sl()));
+  sl.registerLazySingleton<ChartsRepository>(() => ChartsRepositoryImpl(sl()));
   sl.registerLazySingleton<ChartsRemoteDataSource>(
-          () => ChartsRemoteDataSourceImpl(sl()));
+      () => ChartsRemoteDataSourceImpl(sl()));
 
   // Dashboard - user status dependencies
   sl.registerFactory(() => UserStatusCubit(sl(), sl()));
@@ -331,7 +330,7 @@ Future<void> init() async {
       () => AssetDetailRemoteDataSourceImpl(sl()));
 
 //CustodianBankAuth
-  sl.registerFactory(() => CustodianStatusListCubit(sl()));
+  sl.registerLazySingleton(() => CustodianStatusListCubit(sl()));
   sl.registerFactory(() => CustodianBankListCubit(sl()));
   sl.registerFactory(() => CustodianBankAuthCubit(sl(), sl()));
   sl.registerLazySingleton(() => GetCustodianStatusListUseCase(sl()));
