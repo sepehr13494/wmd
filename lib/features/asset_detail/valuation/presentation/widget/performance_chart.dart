@@ -126,12 +126,6 @@ class PerformanceLineChart extends StatelessWidget {
         }
       }
     }
-
-    // double x = max(maxY.abs(), minY.abs()) / divider;
-    // print('$maxY and $minY');
-    // minY = (minY / x);
-    // maxY = (maxY / x);
-    // print('$maxY and $minY');
     double x = maxY * 2 / divider;
 
     return LineChartData(
@@ -164,8 +158,8 @@ class PerformanceLineChart extends StatelessWidget {
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 30,
             interval: 1,
+            reservedSize: 30,
             getTitlesWidget: bottomTitleWidgets,
           ),
         ),
@@ -173,8 +167,8 @@ class PerformanceLineChart extends StatelessWidget {
           sideTitles: SideTitles(
             showTitles: true,
             interval: 1,
-            getTitlesWidget: leftTitleWidgets,
             reservedSize: 42,
+            getTitlesWidget: leftTitleWidgets,
           ),
         ),
       ),
@@ -189,9 +183,10 @@ class PerformanceLineChart extends StatelessWidget {
       maxY: divider,
       lineTouchData: LineTouchData(
         touchTooltipData: LineTouchTooltipData(
+          fitInsideVertically: true,
+          fitInsideHorizontally: true,
           getTooltipItems: (touchedSpots) {
             final textTheme = Theme.of(context).textTheme;
-            // print(touchedSpots.first);
             return [
               LineTooltipItem(
                 CustomizableDateTime.localizedDdMmYyyy(
@@ -199,9 +194,6 @@ class PerformanceLineChart extends StatelessWidget {
                 textTheme.titleSmall!,
                 textAlign: TextAlign.start,
                 children: [
-                  // TextSpan(
-                  //     text: CustomizableDateTime.localizedDdMmYyyy(
-                  //         values[touchedSpots.first.x.toInt()].key)),
                   TextSpan(
                       text: '\nCurrent Balance', style: textTheme.bodyMedium),
                   TextSpan(
@@ -223,7 +215,7 @@ class PerformanceLineChart extends StatelessWidget {
       lineBarsData: [
         LineChartBarData(
           spots: List.generate(values.length, (index) {
-            return FlSpot(index.toDouble(), values[index].value / x);
+            return FlSpot((index).toDouble(), values[index].value / x);
           }),
           isCurved: false,
           color: AppColors.chartColor,
