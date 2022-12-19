@@ -56,7 +56,7 @@ class PerformanceLineChart extends StatelessWidget {
   final List<MapEntry<DateTime, double>> values;
   const PerformanceLineChart({super.key, required this.values});
 
-  final double divider = 5;
+  final double divider = 6;
 
   @override
   Widget build(BuildContext context) {
@@ -93,9 +93,10 @@ class PerformanceLineChart extends StatelessWidget {
         }
       }
     }
-    // double x = max(maxY.abs(), minY.abs()) / divider;
+    double x = maxY * 2 / divider;
+
     final String shown =
-        value == 0 ? "\$0" : "\$${(value).formatNumberWithDecimal()}";
+        value == 0 ? "\$0" : "\$${(value * x).formatNumberWithDecimal()}";
     return FittedBox(
       fit: BoxFit.scaleDown,
       child: Text(
@@ -125,12 +126,13 @@ class PerformanceLineChart extends StatelessWidget {
         }
       }
     }
-    print(values);
+
     // double x = max(maxY.abs(), minY.abs()) / divider;
     // print('$maxY and $minY');
     // minY = (minY / x);
     // maxY = (maxY / x);
     // print('$maxY and $minY');
+    double x = maxY * 2 / divider;
 
     return LineChartData(
       gridData: FlGridData(
@@ -221,7 +223,7 @@ class PerformanceLineChart extends StatelessWidget {
       lineBarsData: [
         LineChartBarData(
           spots: List.generate(values.length, (index) {
-            return FlSpot(index.toDouble(), values[index].value);
+            return FlSpot(index.toDouble(), values[index].value / x);
           }),
           isCurved: false,
           color: AppColors.chartColor,
