@@ -12,41 +12,24 @@ import '../../data/models/get_valuation_performance_params.dart';
 import '../../domain/use_cases/get_valuation_performance_usecase.dart';
 import '../../domain/entities/get_valuation_performance_entity.dart';
 
-part 'valuation_state.dart';
+part 'performance_chart_state.dart';
 
-class ValuationCubit extends Cubit<ValuationState> {
+class PerformanceChartCubit extends Cubit<PerformanceChartState> {
   final GetAllValuationUseCase getAllValuationUseCase;
   final PostValuationUseCase postValuationUseCase;
   final GetValuationPerformanceUseCase getValuationPerformanceUseCase;
 
-  ValuationCubit(
+  PerformanceChartCubit(
     this.getAllValuationUseCase,
     this.postValuationUseCase,
     this.getValuationPerformanceUseCase,
   ) : super(LoadingState());
 
-  getAllValuation(GetAllValuationParams params) async {
-    emit(LoadingState());
-    final result = await getAllValuationUseCase(params);
-    result.fold((failure) => emit(ErrorState(failure: failure)), (entities) {
-      emit(GetAllValuationLoaded(getAllValuationEntities: entities));
-    });
-  }
-
-  postValuation() async {
-    emit(LoadingState());
-    final result = await postValuationUseCase(PostValuationParams());
-    result.fold((failure) => emit(ErrorState(failure: failure)), (appSuccess) {
-      emit(SuccessState(appSuccess: appSuccess));
-    });
-  }
-
   getValuationPerformance(GetValuationPerformanceParams params) async {
     emit(LoadingState());
     final result = await getValuationPerformanceUseCase(params);
     result.fold((failure) => emit(ErrorState(failure: failure)), (entities) {
-      emit(GetValuationPerformanceLoaded(
-          getValuationPerformanceEntities: entities));
+      emit(PerformanceLoaded(getValuationPerformanceEntities: entities));
     });
   }
 }

@@ -20,7 +20,7 @@ import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/net
 import 'package:wmd/injection_container.dart';
 import '../manager/asset_detail_cubit.dart';
 import '../../../bank_account/presentation/page/bank_account_page.dart';
-import '../../../valuation/presentation/manager/widget/valuation_table.dart';
+import '../../../valuation/presentation/widget/valuation_table.dart';
 
 class AssetDetailPage extends AppStatelessWidget {
   final String assetId;

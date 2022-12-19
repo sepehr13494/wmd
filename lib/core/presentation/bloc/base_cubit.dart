@@ -26,6 +26,7 @@ import 'package:wmd/features/dashboard/user_status/presentation/manager/user_sta
 import 'package:wmd/features/help/faq/presentation/manager/faq_cubit.dart';
 import 'package:wmd/features/help/support/presentation/manager/general_inquiry_cubit.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
+import '../../../features/asset_detail/valuation/presentation/manager/performance_chart_cubit.dart';
 import '../../error_and_success/failures.dart';
 import '../../error_and_success/succeses.dart';
 import '../../../features/splash/presentation/manager/splash_cubit.dart';

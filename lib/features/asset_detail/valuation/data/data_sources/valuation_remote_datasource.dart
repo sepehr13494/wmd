@@ -56,7 +56,7 @@ class ValuationRemoteDataSourceImpl extends AppServerDataSource
     } on ServerException {
       rethrow;
     } catch (e) {
-      throw AppException(
+      throw const AppException(
           message: "format Exception", type: ExceptionType.format);
     }
   }
@@ -65,8 +65,12 @@ class ValuationRemoteDataSourceImpl extends AppServerDataSource
   Future<List<GetValuationPerformanceResponse>> getValuationPerformance(
       GetValuationPerformanceParams params) async {
     try {
-      final appRequestOptions = AppRequestOptions(RequestTypes.get,
-          AppUrls.getValuationPerformance('id'), params.toJson());
+      final appRequestOptions = AppRequestOptions(
+          RequestTypes.get, AppUrls.getValuationPerformance('id'), {
+        'to': DateTime.now()
+            .subtract(Duration(days: params.days))
+            .toIso8601String()
+      });
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = (response as List<dynamic>)
@@ -76,7 +80,7 @@ class ValuationRemoteDataSourceImpl extends AppServerDataSource
     } on ServerException {
       rethrow;
     } catch (e) {
-      throw AppException(
+      throw const AppException(
           message: "format Exception", type: ExceptionType.format);
     }
   }
