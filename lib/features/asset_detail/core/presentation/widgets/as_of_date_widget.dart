@@ -3,8 +3,10 @@ import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 
-class CurrentDateWidget extends AppStatelessWidget {
-  const CurrentDateWidget({
+class AsOfDateWidget extends AppStatelessWidget {
+  final DateTime shownDate;
+  const AsOfDateWidget({
+    required this.shownDate,
     super.key,
   });
 
@@ -16,7 +18,7 @@ class CurrentDateWidget extends AppStatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(responsiveHelper.biggerGap),
         child: Text(
-          'As of ${CustomizableDateTime.currentDateLocalized}',
+          'As of ${CustomizableDateTime.dateLocalized(shownDate)}',
           style: textTheme.bodySmall,
         ),
       ),

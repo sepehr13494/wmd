@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
-import 'package:wmd/features/asset_detail/core/presentation/widgets/current_date_widget.dart';
+import 'package:wmd/features/asset_detail/core/presentation/widgets/as_of_date_widget.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/net_change_widget.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/portfolio_contribution_widget.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/your_holdings_widget.dart';
@@ -18,8 +19,6 @@ class ListedAssetSummaryWidget extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    final String currencySymbol =
-        AppConstants.getCurrencySymbolByCode(listedAssetEntity.currencyCode);
     final lineColor = Theme.of(context).dividerColor;
     final responsiveHelper = ResponsiveHelper(context: context);
     bool isMobile = responsiveHelper.isMobile;
@@ -68,7 +67,10 @@ class ListedAssetSummaryWidget extends AppStatelessWidget {
                         children: [
                           ExpandedIf(
                             expanded: !isMobile,
-                            child: const NetChangeWidget(),
+                            child: NetChangeWidget(
+                              current: listedAssetEntity.holdings,
+                              old: listedAssetEntity.marketValue,
+                            ),
                           ),
                           ExpandedIf(
                             expanded: !isMobile,
@@ -128,7 +130,7 @@ class ListedAssetSummaryWidget extends AppStatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          const CurrentDateWidget(),
+          AsOfDateWidget(shownDate: listedAssetEntity.investmentDate),
         ],
       ),
     );

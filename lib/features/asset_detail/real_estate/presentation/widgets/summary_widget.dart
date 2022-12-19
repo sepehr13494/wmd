@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
-import 'package:wmd/features/asset_detail/core/presentation/widgets/current_date_widget.dart';
+import 'package:wmd/features/asset_detail/core/presentation/widgets/as_of_date_widget.dart';
 import 'package:wmd/features/asset_detail/real_estate/domain/entity/real_estate_entity.dart';
 
 class RealEstateSummaryWidget extends AppStatelessWidget {
@@ -63,8 +64,7 @@ class RealEstateSummaryWidget extends AppStatelessWidget {
                         ],
                       ),
                       Text(
-                        currencySymbol +
-                            realEstateEntity.holdings.toInt().toString(),
+                        realEstateEntity.holdings.convertMoney(addDollar: true),
                         style: const TextStyle(
                             fontSize: 28, fontWeight: FontWeight.w300),
                       ),
@@ -82,10 +82,8 @@ class RealEstateSummaryWidget extends AppStatelessWidget {
                                   style: textTheme.bodySmall,
                                 ),
                                 Text(
-                                  currencySymbol +
-                                      realEstateEntity.marketValue
-                                          .toInt()
-                                          .toString(),
+                                  realEstateEntity.marketValue
+                                      .convertMoney(addDollar: true),
                                   style: textTheme.bodyLarge,
                                 ),
                               ],
@@ -207,7 +205,7 @@ class RealEstateSummaryWidget extends AppStatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          const CurrentDateWidget(),
+          AsOfDateWidget(shownDate: realEstateEntity.acquisitionDate),
         ],
       ),
     );
