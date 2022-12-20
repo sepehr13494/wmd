@@ -18,22 +18,15 @@ class OnBoardingAssetView extends AppStatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Link all your assets with ease',
+          'Add or link your assets with ease',
           style: textTheme.headlineSmall!.apply(fontWeightDelta: 4).copyWith(
               fontSize: responsiveHelper.getFontSize(30),
               height: responsiveHelper.getLineHeight(1.2)),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 16),
-        Text(
-          'Connect with your institutions to see real time updates for your assets and currencies',
-          style: textTheme.titleMedium!.copyWith(
-              fontSize: responsiveHelper.getFontSize(20),
-              height: responsiveHelper.getLineHeight(1.2)),
-          textAlign: TextAlign.center,
-        ),
         const SizedBox(height: 48),
         EmptyStateDashboard(
+            type: "asset",
             responsiveHelper: responsiveHelper,
             config: OnBoardingConfigModel.assetConfigList),
         const SizedBox(height: 24),

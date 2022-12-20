@@ -8,8 +8,6 @@ import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/util/colors.dart';
-import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
-import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/dashboard_app_bar.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/onboarding_appbar.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/onboarding_asset_view.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/onboarding_security_view.dart';
@@ -61,7 +59,7 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
                     carouselController: buttonCarouselController,
                     options: CarouselOptions(
                         height: responsiveHelper.isMobile
-                            ? MediaQuery.of(context).size.height * 1.9
+                            ? MediaQuery.of(context).size.height * 1.7
                             : MediaQuery.of(context).size.height * 0.6,
                         autoPlay: false,
                         viewportFraction: 1,

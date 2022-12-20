@@ -64,18 +64,17 @@ class AddAssetFooter extends AppStatelessWidget {
                           Expanded(
                               child: OutlinedButton(
                                   onPressed: () {
-                                    if (sl<GetUserStatusUseCase>()
-                                        .showOnboarding) {
-                                      context.goNamed(AppRoutes.onboarding);
-                                    } else {
+                                    try {
                                       if (GoRouter.of(context).location ==
-                                          "/${AppRoutes.main}/${AppRoutes.addAssetsView}") {
+                                          "/${AppRoutes.addAssetsView}") {
                                         context.pop();
                                       } else {
                                         GlobalFunctions.showExitDialog(
                                             context: context,
                                             onExitClick: () => context.pop());
                                       }
+                                    } catch (e) {
+                                      context.goNamed(AppRoutes.main);
                                     }
                                   },
                                   child: const Text("Back"))),
