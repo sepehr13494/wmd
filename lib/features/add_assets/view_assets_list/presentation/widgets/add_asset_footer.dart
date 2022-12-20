@@ -83,7 +83,8 @@ class AddAssetFooter extends AppStatelessWidget {
                           Expanded(
                               child: ElevatedButton(
                                   onPressed: () {
-                                    if (state.userStatus.loginAt == null) {
+                                    if (sl<GetUserStatusUseCase>()
+                                        .showOnboarding) {
                                       // context.goNamed(AppRoutes.addAssetsView);
                                       Map<String, dynamic> map = {
                                         "email": state.userStatus.email,

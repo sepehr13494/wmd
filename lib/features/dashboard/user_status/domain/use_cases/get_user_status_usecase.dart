@@ -14,12 +14,12 @@ class GetUserStatusUseCase extends UseCase<UserStatus, NoParams> {
   Future<Either<Failure, UserStatus>> call(NoParams params) async {
     final res = await dashboardRepository.getUserStatus(params);
 
-    _cache(res);
+    cache(res);
 
     return res;
   }
 
-  void _cache(Either<Failure, UserStatus> temp) {
+  void cache(Either<Failure, UserStatus> temp) {
     temp.fold((l) => null, (r) {
       showOnboarding = r.loginAt == null;
     });

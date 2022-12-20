@@ -29,6 +29,9 @@ class UserStatusCubit extends Cubit<UserStatusState> {
   postUserStatus({required Map<String, dynamic> map}) async {
     emit(LoadingState());
     final result = await putUserStatusUseCase(UserStatus.fromJson(map));
+
+    getUserStatusUseCase.cache(result);
+
     result.fold(
         (failure) => {emit(ErrorState(failure: failure))},
         (userStatusSuccess) =>
