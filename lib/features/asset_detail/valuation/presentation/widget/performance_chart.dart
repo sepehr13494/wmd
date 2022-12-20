@@ -34,9 +34,11 @@ class PerformanceChart extends AppStatelessWidget {
                   ResponsiveHelper(context: context).isMobile ? 1.6 : 2.2,
               child: PerformanceLineChart(
                   values: [
+                GetValuationPerformanceEntity(
+                    date: state.getValuationPerformanceEntities.first.date
+                        .subtract(const Duration(days: 1)),
+                    value: 0),
                 ...state.getValuationPerformanceEntities,
-                // ...state.getValuationPerformanceEntities,
-                // ...state.getValuationPerformanceEntities,
               ].map((e) => MapEntry(e.date, e.value)).toList()),
             );
             // return Text(state.getValuationPerformanceEntities.toString());
@@ -96,7 +98,7 @@ class PerformanceLineChart extends StatelessWidget {
     double x = maxY * 2 / divider;
 
     final String shown =
-        value == 0 ? "\$0" : "\$${(value * x).formatNumberWithDecimal()}";
+        value == 0 ? "\$0" : "${(value * x).formatNumberWithDecimal()}";
     return FittedBox(
       fit: BoxFit.scaleDown,
       child: Text(

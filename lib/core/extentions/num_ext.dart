@@ -27,7 +27,7 @@ extension NumExt on num {
     return NumberFormat.compactCurrency(
       decimalDigits: digits,
       symbol:
-          '', // if you want to add currency symbol then pass that in this else leave it empty.
+          '\$', // if you want to add currency symbol then pass that in this else leave it empty.
     ).format(this);
   }
 }
