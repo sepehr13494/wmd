@@ -8,9 +8,13 @@ import 'package:wmd/features/dashboard/onboarding/data/models/onboarding_config.
 class EmptyStateDashboard extends AppStatelessWidget {
   final ResponsiveHelper responsiveHelper;
   final List<OnBoardingConfigModel> config;
+  final String type;
 
   const EmptyStateDashboard(
-      {required this.responsiveHelper, required this.config, Key? key})
+      {required this.responsiveHelper,
+      required this.config,
+      this.type = "default",
+      Key? key})
       : super(key: key);
 
   @override
@@ -28,6 +32,7 @@ class EmptyStateDashboard extends AppStatelessWidget {
                     child: IconText(
                       image: e.image,
                       text: e.text,
+                      type: type,
                     ),
                   ))
               .toList()),

@@ -62,6 +62,11 @@ import 'package:wmd/features/add_assets/add_real_estate/data/repositories/real_e
 import 'package:wmd/features/add_assets/add_real_estate/domain/repositories/real_estate_repository.dart';
 import 'package:wmd/features/add_assets/add_real_estate/domain/use_cases/add_real_estate_usecase.dart';
 import 'package:wmd/features/add_assets/add_real_estate/presentation/manager/real_estate_cubit.dart';
+import 'package:wmd/features/assets_overview/charts/data/data_sources/charts_remote_datasource.dart';
+import 'package:wmd/features/assets_overview/charts/data/repositories/charts_repository_impl.dart';
+import 'package:wmd/features/assets_overview/charts/domain/repositories/charts_repository.dart';
+import 'package:wmd/features/assets_overview/charts/domain/use_cases/get_chart_usecase.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
 import 'package:wmd/features/authentication/forget_password/data/data_sources/forget_password_server_datasource.dart';
 import 'package:wmd/features/authentication/forget_password/data/repositories/forget_password_repository_impl.dart';
 import 'package:wmd/features/authentication/forget_password/domain/repositories/forget_password_repository.dart';
@@ -216,6 +221,14 @@ Future<void> init() async {
   sl.registerLazySingleton<AssetsOverviewRemoteDataSource>(
       () => AssetsOverviewRemoteDataSourceImpl(sl()));
 
+  //Charts
+  sl.registerFactory(() => ChartsCubit(sl()));
+  sl.registerLazySingleton(() => GetChartUseCase(sl(), sl()));
+
+  sl.registerLazySingleton<ChartsRepository>(() => ChartsRepositoryImpl(sl()));
+  sl.registerLazySingleton<ChartsRemoteDataSource>(
+      () => ChartsRemoteDataSourceImpl(sl()));
+
   // Dashboard - user status dependencies
   sl.registerFactory(() => UserStatusCubit(sl(), sl()));
   sl.registerLazySingleton(() => GetUserStatusUseCase(sl()));
@@ -317,7 +330,7 @@ Future<void> init() async {
       () => AssetDetailRemoteDataSourceImpl(sl()));
 
 //CustodianBankAuth
-  sl.registerFactory(() => CustodianStatusListCubit(sl()));
+  sl.registerLazySingleton(() => CustodianStatusListCubit(sl()));
   sl.registerFactory(() => CustodianBankListCubit(sl()));
   sl.registerFactory(() => CustodianBankAuthCubit(sl(), sl()));
   sl.registerLazySingleton(() => GetCustodianStatusListUseCase(sl()));

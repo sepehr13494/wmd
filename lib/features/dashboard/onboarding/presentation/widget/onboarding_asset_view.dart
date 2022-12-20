@@ -26,7 +26,7 @@ class OnBoardingAssetView extends AppStatelessWidget {
         ),
         const SizedBox(height: 16),
         Text(
-          'Connect with your institutions to see updates for your assets and liabilities',
+          'Connect with your institutions to see real time updates for your assets and currencies',
           style: textTheme.titleMedium!.copyWith(
               fontSize: responsiveHelper.getFontSize(20),
               height: responsiveHelper.getLineHeight(1.2)),

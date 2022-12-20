@@ -16,6 +16,7 @@ import 'package:wmd/features/asset_detail/valuation/presentation/manager/valuati
 import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
 import 'package:wmd/features/add_assets/add_other_asset/presentation/manager/other_asset_cubit.dart';
 import 'package:wmd/features/add_assets/add_real_estate/presentation/manager/real_estate_cubit.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/manager/login_sign_up_cubit.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/video_player_widget/bloc/video_controller_cubit.dart';
 import 'package:wmd/features/authentication/verify_email/presentation/manager/verify_email_cubit.dart';

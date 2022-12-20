@@ -18,14 +18,22 @@ class OnBoardingSecurityView extends AppStatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Security and Privacy come first at The Family Office',
+          'Link all your assets with ease',
           style: textTheme.headlineSmall!.apply(fontWeightDelta: 1).copyWith(
               fontSize: responsiveHelper.getFontSize(30),
               height: responsiveHelper.getLineHeight(1.2)),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 16),
+        Text(
+          'Connect with your institutions to see real time updates for your assets and currencies',
+          style: textTheme.titleMedium!.copyWith(
+              fontSize: responsiveHelper.getFontSize(20),
+              height: responsiveHelper.getLineHeight(1.2)),
+          textAlign: TextAlign.center,
+        ),
         EmptyStateDashboard(
+            type: "security",
             responsiveHelper: responsiveHelper,
             config: OnBoardingConfigModel.securityConfigList),
         const SizedBox(height: 24),

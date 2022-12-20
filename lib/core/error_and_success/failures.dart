@@ -50,4 +50,7 @@ class AppFailure extends Failure {
           type: exception.type);
 
   static const tAppFailure = AppFailure(message: "test message");
+
+  @override
+  List<Object?> get props => [message, type, data];
 }

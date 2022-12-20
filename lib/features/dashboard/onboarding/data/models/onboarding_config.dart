@@ -26,8 +26,7 @@ class OnBoardingConfigModel extends Equatable {
       "image": "assets/images/dashboard/dashboard_empty_bank.svg"
     },
     {
-      "text":
-          "We use the highest security encryption with your data to make sure it is always safe.",
+      "text": "Real times updates for all your listed assets.",
       "image": "assets/images/dashboard/dashboard_empty_sheild.svg"
     },
   ];
@@ -35,19 +34,19 @@ class OnBoardingConfigModel extends Equatable {
   static const wealthjson = [
     {
       "text":
-          "Add all your investments, assets and liabilities from all of your wealth managers in one place.",
+          "Get personalized insights about your wealth which will help you manage your wealth better.",
       "image":
           "assets/images/dashboard/onboarding/onboarding_wealth_overview.png"
     },
     {
       "text":
           "Asset allocation charts by class, geography & currency help you understand your portfolio diversity.",
-      "image": "assets/images/dashboard/onboarding/onboarding_wealth_asset.png"
+      "image": "assets/images/dashboard/onboarding/onboarding_wealth_charts.png"
     },
     {
       "text":
-          "Get personalized insights about your wealth which will help you manage your wealth better.",
-      "image": "assets/images/dashboard/onboarding/onboarding_wealth_charts.png"
+          "Add all your investments, assets and liabilities from all of your wealth managers in one place.",
+      "image": "assets/images/dashboard/onboarding/onboarding_wealth_asset.png"
     },
   ];
 

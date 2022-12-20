@@ -57,6 +57,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
         if (state is CustodianBankStateUpdated) {
           context.read<CustodianBankAuthCubit>().getCustodianBankStatus(
               GetCustodianBankStatusParams(bankId: widget.bankId));
+          sl<CustodianStatusListCubit>().getCustodianStatusList();
         }
       }, builder: (context, state) {
         if (state is ErrorState) {
@@ -94,14 +95,14 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                           bankConfirmation: false));
                 },
                 onDoneAgain: () {
-                  launchUrlString(status.signLetterLink);
-                  // context
-                  //     .read<CustodianBankAuthCubit>()
-                  //     .postCustodianBankStatus(PostCustodianBankStatusParams(
-                  //         bankId: widget.bankId,
-                  //         signLetter: false,
-                  //         shareWithBank: false,
-                  //         bankConfirmation: false));
+                  // launchUrlString(status.signLetterLink);
+                  context
+                      .read<CustodianBankAuthCubit>()
+                      .postCustodianBankStatus(PostCustodianBankStatusParams(
+                          bankId: widget.bankId,
+                          signLetter: false,
+                          shareWithBank: false,
+                          bankConfirmation: false));
                 },
               ),
               StatusStepWidget(

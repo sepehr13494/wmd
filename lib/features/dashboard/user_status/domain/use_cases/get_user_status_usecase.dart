@@ -6,9 +6,22 @@ import 'package:wmd/features/dashboard/user_status/domain/repositories/user_stat
 
 class GetUserStatusUseCase extends UseCase<UserStatus, NoParams> {
   final UserStatusRepository dashboardRepository;
+  bool showOnboarding = false;
 
   GetUserStatusUseCase(this.dashboardRepository);
+
   @override
-  Future<Either<Failure, UserStatus>> call(NoParams params) =>
-      dashboardRepository.getUserStatus(params);
+  Future<Either<Failure, UserStatus>> call(NoParams params) async {
+    final res = await dashboardRepository.getUserStatus(params);
+
+    _cache(res);
+
+    return res;
+  }
+
+  void _cache(Either<Failure, UserStatus> temp) {
+    temp.fold((l) => null, (r) {
+      showOnboarding = r.loginAt == null;
+    });
+  }
 }
