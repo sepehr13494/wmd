@@ -290,69 +290,64 @@ class AddAssetTopWidget extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final primaryColor = Theme.of(context).primaryColor;
-    return BlocSelector<UserStatusCubit, UserStatusState, bool>(
-        selector: (state) => state is UserStatusLoaded
-            ? state.userStatus.loginAt == null
-            : false,
-        builder: (context, userState) {
-          if (userState) {
-            return const AddAssetOnBoarding();
-          } else {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+
+    if (sl<GetUserStatusUseCase>().showOnboarding) {
+      return const AddAssetOnBoarding();
+    } else {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 16),
+          Text("Hi Ahmad!", style: textTheme.headlineSmall),
+          const SizedBox(height: 8),
+          const WidthLimiterWidget(
+            width: 350,
+            child: Text(
+                "Diversify your portfolio by adding an asset or a liability"),
+          ),
+          const SizedBox(height: 24),
+          Container(
+            padding: const EdgeInsets.all(16),
+            width: double.maxFinite,
+            decoration: BoxDecoration(
+                border: Border.all(color: primaryColor),
+                borderRadius: BorderRadius.circular(8)),
+            child: Column(
               children: [
-                const SizedBox(height: 16),
-                Text("Hi Ahmad!", style: textTheme.headlineSmall),
-                const SizedBox(height: 8),
-                const WidthLimiterWidget(
-                  width: 350,
-                  child: Text(
-                      "Diversify your portfolio by adding an asset or a liability"),
+                Row(
+                  children: [
+                    Image.asset(
+                      "assets/images/add_asset_view.png",
+                      width: 100,
+                      height: 100,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        "Your privacy & data security is our utmost priority",
+                        style:
+                            textTheme.titleMedium!.apply(color: primaryColor),
+                      ),
+                    )
+                  ],
                 ),
-                const SizedBox(height: 24),
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  width: double.maxFinite,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: primaryColor),
-                      borderRadius: BorderRadius.circular(8)),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Image.asset(
-                            "assets/images/add_asset_view.png",
-                            width: 100,
-                            height: 100,
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Text(
-                              "Your privacy & data security is our utmost priority",
-                              style: textTheme.titleMedium!
-                                  .apply(color: primaryColor),
-                            ),
-                          )
-                        ],
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        "Your credentials are never accessible to any other service. Your data is secured in transit using bank grade TLS 1.2 technology.",
+                        style: textTheme.bodyMedium!
+                            .apply(color: AppColors.dashBoardGreyTextColor),
                       ),
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              "Your credentials are never accessible to any other service. Your data is secured in transit using bank grade TLS 1.2 technology.",
-                              style: textTheme.bodyMedium!.apply(
-                                  color: AppColors.dashBoardGreyTextColor),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                )
+                    ),
+                  ],
+                ),
               ],
-            );
-          }
-        });
+            ),
+          )
+        ],
+      );
+    }
   }
 }
