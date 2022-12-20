@@ -5,41 +5,112 @@ import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/features/asset_detail/valuation/data/models/get_valuation_performance_params.dart';
-import 'package:wmd/features/asset_detail/valuation/domain/entities/get_valuation_performance_entity.dart';
 import 'package:wmd/features/asset_detail/valuation/presentation/manager/performance_chart_cubit.dart';
 import 'package:wmd/injection_container.dart';
-import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/util/colors.dart';
 
-class PerformanceChart extends AppStatelessWidget {
+const _timeFilter = [
+  MapEntry<String, int>("All times", 0),
+  MapEntry<String, int>("7 days", 7),
+  MapEntry<String, int>("30 days", 30),
+];
+
+class PerformanceChart extends StatefulWidget {
   final String id;
   const PerformanceChart({super.key, required this.id});
 
   @override
+  AppState<PerformanceChart> createState() => _PerformanceChartState();
+}
+
+class _PerformanceChartState extends AppState<PerformanceChart> {
+  MapEntry<String, int> selectedTimeFilter = _timeFilter.first;
+
+  @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
+    final primarycolor = Theme.of(context).primaryColor;
     return BlocProvider(
       create: (context) => sl<PerformanceChartCubit>()
         ..getValuationPerformance(
-            GetValuationPerformanceParams(days: 30, id: id)),
+            GetValuationPerformanceParams(days: 30, id: widget.id)),
       child: BlocConsumer<PerformanceChartCubit, PerformanceChartState>(
         listener: BlocHelper.defaultBlocListener(
           listener: (context, state) {},
         ),
         builder: (context, state) {
           if (state is PerformanceLoaded) {
-            return AspectRatio(
-              aspectRatio:
-                  ResponsiveHelper(context: context).isMobile ? 1.6 : 2.2,
-              child: PerformanceLineChart(
-                  values: [
-                GetValuationPerformanceEntity(
-                    date: state.getValuationPerformanceEntities.first.date
-                        .subtract(const Duration(days: 1)),
-                    value: 0),
-                ...state.getValuationPerformanceEntities,
-              ].map((e) => MapEntry(e.date, e.value)).toList()),
+            return Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Performance chart',
+                      style: textTheme.bodyLarge,
+                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.calendar_month,
+                          size: 15,
+                          color: primarycolor,
+                        ),
+                        const SizedBox(width: 4),
+                        DropdownButton<MapEntry<String, int>>(
+                          items: _timeFilter
+                              .map((e) =>
+                                  DropdownMenuItem<MapEntry<String, int>>(
+                                      value: e,
+                                      child: Text(
+                                        e.key,
+                                        style: textTheme.bodyMedium!
+                                            .apply(color: primarycolor),
+                                        // textTheme.bodyMedium!.toLinkStyle(context),
+                                      )))
+                              .toList(),
+                          onChanged: ((value) {
+                            if (value != null) {
+                              setState(() {
+                                selectedTimeFilter = value;
+                              });
+                            }
+                          }),
+                          value: selectedTimeFilter,
+                          icon: Icon(
+                            Icons.keyboard_arrow_down,
+                            size: 15,
+                            color: primarycolor,
+                          ),
+                          // style: textTheme.labelLarge,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                AspectRatio(
+                  aspectRatio:
+                      ResponsiveHelper(context: context).isMobile ? 1.6 : 2.2,
+                  child: Builder(builder: (context) {
+                    final int length =
+                        state.getValuationPerformanceEntities.length;
+                    late final int value;
+                    if (selectedTimeFilter.value == 0) {
+                      value = 0;
+                    } else {
+                      value = selectedTimeFilter.value < length
+                          ? length - selectedTimeFilter.value
+                          : 0;
+                    }
+                    return PerformanceLineChart(
+                        values: [
+                      ...state.getValuationPerformanceEntities.sublist(value),
+                    ].map((e) => MapEntry(e.date, e.value)).toList());
+                  }),
+                ),
+              ],
             );
             // return Text(state.getValuationPerformanceEntities.toString());
           }
@@ -51,6 +122,7 @@ class PerformanceChart extends AppStatelessWidget {
         },
       ),
     );
+    ;
   }
 }
 
@@ -59,6 +131,7 @@ class PerformanceLineChart extends StatelessWidget {
   const PerformanceLineChart({super.key, required this.values});
 
   final double divider = 6;
+  final double minDate = 5;
 
   @override
   Widget build(BuildContext context) {
@@ -70,8 +143,8 @@ class PerformanceLineChart extends StatelessWidget {
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     return SideTitleWidget(
       axisSide: meta.axisSide,
+      // child: Text(value.toString(),
       child: Text(CustomizableDateTime.localizedDdMm(values[value.toInt()].key),
-          // child: Text(values[value.toInt()].key.toString(),
           style: const TextStyle(fontSize: 8)),
     );
   }
@@ -98,7 +171,7 @@ class PerformanceLineChart extends StatelessWidget {
     double x = maxY * 2 / divider;
 
     final String shown =
-        value == 0 ? "\$0" : "${(value * x).formatNumberWithDecimal()}";
+        value == 0 ? "\$0" : (value * x).formatNumberWithDecimal();
     return FittedBox(
       fit: BoxFit.scaleDown,
       child: Text(
@@ -179,8 +252,8 @@ class PerformanceLineChart extends StatelessWidget {
           border: const Border.symmetric(
               horizontal: BorderSide(
                   width: 0.3, color: AppColors.dashBoardGreyTextColor))),
-      // minX: 0,
-      // maxX: values.length.toDouble() - 1,
+      minX: 0,
+      // maxX: values.length.toDouble(),
       minY: 0,
       maxY: divider,
       lineTouchData: LineTouchData(
