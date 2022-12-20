@@ -82,10 +82,10 @@ class AddAssetTabletView extends StatelessWidget {
         const Expanded(flex: 3, child: AddAssetTopWidget()),
         const SizedBox(width: 16),
         Container(
-          margin: const EdgeInsets.only(top: 24),
+          margin: const EdgeInsets.only(top: 24, right: 10),
           width: 0.5,
-          height: 300,
-          color: Theme.of(context).dividerColor,
+          height: 450,
+          color: AppColors.dashboardDividerColor,
         ),
         const SizedBox(width: 16),
         Expanded(

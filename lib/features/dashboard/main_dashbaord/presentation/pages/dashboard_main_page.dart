@@ -41,75 +41,81 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
       AppLocalizations appLocalizations) {
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
     final appTheme = Theme.of(context);
-    return Scaffold(
-      appBar: const DashboardAppBar(),
-      body: BlocConsumer<UserStatusCubit, UserStatusState>(
-        listener: BlocHelper.defaultBlocListener(listener: (context, state) {
-          if (sl<GetUserStatusUseCase>().showOnboarding) {
-            context.goNamed(AppRoutes.onboarding);
-          }
-        }),
-        builder: BlocHelper.defaultBlocBuilder(builder: (context, state) {
-          return WidthLimiterWidget(
-            width: 700,
-            child: SingleChildScrollView(
-              child: Theme(
-                data: appTheme.copyWith(
-                    outlinedButtonTheme: OutlinedButtonThemeData(
-                      style: appTheme.outlinedButtonTheme.style!.copyWith(
-                          minimumSize:
-                              MaterialStateProperty.all(const Size(0, 48))),
-                    ),
-                    elevatedButtonTheme: ElevatedButtonThemeData(
-                      style: appTheme.outlinedButtonTheme.style!.copyWith(
-                          minimumSize:
-                              MaterialStateProperty.all(const Size(0, 48))),
-                    ),
-                    iconTheme: appTheme.iconTheme
-                        .copyWith(color: appTheme.primaryColor)),
-                child: Column(
-                  children: [
-                    const FilterAddPart(),
-                    const SizedBox(height: 12),
-                    const BanksAuthorizationProcess(),
-                    BlocSelector<MainDashboardCubit, MainDashboardState,
-                            NetWorthEntity?>(
-                        selector: (state) =>
-                            state is MainDashboardNetWorthLoaded
-                                ? state.netWorthObj
-                                : null,
-                        builder: (mainDashcontext, mainDashState) {
-                          if (mainDashState != null) {
-                            return SummeryWidget(netWorthEntity: mainDashState);
-                          } else {
-                            return const LoadingWidget();
-                          }
-                        }),
-                    const NetWorthBaseChart(),
-                    RowOrColumn(
-                      rowCrossAxisAlignment: CrossAxisAlignment.start,
-                      showRow: !isMobile,
+    return BlocProvider(
+        create: (context) => sl<UserStatusCubit>()..getUserStatus(),
+        child: Scaffold(
+          appBar: const DashboardAppBar(),
+          body: BlocConsumer<UserStatusCubit, UserStatusState>(
+            listener:
+                BlocHelper.defaultBlocListener(listener: (context, state) {
+              if (state is UserStatusLoaded) {
+                if (state.userStatus.loginAt == null) {
+                  context.goNamed(AppRoutes.onboarding);
+                }
+              }
+            }),
+            builder: BlocHelper.defaultBlocBuilder(builder: (context, state) {
+              return WidthLimiterWidget(
+                width: 700,
+                child: SingleChildScrollView(
+                  child: Theme(
+                    data: appTheme.copyWith(
+                        outlinedButtonTheme: OutlinedButtonThemeData(
+                          style: appTheme.outlinedButtonTheme.style!.copyWith(
+                              minimumSize:
+                                  MaterialStateProperty.all(const Size(0, 48))),
+                        ),
+                        elevatedButtonTheme: ElevatedButtonThemeData(
+                          style: appTheme.outlinedButtonTheme.style!.copyWith(
+                              minimumSize:
+                                  MaterialStateProperty.all(const Size(0, 48))),
+                        ),
+                        iconTheme: appTheme.iconTheme
+                            .copyWith(color: appTheme.primaryColor)),
+                    child: Column(
                       children: [
-                        ExpandedIf(
-                            expanded: !isMobile,
-                            child: RandomWorldMapGenrator()),
-                        ExpandedIf(
-                            expanded: !isMobile,
-                            child: const PieChartSample2()),
-                      ],
+                        const FilterAddPart(),
+                        const SizedBox(height: 12),
+                        const BanksAuthorizationProcess(),
+                        BlocSelector<MainDashboardCubit, MainDashboardState,
+                                NetWorthEntity?>(
+                            selector: (state) =>
+                                state is MainDashboardNetWorthLoaded
+                                    ? state.netWorthObj
+                                    : null,
+                            builder: (mainDashcontext, mainDashState) {
+                              if (mainDashState != null) {
+                                return SummeryWidget(
+                                    netWorthEntity: mainDashState);
+                              } else {
+                                return const LoadingWidget();
+                              }
+                            }),
+                        const NetWorthBaseChart(),
+                        RowOrColumn(
+                          rowCrossAxisAlignment: CrossAxisAlignment.start,
+                          showRow: !isMobile,
+                          children: [
+                            ExpandedIf(
+                                expanded: !isMobile,
+                                child: RandomWorldMapGenrator()),
+                            ExpandedIf(
+                                expanded: !isMobile,
+                                child: const PieChartSample2()),
+                          ],
+                        ),
+                      ]
+                          .map((e) => Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 16),
+                              child: e))
+                          .toList(),
                     ),
-                  ]
-                      .map((e) => Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 16),
-                          child: e))
-                      .toList(),
+                  ),
                 ),
-              ),
-            ),
-          );
-        }),
-      ),
-    );
+              );
+            }),
+          ),
+        ));
   }
 }
