@@ -1,31 +1,37 @@
 import 'package:equatable/equatable.dart';
 
 class OnBoardingConfigModel extends Equatable {
+  final int? key;
   final String text;
   final String image;
 
   const OnBoardingConfigModel({
+    this.key,
     required this.text,
     required this.image,
   });
 
   factory OnBoardingConfigModel.fromJson(Map<String, dynamic> json) =>
       OnBoardingConfigModel(
+        key: json["key"],
         text: json["text"],
         image: json["image"],
       );
 
   static const assetjson = [
     {
+      "key": 1,
       "text": "We support multiple asset classes and currencies.",
       "image": "assets/images/dashboard/dashboard_empty_home.svg"
     },
     {
+      "key": 2,
       "text":
           "Connect with your institutions and avoid the hassle of manual updates.",
       "image": "assets/images/dashboard/dashboard_empty_bank.svg"
     },
     {
+      "key": 3,
       "text": "Real times updates for all your listed assets.",
       "image": "assets/images/dashboard/dashboard_empty_sheild.svg"
     },
@@ -33,36 +39,42 @@ class OnBoardingConfigModel extends Equatable {
 
   static const wealthjson = [
     {
+      "key": 1,
       "text":
-          "Get personalized insights about your wealth which will help you manage your wealth better.",
+          "Add all your investments, assets and liabilities from all of your wealth managers in one place.",
       "image":
           "assets/images/dashboard/onboarding/onboarding_wealth_overview.png"
     },
     {
+      "key": 2,
       "text":
           "Asset allocation charts by class, geography & currency help you understand your portfolio diversity.",
       "image": "assets/images/dashboard/onboarding/onboarding_wealth_charts.png"
     },
     {
+      "key": 3,
       "text":
-          "Add all your investments, assets and liabilities from all of your wealth managers in one place.",
+          "Get personalized insights about your wealth which will help you manage your wealth better.",
       "image": "assets/images/dashboard/onboarding/onboarding_wealth_asset.png"
     },
   ];
 
   static const securityjson = [
     {
+      "key": 1,
       "text":
           "We use the highest security standard “lorem ipsum” and “xyz” encryption with your data to make sure it is always safe.",
       "image":
           "assets/images/dashboard/onboarding/onboarding_security_verified.svg"
     },
     {
+      "key": 2,
       "text":
           "The family office employees have no access to your wealth information. Only you see your data.",
       "image": "assets/images/dashboard/onboarding/onboarding_security_lock.svg"
     },
     {
+      "key": 3,
       "text":
           "If you chose to link your bank accounts, we do not see your credentials and make any transactions. We only pull your account balance and transactions.",
       "image":
@@ -79,5 +91,5 @@ class OnBoardingConfigModel extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [text, image];
+  List<Object?> get props => [text, image, key];
 }

@@ -50,7 +50,7 @@ class IconText extends AppStatelessWidget {
               style: textTheme.labelMedium
                   ?.apply(color: AppColors.dashBoardGreyTextColor)
                   .copyWith(fontSize: 14, height: 1.2),
-              textAlign: TextAlign.center,
+              textAlign: type == "asset" ? TextAlign.left : TextAlign.center,
             ),
           )
         ],
