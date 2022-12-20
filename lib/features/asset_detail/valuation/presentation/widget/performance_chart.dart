@@ -12,7 +12,7 @@ import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/util/colors.dart';
 
 const _timeFilter = [
-  MapEntry<String, int>("All times", 0),
+  // MapEntry<String, int>("All times", 0),
   MapEntry<String, int>("7 days", 7),
   MapEntry<String, int>("30 days", 30),
 ];
@@ -74,6 +74,11 @@ class _PerformanceChartState extends AppState<PerformanceChart> {
                             if (value != null) {
                               setState(() {
                                 selectedTimeFilter = value;
+                                context
+                                    .read<PerformanceChartCubit>()
+                                    .getValuationPerformance(
+                                        GetValuationPerformanceParams(
+                                            days: value.value, id: widget.id));
                               });
                             }
                           }),
@@ -93,26 +98,14 @@ class _PerformanceChartState extends AppState<PerformanceChart> {
                 AspectRatio(
                   aspectRatio:
                       ResponsiveHelper(context: context).isMobile ? 1.6 : 2.2,
-                  child: Builder(builder: (context) {
-                    final int length =
-                        state.getValuationPerformanceEntities.length;
-                    late final int value;
-                    if (selectedTimeFilter.value == 0) {
-                      value = 0;
-                    } else {
-                      value = selectedTimeFilter.value < length
-                          ? length - selectedTimeFilter.value
-                          : 0;
-                    }
-                    return PerformanceLineChart(
-                        values: [
-                      ...state.getValuationPerformanceEntities.sublist(value),
-                    ].map((e) => MapEntry(e.date, e.value)).toList());
-                  }),
+                  child: PerformanceLineChart(
+                    values: state.getValuationPerformanceEntities
+                        .map((e) => MapEntry(e.date, e.value))
+                        .toList(),
+                  ),
                 ),
               ],
             );
-            // return Text(state.getValuationPerformanceEntities.toString());
           }
           return Padding(
             padding:
@@ -131,7 +124,7 @@ class PerformanceLineChart extends StatelessWidget {
   const PerformanceLineChart({super.key, required this.values});
 
   final double divider = 6;
-  final double minDate = 5;
+  final double minDate = 6;
 
   @override
   Widget build(BuildContext context) {
@@ -141,11 +134,15 @@ class PerformanceLineChart extends StatelessWidget {
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
+    late final Widget child;
+    child = Text(
+        CustomizableDateTime.localizedDdMm(values[(value).toInt()].key),
+        style: const TextStyle(fontSize: 8));
+    // if (values.length > minDate) {
+    // } else {}
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      // child: Text(value.toString(),
-      child: Text(CustomizableDateTime.localizedDdMm(values[value.toInt()].key),
-          style: const TextStyle(fontSize: 8)),
+      child: child,
     );
   }
 
@@ -252,8 +249,7 @@ class PerformanceLineChart extends StatelessWidget {
           border: const Border.symmetric(
               horizontal: BorderSide(
                   width: 0.3, color: AppColors.dashBoardGreyTextColor))),
-      minX: 0,
-      // maxX: values.length.toDouble(),
+      // maxX: values.length > minDate ? null : minDate,
       minY: 0,
       maxY: divider,
       lineTouchData: LineTouchData(
