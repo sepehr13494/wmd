@@ -88,7 +88,7 @@ class AppRouter {
         name: AppRoutes.onboarding,
         path: "/onboarding",
         builder: (BuildContext context, GoRouterState state) {
-          return OnBoardingPage();
+          return const OnBoardingPage();
         },
       ),
       GoRoute(
@@ -122,73 +122,73 @@ class AppRouter {
                 return const SupportPage();
               },
             ),
+          ]),
+      GoRoute(
+          name: AppRoutes.addAssetsView,
+          path: "/add_assets_view",
+          builder: (BuildContext context, GoRouterState state) {
+            return const AssetsListViewPage();
+          },
+          routes: [
             GoRoute(
-                name: AppRoutes.addAssetsView,
-                path: "add_assets_view",
+              name: AppRoutes.autoManualPage,
+              path: "auto_manual",
+              builder: (BuildContext context, GoRouterState state) {
+                return const AutoManualPage();
+              },
+            ),
+            GoRoute(
+              name: AppRoutes.addBankManualPage,
+              path: "add_manual_bank",
+              builder: (BuildContext context, GoRouterState state) {
+                return const AddBankManualPage();
+              },
+            ),
+            GoRoute(
+              name: AppRoutes.addBankAutoPage,
+              path: "add_auto_bank",
+              builder: (BuildContext context, GoRouterState state) {
+                return const AddBankAutoPage();
+              },
+            ),
+            GoRoute(
+              name: AppRoutes.addPrivateEquity,
+              path: "add_private_equity",
+              builder: (BuildContext context, GoRouterState state) {
+                return const AddPrivateEquityPage();
+              },
+            ),
+            GoRoute(
+                name: AppRoutes.addPrivateDebt,
+                path: "add_private_debt",
                 builder: (BuildContext context, GoRouterState state) {
-                  return const AssetsListViewPage();
-                },
-                routes: [
-                  GoRoute(
-                    name: AppRoutes.autoManualPage,
-                    path: "auto_manual",
-                    builder: (BuildContext context, GoRouterState state) {
-                      return const AutoManualPage();
-                    },
-                  ),
-                  GoRoute(
-                    name: AppRoutes.addBankManualPage,
-                    path: "add_manual_bank",
-                    builder: (BuildContext context, GoRouterState state) {
-                      return const AddBankManualPage();
-                    },
-                  ),
-                  GoRoute(
-                    name: AppRoutes.addBankAutoPage,
-                    path: "add_auto_bank",
-                    builder: (BuildContext context, GoRouterState state) {
-                      return const AddBankAutoPage();
-                    },
-                  ),
-                  GoRoute(
-                    name: AppRoutes.addPrivateEquity,
-                    path: "add_private_equity",
-                    builder: (BuildContext context, GoRouterState state) {
-                      return const AddPrivateEquityPage();
-                    },
-                  ),
-                  GoRoute(
-                      name: AppRoutes.addPrivateDebt,
-                      path: "add_private_debt",
-                      builder: (BuildContext context, GoRouterState state) {
-                        return const AddPrivateDebtPage();
-                      }),
-                  GoRoute(
-                      name: AppRoutes.addRealEstate,
-                      path: "add_real_estate",
-                      builder: (BuildContext context, GoRouterState state) {
-                        return const AddRealEstatePage();
-                      }),
-                  GoRoute(
-                      name: AppRoutes.addOther,
-                      path: "add_other",
-                      builder: (BuildContext context, GoRouterState state) {
-                        return const AddOtherAssetPage();
-                      }),
-                  GoRoute(
-                      name: AppRoutes.addListedAsset,
-                      path: "add_listed_asset",
-                      builder: (BuildContext context, GoRouterState state) {
-                        return const AddListedSecurityPage();
-                      }),
-                  GoRoute(
-                      name: AppRoutes.addLiability,
-                      path: "add_liability",
-                      builder: (BuildContext context, GoRouterState state) {
-                        return const AddLoanLiabilityPage();
-                      }),
-                ]),
-          ])
+                  return const AddPrivateDebtPage();
+                }),
+            GoRoute(
+                name: AppRoutes.addRealEstate,
+                path: "add_real_estate",
+                builder: (BuildContext context, GoRouterState state) {
+                  return const AddRealEstatePage();
+                }),
+            GoRoute(
+                name: AppRoutes.addOther,
+                path: "add_other",
+                builder: (BuildContext context, GoRouterState state) {
+                  return const AddOtherAssetPage();
+                }),
+            GoRoute(
+                name: AppRoutes.addListedAsset,
+                path: "add_listed_asset",
+                builder: (BuildContext context, GoRouterState state) {
+                  return const AddListedSecurityPage();
+                }),
+            GoRoute(
+                name: AppRoutes.addLiability,
+                path: "add_liability",
+                builder: (BuildContext context, GoRouterState state) {
+                  return const AddLoanLiabilityPage();
+                }),
+          ]),
     ],
   );
 }

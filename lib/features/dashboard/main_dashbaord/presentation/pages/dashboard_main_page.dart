@@ -14,7 +14,9 @@ import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/dashbo
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/filter_add_widget.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/net_worth_base_chart.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/summery_widget.dart';
+import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
+import 'package:wmd/injection_container.dart';
 
 import '../../../dashboard_charts/presentation/widgets/pie_chart_sample.dart';
 import '../../../dashboard_charts/presentation/widgets/random_map.dart';
@@ -28,11 +30,11 @@ class DashboardMainPage extends StatefulWidget {
 }
 
 class _DashboardMainPageState extends AppState<DashboardMainPage> {
-  @override
-  void initState() {
-    context.read<UserStatusCubit>().getUserStatus();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  // }
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -42,7 +44,11 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
     return Scaffold(
       appBar: const DashboardAppBar(),
       body: BlocConsumer<UserStatusCubit, UserStatusState>(
-        listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
+        listener: BlocHelper.defaultBlocListener(listener: (context, state) {
+          if (sl<GetUserStatusUseCase>().showOnboarding) {
+            context.goNamed(AppRoutes.onboarding);
+          }
+        }),
         builder: BlocHelper.defaultBlocBuilder(builder: (context, state) {
           return WidthLimiterWidget(
             width: 700,

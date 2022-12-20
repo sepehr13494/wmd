@@ -15,8 +15,11 @@ import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/ad
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/each_asset_widget.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/support_widget.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/add_asset_onboarding_view.dart';
+import 'package:wmd/features/dashboard/onboarding/presentation/widget/onboarding_appbar.dart';
+import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/global_variables.dart';
+import 'package:wmd/injection_container.dart';
 
 class AssetsListViewPage extends AppStatelessWidget {
   const AssetsListViewPage({Key? key}) : super(key: key);
@@ -24,10 +27,19 @@ class AssetsListViewPage extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    PreferredSizeWidget? renderAppBar() {
+      if (sl<GetUserStatusUseCase>().showOnboarding) {
+        return const OnboardingAppBar(page: 1, isAsset: true);
+      } else {
+        return const BaseAppBar(title: "Add assets");
+      }
+    }
+
     return BlocProvider(
       create: (context) => AssetViewCubit(),
       child: Scaffold(
-        appBar: const BaseAppBar(title: "Add assets"),
+        // appBar: const OnboardingAppBar(),
+        appBar: renderAppBar(),
         bottomSheet: Builder(builder: (context) {
           final assetModel = context.watch<AssetViewCubit>().state;
           return AddAssetFooter(
