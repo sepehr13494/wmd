@@ -103,7 +103,7 @@ class OnboardingStepItem extends AppStatelessWidget {
               SizedBox(
                 width: responsiveHelper.isMobile
                     ? responsiveHelper.optimalDeviceWidth * 0.8
-                    : responsiveHelper.optimalDeviceWidth * 0.3,
+                    : responsiveHelper.optimalDeviceWidth * 0.25,
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

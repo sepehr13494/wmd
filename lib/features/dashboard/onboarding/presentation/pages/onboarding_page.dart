@@ -10,6 +10,7 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/dashboard_app_bar.dart';
+import 'package:wmd/features/dashboard/onboarding/presentation/widget/onboarding_appbar.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/onboarding_asset_view.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/onboarding_security_view.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/onboarding_wealth_view.dart';
@@ -44,7 +45,7 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
     return BlocProvider(
         create: (context) => sl<UserStatusCubit>()..getUserStatus(),
         child: Scaffold(
-            appBar: const DashboardAppBar(),
+            appBar: const OnboardingAppBar(),
             body: BlocConsumer<UserStatusCubit, UserStatusState>(
               listener:
                   BlocHelper.defaultBlocListener(listener: (context, state) {
@@ -60,7 +61,7 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
                     carouselController: buttonCarouselController,
                     options: CarouselOptions(
                         height: responsiveHelper.isMobile
-                            ? MediaQuery.of(context).size.height * 1.6
+                            ? MediaQuery.of(context).size.height * 1.9
                             : MediaQuery.of(context).size.height * 0.6,
                         autoPlay: false,
                         viewportFraction: 1,
@@ -140,16 +141,8 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
                                         width: 100,
                                         child: OutlinedButton(
                                           onPressed: () {
-                                            // context.goNamed(AppRoutes.addAssetsView);
-                                            Map<String, dynamic> map = {
-                                              "email": state.userStatus.email,
-                                              "loginAt": DateTime.now()
-                                                  .toIso8601String()
-                                            };
-
-                                            context
-                                                .read<UserStatusCubit>()
-                                                .postUserStatus(map: map);
+                                            context.goNamed(
+                                                AppRoutes.addAssetsView);
                                           },
                                           child: const Text('Skip'),
                                         ),

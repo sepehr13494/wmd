@@ -8,8 +8,10 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/support_widget.dart';
+import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/global_functions.dart';
+import 'package:wmd/injection_container.dart';
 
 class AddAssetFooter extends AppStatelessWidget {
   final String buttonText;
@@ -62,13 +64,18 @@ class AddAssetFooter extends AppStatelessWidget {
                           Expanded(
                               child: OutlinedButton(
                                   onPressed: () {
-                                    if (GoRouter.of(context).location ==
-                                        "/${AppRoutes.main}/${AppRoutes.addAssetsView}") {
-                                      context.pop();
+                                    if (sl<GetUserStatusUseCase>()
+                                        .showOnboarding) {
+                                      context.goNamed(AppRoutes.onboarding);
                                     } else {
-                                      GlobalFunctions.showExitDialog(
-                                          context: context,
-                                          onExitClick: () => context.pop());
+                                      if (GoRouter.of(context).location ==
+                                          "/${AppRoutes.main}/${AppRoutes.addAssetsView}") {
+                                        context.pop();
+                                      } else {
+                                        GlobalFunctions.showExitDialog(
+                                            context: context,
+                                            onExitClick: () => context.pop());
+                                      }
                                     }
                                   },
                                   child: const Text("Back"))),
