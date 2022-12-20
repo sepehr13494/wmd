@@ -15,16 +15,14 @@ class BaseAssetsOverviewChartsWidget extends StatelessWidget {
       builder: (context, state) {
         return state is GetChartLoaded
             ? Column(
-              children: [
-                AspectRatio(
-          aspectRatio: ResponsiveHelper(context: context).isMobile
-                  ? 1.6
-                  : 2.2,
+                children: [
+                  AspectRatio(
+                    aspectRatio:
+                        ResponsiveHelper(context: context).isMobile ? 1.6 : 2.2,
                     child: AssetsOverviewCharts(
                         getChartEntities: state.getChartEntities),
                   ),
-                Builder(
-                  builder: (context) {
+                  Builder(builder: (context) {
                     List<String> items = [
                       "Bank Account",
                       "Real Estate",
@@ -35,7 +33,7 @@ class BaseAssetsOverviewChartsWidget extends StatelessWidget {
                     ];
                     return Wrap(
                       children: List.generate(items.length, (index) {
-                        return Expanded(child: Padding(
+                        return Padding(
                           padding: const EdgeInsets.all(4),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -45,20 +43,23 @@ class BaseAssetsOverviewChartsWidget extends StatelessWidget {
                                 height: 10,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: AssetsOverviewChartsColors.colors[index],
+                                  color:
+                                      AssetsOverviewChartsColors.colors[index],
                                 ),
                               ),
                               const SizedBox(width: 4),
-                              Text(items[index],style: const TextStyle(fontSize: 10),),
+                              Text(
+                                items[index],
+                                style: const TextStyle(fontSize: 10),
+                              ),
                             ],
                           ),
-                        ));
+                        );
                       }),
                     );
-                  }
-                )
-              ],
-            )
+                  })
+                ],
+              )
             : const LoadingWidget();
       },
     );
