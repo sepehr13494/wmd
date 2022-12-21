@@ -27,86 +27,81 @@ class AddAssetFooter extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
 
-    return BlocConsumer<UserStatusCubit, UserStatusState>(
-        listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
-        builder: BlocHelper.defaultBlocBuilder(builder: (context, state) {
-          return Container(
-            width: double.maxFinite,
-            height: 60,
-            color: Theme.of(context).cardColor,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  isMobile
-                      ? const SizedBox()
-                      : Expanded(
-                          child: Row(
-                            children: [
-                              const SupportWidget(),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                  child: Center(
-                                      child: Text(
-                                "You can add another asset on the next screen",
-                                style: textTheme.bodySmall,
-                              ))),
-                              const SizedBox(width: 12),
-                            ],
-                          ),
-                        ),
-                  ExpandedIf(
-                    expanded: isMobile,
-                    child: SizedBox(
-                      width: isMobile ? double.maxFinite : 300,
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: OutlinedButton(
-                                  onPressed: () {
-                                    try {
-                                      if (GoRouter.of(context).location ==
-                                          "/${AppRoutes.addAssetsView}") {
-                                        context.pop();
-                                      } else {
-                                        GlobalFunctions.showExitDialog(
-                                            context: context,
-                                            onExitClick: () => context.pop());
-                                      }
-                                    } catch (e) {
-                                      context.goNamed(AppRoutes.main);
-                                    }
-                                  },
-                                  child: const Text("Back"))),
-                          const SizedBox(width: 12),
-                          Expanded(
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    if (sl<GetUserStatusUseCase>()
-                                        .showOnboarding) {
-                                      // context.goNamed(AppRoutes.addAssetsView);
-                                      Map<String, dynamic> map = {
-                                        "email": state.userStatus.email,
-                                        "loginAt":
-                                            DateTime.now().toIso8601String()
-                                      };
-
-                                      context
-                                          .read<UserStatusCubit>()
-                                          .postUserStatus(map: map);
-                                    }
-
-                                    onTap!();
-                                  },
-                                  child: Text(buttonText))),
-                        ],
-                      ),
+    return Container(
+      width: double.maxFinite,
+      height: 60,
+      color: Theme.of(context).cardColor,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          children: [
+            isMobile
+                ? const SizedBox()
+                : Expanded(
+                    child: Row(
+                      children: [
+                        const SupportWidget(),
+                        const SizedBox(width: 12),
+                        Expanded(
+                            child: Center(
+                                child: Text(
+                          "You can add another asset on the next screen",
+                          style: textTheme.bodySmall,
+                        ))),
+                        const SizedBox(width: 12),
+                      ],
                     ),
-                  )
-                ],
+                  ),
+            ExpandedIf(
+              expanded: isMobile,
+              child: SizedBox(
+                width: isMobile ? double.maxFinite : 300,
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: OutlinedButton(
+                            onPressed: () {
+                              try {
+                                if (GoRouter.of(context).location ==
+                                    "/${AppRoutes.addAssetsView}") {
+                                  context.pop();
+                                } else {
+                                  GlobalFunctions.showExitDialog(
+                                      context: context,
+                                      onExitClick: () => context.pop());
+                                }
+                              } catch (e) {
+                                context.goNamed(AppRoutes.main);
+                              }
+                            },
+                            child: const Text("Back"))),
+                    const SizedBox(width: 12),
+                    Expanded(
+                        child: ElevatedButton(
+                            onPressed: () {
+                              if (sl<GetUserStatusUseCase>().showOnboarding) {
+                                Map<String, dynamic> map = {
+                                  "email":
+                                      sl<GetUserStatusUseCase>().userEmail ??
+                                          "",
+                                  "loginAt": DateTime.now().toIso8601String()
+                                };
+
+                                context
+                                    .read<UserStatusCubit>()
+                                    .postUserStatus(map: map);
+                              }
+
+                              onTap!();
+                            },
+                            child: Text(buttonText))),
+                  ],
+                ),
               ),
-            ),
-          );
-        }));
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -47,6 +47,7 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/domain/repositories/
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_bank_list_usecase.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_auth_cubit.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
+import 'package:wmd/features/add_assets/view_assets_list/presentation/manager/asset_view_cubit.dart';
 import 'package:wmd/features/asset_detail/core/data/data_sources/asset_detail_remote_datasource.dart';
 import 'package:wmd/features/asset_detail/core/data/repositories/asset_detail_repository_impl.dart';
 import 'package:wmd/features/asset_detail/core/domain/repositories/asset_detail_repository.dart';
@@ -194,6 +195,9 @@ Future<void> init() async {
 
   //main_page
   sl.registerFactory(() => MainPageCubit());
+
+  // asset list
+  sl.registerFactory(() => AssetViewCubit());
 
   //MainDashboard
   sl.registerFactory(() => MainDashboardCubit(sl()));

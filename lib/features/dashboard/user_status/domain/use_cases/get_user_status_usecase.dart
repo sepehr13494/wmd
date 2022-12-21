@@ -7,6 +7,7 @@ import 'package:wmd/features/dashboard/user_status/domain/repositories/user_stat
 class GetUserStatusUseCase extends UseCase<UserStatus, NoParams> {
   final UserStatusRepository dashboardRepository;
   bool showOnboarding = false;
+  String? userEmail = "";
 
   GetUserStatusUseCase(this.dashboardRepository);
 
@@ -22,6 +23,7 @@ class GetUserStatusUseCase extends UseCase<UserStatus, NoParams> {
   void cache(Either<Failure, UserStatus> temp) {
     temp.fold((l) => null, (r) {
       showOnboarding = r.loginAt == null;
+      userEmail = r.email;
     });
   }
 }
