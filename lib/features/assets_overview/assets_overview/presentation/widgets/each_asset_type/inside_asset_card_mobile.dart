@@ -8,7 +8,8 @@ import '../../../domain/entities/assets_overview_entity.dart';
 
 class InsideAssetCardMobile extends AppStatelessWidget {
   final AssetList asset;
-  const InsideAssetCardMobile({Key? key,required this.asset}) : super(key: key);
+  const InsideAssetCardMobile({Key? key, required this.asset})
+      : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -24,10 +25,11 @@ class InsideAssetCardMobile extends AppStatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(
-                      Icons.link,
-                      color: Colors.grey,
-                    ),
+                    // if(asset.isLinked)
+                    //   const Icon(
+                    //     Icons.link,
+                    //     color: Colors.grey,
+                    //   ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Column(
@@ -55,9 +57,12 @@ class InsideAssetCardMobile extends AppStatelessWidget {
               Text(asset.currentValue.convertMoney(addDollar: true)),
               Row(
                 children: [
-                  ChangeWidget(number: asset.yearToDate, text: "${asset.yearToDate}%"),
+                  ChangeWidget(
+                      number: asset.yearToDate, text: "${asset.yearToDate}%"),
                   const SizedBox(width: 8),
-                  ChangeWidget(number: asset.inceptionToDate, text: "${asset.inceptionToDate}%"),
+                  ChangeWidget(
+                      number: asset.inceptionToDate,
+                      text: "${asset.inceptionToDate}%"),
                 ],
               )
             ],
