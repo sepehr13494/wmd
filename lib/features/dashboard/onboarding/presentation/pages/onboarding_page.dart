@@ -59,7 +59,7 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
                     carouselController: buttonCarouselController,
                     options: CarouselOptions(
                         height: responsiveHelper.isMobile
-                            ? MediaQuery.of(context).size.height * 1.7
+                            ? MediaQuery.of(context).size.height * 1.9
                             : MediaQuery.of(context).size.height * 0.6,
                         autoPlay: false,
                         viewportFraction: 1,

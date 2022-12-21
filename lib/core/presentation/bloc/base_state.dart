@@ -29,7 +29,8 @@ abstract class BaseState extends Equatable
         DashboardChartsState,
         BankListState,
         ChartsState,
-        ValuationState {}
+        ValuationState,
+        PerformanceChartState {}
 
 class BaseInitialState extends BaseState {
   @override

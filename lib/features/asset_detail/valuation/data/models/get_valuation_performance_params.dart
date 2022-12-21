@@ -1,18 +1,23 @@
 import 'package:equatable/equatable.dart';
 
-class GetValuationPerformanceParams extends Equatable{
-    const GetValuationPerformanceParams();
+class GetValuationPerformanceParams extends Equatable {
+  final String id;
+  final int days;
+  const GetValuationPerformanceParams({
+    required this.id,
+    required this.days,
+  });
 
-    factory GetValuationPerformanceParams.fromJson(Map<String, dynamic> json) => const GetValuationPerformanceParams(
-    );
+  factory GetValuationPerformanceParams.fromJson(Map<String, dynamic> json) =>
+      GetValuationPerformanceParams(
+        days: json['days'],
+        id: json['id'],
+      );
 
-    Map<String, dynamic> toJson() => {
-    };
+  Map<String, dynamic> toJson() => {};
 
-    @override
-    // TODO: implement props
-    List<Object?> get props => [];
-    
-    static final tParams = GetValuationPerformanceParams();
+  @override
+  List<Object?> get props => [];
+
+  static const tParams = GetValuationPerformanceParams(days: 7, id: '123');
 }
-    

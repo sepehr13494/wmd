@@ -2,6 +2,7 @@ import 'package:wmd/core/data/network/server_request_manager.dart';
 import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/data/repository/app_data_source.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
+import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/models/app_request_options.dart';
 
 import '../models/get_all_valuation_params.dart';
@@ -56,7 +57,7 @@ class ValuationRemoteDataSourceImpl extends AppServerDataSource
     } on ServerException {
       rethrow;
     } catch (e) {
-      throw AppException(
+      throw const AppException(
           message: "format Exception", type: ExceptionType.format);
     }
   }
@@ -65,8 +66,12 @@ class ValuationRemoteDataSourceImpl extends AppServerDataSource
   Future<List<GetValuationPerformanceResponse>> getValuationPerformance(
       GetValuationPerformanceParams params) async {
     try {
-      final appRequestOptions = AppRequestOptions(RequestTypes.get,
-          AppUrls.getValuationPerformance('id'), params.toJson());
+      final appRequestOptions = AppRequestOptions(
+          RequestTypes.get, AppUrls.getValuationPerformance(params.id), {
+        'to': CustomizableDateTime.yyyyMmDd(DateTime.now()),
+        'from': CustomizableDateTime.yyyyMmDd(
+            DateTime.now().subtract(Duration(days: params.days))),
+      });
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = (response as List<dynamic>)
@@ -76,7 +81,8 @@ class ValuationRemoteDataSourceImpl extends AppServerDataSource
     } on ServerException {
       rethrow;
     } catch (e) {
-      throw AppException(
+      print(e);
+      throw const AppException(
           message: "format Exception", type: ExceptionType.format);
     }
   }

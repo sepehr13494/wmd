@@ -17,12 +17,10 @@ part 'valuation_state.dart';
 class ValuationCubit extends Cubit<ValuationState> {
   final GetAllValuationUseCase getAllValuationUseCase;
   final PostValuationUseCase postValuationUseCase;
-  final GetValuationPerformanceUseCase getValuationPerformanceUseCase;
 
   ValuationCubit(
     this.getAllValuationUseCase,
     this.postValuationUseCase,
-    this.getValuationPerformanceUseCase,
   ) : super(LoadingState());
 
   getAllValuation(GetAllValuationParams params) async {
@@ -38,16 +36,6 @@ class ValuationCubit extends Cubit<ValuationState> {
     final result = await postValuationUseCase(PostValuationParams());
     result.fold((failure) => emit(ErrorState(failure: failure)), (appSuccess) {
       emit(SuccessState(appSuccess: appSuccess));
-    });
-  }
-
-  getValuationPerformance() async {
-    emit(LoadingState());
-    final result =
-        await getValuationPerformanceUseCase(GetValuationPerformanceParams());
-    result.fold((failure) => emit(ErrorState(failure: failure)), (entities) {
-      emit(GetValuationPerformanceLoaded(
-          getValuationPerformanceEntities: entities));
     });
   }
 }

@@ -10,7 +10,7 @@ import 'package:wmd/features/asset_detail/valuation/data/models/get_all_valuatio
 import 'package:wmd/features/asset_detail/valuation/domain/entities/get_all_valuation_entity.dart';
 import 'package:wmd/injection_container.dart';
 
-import '../valuation_cubit.dart';
+import '../manager/valuation_cubit.dart';
 
 class ValuationWidget extends AppStatelessWidget {
   final String assetId;

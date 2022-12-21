@@ -16,11 +16,12 @@ import 'package:wmd/features/asset_detail/private_equity/domain/entity/private_e
 import 'package:wmd/features/asset_detail/private_equity/presentation/page/private_equity_page.dart';
 import 'package:wmd/features/asset_detail/real_estate/domain/entity/real_estate_entity.dart';
 import 'package:wmd/features/asset_detail/real_estate/presentation/page/real_estate_page.dart';
+import 'package:wmd/features/asset_detail/valuation/presentation/widget/performance_chart.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/net_worth_base_chart.dart';
 import 'package:wmd/injection_container.dart';
 import '../manager/asset_detail_cubit.dart';
 import '../../../bank_account/presentation/page/bank_account_page.dart';
-import '../../../valuation/presentation/manager/widget/valuation_table.dart';
+import '../../../valuation/presentation/widget/valuation_table.dart';
 
 class AssetDetailPage extends AppStatelessWidget {
   final String assetId;
@@ -86,10 +87,10 @@ class AssetDetailPage extends AppStatelessWidget {
                         );
                       }),
                 ),
-                // Padding(
-                //   padding: EdgeInsets.all(responsiveHelper.biggerGap),
-                //   child: const NetWorthBaseChart(),
-                // ),
+                Padding(
+                  padding: EdgeInsets.all(responsiveHelper.biggerGap),
+                  child: PerformanceChart(id: assetId),
+                ),
                 SizedBox(height: responsiveHelper.biggerGap),
                 ValuationWidget(assetId: assetId),
                 SizedBox(height: responsiveHelper.biggerGap),
