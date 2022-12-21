@@ -36,9 +36,8 @@ class AssetsListViewPage extends AppStatelessWidget {
     }
 
     return BlocProvider(
-      create: (context) => AssetViewCubit(),
+      create: (context) => sl<AssetViewCubit>(),
       child: Scaffold(
-        // appBar: const OnboardingAppBar(),
         appBar: renderAppBar(),
         bottomSheet: Builder(builder: (context) {
           final assetModel = context.watch<AssetViewCubit>().state;
