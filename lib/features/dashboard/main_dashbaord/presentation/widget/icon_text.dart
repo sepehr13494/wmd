@@ -25,26 +25,32 @@ class IconText extends AppStatelessWidget {
         children: [
           Padding(
             padding:
-                EdgeInsets.fromLTRB(10, 10, 10, type == "security" ? 0 : 10),
+                EdgeInsets.fromLTRB(10, 10, 10, type == "security" ? 0 : 0),
             child: SizedBox(
-              height: 150,
-              width: 150,
+              height: 260,
+              width: type == "asset"
+                  ? 180
+                  : type == "security"
+                      ? 150
+                      : 260,
               child: image.split('.').last == 'svg'
                   ? SvgPicture.asset(image,
-                      height: type == "security" ? 80 : 120,
-                      width: type == "security" ? 80 : 120,
-                      fit: BoxFit.scaleDown)
+                      height: type == "security" ? 150 : 160,
+                      width: type == "security" ? 150 : 160,
+                      fit: type == "security"
+                          ? BoxFit.fitWidth
+                          : BoxFit.fitWidth)
                   : Image.asset(
                       image,
-                      height: 120,
-                      width: 120,
+                      height: 200,
+                      width: 200,
                       fit: BoxFit.fitWidth,
                     ),
             ),
           ),
           Padding(
             padding:
-                EdgeInsets.fromLTRB(20, type == "security" ? 0 : 15, 20, 15),
+                EdgeInsets.fromLTRB(20, type == "security" ? 0 : 0, 20, 15),
             child: Text(
               text,
               style: textTheme.labelMedium

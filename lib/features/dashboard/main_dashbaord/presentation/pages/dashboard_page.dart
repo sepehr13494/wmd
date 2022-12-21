@@ -59,6 +59,7 @@ class DashboardPage extends AppStatelessWidget {
                   ),
                   const SizedBox(height: 48),
                   EmptyStateDashboard(
+                      type: "asset",
                       responsiveHelper: responsiveHelper,
                       config: OnBoardingConfigModel.assetConfigList),
                   const SizedBox(height: 24),
