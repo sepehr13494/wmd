@@ -55,7 +55,7 @@ class OverViewCard extends AppStatelessWidget {
                                     ? state.netWorthObj.assets.currentValue
                                         .convertMoney(addDollar: true)
                                     : "...",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 28, fontWeight: FontWeight.w300),
                               ),
                             ),
