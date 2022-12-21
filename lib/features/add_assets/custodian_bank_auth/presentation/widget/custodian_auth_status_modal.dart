@@ -95,14 +95,14 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                           bankConfirmation: false));
                 },
                 onDoneAgain: () {
-                  // launchUrlString(status.signLetterLink);
-                  context
-                      .read<CustodianBankAuthCubit>()
-                      .postCustodianBankStatus(PostCustodianBankStatusParams(
-                          bankId: widget.bankId,
-                          signLetter: false,
-                          shareWithBank: false,
-                          bankConfirmation: false));
+                  launchUrlString(status.signLetterLink);
+                  // context
+                  //     .read<CustodianBankAuthCubit>()
+                  //     .postCustodianBankStatus(PostCustodianBankStatusParams(
+                  //         bankId: widget.bankId,
+                  //         signLetter: false,
+                  //         shareWithBank: false,
+                  //         bankConfirmation: false));
                 },
               ),
               StatusStepWidget(
