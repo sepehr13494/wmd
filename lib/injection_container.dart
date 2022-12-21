@@ -117,6 +117,11 @@ import 'package:wmd/features/profile/personal_information/domain/use_cases/get_n
 import 'package:wmd/features/profile/personal_information/domain/use_cases/set_name_usecase.dart';
 import 'package:wmd/features/profile/personal_information/domain/use_cases/set_number_usecase.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
+import 'package:wmd/features/profile/profile_reset_password/data/data_sources/profile_reset_password_remote_datasource.dart';
+import 'package:wmd/features/profile/profile_reset_password/data/repositories/profile_reset_password_repository_impl.dart';
+import 'package:wmd/features/profile/profile_reset_password/domain/repositories/profile_reset_password_repository.dart';
+import 'package:wmd/features/profile/profile_reset_password/domain/use_cases/reset_usecase.dart';
+import 'package:wmd/features/profile/profile_reset_password/presentation/manager/profile_reset_password_cubit.dart';
 import 'core/data/network/network_helper.dart';
 import 'core/data/network/server_request_manager.dart';
 import 'core/util/app_localization.dart';
@@ -364,6 +369,15 @@ Future<void> init() async {
       () => ValuationRepositoryImpl(sl()));
   sl.registerLazySingleton<ValuationRemoteDataSource>(
       () => ValuationRemoteDataSourceImpl(sl()));
+
+  //ProfileResetPassword
+  sl.registerFactory(() => ProfileResetPasswordCubit(sl()));
+  sl.registerLazySingleton(() => ResetUseCase(sl()));
+
+  sl.registerLazySingleton<ProfileResetPasswordRepository>(
+          () => ProfileResetPasswordRepositoryImpl(sl()));
+  sl.registerLazySingleton<ProfileResetPasswordRemoteDataSource>(
+          () => ProfileResetPasswordRemoteDataSourceImpl(sl()));
 
   await initExternal();
 }

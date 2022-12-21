@@ -68,6 +68,27 @@ class MockGetUserStatusUseCase extends _i1.Mock
         ),
       ) as _i2.UserStatusRepository);
   @override
+  bool get showOnboarding => (super.noSuchMethod(
+        Invocation.getter(#showOnboarding),
+        returnValue: false,
+      ) as bool);
+  @override
+  set showOnboarding(bool? _showOnboarding) => super.noSuchMethod(
+        Invocation.setter(
+          #showOnboarding,
+          _showOnboarding,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  set userEmail(String? _userEmail) => super.noSuchMethod(
+        Invocation.setter(
+          #userEmail,
+          _userEmail,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
   _i5.Future<_i3.Either<_i6.Failure, _i7.UserStatus>> call(
           _i8.NoParams? params) =>
       (super.noSuchMethod(
@@ -84,6 +105,15 @@ class MockGetUserStatusUseCase extends _i1.Mock
           ),
         )),
       ) as _i5.Future<_i3.Either<_i6.Failure, _i7.UserStatus>>);
+  @override
+  void cache(_i3.Either<_i6.Failure, _i7.UserStatus>? temp) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #cache,
+          [temp],
+        ),
+        returnValueForMissingStub: null,
+      );
 }
 
 /// A class which mocks [PutUserStatusUseCase].

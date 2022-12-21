@@ -512,10 +512,11 @@ class _DropDownTypeAheadState extends State<DropDownTypeAhead> {
 // ignore: must_be_immutable
 class PasswordTextField extends StatefulWidget {
   final String? hint;
+  final String? name;
   final GlobalKey<FormBuilderFieldState>? passwordKey;
   ValueChanged<String?>? onChange;
 
-  PasswordTextField({Key? key, this.hint, this.onChange, this.passwordKey})
+  PasswordTextField({Key? key, this.hint, this.onChange, this.passwordKey, this.name})
       : super(key: key);
 
   @override
@@ -533,7 +534,7 @@ class _PasswordTextFieldState extends AppState<PasswordTextField> {
       children: [
         AppTextFields.simpleTextField(
             key: widget.passwordKey,
-            name: "password",
+            name: widget.name ?? "password",
             type: TextFieldType.password,
             hint: widget.hint ??
                 appLocalizations.auth_signup_input_password_placeholder,
