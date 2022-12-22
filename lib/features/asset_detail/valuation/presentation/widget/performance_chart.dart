@@ -67,7 +67,6 @@ class _PerformanceChartState extends AppState<PerformanceChart> {
                                         e.key,
                                         style: textTheme.bodyMedium!
                                             .apply(color: primarycolor),
-                                        // textTheme.bodyMedium!.toLinkStyle(context),
                                       )))
                               .toList(),
                           onChanged: ((value) {
@@ -88,7 +87,6 @@ class _PerformanceChartState extends AppState<PerformanceChart> {
                             size: 15,
                             color: primarycolor,
                           ),
-                          // style: textTheme.labelLarge,
                         ),
                       ],
                     ),
@@ -99,7 +97,7 @@ class _PerformanceChartState extends AppState<PerformanceChart> {
                   aspectRatio:
                       ResponsiveHelper(context: context).isMobile ? 1.6 : 2.2,
                   child: PerformanceLineChart(
-                    values: state.getValuationPerformanceEntities
+                    values: state.performanceEntity.valuationHistory
                         .map((e) => MapEntry(e.date, e.value))
                         .toList(),
                   ),
