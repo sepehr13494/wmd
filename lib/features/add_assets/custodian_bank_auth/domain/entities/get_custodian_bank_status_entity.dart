@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 class CustodianBankStatusEntity extends Equatable {
   const CustodianBankStatusEntity({
     required this.bankId,
+    required this.bankName,
     required this.signLetter,
     required this.signLetterLink,
     required this.shareWithBank,
@@ -10,6 +11,7 @@ class CustodianBankStatusEntity extends Equatable {
   });
 
   final String bankId;
+  final String bankName;
   final bool signLetter;
   final String signLetterLink;
   final bool shareWithBank;
@@ -17,6 +19,7 @@ class CustodianBankStatusEntity extends Equatable {
 
   Map<String, dynamic> toJson() => {
         "bankId": bankId,
+        "bankName": bankName,
         "signLetter": signLetter,
         "signLetterLink": signLetterLink,
         "shareWithBank": shareWithBank,
