@@ -7,6 +7,7 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/dot_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/assets_overview/assets_overview/domain/entities/assets_overview_entity.dart';
 
 import '../assets_overview_inherit.dart';
@@ -115,17 +116,17 @@ class EachAssetType extends AppStatelessWidget {
 
   String _getAssetNameByType(String type) {
     switch (type) {
-      case "BankAccount":
+      case AssetTypes.bankAccount:
         return "Bank Account";
-      case "PrivateEquity":
+      case AssetTypes.privateEquity:
         return "Private Equity";
-      case "PrivateDebt":
+      case AssetTypes.privateDebt:
         return "Private Debt";
-      case "RealEstate":
+      case AssetTypes.realEstate:
         return "Real Estate";
-      case "ListedAsset":
+      case AssetTypes.listedAsset:
         return "Listed Asset";
-      case "OtherAssets":
+      case AssetTypes.otherAsset:
         return "Other Assets";
       default:
         return "";
@@ -134,17 +135,17 @@ class EachAssetType extends AppStatelessWidget {
 
   Color _getAssetColorByType(String type) {
     switch (type) {
-      case "BankAccount":
+      case AssetTypes.bankAccount:
         return const Color(0xff6C5379);
-      case "PrivateEquity":
+      case AssetTypes.privateEquity:
         return const Color(0xffB99855);
-      case "PrivateDebt":
+      case AssetTypes.privateDebt:
         return const Color(0xff4353D6);
-      case "RealEstate":
+      case AssetTypes.realEstate:
         return const Color(0xff5DA683);
-      case "ListedAsset":
+      case AssetTypes.listedAsset:
         return const Color(0xff50747C);
-      case "OtherAssets":
+      case AssetTypes.otherAsset:
         return const Color(0xffC7EA86);
       default:
         return const Color(0xff6C5379);
@@ -153,27 +154,27 @@ class EachAssetType extends AppStatelessWidget {
 
   void Function() _getAssetOnTapByType(BuildContext context, String type) {
     switch (type) {
-      case "BankAccount":
+      case AssetTypes.bankAccount:
         return () {
           context.goNamed(AppRoutes.addBankManualPage);
         };
-      case "PrivateEquity":
+      case AssetTypes.privateEquity:
         return () {
           context.goNamed(AppRoutes.addPrivateEquity);
         };
-      case "PrivateDebt":
+      case AssetTypes.privateDebt:
         return () {
           context.goNamed(AppRoutes.addPrivateDebt);
         };
-      case "RealEstate":
+      case AssetTypes.realEstate:
         return () {
           context.goNamed(AppRoutes.addRealEstate);
         };
-      case "ListedAsset":
+      case AssetTypes.listedAsset:
         return () {
           context.goNamed(AppRoutes.addListedAsset);
         };
-      case "OtherAssets":
+      case AssetTypes.otherAsset:
         return () {
           context.goNamed(AppRoutes.addOther);
         };
