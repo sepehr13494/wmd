@@ -68,7 +68,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Link your Credit Suisse bank account',
+                'Link your ${status.bankName} bank account',
                 style: textTheme.titleSmall,
               ),
               const SizedBox(height: 8),
