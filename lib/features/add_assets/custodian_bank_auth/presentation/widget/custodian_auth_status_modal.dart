@@ -15,6 +15,7 @@ import 'status_step_widget.dart';
 showCustodianBankStatus({
   required BuildContext context,
   required String bankId,
+  void Function()? onOk,
 }) async {
   final appLocalization = AppLocalizations.of(context);
   await showDialog(
@@ -28,7 +29,9 @@ showCustodianBankStatus({
     },
   ).then((isConfirm) {
     if (isConfirm != null && isConfirm == true) {
-      // onExitClick();
+      if (onOk != null) {
+        onOk();
+      }
     }
   });
 }
