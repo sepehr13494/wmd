@@ -21,6 +21,7 @@ class AppUrls {
   static String verifyEmail = "${authBase}verify-email";
   static String forgetPassword = "${authBase}client/reset-password";
   static String resetPassword = "${authBase}client/update-password";
+  static String reset = "${authBase}update-password";
   static String getUserStatus = "${userBase}user";
   static String getName = "${userBase}user/identity";
   static String setName = "${userBase}user/personal-info";

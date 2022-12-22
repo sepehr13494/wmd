@@ -25,7 +25,8 @@ class BaseAssetView extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     return Theme(
       data: Theme.of(context).copyWith(
-        dividerTheme: const DividerThemeData(thickness: 0.7, color: AppColors.dashBoardGreyTextColor),
+        dividerTheme: const DividerThemeData(
+            thickness: 0.7, color: AppColors.dashBoardGreyTextColor),
       ),
       child: Card(
         child: Padding(
@@ -67,7 +68,7 @@ class BaseAssetView extends AppStatelessWidget {
               ),
               const Divider(),
               ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     EachAssetViewModel asset = assets[index];
@@ -79,22 +80,27 @@ class BaseAssetView extends AppStatelessWidget {
                               ? const SizedBox()
                               : Container(
                                   width: 6, height: 6, color: asset.color),
-                          Text(asset.name,style: textTheme.bodySmall),
-                          const Spacer(),
-                          Text(asset.price,style: textTheme.bodySmall),
+                          Expanded(
+                            child: Align(
+                              alignment: AlignmentDirectional.centerStart,
+                              child:
+                                  FittedBox(fit: BoxFit.scaleDown,child: Text(asset.name, style: textTheme.bodySmall)),
+                            ),
+                          ),
+                          Text(asset.price, style: textTheme.bodySmall),
                           Container(
                             width: 0.5,
                             height: 10,
                             color: textTheme.bodySmall!.color!,
                           ),
-                          Text(asset.percentage,style: textTheme.bodySmall),
-                          const Icon(Icons.arrow_forward_ios_rounded,size: 15)
+                          Text(asset.percentage, style: textTheme.bodySmall),
+                          const Icon(Icons.arrow_forward_ios_rounded, size: 15)
                         ]
-                            .map((e) => e is Spacer
+                            .map((e) => e is Expanded
                                 ? e
                                 : Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 3),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 3),
                                     child: e,
                                   ))
                             .toList(),

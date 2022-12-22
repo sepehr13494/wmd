@@ -5,6 +5,7 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/profile/personal_information/presentation/widgets/personal_imformation_widget.dart';
+import 'package:wmd/features/profile/profile_reset_password/presentation/pages/profile_reset_password_page.dart';
 import 'package:wmd/injection_container.dart';
 
 import '../../../personal_information/presentation/manager/personal_information_cubit.dart';
@@ -84,7 +85,9 @@ class ProfilePage extends AppStatelessWidget {
                                     .apply(color: textTheme.bodyLarge!.color!),
                               ),
                               OutlinedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileRestPasswordPage(),));
+                                  },
                                   child: Text("Change password"))
                             ],
                           ),
