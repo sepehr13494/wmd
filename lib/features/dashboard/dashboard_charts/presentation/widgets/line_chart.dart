@@ -4,48 +4,50 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/min_max_calculator.dart';
 
 import '../../domain/entities/get_allocation_entity.dart';
 
-class LineChartSample2 extends StatelessWidget {
+class LineChartSample2 extends StatefulWidget {
   final List<GetAllocationEntity> allocations;
   const LineChartSample2({super.key, required this.allocations});
 
   @override
+  State<LineChartSample2> createState() => _LineChartSample2State();
+}
+
+class _LineChartSample2State extends State<LineChartSample2> {
+
+  bool isOneData = false;
+
+  @override
+  void initState() {
+    if(widget.allocations.length == 1){
+      isOneData = true;
+      widget.allocations.add(widget.allocations.first);
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+
     return LineChart(
       mainData(context),
     );
   }
 
-
-  
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      child: Text(allocations[value.toInt()].name, style: const TextStyle(fontSize: 8)),
+      child: Text(widget.allocations[value.toInt()].name, style: const TextStyle(fontSize: 8)),
     );
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-    double minY = 0;
-    if(allocations.isNotEmpty){
-      minY = allocations[0].netWorth;
-      for (var element in allocations) {
-        if(element.netWorth<minY){
-          minY = element.netWorth;
-        }
-      }
-    }
-    double maxY = 0;
-    if(allocations.isNotEmpty){
-      maxY = allocations[0].netWorth;
-      for (var element in allocations) {
-        if(element.netWorth>maxY){
-          maxY = element.netWorth;
-        }
-      }
-    }
+    List<double> minMax = MinMaxCalculator.calculateMinyMaxY(widget.allocations,isOneData);
+    final double minY = minMax[0];
+    final double maxY = minMax[1];
     double x = max(maxY.abs() , minY.abs()) / 5;
     return FittedBox(
         fit: BoxFit.scaleDown,
@@ -58,24 +60,9 @@ class LineChartSample2 extends StatelessWidget {
   }
 
   LineChartData mainData(context) {
-    double minY = 0;
-    if(allocations.isNotEmpty){
-      minY = allocations[0].netWorth;
-      for (var element in allocations) {
-        if(element.netWorth<minY){
-          minY = element.netWorth;
-        }
-      }
-    }
-    double maxY = 0;
-    if(allocations.isNotEmpty){
-      maxY = allocations[0].netWorth;
-      for (var element in allocations) {
-        if(element.netWorth>maxY){
-          maxY = element.netWorth;
-        }
-      }
-    }
+    List<double> minMax = MinMaxCalculator.calculateMinyMaxY(widget.allocations,isOneData);
+    double minY = minMax[0];
+    double maxY = minMax[1];
     double x = max(maxY.abs() , minY.abs()) / 5;
     minY = (minY/x);
     maxY = (maxY/x);
@@ -135,19 +122,49 @@ class LineChartSample2 extends StatelessWidget {
           border: const Border.symmetric(
               horizontal: BorderSide(
                   width: 0.3, color: AppColors.dashBoardGreyTextColor))),
+      lineTouchData: LineTouchData(
+        touchTooltipData: LineTouchTooltipData(
+          fitInsideVertically: true,
+          fitInsideHorizontally: true,
+          getTooltipItems: (touchedSpots) {
+            final textTheme = Theme.of(context).textTheme;
+            return [
+              LineTooltipItem(
+                widget.allocations[touchedSpots.first.x.toInt()].name,
+                textTheme.titleSmall!,
+                textAlign: TextAlign.start,
+                children: [
+                  TextSpan(
+                      text: '\nCurrent Balance', style: textTheme.bodyMedium),
+                  TextSpan(
+                    // ignore: prefer_interpolation_to_compose_strings
+                      text: '\n' +
+                          widget.allocations[touchedSpots.first.x.toInt()]
+                              .netWorth
+                              .formatNumberWithDecimal(),
+                      style: textTheme.titleSmall!
+                          .apply(color: AppColors.chartColor)),
+                ],
+              )
+            ];
+          },
+          maxContentWidth: 200,
+          tooltipBgColor: Color.fromARGB(255, 38, 49, 52),
+        ),
+      ),
       minX: 0,
-      maxX: allocations.length.toDouble()-1,
+      maxX: widget.allocations.length.toDouble()-1,
       minY: minY.abs() == maxTotal ? minY : minY >= 0 ? 0 : (- (minY.abs()).ceil().toDouble()),
       maxY: maxY.abs() == maxTotal ? maxY : maxY <= 0 ? 0 : (maxY.abs()).ceil().toDouble(),
       lineBarsData: [
         LineChartBarData(
-          spots: List.generate(allocations.length, (index) {
-            return FlSpot(index.toDouble(), allocations[index].netWorth/x);
+          spots: List.generate(widget.allocations.length, (index) {
+            return FlSpot(index.toDouble(), widget.allocations[index].netWorth/x);
           }),
           isCurved: false,
           color: AppColors.chartColor,
           gradient: LinearGradient(
-            colors: const [AppColors.chartColor,AppColors.chartColor, AppColors.errorColor,AppColors.errorColor],
+            colors: [AppColors.chartColor,AppColors.chartColor, minY == 0 ? AppColors.chartColor : AppColors.errorColor,minY == 0 ? AppColors.chartColor : AppColors.errorColor],
             stops: [0,gradientStop,gradientStop,1],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter
