@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/custodian_bank_entity.dart';
@@ -46,9 +48,12 @@ class _CustodianBankWidgetState extends AppState<CustodianBankWidget> {
               : Builder(
                   builder: (context) {
                     return InkWell(
-                      onTap: () {
-                        showCustodianBankStatus(
-                            context: context, bankId: bank.bankId);
+                      onTap: () async {
+                        final rs = await showCustodianBankStatus(
+                          context: context,
+                          bankId: bank.bankId,
+                          // onOk: () => context.goNamed(AppRoutes.main),
+                        );
                       },
                       child: Container(
                         decoration: BoxDecoration(
