@@ -17,7 +17,6 @@ import 'package:wmd/features/asset_detail/private_equity/presentation/page/priva
 import 'package:wmd/features/asset_detail/real_estate/domain/entity/real_estate_entity.dart';
 import 'package:wmd/features/asset_detail/real_estate/presentation/page/real_estate_page.dart';
 import 'package:wmd/features/asset_detail/valuation/presentation/widget/performance_chart.dart';
-import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/net_worth_base_chart.dart';
 import 'package:wmd/injection_container.dart';
 import '../manager/asset_detail_cubit.dart';
 import '../../../bank_account/presentation/page/bank_account_page.dart';
