@@ -9,6 +9,7 @@ import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/bas
 import 'package:wmd/injection_container.dart';
 
 import '../constants.dart';
+import '../manager/dashboard_pie_cubit.dart';
 import '../models/each_asset_model.dart';
 
 class PieChartSample2 extends StatefulWidget {
@@ -23,65 +24,62 @@ class PieChart2State extends State {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<DashboardChartsCubit>()..getPie(),
-      child: Builder(builder: (context) {
-        return BlocBuilder<DashboardChartsCubit, DashboardChartsState>(
-          builder: (context, state) {
-            return state is GetPieLoaded
-                ? state.getPieEntity.isEmpty ? const SizedBox() : BaseAssetView(
-                    title: "Asset Class Allocation",
-                    assets: List.generate(
-                      state.getPieEntity.length,
-                      (index){
-                        GetPieEntity pieEntity = state.getPieEntity[index];
-                        return EachAssetViewModel(
-                          color: DashboardChartsConstants.colors[index],
-                          name: pieEntity.name,
-                          price: pieEntity.value.convertMoney(addDollar: true),
-                          percentage: "${pieEntity.percentage.toStringAsFixed(1)}%",
-                        );
-                      },
-                    ),
-                    onMoreTap: () {},
-                    child: LayoutBuilder(builder: (context, snap) {
-                      final double height = snap.maxWidth * 0.65;
-                      final inside = height / 5;
-                      return SizedBox(
-                        height: height,
-                        child: PieChart(
-                          PieChartData(
-                            pieTouchData: PieTouchData(
-                              touchCallback:
-                                  (FlTouchEvent event, pieTouchResponse) {
-                                setState(() {
-                                  if (!event.isInterestedForInteractions ||
-                                      pieTouchResponse == null ||
-                                      pieTouchResponse.touchedSection == null) {
-                                    touchedIndex = -1;
-                                    return;
-                                  }
-                                  touchedIndex = pieTouchResponse
-                                      .touchedSection!.touchedSectionIndex;
-                                });
-                              },
-                            ),
-                            borderData: FlBorderData(
-                              show: false,
-                            ),
-                            sectionsSpace: 0,
-                            centerSpaceRadius: inside,
-                            sections: showingSections((height - inside) / 4,state.getPieEntity),
-                          ),
-                        ),
+    return Builder(builder: (context) {
+      return BlocBuilder<DashboardPieCubit, DashboardChartsState>(
+        builder: (context, state) {
+          return state is GetPieLoaded
+              ? state.getPieEntity.isEmpty ? const SizedBox() : BaseAssetView(
+                  title: "Asset Class Allocation",
+                  assets: List.generate(
+                    state.getPieEntity.length,
+                    (index){
+                      GetPieEntity pieEntity = state.getPieEntity[index];
+                      return EachAssetViewModel(
+                        color: DashboardChartsConstants.colors[index],
+                        name: pieEntity.name,
+                        price: pieEntity.value.convertMoney(addDollar: true),
+                        percentage: "${pieEntity.percentage.toStringAsFixed(1)}%",
                       );
-                    }),
-                  )
-                : LoadingWidget();
-          },
-        );
-      }),
-    );
+                    },
+                  ),
+                  onMoreTap: () {},
+                  child: LayoutBuilder(builder: (context, snap) {
+                    final double height = snap.maxWidth * 0.65;
+                    final inside = height / 5;
+                    return SizedBox(
+                      height: height,
+                      child: PieChart(
+                        PieChartData(
+                          pieTouchData: PieTouchData(
+                            touchCallback:
+                                (FlTouchEvent event, pieTouchResponse) {
+                              setState(() {
+                                if (!event.isInterestedForInteractions ||
+                                    pieTouchResponse == null ||
+                                    pieTouchResponse.touchedSection == null) {
+                                  touchedIndex = -1;
+                                  return;
+                                }
+                                touchedIndex = pieTouchResponse
+                                    .touchedSection!.touchedSectionIndex;
+                              });
+                            },
+                          ),
+                          borderData: FlBorderData(
+                            show: false,
+                          ),
+                          sectionsSpace: 0,
+                          centerSpaceRadius: inside,
+                          sections: showingSections((height - inside) / 4,state.getPieEntity),
+                        ),
+                      ),
+                    );
+                  }),
+                )
+              : LoadingWidget();
+        },
+      );
+    });
   }
 
   List<PieChartSectionData> showingSections(double outside, List<GetPieEntity> getPieEntity) {

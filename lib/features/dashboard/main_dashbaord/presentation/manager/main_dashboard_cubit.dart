@@ -12,11 +12,14 @@ class MainDashboardCubit extends Cubit<MainDashboardState> {
 
   MainDashboardCubit(this.userNetWorthUseCase) : super(LoadingState());
 
+  dynamic dateTimeRange;
+
   initPage(){
-    getNetWorth();
+    getNetWorth(dateTimeRange: const MapEntry<String, int>("7 days", 7));
   }
 
-  getNetWorth({DateTimeRange? dateTimeRange}) async {
+  getNetWorth({dynamic dateTimeRange}) async {
+    this.dateTimeRange = dateTimeRange;
     emit(LoadingState());
     final result = await userNetWorthUseCase(dateTimeRange);
     result.fold(

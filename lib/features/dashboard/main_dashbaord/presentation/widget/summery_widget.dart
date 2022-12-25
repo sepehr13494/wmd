@@ -21,10 +21,15 @@ class SummeryWidget extends StatefulWidget {
 
 class _SummeryWidgetState extends AppState<SummeryWidget> {
 
-  String date = "All times";
+  static const _timeFilter = [
+    MapEntry<String, int>("7 days", 7),
+    MapEntry<String, int>("30 days", 30),
+  ];
+
 
   @override
   Widget buildWidget(BuildContext context,TextTheme textTheme, AppLocalizations appLocalizations) {
+    final String date = (context.watch<MainDashboardCubit>().dateTimeRange??_timeFilter[0]).key;
     final List items = [
       ["Total Net Worth",widget.netWorthEntity.totalNetWorth.currentValue,"Change $date",widget.netWorthEntity.totalNetWorth.change],
       ["Assets",widget.netWorthEntity.assets.currentValue,"Change $date",widget.netWorthEntity.assets.change],
@@ -37,25 +42,35 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
           children: [
             Text("Summery",style: textTheme.titleLarge),
             const Spacer(),
-            InkWell(
-              onTap: (){
-                showDateRangePicker(context: context, firstDate: DateTime.now().subtract(const Duration(days: 360)), lastDate: DateTime.now()).then((value) {
-                  if(value != null){
-                    date = value.toString();
-                    context.read<MainDashboardCubit>().getNetWorth(dateTimeRange: value);
-                  }
-                });
-              },
-              child: Row(
-                children: [
-                  const Icon(Icons.calendar_today_outlined,size: 15,),
-                  const SizedBox(width: 8),
-                  Text(date,style: textTheme.bodyMedium!.toLinkStyle(context)),
-                  const SizedBox(width: 4),
-                  const Icon(Icons.keyboard_arrow_down,size: 15),
-                ],
+            Icon(
+              Icons.calendar_month,
+              size: 15,
+              color: Theme.of(context).primaryColor,
+            ),
+            const SizedBox(width: 8),
+            DropdownButton<MapEntry<String, int>>(
+              items: _timeFilter
+                  .map((e) => DropdownMenuItem<MapEntry<String, int>>(
+                  value: e,
+                  child: Text(
+                    e.key,
+                    style: textTheme.bodyMedium!.apply(color: Theme.of(context).primaryColor),
+                    // textTheme.bodyMedium!.toLinkStyle(context),
+                  )))
+                  .toList(),
+              onChanged: ((value) {
+                if (value != null) {
+                  context.read<MainDashboardCubit>().getNetWorth(dateTimeRange: value);
+                }
+              }),
+              value: context.read<MainDashboardCubit>().dateTimeRange??_timeFilter[0],
+              icon: Icon(
+                Icons.keyboard_arrow_down,
+                size: 15,
+                color: Theme.of(context).primaryColor,
               ),
-            )
+              // style: textTheme.labelLarge,
+            ),
           ],
         ),
         const SizedBox(height:12),

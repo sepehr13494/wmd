@@ -92,7 +92,10 @@ import 'package:wmd/features/dashboard/dashboard_charts/domain/repositories/dash
 import 'package:wmd/features/dashboard/dashboard_charts/domain/use_cases/get_allocation_usecase.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/use_cases/get_geographic_usecase.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/use_cases/get_pie_usecase.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_goe_cubit.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/data/data_sources/main_dashboard_remote_data_source.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/data/repositories/main_dashboard_respository_impl.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/domain/repositories/main_dashboard_repository.dart';
@@ -213,7 +216,9 @@ Future<void> init() async {
       () => MainDashboardRemoteDataSourceImpl(sl()));
 
   //DashboardCharts
-  sl.registerFactory(() => DashboardChartsCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => DashboardAllocationCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => DashboardPieCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => DashboardGoeCubit(sl(), sl(), sl()));
   sl.registerLazySingleton(() => GetAllocationUseCase(sl(), sl()));
   sl.registerLazySingleton(() => GetGeographicUseCase(sl(), sl()));
   sl.registerLazySingleton(() => GetPieUseCase(sl(), sl()));

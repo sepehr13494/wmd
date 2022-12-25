@@ -3,7 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_goe_cubit.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'core/presentation/routes/app_router.dart';
 import 'core/util/app_localization.dart';
@@ -70,9 +74,23 @@ class MyApp extends StatelessWidget {
             create: (context) => sl<LocalizationManager>()
               ..changeLang(sl<LocalStorage>().getLocale())),
         BlocProvider(create: (context) => sl<UserStatusCubit>()),
-        BlocProvider(create: (context) => sl<MainDashboardCubit>()),
+        BlocProvider(
+            create: (context) => sl<MainDashboardCubit>()..initPage()),
+        BlocProvider(
+            create: (context) =>
+            sl<AssetsOverviewCubit>()..getAssetsOverview()),
         BlocProvider(
           create: (context) => sl<ChartsCubit>()..getChart(to: DateTime.now()),
+        ),
+        BlocProvider(
+          create: (context) => sl<DashboardAllocationCubit>()
+            ..getAllocation(dateTime: DateTime.now()),
+        ),
+        BlocProvider(
+          create: (context) => sl<DashboardPieCubit>()..getPie(),
+        ),
+        BlocProvider(
+          create: (context) => sl<DashboardGoeCubit>()..getGeographic(),
         ),
       ],
       child: Builder(builder: (context) {

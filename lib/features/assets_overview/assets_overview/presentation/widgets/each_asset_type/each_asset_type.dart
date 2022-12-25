@@ -99,41 +99,45 @@ class EachAssetType extends AppStatelessWidget {
                     desktop: AssetTypeTabletTableTitle(),
                   ),
                 ),
-                AssetListWidget(
+                AssetsOverviewInherit(
                   assetList: assetsOverview.assetList,
                   type: assetsOverview.type,
+                  child: AssetListWidget(
+                    assetList: assetsOverview.assetList,
+                    type: assetsOverview.type,
+                  ),
                 ),
               ],
             ),
-          // AssetsOverviewInherit(
-          //   assetList: assetsOverview.assetList,
-          //   type: assetsOverview.type,
-          //   child: Builder(builder: (context) {
-          //     ExpandableController controller = ExpandableController();
-          //     return assetsOverview.assetList.isEmpty
-          //         ? const SizedBox()
-          //         : Column(
-          //             children: [
-          //               const Padding(
-          //                 padding: EdgeInsets.only(
-          //                     top: 12, bottom: 4, right: 4, left: 4),
-          //                 child: ResponsiveWidget(
-          //                   mobile: AssetTypeMobileTableTitle(),
-          //                   tablet: AssetTypeTabletTableTitle(),
-          //                   desktop: AssetTypeTabletTableTitle(),
-          //                 ),
-          //               ),
-          //               ExpandablePanel(
-          //                 collapsed: AssetTypeBaseCard(
-          //                     showMore: false, controller: controller),
-          //                 expanded: AssetTypeBaseCard(
-          //                     showMore: true, controller: controller),
-          //                 controller: controller,
-          //               )
-          //             ],
-          //           );
-          //   }),
-          // )
+          /*AssetsOverviewInherit(
+            assetList: assetsOverview.assetList,
+            type: assetsOverview.type,
+            child: Builder(builder: (context) {
+              ExpandableController controller = ExpandableController();
+              return assetsOverview.assetList.isEmpty
+                  ? const SizedBox()
+                  : Column(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(
+                              top: 12, bottom: 4, right: 4, left: 4),
+                          child: ResponsiveWidget(
+                            mobile: AssetTypeMobileTableTitle(),
+                            tablet: AssetTypeTabletTableTitle(),
+                            desktop: AssetTypeTabletTableTitle(),
+                          ),
+                        ),
+                        ExpandablePanel(
+                          collapsed: AssetTypeBaseCard(
+                              showMore: false, controller: controller),
+                          expanded: AssetTypeBaseCard(
+                              showMore: true, controller: controller),
+                          controller: controller,
+                        )
+                      ],
+                    );
+            }),
+          )*/
         ],
       ),
     );
