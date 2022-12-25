@@ -145,8 +145,16 @@ class SummaryCardWidget extends AppStatelessWidget {
                         width: 1,
                         height: 120,
                         color: Theme.of(context).dividerColor,
+                        child: Divider(
+                          thickness: 1,
+                          color: Theme.of(context).dividerColor,
+                        ),
                       )
-                    : const Divider(height: 48),
+                    : Divider(
+                        thickness: 1,
+                        color: Theme.of(context).dividerColor,
+                        height: 48,
+                      ),
                 ExpandedIf(
                   expanded: !isMobile,
                   flex: 2,
