@@ -34,7 +34,7 @@ class VerifyEmailPage extends AppStatelessWidget {
         return sl<LoginSignUpCubit>();
       },
       child: Scaffold(
-        appBar: const CustomAuthAppBar(),
+        appBar: const CustomAuthAppBar(automaticallyImplyLeading: false),
         body: WidthLimiterWidget(
             child: BlocConsumer<LoginSignUpCubit, LoginSignUpState>(
           listener: BlocHelper.defaultBlocListener(listener: (context, state) {
@@ -68,11 +68,35 @@ class VerifyEmailPage extends AppStatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(
                       horizontal: responsiveHelper.optimalDeviceWidth * 0.05),
-                  child: Text(
-                    appLocalizations.auth_verify_description
-                        .replaceFirst("%s", verifyMap["email"]),
-                    style: textTheme.bodyMedium!.copyWith(height: 1.3),
-                    textAlign: TextAlign.center,
+                  child: RichText(
+                    text: _isForgotPasswordPage()
+                        ? TextSpan(children: [
+                            TextSpan(
+                              text: appLocalizations
+                                  .auth_forgot_emailSentSuccess_subheading
+                                  .replaceFirst("%s", ""),
+                              style:
+                                  textTheme.bodyMedium!.copyWith(height: 1.3),
+                            ),
+                            TextSpan(
+                              text: verifyMap["email"],
+                              style:
+                                  textTheme.titleSmall!.copyWith(height: 1.3),
+                            ),
+                          ])
+                        : TextSpan(children: [
+                            TextSpan(
+                              text: appLocalizations.auth_verify_description
+                                  .replaceFirst("%s", ""),
+                              style:
+                                  textTheme.bodyMedium!.copyWith(height: 1.3),
+                            ),
+                            TextSpan(
+                              text: verifyMap["email"],
+                              style:
+                                  textTheme.titleSmall!.copyWith(height: 1.3),
+                            ),
+                          ]),
                   ),
                 ),
                 const SizedBox(),
