@@ -6,10 +6,12 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 
 class NetChangeWidget extends AppStatelessWidget {
   final double current;
-  final double old;
+  final double change;
+  final int days;
   const NetChangeWidget({
     required this.current,
-    required this.old,
+    required this.change,
+    required this.days,
     Key? key,
   }) : super(key: key);
 
@@ -17,9 +19,9 @@ class NetChangeWidget extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
     final ResponsiveHelper responsiveHelper =
         ResponsiveHelper(context: context);
-    final diff = (current - old);
-    final value = diff.convertMoney(addDollar: true);
-    final percent = diff / old * 100;
+    // final diff = (current - change);
+    // final value = diff.convertMoney(addDollar: true);
+    final percent = current / change * 100;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -43,13 +45,13 @@ class NetChangeWidget extends AppStatelessWidget {
         ),
         SizedBox(height: responsiveHelper.defaultGap),
         Text(
-          "Last 30 days",
+          "Last $days days",
           style: textTheme.bodySmall,
         ),
         Row(
           children: [
             Text(
-              value,
+              change.convertMoney(addDollar: true),
               style: textTheme.bodyLarge,
             ),
             ChangeWidget(number: percent, text: "$percent%"),

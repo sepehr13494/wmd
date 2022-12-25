@@ -1,123 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
-import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
-import 'package:wmd/features/asset_detail/valuation/data/models/get_valuation_performance_params.dart';
-import 'package:wmd/features/asset_detail/valuation/presentation/manager/performance_chart_cubit.dart';
-import 'package:wmd/injection_container.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/util/colors.dart';
 
-const _timeFilter = [
-  // MapEntry<String, int>("All times", 0),
-  MapEntry<String, int>("7 days", 7),
-  MapEntry<String, int>("30 days", 30),
-];
-
-class PerformanceChart extends StatefulWidget {
-  final String id;
-  const PerformanceChart({super.key, required this.id});
-
-  @override
-  AppState<PerformanceChart> createState() => _PerformanceChartState();
-}
-
-class _PerformanceChartState extends AppState<PerformanceChart> {
-  MapEntry<String, int> selectedTimeFilter = _timeFilter.first;
-
-  @override
-  Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
-    final primarycolor = Theme.of(context).primaryColor;
-    return BlocProvider(
-      create: (context) => sl<PerformanceChartCubit>()
-        ..getValuationPerformance(
-            GetValuationPerformanceParams(days: 30, id: widget.id)),
-      child: BlocConsumer<PerformanceChartCubit, PerformanceChartState>(
-        listener: BlocHelper.defaultBlocListener(
-          listener: (context, state) {},
-        ),
-        builder: (context, state) {
-          if (state is PerformanceLoaded) {
-            return Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Performance chart',
-                      style: textTheme.bodyLarge,
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.calendar_month,
-                          size: 15,
-                          color: primarycolor,
-                        ),
-                        const SizedBox(width: 4),
-                        DropdownButton<MapEntry<String, int>>(
-                          items: _timeFilter
-                              .map((e) =>
-                                  DropdownMenuItem<MapEntry<String, int>>(
-                                      value: e,
-                                      child: Text(
-                                        e.key,
-                                        style: textTheme.bodyMedium!
-                                            .apply(color: primarycolor),
-                                      )))
-                              .toList(),
-                          onChanged: ((value) {
-                            if (value != null) {
-                              setState(() {
-                                selectedTimeFilter = value;
-                                context
-                                    .read<PerformanceChartCubit>()
-                                    .getValuationPerformance(
-                                        GetValuationPerformanceParams(
-                                            days: value.value, id: widget.id));
-                              });
-                            }
-                          }),
-                          value: selectedTimeFilter,
-                          icon: Icon(
-                            Icons.keyboard_arrow_down,
-                            size: 15,
-                            color: primarycolor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                AspectRatio(
-                  aspectRatio:
-                      ResponsiveHelper(context: context).isMobile ? 1.6 : 2.2,
-                  child: PerformanceLineChart(
-                    values: state.performanceEntity.valuationHistory
-                        .map((e) => MapEntry(e.date, e.value))
-                        .toList(),
-                  ),
-                ),
-              ],
-            );
-          }
-          return Padding(
-            padding:
-                EdgeInsets.all(ResponsiveHelper(context: context).bigger16Gap),
-            child: const CircularProgressIndicator(),
-          );
-        },
-      ),
-    );
-    ;
-  }
-}
-
-class PerformanceLineChart extends StatelessWidget {
+class PerformanceLineChart extends AppStatelessWidget {
   final List<MapEntry<DateTime, double>> values;
   const PerformanceLineChart({super.key, required this.values});
 
@@ -125,9 +14,22 @@ class PerformanceLineChart extends StatelessWidget {
   final double minDate = 6;
 
   @override
-  Widget build(BuildContext context) {
-    return LineChart(
-      mainData(context),
+  Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Performance chart',
+          style: textTheme.bodyLarge,
+        ),
+        const SizedBox(height: 16),
+        AspectRatio(
+          aspectRatio: ResponsiveHelper(context: context).isMobile ? 1.6 : 2.2,
+          child: LineChart(
+            mainData(context),
+          ),
+        ),
+      ],
     );
   }
 
