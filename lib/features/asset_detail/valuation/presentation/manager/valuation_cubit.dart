@@ -10,7 +10,7 @@ import '../../domain/use_cases/post_valuation_usecase.dart';
 
 import '../../data/models/get_valuation_performance_params.dart';
 import '../../domain/use_cases/get_valuation_performance_usecase.dart';
-import '../../domain/entities/get_valuation_performance_entity.dart';
+import '../../domain/entities/valuation_history_entity.dart';
 
 part 'valuation_state.dart';
 

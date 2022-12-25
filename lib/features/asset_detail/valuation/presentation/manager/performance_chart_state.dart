@@ -3,14 +3,10 @@ part of 'performance_chart_cubit.dart';
 abstract class PerformanceChartState {}
 
 class PerformanceLoaded extends Equatable with PerformanceChartState {
-  final List<GetValuationPerformanceEntity> getValuationPerformanceEntities;
+  final GetValuationPerformanceResponse performanceEntity;
 
-  PerformanceLoaded({
-    required this.getValuationPerformanceEntities,
-  });
+  PerformanceLoaded({required this.performanceEntity});
 
   @override
-  List<Object?> get props => [
-        getValuationPerformanceEntities,
-      ];
+  List<Object?> get props => [performanceEntity];
 }
