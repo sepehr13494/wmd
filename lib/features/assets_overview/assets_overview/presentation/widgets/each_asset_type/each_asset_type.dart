@@ -15,6 +15,7 @@ import 'package:wmd/features/assets_overview/assets_overview/presentation/widget
 import 'package:wmd/features/assets_overview/assets_overview/presentation/widgets/each_asset_type/inside_asset_card_tablet.dart';
 import 'package:wmd/injection_container.dart';
 
+import '../../../../charts/presentation/widgets/constants.dart';
 import '../assets_overview_inherit.dart';
 import '../add_button.dart';
 import '../ytd_itd_widget.dart';
@@ -160,19 +161,19 @@ class EachAssetType extends AppStatelessWidget {
   Color _getAssetColorByType(String type) {
     switch (type) {
       case AssetTypes.bankAccount:
-        return const Color(0xff6C5379);
-      case AssetTypes.privateEquity:
-        return const Color(0xffB99855);
-      case AssetTypes.privateDebt:
-        return const Color(0xff4353D6);
-      case AssetTypes.realEstate:
-        return const Color(0xff5DA683);
+        return AssetsOverviewChartsColors.colors[0];
       case AssetTypes.listedAsset:
-        return const Color(0xff50747C);
+        return AssetsOverviewChartsColors.colors[1];
+      case AssetTypes.privateEquity:
+        return AssetsOverviewChartsColors.colors[2];
+      case AssetTypes.privateDebt:
+        return AssetsOverviewChartsColors.colors[3];
+      case AssetTypes.realEstate:
+        return AssetsOverviewChartsColors.colors[4];
       case AssetTypes.otherAsset:
-        return const Color(0xffC7EA86);
+        return AssetsOverviewChartsColors.colors[5];
       default:
-        return const Color(0xff6C5379);
+        return AssetsOverviewChartsColors.colors[0];
     }
   }
 
