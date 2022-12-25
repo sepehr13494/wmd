@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -7,10 +8,12 @@ import 'package:wmd/core/presentation/widgets/bottom_modal_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/get_custodian_bank_status_params.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/post_custodian_bank_status_params.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/get_custodian_bank_status_entity.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/injection_container.dart';
 import '../manager/custodian_bank_auth_cubit.dart';
 import 'status_step_widget.dart';
+import 'dart:io' show Platform;
 
 showCustodianBankStatus({
   required BuildContext context,
@@ -67,6 +70,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
           return Text(state.failure.message);
         } else if (state is CustodianBankStateLoaded) {
           final status = state.custodianBankStatusEntity;
+          print(status.signLetterLink);
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -88,7 +92,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                 doneSubtitle: 'Download again',
                 isDone: status.signLetter,
                 onDone: () {
-                  launchUrlString(status.signLetterLink);
+                  downloadPdf(status);
                   context
                       .read<CustodianBankAuthCubit>()
                       .postCustodianBankStatus(PostCustodianBankStatusParams(
@@ -98,7 +102,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                           bankConfirmation: false));
                 },
                 onDoneAgain: () {
-                  launchUrlString(status.signLetterLink);
+                  downloadPdf(status);
                   // context
                   //     .read<CustodianBankAuthCubit>()
                   //     .postCustodianBankStatus(PostCustodianBankStatusParams(
@@ -139,5 +143,16 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
         }
       }),
     );
+  }
+
+  Future<bool> downloadPdf(CustodianBankStatusEntity status) {
+    if (Platform.isAndroid) {
+      return launchUrlString(
+        status.signLetterLink,
+        mode: LaunchMode.externalApplication,
+      );
+    } else {
+      return launchUrlString(status.signLetterLink);
+    }
   }
 }
