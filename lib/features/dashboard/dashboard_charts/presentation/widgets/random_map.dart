@@ -58,12 +58,12 @@ class _RandomWorldMapGenratorState extends State<RandomWorldMapGenrator> {
                           // Actual widget from the Countries_world_map package.
                           child: Builder(
                             builder: (context) {
-                              final asiaPercentage = state.getGeographicEntity.firstWhere((element) => element.continent.toLowerCase() == "asia",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "Asia")).percentage/100;
-                              final euroPercentage = state.getGeographicEntity.firstWhere((element) => element.continent.toLowerCase() == "euro",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "euro")).percentage/100;
-                              final australiaPercentage = state.getGeographicEntity.firstWhere((element) => element.continent.toLowerCase() == "australia",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "australia")).percentage/100;
-                              final africaPercentage = state.getGeographicEntity.firstWhere((element) => element.continent.toLowerCase() == "africa",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "africa")).percentage/100;
-                              final northAmericaPercentage = state.getGeographicEntity.firstWhere((element) => element.continent.toLowerCase() == "northAmerica",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "northAmerica")).percentage/100;
-                              final southAmericaPercentage = state.getGeographicEntity.firstWhere((element) => element.continent.toLowerCase() == "southAmerica",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "southAmerica")).percentage/100;
+                              final asiaPercentage = state.getGeographicEntity.firstWhere((element) => element.continent == "Asia",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "Asia")).percentage/100;
+                              final euroPercentage = state.getGeographicEntity.firstWhere((element) => element.continent == "Europe",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "Europe")).percentage/100;
+                              final australiaPercentage = state.getGeographicEntity.firstWhere((element) => element.continent == "Oceania",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "Oceania")).percentage/100;
+                              final africaPercentage = state.getGeographicEntity.firstWhere((element) => element.continent == "Africa",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "Africa")).percentage/100;
+                              final northAmericaPercentage = state.getGeographicEntity.firstWhere((element) => element.continent == "North America",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "North America")).percentage/100;
+                              final southAmericaPercentage = state.getGeographicEntity.firstWhere((element) => element.continent == "South America",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "South America")).percentage/100;
                               final asiaColor = asiaPercentage == 0 ? Colors.grey : AppColors.primary.withOpacity(asiaPercentage);
                               final euroColor = euroPercentage == 0 ? Colors.grey : AppColors.primary.withOpacity(euroPercentage);
                               final australiaColor = australiaPercentage == 0 ? Colors.grey : AppColors.primary.withOpacity(australiaPercentage);

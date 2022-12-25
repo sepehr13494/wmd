@@ -6,6 +6,8 @@ import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_allocation_entity.dart';
 
+import 'min_max_calculator.dart';
+
 class BarChartMainDashboard extends StatelessWidget {
   final List<GetAllocationEntity> allocations;
   const BarChartMainDashboard({super.key, required this.allocations});
@@ -25,24 +27,11 @@ class BarChartMainDashboard extends StatelessWidget {
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-    double minY = 0;
-    if(allocations.isNotEmpty){
-      minY = allocations[0].netWorth;
-      for (var element in allocations) {
-        if(element.netWorth<minY){
-          minY = element.netWorth;
-        }
-      }
-    }
-    double maxY = 0;
-    if(allocations.isNotEmpty){
-      maxY = allocations[0].netWorth;
-      for (var element in allocations) {
-        if(element.netWorth>maxY){
-          maxY = element.netWorth;
-        }
-      }
-    }
+    List<double> minMax = MinMaxCalculator.calculateMinyMaxY(allocations,false);
+    double minY = minMax[0];
+    double maxY = minMax[1];
+    print(minY);
+    print(maxY);
     double x = max(maxY.abs() , minY.abs()) / 5;
     return FittedBox(
       fit: BoxFit.scaleDown,
@@ -55,24 +44,9 @@ class BarChartMainDashboard extends StatelessWidget {
   }
 
   BarChartData mainData(context) {
-    double minY = 0;
-    if(allocations.isNotEmpty){
-      minY = allocations[0].netWorth;
-      for (var element in allocations) {
-        if(element.netWorth<minY){
-          minY = element.netWorth;
-        }
-      }
-    }
-    double maxY = 0;
-    if(allocations.isNotEmpty){
-      maxY = allocations[0].netWorth;
-      for (var element in allocations) {
-        if(element.netWorth>maxY){
-          maxY = element.netWorth;
-        }
-      }
-    }
+    List<double> minMax = MinMaxCalculator.calculateMinyMaxY(allocations,false);
+    double minY = minMax[0];
+    double maxY = minMax[1];
     double x = max(maxY.abs() , minY.abs()) / 5;
     minY = (minY/x);
     maxY = (maxY/x);

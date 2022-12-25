@@ -78,6 +78,12 @@ class _SupportPageState extends AppState<SupportPage> {
                                   ? CrossAxisAlignment.center
                                   : CrossAxisAlignment.start,
                               children: [
+                                Container(
+                                    padding: const EdgeInsets.all(12),
+                                    child: const Icon(
+                                      Icons.email,
+                                      color: AppColors.primary,
+                                    )),
                                 Text(
                                   "Get Support",
                                   style: textTheme.headlineSmall,

@@ -4,19 +4,18 @@ import 'package:wmd/core/data/repository/app_data_source.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/models/app_request_options.dart';
-
 import '../models/get_all_valuation_params.dart';
 import '../models/get_all_valuation_response.dart';
+import '../models/get_valuation_performance_response.dart';
 import '../models/post_valuation_params.dart';
 import '../models/post_valuation_response.dart';
 import '../models/get_valuation_performance_params.dart';
-import '../models/get_valuation_performance_response.dart';
 
 abstract class ValuationRemoteDataSource {
   Future<List<GetAllValuationResponse>> getAllValuation(
       GetAllValuationParams params);
   Future<PostValuationResponse> postValuation(PostValuationParams params);
-  Future<List<GetValuationPerformanceResponse>> getValuationPerformance(
+  Future<GetValuationPerformanceResponse> getValuationPerformance(
       GetValuationPerformanceParams params);
 }
 
@@ -63,7 +62,7 @@ class ValuationRemoteDataSourceImpl extends AppServerDataSource
   }
 
   @override
-  Future<List<GetValuationPerformanceResponse>> getValuationPerformance(
+  Future<GetValuationPerformanceResponse> getValuationPerformance(
       GetValuationPerformanceParams params) async {
     try {
       final appRequestOptions = AppRequestOptions(
@@ -74,10 +73,7 @@ class ValuationRemoteDataSourceImpl extends AppServerDataSource
       });
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = (response as List<dynamic>)
-          .map((e) => GetValuationPerformanceResponse.fromJson(e))
-          .toList();
-      return result;
+      return GetValuationPerformanceResponse.fromJson(response);
     } on ServerException {
       rethrow;
     } catch (e) {

@@ -25,10 +25,10 @@ class BaseAssetsOverviewChartsWidget extends StatelessWidget {
                   Builder(builder: (context) {
                     List<String> items = [
                       "Bank Account",
-                      "Real Estate",
-                      "Private Equity",
                       "Public Equity",
+                      "Private Equity",
                       "Private Debt",
+                      "Real Estate",
                       "Other",
                     ];
                     return Wrap(

@@ -4,22 +4,15 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/custodian_bank_entity.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/widget/custodian_auth_status_modal.dart';
 
-class CustodianBankWidget extends StatefulWidget {
-  const CustodianBankWidget(this.bank, {required super.key});
+class CustodianBankWidgetV2 extends AppStatelessWidget {
+  const CustodianBankWidgetV2(
+      {super.key,
+      required this.bank,
+      required this.isSelected,
+      required this.onActive});
   final CustodianBankEntity bank;
-
-  @override
-  AppState<CustodianBankWidget> createState() => _CustodianBankWidgetState();
-}
-
-class _CustodianBankWidgetState extends AppState<CustodianBankWidget> {
-  bool isSelected = false;
-  late final CustodianBankEntity bank;
-  @override
-  void initState() {
-    super.initState();
-    bank = widget.bank;
-  }
+  final bool isSelected;
+  final void Function() onActive;
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -35,9 +28,7 @@ class _CustodianBankWidgetState extends AppState<CustodianBankWidget> {
         color: isSelected ? primaryColor.withOpacity(0.2) : null,
         child: ListTile(
           onTap: () {
-            setState(() {
-              isSelected = !isSelected;
-            });
+            onActive();
           },
           title: Text(bank.bankName),
           leading: Icon(Icons.account_balance, color: primaryColor),
@@ -46,9 +37,12 @@ class _CustodianBankWidgetState extends AppState<CustodianBankWidget> {
               : Builder(
                   builder: (context) {
                     return InkWell(
-                      onTap: () {
-                        showCustodianBankStatus(
-                            context: context, bankId: bank.bankId);
+                      onTap: () async {
+                        final rs = await showCustodianBankStatus(
+                          context: context,
+                          bankId: bank.bankId,
+                          // onOk: () => context.goNamed(AppRoutes.main),
+                        );
                       },
                       child: Container(
                         decoration: BoxDecoration(

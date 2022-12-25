@@ -1,26 +1,116 @@
 import 'package:flutter/material.dart';
-import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
-import 'package:wmd/features/asset_detail/core/presentation/widgets/as_of_date_widget.dart';
-import 'package:wmd/features/asset_detail/core/presentation/widgets/net_change_widget.dart';
-import 'package:wmd/features/asset_detail/core/presentation/widgets/portfolio_contribution_widget.dart';
-import 'package:wmd/features/asset_detail/core/presentation/widgets/your_holdings_widget.dart';
-import 'package:wmd/features/asset_detail/private_equity/domain/entity/private_equity_entity.dart';
+import 'as_of_date_widget.dart';
+import 'net_change_widget.dart';
+import 'portfolio_contribution_widget.dart';
+import 'your_holdings_widget.dart';
 
-class PrivateEquitySummaryWidget extends AppStatelessWidget {
-  final PrivateEquityEntity privateEquityEntity;
-  const PrivateEquitySummaryWidget(this.privateEquityEntity, {Key? key})
-      : super(key: key);
+class AsssetSummary extends AppStatelessWidget {
+  final String title;
+  final String? subTitle;
+  final String currencyCode;
+  final double holdings;
+  final int days;
+  final double netChange;
+  final double portfolioContribution;
+  final DateTime? asOfDate;
+  final void Function()? onEdit;
+  final Widget? child;
+  const AsssetSummary({
+    required this.title,
+    this.subTitle,
+    this.onEdit,
+    this.child,
+    required this.currencyCode,
+    required this.holdings,
+    required this.days,
+    required this.netChange,
+    required this.portfolioContribution,
+    this.asOfDate,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
+    final primaryColor = Theme.of(context).primaryColor;
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: textTheme.headlineSmall),
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              if (subTitle != null) Text(subTitle!),
+              if (onEdit != null)
+                _buildEditButton(primaryColor, textTheme, context),
+            ],
+          ),
+          if (child != null) child!,
+          SummaryCardWidget(
+              currencyCode: currencyCode,
+              holdings: holdings,
+              days: days,
+              netChange: netChange,
+              portfolioContribution: portfolioContribution,
+              asOfDate: asOfDate)
+        ],
+      ),
+    );
+  }
+
+  InkWell _buildEditButton(
+      Color primaryColor, TextTheme textTheme, BuildContext context) {
+    return InkWell(
+      onTap: () {
+        onEdit!();
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border.all(color: primaryColor),
+            borderRadius: const BorderRadius.all(Radius.circular(2))),
+        child: Padding(
+          padding: const EdgeInsets.all(6),
+          child: Text(
+            'Edit details',
+            style: textTheme.labelMedium!
+                .apply(color: Theme.of(context).primaryColor),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SummaryCardWidget extends AppStatelessWidget {
+  final String currencyCode;
+  final double holdings;
+  final int days;
+  final double netChange;
+  final double portfolioContribution;
+  final DateTime? asOfDate;
+  const SummaryCardWidget({
+    required this.currencyCode,
+    required this.holdings,
+    required this.days,
+    required this.netChange,
+    required this.portfolioContribution,
+    this.asOfDate,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final String currencySymbol =
-        AppConstants.getCurrencySymbolByCode(privateEquityEntity.currencyCode);
+        AppConstants.getCurrencySymbolByCode(currencyCode);
     final lineColor = Theme.of(context).dividerColor;
     final responsiveHelper = ResponsiveHelper(context: context);
     bool isMobile = responsiveHelper.isMobile;
@@ -44,8 +134,8 @@ class PrivateEquitySummaryWidget extends AppStatelessWidget {
                 ExpandedIf(
                   expanded: !isMobile,
                   child: YourHoldingsWidget(
-                    holdings: privateEquityEntity.holdings,
-                    currencyCode: privateEquityEntity.currencyCode,
+                    holdings: holdings,
+                    currencyCode: currencyCode,
                   ),
                 ),
                 !isMobile
@@ -70,8 +160,9 @@ class PrivateEquitySummaryWidget extends AppStatelessWidget {
                           ExpandedIf(
                             expanded: !isMobile,
                             child: NetChangeWidget(
-                              current: privateEquityEntity.holdings,
-                              old: privateEquityEntity.marketValue,
+                              current: holdings,
+                              days: days,
+                              change: netChange,
                             ),
                           ),
                           ExpandedIf(
@@ -119,10 +210,10 @@ class PrivateEquitySummaryWidget extends AppStatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           child: PortfolioContributionWidget(
-                              portfolioContribution:
-                                  privateEquityEntity.portfolioContribution,
-                              holdings: privateEquityEntity.holdings,
-                              currencyCode: privateEquityEntity.currencyCode),
+                            portfolioContribution: portfolioContribution,
+                            holdings: holdings,
+                            currencyCode: currencyCode,
+                          ),
                         ),
                       ),
                     ],
@@ -132,7 +223,7 @@ class PrivateEquitySummaryWidget extends AppStatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          AsOfDateWidget(shownDate: privateEquityEntity.investmentDate),
+          if (asOfDate != null) AsOfDateWidget(shownDate: asOfDate!),
         ],
       ),
     );
