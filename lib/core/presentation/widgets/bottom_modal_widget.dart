@@ -23,14 +23,14 @@ class BottomModalWidget extends StatelessWidget {
     final isMobile = responsiveHelper.isMobile;
 
     return BackdropFilter(
-      filter: ImageFilter.dilate(),
-      // filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+      // filter: ImageFilter.dilate(),
+      filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
       child: Dialog(
         insetPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
         clipBehavior: Clip.antiAliasWithSaveLayer,
-        alignment: Alignment.bottomCenter,
+        alignment: Alignment.center,
         child: SizedBox(
           width: double.infinity,
           height: isMobile
