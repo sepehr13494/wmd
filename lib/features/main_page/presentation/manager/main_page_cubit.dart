@@ -14,4 +14,8 @@ class MainPageCubit extends Cubit<int> {
     selectedIndex = index;
     emit(selectedIndex);
   }
+
+  initMainPageBlocs(){
+
+  }
 }

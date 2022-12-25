@@ -6,7 +6,6 @@
 import 'dart:async' as _i5;
 
 import 'package:dartz/dartz.dart' as _i3;
-import 'package:flutter/material.dart' as _i8;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:wmd/core/error_and_success/failures.dart' as _i6;
 import 'package:wmd/features/dashboard/main_dashbaord/data/models/net_worth_response_obj.dart'
@@ -67,7 +66,7 @@ class MockUserNetWorthUseCase extends _i1.Mock
       ) as _i2.MainDashboardRepository);
   @override
   _i5.Future<_i3.Either<_i6.Failure, _i7.NetWorthResponseObj>> call(
-          _i8.DateTimeRange? params) =>
+          dynamic params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,

@@ -22,6 +22,5 @@ class NetWorthParams extends Equatable{
   static NetWorthParams tNetWorthParams = NetWorthParams(from: DateTime(2022,6,5),to: DateTime(2022,7,5));
 
   @override
-  // TODO: implement props
   List<Object?> get props => [from,to];
 }

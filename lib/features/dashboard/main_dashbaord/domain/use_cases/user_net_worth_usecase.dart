@@ -6,15 +6,15 @@ import 'package:wmd/features/dashboard/main_dashbaord/data/models/net_worth_resp
 import 'package:wmd/features/dashboard/main_dashbaord/data/models/net_worth_params.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/domain/repositories/main_dashboard_repository.dart';
 
-class UserNetWorthUseCase extends UseCase<NetWorthResponseObj, DateTimeRange?> {
+class UserNetWorthUseCase extends UseCase<NetWorthResponseObj, dynamic> {
   final MainDashboardRepository dashboardRepository;
 
   UserNetWorthUseCase(this.dashboardRepository);
   @override
-  Future<Either<Failure, NetWorthResponseObj>> call(DateTimeRange? params) {
+  Future<Either<Failure, NetWorthResponseObj>> call(dynamic params) {
     late NetWorthParams finalParams;
     if(params != null){
-      finalParams = NetWorthParams(from: params.start, to: params.end);
+      finalParams = NetWorthParams(from: DateTime.now(), to: DateTime.now().subtract(Duration(days: (params as MapEntry<String,int>).value)));
     }else{
       finalParams = NetWorthParams();
     }
