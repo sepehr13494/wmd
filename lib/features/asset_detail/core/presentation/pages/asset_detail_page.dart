@@ -232,7 +232,6 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                       Theme.of(context).primaryColor,
                     ),
                   );
-
                 default:
                   return Text(state.assetDetailEntity.toString());
               }

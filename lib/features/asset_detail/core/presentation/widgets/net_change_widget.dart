@@ -19,9 +19,9 @@ class NetChangeWidget extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
     final ResponsiveHelper responsiveHelper =
         ResponsiveHelper(context: context);
-    // final diff = (current - change);
-    // final value = diff.convertMoney(addDollar: true);
-    final percent = current / change * 100;
+
+    double percent = (current / change * 100);
+    percent = change == 0 ? 0 : percent;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -54,6 +54,7 @@ class NetChangeWidget extends AppStatelessWidget {
               change.convertMoney(addDollar: true),
               style: textTheme.bodyLarge,
             ),
+            const SizedBox(width: 4),
             ChangeWidget(number: percent, text: "$percent%"),
           ],
         ),
