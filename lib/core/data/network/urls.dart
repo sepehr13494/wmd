@@ -27,6 +27,7 @@ class AppUrls {
   static String setName = "${userBase}user/personal-info";
   static String setNumber = "${userBase}user/phone-number";
   static String faqsContent = "${contentBase}faqs";
+  static String postInquiry = "${wealthBase}Inquiry";
 
   static String postBankDetails = "${wealthBase}BankAccount";
   static String postPrivateEquity = "${wealthBase}PrivateEquity";

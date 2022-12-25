@@ -40,8 +40,7 @@ class ErrorHandlerMiddleware {
             throw ServerException(
                 data: response.data,
                 type: ExceptionType.unExpected,
-                message:
-                    "Something went wrong on server with ${response.statusCode}");
+                message: "Something Went Wrong");
           } else {
             throw ServerException(
                 message: response.data["message"] ?? "Un expected error",

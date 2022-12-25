@@ -3,10 +3,10 @@ part of 'general_inquiry_cubit.dart';
 abstract class GeneralInquiryState {}
 
 class GeneralInquirySaved extends Equatable with GeneralInquiryState {
-  final UserStatus userStatus;
+  final SupportStatus status;
 
-  GeneralInquirySaved({required this.userStatus});
+  GeneralInquirySaved({required this.status});
 
   @override
-  List<Object?> get props => [userStatus];
+  List<Object?> get props => [status];
 }

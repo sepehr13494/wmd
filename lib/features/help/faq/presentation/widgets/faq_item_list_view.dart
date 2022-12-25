@@ -42,7 +42,10 @@ class _FaqItemListState extends AppState<FaqItemList> {
             return ExpansionPanelList(
                 expansionCallback: (panelIndex, isExpanded) {
                   setState(() {
-                    expanded[panelIndex] = !isExpanded;
+                    final currentList = expanded.map((x) => false).toList();
+                    currentList[panelIndex] = !isExpanded;
+                    expanded = currentList;
+                    // expanded[panelIndex] = !isExpanded;
                   });
                 },
                 animationDuration: const Duration(seconds: 2),
