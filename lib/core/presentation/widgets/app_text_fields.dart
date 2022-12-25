@@ -516,7 +516,8 @@ class PasswordTextField extends StatefulWidget {
   final GlobalKey<FormBuilderFieldState>? passwordKey;
   ValueChanged<String?>? onChange;
 
-  PasswordTextField({Key? key, this.hint, this.onChange, this.passwordKey, this.name})
+  PasswordTextField(
+      {Key? key, this.hint, this.onChange, this.passwordKey, this.name})
       : super(key: key);
 
   @override
@@ -536,8 +537,9 @@ class _PasswordTextFieldState extends AppState<PasswordTextField> {
             key: widget.passwordKey,
             name: widget.name ?? "password",
             type: TextFieldType.password,
-            hint: widget.name ?? (widget.hint ??
-                appLocalizations.auth_signup_input_password_placeholder),
+            hint: widget.name ??
+                (widget.hint ??
+                    appLocalizations.auth_signup_input_password_placeholder),
             obscureText: !visible,
             suffixIcon: IconButton(
               onPressed: () {

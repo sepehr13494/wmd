@@ -3,16 +3,17 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
-import 'package:wmd/features/dashboard/user_status/data/models/user_status.dart';
+import 'package:wmd/features/help/support/data/models/support_status.dart';
 import 'package:wmd/features/help/support/domain/repositories/general_inquiry_repository.dart';
 
 class PostGeneralInquiryUseCase
-    extends UseCase<UserStatus, Map<String, dynamic>> {
+    extends UseCase<SupportStatus, Map<String, dynamic>> {
   final GeneralInquiryRepository generalInquiryRepository;
 
   PostGeneralInquiryUseCase(this.generalInquiryRepository);
   @override
-  Future<Either<Failure, UserStatus>> call(Map<String, dynamic> params) async {
+  Future<Either<Failure, SupportStatus>> call(
+      Map<String, dynamic> params) async {
     try {
       final postParams = GeneralInquiryParams.fromJson(params);
 
