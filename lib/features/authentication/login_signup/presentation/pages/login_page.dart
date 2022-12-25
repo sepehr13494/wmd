@@ -29,7 +29,7 @@ class LoginPage extends AppStatelessWidget {
     return BlocProvider(
       create: (context) => sl<LoginSignUpCubit>(),
       child: Scaffold(
-        appBar: const CustomAuthAppBar(),
+        appBar: const CustomAuthAppBar(automaticallyImplyLeading: false),
         body: WidthLimiterWidget(
           child: BlocConsumer<LoginSignUpCubit, LoginSignUpState>(
             listener:
