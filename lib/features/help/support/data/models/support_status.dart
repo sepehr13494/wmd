@@ -7,13 +7,13 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
 
-UserStatus userStatusFromJson(String str) =>
-    UserStatus.fromJson(json.decode(str));
+SupportStatus userStatusFromJson(String str) =>
+    SupportStatus.fromJson(json.decode(str));
 
-String userStatusToJson(UserStatus data) => json.encode(data.toJson());
+String userStatusToJson(SupportStatus data) => json.encode(data.toJson());
 
-class UserStatus extends Equatable {
-  UserStatus({
+class SupportStatus extends Equatable {
+  const SupportStatus({
     this.email,
     this.loginAt,
     this.externalId,
@@ -27,7 +27,7 @@ class UserStatus extends Equatable {
   final String? userId;
   final bool? emailVerified;
 
-  factory UserStatus.fromJson(Map<String, dynamic> json) => UserStatus(
+  factory SupportStatus.fromJson(Map<String, dynamic> json) => SupportStatus(
         email: json["email"],
         loginAt: json["loginAt"],
         emailVerified: json["emailVerified"],
@@ -47,7 +47,7 @@ class UserStatus extends Equatable {
   List<Object?> get props =>
       [email, loginAt, externalId, userId, emailVerified];
 
-  static final tUserStatusParam = UserStatus(
+  static final tSupportStatusParam = SupportStatus(
       email: "test@yopmail.com", loginAt: CustomizableDateTime.currentDate);
   static final tUserStatusResponse = {
     "email": "test@yopmail.com",
@@ -57,6 +57,6 @@ class UserStatus extends Equatable {
     "emailVerified": false
   };
 
-  static final tUserStatus = UserStatus(
+  static final tSupportStatus = SupportStatus(
       email: "test@yopmail.com", loginAt: CustomizableDateTime.currentDate);
 }

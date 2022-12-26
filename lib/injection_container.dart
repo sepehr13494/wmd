@@ -92,7 +92,10 @@ import 'package:wmd/features/dashboard/dashboard_charts/domain/repositories/dash
 import 'package:wmd/features/dashboard/dashboard_charts/domain/use_cases/get_allocation_usecase.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/use_cases/get_geographic_usecase.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/use_cases/get_pie_usecase.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_goe_cubit.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/data/data_sources/main_dashboard_remote_data_source.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/data/repositories/main_dashboard_respository_impl.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/domain/repositories/main_dashboard_repository.dart';
@@ -109,6 +112,11 @@ import 'package:wmd/features/help/faq/data/repositories/faq_respository_impl.dar
 import 'package:wmd/features/help/faq/domain/repositories/faq_repository.dart';
 import 'package:wmd/features/help/faq/domain/use_cases/get_faq_usecase.dart';
 import 'package:wmd/features/help/faq/presentation/manager/faq_cubit.dart';
+import 'package:wmd/features/help/support/data/data_sources/general_inquiry_remote_data_source.dart';
+import 'package:wmd/features/help/support/data/repositories/general_inquiry_respository_impl.dart';
+import 'package:wmd/features/help/support/domain/repositories/general_inquiry_repository.dart';
+import 'package:wmd/features/help/support/domain/use_cases/post_general_inquiry_usecase.dart';
+import 'package:wmd/features/help/support/presentation/manager/general_inquiry_cubit.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/features/profile/personal_information/data/data_sources/personal_information_remote_datasource.dart';
 import 'package:wmd/features/profile/personal_information/data/repositories/personal_information_repository_impl.dart';
@@ -213,7 +221,9 @@ Future<void> init() async {
       () => MainDashboardRemoteDataSourceImpl(sl()));
 
   //DashboardCharts
-  sl.registerFactory(() => DashboardChartsCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => DashboardAllocationCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => DashboardPieCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => DashboardGoeCubit(sl(), sl(), sl()));
   sl.registerLazySingleton(() => GetAllocationUseCase(sl(), sl()));
   sl.registerLazySingleton(() => GetGeographicUseCase(sl(), sl()));
   sl.registerLazySingleton(() => GetPieUseCase(sl(), sl()));
@@ -375,9 +385,17 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ResetUseCase(sl()));
 
   sl.registerLazySingleton<ProfileResetPasswordRepository>(
-          () => ProfileResetPasswordRepositoryImpl(sl()));
+      () => ProfileResetPasswordRepositoryImpl(sl()));
   sl.registerLazySingleton<ProfileResetPasswordRemoteDataSource>(
-          () => ProfileResetPasswordRemoteDataSourceImpl(sl()));
+      () => ProfileResetPasswordRemoteDataSourceImpl(sl()));
+
+  //GeneralInquiryCubit
+  sl.registerFactory(() => GeneralInquiryCubit(sl()));
+  sl.registerLazySingleton(() => PostGeneralInquiryUseCase(sl()));
+  sl.registerLazySingleton<GeneralInquiryRepository>(
+      () => GeneralInquiryRepositoryImpl(sl()));
+  sl.registerLazySingleton<GeneralInquiryRemoteDataSource>(
+      () => GeneralInquiryRemoteDataSourceImpl(sl()));
 
   await initExternal();
 }

@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/pages/assets_overview_page.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_goe_cubit.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/pages/dashboard_main_page.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/pages/dashboard_page.dart';
@@ -42,58 +47,52 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sl<MainPageCubit>(),
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-              create: (context) => sl<MainDashboardCubit>()..initPage()),
-          BlocProvider(
-              create: (context) =>
-                  sl<AssetsOverviewCubit>()..getAssetsOverview())
-        ],
-        child: Builder(builder: (context) {
-          return BlocBuilder<MainPageCubit, int>(
-            builder: (context, state) {
-              return Scaffold(
-                body: DoubleBackToCloseApp(
-                  snackBar: const SnackBar(
-                    content: Text('for exit click again'),
-                  ),
-                  child: Center(
-                    child: _widgetOptions.elementAt(state),
+      child: Builder(builder: (context) {
+        return BlocBuilder<MainPageCubit, int>(
+          builder: (context, state) {
+            return Scaffold(
+              body: DoubleBackToCloseApp(
+                snackBar: const SnackBar(
+                  content: Text('for exit click again'),
+                ),
+                child: Center(
+                  child: _widgetOptions.elementAt(state),
+                ),
+              ),
+              bottomNavigationBar: sl<GetUserStatusUseCase>().showOnboarding
+                  ? null
+                  : Material(
+                elevation: 10,
+                child: Container(
+                  color: Theme
+                      .of(context)
+                      .navigationBarTheme
+                      .backgroundColor,
+                  child: BottomNavigationBar(
+                    elevation: 0,
+                    items: List.generate(items.length, (index) {
+                      return BottomNavigationBarItem(
+                        icon: Icon(items[index][0]),
+                        label: items[index][1],
+                      );
+                    }),
+                    unselectedLabelStyle: const TextStyle(fontSize: 10),
+                    selectedLabelStyle: const TextStyle(fontSize: 12),
+                    currentIndex: state,
+                    showUnselectedLabels: true,
+                    type: BottomNavigationBarType.fixed,
+                    onTap: sl<GetUserStatusUseCase>().showOnboarding
+                        ? null
+                        : context
+                        .read<MainPageCubit>()
+                        .onItemTapped,
                   ),
                 ),
-                bottomNavigationBar: sl<GetUserStatusUseCase>().showOnboarding
-                    ? null
-                    : Material(
-                        elevation: 10,
-                        child: Container(
-                          color: Theme.of(context)
-                              .navigationBarTheme
-                              .backgroundColor,
-                          child: BottomNavigationBar(
-                            elevation: 0,
-                            items: List.generate(items.length, (index) {
-                              return BottomNavigationBarItem(
-                                icon: Icon(items[index][0]),
-                                label: items[index][1],
-                              );
-                            }),
-                            unselectedLabelStyle: const TextStyle(fontSize: 10),
-                            selectedLabelStyle: const TextStyle(fontSize: 12),
-                            currentIndex: state,
-                            showUnselectedLabels: true,
-                            type: BottomNavigationBarType.fixed,
-                            onTap: sl<GetUserStatusUseCase>().showOnboarding
-                                ? null
-                                : context.read<MainPageCubit>().onItemTapped,
-                          ),
-                        ),
-                      ),
-              );
-            },
-          );
-        }),
-      ),
+              ),
+            );
+          },
+        );
+      }),
     );
   }
 }
