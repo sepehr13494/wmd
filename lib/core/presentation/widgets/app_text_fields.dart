@@ -513,10 +513,11 @@ class _DropDownTypeAheadState extends State<DropDownTypeAhead> {
 class PasswordTextField extends StatefulWidget {
   final String? hint;
   final String? name;
+  final bool showEye;
   final GlobalKey<FormBuilderFieldState>? passwordKey;
   ValueChanged<String?>? onChange;
 
-  PasswordTextField({Key? key, this.hint, this.onChange, this.passwordKey, this.name})
+  PasswordTextField({Key? key, this.hint, this.onChange, this.passwordKey, this.name, this.showEye = true})
       : super(key: key);
 
   @override
@@ -539,7 +540,7 @@ class _PasswordTextFieldState extends AppState<PasswordTextField> {
             hint: widget.name ?? (widget.hint ??
                 appLocalizations.auth_signup_input_password_placeholder),
             obscureText: !visible,
-            suffixIcon: IconButton(
+            suffixIcon: widget.showEye ? IconButton(
               onPressed: () {
                 setState(() {
                   visible = !visible;
@@ -549,7 +550,7 @@ class _PasswordTextFieldState extends AppState<PasswordTextField> {
                 visible ? Icons.remove_red_eye_outlined : Icons.remove_red_eye,
                 color: Theme.of(context).primaryColor,
               ),
-            ),
+            ) : null,
             onChanged: widget.onChange),
       ],
     );

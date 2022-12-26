@@ -6,16 +6,11 @@ import 'package:wmd/features/dashboard/user_status/presentation/manager/user_sta
 import 'package:wmd/injection_container.dart';
 
 class MainPageCubit extends Cubit<int> {
-  MainPageCubit() : super(sl<GetUserStatusUseCase>().showOnboarding ? 1 : 0);
+  MainPageCubit() : super(0);
 
-  int selectedIndex = sl<GetUserStatusUseCase>().showOnboarding ? 1 : 0;
 
   void onItemTapped(int index) {
-    selectedIndex = index;
-    emit(selectedIndex);
+    emit(index);
   }
 
-  initMainPageBlocs(){
-
-  }
 }
