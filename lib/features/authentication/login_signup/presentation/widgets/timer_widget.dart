@@ -7,8 +7,12 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 class TimerWidget extends StatefulWidget {
   final Function sendCodeAgain;
   final int timerTime;
+  final bool isForgotPasswordPage;
   const TimerWidget(
-      {Key? key, required this.sendCodeAgain, this.timerTime = 20})
+      {Key? key,
+      required this.sendCodeAgain,
+      this.timerTime = 20,
+      this.isForgotPasswordPage = false})
       : super(key: key);
 
   @override
@@ -69,7 +73,23 @@ class _TimerWidgetState extends AppState<TimerWidget> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(appLocalizations.auth_verify_text_noEmailReceived),
+        RichText(
+            text: TextSpan(
+                children: widget.isForgotPasswordPage && !canSend
+                    ? [
+                        TextSpan(
+                            text: appLocalizations
+                                .auth_verify_text_noEmailReceived),
+                        const TextSpan(text: " "),
+                        TextSpan(
+                          text: appLocalizations.auth_forgot_link_resendIn,
+                        ),
+                      ]
+                    : [
+                        TextSpan(
+                            text: appLocalizations
+                                .auth_verify_text_noEmailReceived),
+                      ])),
         const SizedBox(
           width: 8,
         ),

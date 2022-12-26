@@ -112,6 +112,11 @@ import 'package:wmd/features/help/faq/data/repositories/faq_respository_impl.dar
 import 'package:wmd/features/help/faq/domain/repositories/faq_repository.dart';
 import 'package:wmd/features/help/faq/domain/use_cases/get_faq_usecase.dart';
 import 'package:wmd/features/help/faq/presentation/manager/faq_cubit.dart';
+import 'package:wmd/features/help/support/data/data_sources/general_inquiry_remote_data_source.dart';
+import 'package:wmd/features/help/support/data/repositories/general_inquiry_respository_impl.dart';
+import 'package:wmd/features/help/support/domain/repositories/general_inquiry_repository.dart';
+import 'package:wmd/features/help/support/domain/use_cases/post_general_inquiry_usecase.dart';
+import 'package:wmd/features/help/support/presentation/manager/general_inquiry_cubit.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/features/profile/personal_information/data/data_sources/personal_information_remote_datasource.dart';
 import 'package:wmd/features/profile/personal_information/data/repositories/personal_information_repository_impl.dart';
@@ -380,9 +385,17 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ResetUseCase(sl()));
 
   sl.registerLazySingleton<ProfileResetPasswordRepository>(
-          () => ProfileResetPasswordRepositoryImpl(sl()));
+      () => ProfileResetPasswordRepositoryImpl(sl()));
   sl.registerLazySingleton<ProfileResetPasswordRemoteDataSource>(
-          () => ProfileResetPasswordRemoteDataSourceImpl(sl()));
+      () => ProfileResetPasswordRemoteDataSourceImpl(sl()));
+
+  //GeneralInquiryCubit
+  sl.registerFactory(() => GeneralInquiryCubit(sl()));
+  sl.registerLazySingleton(() => PostGeneralInquiryUseCase(sl()));
+  sl.registerLazySingleton<GeneralInquiryRepository>(
+      () => GeneralInquiryRepositoryImpl(sl()));
+  sl.registerLazySingleton<GeneralInquiryRemoteDataSource>(
+      () => GeneralInquiryRemoteDataSourceImpl(sl()));
 
   await initExternal();
 }
