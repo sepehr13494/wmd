@@ -69,19 +69,16 @@ class VerifyEmailPage extends AppStatelessWidget {
                   padding: EdgeInsets.symmetric(
                       horizontal: responsiveHelper.optimalDeviceWidth * 0.05),
                   child: RichText(
+                    textAlign: TextAlign.center,
                     text: _isForgotPasswordPage()
                         ? TextSpan(children: [
                             TextSpan(
                               text: appLocalizations
                                   .auth_forgot_emailSentSuccess_subheading
-                                  .replaceFirst("%s", ""),
-                              style:
-                                  textTheme.bodyMedium!.copyWith(height: 1.3),
-                            ),
-                            TextSpan(
-                              text: verifyMap["email"],
-                              style:
-                                  textTheme.titleSmall!.copyWith(height: 1.3),
+                                  .replaceFirst("%s", verifyMap["email"]),
+                              style: textTheme.bodyMedium!.copyWith(
+                                height: 1.3,
+                              ),
                             ),
                           ])
                         : TextSpan(children: [
@@ -104,7 +101,8 @@ class VerifyEmailPage extends AppStatelessWidget {
                     sendCodeAgain: () {
                       context.read<LoginSignUpCubit>().resendEmail();
                     },
-                    timerTime: _isForgotPasswordPage() ? 300 : 10),
+                    timerTime: _isForgotPasswordPage() ? 300 : 10,
+                    isForgotPasswordPage: _isForgotPasswordPage()),
                 const Spacer(),
                 const Divider(),
                 RichText(
