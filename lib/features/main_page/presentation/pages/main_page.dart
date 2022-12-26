@@ -27,13 +27,11 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   static final List<Widget> _widgetOptions = <Widget>[
     const DashboardMainPage(),
-    const DashboardPage(),
     const AssetsOverView(),
   ];
 
   static final List<List> items = [
     [Icons.home, 'Home'],
-    [Icons.account_box, 'Main'],
     [Icons.bar_chart, 'Assets'],
   ];
 
@@ -59,9 +57,7 @@ class _MainPageState extends State<MainPage> {
                   child: _widgetOptions.elementAt(state),
                 ),
               ),
-              bottomNavigationBar: sl<GetUserStatusUseCase>().showOnboarding
-                  ? null
-                  : Material(
+              bottomNavigationBar: Material(
                 elevation: 10,
                 child: Container(
                   color: Theme
@@ -81,9 +77,7 @@ class _MainPageState extends State<MainPage> {
                     currentIndex: state,
                     showUnselectedLabels: true,
                     type: BottomNavigationBarType.fixed,
-                    onTap: sl<GetUserStatusUseCase>().showOnboarding
-                        ? null
-                        : context
+                    onTap: context
                         .read<MainPageCubit>()
                         .onItemTapped,
                   ),

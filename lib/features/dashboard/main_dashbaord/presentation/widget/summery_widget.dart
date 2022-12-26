@@ -31,9 +31,9 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
   Widget buildWidget(BuildContext context,TextTheme textTheme, AppLocalizations appLocalizations) {
     final String date = (context.watch<MainDashboardCubit>().dateTimeRange??_timeFilter[0]).key;
     final List items = [
-      ["Total Net Worth",widget.netWorthEntity.totalNetWorth.currentValue,"Change $date",widget.netWorthEntity.totalNetWorth.change],
-      ["Assets",widget.netWorthEntity.assets.currentValue,"Change $date",widget.netWorthEntity.assets.change],
-      ["Liabilities",widget.netWorthEntity.liabilities.currentValue,"Change $date",widget.netWorthEntity.liabilities.change],
+      ["Total Net Worth",widget.netWorthEntity.totalNetWorth.currentValue,"Change in last $date",widget.netWorthEntity.totalNetWorth.change],
+      ["Assets",widget.netWorthEntity.assets.currentValue,"Change in last $date",widget.netWorthEntity.assets.change],
+      ["Liabilities",widget.netWorthEntity.liabilities.currentValue,"Change in last $date",widget.netWorthEntity.liabilities.change],
     ];
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
     return Column(

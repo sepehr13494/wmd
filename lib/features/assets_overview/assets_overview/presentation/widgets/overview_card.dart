@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
+import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
@@ -22,7 +23,8 @@ class OverViewCard extends AppStatelessWidget {
         return Stack(
           alignment: AlignmentDirectional.bottomEnd,
           children: [
-            Container(
+            state is MainDashboardNetWorthLoaded
+            ? Container(
               decoration: BoxDecoration(
                   border: Border.all(color: Theme.of(context).dividerColor),
                   borderRadius: BorderRadius.circular(8),
@@ -51,10 +53,8 @@ class OverViewCard extends AppStatelessWidget {
                             FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
-                                state is MainDashboardNetWorthLoaded
-                                    ? state.netWorthObj.assets.currentValue
-                                        .convertMoney(addDollar: true)
-                                    : "...",
+                                state.netWorthObj.assets.currentValue
+                                        .convertMoney(addDollar: true),
                                 style: const TextStyle(
                                     fontSize: 28, fontWeight: FontWeight.w300),
                               ),
@@ -100,13 +100,13 @@ class OverViewCard extends AppStatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Last 365 days",
+                                      "Last ${context.read<MainDashboardCubit>().dateTimeRange.value} days",
                                       style: textTheme.bodySmall,
                                     ),
                                     Row(
                                       children: [
                                         Text(
-                                          "\$1,326,320",
+                                          state.netWorthObj.assets.change.convertMoney(addDollar: true),
                                           style: textTheme.bodyLarge,
                                         ),
                                         ChangeWidget(
@@ -130,7 +130,7 @@ class OverViewCard extends AppStatelessWidget {
                   ],
                 ),
               ),
-            ),
+            ) : const LoadingWidget(),
             Padding(
               padding: const EdgeInsets.all(16),
               child: Text(
