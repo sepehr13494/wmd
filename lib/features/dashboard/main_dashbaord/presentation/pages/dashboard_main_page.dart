@@ -41,8 +41,6 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
             if (!(state.userStatus.emailVerified ?? true)) {
               context.goNamed(AppRoutes.verifyEmail,
                   queryParams: {"email": state.userStatus.email ?? ""});
-            } else if (state.userStatus.loginAt == null) {
-              context.goNamed(AppRoutes.onboarding);
             }
           }
         }),
@@ -58,14 +56,16 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                 outlinedButtonTheme: OutlinedButtonThemeData(
                                   style: appTheme.outlinedButtonTheme.style!
                                       .copyWith(
-                                          minimumSize: MaterialStateProperty.all(
-                                              const Size(0, 48))),
+                                          minimumSize:
+                                              MaterialStateProperty.all(
+                                                  const Size(0, 48))),
                                 ),
                                 elevatedButtonTheme: ElevatedButtonThemeData(
                                   style: appTheme.outlinedButtonTheme.style!
                                       .copyWith(
-                                          minimumSize: MaterialStateProperty.all(
-                                              const Size(0, 48))),
+                                          minimumSize:
+                                              MaterialStateProperty.all(
+                                                  const Size(0, 48))),
                                 ),
                                 iconTheme: appTheme.iconTheme
                                     .copyWith(color: appTheme.primaryColor)),
@@ -97,7 +97,7 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                                   ExpandedIf(
                                                       expanded: !isMobile,
                                                       child:
-                                                          RandomWorldMapGenrator()),
+                                                          const RandomWorldMapGenrator()),
                                                   ExpandedIf(
                                                       expanded: !isMobile,
                                                       child:
@@ -114,14 +114,40 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                                 .toList(),
                                           )
                                         : const DashboardPage()
-                                    : LoadingWidget();
+                                    : const LoadingWidget();
                               },
                             ),
                           ),
                         ),
                       ),
                     )
-                  : const LoadingWidget()
+                  : WidthLimiterWidget(
+                      width: 700,
+                      child: Center(
+                          child: SingleChildScrollView(
+                              child: Theme(
+                                  data: appTheme.copyWith(
+                                      outlinedButtonTheme:
+                                          OutlinedButtonThemeData(
+                                        style: appTheme
+                                            .outlinedButtonTheme.style!
+                                            .copyWith(
+                                                minimumSize:
+                                                    MaterialStateProperty.all(
+                                                        const Size(0, 48))),
+                                      ),
+                                      elevatedButtonTheme:
+                                          ElevatedButtonThemeData(
+                                        style: appTheme
+                                            .outlinedButtonTheme.style!
+                                            .copyWith(
+                                                minimumSize:
+                                                    MaterialStateProperty.all(
+                                                        const Size(0, 48))),
+                                      ),
+                                      iconTheme: appTheme.iconTheme.copyWith(
+                                          color: appTheme.primaryColor)),
+                                  child: const DashboardPage()))))
               : const LoadingWidget();
         },
       ),
