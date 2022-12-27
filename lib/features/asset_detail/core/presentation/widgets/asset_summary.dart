@@ -213,15 +213,12 @@ class SummaryCardWidget extends AppStatelessWidget {
                           ),
                         ],
                       ),
-                      ExpandedIf(
-                        expanded: !isMobile,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          child: PortfolioContributionWidget(
-                            portfolioContribution: portfolioContribution,
-                            holdings: holdings,
-                            currencyCode: currencyCode,
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: PortfolioContributionWidget(
+                          portfolioContribution: portfolioContribution,
+                          holdings: holdings,
+                          currencyCode: currencyCode,
                         ),
                       ),
                     ],

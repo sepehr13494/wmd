@@ -88,26 +88,26 @@ class EachAssetType extends AppStatelessWidget {
             ],
           ),
           if (assetsOverview.assetList.isNotEmpty)
-            Column(
-              children: [
-                const Padding(
-                  padding:
-                      EdgeInsets.only(top: 12, bottom: 4, right: 4, left: 4),
-                  child: ResponsiveWidget(
-                    mobile: AssetTypeMobileTableTitle(),
-                    tablet: AssetTypeTabletTableTitle(),
-                    desktop: AssetTypeTabletTableTitle(),
+            AssetsOverviewInherit(
+              assetList: assetsOverview.assetList,
+              type: assetsOverview.type,
+              child: Column(
+                children: [
+                  const Padding(
+                    padding:
+                        EdgeInsets.only(top: 12, bottom: 4, right: 4, left: 4),
+                    child: ResponsiveWidget(
+                      mobile: AssetTypeMobileTableTitle(),
+                      tablet: AssetTypeTabletTableTitle(),
+                      desktop: AssetTypeTabletTableTitle(),
+                    ),
                   ),
-                ),
-                AssetsOverviewInherit(
-                  assetList: assetsOverview.assetList,
-                  type: assetsOverview.type,
-                  child: AssetListWidget(
+                  AssetListWidget(
                     assetList: assetsOverview.assetList,
                     type: assetsOverview.type,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           /*AssetsOverviewInherit(
             assetList: assetsOverview.assetList,
