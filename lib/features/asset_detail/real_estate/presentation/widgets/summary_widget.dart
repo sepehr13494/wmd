@@ -213,7 +213,8 @@ class RealEstateSummaryWidget extends AppStatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          AsOfDateWidget(shownDate: realEstateEntity.acquisitionDate),
+          if (realEstateEntity.asOfDate != null)
+            AsOfDateWidget(shownDate: realEstateEntity.asOfDate!),
         ],
       ),
     );

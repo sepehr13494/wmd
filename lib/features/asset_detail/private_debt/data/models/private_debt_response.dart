@@ -15,6 +15,7 @@ class PrivateDebtResponse extends PrivateDebtEntity
     required super.isActive,
     required super.country,
     required super.region,
+    required super.asOfDate,
     required super.currencyCode,
     required super.portfolioContribution,
     required super.holdings,
@@ -32,6 +33,8 @@ class PrivateDebtResponse extends PrivateDebtEntity
         holdings: double.tryParse(json["holdings"].toString()) ?? 0,
         valuationDate: DateTime.parse(json["valuationDate"] ??
             DateTime.fromMillisecondsSinceEpoch(0).toIso8601String()),
+        asOfDate:
+            json["asOfDate"] == null ? null : DateTime.parse(json["asOfDate"]),
         id: json["id"] ?? '',
         type: json["type"] ?? '',
         isActive: json["isActive"] ?? '',

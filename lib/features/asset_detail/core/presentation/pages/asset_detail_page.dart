@@ -173,7 +173,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                     days: days,
                     netChange: netChange,
                     portfolioContribution: item.portfolioContribution,
-                    asOfDate: item.startDate,
+                    asOfDate: item.asOfDate,
                     child: _buildHeader(
                       Theme.of(context).textTheme,
                       Theme.of(context).primaryColor,
@@ -193,7 +193,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                     days: days,
                     netChange: netChange,
                     portfolioContribution: item.portfolioContribution,
-                    asOfDate: item.maturityDate,
+                    asOfDate: item.asOfDate,
                     child: _buildHeader(
                       Theme.of(context).textTheme,
                       Theme.of(context).primaryColor,
@@ -210,7 +210,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                     days: days,
                     netChange: netChange,
                     portfolioContribution: item.portfolioContribution,
-                    asOfDate: item.valuationDate,
+                    asOfDate: item.asOfDate,
                     child: _buildHeader(
                       Theme.of(context).textTheme,
                       Theme.of(context).primaryColor,
@@ -226,7 +226,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                     days: days,
                     netChange: netChange,
                     portfolioContribution: item.portfolioContribution,
-                    asOfDate: item.valuationDate,
+                    asOfDate: item.asOfDate,
                     child: _buildHeader(
                       Theme.of(context).textTheme,
                       Theme.of(context).primaryColor,

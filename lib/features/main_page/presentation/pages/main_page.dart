@@ -1,19 +1,13 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
+import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/pages/assets_overview_page.dart';
-import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
-import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
-import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
-import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_goe_cubit.dart';
-import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
-import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/pages/dashboard_main_page.dart';
-import 'package:wmd/features/dashboard/main_dashbaord/presentation/pages/dashboard_page.dart';
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/injection_container.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 
 import '../manager/main_page_cubit.dart';
 
@@ -57,32 +51,47 @@ class _MainPageState extends State<MainPage> {
                   child: _widgetOptions.elementAt(state),
                 ),
               ),
-              bottomNavigationBar: Material(
-                elevation: 10,
-                child: Container(
-                  color: Theme
-                      .of(context)
-                      .navigationBarTheme
-                      .backgroundColor,
-                  child: BottomNavigationBar(
-                    elevation: 0,
-                    items: List.generate(items.length, (index) {
-                      return BottomNavigationBarItem(
-                        icon: Icon(items[index][0]),
-                        label: items[index][1],
-                      );
-                    }),
-                    unselectedLabelStyle: const TextStyle(fontSize: 10),
-                    selectedLabelStyle: const TextStyle(fontSize: 12),
-                    currentIndex: state,
-                    showUnselectedLabels: true,
-                    type: BottomNavigationBarType.fixed,
-                    onTap: context
-                        .read<MainPageCubit>()
-                        .onItemTapped,
-                  ),
-                ),
-              ),
+              bottomNavigationBar:
+                  BlocConsumer<MainDashboardCubit, MainDashboardState>(
+                      listener: BlocHelper.defaultBlocListener(
+                          listener: (mainContext, mainState) {}),
+                      builder: (mainContext, mainState) {
+                        return mainState is MainDashboardNetWorthLoaded
+                            ? (mainState.netWorthObj.assets.currentValue != 0 ||
+                                    mainState.netWorthObj.liabilities
+                                            .currentValue !=
+                                        0)
+                                ? Material(
+                                    elevation: 10,
+                                    child: Container(
+                                      color: Theme.of(context)
+                                          .navigationBarTheme
+                                          .backgroundColor,
+                                      child: BottomNavigationBar(
+                                        elevation: 0,
+                                        items: List.generate(items.length,
+                                            (index) {
+                                          return BottomNavigationBarItem(
+                                            icon: Icon(items[index][0]),
+                                            label: items[index][1],
+                                          );
+                                        }),
+                                        unselectedLabelStyle:
+                                            const TextStyle(fontSize: 10),
+                                        selectedLabelStyle:
+                                            const TextStyle(fontSize: 12),
+                                        currentIndex: state,
+                                        showUnselectedLabels: true,
+                                        type: BottomNavigationBarType.fixed,
+                                        onTap: context
+                                            .read<MainPageCubit>()
+                                            .onItemTapped,
+                                      ),
+                                    ),
+                                  )
+                                : const SizedBox.shrink()
+                            : const SizedBox.shrink();
+                      }),
             );
           },
         );
