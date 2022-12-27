@@ -10,7 +10,7 @@ extension NumExt on num {
       s += "0";
     }
     return NumberFormat(
-            "${addDollar ? (textDollar ? "USD" : "\$") : ""}#,##0${digits == 0 ? '' : '.$s'}",
+            "${addDollar ? (textDollar ? "USD " : "\$") : ""}#,##0${digits == 0 ? '' : '.$s'}",
             "en_US")
         .format(this);
   }
