@@ -22,6 +22,7 @@ class BankAccountResponse extends BankAccountEntity
     required super.currencyCode,
     required super.portfolioContribution,
     required super.holdings,
+    required super.asOfDate,
   });
 
   factory BankAccountResponse.fromJson(Map<String, dynamic> json) =>
@@ -40,6 +41,8 @@ class BankAccountResponse extends BankAccountEntity
             : DateTime.parse(json["startDate"]),
         endDate:
             json["endDate"] == null ? null : DateTime.parse(json["endDate"]),
+        asOfDate:
+            json["asOfDate"] == null ? null : DateTime.parse(json["asOfDate"]),
         id: json["id"] ?? '',
         type: json["type"] ?? '',
         isActive: json["isActive"] ?? false,
@@ -68,6 +71,7 @@ class BankAccountResponse extends BankAccountEntity
         country,
         region,
         currencyCode,
+        asOfDate
       ];
 
   static final tBankAccountResponse = {
@@ -81,6 +85,7 @@ class BankAccountResponse extends BankAccountEntity
     "interestRate": 0.0,
     "startDate": null,
     "endDate": null,
+    "asOfDate": null,
     "id": "6e2bd58f-6d3f-46f1-9480-46a0f96cbeff",
     "type": "BankAccount",
     "isActive": true,

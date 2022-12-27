@@ -9,6 +9,7 @@ class ListedAssetEntity extends Equatable {
     required this.isin,
     required this.category,
     required this.investmentDate,
+    required this.asOfDate,
     required this.marketValue,
     required this.quantity,
     required this.totalCost,
@@ -31,6 +32,7 @@ class ListedAssetEntity extends Equatable {
   final String isin;
   final String category;
   final DateTime investmentDate;
+  final DateTime? asOfDate;
   final double marketValue;
   final double quantity;
   final double totalCost;
@@ -58,6 +60,7 @@ class ListedAssetEntity extends Equatable {
         "totalCost": totalCost,
         "couponRate": couponRate,
         "maturityDate": maturityDate.toIso8601String(),
+        "asOfDate": asOfDate?.toIso8601String(),
         "id": id,
         "type": type,
         "isActive": isActive,
@@ -80,6 +83,7 @@ class ListedAssetEntity extends Equatable {
         marketValue,
         quantity,
         totalCost,
+        asOfDate,
         couponRate,
         maturityDate,
         id,

@@ -10,6 +10,7 @@ class RealEstateEntity extends Equatable {
   final double ownershipPercentage;
   final double marketValue;
   final DateTime valuationDate;
+  final DateTime? asOfDate;
   final String id;
   final String type;
   final bool isActive;
@@ -28,6 +29,7 @@ class RealEstateEntity extends Equatable {
     required this.ownershipPercentage,
     required this.marketValue,
     required this.valuationDate,
+    required this.asOfDate,
     required this.id,
     required this.type,
     required this.isActive,
@@ -48,6 +50,7 @@ class RealEstateEntity extends Equatable {
       'ownershipPercentage': ownershipPercentage,
       'marketValue': marketValue,
       'valuationDate': valuationDate.toIso8601String(),
+      'asOfDate': asOfDate?.toIso8601String(),
       'id': id,
       'type': type,
       'isActive': isActive,
@@ -74,6 +77,7 @@ class RealEstateEntity extends Equatable {
         isActive,
         country,
         region,
+        asOfDate,
         currencyCode,
         holdings,
       ];

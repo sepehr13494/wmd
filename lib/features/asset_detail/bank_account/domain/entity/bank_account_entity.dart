@@ -19,6 +19,7 @@ class BankAccountEntity extends Equatable {
   final String currencyCode;
   final double portfolioContribution;
   final double holdings;
+  final DateTime? asOfDate;
 
   const BankAccountEntity({
     required this.bankName,
@@ -39,6 +40,7 @@ class BankAccountEntity extends Equatable {
     required this.currencyCode,
     required this.portfolioContribution,
     required this.holdings,
+    required this.asOfDate,
   });
 
   Map<String, dynamic> toJson() => {
@@ -60,6 +62,7 @@ class BankAccountEntity extends Equatable {
         'currencyCode': currencyCode,
         'portfolioContribution': portfolioContribution,
         'holdings': holdings,
+        'asOfDate': asOfDate,
       };
 
   @override
@@ -82,5 +85,6 @@ class BankAccountEntity extends Equatable {
         currencyCode,
         portfolioContribution,
         holdings,
+        asOfDate,
       ];
 }
