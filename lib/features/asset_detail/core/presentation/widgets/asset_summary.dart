@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'as_of_date_widget.dart';
 import 'net_change_widget.dart';
 import 'portfolio_contribution_widget.dart';
@@ -217,7 +219,11 @@ class SummaryCardWidget extends AppStatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         child: PortfolioContributionWidget(
                           portfolioContribution: portfolioContribution,
-                          holdings: holdings,
+                          netWorth: (context.read<MainDashboardCubit>().state
+                                  as MainDashboardNetWorthLoaded)
+                              .netWorthObj
+                              .totalNetWorth
+                              .currentValue,
                           currencyCode: currencyCode,
                         ),
                       ),
