@@ -10,18 +10,45 @@ import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
-class PersonalInformationWidget extends AppStatelessWidget {
+class PersonalInformationWidget extends StatefulWidget {
   const PersonalInformationWidget({Key? key}) : super(key: key);
+  @override
+  AppState<PersonalInformationWidget> createState() =>
+      _PersonalInformationWidgetState();
+}
+
+class _PersonalInformationWidgetState
+    extends AppState<PersonalInformationWidget> {
+  bool enableSubmitButton = false;
+  final formKey = GlobalKey<FormBuilderState>();
+
+  void checkFinalValid(value) async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    bool finalValid = formKey.currentState!.isValid;
+    if (finalValid) {
+      if (!enableSubmitButton) {
+        setState(() {
+          enableSubmitButton = true;
+        });
+      }
+    } else {
+      if (enableSubmitButton) {
+        setState(() {
+          enableSubmitButton = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
     final isTablet = !responsiveHelper.isMobile;
-    final formKey = GlobalKey<FormBuilderState>();
+
     return BlocListener<PersonalInformationCubit, PersonalInformationState>(
-      listener: (context,state){
-        if(state is PersonalInformationLoaded){
+      listener: (context, state) {
+        if (state is PersonalInformationLoaded) {
           formKey.currentState!.patchValue(state.getNameEntity.toJson());
         }
       },
@@ -44,13 +71,21 @@ class PersonalInformationWidget extends AppStatelessWidget {
                     ExpandedIf(
                       expanded: isTablet,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         child: EachTextField(
+                          hasInfo: false,
                           title: "First Name",
                           child: AppTextFields.simpleTextField(
                             name: "firstName",
                             hint: "Enter First Name",
+                            onChanged: checkFinalValid,
+                            extraValidators: [
+                              (val) {
+                                return (val!.contains(RegExp(r'[0-9]')))
+                                    ? "First name cannot be contain numeric characters"
+                                    : null;
+                              }
+                            ],
                           ),
                         ),
                       ),
@@ -59,13 +94,21 @@ class PersonalInformationWidget extends AppStatelessWidget {
                     ExpandedIf(
                       expanded: isTablet,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         child: EachTextField(
+                          hasInfo: false,
                           title: "Last Name",
                           child: AppTextFields.simpleTextField(
                             name: "lastName",
                             hint: "Enter Last Name",
+                            onChanged: checkFinalValid,
+                            extraValidators: [
+                              (val) {
+                                return (val!.contains(RegExp(r'[0-9]')))
+                                    ? "Last name cannot be contain numeric characters"
+                                    : null;
+                              }
+                            ],
                           ),
                         ),
                       ),
@@ -77,12 +120,14 @@ class PersonalInformationWidget extends AppStatelessWidget {
                 child: SizedBox(
                   width: isTablet ? 160 : null,
                   child: ElevatedButton(
-                    onPressed: () {
-                      if(formKey.currentState!.validate()){
-                        context.read<PersonalInformationCubit>().setName(map: formKey.currentState!.instantValue);
-                      }
-                    },
-                    child: Text("Apply Changes"),
+                    onPressed: !enableSubmitButton
+                        ? null
+                        : () {
+                            if (formKey.currentState!.validate()) {
+                              // context.read<PersonalInformationCubit>().setName(map: formKey.currentState!.instantValue);
+                            }
+                          },
+                    child: const Text("Apply Changes"),
                   ),
                 ),
               ),
