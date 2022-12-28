@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/util/app_localization.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/profile/personal_information/presentation/widgets/personal_imformation_widget.dart';
 import 'package:wmd/features/profile/profile_reset_password/presentation/pages/profile_reset_password_page.dart';
@@ -55,12 +56,17 @@ class ProfilePage extends AppStatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                appLocalizations.localeName,
+                                context.read<LocalizationManager>().getName(),
                                 style: textTheme.bodyMedium!
                                     .apply(color: textTheme.bodyLarge!.color!),
                               ),
                               OutlinedButton(
-                                  onPressed: () {}, child: Text("Change"))
+                                  onPressed: () {
+                                    context
+                                        .read<LocalizationManager>()
+                                        .switchLanguage();
+                                  },
+                                  child: Text("Change"))
                             ],
                           ),
                         ]
@@ -86,7 +92,12 @@ class ProfilePage extends AppStatelessWidget {
                               ),
                               OutlinedButton(
                                   onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileRestPasswordPage(),));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ProfileRestPasswordPage(),
+                                        ));
                                   },
                                   child: Text("Change password"))
                             ],

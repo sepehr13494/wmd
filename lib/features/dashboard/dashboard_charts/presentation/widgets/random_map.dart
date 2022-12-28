@@ -34,6 +34,7 @@ class _RandomWorldMapGenratorState extends State<RandomWorldMapGenrator> {
         builder: (context, state) {
           return state is GetGeographicLoaded ? state.getGeographicEntity.isEmpty ? const SizedBox() : BaseAssetView(
             title: "Geographical Allocation",
+            secondTitle: "Continents",
             assets: List.generate(
               state.getGeographicEntity.length,
                   (index){

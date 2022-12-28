@@ -22,4 +22,17 @@ class LocalizationManager extends Cubit<Locale> {
         return "IranSans";
     }
   }
+
+  getName() {
+    return (state.languageCode == "en") ? "عربی" : "English";
+  }
+
+  switchLanguage(){
+    changeLang(
+    state.languageCode == "en"
+    ? AppLocalizations.supportedLocales
+        .firstWhere((element) => element.languageCode == "ar")
+        : AppLocalizations.supportedLocales
+        .firstWhere((element) => element.languageCode == "en"));
+  }
 }
