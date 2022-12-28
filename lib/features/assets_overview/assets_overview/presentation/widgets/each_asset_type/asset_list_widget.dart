@@ -52,63 +52,55 @@ class _AssetListWidgetState extends State<AssetListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSwitcher(
-      duration: const Duration(seconds: 2),
-      child: Column(
-        children: [
-          ListView.builder(
-            itemCount: count,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              final item = widget.assetList[index];
-              return _buildAsset(context, item, index);
+    return Column(
+      children: [
+        ...List.generate(count, (index) {
+          final item = widget.assetList[index];
+          return _buildAsset(context, item, index);
+        }),
+        if (count == widget.assetList.length && count > initial)
+          InkWell(
+            onTap: () {
+              setState(() {
+                init();
+              });
             },
+            child: Card(
+              child: SizedBox(
+                width: double.maxFinite,
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Text(
+                      "Show less",
+                      style: TextStyle(color: Theme.of(context).primaryColor),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
-          if (count == widget.assetList.length && count > initial)
-            InkWell(
-              onTap: () {
-                setState(() {
-                  init();
-                });
-              },
-              child: Card(
-                child: SizedBox(
-                  width: double.maxFinite,
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Text(
-                        "Show less",
-                        style: TextStyle(color: Theme.of(context).primaryColor),
-                      ),
+        if (count < widget.assetList.length)
+          InkWell(
+            onTap: () {
+              loadMore();
+            },
+            child: Card(
+              child: SizedBox(
+                width: double.maxFinite,
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Text(
+                      "Show more",
+                      style: TextStyle(color: Theme.of(context).primaryColor),
                     ),
                   ),
                 ),
               ),
             ),
-          if (count < widget.assetList.length)
-            InkWell(
-              onTap: () {
-                loadMore();
-              },
-              child: Card(
-                child: SizedBox(
-                  width: double.maxFinite,
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Text(
-                        "Show more",
-                        style: TextStyle(color: Theme.of(context).primaryColor),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-        ],
-      ),
+          ),
+      ],
     );
   }
 

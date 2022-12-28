@@ -7,7 +7,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
-import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/features/profile/personal_information/presentation/widgets/country_code_picker.dart';
 
 import '../manager/personal_information_cubit.dart';
@@ -48,6 +47,7 @@ class ContactInformationWidget extends AppStatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: EachTextField(
+                          hasInfo: false,
                           title: "Personal Email",
                           child: Builder(
                             builder: (context) {
@@ -67,6 +67,7 @@ class ContactInformationWidget extends AppStatelessWidget {
                       child: Column(
                         children: [
                           EachTextField(
+                            hasInfo: false,
                             title: "Primary Phone Number",
                             child: Row(
                               children: [

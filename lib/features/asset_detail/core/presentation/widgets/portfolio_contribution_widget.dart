@@ -5,11 +5,11 @@ import 'package:wmd/core/util/constants.dart';
 
 class PortfolioContributionWidget extends AppStatelessWidget {
   final double portfolioContribution;
-  final double holdings;
+  final double netWorth;
   final String currencyCode;
   const PortfolioContributionWidget({
     required this.portfolioContribution,
-    required this.holdings,
+    required this.netWorth,
     required this.currencyCode,
     super.key,
   });
@@ -24,9 +24,9 @@ class PortfolioContributionWidget extends AppStatelessWidget {
           style: textTheme.bodySmall,
         ),
         Builder(builder: (context) {
-          final double portfolioPercentage = portfolioContribution * 100;
+          // final double portfolioPercentage = portfolioContribution * 100;
           return Text(
-            "$portfolioPercentage% of ${holdings.convertMoney(addDollar: true)}",
+            "$portfolioContribution% of ${netWorth.convertMoney(addDollar: true)}",
             style: textTheme.bodyLarge,
           );
         }),

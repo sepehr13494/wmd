@@ -13,6 +13,7 @@ class RealEstateResponse extends RealEstateEntity implements GetDetailResponse {
     required double ownershipPercentage,
     required double marketValue,
     required DateTime valuationDate,
+    required DateTime? asOfDate,
     required String id,
     required String type,
     required bool isActive,
@@ -30,6 +31,7 @@ class RealEstateResponse extends RealEstateEntity implements GetDetailResponse {
           ownershipPercentage: ownershipPercentage,
           marketValue: marketValue,
           valuationDate: valuationDate,
+          asOfDate: asOfDate,
           id: id,
           type: type,
           isActive: isActive,
@@ -55,6 +57,8 @@ class RealEstateResponse extends RealEstateEntity implements GetDetailResponse {
       marketValue: double.tryParse(json['marketValue'].toString()) ?? 0,
       valuationDate: DateTime.parse(json["valuationDate"] ??
           DateTime.fromMillisecondsSinceEpoch(0).toIso8601String()),
+      asOfDate:
+          json["asOfDate"] == null ? null : DateTime.parse(json["asOfDate"]),
       id: json['id'] ?? '',
       type: json['type'] ?? '',
       isActive: json['isActive'] ?? '',

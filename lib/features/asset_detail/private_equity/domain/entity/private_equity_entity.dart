@@ -11,6 +11,7 @@ class PrivateEquityEntity extends Equatable {
     required this.id,
     required this.type,
     required this.isActive,
+    required this.asOfDate,
     required this.country,
     required this.region,
     required this.currencyCode,
@@ -24,6 +25,7 @@ class PrivateEquityEntity extends Equatable {
   final String wealthManager;
   final double marketValue;
   final DateTime valuationDate;
+  final DateTime? asOfDate;
   final String id;
   final String type;
   final bool isActive;
@@ -40,6 +42,7 @@ class PrivateEquityEntity extends Equatable {
         "wealthManager": wealthManager,
         "marketValue": marketValue,
         "valuationDate": valuationDate.toIso8601String(),
+        "asOfDate": asOfDate?.toIso8601String(),
         "id": id,
         "type": type,
         "isActive": isActive,
@@ -60,6 +63,7 @@ class PrivateEquityEntity extends Equatable {
         valuationDate,
         id,
         type,
+        asOfDate,
         isActive,
         country,
         region,

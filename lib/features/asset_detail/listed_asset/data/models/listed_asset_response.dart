@@ -24,6 +24,7 @@ class ListedAssetResponse extends ListedAssetEntity
     required super.currencyCode,
     required super.portfolioContribution,
     required super.holdings,
+    required super.asOfDate,
   });
 
   factory ListedAssetResponse.fromJson(Map<String, dynamic> json) =>
@@ -42,6 +43,8 @@ class ListedAssetResponse extends ListedAssetEntity
         couponRate: double.tryParse(json['couponRate'].toString()) ?? 0,
         maturityDate: DateTime.parse(json["maturityDate"] ??
             DateTime.fromMillisecondsSinceEpoch(0).toIso8601String()),
+        asOfDate:
+            json["asOfDate"] == null ? null : DateTime.parse(json["asOfDate"]),
         id: json["id"],
         type: json["type"],
         isActive: json["isActive"],

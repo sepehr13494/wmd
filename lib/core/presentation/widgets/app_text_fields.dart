@@ -48,6 +48,7 @@ class AppTextFields {
     bool obscureText = false,
     Widget? suffixIcon,
     bool required = true,
+    bool readOnly = false,
     List<String? Function(String?)>? extraValidators,
     ValueChanged<String?>? onChanged,
   }) {
@@ -95,6 +96,7 @@ class AppTextFields {
       scrollPadding:
           const EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 90),
       name: name,
+      readOnly: readOnly,
       minLines: minLines ?? 1,
       maxLines: (type == TextFieldType.password) ? 1 : 5,
       enabled: enabled,
@@ -517,7 +519,13 @@ class PasswordTextField extends StatefulWidget {
   final GlobalKey<FormBuilderFieldState>? passwordKey;
   ValueChanged<String?>? onChange;
 
-  PasswordTextField({Key? key, this.hint, this.onChange, this.passwordKey, this.name, this.showEye = true})
+  PasswordTextField(
+      {Key? key,
+      this.hint,
+      this.onChange,
+      this.passwordKey,
+      this.name,
+      this.showEye = true})
       : super(key: key);
 
   @override
@@ -537,20 +545,25 @@ class _PasswordTextFieldState extends AppState<PasswordTextField> {
             key: widget.passwordKey,
             name: widget.name ?? "password",
             type: TextFieldType.password,
-            hint: widget.name ?? (widget.hint ??
-                appLocalizations.auth_signup_input_password_placeholder),
+            hint: widget.name ??
+                (widget.hint ??
+                    appLocalizations.auth_signup_input_password_placeholder),
             obscureText: !visible,
-            suffixIcon: widget.showEye ? IconButton(
-              onPressed: () {
-                setState(() {
-                  visible = !visible;
-                });
-              },
-              icon: Icon(
-                visible ? Icons.remove_red_eye_outlined : Icons.remove_red_eye,
-                color: Theme.of(context).primaryColor,
-              ),
-            ) : null,
+            suffixIcon: widget.showEye
+                ? IconButton(
+                    onPressed: () {
+                      setState(() {
+                        visible = !visible;
+                      });
+                    },
+                    icon: Icon(
+                      visible
+                          ? Icons.remove_red_eye_outlined
+                          : Icons.remove_red_eye,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  )
+                : null,
             onChanged: widget.onChange),
       ],
     );
