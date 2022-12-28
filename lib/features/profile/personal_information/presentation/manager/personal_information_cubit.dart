@@ -7,19 +7,14 @@ import '../../domain/use_cases/get_name_usecase.dart';
 import '../../domain/entities/get_name_entity.dart';
 import '../../data/models/set_name_params.dart';
 import '../../domain/use_cases/set_name_usecase.dart';
-import '../../data/models/set_number_params.dart';
 import '../../domain/use_cases/set_number_usecase.dart';
-
-
 
 part 'personal_information_state.dart';
 
 class PersonalInformationCubit extends Cubit<PersonalInformationState> {
-
   final GetNameUseCase getNameUseCase;
   final SetNameUseCase setNameUseCase;
   final SetNumberUseCase setNumberUseCase;
-
 
   PersonalInformationCubit(
     this.getNameUseCase,
@@ -28,34 +23,28 @@ class PersonalInformationCubit extends Cubit<PersonalInformationState> {
   ) : super(LoadingState());
 
   getName() async {
-    Future.delayed(const Duration(milliseconds: 200),(){
+    Future.delayed(const Duration(milliseconds: 200), () {
       emit(LoadingState());
     });
     final result = await getNameUseCase(GetNameParams());
-    result.fold((failure) => emit(ErrorState(failure: failure)),
-        (entity) {
+    result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
       emit(PersonalInformationLoaded(getNameEntity: entity));
     });
   }
-  
-  setName({required Map<String,dynamic> map}) async {
+
+  setName({required Map<String, dynamic> map}) async {
     emit(LoadingState());
     final result = await setNameUseCase(SetNameParams.fromJson(map));
-    result.fold((failure) => emit(ErrorState(failure: failure)),
-        (appSuccess) {
+    result.fold((failure) => emit(ErrorState(failure: failure)), (appSuccess) {
       emit(SuccessState(appSuccess: appSuccess));
     });
   }
 
-  setNumber({required Map<String,dynamic> map}) async {
+  setNumber({required Map<String, dynamic> map}) async {
     emit(LoadingState());
     final result = await setNumberUseCase(map);
-    result.fold((failure) => emit(ErrorState(failure: failure)),
-            (appSuccess) {
-          emit(SuccessState(appSuccess: appSuccess));
-        });
+    result.fold((failure) => emit(ErrorState(failure: failure)), (appSuccess) {
+      emit(SuccessState(appSuccess: appSuccess));
+    });
   }
-
 }
-
-    
