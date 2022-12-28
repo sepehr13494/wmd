@@ -64,13 +64,24 @@ class AddAssetFooter extends AppStatelessWidget {
                               try {
                                 if (GoRouter.of(context).location ==
                                     "/${AppRoutes.addAssetsView}") {
-                                  context.pop();
+                                  if (Navigator.of(context).canPop()) {
+                                    Navigator.of(context).maybePop();
+                                  } else {
+                                    context.goNamed(AppRoutes.main);
+                                  }
                                 } else {
                                   GlobalFunctions.showExitDialog(
                                       context: context,
-                                      onExitClick: () => context.pop());
+                                      onExitClick: () {
+                                        if (Navigator.of(context).canPop()) {
+                                          Navigator.of(context).maybePop();
+                                        } else {
+                                          context.goNamed(AppRoutes.main);
+                                        }
+                                      });
                                 }
                               } catch (e) {
+                                debugPrint("footer error$e");
                                 context.goNamed(AppRoutes.main);
                               }
                             },
