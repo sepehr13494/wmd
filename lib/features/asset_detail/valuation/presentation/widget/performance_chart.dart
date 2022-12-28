@@ -25,9 +25,11 @@ class PerformanceLineChart extends AppStatelessWidget {
         const SizedBox(height: 16),
         AspectRatio(
           aspectRatio: ResponsiveHelper(context: context).isMobile ? 1.6 : 2.2,
-          child: LineChart(
-            mainData(context),
-          ),
+          child: values.isEmpty
+              ? const EmptyChartWidget()
+              : LineChart(
+                  mainData(context),
+                ),
         ),
       ],
     );
@@ -203,6 +205,32 @@ class PerformanceLineChart extends AppStatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class EmptyChartWidget extends AppStatelessWidget {
+  const EmptyChartWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
+    return Container(
+      color: Theme.of(context).cardColor,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.info),
+          const SizedBox(height: 4),
+          Text('Looks like something went wrong'),
+          const SizedBox(height: 4),
+          Text(
+            'Please try checking back again in few moments.',
+            style: textTheme.bodySmall,
+          ),
+        ],
+      ),
     );
   }
 }
