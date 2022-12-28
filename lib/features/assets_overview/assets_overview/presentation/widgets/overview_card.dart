@@ -6,6 +6,7 @@ import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/features/asset_detail/core/presentation/widgets/as_of_date_widget.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 
 import 'ytd_itd_widget.dart';
@@ -20,11 +21,13 @@ class OverViewCard extends AppStatelessWidget {
     bool isMobile = responsiveHelper.isMobile;
     return BlocBuilder<MainDashboardCubit, MainDashboardState>(
       builder: (context, state) {
+        if (state is! MainDashboardNetWorthLoaded) {
+          return LoadingWidget();
+        }
         return Stack(
           alignment: AlignmentDirectional.bottomEnd,
           children: [
-            state is MainDashboardNetWorthLoaded
-            ? Container(
+            Container(
               decoration: BoxDecoration(
                   border: Border.all(color: Theme.of(context).dividerColor),
                   borderRadius: BorderRadius.circular(8),
@@ -54,7 +57,7 @@ class OverViewCard extends AppStatelessWidget {
                               fit: BoxFit.scaleDown,
                               child: Text(
                                 state.netWorthObj.assets.currentValue
-                                        .convertMoney(addDollar: true),
+                                    .convertMoney(addDollar: true),
                                 style: const TextStyle(
                                     fontSize: 28, fontWeight: FontWeight.w300),
                               ),
@@ -106,7 +109,8 @@ class OverViewCard extends AppStatelessWidget {
                                     Row(
                                       children: [
                                         Text(
-                                          state.netWorthObj.assets.change.convertMoney(addDollar: true),
+                                          state.netWorthObj.assets.change
+                                              .convertMoney(addDollar: true),
                                           style: textTheme.bodyLarge,
                                         ),
                                         ChangeWidget(
@@ -130,14 +134,16 @@ class OverViewCard extends AppStatelessWidget {
                   ],
                 ),
               ),
-            ) : const LoadingWidget(),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(
-                "As of 17th Apr 2022, 10:22 a.m.",
-                style: textTheme.bodySmall,
-              ),
-            )
+            ),
+
+            AsOfDateWidget(shownDate: DateTime.now()),
+            // Padding(
+            //   padding: const EdgeInsets.all(16),
+            //   child: Text(
+            //     "As of 17th Apr 2022, 10:22 a.m.",
+            //     style: textTheme.bodySmall,
+            //   ),
+            // )
           ],
         );
       },
