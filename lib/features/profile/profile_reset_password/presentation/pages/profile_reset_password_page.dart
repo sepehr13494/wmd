@@ -131,6 +131,7 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
                         passwordKey: passwordFieldKey,
                         onChange: onPasswordChange,
                         name: "newPassword",
+                        showEye: false,
                       ),
                     ),
                     if (passwordFieldKey.currentState?.value !=
