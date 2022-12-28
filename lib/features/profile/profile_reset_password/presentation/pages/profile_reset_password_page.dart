@@ -164,7 +164,7 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
                                 color: AppColors.errorColor);
                           }
                         },
-                        child: Text("Reset Password")),
+                        child: Text("Update Password")),
                   ]
                       .map((e) => Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),

@@ -13,15 +13,10 @@ class ChangeLanguageButton extends StatelessWidget {
       builder: (context, state) {
         return TextButton(
           onPressed: () {
-            context.read<LocalizationManager>().changeLang(
-                state.languageCode == "en"
-                    ? AppLocalizations.supportedLocales
-                        .firstWhere((element) => element.languageCode == "ar")
-                    : AppLocalizations.supportedLocales
-                        .firstWhere((element) => element.languageCode == "en"));
+            context.read<LocalizationManager>().switchLanguage();
           },
           child: Text(
-            (state.languageCode == "en") ? "عربی" : "English",
+              context.read<LocalizationManager>().getName(),
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium!

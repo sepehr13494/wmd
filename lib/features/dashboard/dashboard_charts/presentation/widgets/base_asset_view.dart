@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 
 import '../models/each_asset_model.dart';
 
 class BaseAssetView extends AppStatelessWidget {
   final String title;
+  final String secondTitle;
   final Widget child;
   final Function onMoreTap;
   final List<EachAssetViewModel> assets;
@@ -15,6 +18,7 @@ class BaseAssetView extends AppStatelessWidget {
   const BaseAssetView(
       {Key? key,
       required this.title,
+      required this.secondTitle,
       required this.child,
       required this.onMoreTap,
       required this.assets})
@@ -40,13 +44,18 @@ class BaseAssetView extends AppStatelessWidget {
                     style: textTheme.titleMedium,
                   ),
                   const Spacer(),
-                  Row(
-                    children: [
-                      Text("More",
-                          style: textTheme.bodySmall!.toLinkStyle(context)),
-                      const SizedBox(width: 8),
-                      const Icon(Icons.arrow_forward_ios_rounded, size: 12),
-                    ],
+                  InkWell(
+                    onTap: () {
+                      context.read<MainPageCubit>().onItemTapped(1);
+                    },
+                    child: Row(
+                      children: [
+                        Text("More",
+                            style: textTheme.bodySmall!.toLinkStyle(context)),
+                        const SizedBox(width: 8),
+                        const Icon(Icons.arrow_forward_ios_rounded, size: 12),
+                      ],
+                    ),
                   )
                 ],
               ),
@@ -54,7 +63,7 @@ class BaseAssetView extends AppStatelessWidget {
               Row(
                 children: [
                   Text(
-                    "Asset Class",
+                    secondTitle,
                     style: textTheme.bodySmall!
                         .apply(color: AppColors.dashBoardGreyTextColor),
                   ),
@@ -72,7 +81,7 @@ class BaseAssetView extends AppStatelessWidget {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     EachAssetViewModel asset = assets[index];
-                    return Padding(
+                    return (double.tryParse(asset.price) ?? 0) == 0 ? const SizedBox() : Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Row(
                         children: [
@@ -83,8 +92,10 @@ class BaseAssetView extends AppStatelessWidget {
                           Expanded(
                             child: Align(
                               alignment: AlignmentDirectional.centerStart,
-                              child:
-                                  FittedBox(fit: BoxFit.scaleDown,child: Text(asset.name, style: textTheme.bodySmall)),
+                              child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(asset.name,
+                                      style: textTheme.bodySmall)),
                             ),
                           ),
                           Text(asset.price, style: textTheme.bodySmall),
@@ -94,7 +105,13 @@ class BaseAssetView extends AppStatelessWidget {
                             color: textTheme.bodySmall!.color!,
                           ),
                           Text(asset.percentage, style: textTheme.bodySmall),
-                          const Icon(Icons.arrow_forward_ios_rounded, size: 15)
+                          IconButton(
+                            onPressed: (){
+                              context.read<MainPageCubit>().onItemTapped(1);
+                            },
+                            icon: const Icon(Icons.arrow_forward_ios_rounded,
+                                size: 15),
+                          )
                         ]
                             .map((e) => e is Expanded
                                 ? e

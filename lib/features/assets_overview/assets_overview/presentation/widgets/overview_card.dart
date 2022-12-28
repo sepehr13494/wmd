@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
@@ -133,9 +134,14 @@ class OverViewCard extends AppStatelessWidget {
             ) : const LoadingWidget(),
             Padding(
               padding: const EdgeInsets.all(16),
-              child: Text(
-                "As of 17th Apr 2022, 10:22 a.m.",
-                style: textTheme.bodySmall,
+              child: StreamBuilder(
+                stream: Stream.periodic(const Duration(minutes: 1)),
+                builder: (context, snapshot) {
+                  return Text(
+                    "As of ${DateFormat.yMMMMd().format(DateTime.now())} ${DateFormat("hh:mm").format(DateTime.now())}",
+                    style: textTheme.bodySmall,
+                  );
+                },
               ),
             )
           ],
