@@ -131,6 +131,7 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
                         passwordKey: passwordFieldKey,
                         onChange: onPasswordChange,
                         name: "newPassword",
+                        showEye: false,
                       ),
                     ),
                     if (passwordFieldKey.currentState?.value !=
@@ -164,7 +165,7 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
                                 color: AppColors.errorColor);
                           }
                         },
-                        child: Text("Reset Password")),
+                        child: Text("Update Password")),
                   ]
                       .map((e) => Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),

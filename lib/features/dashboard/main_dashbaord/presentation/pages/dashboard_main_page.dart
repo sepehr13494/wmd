@@ -97,11 +97,11 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                                   ExpandedIf(
                                                       expanded: !isMobile,
                                                       child:
-                                                          const RandomWorldMapGenrator()),
+                                                          const PieChartSample2()),
                                                   ExpandedIf(
                                                       expanded: !isMobile,
                                                       child:
-                                                          const PieChartSample2()),
+                                                      const RandomWorldMapGenrator()),
                                                 ],
                                               ),
                                             ]

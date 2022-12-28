@@ -30,6 +30,7 @@ class PieChart2State extends State {
           return state is GetPieLoaded
               ? state.getPieEntity.isEmpty ? const SizedBox() : BaseAssetView(
                   title: "Asset Class Allocation",
+                  secondTitle: "Asset class",
                   assets: List.generate(
                     state.getPieEntity.length,
                     (index){

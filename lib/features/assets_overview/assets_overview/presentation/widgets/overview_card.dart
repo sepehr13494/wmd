@@ -21,9 +21,6 @@ class OverViewCard extends AppStatelessWidget {
     bool isMobile = responsiveHelper.isMobile;
     return BlocBuilder<MainDashboardCubit, MainDashboardState>(
       builder: (context, state) {
-        if (state is! MainDashboardNetWorthLoaded) {
-          return LoadingWidget();
-        }
         return Stack(
           alignment: AlignmentDirectional.bottomEnd,
           children: [
@@ -35,115 +32,113 @@ class OverViewCard extends AppStatelessWidget {
               padding: EdgeInsets.all(responsiveHelper.bigger24Gap),
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 16),
-                child: RowOrColumn(
-                  columnCrossAxisAlignment: CrossAxisAlignment.start,
-                  showRow: !isMobile,
-                  children: [
-                    ExpandedIf(
-                      expanded: !isMobile,
-                      child: Align(
-                        alignment: isMobile
-                            ? AlignmentDirectional.centerStart
-                            : Alignment.center,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Your holdings",
-                              style: textTheme.titleSmall,
-                            ),
-                            SizedBox(height: responsiveHelper.bigger16Gap),
-                            FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Text(
-                                state.netWorthObj.assets.currentValue
-                                    .convertMoney(addDollar: true),
-                                style: const TextStyle(
-                                    fontSize: 28, fontWeight: FontWeight.w300),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    !isMobile
-                        ? Container(
-                            margin: EdgeInsets.symmetric(
-                                horizontal: responsiveHelper.bigger16Gap),
-                            width: 1,
-                            height: 120,
-                            color: Theme.of(context).dividerColor,
-                            child: Divider(
-                              thickness: 1,
-                              color: Theme.of(context).dividerColor,
-                            ),
-                          )
-                        : Divider(
-                            thickness: 1,
-                            color: Theme.of(context).dividerColor,
-                            height: 48,
-                          ),
-                    ExpandedIf(
-                      expanded: !isMobile,
-                      flex: 2,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                child: state is MainDashboardNetWorthLoaded
+                    ? RowOrColumn(
+                        columnCrossAxisAlignment: CrossAxisAlignment.start,
+                        showRow: !isMobile,
                         children: [
-                          Text(
-                            "Net change",
-                            style: textTheme.titleSmall,
-                          ),
-                          SizedBox(height: responsiveHelper.bigger16Gap),
-                          RowOrColumn(
-                            showRow: !isMobile,
-                            children: [
-                              ExpandedIf(
-                                expanded: !isMobile,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Last ${context.read<MainDashboardCubit>().dateTimeRange.value} days",
-                                      style: textTheme.bodySmall,
+                          ExpandedIf(
+                            expanded: !isMobile,
+                            child: Align(
+                              alignment: isMobile
+                                  ? AlignmentDirectional.centerStart
+                                  : Alignment.center,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Your holdings",
+                                    style: textTheme.titleSmall,
+                                  ),
+                                  SizedBox(
+                                      height: responsiveHelper.bigger16Gap),
+                                  FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      state.netWorthObj.assets.currentValue
+                                          .convertMoney(addDollar: true),
+                                      style: const TextStyle(
+                                          fontSize: 28,
+                                          fontWeight: FontWeight.w300),
                                     ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          state.netWorthObj.assets.change
-                                              .convertMoney(addDollar: true),
-                                          style: textTheme.bodyLarge,
-                                        ),
-                                        ChangeWidget(
-                                            number: 8.03, text: "8.03%"),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                              const SizedBox(height: 24, width: 4),
-                              ExpandedIf(
-                                expanded: !isMobile,
-                                child: YtdItdWidget(
-                                    expand: !isMobile, ytd: 0, itd: 0),
-                              )
-                            ],
+                            ),
+                          ),
+                          !isMobile
+                              ? Container(
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: responsiveHelper.bigger16Gap),
+                                  width: 1,
+                                  height: 120,
+                                  color: Theme.of(context).dividerColor,
+                                  child: Divider(
+                                    thickness: 1,
+                                    color: Theme.of(context).dividerColor,
+                                  ),
+                                )
+                              : Divider(
+                                  thickness: 1,
+                                  color: Theme.of(context).dividerColor,
+                                  height: 48,
+                                ),
+                          ExpandedIf(
+                            expanded: !isMobile,
+                            flex: 2,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Net change",
+                                  style: textTheme.titleSmall,
+                                ),
+                                SizedBox(height: responsiveHelper.bigger16Gap),
+                                RowOrColumn(
+                                  showRow: !isMobile,
+                                  children: [
+                                    ExpandedIf(
+                                      expanded: !isMobile,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Last ${context.read<MainDashboardCubit>().dateTimeRange.value} days",
+                                            style: textTheme.bodySmall,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                state.netWorthObj.assets.change
+                                                    .convertMoney(
+                                                        addDollar: true),
+                                                style: textTheme.bodyLarge,
+                                              ),
+                                              ChangeWidget(
+                                                  number: 8.03, text: "8.03%"),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 24, width: 4),
+                                    ExpandedIf(
+                                      expanded: !isMobile,
+                                      child: YtdItdWidget(
+                                          expand: !isMobile, ytd: 0, itd: 0),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
                           )
                         ],
-                      ),
-                    )
-                  ],
-                ),
+                      )
+                    : const LoadingWidget(),
               ),
             ),
-
             AsOfDateWidget(shownDate: DateTime.now()),
-            // Padding(
-            //   padding: const EdgeInsets.all(16),
-            //   child: Text(
-            //     "As of 17th Apr 2022, 10:22 a.m.",
-            //     style: textTheme.bodySmall,
-            //   ),
-            // )
           ],
         );
       },
