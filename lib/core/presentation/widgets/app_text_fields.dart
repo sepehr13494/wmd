@@ -32,6 +32,11 @@ class CurrencyInputFormatter extends TextInputFormatter {
 
 enum TextFieldType { email, password, phone, simpleText, money, number, rate }
 
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
+}
+
 class AppTextFields {
   AppTextFields._();
 

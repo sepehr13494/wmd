@@ -106,12 +106,8 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
 
   Row _buildHeader(TextTheme textTheme, Color primaryColor) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Text(
-          'Summary',
-          style: textTheme.bodyLarge,
-        ),
         Row(
           children: [
             Icon(
