@@ -22,8 +22,10 @@ class ContactInformationWidget extends AppStatelessWidget {
     final formKey = GlobalKey<FormBuilderState>();
     return BlocListener<PersonalInformationCubit, PersonalInformationState>(
       listener: (context, state) {
-        if(state is PersonalInformationLoaded){
-          formKey.currentState!.patchValue(state.getNameEntity.toJson());
+        if (state is PersonalInformationLoaded) {
+          var json = state.getNameEntity.toJson();
+          json.removeWhere((key, value) => value == "");
+          formKey.currentState!.patchValue(json);
         }
       },
       child: Padding(
