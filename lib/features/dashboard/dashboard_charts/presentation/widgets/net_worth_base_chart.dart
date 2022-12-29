@@ -28,58 +28,66 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
     return Builder(builder: (context) {
       return BlocBuilder<DashboardAllocationCubit, DashboardChartsState>(
         builder: (context, state) {
-          return state is GetAllocationLoaded ? state.getAllocationEntity.isEmpty ? const SizedBox() : Card(
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text("Total Net Worth",
-                          style: TextStyle(fontSize: 18)),
-                      Builder(builder: (context) {
-                        final items = ["Bar Chart", "Line Chart"];
-                        return DropdownButton<String>(
-                            items: List.generate(2, (index) {
-                              return DropdownMenuItem<String>(
-                                value: items[index],
-                                child: Text(items[index]),
-                              );
-                            }),
-                            onChanged: ((value) {
-                              if (value == "Bar Chart") {
-                                setState(() {
-                                  barChart = true;
-                                });
-                              } else {
-                                setState(() {
-                                  barChart = false;
-                                });
-                              }
-                            }),
-                            value: barChart ? "Bar Chart" : "Line Chart");
-                      })
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  AspectRatio(
-                    aspectRatio: ResponsiveHelper(context: context).isMobile
-                        ? 1.6
-                        : 2.2,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: barChart
-                          ? BarChartMainDashboard(allocations: state.getAllocationEntity)
-                          : LineChartSample2(allocations: [
-                            ...state.getAllocationEntity,
-                      ]),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ) : const LoadingWidget();
+          return state is GetAllocationLoaded
+              ? state.getAllocationEntity.isEmpty
+                  ? const SizedBox()
+                  : Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text("Total Net Worth",
+                                    style: TextStyle(fontSize: 18)),
+                                Builder(builder: (context) {
+                                  final items = ["Bar Chart", "Area Chart"];
+                                  return DropdownButton<String>(
+                                      items: List.generate(2, (index) {
+                                        return DropdownMenuItem<String>(
+                                          value: items[index],
+                                          child: Text(items[index]),
+                                        );
+                                      }),
+                                      onChanged: ((value) {
+                                        if (value == "Bar Chart") {
+                                          setState(() {
+                                            barChart = true;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            barChart = false;
+                                          });
+                                        }
+                                      }),
+                                      value: barChart
+                                          ? "Bar Chart"
+                                          : "Area Chart");
+                                })
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+                            AspectRatio(
+                              aspectRatio:
+                                  ResponsiveHelper(context: context).isMobile
+                                      ? 1.6
+                                      : 2.2,
+                              child: Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: barChart
+                                    ? BarChartMainDashboard(
+                                        allocations: state.getAllocationEntity)
+                                    : LineChartSample2(allocations: [
+                                        ...state.getAllocationEntity,
+                                      ]),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+              : const LoadingWidget();
         },
       );
     });

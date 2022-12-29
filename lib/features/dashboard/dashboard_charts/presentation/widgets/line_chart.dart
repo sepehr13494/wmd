@@ -17,12 +17,11 @@ class LineChartSample2 extends StatefulWidget {
 }
 
 class _LineChartSample2State extends State<LineChartSample2> {
-
   bool isOneData = false;
 
   @override
   void initState() {
-    if(widget.allocations.length == 1){
+    if (widget.allocations.length == 1) {
       isOneData = true;
       widget.allocations.add(widget.allocations.first);
     }
@@ -31,7 +30,6 @@ class _LineChartSample2State extends State<LineChartSample2> {
 
   @override
   Widget build(BuildContext context) {
-
     return LineChart(
       mainData(context),
     );
@@ -40,37 +38,40 @@ class _LineChartSample2State extends State<LineChartSample2> {
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      child: Text(widget.allocations[value.toInt()].name, style: const TextStyle(fontSize: 8)),
+      child: Text(widget.allocations[value.toInt()].name,
+          style: const TextStyle(fontSize: 8)),
     );
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-    List<double> minMax = MinMaxCalculator.calculateMinyMaxY(widget.allocations,isOneData);
+    List<double> minMax =
+        MinMaxCalculator.calculateMinyMaxY(widget.allocations, isOneData);
     final double minY = minMax[0];
     final double maxY = minMax[1];
-    double x = max(maxY.abs() , minY.abs()) / 5;
+    double x = max(maxY.abs(), minY.abs()) / 5;
     return FittedBox(
-        fit: BoxFit.scaleDown,
-        child: Text(
-          "\$ ${(value * x).formatNumber}",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 10),
-        ),
+      fit: BoxFit.scaleDown,
+      child: Text(
+        "\$ ${(value * x).formatNumber}",
+        textAlign: TextAlign.left,
+        style: const TextStyle(fontSize: 10),
+      ),
     );
   }
 
   LineChartData mainData(context) {
-    List<double> minMax = MinMaxCalculator.calculateMinyMaxY(widget.allocations,isOneData);
+    List<double> minMax =
+        MinMaxCalculator.calculateMinyMaxY(widget.allocations, isOneData);
     double minY = minMax[0];
     double maxY = minMax[1];
-    double x = max(maxY.abs() , minY.abs()) / 5;
-    minY = (minY/x);
-    maxY = (maxY/x);
+    double x = max(maxY.abs(), minY.abs()) / 5;
+    minY = (minY / x);
+    maxY = (maxY / x);
     double maxTotal = max(minY.abs(), maxY.abs());
-    double gradientStop =  maxY/(maxY - minY);
-    if(gradientStop>1){
+    double gradientStop = maxY / (maxY - minY);
+    if (gradientStop > 1) {
       gradientStop = 1;
-    }else if(gradientStop<0){
+    } else if (gradientStop < 0) {
       gradientStop = 0;
     }
     return LineChartData(
@@ -137,7 +138,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
                   TextSpan(
                       text: '\nCurrent Balance', style: textTheme.bodyMedium),
                   TextSpan(
-                    // ignore: prefer_interpolation_to_compose_strings
+                      // ignore: prefer_interpolation_to_compose_strings
                       text: '\n' +
                           widget.allocations[touchedSpots.first.x.toInt()]
                               .netWorth
@@ -149,26 +150,40 @@ class _LineChartSample2State extends State<LineChartSample2> {
             ];
           },
           maxContentWidth: 200,
-          tooltipBgColor: Color.fromARGB(255, 38, 49, 52),
+          tooltipBgColor: const Color.fromARGB(255, 38, 49, 52),
         ),
       ),
       minX: 0,
-      maxX: widget.allocations.length.toDouble()-1,
-      minY: minY.abs() == maxTotal ? minY : minY >= 0 ? 0 : (- (minY.abs()).ceil().toDouble()),
-      maxY: maxY.abs() == maxTotal ? maxY : maxY <= 0 ? 0 : (maxY.abs()).ceil().toDouble(),
+      maxX: widget.allocations.length.toDouble() - 1,
+      minY: minY.abs() == maxTotal
+          ? minY
+          : minY >= 0
+              ? 0
+              : (-(minY.abs()).ceil().toDouble()),
+      maxY: maxY.abs() == maxTotal
+          ? maxY
+          : maxY <= 0
+              ? 0
+              : (maxY.abs()).ceil().toDouble(),
       lineBarsData: [
         LineChartBarData(
           spots: List.generate(widget.allocations.length, (index) {
-            return FlSpot(index.toDouble(), widget.allocations[index].netWorth/x);
+            return FlSpot(
+                index.toDouble(), widget.allocations[index].netWorth / x);
           }),
           isCurved: false,
           color: AppColors.chartColor,
-          gradient: LinearGradient(
-            colors: [AppColors.chartColor,AppColors.chartColor, minY == 0 ? AppColors.chartColor : AppColors.errorColor,minY == 0 ? AppColors.chartColor : AppColors.errorColor],
-            stops: [0,gradientStop,gradientStop,1],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter
-          ),
+          gradient: LinearGradient(colors: [
+            AppColors.chartColor,
+            AppColors.chartColor,
+            minY == 0 ? AppColors.chartColor : AppColors.errorColor,
+            minY == 0 ? AppColors.chartColor : AppColors.errorColor
+          ], stops: [
+            0,
+            gradientStop,
+            gradientStop,
+            1
+          ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
           barWidth: 2,
           isStrokeCapRound: true,
           dotData: FlDotData(
