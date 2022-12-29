@@ -79,12 +79,12 @@ class EachAssetType extends AppStatelessWidget {
                   )
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4, bottom: 8),
-                child: AddButton(
-                    onTap: _getAssetOnTapByType(context, assetsOverview.type),
-                    addAsset: true),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 4, bottom: 8),
+              //   child: AddButton(
+              //       onTap: _getAssetOnTapByType(context, assetsOverview.type),
+              //       addAsset: true),
+              // ),
             ],
           ),
           if (assetsOverview.assetList.isNotEmpty)
