@@ -67,7 +67,7 @@ class VerifyEmailPage extends AppStatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: responsiveHelper.optimalDeviceWidth * 0.08),
+                      horizontal: responsiveHelper.optimalDeviceWidth * 0.09),
                   child: RichText(
                     textAlign: TextAlign.center,
                     text: _isForgotPasswordPage()
