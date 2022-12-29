@@ -22,7 +22,7 @@ class ContactInformationWidget extends AppStatelessWidget {
     final formKey = GlobalKey<FormBuilderState>();
     return BlocListener<PersonalInformationCubit, PersonalInformationState>(
       listener: (context, state) {
-        if(state is PersonalInformationLoaded){
+        if (state is PersonalInformationLoaded) {
           formKey.currentState!.patchValue(state.getNameEntity.toJson());
         }
       },
@@ -47,18 +47,23 @@ class ContactInformationWidget extends AppStatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: EachTextField(
-                          hasInfo: false,
-                          title: "Personal Email",
-                          child: Builder(
-                            builder: (context) {
-                              final PersonalInformationState personalState = context.watch<PersonalInformationCubit>().state;
+                            hasInfo: false,
+                            title: "Personal Email",
+                            child: Builder(builder: (context) {
+                              final PersonalInformationState personalState =
+                                  context
+                                      .watch<PersonalInformationCubit>()
+                                      .state;
                               return TextField(
-                                readOnly: true,
-                                controller: TextEditingController(text: (personalState is PersonalInformationLoaded) ? personalState.getNameEntity.email : ""),
+                                enabled: false,
+                                style: TextStyle(color: Colors.grey[400]),
+                                controller: TextEditingController(
+                                    text: (personalState
+                                            is PersonalInformationLoaded)
+                                        ? personalState.getNameEntity.email
+                                        : ""),
                               );
-                            }
-                          )
-                        ),
+                            })),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -78,13 +83,12 @@ class ContactInformationWidget extends AppStatelessWidget {
                                       name: "phoneNumber",
                                       hint: "Enter Phone Number",
                                       type: TextFieldType.number,
-                                    keyboardType: TextInputType.number
-                                  ),
+                                      keyboardType: TextInputType.number),
                                 ),
                               ],
                             ),
                           ),
-                         /* RichText(
+                          /* RichText(
                             text: TextSpan(children: [
                               TextSpan(
                                 text:
@@ -104,21 +108,28 @@ class ContactInformationWidget extends AppStatelessWidget {
                               width: isTablet ? 160 : null,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  if(formKey.currentState!.validate()){
-                                    context.read<PersonalInformationCubit>().setNumber(map: formKey.currentState!.instantValue);
+                                  if (formKey.currentState!.validate()) {
+                                    context
+                                        .read<PersonalInformationCubit>()
+                                        .setNumber(
+                                            map: formKey
+                                                .currentState!.instantValue);
                                   }
                                 },
                                 child: Text("Apply Changes"),
                               ),
                             ),
                           ),
-                        ].map((e) =>
-                            Padding(padding: const EdgeInsets.symmetric(
-                                vertical: 8), child: e,)).toList(),
+                        ]
+                            .map((e) => Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  child: e,
+                                ))
+                            .toList(),
                       ),
                     ),
-                  ]
-              )
+                  ])
             ],
           ),
         ),
