@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
+import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/profile/personal_information/presentation/widgets/country_code_picker.dart';
+import 'package:wmd/global_functions.dart';
 
 import '../manager/personal_information_cubit.dart';
 
@@ -23,7 +25,14 @@ class ContactInformationWidget extends AppStatelessWidget {
     return BlocListener<PersonalInformationCubit, PersonalInformationState>(
       listener: (context, state) {
         if (state is PersonalInformationLoaded) {
-          formKey.currentState!.patchValue(state.getNameEntity.toJson());
+          var json = state.getNameEntity.toJson();
+          json.removeWhere((key, value) => value == "");
+          formKey.currentState!.patchValue(json);
+        }
+
+        if (state is SuccessState) {
+          GlobalFunctions.showSnackBar(context, 'Contact information updated',
+              type: "success");
         }
       },
       child: Padding(
@@ -47,23 +56,18 @@ class ContactInformationWidget extends AppStatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: EachTextField(
-                            hasInfo: false,
-                            title: "Personal Email",
-                            child: Builder(builder: (context) {
-                              final PersonalInformationState personalState =
-                                  context
-                                      .watch<PersonalInformationCubit>()
-                                      .state;
+                          hasInfo: false,
+                          title: "Personal Email",
+                          child: Builder(
+                            builder: (context) {
+                              final PersonalInformationState personalState = context.watch<PersonalInformationCubit>().state;
                               return TextField(
-                                enabled: false,
-                                style: TextStyle(color: Colors.grey[400]),
-                                controller: TextEditingController(
-                                    text: (personalState
-                                            is PersonalInformationLoaded)
-                                        ? personalState.getNameEntity.email
-                                        : ""),
+                                readOnly: true,
+                                controller: TextEditingController(text: (personalState is PersonalInformationLoaded) ? personalState.getNameEntity.email : ""),
                               );
-                            })),
+                            }
+                          )
+                        ),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -83,12 +87,13 @@ class ContactInformationWidget extends AppStatelessWidget {
                                       name: "phoneNumber",
                                       hint: "Enter Phone Number",
                                       type: TextFieldType.number,
-                                      keyboardType: TextInputType.number),
+                                    keyboardType: TextInputType.number
+                                  ),
                                 ),
                               ],
                             ),
                           ),
-                          /* RichText(
+                         /* RichText(
                             text: TextSpan(children: [
                               TextSpan(
                                 text:
@@ -109,6 +114,10 @@ class ContactInformationWidget extends AppStatelessWidget {
                               child: ElevatedButton(
                                 onPressed: () {
                                   if (formKey.currentState!.validate()) {
+                                    debugPrint(formKey
+                                        .currentState!.instantValue
+                                        .toString());
+
                                     context
                                         .read<PersonalInformationCubit>()
                                         .setNumber(
@@ -116,20 +125,17 @@ class ContactInformationWidget extends AppStatelessWidget {
                                                 .currentState!.instantValue);
                                   }
                                 },
-                                child: Text("Apply Changes"),
+                                child: const Text("Apply Changes"),
                               ),
                             ),
                           ),
-                        ]
-                            .map((e) => Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8),
-                                  child: e,
-                                ))
-                            .toList(),
+                        ].map((e) =>
+                            Padding(padding: const EdgeInsets.symmetric(
+                                vertical: 8), child: e,)).toList(),
                       ),
                     ),
-                  ])
+                  ]
+              )
             ],
           ),
         ),

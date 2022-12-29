@@ -13,7 +13,6 @@ class ListedSecurityCubit extends Cubit<ListedSecurityState> {
       : super(ListedSecurityInitial());
 
   postListedSecurity({required Map<String, dynamic> map}) async {
-    print(map);
     emit(LoadingState());
     final result = await addListedSecurityUseCase(map);
     result.fold(

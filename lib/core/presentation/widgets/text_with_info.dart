@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/info_icon.dart';
+import 'package:wmd/core/util/colors.dart';
 
 class TextWithInfo extends StatelessWidget {
   final String title;
   final bool hasInfo;
-  final dynamic onInfoTap;
-  const TextWithInfo({Key? key, required this.title, this.onInfoTap, required this.hasInfo}) : super(key: key);
+  final String tooltipText;
+  const TextWithInfo({Key? key, required this.title, this.tooltipText = "text", required this.hasInfo}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +14,13 @@ class TextWithInfo extends StatelessWidget {
       children: [
         Text(title,style: TextStyle(color: Color(0xffAAAAAA)),),
         const SizedBox(width: 4),
-        hasInfo? InkWell(
-          onTap: onInfoTap,
+        hasInfo? Tooltip(
+          triggerMode: TooltipTriggerMode.tap,
+          decoration: BoxDecoration(
+            color: Theme.of(context).brightness == Brightness.dark ? AppColors.anotherCardColorForDarkTheme : AppColors.anotherCardColorForLightTheme
+          ),
+          textStyle: Theme.of(context).textTheme.bodyMedium,
+          message: tooltipText,
           child: const InfoIcon(),
         ) : const SizedBox()
       ],
