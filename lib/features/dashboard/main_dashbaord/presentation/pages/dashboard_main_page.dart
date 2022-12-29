@@ -38,10 +38,10 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
       body: BlocConsumer<UserStatusCubit, UserStatusState>(
         listener: BlocHelper.defaultBlocListener(listener: (context, state) {
           if (state is UserStatusLoaded) {
-            if (!(state.userStatus.emailVerified ?? true)) {
+            /*if (!(state.userStatus.emailVerified ?? true)) {
               context.goNamed(AppRoutes.verifyEmail,
                   queryParams: {"email": state.userStatus.email ?? ""});
-            }
+            }*/
           }
         }),
         builder: (context, state) {
