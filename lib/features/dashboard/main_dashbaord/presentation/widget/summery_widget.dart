@@ -13,34 +13,51 @@ import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_
 
 class SummeryWidget extends StatefulWidget {
   final NetWorthEntity netWorthEntity;
-  const SummeryWidget({Key? key,required this.netWorthEntity}) : super(key: key);
+  const SummeryWidget({Key? key, required this.netWorthEntity})
+      : super(key: key);
 
   @override
   AppState<SummeryWidget> createState() => _SummeryWidgetState();
 }
 
 class _SummeryWidgetState extends AppState<SummeryWidget> {
-
   static const _timeFilter = [
     MapEntry<String, int>("7 days", 7),
     MapEntry<String, int>("30 days", 30),
   ];
 
-
   @override
-  Widget buildWidget(BuildContext context,TextTheme textTheme, AppLocalizations appLocalizations) {
-    final String date = (context.watch<MainDashboardCubit>().dateTimeRange??_timeFilter[0]).key;
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
+    final String date =
+        (context.watch<MainDashboardCubit>().dateTimeRange ?? _timeFilter[0])
+            .key;
     final List items = [
-      ["Total Net Worth",widget.netWorthEntity.totalNetWorth.currentValue,"Change in last $date",widget.netWorthEntity.totalNetWorth.change],
-      ["Assets",widget.netWorthEntity.assets.currentValue,"Change in last $date",widget.netWorthEntity.assets.change],
-      ["Liabilities",widget.netWorthEntity.liabilities.currentValue,"Change in last $date",widget.netWorthEntity.liabilities.change],
+      [
+        "Total Net Worth",
+        widget.netWorthEntity.totalNetWorth.currentValue,
+        "Change in last $date",
+        widget.netWorthEntity.totalNetWorth.change
+      ],
+      [
+        "Assets",
+        widget.netWorthEntity.assets.currentValue,
+        "Change in last $date",
+        widget.netWorthEntity.assets.change
+      ],
+      [
+        "Liabilities",
+        widget.netWorthEntity.liabilities.currentValue,
+        "Change in last $date",
+        widget.netWorthEntity.liabilities.change
+      ],
     ];
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
     return Column(
       children: [
         Row(
           children: [
-            Text("Summery",style: textTheme.titleLarge),
+            Text(appLocalizations.home_subheading, style: textTheme.titleLarge),
             const Spacer(),
             Icon(
               Icons.calendar_month,
@@ -51,19 +68,23 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
             DropdownButton<MapEntry<String, int>>(
               items: _timeFilter
                   .map((e) => DropdownMenuItem<MapEntry<String, int>>(
-                  value: e,
-                  child: Text(
-                    e.key,
-                    style: textTheme.bodyMedium!.apply(color: Theme.of(context).primaryColor),
-                    // textTheme.bodyMedium!.toLinkStyle(context),
-                  )))
+                      value: e,
+                      child: Text(
+                        e.key,
+                        style: textTheme.bodyMedium!
+                            .apply(color: Theme.of(context).primaryColor),
+                        // textTheme.bodyMedium!.toLinkStyle(context),
+                      )))
                   .toList(),
               onChanged: ((value) {
                 if (value != null) {
-                  context.read<MainDashboardCubit>().getNetWorth(dateTimeRange: value);
+                  context
+                      .read<MainDashboardCubit>()
+                      .getNetWorth(dateTimeRange: value);
                 }
               }),
-              value: context.read<MainDashboardCubit>().dateTimeRange??_timeFilter[0],
+              value: context.read<MainDashboardCubit>().dateTimeRange ??
+                  _timeFilter[0],
               icon: Icon(
                 Icons.keyboard_arrow_down,
                 size: 15,
@@ -73,7 +94,7 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
             ),
           ],
         ),
-        const SizedBox(height:12),
+        const SizedBox(height: 12),
         RowOrColumn(
           showRow: !isMobile,
           children: List.generate(items.length, (index) {
@@ -88,22 +109,28 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
                     children: [
                       TextWithInfo(title: item[0], hasInfo: true),
                       const SizedBox(height: 8),
-                      Text((item[1] as double).convertMoney(addDollar: true),style: textTheme.headlineSmall),
+                      Text((item[1] as double).convertMoney(addDollar: true),
+                          style: textTheme.headlineSmall),
                       const SizedBox(height: 8),
-                      Builder(
-                        builder: (context) {
-                          return FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Row(
-                              children: [
-                                Text(item[2],style: textTheme.bodySmall!.apply(color: AppColors.dashBoardGreyTextColor),),
-                                const SizedBox(width: 8),
-                                ChangeWidget(number: item[3], text: (item[3] as double).convertMoney(addDollar: true))
-                              ],
-                            ),
-                          );
-                        }
-                      )
+                      Builder(builder: (context) {
+                        return FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Row(
+                            children: [
+                              Text(
+                                item[2],
+                                style: textTheme.bodySmall!.apply(
+                                    color: AppColors.dashBoardGreyTextColor),
+                              ),
+                              const SizedBox(width: 8),
+                              ChangeWidget(
+                                  number: item[3],
+                                  text: (item[3] as double)
+                                      .convertMoney(addDollar: true))
+                            ],
+                          ),
+                        );
+                      })
                     ],
                   ),
                 ),
