@@ -40,7 +40,7 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
       children: [
         Row(
           children: [
-            Text("Summery",style: textTheme.titleLarge),
+            Text(appLocalizations.home_subheading, style: textTheme.titleLarge),
             const Spacer(),
             Icon(
               Icons.calendar_month,
@@ -86,24 +86,30 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextWithInfo(title: item[0], hasInfo: true,tooltipText: item[4]),
+                      TextWithInfo(title: item[0], hasInfo: true),
                       const SizedBox(height: 8),
-                      Text((item[1] as double).convertMoney(addDollar: true),style: textTheme.headlineSmall),
+                      Text((item[1] as double).convertMoney(addDollar: true),
+                          style: textTheme.headlineSmall),
                       const SizedBox(height: 8),
-                      Builder(
-                        builder: (context) {
-                          return FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Row(
-                              children: [
-                                Text(item[2],style: textTheme.bodySmall!.apply(color: AppColors.dashBoardGreyTextColor),),
-                                const SizedBox(width: 8),
-                                ChangeWidget(number: item[3], text: (item[3] as double).convertMoney(addDollar: true))
-                              ],
-                            ),
-                          );
-                        }
-                      )
+                      Builder(builder: (context) {
+                        return FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Row(
+                            children: [
+                              Text(
+                                item[2],
+                                style: textTheme.bodySmall!.apply(
+                                    color: AppColors.dashBoardGreyTextColor),
+                              ),
+                              const SizedBox(width: 8),
+                              ChangeWidget(
+                                  number: item[3],
+                                  text: (item[3] as double)
+                                      .convertMoney(addDollar: true))
+                            ],
+                          ),
+                        );
+                      })
                     ],
                   ),
                 ),

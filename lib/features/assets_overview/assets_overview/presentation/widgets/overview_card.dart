@@ -126,7 +126,9 @@ class OverViewCard extends AppStatelessWidget {
                                     ExpandedIf(
                                       expanded: !isMobile,
                                       child: YtdItdWidget(
-                                          expand: !isMobile, ytd: 0, itd: 0),
+                                          expand: !isMobile,
+                                          ytd: 12.12,
+                                          itd: 30.51),
                                     )
                                   ],
                                 )

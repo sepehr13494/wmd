@@ -172,7 +172,7 @@ class _SupportPageState extends AppState<SupportPage> {
                                   Container(
                                       padding: const EdgeInsets.all(12),
                                       child: const Icon(
-                                        Icons.call,
+                                        Icons.email,
                                         color: AppColors.primary,
                                       )),
                                   Text(

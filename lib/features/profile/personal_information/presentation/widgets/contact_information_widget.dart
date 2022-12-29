@@ -106,8 +106,12 @@ class ContactInformationWidget extends AppStatelessWidget {
                               width: isTablet ? 160 : null,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  if(formKey.currentState!.validate()){
-                                    context.read<PersonalInformationCubit>().setNumber(map: formKey.currentState!.instantValue);
+                                  if (formKey.currentState!.validate()) {
+                                    context
+                                        .read<PersonalInformationCubit>()
+                                        .setNumber(
+                                            map: formKey
+                                                .currentState!.instantValue);
                                   }
                                 },
                                 child: Text("Apply Changes"),

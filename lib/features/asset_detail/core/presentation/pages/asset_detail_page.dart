@@ -47,7 +47,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
     final primaryColor = Theme.of(context).primaryColor;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Asset details'),
+        title: const Text('Assets'),
       ),
       body: Stack(
         children: [
@@ -106,9 +106,8 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
 
   Row _buildHeader(TextTheme textTheme, Color primaryColor) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Text('Summary', style: textTheme.bodyLarge),
         Row(
           children: [
             Icon(

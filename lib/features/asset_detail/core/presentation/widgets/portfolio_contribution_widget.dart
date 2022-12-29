@@ -26,7 +26,7 @@ class PortfolioContributionWidget extends AppStatelessWidget {
         Builder(builder: (context) {
           // final double portfolioPercentage = portfolioContribution * 100;
           return Text(
-            "$portfolioContribution% of ${netWorth.convertMoney(addDollar: true)}",
+            "${portfolioContribution.toStringAsFixed(1)}% of ${netWorth.convertMoney(addDollar: true)}",
             style: textTheme.bodyLarge,
           );
         }),
