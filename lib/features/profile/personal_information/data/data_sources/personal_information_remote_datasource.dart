@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:wmd/core/data/network/server_request_manager.dart';
 import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/data/repository/app_data_source.dart';
@@ -14,7 +15,7 @@ import '../models/set_number_response.dart';
 abstract class PersonalInformationRemoteDataSource {
   Future<GetNameResponse> getName(GetNameParams params);
   Future<SetNameResponse> setName(SetNameParams params);
-  Future<SetNumberResponse> setNumber(SetNumberParams params);
+  Future<dynamic> setNumber(SetNumberParams params);
 }
 
 class PersonalInformationRemoteDataSourceImpl extends AppServerDataSource
@@ -23,13 +24,19 @@ class PersonalInformationRemoteDataSourceImpl extends AppServerDataSource
 
   @override
   Future<GetNameResponse> getName(GetNameParams params) async {
+    // try {
     final appRequestOptions =
         AppRequestOptions(RequestTypes.get, AppUrls.getName, params.toJson());
     final response =
         await errorHandlerMiddleware.sendRequest(appRequestOptions);
-
+    debugPrint(response.toString());
     final result = GetNameResponse.fromJson(response);
     return result;
+    // } on ServerException {
+    //   rethrow;
+    // } catch (e) {
+    //   throw const AppException(message: "Something went wrong!");
+    // }
   }
 
   @override
@@ -50,12 +57,12 @@ class PersonalInformationRemoteDataSourceImpl extends AppServerDataSource
   }
 
   @override
-  Future<SetNumberResponse> setNumber(SetNumberParams params) async {
+  Future<dynamic> setNumber(SetNumberParams params) async {
     final appRequestOptions =
-        AppRequestOptions(RequestTypes.get, AppUrls.setNumber, params.toJson());
+        AppRequestOptions(RequestTypes.put, AppUrls.setNumber, params.toJson());
     final response =
         await errorHandlerMiddleware.sendRequest(appRequestOptions);
-    final result = SetNumberResponse.fromJson(response);
-    return result;
+
+    return response;
   }
 }
