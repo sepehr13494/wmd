@@ -108,6 +108,10 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        Text(
+          'Summary',
+          style: textTheme.bodyLarge,
+        ),
         Row(
           children: [
             Icon(
