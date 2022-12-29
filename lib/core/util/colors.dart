@@ -19,6 +19,7 @@ class AppColors {
   static const Color darkCardColorForDarkTheme = Color(0xFF1A1A1A);
   static const Color darkCardColorForLightTheme = Color(0xFFFFFFFF);
   static const Color green = Color(0xFFB5E361);
+  static const Color continentEmptyColor = Color(0xFF333232);
 }
 
 class HexColor extends Color {
