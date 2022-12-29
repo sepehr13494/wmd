@@ -105,6 +105,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                         "totalCost": currentDayValue,
                       };
 
+                      print("finalMap");
                       print(finalMap);
 
                       context
@@ -124,7 +125,6 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                             listener: (context, state) {
                       if (state is ListedSecuritySaved) {
                         context.read<MainDashboardCubit>().initPage();
-
                         final successValue = state.listedSecuritySaveResponse;
                         showDialog(
                           context: context,
@@ -180,10 +180,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                     child: ListedSecurityTypeAhead(
                                         name: "name",
                                         onChange: (e) {
-                                 
-
                                           checkFinalValid(e);
-
                                           setState(() {
                                             securityName = e;
                                           });
@@ -278,7 +275,6 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                     onChanged: (val) async {
                                       await Future.delayed(
                                           const Duration(milliseconds: 200));
-
                                       if (val == "Fixed Income") {
                                         setState(() {
                                           isFixedIncome = true;
@@ -296,8 +292,8 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                           isFixedIncome = false;
                                         });
                                       }
-
                                       checkFinalValid(val);
+                                      print(formKey.currentState!.instantValue["category"]);
                                     },
                                     name: "category",
                                     hint: appLocalizations
