@@ -39,6 +39,7 @@ class PieChart2State extends State {
                         color: DashboardChartsConstants.colors[index],
                         name: pieEntity.name,
                         price: pieEntity.value.convertMoney(addDollar: true),
+                        value: pieEntity.value,
                         percentage: "${pieEntity.percentage.toStringAsFixed(1)}%",
                       );
                     },

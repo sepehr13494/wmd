@@ -42,6 +42,7 @@ class _RandomWorldMapGenratorState extends State<RandomWorldMapGenrator> {
                 return EachAssetViewModel(
                   name: eographicEntity.continent,
                   price: eographicEntity.amount.convertMoney(addDollar: true),
+                  value: eographicEntity.amount,
                   percentage: "${eographicEntity.percentage.toStringAsFixed(1)}%",
                 );
               },
@@ -64,15 +65,46 @@ class _RandomWorldMapGenratorState extends State<RandomWorldMapGenrator> {
                             final africaPercentage = state.getGeographicEntity.firstWhere((element) => element.continent == "Africa",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "Africa")).percentage/100;
                             final northAmericaPercentage = state.getGeographicEntity.firstWhere((element) => element.continent == "North America",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "North America")).percentage/100;
                             final southAmericaPercentage = state.getGeographicEntity.firstWhere((element) => element.continent == "South America",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "South America")).percentage/100;
-                            final asiaColor = asiaPercentage == 0 ? Colors.grey : const Color(0xffB48D80).withOpacity(asiaPercentage);
-                            final euroColor = euroPercentage == 0 ? Colors.grey : const Color(0xffB48D80).withOpacity(euroPercentage);
-                            final australiaColor = australiaPercentage == 0 ? Colors.grey : const Color(0xffB48D80).withOpacity(australiaPercentage);
-                            final africaColor = africaPercentage == 0 ? Colors.grey : const Color(0xffB48D80).withOpacity(africaPercentage);
-                            final northAmericaColor = northAmericaPercentage == 0 ? Colors.grey : const Color(0xffB48D80).withOpacity(northAmericaPercentage);
-                            final southAmericaColor = southAmericaPercentage == 0 ? Colors.grey : const Color(0xffB48D80).withOpacity(southAmericaPercentage);
+                            final asiaColor = asiaPercentage == 0 ? AppColors.continentEmptyColor : const Color(0xffB48D80).withOpacity(asiaPercentage);
+                            final euroColor = euroPercentage == 0 ? AppColors.continentEmptyColor : const Color(0xffB48D80).withOpacity(euroPercentage);
+                            final australiaColor = australiaPercentage == 0 ? AppColors.continentEmptyColor : const Color(0xffB48D80).withOpacity(australiaPercentage);
+                            final africaColor = africaPercentage == 0 ? AppColors.continentEmptyColor : const Color(0xffB48D80).withOpacity(africaPercentage);
+                            final northAmericaColor = northAmericaPercentage == 0 ? AppColors.continentEmptyColor : const Color(0xffB48D80).withOpacity(northAmericaPercentage);
+                            final southAmericaColor = southAmericaPercentage == 0 ? AppColors.continentEmptyColor : const Color(0xffB48D80).withOpacity(southAmericaPercentage);
                             return SimpleWorldMap(
                               countryColors: SimpleWorldCountryColors(
-
+                                aQ: euroColor,
+                                aX: euroColor,
+                                bA: euroColor,
+                                bV: euroColor,
+                                bY: euroColor,
+                                cH: euroColor,
+                                eH: northAmericaColor,
+                                fO: euroColor,
+                                gG: euroColor,
+                                gI: euroColor,
+                                gS: euroColor,
+                                hM: euroColor,
+                                iM: euroColor,
+                                iS: northAmericaColor,
+                                jE: euroColor,
+                                lI: northAmericaColor,
+                                mC: euroColor,
+                                mD: northAmericaColor,
+                                mE: euroColor,
+                                mF: euroColor,
+                                mK: euroColor,
+                                nE: africaColor,
+                                nO: euroColor,
+                                pN: euroColor,
+                                pT: euroColor,
+                                rS: euroColor,
+                                sJ: euroColor,
+                                sM: euroColor,
+                                tF: euroColor,
+                                uA: euroColor,
+                                vA: euroColor,
+                                xK: euroColor,
                                 iR: asiaColor,
                                 rU: asiaColor,
                                 aF: asiaColor,
