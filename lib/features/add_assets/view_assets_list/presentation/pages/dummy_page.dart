@@ -8,8 +8,10 @@ class DummyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAuthAppBar(),
-      body: Center(child: Text(title),),
+      appBar: const CustomAuthAppBar(),
+      body: Center(
+        child: Text(title),
+      ),
     );
   }
 }
