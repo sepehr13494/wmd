@@ -8,16 +8,24 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/base_chart_view.dart';
-
-import '../../../charts/presentation/widgets/charts_widget.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/summart_time_filter.dart';
 import '../manager/assets_overview_cubit.dart';
 import '../widgets/add_button.dart';
 import '../widgets/each_asset_type/each_asset_type.dart';
 import '../widgets/overview_card.dart';
 
-class AssetsOverView extends AppStatelessWidget {
+class AssetsOverView extends StatefulWidget {
   const AssetsOverView({Key? key}) : super(key: key);
+
+  @override
+  AppState<AssetsOverView> createState() => _AssetsOverViewState();
+}
+
+class _AssetsOverViewState extends AppState<AssetsOverView> {
+  MapEntry<String, int> selectedTimeFilter = AppConstants.timeFilter.first;
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -62,9 +70,10 @@ class AssetsOverView extends AppStatelessWidget {
                           ),
                         ],
                       ),
+                      const SummaryTimeFilter(),
                       const OverViewCard(),
                       const SizedBox(height: 16),
-                      const BaseAssetsOverviewChartsWidget(),
+                      const ChartsWrapper(),
                       BlocConsumer<AssetsOverviewCubit, AssetsOverviewState>(
                         listener: BlocHelper.defaultBlocListener(
                           listener: (context, state) {},
@@ -101,6 +110,38 @@ class AssetsOverView extends AppStatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class ChartsWrapper extends AppStatelessWidget {
+  const ChartsWrapper({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
+    final time = context.read<MainDashboardCubit>().dateTimeRange;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              'Allocation by',
+              style: textTheme.bodyLarge,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              '(${time.key})',
+              style: textTheme.bodySmall,
+            ),
+          ],
+        ),
+        const SizedBox(height: 24),
+        const BaseAssetsOverviewChartsWidget(),
+      ],
     );
   }
 }

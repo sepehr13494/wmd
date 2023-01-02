@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
-import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
@@ -10,70 +9,50 @@ import 'package:wmd/core/presentation/widgets/text_with_info.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/domain/entities/net_worth_entity.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/summart_time_filter.dart';
 
 class SummeryWidget extends StatefulWidget {
   final NetWorthEntity netWorthEntity;
-  const SummeryWidget({Key? key,required this.netWorthEntity}) : super(key: key);
+  const SummeryWidget({Key? key, required this.netWorthEntity})
+      : super(key: key);
 
   @override
   AppState<SummeryWidget> createState() => _SummeryWidgetState();
 }
 
 class _SummeryWidgetState extends AppState<SummeryWidget> {
-
-  static const _timeFilter = [
-    MapEntry<String, int>("7 days", 7),
-    MapEntry<String, int>("30 days", 30),
-  ];
-
-
   @override
-  Widget buildWidget(BuildContext context,TextTheme textTheme, AppLocalizations appLocalizations) {
-    final String date = (context.watch<MainDashboardCubit>().dateTimeRange??_timeFilter[0]).key;
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
+    final String date = (context.watch<MainDashboardCubit>().dateTimeRange).key;
     final List items = [
-      ["Total Net Worth",widget.netWorthEntity.totalNetWorth.currentValue,"Change in last $date",widget.netWorthEntity.totalNetWorth.change,"tooltip info"],
-      ["Assets",widget.netWorthEntity.assets.currentValue,"Change in last $date",widget.netWorthEntity.assets.change,"tooltip info"],
-      ["Liabilities",widget.netWorthEntity.liabilities.currentValue,"Change in last $date",widget.netWorthEntity.liabilities.change,"tooltip info"],
+      [
+        "Total Net Worth",
+        widget.netWorthEntity.totalNetWorth.currentValue,
+        "Change in last $date",
+        widget.netWorthEntity.totalNetWorth.change,
+        "tooltip info"
+      ],
+      [
+        "Assets",
+        widget.netWorthEntity.assets.currentValue,
+        "Change in last $date",
+        widget.netWorthEntity.assets.change,
+        "tooltip info"
+      ],
+      [
+        "Liabilities",
+        widget.netWorthEntity.liabilities.currentValue,
+        "Change in last $date",
+        widget.netWorthEntity.liabilities.change,
+        "tooltip info"
+      ],
     ];
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
     return Column(
       children: [
-        Row(
-          children: [
-            Text(appLocalizations.home_subheading, style: textTheme.titleLarge),
-            const Spacer(),
-            Icon(
-              Icons.calendar_month,
-              size: 15,
-              color: Theme.of(context).primaryColor,
-            ),
-            const SizedBox(width: 8),
-            DropdownButton<MapEntry<String, int>>(
-              items: _timeFilter
-                  .map((e) => DropdownMenuItem<MapEntry<String, int>>(
-                  value: e,
-                  child: Text(
-                    e.key,
-                    style: textTheme.bodyMedium!.apply(color: Theme.of(context).primaryColor),
-                    // textTheme.bodyMedium!.toLinkStyle(context),
-                  )))
-                  .toList(),
-              onChanged: ((value) {
-                if (value != null) {
-                  context.read<MainDashboardCubit>().getNetWorth(dateTimeRange: value);
-                }
-              }),
-              value: context.read<MainDashboardCubit>().dateTimeRange??_timeFilter[0],
-              icon: Icon(
-                Icons.keyboard_arrow_down,
-                size: 15,
-                color: Theme.of(context).primaryColor,
-              ),
-              // style: textTheme.labelLarge,
-            ),
-          ],
-        ),
-        const SizedBox(height:12),
+        const SummaryTimeFilter(),
+        const SizedBox(height: 12),
         RowOrColumn(
           showRow: !isMobile,
           children: List.generate(items.length, (index) {
