@@ -65,12 +65,12 @@ class _RandomWorldMapGenratorState extends State<RandomWorldMapGenrator> {
                             final africaPercentage = state.getGeographicEntity.firstWhere((element) => element.continent == "Africa",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "Africa")).percentage/100;
                             final northAmericaPercentage = state.getGeographicEntity.firstWhere((element) => element.continent == "North America",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "North America")).percentage/100;
                             final southAmericaPercentage = state.getGeographicEntity.firstWhere((element) => element.continent == "South America",orElse: () => const GetGeographicResponse(percentage: 0,amount: 0,continent: "South America")).percentage/100;
-                            final asiaColor = asiaPercentage == 0 ? AppColors.continentEmptyColor : const Color(0xffB48D80).withOpacity(asiaPercentage);
-                            final euroColor = euroPercentage == 0 ? AppColors.continentEmptyColor : const Color(0xffB48D80).withOpacity(euroPercentage);
-                            final australiaColor = australiaPercentage == 0 ? AppColors.continentEmptyColor : const Color(0xffB48D80).withOpacity(australiaPercentage);
-                            final africaColor = africaPercentage == 0 ? AppColors.continentEmptyColor : const Color(0xffB48D80).withOpacity(africaPercentage);
-                            final northAmericaColor = northAmericaPercentage == 0 ? AppColors.continentEmptyColor : const Color(0xffB48D80).withOpacity(northAmericaPercentage);
-                            final southAmericaColor = southAmericaPercentage == 0 ? AppColors.continentEmptyColor : const Color(0xffB48D80).withOpacity(southAmericaPercentage);
+                            final asiaColor = getColor(asiaPercentage);
+                            final euroColor = getColor(euroPercentage);
+                            final australiaColor = getColor(australiaPercentage);
+                            final africaColor = getColor(africaPercentage);
+                            final northAmericaColor = getColor(northAmericaPercentage);
+                            final southAmericaColor = getColor(southAmericaPercentage);
                             return SimpleWorldMap(
                               countryColors: SimpleWorldCountryColors(
                                 aQ: euroColor,
@@ -340,5 +340,19 @@ class _RandomWorldMapGenratorState extends State<RandomWorldMapGenrator> {
         },
       );
     });
+  }
+
+  Color getColor(double percentage) {
+    if(percentage == 0){
+      return AppColors.continentEmptyColor;
+    }else if(percentage < 0.1){
+      return const Color(0x33b48d80);
+    }else if(percentage < 0.3){
+      return const Color(0x4db48d80);
+    }else if(percentage < 0.5){
+      return const Color(0x80b48d80);
+    }else {
+      return const Color(0xffb48d80);
+    }
   }
 }

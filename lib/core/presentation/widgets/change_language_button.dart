@@ -16,7 +16,7 @@ class ChangeLanguageButton extends StatelessWidget {
             context.read<LocalizationManager>().switchLanguage();
           },
           child: Text(
-              context.read<LocalizationManager>().getName(),
+              context.read<LocalizationManager>().getOtherName(),
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium!

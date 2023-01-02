@@ -5,6 +5,7 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/app_localization.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
+import 'package:wmd/features/profile/core/presentation/widgets/language_bottom_sheet.dart';
 import 'package:wmd/features/profile/personal_information/presentation/widgets/personal_imformation_widget.dart';
 import 'package:wmd/features/profile/profile_reset_password/presentation/pages/profile_reset_password_page.dart';
 import 'package:wmd/injection_container.dart';
@@ -62,11 +63,14 @@ class ProfilePage extends AppStatelessWidget {
                               ),
                               OutlinedButton(
                                   onPressed: () {
-                                    context
-                                        .read<LocalizationManager>()
-                                        .switchLanguage();
+                                    showModalBottomSheet(
+                                      isScrollControlled: true,
+                                        context: context,
+                                        builder: (context) {
+                                          return const LanguageBottomSheet();
+                                        });
                                   },
-                                  child: Text("Change"))
+                                  child: const Text("Change"))
                             ],
                           ),
                         ]
