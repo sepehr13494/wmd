@@ -33,7 +33,7 @@ class ChartsWrapper extends AppStatelessWidget {
         ),
         const SizedBox(height: 24),
         DefaultTabController(
-          length: 3,
+          length: 1,
           child: Column(
             children: [
               Row(
@@ -43,8 +43,8 @@ class ChartsWrapper extends AppStatelessWidget {
                     child: TabBar(
                       tabs: [
                         Tab(text: "Asset Class"),
-                        Tab(text: "Geography"),
-                        Tab(text: "Currency"),
+                        // Tab(text: "Geography"),
+                        // Tab(text: "Currency"),
                       ],
                       isScrollable: true,
                     ),
@@ -70,25 +70,24 @@ class ChartsWrapper extends AppStatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                ChartPicker(
-                                  value: 0,
-                                  onChange: (value) {},
-                                ),
-                              ],
-                            ),
-                            const Expanded(
-                                child: BaseAssetsOverviewChartsWidget()),
+                          children: const [
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.end,
+                            //   children: [
+                            //     ChartPicker(
+                            //       value: 0,
+                            //       onChange: (value) {},
+                            //     ),
+                            //   ],
+                            // ),
+                            Expanded(child: BaseAssetsOverviewChartsWidget()),
                           ],
                         ),
                       ),
                     ),
                   ),
-                  Container(),
-                  Container(),
+                  // Container(),
+                  // Container(),
                 ]),
               )
             ],
