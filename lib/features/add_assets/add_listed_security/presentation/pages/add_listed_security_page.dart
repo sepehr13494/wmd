@@ -19,6 +19,7 @@ import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_head
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
+import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
@@ -125,6 +126,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                             listener: (context, state) {
                       if (state is ListedSecuritySaved) {
                         context.read<MainDashboardCubit>().initPage();
+                        context.read<AssetsOverviewCubit>().initPage();
                         final successValue = state.listedSecuritySaveResponse;
                         showDialog(
                           context: context,
@@ -293,7 +295,8 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                         });
                                       }
                                       checkFinalValid(val);
-                                      print(formKey.currentState!.instantValue["category"]);
+                                      print(formKey.currentState!
+                                          .instantValue["category"]);
                                     },
                                     name: "category",
                                     hint: appLocalizations
