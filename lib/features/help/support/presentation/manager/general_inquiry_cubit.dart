@@ -17,7 +17,7 @@ class GeneralInquiryCubit extends Cubit<GeneralInquiryState> {
     result.fold((failure) {
       emit(ErrorState(failure: failure));
     }, (statusSuccess) {
-      emit(GeneralInquirySaved(status: statusSuccess));
+      emit(SuccessState(appSuccess: statusSuccess));
     });
   }
 }

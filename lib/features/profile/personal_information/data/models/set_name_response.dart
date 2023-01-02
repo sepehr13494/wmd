@@ -1,10 +1,6 @@
-
-
 class SetNameResponse {
-    SetNameResponse();
+  SetNameResponse();
 
-    factory SetNameResponse.fromJson(Map<String, dynamic> json) => SetNameResponse(
-    );
-    
+  factory SetNameResponse.fromJson(Map<String, dynamic> json) =>
+      SetNameResponse();
 }
-    
