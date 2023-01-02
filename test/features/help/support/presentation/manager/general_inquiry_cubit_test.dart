@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
+import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/features/help/faq/data/models/faq.dart';
@@ -24,20 +25,19 @@ void main() {
     generalInquiryCubit = GeneralInquiryCubit(mockPostGeneralInquiryUseCase);
   });
 
-  final tUserStatus = SupportStatus(
-      email: "test@yopmail.com",
-      loginAt: CustomizableDateTime.current.toString());
-
   group("getFAQs", () {
     blocTest(
       'when postGeneralInquiry is emits the GeneralInquirySaved when success',
       build: () => generalInquiryCubit,
-      setUp: () => when(mockPostGeneralInquiryUseCase(any))
-          .thenAnswer((realInvocation) async => Right(tUserStatus)),
+      setUp: () => when(mockPostGeneralInquiryUseCase(any)).thenAnswer(
+          (realInvocation) async =>
+              const Right(AppSuccess(message: "successfully done"))),
       act: (bloc) async => await bloc.postGeneralInquiry(
           map: GeneralInquiryParams.tGeneralInquiryMap),
-      expect: () =>
-          [isA<LoadingState>(), GeneralInquirySaved(status: tUserStatus)],
+      expect: () => [
+        isA<LoadingState>(),
+        SuccessState(appSuccess: const AppSuccess(message: "successfully done"))
+      ],
       verify: (_) {
         verify(mockPostGeneralInquiryUseCase(
             GeneralInquiryParams.tGeneralInquiryMap));

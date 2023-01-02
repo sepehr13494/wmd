@@ -19,13 +19,13 @@ class CustomAuthAppBar extends StatelessWidget with PreferredSizeWidget {
       automaticallyImplyLeading: automaticallyImplyLeading,
       actions: [
         const ChangeLanguageButton(),
-        Switch(
-            value: context.watch<ThemeManager>().state == ThemeMode.light,
-            onChanged: (val) {
-              context
-                  .read<ThemeManager>()
-                  .changeTheme(val ? ThemeMode.light : ThemeMode.dark);
-            })
+        // Switch(
+        //     value: context.watch<ThemeManager>().state == ThemeMode.light,
+        //     onChanged: (val) {
+        //       context
+        //           .read<ThemeManager>()
+        //           .changeTheme(val ? ThemeMode.light : ThemeMode.dark);
+        //     })
       ],
     );
   }

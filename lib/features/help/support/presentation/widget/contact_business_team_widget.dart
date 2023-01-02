@@ -130,9 +130,9 @@ class ContactBusinessWidget extends ModalWidget {
             listener: (context, state) {
           debugPrint(state.toString());
 
-          if (state is GeneralInquirySaved) {
-            final successValue = state.status;
-            GlobalFunctions.showSnackBar(context, successValue,
+          if (state is SuccessState) {
+            GlobalFunctions.showSnackBar(
+                context, "Your inquiry submited successfully!",
                 type: "success");
             Navigator.pop(context, false);
           } else if (state is ErrorState) {
@@ -148,20 +148,23 @@ class ContactBusinessWidget extends ModalWidget {
                 children: [
                   Expanded(
                       child: ElevatedButton(
-                    onPressed: enableSubmitButton
-                        ? () {
-                            Map<String, dynamic> finalMap = {
-                              ...formKey.currentState!.instantValue,
-                            };
+                    onPressed:
+                        // enableSubmitButton
+                        //     ?
+                        () {
+                      Map<String, dynamic> finalMap = {
+                        ...formKey.currentState!.instantValue,
+                      };
 
-                            print(finalMap);
-                            print(formKey.currentState!.isValid);
+                      print(finalMap);
+                      print(formKey.currentState!.isValid);
 
-                            context
-                                .read<GeneralInquiryCubit>()
-                                .postGeneralInquiry(map: finalMap);
-                          }
-                        : null,
+                      context
+                          .read<GeneralInquiryCubit>()
+                          .postGeneralInquiry(map: finalMap);
+                    }
+                    // : null
+                    ,
                     style: ElevatedButton.styleFrom(
                         minimumSize: const Size(100, 50)),
                     child: Text(confirmBtn),

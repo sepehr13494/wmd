@@ -8,8 +8,7 @@ import 'dart:async' as _i5;
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:wmd/core/error_and_success/failures.dart' as _i6;
-import 'package:wmd/features/help/support/data/models/support_status.dart'
-    as _i7;
+import 'package:wmd/core/error_and_success/succeses.dart' as _i7;
 import 'package:wmd/features/help/support/domain/repositories/general_inquiry_repository.dart'
     as _i2;
 import 'package:wmd/features/help/support/domain/use_cases/post_general_inquiry_usecase.dart'
@@ -66,21 +65,20 @@ class MockPostGeneralInquiryUseCase extends _i1.Mock
         ),
       ) as _i2.GeneralInquiryRepository);
   @override
-  _i5.Future<_i3.Either<_i6.Failure, _i7.SupportStatus>> call(
+  _i5.Future<_i3.Either<_i6.Failure, _i7.AppSuccess>> call(
           Map<String, dynamic>? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue:
-            _i5.Future<_i3.Either<_i6.Failure, _i7.SupportStatus>>.value(
-                _FakeEither_1<_i6.Failure, _i7.SupportStatus>(
+        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i7.AppSuccess>>.value(
+            _FakeEither_1<_i6.Failure, _i7.AppSuccess>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i5.Future<_i3.Either<_i6.Failure, _i7.SupportStatus>>);
+      ) as _i5.Future<_i3.Either<_i6.Failure, _i7.AppSuccess>>);
 }

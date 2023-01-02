@@ -8,5 +8,5 @@ class MainDashboardNetWorthLoaded extends Equatable with MainDashboardState {
   MainDashboardNetWorthLoaded({required this.netWorthObj});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [netWorthObj];
 }

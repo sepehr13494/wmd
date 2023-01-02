@@ -19,7 +19,7 @@ class GeneralInquiryRemoteDataSourceImpl extends AppServerDataSource
         RequestTypes.post, AppUrls.postInquiry, params.toJson());
     final response =
         await errorHandlerMiddleware.sendRequest(getUserStatusRequestOptions);
-    final result = SupportStatus.fromJson(response);
+    final result = SupportStatus();
     return result;
   }
 }

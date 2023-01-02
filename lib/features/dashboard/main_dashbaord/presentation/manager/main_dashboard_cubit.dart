@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/data/models/net_worth_response_obj.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/domain/use_cases/user_net_worth_usecase.dart';
 
@@ -12,18 +13,20 @@ class MainDashboardCubit extends Cubit<MainDashboardState> {
 
   MainDashboardCubit(this.userNetWorthUseCase) : super(LoadingState());
 
-  dynamic dateTimeRange;
+  MapEntry<String, int> dateTimeRange = AppConstants.timeFilter.first;
 
-  initPage(){
-    getNetWorth(dateTimeRange: const MapEntry<String, int>("7 days", 7));
+  initPage() {
+    getNetWorth(dateTimeRange: dateTimeRange);
   }
 
-  getNetWorth({dynamic dateTimeRange}) async {
-    this.dateTimeRange = dateTimeRange;
+  getNetWorth({MapEntry<String, int>? dateTimeRange}) async {
+    if (dateTimeRange != null) {
+      this.dateTimeRange = dateTimeRange;
+    }
     emit(LoadingState());
     final result = await userNetWorthUseCase(dateTimeRange);
-    result.fold(
-        (failure) => emit(ErrorState(failure: failure)), (userNetWorth) {
+    result.fold((failure) => emit(ErrorState(failure: failure)),
+        (userNetWorth) {
       emit(MainDashboardNetWorthLoaded(netWorthObj: userNetWorth));
     });
   }

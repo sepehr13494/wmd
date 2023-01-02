@@ -15,13 +15,13 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
       title: Text(title),
       actions: [
         const ChangeLanguageButton(),
-        Switch(
-            value: context.watch<ThemeManager>().state == ThemeMode.light,
-            onChanged: (val) {
-              context
-                  .read<ThemeManager>()
-                  .changeTheme(val ? ThemeMode.light : ThemeMode.dark);
-            })
+        // Switch(
+        //     value: context.watch<ThemeManager>().state == ThemeMode.light,
+        //     onChanged: (val) {
+        //       context
+        //           .read<ThemeManager>()
+        //           .changeTheme(val ? ThemeMode.light : ThemeMode.dark);
+        //     })
       ],
     );
   }
