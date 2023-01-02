@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'local_storage.dart';
-import '../../injection_container.dart';
 
 class LocalizationManager extends Cubit<Locale> {
   final LocalStorage localStorage;
@@ -23,8 +22,23 @@ class LocalizationManager extends Cubit<Locale> {
     }
   }
 
-  getName() {
+  static getNameFromLocale(Locale locale){
+    switch (locale.languageCode){
+      case "en":
+        return "English";
+      case "ar":
+        return "عربی";
+      default:
+        return "English";
+    }
+  }
+
+  getOtherName() {
     return (state.languageCode == "en") ? "عربی" : "English";
+  }
+
+  getName() {
+    return (state.languageCode == "en") ? "English" : "عربی";
   }
 
   switchLanguage(){
