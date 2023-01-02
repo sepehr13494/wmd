@@ -13,30 +13,32 @@ import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_
 
 import 'main_dashboard_cubit_test.mocks.dart';
 
-
-
 @GenerateMocks([UserNetWorthUseCase])
 void main() {
   late MockUserNetWorthUseCase mockUserNetWorthUseCase;
   late MainDashboardCubit mainDashboardCubit;
 
-  final tDateTimeRange = DateTimeRange(start: NetWorthParams.tNetWorthParams.from!, end: NetWorthParams.tNetWorthParams.to!);
-
+  final tDateTimeRange = DateTimeRange(
+      start: NetWorthParams.tNetWorthParams.from!,
+      end: NetWorthParams.tNetWorthParams.to!);
 
   setUp(() {
     mockUserNetWorthUseCase = MockUserNetWorthUseCase();
-    mainDashboardCubit =
-        MainDashboardCubit(mockUserNetWorthUseCase);
+    mainDashboardCubit = MainDashboardCubit(mockUserNetWorthUseCase);
   });
 
   blocTest(
     'when getNetWorth is success emits the MainDashboardLoaded when success',
     build: () => mainDashboardCubit,
-    setUp: () => when(mockUserNetWorthUseCase(any))
-        .thenAnswer((realInvocation) async => const Right(NetWorthResponseObj.tNetWorthResponseObj)),
-    act: (bloc) async => await bloc.getNetWorth(dateTimeRange: tDateTimeRange),
-    expect: () =>
-        [isA<LoadingState>(), MainDashboardNetWorthLoaded(netWorthObj: NetWorthResponseObj.tNetWorthResponseObj)],
+    setUp: () => when(mockUserNetWorthUseCase(any)).thenAnswer(
+        (realInvocation) async =>
+            const Right(NetWorthResponseObj.tNetWorthResponseObj)),
+    act: (bloc) async => await bloc.getNetWorth(),
+    expect: () => [
+      isA<LoadingState>(),
+      MainDashboardNetWorthLoaded(
+          netWorthObj: NetWorthResponseObj.tNetWorthResponseObj)
+    ],
     verify: (_) {
       verify(mockUserNetWorthUseCase(tDateTimeRange));
     },
@@ -45,11 +47,13 @@ void main() {
   blocTest(
     'when getNetWorth is not success emits the ErrorState when error',
     build: () => mainDashboardCubit,
-    setUp: () => when(mockUserNetWorthUseCase(any))
-        .thenAnswer((realInvocation) async => const Left(ServerFailure.tServerFailure)),
-    act: (bloc) async => await bloc.getNetWorth(dateTimeRange: tDateTimeRange),
-    expect: () =>
-    [isA<LoadingState>(), ErrorState(failure: ServerFailure.tServerFailure)],
+    setUp: () => when(mockUserNetWorthUseCase(any)).thenAnswer(
+        (realInvocation) async => const Left(ServerFailure.tServerFailure)),
+    act: (bloc) async => await bloc.getNetWorth(),
+    expect: () => [
+      isA<LoadingState>(),
+      ErrorState(failure: ServerFailure.tServerFailure)
+    ],
     verify: (_) {
       verify(mockUserNetWorthUseCase(tDateTimeRange));
     },
