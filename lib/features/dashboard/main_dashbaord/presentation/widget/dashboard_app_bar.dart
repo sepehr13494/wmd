@@ -18,13 +18,13 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
       centerTitle: false,
       actions: [
         const ChangeLanguageButton(),
-        Switch(
-            value: context.watch<ThemeManager>().state == ThemeMode.light,
-            onChanged: (val) {
-              context
-                  .read<ThemeManager>()
-                  .changeTheme(val ? ThemeMode.light : ThemeMode.dark);
-            }),
+        // Switch(
+        //     value: context.watch<ThemeManager>().state == ThemeMode.light,
+        //     onChanged: (val) {
+        //       context
+        //           .read<ThemeManager>()
+        //           .changeTheme(val ? ThemeMode.light : ThemeMode.dark);
+        //     }),
         IconButton(
           onPressed: () => context.goNamed(AppRoutes.support),
           icon: SvgPicture.asset("assets/images/add_assets/question.svg"),
