@@ -13,70 +13,71 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
-    return BlocBuilder<ChartsCubit, ChartsState>(
-      builder: (context, state) {
-        return state is GetChartLoaded
-            ? Column(
-                children: [
-                  AspectRatio(
-                    aspectRatio:
-                        ResponsiveHelper(context: context).isMobile ? 1.6 : 2.2,
-                    child: AssetsOverviewCharts(
-                        getChartEntities: state.getChartEntities),
-                  ),
-                  Builder(builder: (context) {
-                    Set<String> titles = {};
-                    state.getChartEntities.forEach((element) {
-                      if (element.bankAccount != 0) {
-                        titles.add(AssetTypes.bankAccount);
-                      }
-                      if (element.listedAsset != 0) {
-                        titles.add(AssetTypes.listedAsset);
-                      }
-                      if (element.others != 0) {
-                        titles.add(AssetTypes.otherAsset);
-                      }
-                      if (element.privateDebt != 0) {
-                        titles.add(AssetTypes.privateDebt);
-                      }
-                      if (element.privateEquity != 0) {
-                        titles.add(AssetTypes.privateEquity);
-                      }
-                    });
+    return Padding(
+      padding: const EdgeInsets.only(top: 24.0),
+      child: BlocBuilder<ChartsCubit, ChartsState>(
+        builder: (context, state) {
+          return state is GetChartLoaded
+              ? Column(
+                  children: [
+                    Expanded(
+                      child: AssetsOverviewCharts(
+                          getChartEntities: state.getChartEntities),
+                    ),
+                    Builder(builder: (context) {
+                      Set<String> titles = {};
+                      state.getChartEntities.forEach((element) {
+                        if (element.bankAccount != 0) {
+                          titles.add(AssetTypes.bankAccount);
+                        }
+                        if (element.listedAsset != 0) {
+                          titles.add(AssetTypes.listedAsset);
+                        }
+                        if (element.others != 0) {
+                          titles.add(AssetTypes.otherAsset);
+                        }
+                        if (element.privateDebt != 0) {
+                          titles.add(AssetTypes.privateDebt);
+                        }
+                        if (element.privateEquity != 0) {
+                          titles.add(AssetTypes.privateEquity);
+                        }
+                      });
 
-                    return Wrap(
-                      children: List.generate(titles.length, (index) {
-                        final item = titles.elementAt(index);
-                        return Padding(
-                          padding: const EdgeInsets.all(4),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                width: 10,
-                                height: 10,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: AssetsOverviewChartsColors
-                                      .colorsMap[item],
+                      return Wrap(
+                        children: List.generate(titles.length, (index) {
+                          final item = titles.elementAt(index);
+                          return Padding(
+                            padding: const EdgeInsets.all(4),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  width: 10,
+                                  height: 10,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: AssetsOverviewChartsColors
+                                        .colorsMap[item],
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(width: 4),
-                              Text(
-                                AssetsOverviewChartsColors.getAssetType(
-                                    appLocalizations, item),
-                                style: const TextStyle(fontSize: 10),
-                              ),
-                            ],
-                          ),
-                        );
-                      }),
-                    );
-                  })
-                ],
-              )
-            : const LoadingWidget();
-      },
+                                const SizedBox(width: 4),
+                                Text(
+                                  AssetsOverviewChartsColors.getAssetType(
+                                      appLocalizations, item),
+                                  style: const TextStyle(fontSize: 10),
+                                ),
+                              ],
+                            ),
+                          );
+                        }),
+                      );
+                    })
+                  ],
+                )
+              : const LoadingWidget();
+        },
+      ),
     );
   }
 }

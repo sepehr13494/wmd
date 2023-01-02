@@ -7,6 +7,7 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
+import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/base_chart_view.dart';
@@ -140,7 +141,42 @@ class ChartsWrapper extends AppStatelessWidget {
           ],
         ),
         const SizedBox(height: 24),
-        const BaseAssetsOverviewChartsWidget(),
+        DefaultTabController(
+          length: 3,
+          child: Column(
+            children: [
+              Row(
+                children: const [
+                  SizedBox(
+                    width: 300,
+                    child: TabBar(
+                      tabs: [
+                        Tab(text: "Asset Class"),
+                        Tab(text: "Geography"),
+                        Tab(text: "Currency"),
+                      ],
+                      isScrollable: true,
+                    ),
+                  ),
+                  Spacer(),
+                ],
+              ),
+              const Divider(
+                height: 0.5,
+                thickness: 0.5,
+              ),
+              AspectRatio(
+                aspectRatio:
+                    ResponsiveHelper(context: context).isMobile ? 1.6 : 2,
+                child: TabBarView(children: [
+                  const BaseAssetsOverviewChartsWidget(),
+                  Container(),
+                  Container(),
+                ]),
+              )
+            ],
+          ),
+        ),
       ],
     );
   }

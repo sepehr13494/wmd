@@ -51,7 +51,7 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
     return Column(
       children: [
-        const SummaryTimeFilter(),
+        const SummaryTimeFilter(key: Key('SummaryWidget')),
         const SizedBox(height: 12),
         RowOrColumn(
           showRow: !isMobile,
