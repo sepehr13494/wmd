@@ -338,6 +338,11 @@ class AppConstants {
         return '\$';
     }
   }
+
+  static List<MapEntry<String, int>> get timeFilter => const [
+        MapEntry<String, int>("Last 7 days", 7),
+        MapEntry<String, int>("Last 30 days", 30),
+      ];
 }
 
 class BankProviders {
