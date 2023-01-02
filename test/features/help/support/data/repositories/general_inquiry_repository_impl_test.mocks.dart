@@ -8,6 +8,7 @@ import 'dart:async' as _i5;
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:wmd/core/error_and_success/failures.dart' as _i8;
+import 'package:wmd/core/error_and_success/succeses.dart' as _i9;
 import 'package:wmd/features/help/support/data/data_sources/general_inquiry_remote_data_source.dart'
     as _i4;
 import 'package:wmd/features/help/support/data/models/support_status.dart'
@@ -85,21 +86,20 @@ class MockGeneralInquiryRepository extends _i1.Mock
   }
 
   @override
-  _i5.Future<_i3.Either<_i8.Failure, _i2.SupportStatus>> postGeneralInquiry(
+  _i5.Future<_i3.Either<_i8.Failure, _i9.AppSuccess>> postGeneralInquiry(
           _i6.GeneralInquiryParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #postGeneralInquiry,
           [params],
         ),
-        returnValue:
-            _i5.Future<_i3.Either<_i8.Failure, _i2.SupportStatus>>.value(
-                _FakeEither_1<_i8.Failure, _i2.SupportStatus>(
+        returnValue: _i5.Future<_i3.Either<_i8.Failure, _i9.AppSuccess>>.value(
+            _FakeEither_1<_i8.Failure, _i9.AppSuccess>(
           this,
           Invocation.method(
             #postGeneralInquiry,
             [params],
           ),
         )),
-      ) as _i5.Future<_i3.Either<_i8.Failure, _i2.SupportStatus>>);
+      ) as _i5.Future<_i3.Either<_i8.Failure, _i9.AppSuccess>>);
 }
