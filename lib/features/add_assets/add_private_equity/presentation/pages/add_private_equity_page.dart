@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
-import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
@@ -17,11 +14,8 @@ import 'package:wmd/features/add_assets/core/constants.dart';
 import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_bloc_helper.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
-import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
-import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/injection_container.dart';
-import 'package:wmd/core/extentions/num_ext.dart';
 
 class AddPrivateEquityPage extends StatefulWidget {
   const AddPrivateEquityPage({Key? key}) : super(key: key);
@@ -88,7 +82,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                     return BlocConsumer<PrivateEquityCubit, PrivateEquityState>(
                         listener: AssetBlocHelper.defaultBlocListener(
                             listener: (context, state) {},
-                            asset: "Private Equity"),
+                            asset: "Private equity"),
                         builder: (context, state) {
                           return SingleChildScrollView(
                             child: Column(children: [

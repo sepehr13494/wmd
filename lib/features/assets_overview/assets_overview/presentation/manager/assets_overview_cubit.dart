@@ -12,11 +12,15 @@ class AssetsOverviewCubit extends Cubit<AssetsOverviewState> {
   final GetAssetsOverviewUseCase assetsOverviewUseCase;
   AssetsOverviewCubit(this.assetsOverviewUseCase) : super(LoadingState());
 
+  initPage() {
+    getAssetsOverview();
+  }
+
   getAssetsOverview() async {
     emit(LoadingState());
     final result = await assetsOverviewUseCase(AssetsOverviewParams());
-    result.fold(
-            (failure) => emit(ErrorState(failure: failure)), (assetsOverviews) {
+    result.fold((failure) => emit(ErrorState(failure: failure)),
+        (assetsOverviews) {
       emit(AssetsOverviewLoaded(assetsOverviews: assetsOverviews));
     });
   }
