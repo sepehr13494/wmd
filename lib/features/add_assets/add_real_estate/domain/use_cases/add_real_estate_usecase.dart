@@ -82,8 +82,9 @@ class AddRealEstateParams extends Equatable {
             ? double.tryParse(json["marketValue"])
             : json["marketValue"],
         acquisitionDate: DateTime.parse(json["acquisitionDate"].toString()),
-        valuationDate: json["acquisitionDate"] ??
-            DateTime.parse(json["valuationDate"].toString()),
+        valuationDate: json["valuationDate"] != null
+            ? DateTime.parse(json["valuationDate"].toString())
+            : json["valuationDate"],
       );
 
   Map<String, dynamic> toJson() => {

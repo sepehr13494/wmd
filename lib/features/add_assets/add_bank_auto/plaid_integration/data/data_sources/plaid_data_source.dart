@@ -31,7 +31,7 @@ class PlaidRemoteDataSourceImpl extends AppServerDataSource
         await errorHandlerMiddleware.sendRequest(getBankListRequestOptions);
     final linkToken = LinkTokenResponse.fromJson(response);
     if (linkToken.linkToken == null) {
-      throw ServerException(
+      throw const ServerException(
           message: 'Link token not found', type: ExceptionType.format);
     }
     return linkToken;

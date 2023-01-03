@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
-import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -15,12 +14,10 @@ import 'package:wmd/features/add_assets/add_listed_security/presentation/manager
 import 'package:wmd/features/add_assets/core/constants.dart';
 import 'package:wmd/features/add_assets/core/data/models/listed_security_name.dart';
 import 'package:wmd/features/add_assets/core/data/models/listed_security_type.dart';
+import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_bloc_helper.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
-import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
-import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
-import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
 class AddListedSecurityPage extends StatefulWidget {
@@ -122,329 +119,185 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                   child: Builder(builder: (context) {
                     return BlocConsumer<ListedSecurityCubit,
                             ListedSecurityState>(
-                        listener: BlocHelper.defaultBlocListener(
-                            listener: (context, state) {
-                      if (state is ListedSecuritySaved) {
-                        context.read<MainDashboardCubit>().initPage();
-                        context.read<AssetsOverviewCubit>().initPage();
-                        final successValue = state.listedSecuritySaveResponse;
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return SuccessModalWidget(
-                              title:
-                                  'Listed Asset is successfully added to wealth overview',
-                              confirmBtn: appLocalizations
-                                  .common_formSuccessModal_buttons_viewAsset,
-                              cancelBtn: appLocalizations
-                                  .common_formSuccessModal_buttons_addAsset,
-                              aquiredCost:
-                                  successValue.startingBalance.convertMoney(),
-                              marketPrice: successValue.totalNetWorthChange
-                                  .convertMoney(),
-                              netWorth:
-                                  successValue.totalNetWorth.convertMoney(),
-                              netWorthChange: successValue.totalNetWorthChange
-                                  .convertMoney(),
-                            );
-                          },
-                        );
-                      }
-                    }), builder: (context, state) {
-                      return SingleChildScrollView(
-                        child: Column(children: [
-                          FormBuilder(
-                            key: formKey,
-                            initialValue:
-                                AddAssetConstants.initialJsonForAddAsset,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  appLocalizations
-                                      .assetLiabilityForms_heading_listedAssets,
-                                  style: textTheme.headlineSmall,
-                                ),
-                                Text(
-                                  appLocalizations
-                                      .assetLiabilityForms_subHeading_listedAssets,
-                                  style: textTheme.bodySmall,
-                                ),
-                                Text(
-                                  appLocalizations
-                                      .assetLiabilityForms_forms_listedAssets_title,
-                                  style: textTheme.titleSmall,
-                                ),
-                                EachTextField(
-                                    hasInfo: false,
-                                    title: appLocalizations
-                                        .assetLiabilityForms_forms_listedAssets_inputFields_securityName_label,
-                                    child: ListedSecurityTypeAhead(
-                                        name: "name",
-                                        onChange: (e) {
-                                          checkFinalValid(e);
-                                          setState(() {
-                                            securityName = e;
-                                          });
-                                        },
-                                        items: ListedSecurityName
-                                            .listedSecurityNameList,
-                                        hint: appLocalizations
-                                            .assetLiabilityForms_forms_listedAssets_inputFields_securityName_placeholder)),
-                                Container(
-                                  padding: const EdgeInsets.all(16),
-                                  decoration: BoxDecoration(
-                                      color: Theme.of(context).brightness ==
-                                              Brightness.dark
-                                          ? AppColors
-                                              .anotherCardColorForDarkTheme
-                                          : AppColors
-                                              .anotherCardColorForLightTheme,
-                                      borderRadius: BorderRadius.circular(8)),
-                                  child: Align(
-                                    alignment: AlignmentDirectional.centerStart,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const Text("Security details"),
-                                        const SizedBox(height: 8),
-                                        securityName == null
-                                            ? const Text("--")
-                                            : Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(securityName
-                                                                ?.securityName ??
-                                                            ""),
-                                                        Text(securityName
-                                                                ?.currencyCode ??
-                                                            ""),
-                                                        Text(securityName
-                                                                ?.category ??
-                                                            "")
-                                                      ],
-                                                    ),
-                                                    const SizedBox(height: 5),
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                            securityName
-                                                                    ?.securityShortName ??
-                                                                "",
-                                                            style: textTheme
-                                                                .bodySmall),
-                                                        const Text(" . "),
-                                                        Text(
-                                                            securityName
-                                                                    ?.tradedExchange ??
-                                                                "",
-                                                            style: textTheme
-                                                                .bodySmall),
-                                                      ],
-                                                    ),
-                                                    Text(
-                                                        securityName?.isin ??
-                                                            "",
-                                                        style:
-                                                            textTheme.bodySmall)
-                                                  ])
-                                      ],
+                        listener: AssetBlocHelper.defaultBlocListener(
+                            listener: (context, state) {},
+                            asset: "Listed asset"),
+                        builder: (context, state) {
+                          return SingleChildScrollView(
+                            child: Column(children: [
+                              FormBuilder(
+                                key: formKey,
+                                initialValue:
+                                    AddAssetConstants.initialJsonForAddAsset,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      appLocalizations
+                                          .assetLiabilityForms_heading_listedAssets,
+                                      style: textTheme.headlineSmall,
                                     ),
-                                  ),
-                                ),
-                                EachTextField(
-                                  hasInfo: false,
-                                  title: appLocalizations
-                                      .assetLiabilityForms_forms_listedAssets_inputFields_brokerName_label,
-                                  child: FormBuilderTypeAhead(
-                                      name: "brokerName",
-                                      hint: appLocalizations
-                                          .assetLiabilityForms_forms_listedAssets_inputFields_brokerName_placeholder,
-                                      items: AppConstants.custodianList),
-                                ),
-                                EachTextField(
-                                  hasInfo: false,
-                                  title: appLocalizations
-                                      .assetLiabilityForms_forms_listedAssets_inputFields_assetType_label,
-                                  child: AppTextFields.dropDownTextField(
-                                    onChanged: (val) async {
-                                      await Future.delayed(
-                                          const Duration(milliseconds: 200));
-                                      if (val == "Fixed Income") {
-                                        setState(() {
-                                          isFixedIncome = true;
-                                        });
-                                      } else {
-                                        formKey.currentState
-                                            ?.setInternalFieldValue(
-                                                "maturityDate", null,
-                                                isSetState: true);
-                                        formKey.currentState
-                                            ?.setInternalFieldValue(
-                                                "couponRate", null,
-                                                isSetState: true);
-                                        setState(() {
-                                          isFixedIncome = false;
-                                        });
-                                      }
-                                      checkFinalValid(val);
-                                      print(formKey.currentState!
-                                          .instantValue["category"]);
-                                    },
-                                    name: "category",
-                                    hint: appLocalizations
-                                        .assetLiabilityForms_forms_listedAssets_inputFields_assetType_placeholder,
-                                    items: ListedSecurityType.listedSecurityList
-                                        .map((e) => DropdownMenuItem(
-                                              value: e.value,
-                                              child: Text(e.name),
-                                            ))
-                                        .toList(),
-                                  ),
-                                ),
-                                EachTextField(
-                                  title: appLocalizations
-                                      .assetLiabilityForms_forms_listedAssets_inputFields_acquisitionDate_label,
-                                  child: FormBuilderDateTimePicker(
-                                    onChanged: (selectedDate) {
-                                      checkFinalValid(selectedDate);
-                                    },
-                                    lastDate: DateTime.now(),
-                                    inputType: InputType.date,
-                                    format: DateFormat("dd/MM/yyyy"),
-                                    name: "investmentDate",
-                                    decoration: InputDecoration(
-                                        suffixIcon: Icon(
-                                          Icons.calendar_today_outlined,
-                                          color: Theme.of(context).primaryColor,
+                                    Text(
+                                      appLocalizations
+                                          .assetLiabilityForms_subHeading_listedAssets,
+                                      style: textTheme.bodySmall,
+                                    ),
+                                    Text(
+                                      appLocalizations
+                                          .assetLiabilityForms_forms_listedAssets_title,
+                                      style: textTheme.titleSmall,
+                                    ),
+                                    EachTextField(
+                                        hasInfo: false,
+                                        title: appLocalizations
+                                            .assetLiabilityForms_forms_listedAssets_inputFields_securityName_label,
+                                        child: ListedSecurityTypeAhead(
+                                            name: "name",
+                                            onChange: (e) {
+                                              checkFinalValid(e);
+                                              setState(() {
+                                                securityName = e;
+                                              });
+                                            },
+                                            items: ListedSecurityName
+                                                .listedSecurityNameList,
+                                            hint: appLocalizations
+                                                .assetLiabilityForms_forms_listedAssets_inputFields_securityName_placeholder)),
+                                    Container(
+                                      padding: const EdgeInsets.all(16),
+                                      decoration: BoxDecoration(
+                                          color: Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? AppColors
+                                                  .anotherCardColorForDarkTheme
+                                              : AppColors
+                                                  .anotherCardColorForLightTheme,
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                      child: Align(
+                                        alignment:
+                                            AlignmentDirectional.centerStart,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text("Security details"),
+                                            const SizedBox(height: 8),
+                                            securityName == null
+                                                ? const Text("--")
+                                                : Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Text(securityName
+                                                                    ?.securityName ??
+                                                                ""),
+                                                            Text(securityName
+                                                                    ?.currencyCode ??
+                                                                ""),
+                                                            Text(securityName
+                                                                    ?.category ??
+                                                                "")
+                                                          ],
+                                                        ),
+                                                        const SizedBox(
+                                                            height: 5),
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                                securityName
+                                                                        ?.securityShortName ??
+                                                                    "",
+                                                                style: textTheme
+                                                                    .bodySmall),
+                                                            const Text(" . "),
+                                                            Text(
+                                                                securityName
+                                                                        ?.tradedExchange ??
+                                                                    "",
+                                                                style: textTheme
+                                                                    .bodySmall),
+                                                          ],
+                                                        ),
+                                                        Text(
+                                                            securityName
+                                                                    ?.isin ??
+                                                                "",
+                                                            style: textTheme
+                                                                .bodySmall)
+                                                      ])
+                                          ],
                                         ),
-                                        hintText: appLocalizations
-                                            .assetLiabilityForms_forms_listedAssets_inputFields_acquisitionDate_placeholder),
-                                  ),
-                                ),
-                                EachTextField(
-                                  hasInfo: false,
-                                  title: appLocalizations
-                                      .assetLiabilityForms_forms_listedAssets_inputFields_country_label,
-                                  child: CountriesDropdown(
-                                    onChanged: checkFinalValid,
-                                  ),
-                                ),
-                                EachTextField(
-                                  hasInfo: false,
-                                  title: appLocalizations
-                                      .assetLiabilityForms_forms_listedAssets_inputFields_currency_label,
-                                  child: CurrenciesDropdown(
-                                    onChanged: checkFinalValid,
-                                    showExchange: true,
-                                  ),
-                                ),
-                                EachTextField(
-                                  hasInfo: false,
-                                  title: appLocalizations
-                                      .assetLiabilityForms_forms_listedAssets_inputFields_value_label,
-                                  child: AppTextFields.simpleTextField(
-                                      required: false,
-                                      onChanged: (val) {
-                                        setState(() {
-                                          valuePerUnit = val;
-                                        });
-                                        calculateCurrentValue();
-                                      },
-                                      type: TextFieldType.money,
-                                      keyboardType: TextInputType.number,
-                                      name: "marketValue",
-                                      hint: appLocalizations
-                                          .assetLiabilityForms_forms_listedAssets_inputFields_value_placeholder),
-                                ),
-                                EachTextField(
-                                  hasInfo: false,
-                                  title: appLocalizations
-                                      .assetLiabilityForms_forms_listedAssets_inputFields_quantity_label,
-                                  child: AppTextFields.simpleTextField(
-                                      type: TextFieldType.number,
-                                      onChanged: (val) {
-                                        setState(() {
-                                          noOfUnits = val;
-                                        });
-                                        calculateCurrentValue();
-                                        checkFinalValid(val);
-                                      },
-                                      keyboardType: TextInputType.number,
-                                      name: "quantity",
-                                      hint: appLocalizations
-                                          .assetLiabilityForms_forms_listedAssets_inputFields_quantity_placeholder),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.all(16),
-                                  decoration: BoxDecoration(
-                                      color: Theme.of(context).brightness ==
-                                              Brightness.dark
-                                          ? AppColors
-                                              .anotherCardColorForDarkTheme
-                                          : AppColors
-                                              .anotherCardColorForLightTheme,
-                                      borderRadius: BorderRadius.circular(8)),
-                                  child: Align(
-                                    alignment: AlignmentDirectional.centerStart,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const Text("Total cost"),
-                                        const SizedBox(height: 8),
-                                        Text(currentDayValue == "--"
-                                            ? currentDayValue
-                                            : "\$ $currentDayValue")
-                                      ],
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                if (isFixedIncome)
-                                  Column(children: [
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Coupon Rate",
-                                      child: AppTextFields.simpleTextField(
-                                          extraValidators: [
-                                            (val) {
-                                              return ((int.tryParse(
-                                                              val ?? "0") ??
-                                                          0) <=
-                                                      100)
-                                                  ? null
-                                                  : "Ownership can't be greater then 100";
-                                            }
-                                          ],
-                                          type: TextFieldType.number,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: checkFinalValid,
-                                          name: "couponRate",
-                                          hint: "00",
-                                          suffixIcon: Icon(
-                                            Icons.percent,
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                          )),
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_listedAssets_inputFields_brokerName_label,
+                                      child: FormBuilderTypeAhead(
+                                          name: "brokerName",
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_listedAssets_inputFields_brokerName_placeholder,
+                                          items: AppConstants.custodianList),
                                     ),
-                                    const SizedBox(height: 30),
                                     EachTextField(
-                                      title: "Maturity Date",
+                                      hasInfo: false,
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_listedAssets_inputFields_assetType_label,
+                                      child: AppTextFields.dropDownTextField(
+                                        onChanged: (val) async {
+                                          await Future.delayed(const Duration(
+                                              milliseconds: 200));
+                                          if (val == "Fixed Income") {
+                                            setState(() {
+                                              isFixedIncome = true;
+                                            });
+                                          } else {
+                                            formKey.currentState
+                                                ?.setInternalFieldValue(
+                                                    "maturityDate", null,
+                                                    isSetState: true);
+                                            formKey.currentState
+                                                ?.setInternalFieldValue(
+                                                    "couponRate", null,
+                                                    isSetState: true);
+                                            setState(() {
+                                              isFixedIncome = false;
+                                            });
+                                          }
+                                          checkFinalValid(val);
+                                          print(formKey.currentState!
+                                              .instantValue["category"]);
+                                        },
+                                        name: "category",
+                                        hint: appLocalizations
+                                            .assetLiabilityForms_forms_listedAssets_inputFields_assetType_placeholder,
+                                        items: ListedSecurityType
+                                            .listedSecurityList
+                                            .map((e) => DropdownMenuItem(
+                                                  value: e.value,
+                                                  child: Text(e.name),
+                                                ))
+                                            .toList(),
+                                      ),
+                                    ),
+                                    EachTextField(
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_listedAssets_inputFields_acquisitionDate_label,
                                       child: FormBuilderDateTimePicker(
                                         onChanged: (selectedDate) {
                                           checkFinalValid(selectedDate);
                                         },
-                                        firstDate: DateTime.now(),
+                                        lastDate: DateTime.now(),
                                         inputType: InputType.date,
                                         format: DateFormat("dd/MM/yyyy"),
-                                        name: "maturityDate",
+                                        name: "investmentDate",
                                         decoration: InputDecoration(
                                             suffixIcon: Icon(
                                               Icons.calendar_today_outlined,
@@ -455,20 +308,149 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                                 .assetLiabilityForms_forms_listedAssets_inputFields_acquisitionDate_placeholder),
                                       ),
                                     ),
-                                  ]),
-                                const SizedBox(height: 60),
-                              ]
-                                  .map((e) => Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 12, horizontal: 16),
-                                        child: e,
-                                      ))
-                                  .toList(),
-                            ),
-                          ),
-                        ]),
-                      );
-                    });
+                                    EachTextField(
+                                      hasInfo: false,
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_listedAssets_inputFields_country_label,
+                                      child: CountriesDropdown(
+                                        onChanged: checkFinalValid,
+                                      ),
+                                    ),
+                                    EachTextField(
+                                      hasInfo: false,
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_listedAssets_inputFields_currency_label,
+                                      child: CurrenciesDropdown(
+                                        onChanged: checkFinalValid,
+                                        showExchange: true,
+                                      ),
+                                    ),
+                                    EachTextField(
+                                      hasInfo: false,
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_listedAssets_inputFields_value_label,
+                                      child: AppTextFields.simpleTextField(
+                                          required: false,
+                                          onChanged: (val) {
+                                            setState(() {
+                                              valuePerUnit = val;
+                                            });
+                                            calculateCurrentValue();
+                                          },
+                                          type: TextFieldType.money,
+                                          keyboardType: TextInputType.number,
+                                          name: "marketValue",
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_listedAssets_inputFields_value_placeholder),
+                                    ),
+                                    EachTextField(
+                                      hasInfo: false,
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_listedAssets_inputFields_quantity_label,
+                                      child: AppTextFields.simpleTextField(
+                                          type: TextFieldType.number,
+                                          onChanged: (val) {
+                                            setState(() {
+                                              noOfUnits = val;
+                                            });
+                                            calculateCurrentValue();
+                                            checkFinalValid(val);
+                                          },
+                                          keyboardType: TextInputType.number,
+                                          name: "quantity",
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_listedAssets_inputFields_quantity_placeholder),
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.all(16),
+                                      decoration: BoxDecoration(
+                                          color: Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? AppColors
+                                                  .anotherCardColorForDarkTheme
+                                              : AppColors
+                                                  .anotherCardColorForLightTheme,
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                      child: Align(
+                                        alignment:
+                                            AlignmentDirectional.centerStart,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text("Total cost"),
+                                            const SizedBox(height: 8),
+                                            Text(currentDayValue == "--"
+                                                ? currentDayValue
+                                                : "\$ $currentDayValue")
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    if (isFixedIncome)
+                                      Column(children: [
+                                        EachTextField(
+                                          hasInfo: false,
+                                          title: "Coupon Rate",
+                                          child: AppTextFields.simpleTextField(
+                                              extraValidators: [
+                                                (val) {
+                                                  return ((int.tryParse(
+                                                                  val ?? "0") ??
+                                                              0) <=
+                                                          100)
+                                                      ? null
+                                                      : "Ownership can't be greater then 100";
+                                                }
+                                              ],
+                                              type: TextFieldType.number,
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              onChanged: checkFinalValid,
+                                              name: "couponRate",
+                                              hint: "00",
+                                              suffixIcon: Icon(
+                                                Icons.percent,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              )),
+                                        ),
+                                        const SizedBox(height: 30),
+                                        EachTextField(
+                                          title: "Maturity Date",
+                                          child: FormBuilderDateTimePicker(
+                                            onChanged: (selectedDate) {
+                                              checkFinalValid(selectedDate);
+                                            },
+                                            firstDate: DateTime.now(),
+                                            inputType: InputType.date,
+                                            format: DateFormat("dd/MM/yyyy"),
+                                            name: "maturityDate",
+                                            decoration: InputDecoration(
+                                                suffixIcon: Icon(
+                                                  Icons.calendar_today_outlined,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                ),
+                                                hintText: appLocalizations
+                                                    .assetLiabilityForms_forms_listedAssets_inputFields_acquisitionDate_placeholder),
+                                          ),
+                                        ),
+                                      ]),
+                                    const SizedBox(height: 60),
+                                  ]
+                                      .map((e) => Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 12, horizontal: 16),
+                                            child: e,
+                                          ))
+                                      .toList(),
+                                ),
+                              ),
+                            ]),
+                          );
+                        });
                   }),
                 ),
               ],
