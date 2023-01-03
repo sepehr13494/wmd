@@ -179,9 +179,23 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                     ),
                   );
                 case AssetTypes.realEstate:
-                  return RealEstateDetailPage(
-                      realEstateEntity:
-                          state.assetDetailEntity as RealEstateEntity);
+                  final item = state.assetDetailEntity as RealEstateEntity;
+                  return AsssetSummary(
+                    title: item.name,
+                    currencyCode: item.currencyCode,
+                    holdings: item.holdings,
+                    days: days,
+                    netChange: netChange,
+                    portfolioContribution: item.portfolioContribution,
+                    asOfDate: item.asOfDate,
+                    child: _buildHeader(
+                      Theme.of(context).textTheme,
+                      Theme.of(context).primaryColor,
+                    ),
+                  );
+                // return RealEstateDetailPage(
+                //     realEstateEntity:
+                //         state.assetDetailEntity as RealEstateEntity);
                 case AssetTypes.listedAsset:
                   final item = state.assetDetailEntity as ListedAssetEntity;
                   return AsssetSummary(

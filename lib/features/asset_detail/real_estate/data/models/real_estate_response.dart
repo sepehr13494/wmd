@@ -21,6 +21,7 @@ class RealEstateResponse extends RealEstateEntity implements GetDetailResponse {
     required String region,
     required String currencyCode,
     required double holdings,
+    required double portfolioContribution,
   }) : super(
           name: name,
           realEstateType: realEstateType,
@@ -39,6 +40,7 @@ class RealEstateResponse extends RealEstateEntity implements GetDetailResponse {
           region: region,
           currencyCode: currencyCode,
           holdings: holdings,
+          portfolioContribution: portfolioContribution,
         );
 
   factory RealEstateResponse.fromJson(Map<String, dynamic> json) {
@@ -54,6 +56,8 @@ class RealEstateResponse extends RealEstateEntity implements GetDetailResponse {
       ownershipPercentage:
           double.tryParse(json['ownershipPercentage'].toString()) ?? 0,
       holdings: double.tryParse(json['holdings'].toString()) ?? 0,
+      portfolioContribution:
+          double.tryParse(json['portfolioContribution'].toString()) ?? 0,
       marketValue: double.tryParse(json['marketValue'].toString()) ?? 0,
       valuationDate: DateTime.parse(json["valuationDate"] ??
           DateTime.fromMillisecondsSinceEpoch(0).toIso8601String()),
