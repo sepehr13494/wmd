@@ -7,6 +7,7 @@ import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/features/add_assets/add_other_asset/domain/use_cases/add_other_asset_usecase.dart';
 import 'package:wmd/features/add_assets/add_other_asset/presentation/manager/other_asset_cubit.dart';
 import 'package:wmd/features/add_assets/core/data/models/add_asset_model.dart';
+import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_base_state.dart';
 
 import 'other_asset_cubit_test.mocks.dart';
 
@@ -28,7 +29,7 @@ void main() {
         await bloc.postOtherAsset(map: AddOtherAssetParams.tAddOtherAssetMap),
     expect: () => [
       isA<LoadingState>(),
-      OtherAssetSaved(otherAssetSaveResponse: AddAssetModel.tAddAssetModel)
+      AddAssetState(addAsset: AddAssetModel.tAddAssetModel)
     ],
     verify: (_) {
       verify(mockAddOtherAssetUseCase(AddOtherAssetParams.tAddOtherAssetMap))

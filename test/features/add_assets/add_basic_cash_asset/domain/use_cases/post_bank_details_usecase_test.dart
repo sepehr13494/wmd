@@ -3,9 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
-import 'package:wmd/features/add_assets/add_basic_cash_asset/data/models/bank_save_response_model.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/repositories/bank_repository.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/use_cases/post_bank_details_usecase.dart';
+import 'package:wmd/features/add_assets/core/data/models/add_asset_model.dart';
 
 import '../../../../../core/util/local_storage_test.mocks.dart';
 import 'post_bank_details_usecase_test.mocks.dart';
@@ -22,21 +22,20 @@ void main() {
         PostBankDetailsUseCase(mockBankRepository, mockLocalStorage);
   });
 
-  final tBankSaveResponse =
-      BankSaveResponseModel.fromJson(BankSaveResponseModel.tBankSaveResponse);
+  final tAddResponse = AddAssetModel.fromJson(AddAssetModel.tAddAssetResponse);
 
   test(
     'should get BankSaveResponse from bank repository',
     () async {
       // arrange
       when(mockBankRepository.postBankDetails(BankSaveParams.tBankSaveParams))
-          .thenAnswer((_) async => Right(tBankSaveResponse));
+          .thenAnswer((_) async => Right(tAddResponse));
       when(mockLocalStorage.getOwnerId())
           .thenAnswer((realInvocation) => "ownerId");
       // act
       final result = await postBankDetailsUseCase(BankSaveParams.tBankFormMap);
       // assert
-      expect(result, Right(tBankSaveResponse));
+      expect(result, Right(tAddResponse));
     },
   );
 
