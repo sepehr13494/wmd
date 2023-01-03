@@ -15,6 +15,7 @@ import 'package:wmd/features/add_assets/add_other_asset/presentation/manager/oth
 import 'package:wmd/features/add_assets/add_real_estate/presentation/manager/real_estate_cubit.dart';
 import 'package:wmd/features/add_assets/core/constants.dart';
 import 'package:wmd/features/add_assets/core/data/models/other_asset_type.dart';
+import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_bloc_helper.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal.dart';
@@ -118,229 +119,210 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                 WidthLimiterWidget(
                   child: Builder(builder: (context) {
                     return BlocConsumer<OtherAssetCubit, OtherAssetState>(
-                        listener: BlocHelper.defaultBlocListener(
-                            listener: (context, state) {
-                      if (state is OtherAssetSaved) {
-                        context.read<MainDashboardCubit>().initPage();
-
-                        final successValue = state.otherAssetSaveResponse;
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return SuccessModalWidget(
-                              title:
-                                  '[Asset] is successfully added to wealth overview',
-                              confirmBtn: appLocalizations
-                                  .common_formSuccessModal_buttons_viewAsset,
-                              cancelBtn: appLocalizations
-                                  .common_formSuccessModal_buttons_addAsset,
-                              aquiredCost:
-                                  successValue.startingBalance.convertMoney(),
-                              marketPrice: successValue.totalNetWorthChange
-                                  .convertMoney(),
-                              netWorth:
-                                  successValue.totalNetWorth.convertMoney(),
-                              netWorthChange: successValue.totalNetWorthChange
-                                  .convertMoney(),
-                            );
-                          },
-                        );
-                      }
-                    }), builder: (context, state) {
-                      return SingleChildScrollView(
-                        child: Column(children: [
-                          FormBuilder(
-                            key: privateDebtFormKey,
-                            initialValue:
-                                AddAssetConstants.initialJsonForAddAsset,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Add other asset",
-                                  style: textTheme.headlineSmall,
-                                ),
-                                Text(
-                                  "Uncategorized other investments including vehicles, jewelry and art.",
-                                  style: textTheme.bodySmall,
-                                ),
-                                Text(
-                                  "Fill in your asset details",
-                                  style: textTheme.titleSmall,
-                                ),
-                                EachTextField(
-                                  hasInfo: false,
-                                  title: "Name",
-                                  child: AppTextFields.simpleTextField(
-                                      title: "Name",
-                                      name: "name",
-                                      onChanged: checkFinalValid,
-                                      extraValidators: [
-                                        (val) {
-                                          return (val != null &&
-                                                  val.length > 100)
-                                              ? "Name cannot be more than 100 characters"
-                                              : null;
-                                        }
-                                      ],
-                                      hint:
-                                          "A nickname to identify your property"),
-                                ),
-                                const EachTextField(
-                                  hasInfo: false,
-                                  title: "Wealth manager (optional)",
-                                  child: FormBuilderTypeAhead(
-                                      name: "wealthManager",
-                                      hint: "Type the name of custodian",
-                                      items: AppConstants.custodianList),
-                                ),
-                                EachTextField(
-                                  hasInfo: false,
-                                  title: "Type of asset",
-                                  child: AppTextFields.dropDownTextField(
-                                    onChanged: (val) async {
-                                      await Future.delayed(
-                                          const Duration(milliseconds: 200));
-                                      checkFinalValid(val);
-                                    },
-                                    name: "assetType",
-                                    hint: "Type or select real estate type",
-                                    items: OtherAssetType.otherAssetList
-                                        .map((e) => DropdownMenuItem(
-                                              value: e.value,
-                                              child: Text(e.name),
-                                            ))
-                                        .toList(),
-                                  ),
-                                ),
-                                EachTextField(
-                                  hasInfo: false,
-                                  title: "Country",
-                                  child: CountriesDropdown(
-                                    onChanged: checkFinalValid,
-                                  ),
-                                ),
-                                EachTextField(
-                                  hasInfo: false,
-                                  title: "Currency",
-                                  child: CurrenciesDropdown(
-                                    onChanged: checkFinalValid,
-                                    showExchange: true,
-                                  ),
-                                ),
-                                EachTextField(
-                                  hasInfo: false,
-                                  title: "Number of units",
-                                  child: AppTextFields.simpleTextField(
-                                      type: TextFieldType.number,
-                                      onChanged: (val) {
-                                        setState(() {
-                                          noOfUnits = val;
-                                        });
-                                        calculateCurrentValue();
-                                        checkFinalValid(val);
-                                      },
-                                      keyboardType: TextInputType.number,
-                                      name: "units",
-                                      hint: "No. of Units"),
-                                ),
-                                EachTextField(
-                                  title: "Acquisition cost",
-                                  child: AppTextFields.simpleTextField(
-                                      onChanged: checkFinalValid,
-                                      type: TextFieldType.money,
-                                      keyboardType: TextInputType.number,
-                                      name: "acquisitionCost",
-                                      hint: "Type the purchase price of asset"),
-                                ),
-                                EachTextField(
-                                  title: "Acquisition date",
-                                  child: FormBuilderDateTimePicker(
-                                    onChanged: (selectedDate) {
-                                      checkFinalValid(selectedDate);
-                                    },
-                                    lastDate: DateTime.now(),
-                                    inputType: InputType.date,
-                                    format: DateFormat("dd/MM/yyyy"),
-                                    name: "acquisitionDate",
-                                    decoration: InputDecoration(
-                                        suffixIcon: Icon(
-                                          Icons.calendar_today_outlined,
-                                          color: Theme.of(context).primaryColor,
-                                        ),
-                                        hintText: "DD/MM/YYYY"),
-                                  ),
-                                ),
-                                EachTextField(
-                                  hasInfo: false,
-                                  title: "Ownership",
-                                  child: AppTextFields.simpleTextField(
-                                      extraValidators: [
-                                        (val) {
-                                          return ((int.tryParse(val ?? "0") ??
-                                                      0) <=
-                                                  100)
-                                              ? null
-                                              : "Ownership can't be greater then 100";
-                                        }
-                                      ],
-                                      type: TextFieldType.number,
-                                      keyboardType: TextInputType.number,
-                                      onChanged: checkFinalValid,
-                                      name: "ownerShip",
-                                      hint: "Type in a figure e.g 72%"),
-                                ),
-                                EachTextField(
-                                  title: "Value per unit (optional)",
-                                  child: AppTextFields.simpleTextField(
-                                      required: false,
-                                      onChanged: (val) {
-                                        setState(() {
-                                          valuePerUnit = val;
-                                        });
-                                        calculateCurrentValue();
-                                      },
-                                      type: TextFieldType.money,
-                                      keyboardType: TextInputType.number,
-                                      name: "valuePerUnit",
-                                      hint: "The current day value of asset"),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.all(16),
-                                  decoration: BoxDecoration(
-                                      color: Theme.of(context).brightness ==
-                                              Brightness.dark
-                                          ? AppColors
-                                              .anotherCardColorForDarkTheme
-                                          : AppColors
-                                              .anotherCardColorForLightTheme,
-                                      borderRadius: BorderRadius.circular(8)),
-                                  child: Align(
-                                    alignment: AlignmentDirectional.centerStart,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const Text("Current day value"),
-                                        const SizedBox(height: 8),
-                                        Text(currentDayValue)
-                                      ],
+                        listener: AssetBlocHelper.defaultBlocListener(
+                            listener: (context, state) {},
+                            asset: "Other asset"),
+                        builder: (context, state) {
+                          return SingleChildScrollView(
+                            child: Column(children: [
+                              FormBuilder(
+                                key: privateDebtFormKey,
+                                initialValue:
+                                    AddAssetConstants.initialJsonForAddAsset,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Add other asset",
+                                      style: textTheme.headlineSmall,
                                     ),
-                                  ),
+                                    Text(
+                                      "Uncategorized other investments including vehicles, jewelry and art.",
+                                      style: textTheme.bodySmall,
+                                    ),
+                                    Text(
+                                      "Fill in your asset details",
+                                      style: textTheme.titleSmall,
+                                    ),
+                                    EachTextField(
+                                      hasInfo: false,
+                                      title: "Name",
+                                      child: AppTextFields.simpleTextField(
+                                          title: "Name",
+                                          name: "name",
+                                          onChanged: checkFinalValid,
+                                          extraValidators: [
+                                            (val) {
+                                              return (val != null &&
+                                                      val.length > 100)
+                                                  ? "Name cannot be more than 100 characters"
+                                                  : null;
+                                            }
+                                          ],
+                                          hint:
+                                              "A nickname to identify your property"),
+                                    ),
+                                    const EachTextField(
+                                      hasInfo: false,
+                                      title: "Wealth manager (optional)",
+                                      child: FormBuilderTypeAhead(
+                                          name: "wealthManager",
+                                          hint: "Type the name of custodian",
+                                          items: AppConstants.custodianList),
+                                    ),
+                                    EachTextField(
+                                      hasInfo: false,
+                                      title: "Type of asset",
+                                      child: AppTextFields.dropDownTextField(
+                                        onChanged: (val) async {
+                                          await Future.delayed(const Duration(
+                                              milliseconds: 200));
+                                          checkFinalValid(val);
+                                        },
+                                        name: "assetType",
+                                        hint: "Type or select real estate type",
+                                        items: OtherAssetType.otherAssetList
+                                            .map((e) => DropdownMenuItem(
+                                                  value: e.value,
+                                                  child: Text(e.name),
+                                                ))
+                                            .toList(),
+                                      ),
+                                    ),
+                                    EachTextField(
+                                      hasInfo: false,
+                                      title: "Country",
+                                      child: CountriesDropdown(
+                                        onChanged: checkFinalValid,
+                                      ),
+                                    ),
+                                    EachTextField(
+                                      hasInfo: false,
+                                      title: "Currency",
+                                      child: CurrenciesDropdown(
+                                        onChanged: checkFinalValid,
+                                        showExchange: true,
+                                      ),
+                                    ),
+                                    EachTextField(
+                                      hasInfo: false,
+                                      title: "Number of units",
+                                      child: AppTextFields.simpleTextField(
+                                          type: TextFieldType.number,
+                                          onChanged: (val) {
+                                            setState(() {
+                                              noOfUnits = val;
+                                            });
+                                            calculateCurrentValue();
+                                            checkFinalValid(val);
+                                          },
+                                          keyboardType: TextInputType.number,
+                                          name: "units",
+                                          hint: "No. of Units"),
+                                    ),
+                                    EachTextField(
+                                      title: "Acquisition cost",
+                                      child: AppTextFields.simpleTextField(
+                                          onChanged: checkFinalValid,
+                                          type: TextFieldType.money,
+                                          keyboardType: TextInputType.number,
+                                          name: "acquisitionCost",
+                                          hint:
+                                              "Type the purchase price of asset"),
+                                    ),
+                                    EachTextField(
+                                      title: "Acquisition date",
+                                      child: FormBuilderDateTimePicker(
+                                        onChanged: (selectedDate) {
+                                          checkFinalValid(selectedDate);
+                                        },
+                                        lastDate: DateTime.now(),
+                                        inputType: InputType.date,
+                                        format: DateFormat("dd/MM/yyyy"),
+                                        name: "acquisitionDate",
+                                        decoration: InputDecoration(
+                                            suffixIcon: Icon(
+                                              Icons.calendar_today_outlined,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                            ),
+                                            hintText: "DD/MM/YYYY"),
+                                      ),
+                                    ),
+                                    EachTextField(
+                                      hasInfo: false,
+                                      title: "Ownership",
+                                      child: AppTextFields.simpleTextField(
+                                          extraValidators: [
+                                            (val) {
+                                              return ((int.tryParse(
+                                                              val ?? "0") ??
+                                                          0) <=
+                                                      100)
+                                                  ? null
+                                                  : "Ownership can't be greater then 100";
+                                            }
+                                          ],
+                                          type: TextFieldType.number,
+                                          keyboardType: TextInputType.number,
+                                          onChanged: checkFinalValid,
+                                          name: "ownerShip",
+                                          hint: "Type in a figure e.g 72%"),
+                                    ),
+                                    EachTextField(
+                                      title: "Value per unit (optional)",
+                                      child: AppTextFields.simpleTextField(
+                                          required: false,
+                                          onChanged: (val) {
+                                            setState(() {
+                                              valuePerUnit = val;
+                                            });
+                                            calculateCurrentValue();
+                                          },
+                                          type: TextFieldType.money,
+                                          keyboardType: TextInputType.number,
+                                          name: "valuePerUnit",
+                                          hint:
+                                              "The current day value of asset"),
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.all(16),
+                                      decoration: BoxDecoration(
+                                          color: Theme.of(context).brightness ==
+                                                  Brightness.dark
+                                              ? AppColors
+                                                  .anotherCardColorForDarkTheme
+                                              : AppColors
+                                                  .anotherCardColorForLightTheme,
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                      child: Align(
+                                        alignment:
+                                            AlignmentDirectional.centerStart,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text("Current day value"),
+                                            const SizedBox(height: 8),
+                                            Text(currentDayValue)
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 60),
+                                  ]
+                                      .map((e) => Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 12, horizontal: 16),
+                                            child: e,
+                                          ))
+                                      .toList(),
                                 ),
-                                const SizedBox(height: 60),
-                              ]
-                                  .map((e) => Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 12, horizontal: 16),
-                                        child: e,
-                                      ))
-                                  .toList(),
-                            ),
-                          ),
-                        ]),
-                      );
-                    });
+                              ),
+                            ]),
+                          );
+                        });
                   }),
                 ),
               ],

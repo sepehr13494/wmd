@@ -15,6 +15,7 @@ import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentatio
 import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/manager/bank_cubit.dart';
 import 'package:wmd/features/add_assets/core/constants.dart';
 import 'package:wmd/features/add_assets/core/data/models/account_type.dart';
+import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_bloc_helper.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal.dart';
@@ -317,34 +318,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                 WidthLimiterWidget(
                   child: Builder(builder: (context) {
                     return BlocConsumer<BankCubit, BankSaveState>(
-                      listener: BlocHelper.defaultBlocListener(
-                          listener: (context, state) {
-                        if (state is BankDetailSaved) {
-                          context.read<MainDashboardCubit>().initPage();
-                          final successValue = state.bankSaveResponse;
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return SuccessModalWidget(
-                                title:
-                                    '[Asset] is successfully added to wealth overview',
-                                confirmBtn: appLocalizations
-                                    .common_formSuccessModal_buttons_viewAsset,
-                                cancelBtn: appLocalizations
-                                    .common_formSuccessModal_buttons_addAsset,
-                                aquiredCost:
-                                    successValue.startingBalance.convertMoney(),
-                                marketPrice: successValue.totalNetWorthChange
-                                    .convertMoney(),
-                                netWorth:
-                                    successValue.totalNetWorth.convertMoney(),
-                                netWorthChange: successValue.totalNetWorthChange
-                                    .convertMoney(),
-                              );
-                            },
-                          );
-                        }
-                      }),
+                      listener: AssetBlocHelper.defaultBlocListener(
+                          listener: (context, state) {}, asset: "Bank account"),
                       builder: (context, state) {
                         return SingleChildScrollView(
                           child: Column(children: [

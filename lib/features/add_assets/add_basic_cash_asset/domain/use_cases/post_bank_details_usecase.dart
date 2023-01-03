@@ -6,21 +6,19 @@ import 'package:flutter/material.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/util/local_storage.dart';
-import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/entities/bank_save_response.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/repositories/bank_repository.dart';
 import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
+import 'package:wmd/features/add_assets/core/domain/entities/add_asset_response.dart';
 
-class PostBankDetailsUseCase
-    extends UseCase<BankSaveResponse, Map<String, dynamic>> {
+class PostBankDetailsUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
   final BankRepository bankRepository;
   final LocalStorage localStorage;
 
   PostBankDetailsUseCase(this.bankRepository, this.localStorage);
 
   @override
-  Future<Either<Failure, BankSaveResponse>> call(
-      Map<String, dynamic> params) async {
+  Future<Either<Failure, AddAsset>> call(Map<String, dynamic> params) async {
     try {
       final currentBal = params['currentBalance'] != null
           ? params['currentBalance'].toString().replaceAll(',', '')
