@@ -6,8 +6,8 @@ import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/models/app_request_options.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/data/data_sources/bank_details_save_remote_data_source.dart';
-import 'package:wmd/features/add_assets/add_basic_cash_asset/data/models/bank_save_response_model.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/use_cases/post_bank_details_usecase.dart';
+import 'package:wmd/features/add_assets/core/data/models/add_asset_model.dart';
 
 import '../../../../../core/data/network/error_handler_middleware_test.mocks.dart';
 
@@ -28,7 +28,7 @@ Future<void> main() async {
         () async {
       // arrange
       when(mockErrorHandlerMiddleware.sendRequest(any)).thenAnswer(
-        (_) async => BankSaveResponseModel.tBankSaveResponse,
+        (_) async => AddAssetModel.tAddAssetResponse,
       );
       //act
       final result = await bankSaveRemoteDataSourceImpl
@@ -36,10 +36,7 @@ Future<void> main() async {
       //assert
       verify(
           mockErrorHandlerMiddleware.sendRequest(tPostBankSaveRequestOptions));
-      expect(
-          result,
-          BankSaveResponseModel.fromJson(
-              BankSaveResponseModel.tBankSaveResponse));
+      expect(result, AddAssetModel.fromJson(AddAssetModel.tAddAssetResponse));
     });
 
     test('should throws ServerException when API call is not successful',

@@ -7,6 +7,7 @@ import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/features/add_assets/add_private_equity/domain/use_cases/add_private_equity_usecase.dart';
 import 'package:wmd/features/add_assets/add_private_equity/presentation/manager/private_equity_cubit.dart';
 import 'package:wmd/features/add_assets/core/data/models/add_asset_model.dart';
+import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_base_state.dart';
 
 import 'private_equity_cubit_test.mocks.dart';
 
@@ -28,8 +29,7 @@ void main() {
         map: AddPrivateEquityParams.tAddPrivateEquityMap),
     expect: () => [
       isA<LoadingState>(),
-      PrivateEquitySaved(
-          privateEquitySaveResponse: AddAssetModel.tAddAssetModel)
+      AddAssetState(addAsset: AddAssetModel.tAddAssetModel)
     ],
     verify: (_) {
       verify(mockAddPrivateEquityUseCase(

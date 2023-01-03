@@ -26,7 +26,7 @@ class ContactInformationWidget extends AppStatelessWidget {
       listener: (context, state) {
         if (state is PersonalInformationLoaded) {
           var json = state.getNameEntity.toJson();
-          json.removeWhere((key, value) => value == "");
+          json.removeWhere((key, value) => (value == "" || value == null));
           formKey.currentState!.patchValue(json);
         }
 

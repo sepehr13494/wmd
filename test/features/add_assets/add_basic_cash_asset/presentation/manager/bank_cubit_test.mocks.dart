@@ -9,12 +9,12 @@ import 'package:dartz/dartz.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:wmd/core/error_and_success/failures.dart' as _i7;
 import 'package:wmd/core/util/local_storage.dart' as _i3;
-import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/entities/bank_save_response.dart'
-    as _i8;
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/repositories/bank_repository.dart'
     as _i2;
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/use_cases/post_bank_details_usecase.dart'
     as _i5;
+import 'package:wmd/features/add_assets/core/domain/entities/add_asset_response.dart'
+    as _i8;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -84,21 +84,20 @@ class MockPostBankDetailsUseCase extends _i1.Mock
         ),
       ) as _i3.LocalStorage);
   @override
-  _i6.Future<_i4.Either<_i7.Failure, _i8.BankSaveResponse>> call(
+  _i6.Future<_i4.Either<_i7.Failure, _i8.AddAsset>> call(
           Map<String, dynamic>? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue:
-            _i6.Future<_i4.Either<_i7.Failure, _i8.BankSaveResponse>>.value(
-                _FakeEither_2<_i7.Failure, _i8.BankSaveResponse>(
+        returnValue: _i6.Future<_i4.Either<_i7.Failure, _i8.AddAsset>>.value(
+            _FakeEither_2<_i7.Failure, _i8.AddAsset>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i6.Future<_i4.Either<_i7.Failure, _i8.BankSaveResponse>>);
+      ) as _i6.Future<_i4.Either<_i7.Failure, _i8.AddAsset>>);
 }
