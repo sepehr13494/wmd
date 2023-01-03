@@ -8,10 +8,10 @@ import 'dart:async' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:wmd/features/add_assets/add_basic_cash_asset/data/data_sources/bank_details_save_remote_data_source.dart'
     as _i3;
-import 'package:wmd/features/add_assets/add_basic_cash_asset/data/models/bank_save_response_model.dart'
-    as _i2;
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/use_cases/post_bank_details_usecase.dart'
     as _i5;
+import 'package:wmd/features/add_assets/core/data/models/add_asset_model.dart'
+    as _i2;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -24,9 +24,8 @@ import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/use_cases/po
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeBankSaveResponseModel_0 extends _i1.SmartFake
-    implements _i2.BankSaveResponseModel {
-  _FakeBankSaveResponseModel_0(
+class _FakeAddAssetModel_0 extends _i1.SmartFake implements _i2.AddAssetModel {
+  _FakeAddAssetModel_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -45,20 +44,19 @@ class MockBankSaveRemoteDataSource extends _i1.Mock
   }
 
   @override
-  _i4.Future<_i2.BankSaveResponseModel> postBankDetails(
+  _i4.Future<_i2.AddAssetModel> postBankDetails(
           _i5.BankSaveParams? bankSaveParams) =>
       (super.noSuchMethod(
         Invocation.method(
           #postBankDetails,
           [bankSaveParams],
         ),
-        returnValue: _i4.Future<_i2.BankSaveResponseModel>.value(
-            _FakeBankSaveResponseModel_0(
+        returnValue: _i4.Future<_i2.AddAssetModel>.value(_FakeAddAssetModel_0(
           this,
           Invocation.method(
             #postBankDetails,
             [bankSaveParams],
           ),
         )),
-      ) as _i4.Future<_i2.BankSaveResponseModel>);
+      ) as _i4.Future<_i2.AddAssetModel>);
 }

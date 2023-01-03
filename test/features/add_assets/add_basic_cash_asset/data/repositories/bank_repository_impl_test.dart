@@ -6,10 +6,9 @@ import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 
 import 'package:wmd/features/add_assets/add_basic_cash_asset/data/data_sources/bank_details_save_remote_data_source.dart';
-import 'package:wmd/features/add_assets/add_basic_cash_asset/data/models/bank_save_response_model.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/data/repositories/bank_repository_impl.dart';
-import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/entities/bank_save_response.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/use_cases/post_bank_details_usecase.dart';
+import 'package:wmd/features/add_assets/core/data/models/add_asset_model.dart';
 
 import 'bank_repository_impl_test.mocks.dart';
 
@@ -29,16 +28,15 @@ void main() {
       'should return bank save response data when the call to bank remote data source is successful',
       () async {
         // arrange
-        when(mockBankSaveRemoteDataSource.postBankDetails(any)).thenAnswer(
-            (_) async => BankSaveResponseModel.tBankSaveResponseModel);
+        when(mockBankSaveRemoteDataSource.postBankDetails(any))
+            .thenAnswer((_) async => AddAssetModel.tAddAssetModel);
         // act
         final result = await bankRepositoryImpl
             .postBankDetails(BankSaveParams.tBankSaveParams);
         // assert
         verify(mockBankSaveRemoteDataSource
             .postBankDetails(BankSaveParams.tBankSaveParams));
-        expect(result,
-            equals(const Right(BankSaveResponseModel.tBankSaveResponseModel)));
+        expect(result, equals(const Right(AddAssetModel.tAddAssetModel)));
       },
     );
 
