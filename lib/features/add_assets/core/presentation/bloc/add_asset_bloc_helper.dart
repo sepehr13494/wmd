@@ -12,6 +12,9 @@ import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_base_state.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_goe_cubit.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
@@ -87,6 +90,9 @@ class AssetBlocHelper extends BlocHelper {
         if (state is AddAssetState) {
           context.read<MainDashboardCubit>().initPage();
           context.read<AssetsOverviewCubit>().initPage();
+          context.read<DashboardAllocationCubit>().getAllocation();
+          context.read<DashboardGoeCubit>().getGeographic();
+          context.read<DashboardPieCubit>().getPie();
           final successValue = state.addAsset;
           showDialog(
             context: context,
