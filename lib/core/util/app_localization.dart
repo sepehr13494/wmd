@@ -18,7 +18,7 @@ class LocalizationManager extends Cubit<Locale> {
       case "en":
         return "gotham";
       default:
-        return "IranSans";
+        return "Almarai";
     }
   }
 
