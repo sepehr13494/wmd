@@ -297,7 +297,7 @@ class AddAssetTopWidget extends AppStatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 16),
-          Text("Hi Ahmad!", style: textTheme.headlineSmall),
+          Text("Hi !", style: textTheme.headlineSmall),
           const SizedBox(height: 8),
           const WidthLimiterWidget(
             width: 350,
