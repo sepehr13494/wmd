@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_pie_entity.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/base_asset_view.dart';
-import 'package:wmd/injection_container.dart';
 
-import '../constants.dart';
 import '../manager/dashboard_pie_cubit.dart';
 import '../models/each_asset_model.dart';
 
@@ -36,7 +35,7 @@ class PieChart2State extends State {
                     (index){
                       GetPieEntity pieEntity = state.getPieEntity[index];
                       return EachAssetViewModel(
-                        color: DashboardChartsConstants.colors[index],
+                        color: AssetsOverviewChartsColors.colorsMap[pieEntity.name],
                         name: pieEntity.name,
                         price: pieEntity.value.convertMoney(addDollar: true),
                         value: pieEntity.value,
@@ -78,7 +77,7 @@ class PieChart2State extends State {
                     );
                   }),
                 )
-              : LoadingWidget();
+              : const LoadingWidget();
         },
       );
     });
@@ -91,7 +90,7 @@ class PieChart2State extends State {
       final radius = isTouched ? pieStrokeWidth + 10 : pieStrokeWidth;
       GetPieEntity pieEntity = getPieEntity[index];
       return PieChartSectionData(
-        color: DashboardChartsConstants.colors[index],
+        color: AssetsOverviewChartsColors.colorsMap[pieEntity.name],
         value: pieEntity.percentage,
         title: '',
         radius: radius,
