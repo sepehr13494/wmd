@@ -6,14 +6,14 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/manager/asset_view_cubit.dart';
 
-class EachAssetModel extends Equatable {
+class EachAssetModel extends AssetViewState {
   final int id;
   final String image;
   final String title;
   final String description;
   final String pageRoute;
 
-  const EachAssetModel({
+  EachAssetModel({
     required this.id,
     required this.image,
     required this.title,
