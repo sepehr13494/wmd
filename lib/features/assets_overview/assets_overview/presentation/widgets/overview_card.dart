@@ -115,7 +115,7 @@ class OverViewCard extends AppStatelessWidget {
                                                         addDollar: true),
                                                 style: textTheme.bodyLarge,
                                               ),
-                                              ChangeWidget(
+                                              const ChangeWidget(
                                                   number: 8.03, text: "8.03%"),
                                             ],
                                           ),
@@ -140,7 +140,11 @@ class OverViewCard extends AppStatelessWidget {
                     : const LoadingWidget(),
               ),
             ),
-            AsOfDateWidget(shownDate: DateTime.now()),
+            StreamBuilder(
+                stream: Stream.periodic(const Duration(seconds: 1)),
+                builder: (context, snapshot) {
+                  return AsOfDateWidget(shownDate: DateTime.now());
+                })
           ],
         );
       },

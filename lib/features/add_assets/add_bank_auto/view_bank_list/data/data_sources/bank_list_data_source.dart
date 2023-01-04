@@ -26,7 +26,7 @@ class BankListRemoteDataSourceImpl extends AppServerDataSource
     try {
       return response.map((e) => BankResponse.fromJson(e)).toList();
     } catch (e) {
-      throw AppException(
+      throw const AppException(
           message: 'Format exceptions', type: ExceptionType.format);
     }
   }
@@ -46,7 +46,7 @@ class BankListRemoteDataSourceImpl extends AppServerDataSource
     try {
       return response.map((e) => BankResponse.fromJson(e)).toList();
     } catch (e) {
-      throw AppException(
+      throw const AppException(
           message: 'Format exceptions', type: ExceptionType.format);
     }
   }

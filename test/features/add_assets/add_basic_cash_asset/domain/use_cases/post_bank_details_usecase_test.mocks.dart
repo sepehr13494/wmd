@@ -8,12 +8,12 @@ import 'dart:async' as _i4;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:wmd/core/error_and_success/failures.dart' as _i5;
-import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/entities/bank_save_response.dart'
-    as _i6;
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/repositories/bank_repository.dart'
     as _i3;
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/use_cases/post_bank_details_usecase.dart'
     as _i7;
+import 'package:wmd/features/add_assets/core/domain/entities/add_asset_response.dart'
+    as _i6;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -45,21 +45,20 @@ class MockBankRepository extends _i1.Mock implements _i3.BankRepository {
   }
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.BankSaveResponse>> postBankDetails(
+  _i4.Future<_i2.Either<_i5.Failure, _i6.AddAsset>> postBankDetails(
           _i7.BankSaveParams? bankSaveParams) =>
       (super.noSuchMethod(
         Invocation.method(
           #postBankDetails,
           [bankSaveParams],
         ),
-        returnValue:
-            _i4.Future<_i2.Either<_i5.Failure, _i6.BankSaveResponse>>.value(
-                _FakeEither_0<_i5.Failure, _i6.BankSaveResponse>(
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.AddAsset>>.value(
+            _FakeEither_0<_i5.Failure, _i6.AddAsset>(
           this,
           Invocation.method(
             #postBankDetails,
             [bankSaveParams],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.BankSaveResponse>>);
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.AddAsset>>);
 }

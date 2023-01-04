@@ -6,9 +6,8 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/features/add_assets/add_loan_liability/domain/use_cases/add_loan_liability_usecase.dart';
 import 'package:wmd/features/add_assets/add_loan_liability/presentation/manager/loan_liability_cubit.dart';
-import 'package:wmd/features/add_assets/add_real_estate/domain/use_cases/add_real_estate_usecase.dart';
-import 'package:wmd/features/add_assets/add_real_estate/presentation/manager/real_estate_cubit.dart';
 import 'package:wmd/features/add_assets/core/data/models/add_asset_model.dart';
+import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_base_state.dart';
 
 import 'loan_liability_cubit_test.mocks.dart';
 
@@ -30,8 +29,7 @@ void main() {
         map: AddLoanLiabilityParams.tAddLoanLiabilityMap),
     expect: () => [
       isA<LoadingState>(),
-      LoanLiabilitySaved(
-          loanLiabilitySaveResponse: AddAssetModel.tAddAssetModel)
+      AddAssetState(addAsset: AddAssetModel.tAddAssetModel)
     ],
     verify: (_) {
       verify(mockAddLoanLiabilityUseCase(

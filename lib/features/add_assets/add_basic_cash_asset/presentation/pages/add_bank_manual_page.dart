@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:go_router/go_router.dart';
-import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
-import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
@@ -15,14 +12,11 @@ import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentatio
 import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/manager/bank_cubit.dart';
 import 'package:wmd/features/add_assets/core/constants.dart';
 import 'package:wmd/features/add_assets/core/data/models/account_type.dart';
+import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_bloc_helper.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
-import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
-import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
-import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/injection_container.dart';
-import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/extentions/string_ext.dart';
 
 class AddBankManualPage extends StatefulWidget {
@@ -318,35 +312,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                 WidthLimiterWidget(
                   child: Builder(builder: (context) {
                     return BlocConsumer<BankCubit, BankSaveState>(
-                      listener: BlocHelper.defaultBlocListener(
-                          listener: (context, state) {
-                        if (state is BankDetailSaved) {
-                          context.read<MainDashboardCubit>().initPage();
-                          context.read<AssetsOverviewCubit>().initPage();
-                          final successValue = state.bankSaveResponse;
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return SuccessModalWidget(
-                                title:
-                                    '[Asset] is successfully added to wealth overview',
-                                confirmBtn: appLocalizations
-                                    .common_formSuccessModal_buttons_viewAsset,
-                                cancelBtn: appLocalizations
-                                    .common_formSuccessModal_buttons_addAsset,
-                                aquiredCost:
-                                    successValue.startingBalance.convertMoney(),
-                                marketPrice: successValue.totalNetWorthChange
-                                    .convertMoney(),
-                                netWorth:
-                                    successValue.totalNetWorth.convertMoney(),
-                                netWorthChange: successValue.totalNetWorthChange
-                                    .convertMoney(),
-                              );
-                            },
-                          );
-                        }
-                      }),
+                      listener: AssetBlocHelper.defaultBlocListener(
+                          listener: (context, state) {}, asset: "Bank account"),
                       builder: (context, state) {
                         return SingleChildScrollView(
                           child: Column(children: [
