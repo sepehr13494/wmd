@@ -10,6 +10,7 @@ import 'package:wmd/features/asset_detail/bank_account/domain/entity/bank_accoun
 import 'package:wmd/features/asset_detail/core/data/models/get_detail_params.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/asset_summary.dart';
 import 'package:wmd/features/asset_detail/listed_asset/domain/entity/listed_asset_entity.dart';
+import 'package:wmd/features/asset_detail/other_asset/domain/entity/other_asset_entity.dart';
 import 'package:wmd/features/asset_detail/private_debt/domain/entity/private_debt_entity.dart';
 import 'package:wmd/features/asset_detail/private_equity/domain/entity/private_equity_entity.dart';
 import 'package:wmd/features/asset_detail/real_estate/domain/entity/real_estate_entity.dart';
@@ -233,6 +234,22 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                   final item = state.assetDetailEntity as PrivateEquityEntity;
                   return AsssetSummary(
                     title: item.investmentName,
+                    subTitle: item.wealthManager,
+                    currencyCode: item.currencyCode,
+                    holdings: item.holdings,
+                    days: days,
+                    netChange: netChange,
+                    portfolioContribution: item.portfolioContribution,
+                    asOfDate: item.asOfDate,
+                    child: _buildHeader(
+                      Theme.of(context).textTheme,
+                      Theme.of(context).primaryColor,
+                    ),
+                  );
+                case AssetTypes.otherAsset:
+                  final item = state.assetDetailEntity as OtherAssetEntity;
+                  return AsssetSummary(
+                    title: item.name,
                     subTitle: item.wealthManager,
                     currencyCode: item.currencyCode,
                     holdings: item.holdings,
