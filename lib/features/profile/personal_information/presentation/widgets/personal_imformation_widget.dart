@@ -126,7 +126,8 @@ class _PersonalInformationWidgetState
                         ? null
                         : () {
                             if (formKey.currentState!.validate()) {
-                              // context.read<PersonalInformationCubit>().setName(map: formKey.currentState!.instantValue);
+                              context.read<PersonalInformationCubit>().setName(
+                                  map: formKey.currentState!.instantValue);
                             }
                           },
                     child: const Text("Apply Changes"),
