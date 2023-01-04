@@ -6,6 +6,8 @@ import 'package:wmd/core/models/app_request_options.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/bank_account/data/models/bank_account_response.dart';
 import 'package:wmd/features/asset_detail/listed_asset/data/models/listed_asset_response.dart';
+import 'package:wmd/features/asset_detail/other_asset/data/models/other_asset_response.dart';
+import 'package:wmd/features/asset_detail/other_asset/domain/entity/other_asset_entity.dart';
 import 'package:wmd/features/asset_detail/private_debt/data/models/private_debt_response.dart';
 import 'package:wmd/features/asset_detail/private_equity/data/models/private_equity_response.dart';
 import 'package:wmd/features/asset_detail/real_estate/data/models/real_estate_response.dart';
@@ -64,12 +66,14 @@ class AssetDetailRemoteDataSourceImpl extends AppServerDataSource
           return ListedAssetResponse.fromJson(response);
         case AssetTypes.privateDebt:
           return PrivateDebtResponse.fromJson(response);
+        case AssetTypes.otherAsset:
+          return OtherAssetResponse.fromJson(response);
         default:
           return GetDetailResponse.fromJson(response);
         // throw AppException(message: 'Unkonwn type');
       }
     } catch (e) {
-      throw AppException(
+      throw const AppException(
           message: 'Format exceptions', type: ExceptionType.format);
     }
   }
