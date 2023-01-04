@@ -40,6 +40,7 @@ class DashboardChartsCubit extends Cubit<DashboardChartsState> {
     final result = await getGeographicUseCase(NoParams());
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (entities) {
+          entities.sort((a, b) => (b.amount - a.amount).toInt());
           emit(GetGeographicLoaded(getGeographicEntity: entities));
     });
   }
@@ -49,6 +50,7 @@ class DashboardChartsCubit extends Cubit<DashboardChartsState> {
     final result = await getPieUseCase(NoParams());
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (entities) {
+          entities.sort((a, b) => (b.value - a.value).toInt());
           emit(GetPieLoaded(getPieEntity: entities));
     });
   }
