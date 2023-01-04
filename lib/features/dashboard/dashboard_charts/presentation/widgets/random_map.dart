@@ -440,6 +440,7 @@ class _RandomWorldMapGenratorState extends State<RandomWorldMapGenrator> {
                                                         style: Theme.of(context)
                                                             .textTheme
                                                             .bodyMedium),
+                                                    const SizedBox(height: 8),
                                                     Row(
                                                       mainAxisSize:
                                                           MainAxisSize.min,
@@ -449,7 +450,7 @@ class _RandomWorldMapGenratorState extends State<RandomWorldMapGenrator> {
                                                           style:
                                                               Theme.of(context)
                                                                   .textTheme
-                                                                  .titleSmall!,
+                                                                  .bodyMedium!,
                                                         ),
                                                         const SizedBox(
                                                             width: 24),
