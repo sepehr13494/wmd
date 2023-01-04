@@ -33,6 +33,7 @@ class AppUrls {
   static String postPrivateEquity = "${wealthBase}PrivateEquity";
   static String postPrivateDebt = "${wealthBase}PrivateDebt";
   static String postRealEstate = "${wealthBase}RealEstate";
+  static String postOtherAsset = "${wealthBase}OtherAsset";
   static String postListedAsset = "${wealthBase}ListedAsset";
   static String postLoanLiability = "${wealthBase}Loans";
   static String getUserNetWorth = "${wealthBase}Wealth/totalnetworth";

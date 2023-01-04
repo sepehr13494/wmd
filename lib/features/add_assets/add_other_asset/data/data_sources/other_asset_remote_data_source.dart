@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:wmd/core/data/network/server_request_manager.dart';
 import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/data/repository/app_data_source.dart';
@@ -17,7 +18,7 @@ class OtherAssetRemoteDataSourceImpl extends AppServerDataSource
   Future<AddAssetModel> postOtherAsset(
       AddOtherAssetParams addOtherAssetParams) async {
     final tPostSaveRequestOptions = AppRequestOptions(RequestTypes.post,
-        AppUrls.postRealEstate, addOtherAssetParams.toJson());
+        AppUrls.postOtherAsset, addOtherAssetParams.toJson());
 
     final response =
         await errorHandlerMiddleware.sendRequest(tPostSaveRequestOptions);
