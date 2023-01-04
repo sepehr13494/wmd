@@ -20,28 +20,28 @@ class FilterAddPart extends AppStatelessWidget {
         const Spacer(),
         Row(
           children: [
-            SizedBox(
-              height: 32,
-              child: OutlinedButton(
-                onPressed: () {},
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Row(
-                    children: [
-                      const Icon(Icons.filter_alt, size: 15),
-                      isMobile
-                          ? const SizedBox()
-                          : Row(
-                              children: const [
-                                SizedBox(width: 8),
-                                Text("Filter"),
-                              ],
-                            ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            // SizedBox(
+            //   height: 32,
+            //   child: OutlinedButton(
+            //     onPressed: () {},
+            //     child: FittedBox(
+            //       fit: BoxFit.scaleDown,
+            //       child: Row(
+            //         children: [
+            //           const Icon(Icons.filter_alt, size: 15),
+            //           isMobile
+            //               ? const SizedBox()
+            //               : Row(
+            //                   children: const [
+            //                     SizedBox(width: 8),
+            //                     Text("Filter"),
+            //                   ],
+            //                 ),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
             const SizedBox(width: 12),
             SizedBox(
               height: 32,
