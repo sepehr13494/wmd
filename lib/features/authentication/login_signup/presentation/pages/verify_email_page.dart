@@ -75,7 +75,22 @@ class VerifyEmailPage extends AppStatelessWidget {
                             TextSpan(
                               text: appLocalizations
                                   .auth_forgot_emailSentSuccess_subheading
-                                  .replaceFirst("%s", verifyMap["email"]),
+                                  .split('%s')
+                                  .first,
+                              style: textTheme.bodyMedium!.copyWith(
+                                height: 1.3,
+                              ),
+                            ),
+                            TextSpan(
+                              text: verifyMap["email"],
+                              style: textTheme.bodyLarge!.copyWith(
+                                height: 1.3,
+                              ),
+                            ),
+                            TextSpan(
+                              text: appLocalizations
+                                  .auth_forgot_emailSentSuccess_subheading
+                                  .split('%s')[1],
                               style: textTheme.bodyMedium!.copyWith(
                                 height: 1.3,
                               ),
@@ -114,7 +129,7 @@ class VerifyEmailPage extends AppStatelessWidget {
                                   text: appLocalizations
                                       .auth_forgot_link_backToLogin,
                                   style:
-                                      textTheme.bodySmall!.toLinkStyle(context),
+                                      textTheme.bodyLarge!.toLinkStyle(context),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
                                       context.goNamed(AppRoutes.login);
