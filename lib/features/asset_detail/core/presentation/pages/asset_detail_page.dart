@@ -33,13 +33,7 @@ class AssetDetailPage extends StatefulWidget {
 }
 
 class _AssetDetailPageState extends AppState<AssetDetailPage> {
-  static const _timeFilter = [
-    // MapEntry<String, int>("All times", 0),
-    MapEntry<String, int>("7 days", 7),
-    MapEntry<String, int>("30 days", 30),
-  ];
-
-  MapEntry<String, int> selectedTimeFilter = _timeFilter.first;
+  MapEntry<String, int> selectedTimeFilter = AppConstants.timeFilter.first;
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -79,10 +73,12 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                                 padding:
                                     EdgeInsets.all(responsiveHelper.biggerGap),
                                 child: PerformanceLineChart(
-                                    values: state
-                                        .performanceEntity.valuationHistory
-                                        .map((e) => MapEntry(e.date, e.value))
-                                        .toList()),
+                                  values: state
+                                      .performanceEntity.valuationHistory
+                                      .map((e) => MapEntry(e.date, e.value))
+                                      .toList(),
+                                  days: selectedTimeFilter.value,
+                                ),
                               ),
                             ],
                           );
@@ -107,8 +103,12 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
 
   Row _buildHeader(TextTheme textTheme, Color primaryColor) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        Text(
+          'Summary',
+          style: textTheme.bodyLarge,
+        ),
         Row(
           children: [
             Icon(
@@ -118,7 +118,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
             ),
             const SizedBox(width: 4),
             DropdownButton<MapEntry<String, int>>(
-              items: _timeFilter
+              items: AppConstants.timeFilter
                   .map((e) => DropdownMenuItem<MapEntry<String, int>>(
                       value: e,
                       child: Text(
