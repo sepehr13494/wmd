@@ -54,27 +54,27 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
                 }
               }),
               builder: BlocHelper.defaultBlocBuilder(builder: (context, state) {
-                return SingleChildScrollView(
-                  child: CarouselSlider(
-                    carouselController: buttonCarouselController,
-                    options: CarouselOptions(
-                        height: responsiveHelper.isMobile
-                            ? MediaQuery.of(context).size.height * 1.9
-                            : MediaQuery.of(context).size.height * 0.8,
-                        autoPlay: false,
-                        viewportFraction: 1,
-                        onPageChanged: (val, _) {
-                          setState(() {
-                            print("new index $val");
-                            currentPage = val;
-                          });
-                        }),
-                    items: sliderList.map((i) {
-                      final index = sliderList.indexOf(i);
-
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return Container(
+                return CarouselSlider(
+                  carouselController: buttonCarouselController,
+                  options: CarouselOptions(
+                      height: MediaQuery.of(context).size.height * 0.8,
+                      // height: responsiveHelper.isMobile
+                      //     ? MediaQuery.of(context).size.height * 1.9
+                      //     : MediaQuery.of(context).size.height * 0.8,
+                      autoPlay: false,
+                      viewportFraction: 1,
+                      onPageChanged: (val, _) {
+                        setState(() {
+                          // print("new index $val");
+                          currentPage = val;
+                        });
+                      }),
+                  items: sliderList.map((i) {
+                    final index = sliderList.indexOf(i);
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return SingleChildScrollView(
+                          child: Container(
                               padding: responsiveHelper.paddingForMobileTab,
                               decoration: BoxDecoration(
                                   color: textTheme.bodySmall!.color!
@@ -83,6 +83,7 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
                                       Radius.circular(6))),
                               margin: responsiveHelper.marginForMobileTab,
                               child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   i,
                                   Row(
@@ -167,11 +168,11 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
                                     ],
                                   )
                                 ],
-                              ));
-                        },
-                      );
-                    }).toList(),
-                  ),
+                              )),
+                        );
+                      },
+                    );
+                  }).toList(),
                 );
               }),
             )));
