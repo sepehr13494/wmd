@@ -514,7 +514,7 @@ class _RandomWorldMapGenratorState extends State<RandomWorldMapGenrator> {
       percentage = "${entity.percentage.toStringAsFixed(1)} %";
       switch (continent) {
         case "Asia":
-          offset = const Offset(0.5, -0.5);
+          offset = const Offset(0.7, -0.5);
           break;
         case "Europe":
           offset = const Offset(0.0, -0.5);

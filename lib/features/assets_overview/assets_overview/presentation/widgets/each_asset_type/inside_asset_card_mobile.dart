@@ -35,13 +35,11 @@ class InsideAssetCardMobile extends AppStatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              asset.assetName,
-                              style: TextStyle(
-                                  color: Theme.of(context).primaryColor),
-                            ),
+                          Text(
+                            asset.assetName,
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor),
+                            overflow: TextOverflow.ellipsis,
                           ),
                           Text(asset.geography),
                         ],
