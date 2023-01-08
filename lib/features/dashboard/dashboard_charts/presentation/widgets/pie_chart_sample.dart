@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
+import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_pie_entity.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
@@ -20,6 +23,8 @@ class PieChartSample2 extends StatefulWidget {
 
 class PieChart2State extends State {
   int touchedIndex = -1;
+
+  late Timer timer;
 
   @override
   Widget build(BuildContext context) {
@@ -49,30 +54,91 @@ class PieChart2State extends State {
                     final inside = height / 5;
                     return SizedBox(
                       height: height,
-                      child: PieChart(
-                        PieChartData(
-                          pieTouchData: PieTouchData(
-                            touchCallback:
-                                (FlTouchEvent event, pieTouchResponse) {
-                              setState(() {
-                                if (!event.isInterestedForInteractions ||
-                                    pieTouchResponse == null ||
-                                    pieTouchResponse.touchedSection == null) {
-                                  touchedIndex = -1;
-                                  return;
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          PieChart(
+                            PieChartData(
+                              pieTouchData: PieTouchData(
+                                touchCallback:
+                                    (FlTouchEvent event, pieTouchResponse) {
+                                  setState(() {
+                                    print(event.localPosition);
+                                    if (!event.isInterestedForInteractions ||
+                                        pieTouchResponse == null ||
+                                        pieTouchResponse.touchedSection == null) {
+                                      touchedIndex = -1;
+                                      return;
+                                    }
+                                    touchedIndex = pieTouchResponse
+                                        .touchedSection!.touchedSectionIndex;
+                                  });
+                                },
+                              ),
+                              borderData: FlBorderData(
+                                show: false,
+                              ),
+                              sectionsSpace: 0,
+                              centerSpaceRadius: inside,
+                              sections: showingSections((height - inside) / 4,state.getPieEntity),
+                            ),
+                          ),
+                          touchedIndex != -1
+                              ? Builder(
+                                builder: (context) {
+                                  GetPieEntity pieEntity = state.getPieEntity[touchedIndex];
+                                  return Container(
+                                    margin: const EdgeInsets.only(bottom: 12),
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                                  color: AppColors
+                                      .anotherCardColorForDarkTheme,
+                                  borderRadius:
+                                  BorderRadius.circular(8),
+                            ),
+                            child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  mainAxisSize:
+                                  MainAxisSize.min,
+                                  children: [
+                                    Text(pieEntity.name,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium),
+                                    const SizedBox(height: 8),
+                                    Row(
+                                      mainAxisSize:
+                                      MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          pieEntity.value.convertMoney(addDollar: true),
+                                          style:
+                                          Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!,
+                                        ),
+                                        const SizedBox(
+                                            width: 24),
+                                        Text(
+                                          "${pieEntity.percentage} %",
+                                          style: Theme.of(
+                                              context)
+                                              .textTheme
+                                              .bodySmall!
+                                              .apply(
+                                              color: AppColors
+                                                  .chartColor),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                            ),
+                          );
                                 }
-                                touchedIndex = pieTouchResponse
-                                    .touchedSection!.touchedSectionIndex;
-                              });
-                            },
-                          ),
-                          borderData: FlBorderData(
-                            show: false,
-                          ),
-                          sectionsSpace: 0,
-                          centerSpaceRadius: inside,
-                          sections: showingSections((height - inside) / 4,state.getPieEntity),
-                        ),
+                              )
+                              : const SizedBox()
+                        ],
                       ),
                     );
                   }),
