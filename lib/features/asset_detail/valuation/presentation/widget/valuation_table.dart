@@ -210,7 +210,13 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
         ),
         Padding(
           padding: padding,
-          child: Text(value, style: textTheme.labelMedium),
+          child: FittedBox(
+            child: Text(
+              value,
+              style: textTheme.labelMedium,
+              maxLines: 1,
+            ),
+          ),
         ),
         // const SizedBox.shrink(),
       ],
