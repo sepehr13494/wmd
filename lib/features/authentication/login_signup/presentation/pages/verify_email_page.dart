@@ -67,7 +67,8 @@ class VerifyEmailPage extends AppStatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: responsiveHelper.optimalDeviceWidth * 0.09),
+                      horizontal: responsiveHelper.optimalDeviceWidth *
+                          (_isForgotPasswordPage() ? 0.1 : 0.05)),
                   child: RichText(
                     textAlign: TextAlign.center,
                     text: _isForgotPasswordPage()
@@ -75,7 +76,22 @@ class VerifyEmailPage extends AppStatelessWidget {
                             TextSpan(
                               text: appLocalizations
                                   .auth_forgot_emailSentSuccess_subheading
-                                  .replaceFirst("%s", verifyMap["email"]),
+                                  .split('%s')
+                                  .first,
+                              style: textTheme.bodyMedium!.copyWith(
+                                height: 1.3,
+                              ),
+                            ),
+                            TextSpan(
+                              text: verifyMap["email"],
+                              style: textTheme.bodyLarge!.copyWith(
+                                height: 1.3,
+                              ),
+                            ),
+                            TextSpan(
+                              text: appLocalizations
+                                  .auth_forgot_emailSentSuccess_subheading
+                                  .split('%s')[1],
                               style: textTheme.bodyMedium!.copyWith(
                                 height: 1.3,
                               ),
@@ -114,7 +130,7 @@ class VerifyEmailPage extends AppStatelessWidget {
                                   text: appLocalizations
                                       .auth_forgot_link_backToLogin,
                                   style:
-                                      textTheme.bodySmall!.toLinkStyle(context),
+                                      textTheme.bodyLarge!.toLinkStyle(context),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
                                       context.goNamed(AppRoutes.login);

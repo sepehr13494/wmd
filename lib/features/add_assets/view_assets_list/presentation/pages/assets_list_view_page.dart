@@ -40,14 +40,16 @@ class AssetsListViewPage extends AppStatelessWidget {
       child: Scaffold(
         appBar: renderAppBar(),
         bottomSheet: Builder(builder: (context) {
-          final assetModel = context.watch<AssetViewCubit>().state;
+          final state = context.watch<AssetViewCubit>().state;
+          if (state is CustodianPage) {
+            return const SizedBox.shrink();
+          }
           return AddAssetFooter(
               buttonText: "Add Asset",
-              onTap: assetModel == null
-                  ? null
+              onTap: state == null
+                  ? () {}
                   : () {
-                      print(assetModel);
-                      context.pushNamed(assetModel.pageRoute);
+                      context.pushNamed((state as EachAssetModel).pageRoute);
                     });
         }),
         body: Stack(
@@ -95,8 +97,29 @@ class AddAssetTabletView extends StatelessWidget {
   }
 }
 
-class AddAssetMobileWidget extends AppStatelessWidget {
+class AddAssetMobileWidget extends StatefulWidget {
   const AddAssetMobileWidget({Key? key}) : super(key: key);
+
+  @override
+  AppState<AddAssetMobileWidget> createState() => _AddAssetMobileWidgetState();
+}
+
+class _AddAssetMobileWidgetState extends AppState<AddAssetMobileWidget>
+    with TickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(() {
+      if (_tabController.index == 2) {
+        context.read<AssetViewCubit>().selectCustodian();
+      } else {
+        context.read<AssetViewCubit>().empty();
+      }
+    });
+  }
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -113,40 +136,41 @@ class AddAssetMobileWidget extends AppStatelessWidget {
             ]))
           ];
         },
-        body: DefaultTabController(
-          length: 3,
-          child: Column(
-            children: [
-              Row(
-                children: const [
-                  SizedBox(
-                    width: 300,
-                    child: TabBar(
-                      tabs: [
-                        Tab(text: "Assets"),
-                        Tab(text: "Liability"),
-                        Tab(text: "Custodian Banks"),
-                      ],
-                      isScrollable: true,
-                    ),
+        body: Column(
+          children: [
+            Row(
+              children: [
+                SizedBox(
+                  width: 300,
+                  child: TabBar(
+                    controller: _tabController,
+                    tabs: const [
+                      Tab(text: "Assets"),
+                      Tab(text: "Liability"),
+                      Tab(text: "Custodian Banks"),
+                    ],
+                    isScrollable: true,
                   ),
-                  Spacer(),
-                ],
-              ),
-              const Divider(
-                height: 0.5,
-                thickness: 0.5,
-              ),
-              const Expanded(
-                  child: TabBarView(children: [
+                ),
+                const Spacer(),
+              ],
+            ),
+            const Divider(
+              height: 0.5,
+              thickness: 0.5,
+            ),
+            Expanded(
+                child: TabBarView(
+              controller: _tabController,
+              children: const [
                 AssetsPart(isLiability: false),
                 AssetsPart(
                   isLiability: true,
                 ),
                 AddCustodianBanksPage(),
-              ]))
-            ],
-          ),
+              ],
+            ))
+          ],
         ));
   }
 }

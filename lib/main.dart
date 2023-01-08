@@ -14,6 +14,7 @@ import 'core/util/app_localization.dart';
 import 'core/util/app_theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'core/util/local_storage.dart';
+import 'features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'injection_container.dart';
 
@@ -74,11 +75,10 @@ class MyApp extends StatelessWidget {
             create: (context) => sl<LocalizationManager>()
               ..changeLang(sl<LocalStorage>().getLocale())),
         BlocProvider(create: (context) => sl<UserStatusCubit>()),
-        BlocProvider(
-            create: (context) => sl<MainDashboardCubit>()..initPage()),
+        BlocProvider(create: (context) => sl<MainDashboardCubit>()..initPage()),
         BlocProvider(
             create: (context) =>
-            sl<AssetsOverviewCubit>()..getAssetsOverview()),
+                sl<AssetsOverviewCubit>()..getAssetsOverview()),
         BlocProvider(
           create: (context) => sl<ChartsCubit>()..getChart(to: DateTime.now()),
         ),
@@ -91,6 +91,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => sl<DashboardGoeCubit>()..getGeographic(),
+        ),
+        BlocProvider(
+          create: (context) =>
+              sl<CustodianStatusListCubit>()..getCustodianStatusList(),
         ),
       ],
       child: Builder(builder: (context) {

@@ -10,6 +10,7 @@ import 'package:wmd/features/asset_detail/bank_account/domain/entity/bank_accoun
 import 'package:wmd/features/asset_detail/core/data/models/get_detail_params.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/asset_summary.dart';
 import 'package:wmd/features/asset_detail/listed_asset/domain/entity/listed_asset_entity.dart';
+import 'package:wmd/features/asset_detail/other_asset/domain/entity/other_asset_entity.dart';
 import 'package:wmd/features/asset_detail/private_debt/domain/entity/private_debt_entity.dart';
 import 'package:wmd/features/asset_detail/private_equity/domain/entity/private_equity_entity.dart';
 import 'package:wmd/features/asset_detail/real_estate/domain/entity/real_estate_entity.dart';
@@ -32,13 +33,7 @@ class AssetDetailPage extends StatefulWidget {
 }
 
 class _AssetDetailPageState extends AppState<AssetDetailPage> {
-  static const _timeFilter = [
-    // MapEntry<String, int>("All times", 0),
-    MapEntry<String, int>("7 days", 7),
-    MapEntry<String, int>("30 days", 30),
-  ];
-
-  MapEntry<String, int> selectedTimeFilter = _timeFilter.first;
+  MapEntry<String, int> selectedTimeFilter = AppConstants.timeFilter.first;
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -78,10 +73,12 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                                 padding:
                                     EdgeInsets.all(responsiveHelper.biggerGap),
                                 child: PerformanceLineChart(
-                                    values: state
-                                        .performanceEntity.valuationHistory
-                                        .map((e) => MapEntry(e.date, e.value))
-                                        .toList()),
+                                  values: state
+                                      .performanceEntity.valuationHistory
+                                      .map((e) => MapEntry(e.date, e.value))
+                                      .toList(),
+                                  days: selectedTimeFilter.value,
+                                ),
                               ),
                             ],
                           );
@@ -106,8 +103,12 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
 
   Row _buildHeader(TextTheme textTheme, Color primaryColor) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        Text(
+          'Summary',
+          style: textTheme.bodyLarge,
+        ),
         Row(
           children: [
             Icon(
@@ -117,7 +118,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
             ),
             const SizedBox(width: 4),
             DropdownButton<MapEntry<String, int>>(
-              items: _timeFilter
+              items: AppConstants.timeFilter
                   .map((e) => DropdownMenuItem<MapEntry<String, int>>(
                       value: e,
                       child: Text(
@@ -233,6 +234,22 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                   final item = state.assetDetailEntity as PrivateEquityEntity;
                   return AsssetSummary(
                     title: item.investmentName,
+                    subTitle: item.wealthManager,
+                    currencyCode: item.currencyCode,
+                    holdings: item.holdings,
+                    days: days,
+                    netChange: netChange,
+                    portfolioContribution: item.portfolioContribution,
+                    asOfDate: item.asOfDate,
+                    child: _buildHeader(
+                      Theme.of(context).textTheme,
+                      Theme.of(context).primaryColor,
+                    ),
+                  );
+                case AssetTypes.otherAsset:
+                  final item = state.assetDetailEntity as OtherAssetEntity;
+                  return AsssetSummary(
+                    title: item.name,
                     subTitle: item.wealthManager,
                     currencyCode: item.currencyCode,
                     holdings: item.holdings,

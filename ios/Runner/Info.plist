@@ -36,6 +36,12 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>App requires your location to increase the app security by attaching location with your actions</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>App requires your location to increase the app security by attaching location with your actions</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app requires access to the photo library to add images to your profile and portfolio</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
