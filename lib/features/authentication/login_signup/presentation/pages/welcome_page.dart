@@ -112,69 +112,71 @@ class WelcomePage extends AppStatelessWidget {
                           const SizedBox()
                         else if (Platform.isIOS)
                           const ContinueAppleButton(),
-                        const SizedBox(),
-                        Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            const Divider(),
-                            Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 24),
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                              child: Text(
-                                appLocalizations.auth_signup_text_social,
-                                style: textTheme.bodySmall!
-                                    .apply(fontWeightDelta: -2),
-                              ),
-                            ),
-                          ],
+                        const SizedBox(
+                          height: 80,
                         ),
-                        Builder(builder: (context) {
-                          List socials = [
-                            [
-                              "google",
-                              "assets/images/google.svg",
-                              () async {
-                                _googleLogin();
-                              }
-                            ],
-                            [
-                              "twitter",
-                              "assets/images/twitter.svg",
-                              () {
-                                _twitterLogin();
-                              }
-                            ],
-                            [
-                              "linkedin",
-                              "assets/images/linkedin.svg",
-                              () {
-                                _linkedInLogin(context);
-                              }
-                            ],
-                          ];
-                          return Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: List.generate(socials.length, (index) {
-                              return InkWell(
-                                onTap: () {
-                                  socials[index][2]();
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(color: Colors.grey)),
-                                  padding: const EdgeInsets.all(12),
-                                  margin: const EdgeInsets.all(12),
-                                  child: SvgPicture.asset(
-                                    socials[index][1],
-                                    height: 30,
-                                  ),
-                                ),
-                              );
-                            }),
-                          );
-                        }),
+                        // Stack(
+                        //   alignment: Alignment.center,
+                        //   children: [
+                        //     const Divider(),
+                        //     Container(
+                        //       padding:
+                        //           const EdgeInsets.symmetric(horizontal: 24),
+                        //       color: Theme.of(context).scaffoldBackgroundColor,
+                        //       child: Text(
+                        //         appLocalizations.auth_signup_text_social,
+                        //         style: textTheme.bodySmall!
+                        //             .apply(fontWeightDelta: -2),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        // Builder(builder: (context) {
+                        //   List socials = [
+                        //     [
+                        //       "google",
+                        //       "assets/images/google.svg",
+                        //       () async {
+                        //         _googleLogin();
+                        //       }
+                        //     ],
+                        //     [
+                        //       "twitter",
+                        //       "assets/images/twitter.svg",
+                        //       () {
+                        //         _twitterLogin();
+                        //       }
+                        //     ],
+                        //     [
+                        //       "linkedin",
+                        //       "assets/images/linkedin.svg",
+                        //       () {
+                        //         _linkedInLogin(context);
+                        //       }
+                        //     ],
+                        //   ];
+                        //   return Row(
+                        //     mainAxisSize: MainAxisSize.min,
+                        //     children: List.generate(socials.length, (index) {
+                        //       return InkWell(
+                        //         onTap: () {
+                        //           socials[index][2]();
+                        //         },
+                        //         child: Container(
+                        //           decoration: BoxDecoration(
+                        //               shape: BoxShape.circle,
+                        //               border: Border.all(color: Colors.grey)),
+                        //           padding: const EdgeInsets.all(12),
+                        //           margin: const EdgeInsets.all(12),
+                        //           child: SvgPicture.asset(
+                        //             socials[index][1],
+                        //             height: 30,
+                        //           ),
+                        //         ),
+                        //       );
+                        //     }),
+                        //   );
+                        // }),
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [

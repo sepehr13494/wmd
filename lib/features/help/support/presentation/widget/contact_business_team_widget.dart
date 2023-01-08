@@ -1,21 +1,16 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:wmd/core/extentions/text_style_ext.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
-import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
-import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/modal_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
-import 'package:go_router/go_router.dart';
-import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/help/support/data/models/contact_reason.dart';
 import 'package:wmd/features/help/support/presentation/manager/general_inquiry_cubit.dart';
 import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ContactBusinessWidget extends ModalWidget {
   final formKey = GlobalKey<FormBuilderState>();
@@ -47,82 +42,7 @@ class ContactBusinessWidget extends ModalWidget {
     final textTheme = Theme.of(context).textTheme;
     final responsiveHelper = ResponsiveHelper(context: context);
     final isMobile = responsiveHelper.isMobile;
-
-    return SingleChildScrollView(
-        child: SizedBox(
-            width: double.infinity,
-            height: isMobile
-                ? MediaQuery.of(context).size.height * 0.7
-                : MediaQuery.of(context).size.height * 0.5,
-            child: Column(children: [
-              buildModalHeader(context),
-              SingleChildScrollView(
-                  padding: responsiveHelper.paddingForMobileTab,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Contact our business support team",
-                                style: textTheme.headlineSmall,
-                              ),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              Text(
-                                "Contact us if you have any questions. We will get back to you as soon as possible.",
-                                style: textTheme.bodySmall,
-                              ),
-                            ]),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                        FormBuilder(
-                            key: formKey,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  AppTextFields.dropDownTextField(
-                                      name: "reason",
-                                      hint: "Select the reason",
-                                      items: ContactReason.contactReasonList
-                                          .map((e) => DropdownMenuItem(
-                                                value: e.value,
-                                                child: Text(e.name),
-                                              ))
-                                          .toList(),
-                                      onChanged: checkFinalValid),
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  AppTextFields.simpleTextField(
-                                      title: "Inquiry",
-                                      name: "enquiryText",
-                                      minLines: 5,
-                                      onChanged: checkFinalValid,
-                                      extraValidators: [
-                                        (val) {
-                                          return (val != null &&
-                                                  val.length > 100)
-                                              ? "Inquiry cannot be more than 100 characters"
-                                              : null;
-                                        }
-                                      ],
-                                      hint: "Type your message"),
-                                ])),
-                        const SizedBox(height: 16),
-                        buildActionContainer(context)
-                      ]))
-            ])));
-  }
-
-  ///  Action Buttons Container of Modal
-  @override
-  Widget buildActionContainer(BuildContext context) {
-    final responsiveHelper = ResponsiveHelper(context: context);
-    final isMobile = responsiveHelper.isMobile;
+    final appLocalizations = AppLocalizations.of(context);
 
     return BlocProvider(
         create: (context) => sl<GeneralInquiryCubit>(),
@@ -130,47 +50,221 @@ class ContactBusinessWidget extends ModalWidget {
             listener: (context, state) {
           debugPrint(state.toString());
 
-          if (state is SuccessState) {
-            GlobalFunctions.showSnackBar(
-                context, "Your inquiry submited successfully!",
-                type: "success");
-            Navigator.pop(context, false);
-          } else if (state is ErrorState) {
+          // if (state is SuccessState) {
+          //   GlobalFunctions.showSnackBar(
+          //       context, "Your inquiry submited successfully!",
+          //       type: "success");
+          //   Navigator.pop(context, false);
+          // } else
+          if (state is ErrorState) {
             GlobalFunctions.showSnackBar(context, state.failure.message,
                 color: Colors.red[800], type: "error");
             Navigator.pop(context, false);
           }
         }, builder: (context, state) {
-          return Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: responsiveHelper.bigger16Gap * 5),
-              child: Row(
-                children: [
-                  Expanded(
-                      child: ElevatedButton(
-                    onPressed:
-                        // enableSubmitButton
-                        //     ?
-                        () {
-                      Map<String, dynamic> finalMap = {
-                        ...formKey.currentState!.instantValue,
-                      };
+          if (state is SuccessState) {
+            return SingleChildScrollView(
+                child: SizedBox(
+                    width: double.infinity,
+                    height: isMobile
+                        ? MediaQuery.of(context).size.height * 0.7
+                        : MediaQuery.of(context).size.height * 0.5,
+                    child: Center(
+                        child: Column(children: [
+                      buildModalHeader(context),
+                      Expanded(
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                            Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: textTheme.bodySmall!.color!
+                                    .withOpacity(0.1),
+                              ),
+                              child: Icon(
+                                Icons.email,
+                                color: Theme.of(context).primaryColor,
+                                size: 50,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              appLocalizations.auth_forgot_toast_success_title,
+                              style: textTheme.headlineSmall,
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal:
+                                        responsiveHelper.bigger16Gap * 2),
+                                child: Text(
+                                  "We will get back to you as soon as possible at the email address you have provided.",
+                                  style: textTheme.bodySmall,
+                                  textAlign: TextAlign.center,
+                                )),
+                            const SizedBox(
+                              height: 40,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context, false);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  minimumSize: const Size(100, 50)),
+                              child: Text("Close"),
+                            )
+                          ]))
+                    ]))));
+          } else {
+            return SingleChildScrollView(
+                child: SizedBox(
+                    width: double.infinity,
+                    height: isMobile
+                        ? MediaQuery.of(context).size.height * 0.8
+                        : MediaQuery.of(context).size.height * 0.5,
+                    child: Column(children: [
+                      buildModalHeader(context),
+                      SingleChildScrollView(
+                          padding: responsiveHelper.paddingForMobileTab,
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                          height: 40,
+                                          width: 40,
+                                          child: SvgPicture.asset(
+                                              "assets/images/help/email_icon.svg",
+                                              semanticsLabel: 'My SVG Picture',
+                                              height: 30,
+                                              width: 30,
+                                              fit: BoxFit.fitHeight)),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal:
+                                                  responsiveHelper.bigger16Gap *
+                                                      3),
+                                          child: Text(
+                                            "Contact our business support team",
+                                            style: textTheme.titleLarge,
+                                            textAlign: TextAlign.center,
+                                          )),
+                                      const SizedBox(
+                                        height: 16,
+                                      ),
+                                      Text(
+                                        "Contact us if you have any questions. We will get back to you as soon as possible.",
+                                        style: textTheme.bodySmall,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ]),
+                                const SizedBox(
+                                  height: 24,
+                                ),
+                                FormBuilder(
+                                    key: formKey,
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          AppTextFields.dropDownTextField(
+                                              name: "reason",
+                                              hint: "Select the reason",
+                                              items: ContactReason
+                                                  .contactReasonList
+                                                  .map((e) => DropdownMenuItem(
+                                                        value: e.value,
+                                                        child: Text(e.name),
+                                                      ))
+                                                  .toList(),
+                                              onChanged: checkFinalValid),
+                                          const SizedBox(
+                                            height: 16,
+                                          ),
+                                          AppTextFields.simpleTextField(
+                                              title: "Inquiry",
+                                              name: "enquiryText",
+                                              minLines: 5,
+                                              onChanged: checkFinalValid,
+                                              extraValidators: [
+                                                (val) {
+                                                  return (val != null &&
+                                                          val.length > 100)
+                                                      ? "Inquiry cannot be more than 100 characters"
+                                                      : null;
+                                                }
+                                              ],
+                                              hint: "Type your message"),
+                                        ])),
+                                const SizedBox(height: 16),
+                                Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal:
+                                            responsiveHelper.bigger16Gap * 5),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                            child: ElevatedButton(
+                                          onPressed:
+                                              // enableSubmitButton
+                                              //     ?
+                                              () {
+                                            Map<String, dynamic> finalMap = {
+                                              ...formKey
+                                                  .currentState!.instantValue,
+                                            };
 
-                      print(finalMap);
-                      print(formKey.currentState!.isValid);
+                                            print(finalMap);
+                                            print(
+                                                formKey.currentState!.isValid);
 
-                      context
-                          .read<GeneralInquiryCubit>()
-                          .postGeneralInquiry(map: finalMap);
-                    }
-                    // : null
-                    ,
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(100, 50)),
-                    child: Text(confirmBtn),
-                  ))
-                ],
-              ));
+                                            context
+                                                .read<GeneralInquiryCubit>()
+                                                .postGeneralInquiry(
+                                                    map: finalMap);
+                                          }
+                                          // : null
+                                          ,
+                                          style: ElevatedButton.styleFrom(
+                                              minimumSize: const Size(100, 50)),
+                                          child: Text(confirmBtn),
+                                        ))
+                                      ],
+                                    ))
+                              ]))
+                    ])));
+          }
         }));
+  }
+
+  @override
+  Widget buildModalHeader(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        IconButton(
+            onPressed: () {
+              Navigator.pop(context, false);
+              // GoRouter.of(context).goNamed(AppRoutes.dashboard);
+            },
+            icon: Icon(
+              Icons.close,
+              color: Theme.of(context).primaryColor,
+            )),
+      ],
+    );
   }
 }

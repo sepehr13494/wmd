@@ -10,7 +10,8 @@ import 'package:wmd/features/authentication/login_signup/presentation/widgets/cu
 import 'package:wmd/injection_container.dart';
 
 class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
-  const DashboardAppBar({Key? key}) : super(key: key);
+  final bool? showHelp;
+  const DashboardAppBar({Key? key, this.showHelp = true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +26,11 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
         //           .read<ThemeManager>()
         //           .changeTheme(val ? ThemeMode.light : ThemeMode.dark);
         //     }),
-        IconButton(
-          onPressed: () => context.goNamed(AppRoutes.support),
-          icon: SvgPicture.asset("assets/images/add_assets/question.svg"),
-        ),
+        if (showHelp == true)
+          IconButton(
+            onPressed: () => context.goNamed(AppRoutes.support),
+            icon: SvgPicture.asset("assets/images/add_assets/question.svg"),
+          ),
         PopupMenuButton(
           itemBuilder: (BuildContext context) {
             final List items = [

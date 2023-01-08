@@ -97,22 +97,22 @@ class LoginPage extends AppStatelessWidget {
                           child:
                               Text(appLocalizations.auth_login_button_login)),
                       const SizedBox(),
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          const Divider(),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                            child: Text(
-                              appLocalizations.auth_login_text_social,
-                              style: textTheme.bodySmall!
-                                  .apply(fontWeightDelta: -2),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SocialAuthBar(),
+                      // Stack(
+                      //   alignment: Alignment.center,
+                      //   children: [
+                      //     const Divider(),
+                      //     Container(
+                      //       padding: const EdgeInsets.symmetric(horizontal: 24),
+                      //       color: Theme.of(context).scaffoldBackgroundColor,
+                      //       child: Text(
+                      //         appLocalizations.auth_login_text_social,
+                      //         style: textTheme.bodySmall!
+                      //             .apply(fontWeightDelta: -2),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      // const SocialAuthBar(),
                       RichText(
                           text: TextSpan(
                               style: const TextStyle(height: 1.3),
