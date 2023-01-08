@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
 
 import '../manager/main_dashboard_cubit.dart';
 
@@ -43,6 +44,9 @@ class SummaryTimeFilter extends AppStatelessWidget {
                     context
                         .read<MainDashboardCubit>()
                         .getNetWorth(dateTimeRange: value);
+                    context
+                        .read<DashboardAllocationCubit>()
+                        .getAllocation(dateTime: value);
                   }
                 }),
                 value: context.read<MainDashboardCubit>().dateTimeRange,

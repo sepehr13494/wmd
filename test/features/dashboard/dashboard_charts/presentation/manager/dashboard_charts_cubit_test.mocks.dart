@@ -94,7 +94,7 @@ class MockGetAllocationUseCase extends _i1.Mock
       ) as _i3.LocalStorage);
   @override
   _i6.Future<_i4.Either<_i7.Failure, List<_i8.GetAllocationEntity>>> call(
-          DateTime? params) =>
+          MapEntry<String, int>? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,

@@ -41,10 +41,13 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                               color: Colors.grey,
                             ),
                             const SizedBox(width: 8),
-                            Text(
-                              asset.assetName,
-                              style: TextStyle(
-                                  color: Theme.of(context).primaryColor),
+                            Expanded(
+                              child: Text(
+                                asset.assetName,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor),
+                              ),
                             ),
                           ],
                         );
