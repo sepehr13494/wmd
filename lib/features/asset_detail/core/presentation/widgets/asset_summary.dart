@@ -131,14 +131,12 @@ class SummaryCardWidget extends AppStatelessWidget {
             child: RowOrColumn(
               columnCrossAxisAlignment: CrossAxisAlignment.start,
               rowCrossAxisAlignment: CrossAxisAlignment.start,
+              rowMainAxisAlignment: MainAxisAlignment.start,
               showRow: !isMobile,
               children: [
-                ExpandedIf(
-                  expanded: !isMobile,
-                  child: YourHoldingsWidget(
-                    holdings: holdings,
-                    currencyCode: currencyCode,
-                  ),
+                YourHoldingsWidget(
+                  holdings: holdings,
+                  currencyCode: currencyCode,
                 ),
                 !isMobile
                     ? Container(
@@ -159,75 +157,23 @@ class SummaryCardWidget extends AppStatelessWidget {
                       ),
                 ExpandedIf(
                   expanded: !isMobile,
-                  flex: 2,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: RowOrColumn(
+                    showRow: !isMobile,
+                    columnCrossAxisAlignment: CrossAxisAlignment.start,
+                    rowCrossAxisAlignment: CrossAxisAlignment.end,
+                    rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          ExpandedIf(
-                            expanded: !isMobile,
-                            child: NetChangeWidget(
-                              // current: holdings,
-                              days: days,
-                              change: netChange,
-                            ),
-                          ),
-                          ExpandedIf(
-                            expanded: !isMobile,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "YTD",
-                                      style: textTheme.bodySmall,
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Icon(
-                                      Icons.info_outline,
-                                      color: Theme.of(context).primaryColor,
-                                      size: 14,
-                                    )
-                                  ],
-                                ),
-                                const ChangeWidget(number: 60, text: "60.0%"),
-                              ],
-                            ),
-                          ),
-                          ExpandedIf(
-                            expanded: !isMobile,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "ITD",
-                                      style: textTheme.bodySmall,
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Icon(
-                                      Icons.info_outline,
-                                      color: Theme.of(context).primaryColor,
-                                      size: 14,
-                                    )
-                                  ],
-                                ),
-                                const ChangeWidget(
-                                    number: 12.12, text: "12.12%"),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                      if (isMobile)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: buildChildren(context, textTheme),
+                        ),
+                      if (!isMobile) ...buildChildren(context, textTheme),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        padding: isMobile
+                            ? const EdgeInsets.symmetric(vertical: 12)
+                            : const EdgeInsets.symmetric(vertical: 8),
                         child: PortfolioContributionWidget(
                           portfolioContribution: portfolioContribution,
                           netWorth: (context.read<MainDashboardCubit>().state
@@ -249,5 +195,56 @@ class SummaryCardWidget extends AppStatelessWidget {
         ],
       ),
     );
+  }
+
+  List<Widget> buildChildren(context, textTheme) {
+    return [
+      NetChangeWidget(
+        days: days,
+        change: netChange,
+      ),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "YTD",
+                style: textTheme.bodySmall,
+              ),
+              const SizedBox(width: 8),
+              Icon(
+                Icons.info_outline,
+                color: Theme.of(context).primaryColor,
+                size: 14,
+              )
+            ],
+          ),
+          const ChangeWidget(number: 60, text: "60.0%"),
+        ],
+      ),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "ITD",
+                style: textTheme.bodySmall,
+              ),
+              const SizedBox(width: 8),
+              Icon(
+                Icons.info_outline,
+                color: Theme.of(context).primaryColor,
+                size: 14,
+              )
+            ],
+          ),
+          const ChangeWidget(number: 12.12, text: "12.12%"),
+        ],
+      ),
+    ];
   }
 }
