@@ -170,7 +170,7 @@ class SummaryCardWidget extends AppStatelessWidget {
                           ExpandedIf(
                             expanded: !isMobile,
                             child: NetChangeWidget(
-                              current: holdings,
+                              // current: holdings,
                               days: days,
                               change: netChange,
                             ),
