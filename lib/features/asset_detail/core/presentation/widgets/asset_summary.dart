@@ -180,9 +180,20 @@ class SummaryCardWidget extends AppStatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  "YTD",
-                                  style: textTheme.bodySmall,
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "YTD",
+                                      style: textTheme.bodySmall,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Icon(
+                                      Icons.info_outline,
+                                      color: Theme.of(context).primaryColor,
+                                      size: 14,
+                                    )
+                                  ],
                                 ),
                                 const ChangeWidget(number: 60, text: "60.0%"),
                               ],
