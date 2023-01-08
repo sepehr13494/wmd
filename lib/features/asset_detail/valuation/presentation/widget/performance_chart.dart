@@ -163,7 +163,6 @@ class PerformanceLineChart extends AppStatelessWidget {
           border: const Border.symmetric(
               horizontal: BorderSide(
                   width: 0.3, color: AppColors.dashBoardGreyTextColor))),
-      // maxX: values.length > minDate ? null : minDate,
       minY: 0,
       maxY: divider,
       lineTouchData: LineTouchData(
@@ -207,7 +206,7 @@ class PerformanceLineChart extends AppStatelessWidget {
           barWidth: 2,
           isStrokeCapRound: true,
           dotData: FlDotData(
-            show: false,
+            show: values.length == 1,
           ),
           belowBarData: BarAreaData(
             show: true,
