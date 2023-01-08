@@ -88,7 +88,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
               ...List.generate(length > 3 ? 3 : length, (index) {
                 final e = widget.getAllValuationEntities[index];
                 return buildTableRow(context,
-                    date: CustomizableDateTime.ddMmYyyy(e.createdAt),
+                    date: CustomizableDateTime.ddMmYyyy(e.valuatedAt),
                     note: e.note ?? '',
                     value: e.amountInUsd.convertMoney(addDollar: true),
                     index: index);
@@ -134,7 +134,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
         ...List.generate(widget.getAllValuationEntities.length, (index) {
           final e = widget.getAllValuationEntities[index];
           return buildTableRow(context,
-              date: CustomizableDateTime.ddMmYyyy(e.createdAt),
+              date: CustomizableDateTime.ddMmYyyy(e.valuatedAt),
               note: e.note ?? '',
               value: e.amountInUsd.convertMoney(addDollar: true),
               index: index);
@@ -186,6 +186,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
   }) {
     final textTheme = Theme.of(context).textTheme;
     return TableRow(
+      key: UniqueKey(),
       decoration: BoxDecoration(
         color: index % 2 != 0
             ? Theme.of(context).cardColor.withOpacity(0.6)
@@ -210,12 +211,11 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
         ),
         Padding(
           padding: padding,
-          child: FittedBox(
-            child: Text(
-              value,
-              style: textTheme.labelMedium,
-              maxLines: 1,
-            ),
+          child: Text(
+            value,
+            style: textTheme.labelMedium,
+            // overflow: TextOverflow.fade,
+            // maxLines: 1,
           ),
         ),
         // const SizedBox.shrink(),
