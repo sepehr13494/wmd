@@ -145,7 +145,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
 
   TableRow buildTableHeader(BuildContext context,
       {EdgeInsetsGeometry padding =
-          const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4)}) {
+          const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8)}) {
     final textTheme = Theme.of(context).textTheme;
     return TableRow(
       children: [
@@ -178,7 +178,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
   TableRow buildTableRow(
     BuildContext context, {
     EdgeInsetsGeometry padding =
-        const EdgeInsets.symmetric(vertical: 16.0, horizontal: 4),
+        const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8),
     required String date,
     required String note,
     required String value,
@@ -217,8 +217,6 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             child: Text(
               value,
               style: textTheme.labelMedium,
-              // overflow: TextOverflow.fade,
-              // maxLines: 1,
             ),
           ),
         ),
