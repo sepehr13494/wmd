@@ -48,11 +48,12 @@ class PerformanceLineChart extends AppStatelessWidget {
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     late final Widget child;
-    child = Text(
-        CustomizableDateTime.localizedDdMm(values[(value).toInt()].key),
-        style: const TextStyle(fontSize: 8));
-    // if (values.length > minDate) {
-    // } else {}
+    child = FittedBox(
+      fit: BoxFit.scaleDown,
+      child: Text(
+          CustomizableDateTime.localizedDdMm(values[(value).toInt()].key),
+          style: const TextStyle(fontSize: 8)),
+    );
     return SideTitleWidget(
       axisSide: meta.axisSide,
       child: child,
