@@ -8,14 +8,14 @@ import '../../data/models/get_allocation_params.dart';
 import '../entities/get_allocation_entity.dart';
 import '../repositories/dashboard_charts_repository.dart';
 
-class GetAllocationUseCase extends UseCase<List<GetAllocationEntity>, DateTime?> {
+class GetAllocationUseCase extends UseCase<List<GetAllocationEntity>, MapEntry<String, int>?> {
   final DashboardChartsRepository repository;
   final LocalStorage localStorage;
 
   GetAllocationUseCase(this.repository, this.localStorage);
   @override
-  Future<Either<Failure, List<GetAllocationEntity>>> call(DateTime? params) =>
-      repository.getAllocation(GetAllocationParams(ownerId: localStorage.getOwnerId(),to: params?.toIso8601String()));
+  Future<Either<Failure, List<GetAllocationEntity>>> call(MapEntry<String, int>? params) =>
+      repository.getAllocation(GetAllocationParams(ownerId: localStorage.getOwnerId(),from: DateTime.now().subtract(Duration(days: params == null ? 0 : params.value)).toIso8601String(),to: DateTime.now().toIso8601String()));
 }
       
 

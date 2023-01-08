@@ -84,7 +84,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => sl<DashboardAllocationCubit>()
-            ..getAllocation(dateTime: DateTime.now()),
+            ..getAllocation(),
         ),
         BlocProvider(
           create: (context) => sl<DashboardPieCubit>()..getPie(),

@@ -58,7 +58,7 @@ class ChartsWrapper extends AppStatelessWidget {
               ),
               AspectRatio(
                 aspectRatio:
-                    ResponsiveHelper(context: context).isMobile ? 1.6 : 1.5,
+                    ResponsiveHelper(context: context).isMobile ? 1.4 : 1.3,
                 child: TabBarView(children: [
                   Padding(
                     padding: EdgeInsets.symmetric(

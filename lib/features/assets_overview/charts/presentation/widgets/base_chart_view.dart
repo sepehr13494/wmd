@@ -26,7 +26,7 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                     ),
                     Builder(builder: (context) {
                       Set<String> titles = {};
-                      state.getChartEntities.forEach((element) {
+                      for (var element in state.getChartEntities) {
                         if (element.bankAccount != 0) {
                           titles.add(AssetTypes.bankAccount);
                         }
@@ -42,7 +42,7 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                         if (element.privateEquity != 0) {
                           titles.add(AssetTypes.privateEquity);
                         }
-                      });
+                      }
 
                       return Wrap(
                         children: List.generate(titles.length, (index) {
