@@ -209,13 +209,17 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        Padding(
-          padding: padding,
-          child: Text(
-            value,
-            style: textTheme.labelMedium,
-            // overflow: TextOverflow.fade,
-            // maxLines: 1,
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: padding,
+            child: Text(
+              value,
+              style: textTheme.labelMedium,
+              // overflow: TextOverflow.fade,
+              // maxLines: 1,
+            ),
           ),
         ),
         // const SizedBox.shrink(),
