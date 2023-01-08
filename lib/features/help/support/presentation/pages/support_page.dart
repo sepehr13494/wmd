@@ -85,14 +85,14 @@ class _SupportPageState extends AppState<SupportPage> {
                                 //       color: AppColors.primary,
                                 //     )),
                                 Text(
-                                  "Get Support",
+                                  appLocalizations.support_heading,
                                   style: textTheme.headlineSmall,
                                 ),
                                 const SizedBox(
                                   height: 16,
                                 ),
                                 Text(
-                                  "Start your global investment journey with no doubts or unclear points.",
+                                  appLocalizations.support_subheading,
                                   style: textTheme.bodySmall,
                                 ),
                               ]),
@@ -116,10 +116,10 @@ class _SupportPageState extends AppState<SupportPage> {
                                                 !responsiveHelper.isMobile,
                                             child: SupportActionCard(
                                                 icon: Icons.call,
-                                                title:
-                                                    "Talk to our business support team",
-                                                desc:
-                                                    "Request a call at your conveinence",
+                                                title: appLocalizations
+                                                    .support_card_talkWithExperts_title,
+                                                desc: appLocalizations
+                                                    .support_card_talkWithExperts_description,
                                                 action: () {})),
                                         responsiveHelper.isMobile
                                             ? const SizedBox(
@@ -133,10 +133,10 @@ class _SupportPageState extends AppState<SupportPage> {
                                                 !responsiveHelper.isMobile,
                                             child: SupportActionCard(
                                                 icon: Icons.messenger_outlined,
-                                                title:
-                                                    "Contact our business support team",
-                                                desc:
-                                                    "Send a message to our business support team",
+                                                title: appLocalizations
+                                                    .support_card_contactClientService_title,
+                                                desc: appLocalizations
+                                                    .support_card_contactClientService_description,
                                                 action: () {
                                                   handleOpenContactBusiness(
                                                       context);
@@ -146,7 +146,7 @@ class _SupportPageState extends AppState<SupportPage> {
                             height: 24,
                           ),
                           Text(
-                            "FAQs",
+                            appLocalizations.support_headings_faqs,
                             style: textTheme.headlineSmall,
                           ),
                           const SizedBox(
@@ -157,7 +157,7 @@ class _SupportPageState extends AppState<SupportPage> {
                             height: 24,
                           ),
                           Text(
-                            "Our contacts",
+                            appLocalizations.support_headings_contacts,
                             style: textTheme.headlineSmall,
                           ),
                           const SizedBox(
@@ -176,7 +176,7 @@ class _SupportPageState extends AppState<SupportPage> {
                                         color: AppColors.primary,
                                       )),
                                   Text(
-                                    "Email",
+                                    appLocalizations.support_text_email,
                                     style: textTheme.bodyMedium!.apply(
                                         color:
                                             AppColors.dashBoardGreyTextColor),

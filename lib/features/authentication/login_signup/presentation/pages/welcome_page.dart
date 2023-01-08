@@ -75,7 +75,7 @@ class WelcomePage extends AppStatelessWidget {
                               viewportFraction: 1,
                             ),
                             items: [
-                              "${appLocalizations.auth_signup_productDetails_one} ${appLocalizations.auth_signup_productDetails_and}",
+                              appLocalizations.auth_signup_productDetails_one,
                               appLocalizations.auth_signup_productDetails_two,
                               appLocalizations.auth_signup_productDetails_three
                             ].map((i) {
@@ -112,8 +112,10 @@ class WelcomePage extends AppStatelessWidget {
                           const SizedBox()
                         else if (Platform.isIOS)
                           const ContinueAppleButton(),
-                        const SizedBox(
-                          height: 80,
+                        SizedBox(
+                          height: responsiveHelper.isMobile
+                              ? 80
+                              : responsiveHelper.optimalDeviceWidth * 0.5,
                         ),
                         // Stack(
                         //   alignment: Alignment.center,
