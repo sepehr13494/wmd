@@ -93,7 +93,8 @@ class ContactBusinessWidget extends ModalWidget {
                               height: 20,
                             ),
                             Text(
-                              appLocalizations.auth_forgot_toast_success_title,
+                              appLocalizations
+                                  .common_submitEnquiryModal_emailSent_title,
                               style: textTheme.headlineSmall,
                               textAlign: TextAlign.center,
                             ),
@@ -105,7 +106,8 @@ class ContactBusinessWidget extends ModalWidget {
                                     horizontal:
                                         responsiveHelper.bigger16Gap * 2),
                                 child: Text(
-                                  "We will get back to you as soon as possible at the email address you have provided.",
+                                  appLocalizations
+                                      .common_submitEnquiryModal_emailSent_description,
                                   style: textTheme.bodySmall,
                                   textAlign: TextAlign.center,
                                 )),
@@ -158,7 +160,8 @@ class ContactBusinessWidget extends ModalWidget {
                                                   responsiveHelper.bigger16Gap *
                                                       3),
                                           child: Text(
-                                            "Contact our business support team",
+                                            appLocalizations
+                                                .common_submitEnquiryModal_title,
                                             style: textTheme.titleLarge,
                                             textAlign: TextAlign.center,
                                           )),
@@ -166,7 +169,8 @@ class ContactBusinessWidget extends ModalWidget {
                                         height: 16,
                                       ),
                                       Text(
-                                        "Contact us if you have any questions. We will get back to you as soon as possible.",
+                                        appLocalizations
+                                            .common_submitEnquiryModal_description,
                                         style: textTheme.bodySmall,
                                         textAlign: TextAlign.center,
                                       ),
@@ -182,7 +186,8 @@ class ContactBusinessWidget extends ModalWidget {
                                         children: [
                                           AppTextFields.dropDownTextField(
                                               name: "reason",
-                                              hint: "Select the reason",
+                                              hint: appLocalizations
+                                                  .common_submitEnquiryModal_placeholder,
                                               items: ContactReason
                                                   .contactReasonList
                                                   .map((e) => DropdownMenuItem(
@@ -207,7 +212,8 @@ class ContactBusinessWidget extends ModalWidget {
                                                       : null;
                                                 }
                                               ],
-                                              hint: "Type your message"),
+                                              hint: appLocalizations
+                                                  .common_submitEnquiryModal_textarea_placeholder),
                                         ])),
                                 const SizedBox(height: 16),
                                 Padding(
