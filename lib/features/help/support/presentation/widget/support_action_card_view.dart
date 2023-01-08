@@ -23,11 +23,8 @@ class SupportActionCard extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    final ResponsiveHelper responsiveHelper =
-        ResponsiveHelper(context: context);
-
     return SizedBox(
-      height: 100,
+      height: 118,
       child: Card(
         semanticContainer: true,
         shape: RoundedRectangleBorder(

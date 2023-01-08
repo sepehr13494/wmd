@@ -107,6 +107,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/dashboard/
+    - assets/images/help/
     - assets/images/dashboard/onboarding/
     - assets/images/add_assets/
     - assets/env/.env
