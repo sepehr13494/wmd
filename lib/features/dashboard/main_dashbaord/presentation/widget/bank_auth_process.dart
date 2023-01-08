@@ -26,50 +26,45 @@ class _BanksAuthorizationProcessState
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
-    return BlocProvider(
-      create: (context) =>
-          sl<CustodianStatusListCubit>()..getCustodianStatusList(),
-      child: BlocConsumer<CustodianStatusListCubit, CustodianStatusListState>(
-        listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
-        builder: (context, state) {
-          if (state is StatusListLoaded) {
-            if (state.statusEntity.isEmpty) {
-              return const SizedBox.shrink();
-            }
-            return Card(
-              child: CustomExpansionTile(
-                initiallyExpanded: isExpanded,
-                onExpansionChanged: (value) => isExpanded = value,
-                title: Text(
-                  'Your banks authorization process',
-                  style: textTheme.labelLarge,
-                ),
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: responsiveHelper.bigger16Gap),
-                    child: Table(
-                      defaultVerticalAlignment:
-                          TableCellVerticalAlignment.middle,
-                      columnWidths: const {
-                        0: FractionColumnWidth(0.35),
-                        1: FractionColumnWidth(0.4),
-                        3: FractionColumnWidth(0.25),
-                      },
-                      children: [
-                        buildTableHeader(textTheme),
-                        ...state.statusEntity
-                            .map((e) => buildTableRow(context, e, textTheme))
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            );
+    return BlocConsumer<CustodianStatusListCubit, CustodianStatusListState>(
+      listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
+      builder: (context, state) {
+        if (state is StatusListLoaded) {
+          if (state.statusEntity.isEmpty) {
+            return const SizedBox.shrink();
           }
-          return const SizedBox.shrink();
-        },
-      ),
+          return Card(
+            child: CustomExpansionTile(
+              initiallyExpanded: isExpanded,
+              onExpansionChanged: (value) => isExpanded = value,
+              title: Text(
+                'Your banks authorization process',
+                style: textTheme.labelLarge,
+              ),
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: responsiveHelper.bigger16Gap),
+                  child: Table(
+                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                    columnWidths: const {
+                      0: FractionColumnWidth(0.35),
+                      1: FractionColumnWidth(0.4),
+                      3: FractionColumnWidth(0.25),
+                    },
+                    children: [
+                      buildTableHeader(textTheme),
+                      ...state.statusEntity
+                          .map((e) => buildTableRow(context, e, textTheme))
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+        return const SizedBox.shrink();
+      },
     );
   }
 

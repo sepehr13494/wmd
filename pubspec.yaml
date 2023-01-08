@@ -107,6 +107,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/dashboard/
+    - assets/images/help/
     - assets/images/dashboard/onboarding/
     - assets/images/add_assets/
     - assets/env/.env
@@ -125,9 +126,10 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: IranSans
+    - family: Almarai
       fonts:
-        - asset: assets/fonts/IRANSans_FaNum.ttf
+        - asset: assets/fonts/arabic/Almarai-Bold.ttf
+        - asset: assets/fonts/arabic/Almarai-Regular.ttf
     - family: gotham
       fonts:
         - asset: assets/fonts/gotham/Gotham-Bold.ttf

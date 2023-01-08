@@ -8,7 +8,9 @@ import 'package:wmd/core/util/colors.dart';
 
 class PerformanceLineChart extends AppStatelessWidget {
   final List<MapEntry<DateTime, double>> values;
-  const PerformanceLineChart({super.key, required this.values});
+  final int days;
+  const PerformanceLineChart(
+      {super.key, required this.values, required this.days});
 
   final double divider = 6;
   final double minDate = 6;
@@ -18,11 +20,20 @@ class PerformanceLineChart extends AppStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Performance chart',
-          style: textTheme.bodyLarge,
+        Row(
+          children: [
+            Text(
+              'Performance chart',
+              style: textTheme.bodyLarge,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              '(Last $days days)',
+              style: textTheme.bodySmall,
+            ),
+          ],
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 24),
         AspectRatio(
           aspectRatio: ResponsiveHelper(context: context).isMobile ? 1.6 : 2.2,
           child: values.isEmpty

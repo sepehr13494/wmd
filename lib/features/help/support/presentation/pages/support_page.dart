@@ -67,7 +67,7 @@ class _SupportPageState extends AppState<SupportPage> {
             ),
             builder: (context, state) {
               return Scaffold(
-                  appBar: const DashboardAppBar(),
+                  appBar: const DashboardAppBar(showHelp: false),
                   body: SingleChildScrollView(
                       padding: responsiveHelper.paddingForMobileTab,
                       child: Column(
