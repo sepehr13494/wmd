@@ -57,8 +57,8 @@ class CustodianBankWidgetV2 extends AppStatelessWidget {
                               context
                                   .read<UserStatusCubit>()
                                   .postUserStatus(map: map);
-                              context.goNamed(AppRoutes.main);
                             }
+                            context.goNamed(AppRoutes.main);
                           },
                         );
                       },
