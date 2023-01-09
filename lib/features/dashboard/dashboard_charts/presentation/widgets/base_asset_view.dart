@@ -50,7 +50,7 @@ class BaseAssetView extends AppStatelessWidget {
                     },
                     child: Row(
                       children: [
-                        Text("More",
+                        Text(appLocalizations.home_widget_geography_button_more,
                             style: textTheme.bodySmall!.toLinkStyle(context)),
                         const SizedBox(width: 8),
                         const Icon(Icons.arrow_forward_ios_rounded, size: 12),
@@ -69,7 +69,7 @@ class BaseAssetView extends AppStatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    "Allocation",
+                    appLocalizations.home_widget_geography_label_allocation,
                     style: textTheme.bodySmall!
                         .apply(color: AppColors.dashBoardGreyTextColor),
                   ),

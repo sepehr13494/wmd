@@ -7,6 +7,7 @@ import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/text_with_info.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/domain/entities/net_worth_entity.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/summart_time_filter.dart';
@@ -24,26 +25,26 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    final String date = (context.watch<MainDashboardCubit>().dateTimeRange).key;
+    final String date = (context.watch<MainDashboardCubit>().dateTimeRange ?? AppConstants.timeFilter(context).first).key;
     final List items = [
       [
-        "Total Net Worth",
+        appLocalizations.home_label_totalNetWorth,
         widget.netWorthEntity.totalNetWorth.currentValue,
-        "Change in last $date",
+        date,
         widget.netWorthEntity.totalNetWorth.change,
         "Includes 5 new assets added worth USD 10,000\nIncludes 1 new liability added worth USD 50,000"
       ],
       [
-        "Assets",
+        appLocalizations.home_label_assets,
         widget.netWorthEntity.assets.currentValue,
-        "Change in last $date",
+        date,
         widget.netWorthEntity.assets.change,
         "Includes 5 new assets added worth USD 10,000"
       ],
       [
-        "Liabilities",
+        appLocalizations.home_label_liabilities,
         widget.netWorthEntity.liabilities.currentValue,
-        "Change in last $date",
+        date,
         widget.netWorthEntity.liabilities.change,
         "Includes 1 new liability added worth USD 50,000"
       ],

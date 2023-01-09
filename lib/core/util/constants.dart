@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/models/time_filer_obj.dart';
+
 class AppConstants {
   static const custodianList = [
     "Abbot Downing",
@@ -339,10 +343,13 @@ class AppConstants {
     }
   }
 
-  static List<MapEntry<String, int>> get timeFilter => const [
-        MapEntry<String, int>("Last 7 days", 7),
-        MapEntry<String, int>("Last 30 days", 30),
+  static List<TimeFilterObj> timeFilter(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context);
+    return [
+        TimeFilterObj(key: appLocalization.home_select_duration_options_seven,value: 7),
+        TimeFilterObj(key: appLocalization.home_select_duration_options_thirty,value: 30),
       ];
+  }
 }
 
 class BankProviders {
