@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/custodian_bank_entity.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/widget/custodian_auth_status_modal.dart';
+import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
+import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
+import 'package:wmd/injection_container.dart';
 
 class CustodianBankWidgetV2 extends AppStatelessWidget {
   const CustodianBankWidgetV2(
@@ -38,10 +44,22 @@ class CustodianBankWidgetV2 extends AppStatelessWidget {
                   builder: (context) {
                     return InkWell(
                       onTap: () async {
-                        final rs = await showCustodianBankStatus(
+                        await showCustodianBankStatus(
                           context: context,
                           bankId: bank.bankId,
-                          // onOk: () => context.goNamed(AppRoutes.main),
+                          onOk: () {
+                            if (sl<GetUserStatusUseCase>().showOnboarding) {
+                              Map<String, dynamic> map = {
+                                "email":
+                                    sl<GetUserStatusUseCase>().userEmail ?? "",
+                                "loginAt": DateTime.now().toIso8601String()
+                              };
+                              context
+                                  .read<UserStatusCubit>()
+                                  .postUserStatus(map: map);
+                              context.goNamed(AppRoutes.main);
+                            }
+                          },
                         );
                       },
                       child: Container(
@@ -49,10 +67,10 @@ class CustodianBankWidgetV2 extends AppStatelessWidget {
                           border:
                               Border.all(color: Theme.of(context).primaryColor),
                         ),
-                        child: const Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                          child: Text('Connect'),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 12),
+                          child: Text(appLocalizations.common_button_connect),
                         ),
                       ),
                     );
