@@ -37,33 +37,50 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
                         child: Column(
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text("Total Net Worth",
                                     style: TextStyle(fontSize: 18)),
+                                const Spacer(),
+                                Icon(
+                                  Icons.bar_chart,
+                                  size: 15,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                const SizedBox(width: 8),
                                 Builder(builder: (context) {
                                   final items = ["Bar Chart", "Area Chart"];
                                   return DropdownButton<String>(
-                                      items: List.generate(2, (index) {
-                                        return DropdownMenuItem<String>(
-                                          value: items[index],
-                                          child: Text(items[index]),
-                                        );
-                                      }),
-                                      onChanged: ((value) {
-                                        if (value == "Bar Chart") {
-                                          setState(() {
-                                            barChart = true;
-                                          });
-                                        } else {
-                                          setState(() {
-                                            barChart = false;
-                                          });
-                                        }
-                                      }),
-                                      value: barChart
-                                          ? "Bar Chart"
-                                          : "Area Chart");
+                                    items: List.generate(2, (index) {
+                                      return DropdownMenuItem<String>(
+                                        value: items[index],
+                                        child: Text(
+                                          items[index],
+                                          style: textTheme.bodyMedium!.apply(
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                        ),
+                                      );
+                                    }),
+                                    onChanged: ((value) {
+                                      if (value == "Bar Chart") {
+                                        setState(() {
+                                          barChart = true;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          barChart = false;
+                                        });
+                                      }
+                                    }),
+                                    value:
+                                        barChart ? "Bar Chart" : "Area Chart",
+                                    icon: Icon(
+                                      Icons.keyboard_arrow_down,
+                                      size: 15,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  );
                                 })
                               ],
                             ),
