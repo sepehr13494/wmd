@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wmd/core/models/time_filer_obj.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/util/constants.dart';
@@ -28,9 +29,9 @@ class SummaryTimeFilter extends AppStatelessWidget {
                 color: Theme.of(context).primaryColor,
               ),
               const SizedBox(width: 8),
-              DropdownButton<MapEntry<String, int>>(
-                items: AppConstants.timeFilter
-                    .map((e) => DropdownMenuItem<MapEntry<String, int>>(
+              DropdownButton<TimeFilterObj>(
+                items: AppConstants.timeFilter(context)
+                    .map((e) => DropdownMenuItem<TimeFilterObj>(
                         value: e,
                         child: Text(
                           e.key,
@@ -49,7 +50,7 @@ class SummaryTimeFilter extends AppStatelessWidget {
                         .getAllocation(dateTime: value);
                   }
                 }),
-                value: context.read<MainDashboardCubit>().dateTimeRange,
+                value: context.read<MainDashboardCubit>().dateTimeRange ?? AppConstants.timeFilter(context).first,
                 icon: Icon(
                   Icons.keyboard_arrow_down,
                   size: 15,

@@ -14,9 +14,9 @@ class UserNetWorthUseCase extends UseCase<NetWorthResponseObj, dynamic> {
   Future<Either<Failure, NetWorthResponseObj>> call(dynamic params) {
     late NetWorthParams finalParams;
     if(params != null){
-      finalParams = NetWorthParams(from: DateTime.now(), to: DateTime.now().subtract(Duration(days: (params as MapEntry<String,int>).value)));
+      finalParams = NetWorthParams(from: DateTime.now(), to: DateTime.now().subtract(Duration(days: params.value)));
     }else{
-      finalParams = NetWorthParams();
+      finalParams = const NetWorthParams();
     }
     return dashboardRepository.userNetWorth(finalParams);
   }
