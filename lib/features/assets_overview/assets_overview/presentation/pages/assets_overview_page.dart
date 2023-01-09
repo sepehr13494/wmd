@@ -44,7 +44,7 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
 
                   // //trigger leaving and use own data
 
-                  context.read<MainPageCubit>().onItemTapped(1);
+                  context.read<MainPageCubit>().onItemTapped(0);
 
                   //we need to return a future
                   return Future.value(false);
