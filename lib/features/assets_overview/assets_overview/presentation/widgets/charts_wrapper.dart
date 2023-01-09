@@ -13,88 +13,92 @@ class ChartsWrapper extends AppStatelessWidget {
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
-    final time = context.read<MainDashboardCubit>().dateTimeRange;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              'Allocation by',
-              style: textTheme.bodyLarge,
-            ),
-            const SizedBox(width: 8),
-            Text(
-              '(${time.key})',
-              style: textTheme.bodySmall,
-            ),
-          ],
-        ),
-        const SizedBox(height: 24),
-        DefaultTabController(
-          length: 1,
-          child: Column(
+    // final time = context.read<MainDashboardCubit>().dateTimeRange;
+    return BlocBuilder<MainDashboardCubit, MainDashboardState>(
+        builder: (context, state) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
-                children: const [
-                  SizedBox(
-                    width: 300,
-                    child: TabBar(
-                      tabs: [
-                        Tab(text: "Asset Class"),
-                        // Tab(text: "Geography"),
-                        // Tab(text: "Currency"),
-                      ],
-                      isScrollable: true,
+              Text(
+                'Allocation by',
+                style: textTheme.bodyLarge,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                "(Last ${context.read<MainDashboardCubit>().dateTimeRange.value} days)",
+                style: textTheme.bodySmall,
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          DefaultTabController(
+            length: 1,
+            child: Column(
+              children: [
+                Row(
+                  children: const [
+                    SizedBox(
+                      width: 300,
+                      child: TabBar(
+                        tabs: [
+                          Tab(text: "Asset Class"),
+                          // Tab(text: "Geography"),
+                          // Tab(text: "Currency"),
+                        ],
+                        isScrollable: true,
+                      ),
                     ),
-                  ),
-                  Spacer(),
-                ],
-              ),
-              const Divider(
-                height: 0.5,
-                thickness: 0.5,
-              ),
-              AspectRatio(
-                aspectRatio:
-                    ResponsiveHelper(context: context).isMobile ? 1.4 : 1.3,
-                child: TabBarView(children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: ResponsiveHelper(context: context).biggerGap),
-                    child: Card(
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? AppColors.darkCardColorForDarkTheme
-                          : AppColors.darkCardColorForLightTheme,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          children: const [
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.end,
-                            //   children: [
-                            //     ChartPicker(
-                            //       value: 0,
-                            //       onChange: (value) {},
-                            //     ),
-                            //   ],
-                            // ),
-                            Expanded(child: BaseAssetsOverviewChartsWidget()),
-                          ],
+                    Spacer(),
+                  ],
+                ),
+                const Divider(
+                  height: 0.5,
+                  thickness: 0.5,
+                ),
+                AspectRatio(
+                  aspectRatio:
+                      ResponsiveHelper(context: context).isMobile ? 1.4 : 1.3,
+                  child: TabBarView(children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical:
+                              ResponsiveHelper(context: context).biggerGap),
+                      child: Card(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? AppColors.darkCardColorForDarkTheme
+                            : AppColors.darkCardColorForLightTheme,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            children: const [
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.end,
+                              //   children: [
+                              //     ChartPicker(
+                              //       value: 0,
+                              //       onChange: (value) {},
+                              //     ),
+                              //   ],
+                              // ),
+                              Expanded(child: BaseAssetsOverviewChartsWidget()),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  // Container(),
-                  // Container(),
-                ]),
-              )
-            ],
+                    // Container(),
+                    // Container(),
+                  ]),
+                )
+              ],
+            ),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 }
 

@@ -19,6 +19,21 @@
 		<string>en</string>
 		<string>ar</string>
 	</array>
+	<key>FlutterDeepLinkingEnabled</key>
+	<true/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+		<key>CFBundleTypeRole</key>
+		<string>Editor</string>
+		<key>CFBundleURLName</key>
+		<string>app-wmd-qa-01.azurewebsites.net</string>
+		<key>CFBundleURLSchemes</key>
+		<array>
+		<string>https</string>
+		</array>
+		</dict>
+	</array>
 	<key>CFBundleName</key>
 	<string>wmd</string>
 	<key>CFBundlePackageType</key>

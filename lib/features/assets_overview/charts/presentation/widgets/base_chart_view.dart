@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
-import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/charts_widget.dart';
@@ -14,7 +13,7 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
     return Padding(
-      padding: const EdgeInsets.only(top: 24.0),
+      padding: const EdgeInsets.only(top: 8.0),
       child: BlocBuilder<ChartsCubit, ChartsState>(
         builder: (context, state) {
           return state is GetChartLoaded
@@ -45,10 +44,12 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                       }
 
                       return Wrap(
+                        // spacing: 100, // gap between adjacent chips
+                        runSpacing: 5, // gap between lines
                         children: List.generate(titles.length, (index) {
                           final item = titles.elementAt(index);
                           return Padding(
-                            padding: const EdgeInsets.all(4),
+                            padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -61,7 +62,7 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                                         .colorsMap[item],
                                   ),
                                 ),
-                                const SizedBox(width: 4),
+                                const SizedBox(width: 8),
                                 Text(
                                   AssetsOverviewChartsColors.getAssetType(
                                       appLocalizations, item),
