@@ -39,10 +39,10 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text("Total Net Worth",
-                                    style: TextStyle(fontSize: 18)),
+                                Text(appLocalizations.home_label_totalNetWorth,
+                                    style: const TextStyle(fontSize: 18)),
                                 Builder(builder: (context) {
-                                  final items = ["Bar Chart", "Area Chart"];
+                                  final items = [appLocalizations.assets_charts_allocationCharts_barChartLabel, appLocalizations.assets_charts_allocationCharts_areaChartLabel];
                                   return DropdownButton<String>(
                                       items: List.generate(2, (index) {
                                         return DropdownMenuItem<String>(
@@ -51,7 +51,7 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
                                         );
                                       }),
                                       onChanged: ((value) {
-                                        if (value == "Bar Chart") {
+                                        if (value == appLocalizations.assets_charts_allocationCharts_barChartLabel) {
                                           setState(() {
                                             barChart = true;
                                           });
@@ -62,8 +62,8 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
                                         }
                                       }),
                                       value: barChart
-                                          ? "Bar Chart"
-                                          : "Area Chart");
+                                          ? appLocalizations.assets_charts_allocationCharts_barChartLabel
+                                          : appLocalizations.assets_charts_allocationCharts_areaChartLabel);
                                 })
                               ],
                             ),

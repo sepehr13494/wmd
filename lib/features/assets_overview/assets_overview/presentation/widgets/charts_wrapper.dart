@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/base_chart_view.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 
@@ -13,7 +14,7 @@ class ChartsWrapper extends AppStatelessWidget {
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
-    final time = context.read<MainDashboardCubit>().dateTimeRange;
+    final time = context.read<MainDashboardCubit>().dateTimeRange ??  AppConstants.timeFilter(context).first;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
