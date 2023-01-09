@@ -48,11 +48,12 @@ class PerformanceLineChart extends AppStatelessWidget {
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     late final Widget child;
-    child = Text(
-        CustomizableDateTime.localizedDdMm(values[(value).toInt()].key),
-        style: const TextStyle(fontSize: 8));
-    // if (values.length > minDate) {
-    // } else {}
+    child = FittedBox(
+      fit: BoxFit.scaleDown,
+      child: Text(
+          CustomizableDateTime.localizedDdMm(values[(value).toInt()].key),
+          style: const TextStyle(fontSize: 8)),
+    );
     return SideTitleWidget(
       axisSide: meta.axisSide,
       child: child,
@@ -162,7 +163,6 @@ class PerformanceLineChart extends AppStatelessWidget {
           border: const Border.symmetric(
               horizontal: BorderSide(
                   width: 0.3, color: AppColors.dashBoardGreyTextColor))),
-      // maxX: values.length > minDate ? null : minDate,
       minY: 0,
       maxY: divider,
       lineTouchData: LineTouchData(
@@ -206,7 +206,7 @@ class PerformanceLineChart extends AppStatelessWidget {
           barWidth: 2,
           isStrokeCapRound: true,
           dotData: FlDotData(
-            show: false,
+            show: values.length == 1,
           ),
           belowBarData: BarAreaData(
             show: true,

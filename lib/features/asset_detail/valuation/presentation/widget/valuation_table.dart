@@ -88,7 +88,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
               ...List.generate(length > 3 ? 3 : length, (index) {
                 final e = widget.getAllValuationEntities[index];
                 return buildTableRow(context,
-                    date: CustomizableDateTime.ddMmYyyy(e.createdAt),
+                    date: CustomizableDateTime.ddMmYyyy(e.valuatedAt),
                     note: e.note ?? '',
                     value: e.amountInUsd.convertMoney(addDollar: true),
                     index: index);
@@ -134,7 +134,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
         ...List.generate(widget.getAllValuationEntities.length, (index) {
           final e = widget.getAllValuationEntities[index];
           return buildTableRow(context,
-              date: CustomizableDateTime.ddMmYyyy(e.createdAt),
+              date: CustomizableDateTime.ddMmYyyy(e.valuatedAt),
               note: e.note ?? '',
               value: e.amountInUsd.convertMoney(addDollar: true),
               index: index);
@@ -145,7 +145,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
 
   TableRow buildTableHeader(BuildContext context,
       {EdgeInsetsGeometry padding =
-          const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4)}) {
+          const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8)}) {
     final textTheme = Theme.of(context).textTheme;
     return TableRow(
       children: [
@@ -178,7 +178,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
   TableRow buildTableRow(
     BuildContext context, {
     EdgeInsetsGeometry padding =
-        const EdgeInsets.symmetric(vertical: 16.0, horizontal: 4),
+        const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8),
     required String date,
     required String note,
     required String value,
@@ -186,6 +186,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
   }) {
     final textTheme = Theme.of(context).textTheme;
     return TableRow(
+      key: UniqueKey(),
       decoration: BoxDecoration(
         color: index % 2 != 0
             ? Theme.of(context).cardColor.withOpacity(0.6)
@@ -208,9 +209,16 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        Padding(
-          padding: padding,
-          child: Text(value, style: textTheme.labelMedium),
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: padding,
+            child: Text(
+              value,
+              style: textTheme.labelMedium,
+            ),
+          ),
         ),
         // const SizedBox.shrink(),
       ],

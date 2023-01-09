@@ -37,8 +37,11 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<MainPageCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => sl<MainPageCubit>()),
+        BlocProvider(create: (context) => sl<MainDashboardCubit>()..initPage()),
+      ],
       child: Builder(builder: (context) {
         return BlocBuilder<MainPageCubit, int>(
           builder: (context, state) {
