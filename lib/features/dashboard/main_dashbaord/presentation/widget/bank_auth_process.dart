@@ -8,7 +8,6 @@ import 'package:wmd/core/util/custom_expansion_tile.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/status_entity.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/widget/custodian_auth_status_modal.dart';
-import 'package:wmd/injection_container.dart';
 
 class BanksAuthorizationProcess extends StatefulWidget {
   const BanksAuthorizationProcess({super.key});
@@ -38,7 +37,7 @@ class _BanksAuthorizationProcessState
               initiallyExpanded: isExpanded,
               onExpansionChanged: (value) => isExpanded = value,
               title: Text(
-                'Your banks authorization process',
+                appLocalizations.home_custodianBankList_title,
                 style: textTheme.labelLarge,
               ),
               children: [
@@ -53,7 +52,7 @@ class _BanksAuthorizationProcessState
                       3: FractionColumnWidth(0.25),
                     },
                     children: [
-                      buildTableHeader(textTheme),
+                      buildTableHeader(textTheme, appLocalizations),
                       ...state.statusEntity
                           .map((e) => buildTableRow(context, e, textTheme))
                     ],
@@ -68,7 +67,8 @@ class _BanksAuthorizationProcessState
     );
   }
 
-  TableRow buildTableHeader(TextTheme textTheme,
+  TableRow buildTableHeader(
+      TextTheme textTheme, AppLocalizations appLocalizations,
       {EdgeInsetsGeometry padding =
           const EdgeInsets.only(top: 8.0, bottom: 8)}) {
     return TableRow(
@@ -76,14 +76,14 @@ class _BanksAuthorizationProcessState
         Padding(
           padding: padding,
           child: Text(
-            'Bank Name',
+            appLocalizations.home_custodianBankList_label_bankName,
             style: textTheme.bodyMedium,
           ),
         ),
         Padding(
           padding: padding,
           child: Text(
-            'Status',
+            appLocalizations.home_custodianBankList_label_status,
             style: textTheme.bodyMedium,
           ),
         ),
@@ -133,7 +133,7 @@ class _BanksAuthorizationProcessState
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    'View',
+                    appLocalizations.home_custodianBankList_button_view,
                     style: textTheme.bodyLarge!.apply(
                         color: Theme.of(context).primaryColor,
                         decoration: TextDecoration.underline),
