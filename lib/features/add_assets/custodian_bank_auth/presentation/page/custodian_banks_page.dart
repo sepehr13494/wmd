@@ -34,7 +34,8 @@ class _AddCustodianBanksPageState extends AppState<AddCustodianBanksPage> {
               Text(appLocalizations.linkAccount_automaticLink_title,
                   style: textTheme.headlineSmall),
               const SizedBox(height: 8),
-              Text('Select bank', style: textTheme.titleMedium),
+              Text('${appLocalizations.common_labels_select} bank',
+                  style: textTheme.titleMedium),
               const SizedBox(height: 8),
               Builder(builder: (context) {
                 if (state is CustodianBankListLoaded) {
