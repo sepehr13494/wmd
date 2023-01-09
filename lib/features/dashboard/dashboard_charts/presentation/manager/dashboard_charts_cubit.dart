@@ -26,9 +26,9 @@ class DashboardChartsCubit extends Cubit<DashboardChartsState> {
     this.getPieUseCase,
   ) : super(LoadingState());
 
-  getAllocation({DateTime? dateTime}) async {
+  getAllocation({MapEntry<String, int>? dateTime}) async {
     emit(LoadingState());
-    final result = await getAllocationUseCase(dateTime);
+    final result = await getAllocationUseCase(dateTime??const MapEntry("7 days", 7));
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (entities) {
       emit(GetAllocationLoaded(getAllocationEntity: entities));

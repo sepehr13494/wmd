@@ -29,7 +29,8 @@ class DashboardChartsRemoteDataSourceImpl extends AppServerDataSource
     try {
       final appRequestOptions = AppRequestOptions(RequestTypes.get,
           "${AppUrls.getAllocation}${params.ownerId}/history", {
-        "To": params.to,
+        "from": params.from,
+        "To":params.to,
       });
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);

@@ -29,7 +29,7 @@ void main() {
     when(mockLocalStorage.getOwnerId())
         .thenAnswer((_) => "testId");
     // act
-    final result = await getAllocationUseCase(CustomizableDateTime.currentDateTime);
+    final result = await getAllocationUseCase(const MapEntry("7 days", 7));
 
     // assert
     expect(result, equals(const Right(GetAllocationResponse.tResponse)));
@@ -44,7 +44,7 @@ void main() {
       when(mockLocalStorage.getOwnerId())
           .thenAnswer((_) => "testId");
       //act
-      final result = await getAllocationUseCase(CustomizableDateTime.currentDateTime);
+      final result = await getAllocationUseCase(const MapEntry("7 days", 7));
       //assert
       expect(result, const Left(ServerFailure.tServerFailure));
       verify(mockDashboardChartsRepository.getAllocation(GetAllocationParams.tParams));

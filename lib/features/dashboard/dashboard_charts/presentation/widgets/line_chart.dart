@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/min_max_calculator.dart';
@@ -36,11 +37,15 @@ class _LineChartSample2State extends State<LineChartSample2> {
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    return SideTitleWidget(
+    int x = (widget.allocations.length/7).ceil();
+    var dateString = widget.allocations[value.toInt()].name.split("/");
+    DateTime dateTime = DateTime(int.parse(dateString[2]),int.parse(dateString[0]),int.parse(dateString[1]));
+    return value.toInt() % x == 0 ? SideTitleWidget(
       axisSide: meta.axisSide,
-      child: Text(widget.allocations[value.toInt()].name,
+      child: Text(
+          CustomizableDateTime.localizedDdMm(dateTime),
           style: const TextStyle(fontSize: 8)),
-    );
+    ) : const SizedBox();
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {

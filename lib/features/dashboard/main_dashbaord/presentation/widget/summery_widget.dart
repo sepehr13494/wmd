@@ -31,21 +31,21 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
         widget.netWorthEntity.totalNetWorth.currentValue,
         "Change in last $date",
         widget.netWorthEntity.totalNetWorth.change,
-        "tooltip info"
+        "Includes 5 new assets added worth USD 10,000\nIncludes 1 new liability added worth USD 50,000"
       ],
       [
         "Assets",
         widget.netWorthEntity.assets.currentValue,
         "Change in last $date",
         widget.netWorthEntity.assets.change,
-        "tooltip info"
+        "Includes 5 new assets added worth USD 10,000"
       ],
       [
         "Liabilities",
         widget.netWorthEntity.liabilities.currentValue,
         "Change in last $date",
         widget.netWorthEntity.liabilities.change,
-        "tooltip info"
+        "Includes 1 new liability added worth USD 50,000"
       ],
     ];
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
@@ -65,7 +65,7 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextWithInfo(title: item[0], hasInfo: true),
+                      TextWithInfo(title: item[0], hasInfo: true,tooltipText: item[4]),
                       const SizedBox(height: 8),
                       Text((item[1] as double).convertMoney(addDollar: true),
                           style: textTheme.headlineSmall),

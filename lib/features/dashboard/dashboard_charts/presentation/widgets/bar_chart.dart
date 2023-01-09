@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_allocation_entity.dart';
@@ -20,10 +21,15 @@ class BarChartMainDashboard extends StatelessWidget {
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    return SideTitleWidget(
+    int x = (allocations.length/7).ceil();
+    var dateString = allocations[value.toInt()].name.split("/");
+    DateTime dateTime = DateTime(int.parse(dateString[2]),int.parse(dateString[0]),int.parse(dateString[1]));
+    return value.toInt() % x == 0 ? SideTitleWidget(
       axisSide: meta.axisSide,
-      child: Text(allocations[value.toInt()].name, style: const TextStyle(fontSize: 8)),
-    );
+      child: Text(
+          CustomizableDateTime.localizedDdMm(dateTime),
+          style: const TextStyle(fontSize: 8)),
+    ) : const SizedBox();
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
@@ -52,6 +58,34 @@ class BarChartMainDashboard extends StatelessWidget {
     maxY = (maxY/x);
     double maxTotal = max(minY.abs(), maxY.abs());
     return BarChartData(
+      barTouchData: BarTouchData(
+          touchTooltipData: BarTouchTooltipData(
+            fitInsideVertically: true,
+            fitInsideHorizontally: true,
+            getTooltipItem: (group, groupIndex, rod, rodIndex) {
+              final textTheme = Theme.of(context).textTheme;
+              return BarTooltipItem(
+                allocations[groupIndex.toInt()].name,
+                textTheme.titleSmall!,
+                textAlign: TextAlign.start,
+                children: [
+                  TextSpan(
+                      text: '\nCurrent Balance', style: textTheme.bodyMedium),
+                  TextSpan(
+                    // ignore: prefer_interpolation_to_compose_strings
+                      text: '\n' +
+                          allocations[groupIndex.toInt()]
+                              .netWorth
+                              .formatNumberWithDecimal(),
+                      style: textTheme.titleSmall!
+                          .apply(color: AppColors.chartColor)),
+                ],
+              );
+            },
+            maxContentWidth: 200,
+            tooltipBgColor: const Color.fromARGB(255, 38, 49, 52),
+          ),
+        ),
       gridData: FlGridData(
         show: true,
         drawVerticalLine: true,

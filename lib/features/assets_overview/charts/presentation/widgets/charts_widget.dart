@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/assets_overview/charts/domain/entities/get_chart_entity.dart';
@@ -19,10 +20,18 @@ class AssetsOverviewCharts extends StatelessWidget {
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    return SideTitleWidget(
+    int x = (getChartEntities.length/7).ceil();
+    var dateString = getChartEntities[value.toInt()].date.split("/");
+    DateTime dateTime = DateTime(int.parse(dateString[2]),int.parse(dateString[0]),int.parse(dateString[1]));
+    return value.toInt() % x == 0 ? SideTitleWidget(
       axisSide: meta.axisSide,
-      child: Text(getChartEntities[value.toInt()].date, style: const TextStyle(fontSize: 8)),
-    );
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 2.0),
+        child: Text(
+            CustomizableDateTime.localizedDdMm(dateTime),
+            style: const TextStyle(fontSize: 8)),
+      ),
+    ) : const SizedBox();
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
@@ -87,6 +96,40 @@ class AssetsOverviewCharts extends StatelessWidget {
     maxY = (maxY/x);
     double maxTotal = max(minY.abs(), maxY.abs());
     return BarChartData(
+        barTouchData: BarTouchData(
+          touchTooltipData: BarTouchTooltipData(
+            fitInsideVertically: true,
+            fitInsideHorizontally: true,
+            getTooltipItem: (group, groupIndex, rod, rodIndex) {
+              final textTheme = Theme.of(context).textTheme;
+              final getChartEntity = getChartEntities[groupIndex.toInt()];
+              final double sum =
+                  getChartEntity.privateEquity+
+                      getChartEntity.realEstate+
+                      getChartEntity.privateDebt+
+                      getChartEntity.others+
+                      getChartEntity.bankAccount+
+                      getChartEntity.listedAsset;
+              return BarTooltipItem(
+                getChartEntity.date,
+                textTheme.titleSmall!,
+                textAlign: TextAlign.start,
+                children: [
+                  TextSpan(
+                      text: '\nCurrent Balance', style: textTheme.bodyMedium),
+                  TextSpan(
+                    // ignore: prefer_interpolation_to_compose_strings
+                      text: '\n' +
+                          sum.formatNumberWithDecimal(),
+                      style: textTheme.titleSmall!
+                          .apply(color: AppColors.chartColor)),
+                ],
+              );
+            },
+            maxContentWidth: 200,
+            tooltipBgColor: const Color.fromARGB(255, 38, 49, 52),
+          ),
+        ),
         gridData: FlGridData(
           show: true,
           drawVerticalLine: true,
