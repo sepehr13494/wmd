@@ -30,8 +30,11 @@ class ContactInformationWidget extends AppStatelessWidget {
           formKey.currentState!.patchValue(json);
         }
 
-        if (state is SuccessState) {
-          GlobalFunctions.showSnackBar(context, 'Contact information updated',
+        if (state is SuccessStatePhone) {
+          GlobalFunctions.showSnackBar(
+              context,
+              appLocalizations
+                  .profile_tabs_preferences_toast_changePasswordDescription,
               type: "success");
         }
       },

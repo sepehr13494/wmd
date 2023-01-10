@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
-import 'package:wmd/injection_container.dart';
+import 'package:wmd/global_functions.dart';
 
 class PersonalInformationWidget extends StatefulWidget {
   const PersonalInformationWidget({Key? key}) : super(key: key);
@@ -52,6 +51,12 @@ class _PersonalInformationWidgetState
           var json = state.getNameEntity.toJson();
           json.removeWhere((key, value) => value == "");
           formKey.currentState!.patchValue(json);
+        }
+
+        if (state is SuccessStateName) {
+          GlobalFunctions.showSnackBar(context,
+              appLocalizations.profile_tabs_preferences_toast_description,
+              type: "success");
         }
       },
       child: Padding(

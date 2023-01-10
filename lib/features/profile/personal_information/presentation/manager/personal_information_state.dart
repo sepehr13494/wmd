@@ -15,3 +15,21 @@ class PersonalInformationLoaded extends Equatable
         getNameEntity,
       ];
 }
+
+class SuccessStatePhone extends BaseState {
+  final AppSuccess appSuccess;
+
+  SuccessStatePhone({required this.appSuccess});
+
+  @override
+  List<Object?> get props => [appSuccess];
+}
+
+class SuccessStateName extends BaseState {
+  final AppSuccess appSuccess;
+
+  SuccessStateName({required this.appSuccess});
+
+  @override
+  List<Object?> get props => [appSuccess];
+}

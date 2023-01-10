@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 
 import '../../data/models/get_name_params.dart';
@@ -36,7 +37,7 @@ class PersonalInformationCubit extends Cubit<PersonalInformationState> {
     emit(LoadingState());
     final result = await setNameUseCase(SetNameParams.fromJson(map));
     result.fold((failure) => emit(ErrorState(failure: failure)), (appSuccess) {
-      emit(SuccessState(appSuccess: appSuccess));
+      emit(SuccessStateName(appSuccess: appSuccess));
     });
   }
 
@@ -44,7 +45,7 @@ class PersonalInformationCubit extends Cubit<PersonalInformationState> {
     emit(LoadingState());
     final result = await setNumberUseCase(map);
     result.fold((failure) => emit(ErrorState(failure: failure)), (appSuccess) {
-      emit(SuccessState(appSuccess: appSuccess));
+      emit(SuccessStatePhone(appSuccess: appSuccess));
     });
   }
 }
