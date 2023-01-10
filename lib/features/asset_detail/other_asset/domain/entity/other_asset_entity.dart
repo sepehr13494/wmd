@@ -36,7 +36,7 @@ class OtherAssetEntity extends Equatable {
   final double valuePerUnit;
   final double currentDayValue;
   final String id;
-  final String type;
+  final double type;
   final bool isActive;
   final String country;
   final String region;

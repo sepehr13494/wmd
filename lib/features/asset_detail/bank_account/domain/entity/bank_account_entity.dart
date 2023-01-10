@@ -12,7 +12,7 @@ class BankAccountEntity extends Equatable {
   final DateTime? startDate;
   final DateTime? endDate;
   final String id;
-  final String type;
+  final double type;
   final bool isActive;
   final String country;
   final String region;
