@@ -30,7 +30,7 @@ class ChartsWrapper extends AppStatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                "(Last ${context.read<MainDashboardCubit>().dateTimeRange?.value} days)",
+                "(Last ${context.read<MainDashboardCubit>().dateTimeRange?.value ?? 7} days)",
                 style: textTheme.bodySmall,
               ),
             ],
