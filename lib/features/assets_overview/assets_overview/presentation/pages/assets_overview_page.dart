@@ -26,8 +26,6 @@ class AssetsOverView extends StatefulWidget {
 }
 
 class _AssetsOverViewState extends AppState<AssetsOverView> {
-  MapEntry<String, int> selectedTimeFilter = AppConstants.timeFilter.first;
-
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
@@ -41,8 +39,6 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                 onWillPop: () {
                   debugPrint(
                       'Backbutton pressed (device or appbar button), do whatever you want.');
-
-                  // //trigger leaving and use own data
 
                   context.read<MainPageCubit>().onItemTapped(0);
 

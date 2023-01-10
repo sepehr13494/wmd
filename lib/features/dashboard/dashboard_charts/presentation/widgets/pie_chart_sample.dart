@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
@@ -18,23 +20,23 @@ class PieChartSample2 extends StatefulWidget {
   const PieChartSample2({super.key});
 
   @override
-  State<StatefulWidget> createState() => PieChart2State();
+  AppState<StatefulWidget> createState() => PieChart2State();
 }
 
-class PieChart2State extends State {
+class PieChart2State extends AppState {
   int touchedIndex = -1;
 
   late Timer timer;
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context, TextTheme textTheme, AppLocalizations appLocalizations) {
     return Builder(builder: (context) {
       return BlocBuilder<DashboardPieCubit, DashboardChartsState>(
         builder: (context, state) {
           return state is GetPieLoaded
               ? state.getPieEntity.isEmpty ? const SizedBox() : BaseAssetView(
-                  title: "Asset Class Allocation",
-                  secondTitle: "Asset class",
+                  title: appLocalizations.home_widget_assetClassAllocation_title,
+                  secondTitle: appLocalizations.home_widget_assetClassAllocation_label_assetClass,
                   assets: List.generate(
                     state.getPieEntity.length,
                     (index){
@@ -163,4 +165,6 @@ class PieChart2State extends State {
       );
     });
   }
+
+
 }

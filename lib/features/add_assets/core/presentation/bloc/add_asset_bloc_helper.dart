@@ -90,7 +90,7 @@ class AssetBlocHelper extends BlocHelper {
         if (state is AddAssetState) {
           context.read<MainDashboardCubit>().initPage();
           context.read<AssetsOverviewCubit>().initPage();
-          context.read<DashboardAllocationCubit>().getAllocation();
+          context.read<DashboardAllocationCubit>().getAllocation(dateTime: context.read<MainDashboardCubit>().dateTimeRange);
           context.read<DashboardGoeCubit>().getGeographic();
           context.read<DashboardPieCubit>().getPie();
           final successValue = state.addAsset;

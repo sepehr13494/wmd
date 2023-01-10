@@ -32,182 +32,181 @@ class WelcomePage extends AppStatelessWidget {
         child: Scaffold(
             extendBodyBehindAppBar: true,
             appBar: const CustomAuthAppBar(backgroundColor: Colors.transparent),
-            body: WidthLimiterWidget(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 24),
-                child: Stack(
-                  children: [
-                    ShaderMask(
-                      shaderCallback: (bounds) {
-                        final Color bgColor =
-                            Theme.of(context).scaffoldBackgroundColor;
-                        return LinearGradient(
-                            colors: [bgColor, Colors.transparent, bgColor],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            stops: const [0.0, 0.3, 1.0]).createShader(bounds);
-                      },
-                      blendMode: BlendMode.srcATop,
-                      child: Image.asset(
-                        "assets/images/welcome_bg.png",
-                        width: double.maxFinite,
-                        fit: BoxFit.fitWidth,
+            body: Padding(
+              padding: const EdgeInsets.only(bottom: 24),
+              child: Stack(
+                children: [
+                  ShaderMask(
+                    shaderCallback: (bounds) {
+                      final Color bgColor =
+                          Theme.of(context).scaffoldBackgroundColor;
+                      return LinearGradient(
+                          colors: [bgColor, Colors.transparent, bgColor],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          stops: const [0.0, 0.3, 1.0]).createShader(bounds);
+                    },
+                    blendMode: BlendMode.srcATop,
+                    child: Image.asset(
+                      responsiveHelper.isMobile
+                          ? "assets/images/welcome_bg.png"
+                          : "assets/images/welcome_bg_tab.png",
+                      width: double.maxFinite,
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
+                  WidthLimiterWidget(
+                      child: Column(
+                    children: [
+                      const SizedBox(height: 44),
+                      const Expanded(
+                        flex: 6,
+                        child: WelcomeVideoPlayerWidget(),
                       ),
-                    ),
-                    Column(
-                      children: [
-                        const SizedBox(height: 44),
-                        const Expanded(
-                          flex: 6,
-                          child: WelcomeVideoPlayerWidget(),
-                        ),
-                        Container(
-                          color: Theme.of(context)
-                              .scaffoldBackgroundColor
-                              .withOpacity(0.4),
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          // height: 100,
-                          width: responsiveHelper.optimalDeviceWidth,
-                          child: CarouselSlider(
-                            options: CarouselOptions(
-                              height: 100.0,
-                              autoPlay: true,
-                              viewportFraction: 1,
-                            ),
-                            items: [
-                              appLocalizations.auth_signup_productDetails_one,
-                              appLocalizations.auth_signup_productDetails_two,
-                              appLocalizations.auth_signup_productDetails_three
-                            ].map((i) {
-                              return Builder(
-                                builder: (BuildContext context) {
-                                  return SizedBox(
-                                      width:
-                                          responsiveHelper.optimalDeviceWidth +
-                                              20,
-                                      child: RichText(
-                                        textAlign: TextAlign.center,
-                                        text: TextSpan(
-                                          style: const TextStyle(height: 1.3),
-                                          children: [
-                                            TextSpan(
-                                                text: i,
-                                                style: textTheme.headlineSmall),
-                                          ],
-                                        ),
-                                      ));
-                                },
-                              );
-                            }).toList(),
+                      Container(
+                        color: Theme.of(context)
+                            .scaffoldBackgroundColor
+                            .withOpacity(0.4),
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        // height: 100,
+                        width: responsiveHelper.optimalDeviceWidth,
+                        child: CarouselSlider(
+                          options: CarouselOptions(
+                            height: 100.0,
+                            autoPlay: true,
+                            viewportFraction: 1,
                           ),
-                        ),
-                        const Spacer(),
-                        ElevatedButton(
-                            onPressed: () {
-                              context.pushNamed(AppRoutes.register);
-                            },
-                            child:
-                                Text(appLocalizations.auth_signup_button_join)),
-                        if (kIsWeb)
-                          const SizedBox()
-                        else if (Platform.isIOS)
-                          const ContinueAppleButton(),
-                        SizedBox(
-                          height: responsiveHelper.isMobile
-                              ? 80
-                              : responsiveHelper.optimalDeviceWidth * 0.5,
-                        ),
-                        // Stack(
-                        //   alignment: Alignment.center,
-                        //   children: [
-                        //     const Divider(),
-                        //     Container(
-                        //       padding:
-                        //           const EdgeInsets.symmetric(horizontal: 24),
-                        //       color: Theme.of(context).scaffoldBackgroundColor,
-                        //       child: Text(
-                        //         appLocalizations.auth_signup_text_social,
-                        //         style: textTheme.bodySmall!
-                        //             .apply(fontWeightDelta: -2),
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-                        // Builder(builder: (context) {
-                        //   List socials = [
-                        //     [
-                        //       "google",
-                        //       "assets/images/google.svg",
-                        //       () async {
-                        //         _googleLogin();
-                        //       }
-                        //     ],
-                        //     [
-                        //       "twitter",
-                        //       "assets/images/twitter.svg",
-                        //       () {
-                        //         _twitterLogin();
-                        //       }
-                        //     ],
-                        //     [
-                        //       "linkedin",
-                        //       "assets/images/linkedin.svg",
-                        //       () {
-                        //         _linkedInLogin(context);
-                        //       }
-                        //     ],
-                        //   ];
-                        //   return Row(
-                        //     mainAxisSize: MainAxisSize.min,
-                        //     children: List.generate(socials.length, (index) {
-                        //       return InkWell(
-                        //         onTap: () {
-                        //           socials[index][2]();
-                        //         },
-                        //         child: Container(
-                        //           decoration: BoxDecoration(
-                        //               shape: BoxShape.circle,
-                        //               border: Border.all(color: Colors.grey)),
-                        //           padding: const EdgeInsets.all(12),
-                        //           margin: const EdgeInsets.all(12),
-                        //           child: SvgPicture.asset(
-                        //             socials[index][1],
-                        //             height: 30,
-                        //           ),
-                        //         ),
-                        //       );
-                        //     }),
-                        //   );
-                        // }),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(appLocalizations
-                                .auth_signup_text_alreadyHaveAnAccount),
-                            TextButton(
-                              onPressed: () {
-                                context.pushNamed(AppRoutes.login);
+                          items: [
+                            appLocalizations.auth_signup_productDetails_one,
+                            appLocalizations.auth_signup_productDetails_two,
+                            appLocalizations.auth_signup_productDetails_three
+                          ].map((i) {
+                            return Builder(
+                              builder: (BuildContext context) {
+                                return SizedBox(
+                                    width: responsiveHelper.optimalDeviceWidth +
+                                        20,
+                                    child: RichText(
+                                      textAlign: TextAlign.center,
+                                      text: TextSpan(
+                                        style: const TextStyle(height: 1.3),
+                                        children: [
+                                          TextSpan(
+                                              text: i,
+                                              style: textTheme.headlineSmall),
+                                        ],
+                                      ),
+                                    ));
                               },
-                              child: Text(
-                                appLocalizations.auth_signup_link_login,
-                                style:
-                                    textTheme.bodyText1!.toLinkStyle(context),
-                              ),
-                            ),
-                          ],
+                            );
+                          }).toList(),
                         ),
-                      ]
-                          .map((e) => (e is Expanded || e is Spacer)
-                              ? e
-                              : Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 8, horizontal: 16),
-                                  child: e,
-                                ))
-                          .toList(),
-                    ),
-                  ],
-                ),
+                      ),
+                      const Spacer(),
+                      ElevatedButton(
+                          onPressed: () {
+                            context.pushNamed(AppRoutes.register);
+                          },
+                          child:
+                              Text(appLocalizations.auth_signup_button_join)),
+                      if (kIsWeb)
+                        const SizedBox()
+                      else if (Platform.isIOS)
+                        const ContinueAppleButton(),
+                      SizedBox(
+                        height: responsiveHelper.isMobile
+                            ? 80
+                            : responsiveHelper.optimalDeviceWidth * 0.5,
+                      ),
+                      // Stack(
+                      //   alignment: Alignment.center,
+                      //   children: [
+                      //     const Divider(),
+                      //     Container(
+                      //       padding:
+                      //           const EdgeInsets.symmetric(horizontal: 24),
+                      //       color: Theme.of(context).scaffoldBackgroundColor,
+                      //       child: Text(
+                      //         appLocalizations.auth_signup_text_social,
+                      //         style: textTheme.bodySmall!
+                      //             .apply(fontWeightDelta: -2),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      // Builder(builder: (context) {
+                      //   List socials = [
+                      //     [
+                      //       "google",
+                      //       "assets/images/google.svg",
+                      //       () async {
+                      //         _googleLogin();
+                      //       }
+                      //     ],
+                      //     [
+                      //       "twitter",
+                      //       "assets/images/twitter.svg",
+                      //       () {
+                      //         _twitterLogin();
+                      //       }
+                      //     ],
+                      //     [
+                      //       "linkedin",
+                      //       "assets/images/linkedin.svg",
+                      //       () {
+                      //         _linkedInLogin(context);
+                      //       }
+                      //     ],
+                      //   ];
+                      //   return Row(
+                      //     mainAxisSize: MainAxisSize.min,
+                      //     children: List.generate(socials.length, (index) {
+                      //       return InkWell(
+                      //         onTap: () {
+                      //           socials[index][2]();
+                      //         },
+                      //         child: Container(
+                      //           decoration: BoxDecoration(
+                      //               shape: BoxShape.circle,
+                      //               border: Border.all(color: Colors.grey)),
+                      //           padding: const EdgeInsets.all(12),
+                      //           margin: const EdgeInsets.all(12),
+                      //           child: SvgPicture.asset(
+                      //             socials[index][1],
+                      //             height: 30,
+                      //           ),
+                      //         ),
+                      //       );
+                      //     }),
+                      //   );
+                      // }),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(appLocalizations
+                              .auth_signup_text_alreadyHaveAnAccount),
+                          TextButton(
+                            onPressed: () {
+                              context.pushNamed(AppRoutes.login);
+                            },
+                            child: Text(
+                              appLocalizations.auth_signup_link_login,
+                              style: textTheme.bodyText1!.toLinkStyle(context),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ]
+                        .map((e) => (e is Expanded || e is Spacer)
+                            ? e
+                            : Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8, horizontal: 16),
+                                child: e,
+                              ))
+                        .toList(),
+                  )),
+                ],
               ),
             )),
       ),

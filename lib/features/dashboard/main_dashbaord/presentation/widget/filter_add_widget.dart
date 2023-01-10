@@ -16,7 +16,7 @@ class FilterAddPart extends AppStatelessWidget {
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
     return Row(
       children: [
-        Text("Wealth Overview", style: textTheme.headlineSmall),
+        Text(appLocalizations.home_heading, style: textTheme.headlineSmall),
         const Spacer(),
         Row(
           children: [
@@ -57,9 +57,9 @@ class FilterAddPart extends AppStatelessWidget {
                       isMobile
                           ? const SizedBox()
                           : Row(
-                              children: const [
-                                SizedBox(width: 8),
-                                Text("Add"),
+                              children: [
+                                const SizedBox(width: 8),
+                                Text(AppLocalizations.of(context).common_button_add),
                               ],
                             ),
                     ],

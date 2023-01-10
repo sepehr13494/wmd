@@ -4,7 +4,9 @@ import 'package:countries_world_map/countries_world_map.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_geographic_entity.dart';
@@ -20,10 +22,10 @@ class RandomWorldMapGenrator extends StatefulWidget {
   const RandomWorldMapGenrator({Key? key}) : super(key: key);
 
   @override
-  _RandomWorldMapGenratorState createState() => _RandomWorldMapGenratorState();
+  AppState<StatefulWidget> createState() => _RandomWorldMapGenratorState();
 }
 
-class _RandomWorldMapGenratorState extends State<RandomWorldMapGenrator> {
+class _RandomWorldMapGenratorState extends AppState<RandomWorldMapGenrator> {
   late String country = "";
   late String amount = "";
   late String percentage = "";
@@ -32,7 +34,7 @@ class _RandomWorldMapGenratorState extends State<RandomWorldMapGenrator> {
   late Timer _timer;
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context, TextTheme textTheme, AppLocalizations appLocalizations) {
     return Builder(builder: (context) {
       return BlocBuilder<DashboardGoeCubit, DashboardChartsState>(
         builder: (context, state) {
@@ -40,8 +42,8 @@ class _RandomWorldMapGenratorState extends State<RandomWorldMapGenrator> {
               ? state.getGeographicEntity.isEmpty
                   ? const SizedBox()
                   : BaseAssetView(
-                      title: "Geographical Allocation",
-                      secondTitle: "Continents",
+                      title: appLocalizations.home_widget_geography_title,
+                      secondTitle: appLocalizations.home_widget_geography_label_continents,
                       assets: List.generate(
                         state.getGeographicEntity.length,
                         (index) {
@@ -542,4 +544,5 @@ class _RandomWorldMapGenratorState extends State<RandomWorldMapGenrator> {
       });
     });
   }
+
 }

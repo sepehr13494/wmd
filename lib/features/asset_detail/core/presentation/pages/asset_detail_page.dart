@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wmd/core/models/time_filer_obj.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -33,7 +34,7 @@ class AssetDetailPage extends StatefulWidget {
 }
 
 class _AssetDetailPageState extends AppState<AssetDetailPage> {
-  MapEntry<String, int> selectedTimeFilter = AppConstants.timeFilter.first;
+  late TimeFilterObj selectedTimeFilter = AppConstants.timeFilter(context).first;
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -117,9 +118,9 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
               color: primaryColor,
             ),
             const SizedBox(width: 4),
-            DropdownButton<MapEntry<String, int>>(
-              items: AppConstants.timeFilter
-                  .map((e) => DropdownMenuItem<MapEntry<String, int>>(
+            DropdownButton<TimeFilterObj>(
+              items: AppConstants.timeFilter(context)
+                  .map((e) => DropdownMenuItem<TimeFilterObj>(
                       value: e,
                       child: Text(
                         e.key,

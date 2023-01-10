@@ -6,6 +6,7 @@ import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/as_of_date_widget.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 
@@ -104,7 +105,14 @@ class OverViewCard extends AppStatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Last ${context.read<MainDashboardCubit>().dateTimeRange.value} days",
+                                            (context
+                                                        .read<
+                                                            MainDashboardCubit>()
+                                                        .dateTimeRange ??
+                                                    AppConstants.timeFilter(
+                                                            context)
+                                                        .first)
+                                                .key,
                                             style: textTheme.bodySmall,
                                           ),
                                           Row(

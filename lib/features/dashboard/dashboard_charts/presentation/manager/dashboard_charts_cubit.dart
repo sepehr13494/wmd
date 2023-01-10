@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
+import 'package:wmd/core/models/time_filer_obj.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 
 import '../../domain/use_cases/get_allocation_usecase.dart';
@@ -26,9 +27,9 @@ class DashboardChartsCubit extends Cubit<DashboardChartsState> {
     this.getPieUseCase,
   ) : super(LoadingState());
 
-  getAllocation({MapEntry<String, int>? dateTime}) async {
+  getAllocation({TimeFilterObj? dateTime}) async {
     emit(LoadingState());
-    final result = await getAllocationUseCase(dateTime??const MapEntry("7 days", 7));
+    final result = await getAllocationUseCase(dateTime?? const TimeFilterObj(key: "",value: 7));
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (entities) {
       emit(GetAllocationLoaded(getAllocationEntity: entities));
