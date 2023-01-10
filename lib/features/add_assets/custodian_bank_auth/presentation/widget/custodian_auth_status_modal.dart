@@ -25,7 +25,7 @@ showCustodianBankStatus({
     context: context,
     builder: (context) {
       return BottomModalWidget(
-        confirmBtn: 'Ok',
+        confirmBtn: appLocalization.common_button_ok,
         body: BankStatusModalBody(bankId: bankId),
         // cancelBtn: 'Cancel',
       );
@@ -70,26 +70,29 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
           return Text(state.failure.message);
         } else if (state is CustodianBankStateLoaded) {
           final status = state.custodianBankStatusEntity;
-          print(status.signLetterLink);
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Link your ${status.bankName} bank account',
+                appLocalizations.linkAccount_stepper_heading.replaceFirstMapped(
+                    '{{bankName}}', (match) => status.bankName),
+                // 'Link your ${status.bankName} bank account',
                 style: textTheme.titleSmall,
               ),
               const SizedBox(height: 8),
               Text(
-                'Now you can proceed with linking your bank account following the steps below ',
+                appLocalizations.linkAccount_stepper_description,
                 style: textTheme.labelMedium,
               ),
               const SizedBox(height: 8),
               StatusStepWidget(
                 stepNumber: '1',
-                title: 'Sign letter of authorization',
-                trailing: '5 mins',
-                subtitle: 'Download and sign letter',
-                doneSubtitle: 'Download again',
+                title: appLocalizations.linkAccount_stepper_stepOne_title,
+                trailing: '5 ${appLocalizations.common_labels_mins}',
+                subtitle:
+                    appLocalizations.linkAccount_stepper_stepOne_action_active,
+                doneSubtitle: appLocalizations
+                    .linkAccount_stepper_stepOne_action_completed,
                 isDone: status.signLetter,
                 onDone: () {
                   downloadPdf(status);
@@ -114,10 +117,10 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
               ),
               StatusStepWidget(
                 stepNumber: '2',
-                title: 'Share with the bank',
-                trailing: '2 days',
+                title: appLocalizations.linkAccount_stepper_stepTwo_title,
+                trailing: '2 ${appLocalizations.assets_charts_days}',
                 subtitle: (status.signLetter && !status.shareWithBank)
-                    ? 'Mark as completed'
+                    ? appLocalizations.linkAccount_stepper_stepTwo_action_active
                     : null,
                 isDone: status.shareWithBank,
                 onDone: () {
@@ -132,8 +135,8 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
               ),
               StatusStepWidget(
                 stepNumber: '3',
-                title: 'Get confirmation from bank via your RM',
-                trailing: '5-10 days',
+                title: appLocalizations.linkAccount_stepper_stepThree_title,
+                trailing: '5-10 ${appLocalizations.assets_charts_days}',
                 isDone: status.bankConfirmation,
               ),
             ],

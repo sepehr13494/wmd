@@ -144,10 +144,12 @@ class _AddAssetMobileWidgetState extends AppState<AddAssetMobileWidget>
                   width: 300,
                   child: TabBar(
                     controller: _tabController,
-                    tabs: const [
-                      Tab(text: "Assets"),
-                      Tab(text: "Liability"),
-                      Tab(text: "Custodian Banks"),
+                    tabs: [
+                      Tab(text: appLocalizations.assets_breadCrumb_assets),
+                      Tab(
+                          text: appLocalizations
+                              .liabilities_breadCrumb_liabilities),
+                      Tab(text: appLocalizations.common_labels_custodianBank),
                     ],
                     isScrollable: true,
                   ),

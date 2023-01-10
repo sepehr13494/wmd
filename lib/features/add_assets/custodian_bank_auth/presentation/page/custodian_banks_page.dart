@@ -26,18 +26,22 @@ class _AddCustodianBanksPageState extends AppState<AddCustodianBanksPage> {
       child: BlocConsumer<CustodianBankListCubit, CustodianBankListState>(
         listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
         builder: (context, state) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          return ListView(
+            shrinkWrap: true,
+            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 16),
-              Text("Link you bank accounts", style: textTheme.headlineSmall),
+              Text(appLocalizations.linkAccount_automaticLink_title,
+                  style: textTheme.headlineSmall),
               const SizedBox(height: 8),
-              Text("Select bank", style: textTheme.titleMedium),
+              Text('${appLocalizations.common_labels_select} bank',
+                  style: textTheme.titleMedium),
               const SizedBox(height: 8),
               Builder(builder: (context) {
                 if (state is CustodianBankListLoaded) {
                   if (state.custodianBankList.isEmpty) {
-                    return const Text('No bank');
+                    return Text(
+                        appLocalizations.manage_automaticLink_text_notFound);
                   }
                   return Column(
                     children: state.custodianBankList

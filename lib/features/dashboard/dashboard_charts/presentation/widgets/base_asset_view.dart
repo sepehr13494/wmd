@@ -60,80 +60,111 @@ class BaseAssetView extends AppStatelessWidget {
                 ],
               ),
               child,
-              Row(
-                children: [
-                  Text(
-                    secondTitle,
-                    style: textTheme.bodySmall!
-                        .apply(color: AppColors.dashBoardGreyTextColor),
-                  ),
-                  const Spacer(),
-                  Text(
-                    appLocalizations.home_widget_geography_label_allocation,
-                    style: textTheme.bodySmall!
-                        .apply(color: AppColors.dashBoardGreyTextColor),
-                  ),
-                ],
-              ),
-              const Divider(),
-              Builder(
-                builder: (context) {
-                  final List<EachAssetViewModel> nonZeroList = assets.where((element) => element.value != 0).toList();
-                  return ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        EachAssetViewModel asset = nonZeroList[index];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Row(
-                            children: [
-                              asset.color == null
-                                  ? const SizedBox()
-                                  : Container(
-                                      width: 6, height: 6, color: asset.color),
-                              Expanded(
-                                child: Align(
-                                  alignment: AlignmentDirectional.centerStart,
-                                  child: FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: Text(asset.name,
-                                          style: textTheme.bodySmall)),
-                                ),
-                              ),
-                              Text(asset.price, style: textTheme.bodySmall),
-                              Container(
-                                width: 0.5,
-                                height: 10,
-                                color: textTheme.bodySmall!.color!,
-                              ),
-                              Text(asset.percentage, style: textTheme.bodySmall),
-                              InkWell(
-                                onTap: (){
-                                  context.read<MainPageCubit>().onItemTapped(1);
-                                },
-                                child: const Icon(Icons.arrow_forward_ios_rounded,
-                                    size: 15),
-                              )
-                            ]
-                                .map((e) => e is Expanded
-                                    ? e
-                                    : Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 3),
-                                        child: e,
-                                      ))
-                                .toList(),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, _) => const Divider(),
-                      itemCount: nonZeroList.length);
+              Builder(builder: (context) {
+                if (assets.isEmpty) {
+                  return _buildEmptyChart(appLocalizations, textTheme);
                 }
-              )
+                return Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          secondTitle,
+                          style: textTheme.bodySmall!
+                              .apply(color: AppColors.dashBoardGreyTextColor),
+                        ),
+                        const Spacer(),
+                        Text(
+                          appLocalizations
+                              .home_widget_geography_label_allocation,
+                          style: textTheme.bodySmall!
+                              .apply(color: AppColors.dashBoardGreyTextColor),
+                        ),
+                      ],
+                    ),
+                    const Divider(),
+                  ],
+                );
+              }),
+              Builder(builder: (context) {
+                final List<EachAssetViewModel> nonZeroList =
+                    assets.where((element) => element.value != 0).toList();
+                return ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      EachAssetViewModel asset = nonZeroList[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Row(
+                          children: [
+                            asset.color == null
+                                ? const SizedBox()
+                                : Container(
+                                    width: 6, height: 6, color: asset.color),
+                            Expanded(
+                              child: Align(
+                                alignment: AlignmentDirectional.centerStart,
+                                child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(asset.name,
+                                        style: textTheme.bodySmall)),
+                              ),
+                            ),
+                            Text(asset.price, style: textTheme.bodySmall),
+                            Container(
+                              width: 0.5,
+                              height: 10,
+                              color: textTheme.bodySmall!.color!,
+                            ),
+                            Text(asset.percentage, style: textTheme.bodySmall),
+                            InkWell(
+                              onTap: () {
+                                context.read<MainPageCubit>().onItemTapped(1);
+                              },
+                              child: const Icon(Icons.arrow_forward_ios_rounded,
+                                  size: 15),
+                            )
+                          ]
+                              .map((e) => e is Expanded
+                                  ? e
+                                  : Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 3),
+                                      child: e,
+                                    ))
+                              .toList(),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, _) => const Divider(),
+                    itemCount: nonZeroList.length);
+              })
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyChart(
+      AppLocalizations appLocalizations, TextTheme textTheme) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            appLocalizations.common_emptyText_title,
+            style: textTheme.bodyMedium,
+          ),
+          Text(
+            appLocalizations.common_emptyText_mapDescription,
+            textAlign: TextAlign.center,
+            style: textTheme.bodySmall,
+          ),
+        ],
       ),
     );
   }
