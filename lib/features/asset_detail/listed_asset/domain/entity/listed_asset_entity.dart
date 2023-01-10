@@ -39,7 +39,7 @@ class ListedAssetEntity extends Equatable {
   final double couponRate;
   final DateTime maturityDate;
   final String id;
-  final String type;
+  final double type;
   final bool isActive;
   final String country;
   final String region;

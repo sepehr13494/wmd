@@ -67,7 +67,7 @@ class _PersonalInformationWidgetState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Personal information",
+                appLocalizations.profile_tabs_personal_headings_personalInfo,
                 style: textTheme.titleMedium,
               ),
               const SizedBox(height: 16),
@@ -81,10 +81,10 @@ class _PersonalInformationWidgetState
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: EachTextField(
                           hasInfo: false,
-                          title: "First Name",
+                          title: appLocalizations.profile_tabs_personal_fields_label_firstName,
                           child: AppTextFields.simpleTextField(
                             name: "firstName",
-                            hint: "Enter First Name",
+                            hint: appLocalizations.profile_tabs_personal_placeholders_firstName,
                             onChanged: checkFinalValid,
                             extraValidators: [
                               (val) {
@@ -104,10 +104,10 @@ class _PersonalInformationWidgetState
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: EachTextField(
                           hasInfo: false,
-                          title: "Last Name",
+                          title: appLocalizations.profile_tabs_personal_fields_label_lastName,
                           child: AppTextFields.simpleTextField(
                             name: "lastName",
-                            hint: "Enter Last Name",
+                            hint: appLocalizations.profile_tabs_personal_placeholders_lastName,
                             onChanged: checkFinalValid,
                             extraValidators: [
                               (val) {
@@ -135,7 +135,7 @@ class _PersonalInformationWidgetState
                                   map: formKey.currentState!.instantValue);
                             }
                           },
-                    child: const Text("Apply Changes"),
+                    child: Text(appLocalizations.profile_tabs_preferences_button_applyChanges),
                   ),
                 ),
               ),
