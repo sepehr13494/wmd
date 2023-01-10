@@ -6,6 +6,7 @@ import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_allocation_entity.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'min_max_calculator.dart';
 
@@ -22,12 +23,10 @@ class BarChartMainDashboard extends StatelessWidget {
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     int x = (allocations.length/7).ceil();
-    var dateString = allocations[value.toInt()].name.split("/");
-    DateTime dateTime = DateTime(int.parse(dateString[2]),int.parse(dateString[0]),int.parse(dateString[1]));
     return value.toInt() % x == 0 ? SideTitleWidget(
       axisSide: meta.axisSide,
       child: Text(
-          CustomizableDateTime.localizedDdMm(dateTime),
+          CustomizableDateTime.miniDate(allocations[value.toInt()].name),
           style: const TextStyle(fontSize: 8)),
     ) : const SizedBox();
   }
@@ -65,18 +64,43 @@ class BarChartMainDashboard extends StatelessWidget {
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
               final textTheme = Theme.of(context).textTheme;
               return BarTooltipItem(
-                allocations[groupIndex.toInt()].name,
+                  CustomizableDateTime.miniDateOneLine(allocations[groupIndex.toInt()].name),
                 textTheme.titleSmall!,
                 textAlign: TextAlign.start,
                 children: [
                   TextSpan(
-                      text: '\nCurrent Balance', style: textTheme.bodyMedium),
+                    // ignore: prefer_interpolation_to_compose_strings
+                      text: '\n\n' +
+                          AppLocalizations.of(context).home_dashboardCharts_legendLabel_netWorth+ "    ",
+                      style: textTheme.titleSmall),
+                  TextSpan(
+                    // ignore: prefer_interpolation_to_compose_strings
+                      text: allocations[groupIndex.toInt()]
+                          .netWorth
+                          .formatNumberWithDecimal(),
+                      style: textTheme.titleSmall!
+                          .apply(color: AppColors.chartColor)),
                   TextSpan(
                     // ignore: prefer_interpolation_to_compose_strings
                       text: '\n' +
-                          allocations[groupIndex.toInt()]
-                              .netWorth
-                              .formatNumberWithDecimal(),
+                          AppLocalizations.of(context).home_dashboardCharts_legendLabel_assets+ "         ",
+                      style: textTheme.titleSmall),
+                  TextSpan(
+                    // ignore: prefer_interpolation_to_compose_strings
+                      text: allocations[groupIndex.toInt()]
+                          .asset
+                          .formatNumberWithDecimal(),
+                      style: textTheme.titleSmall!
+                          .apply(color: AppColors.chartColor)),
+                  TextSpan(
+                    // ignore: prefer_interpolation_to_compose_strings
+                      text: '\n' + AppLocalizations.of(context).home_dashboardCharts_legendLabel_liability+ "      ",
+                      style: textTheme.titleSmall),
+                  TextSpan(
+                    // ignore: prefer_interpolation_to_compose_strings
+                      text: allocations[groupIndex.toInt()]
+                          .liability
+                          .formatNumberWithDecimal(),
                       style: textTheme.titleSmall!
                           .apply(color: AppColors.chartColor)),
                 ],

@@ -29,6 +29,7 @@ class ProfilePage extends AppStatelessWidget {
           child: Scaffold(
               appBar: AddAssetHeader(
                 title: appLocalizations.profile_tabs_heading,
+                considerFirstTime: false,
               ),
               body: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(vertical: 32),

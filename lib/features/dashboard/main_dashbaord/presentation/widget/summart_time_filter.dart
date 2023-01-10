@@ -4,6 +4,7 @@ import 'package:wmd/core/models/time_filer_obj.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
 
 import '../manager/main_dashboard_cubit.dart';
@@ -48,6 +49,9 @@ class SummaryTimeFilter extends AppStatelessWidget {
                     context
                         .read<DashboardAllocationCubit>()
                         .getAllocation(dateTime: value);
+                    context
+                        .read<ChartsCubit>()
+                        .getChart(dateTime: value);
                   }
                 }),
                 value: context.read<MainDashboardCubit>().dateTimeRange ?? AppConstants.timeFilter(context).first,

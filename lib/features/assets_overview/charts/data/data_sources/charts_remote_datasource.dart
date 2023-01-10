@@ -23,7 +23,8 @@ class ChartsRemoteDataSourceImpl extends AppServerDataSource
     try{
       final appRequestOptions =
           AppRequestOptions(RequestTypes.get, "${AppUrls.getChart}/${params.userid}/history", {
-            "To":params.to
+            "To":params.to,
+            "From":params.from,
           });
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = (response as List<dynamic>)

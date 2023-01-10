@@ -8,6 +8,7 @@ import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/min_max_calculator.dart';
 
 import '../../domain/entities/get_allocation_entity.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LineChartSample2 extends StatefulWidget {
   final List<GetAllocationEntity> allocations;
@@ -136,18 +137,43 @@ class _LineChartSample2State extends State<LineChartSample2> {
             final textTheme = Theme.of(context).textTheme;
             return [
               LineTooltipItem(
-                widget.allocations[touchedSpots.first.x.toInt()].name,
+                CustomizableDateTime.miniDateOneLine(widget.allocations[touchedSpots.first.x.toInt()].name),
                 textTheme.titleSmall!,
                 textAlign: TextAlign.start,
                 children: [
                   TextSpan(
-                      text: '\nCurrent Balance', style: textTheme.bodyMedium),
+                    // ignore: prefer_interpolation_to_compose_strings
+                      text: '\n\n' +
+                          AppLocalizations.of(context).home_dashboardCharts_legendLabel_netWorth+ "    ",
+                      style: textTheme.titleSmall),
                   TextSpan(
-                      // ignore: prefer_interpolation_to_compose_strings
+                    // ignore: prefer_interpolation_to_compose_strings
+                      text: widget.allocations[touchedSpots.first.x.toInt()]
+                          .netWorth
+                          .formatNumberWithDecimal(),
+                      style: textTheme.titleSmall!
+                          .apply(color: AppColors.chartColor)),
+                  TextSpan(
+                    // ignore: prefer_interpolation_to_compose_strings
                       text: '\n' +
-                          widget.allocations[touchedSpots.first.x.toInt()]
-                              .netWorth
-                              .formatNumberWithDecimal(),
+                          AppLocalizations.of(context).home_dashboardCharts_legendLabel_assets+ "         ",
+                      style: textTheme.titleSmall),
+                  TextSpan(
+                    // ignore: prefer_interpolation_to_compose_strings
+                      text: widget.allocations[touchedSpots.first.x.toInt()]
+                          .asset
+                          .formatNumberWithDecimal(),
+                      style: textTheme.titleSmall!
+                          .apply(color: AppColors.chartColor)),
+                  TextSpan(
+                    // ignore: prefer_interpolation_to_compose_strings
+                      text: '\n' + AppLocalizations.of(context).home_dashboardCharts_legendLabel_liability+ "      ",
+                      style: textTheme.titleSmall),
+                  TextSpan(
+                    // ignore: prefer_interpolation_to_compose_strings
+                      text: widget.allocations[touchedSpots.first.x.toInt()]
+                          .liability
+                          .formatNumberWithDecimal(),
                       style: textTheme.titleSmall!
                           .apply(color: AppColors.chartColor)),
                 ],

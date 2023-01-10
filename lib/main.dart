@@ -81,7 +81,7 @@ class MyApp extends StatelessWidget {
             create: (context) =>
                 sl<AssetsOverviewCubit>()..getAssetsOverview()),
         BlocProvider(
-          create: (context) => sl<ChartsCubit>()..getChart(to: DateTime.now()),
+          create: (context) => sl<ChartsCubit>()..getChart(),
         ),
         BlocProvider(
           create: (context) => sl<DashboardAllocationCubit>()..getAllocation(),

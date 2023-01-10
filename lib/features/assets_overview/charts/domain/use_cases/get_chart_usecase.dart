@@ -9,14 +9,14 @@ import '../../data/models/get_chart_params.dart';
 import '../entities/get_chart_entity.dart';
 import '../repositories/charts_repository.dart';
 
-class GetChartUseCase extends UseCase<List<GetChartEntity>, DateTime> {
+class GetChartUseCase extends UseCase<List<GetChartEntity>, dynamic> {
   final ChartsRepository repository;
   final LocalStorage localStorage;
 
   GetChartUseCase(this.repository, this.localStorage);
   @override
-  Future<Either<Failure, List<GetChartEntity>>> call(DateTime params) async {
-    return await repository.getChart(GetChartParams(userid: localStorage.getOwnerId(), to: params.toIso8601String()));
+  Future<Either<Failure, List<GetChartEntity>>> call(dynamic params) async {
+    return await repository.getChart(GetChartParams(userid: localStorage.getOwnerId(),from: DateTime.now().subtract(Duration(days: params == null ? 0 : params.value)).toIso8601String(),to: DateTime.now().toIso8601String()));
   }
 }
       
