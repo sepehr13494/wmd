@@ -67,59 +67,70 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                 ),
                                 iconTheme: appTheme.iconTheme
                                     .copyWith(color: appTheme.primaryColor)),
-                            child: BlocConsumer<MainDashboardCubit,
-                                MainDashboardState>(
-                              listener: BlocHelper.defaultBlocListener(
-                                  listener: (context, state) {}),
-                              builder: (context, state) {
-                                final isCustodianNotEmpty = context
-                                    .read<CustodianStatusListCubit>()
-                                    .statutes
-                                    .isNotEmpty;
-                                return state is MainDashboardNetWorthLoaded
-                                    ? (state.netWorthObj.assets.currentValue !=
-                                                0 ||
-                                            state.netWorthObj.liabilities
-                                                    .currentValue !=
-                                                0 ||
-                                            isCustodianNotEmpty)
-                                        ? Column(
-                                            children: [
-                                              const FilterAddPart(),
-                                              const SizedBox(height: 12),
-                                              const BanksAuthorizationProcess(),
-                                              SummeryWidget(
-                                                  netWorthEntity:
-                                                      state.netWorthObj),
-                                              const NetWorthBaseChart(),
-                                              RowOrColumn(
-                                                rowCrossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                showRow: !isMobile,
-                                                children: [
-                                                  ExpandedIf(
-                                                      expanded: !isMobile,
-                                                      child:
-                                                          const PieChartSample2()),
-                                                  ExpandedIf(
-                                                      expanded: !isMobile,
-                                                      child:
-                                                          const RandomWorldMapGenrator()),
-                                                ],
-                                              ),
-                                            ]
-                                                .map((e) => Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        vertical: 8,
-                                                        horizontal: 16),
-                                                    child: e))
-                                                .toList(),
-                                          )
-                                        : const DashboardPage()
-                                    : const LoadingWidget();
-                              },
-                            ),
+                            child: BlocConsumer<CustodianStatusListCubit,
+                                    CustodianStatusListState>(
+                                listener: BlocHelper.defaultBlocListener(
+                                    listener: (context, state) {}),
+                                builder: (context, state) {
+                                  return BlocConsumer<MainDashboardCubit,
+                                      MainDashboardState>(
+                                    listener: BlocHelper.defaultBlocListener(
+                                        listener: (context, state) {}),
+                                    builder: (context, state) {
+                                      final isCustodianNotEmpty = context
+                                          .read<CustodianStatusListCubit>()
+                                          .statutes
+                                          .isNotEmpty;
+                                      return state
+                                              is MainDashboardNetWorthLoaded
+                                          ? (state.netWorthObj.assets
+                                                          .currentValue !=
+                                                      0 ||
+                                                  state.netWorthObj.liabilities
+                                                          .currentValue !=
+                                                      0 ||
+                                                  isCustodianNotEmpty)
+                                              ? Column(
+                                                  children: [
+                                                    const FilterAddPart(),
+                                                    const SizedBox(height: 12),
+                                                    const BanksAuthorizationProcess(),
+                                                    SummeryWidget(
+                                                        netWorthEntity:
+                                                            state.netWorthObj),
+                                                    const NetWorthBaseChart(),
+                                                    RowOrColumn(
+                                                      rowCrossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      showRow: !isMobile,
+                                                      children: [
+                                                        ExpandedIf(
+                                                            expanded: !isMobile,
+                                                            child:
+                                                                const PieChartSample2()),
+                                                        ExpandedIf(
+                                                            expanded: !isMobile,
+                                                            child:
+                                                                const RandomWorldMapGenrator()),
+                                                      ],
+                                                    ),
+                                                  ]
+                                                      .map((e) => Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical: 8,
+                                                                  horizontal:
+                                                                      16),
+                                                          child: e))
+                                                      .toList(),
+                                                )
+                                              : const DashboardPage()
+                                          : const LoadingWidget();
+                                    },
+                                  );
+                                }),
                           ),
                         ),
                       ),
