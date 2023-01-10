@@ -37,21 +37,39 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
                         child: Column(
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(appLocalizations.home_label_totalNetWorth,
                                     style: const TextStyle(fontSize: 18)),
+                                const Spacer(),
+                                Icon(
+                                  Icons.bar_chart,
+                                  size: 15,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                const SizedBox(width: 8),
                                 Builder(builder: (context) {
-                                  final items = [appLocalizations.assets_charts_allocationCharts_barChartLabel, appLocalizations.assets_charts_allocationCharts_areaChartLabel];
+                                  final items = [
+                                    appLocalizations
+                                        .assets_charts_allocationCharts_barChartLabel,
+                                    appLocalizations
+                                        .assets_charts_allocationCharts_areaChartLabel
+                                  ];
                                   return DropdownButton<String>(
                                       items: List.generate(2, (index) {
                                         return DropdownMenuItem<String>(
                                           value: items[index],
-                                          child: Text(items[index]),
+                                          child: Text(
+                                            items[index],
+                                            style: textTheme.bodyMedium!.apply(
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                          ),
                                         );
                                       }),
                                       onChanged: ((value) {
-                                        if (value == appLocalizations.assets_charts_allocationCharts_barChartLabel) {
+                                        if (value ==
+                                            appLocalizations
+                                                .assets_charts_allocationCharts_barChartLabel) {
                                           setState(() {
                                             barChart = true;
                                           });
@@ -61,9 +79,16 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
                                           });
                                         }
                                       }),
+                                      icon: Icon(
+                                        Icons.keyboard_arrow_down,
+                                        size: 15,
+                                        color: Theme.of(context).primaryColor,
+                                      ),
                                       value: barChart
-                                          ? appLocalizations.assets_charts_allocationCharts_barChartLabel
-                                          : appLocalizations.assets_charts_allocationCharts_areaChartLabel);
+                                          ? appLocalizations
+                                              .assets_charts_allocationCharts_barChartLabel
+                                          : appLocalizations
+                                              .assets_charts_allocationCharts_areaChartLabel);
                                 })
                               ],
                             ),

@@ -26,7 +26,7 @@ class GlobalFunctions {
       backgroundColor: type == "error"
           ? Colors.red[800]
           : type == "success"
-              ? Colors.green[600]
+              ? const Color.fromARGB(179, 67, 160, 72)
               : color,
     ));
   }
