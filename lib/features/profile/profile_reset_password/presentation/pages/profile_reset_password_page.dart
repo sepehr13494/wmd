@@ -148,7 +148,7 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
                     EachTextField(
                       title: "Confirm password",
                       hasInfo: false,
-                      child: PasswordTextField(name: "confirmPassword",showEye: false,),
+                      child: PasswordTextField(name: "confirmPassword",showEye: false),
                     ),
                     const SizedBox(),
                     ElevatedButton(
@@ -169,7 +169,7 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
                                 color: AppColors.errorColor);
                           }
                         },
-                        child: Text("Update Password")),
+                        child: Text(appLocalizations.profile_changePassword_button_update)),
                   ]
                       .map((e) => Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),
