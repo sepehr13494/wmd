@@ -4,11 +4,8 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
-import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_allocation_entity.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/line_chart.dart';
-import 'package:wmd/injection_container.dart';
-
 import '../manager/dashboard_charts_cubit.dart';
 import 'bar_chart.dart';
 
