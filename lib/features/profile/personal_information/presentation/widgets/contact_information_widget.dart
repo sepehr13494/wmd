@@ -46,7 +46,7 @@ class ContactInformationWidget extends AppStatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Contact information",
+                appLocalizations.profile_tabs_personal_headings_contactInfo,
                 style: textTheme.titleMedium,
               ),
               const SizedBox(height: 16),
@@ -60,7 +60,7 @@ class ContactInformationWidget extends AppStatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: EachTextField(
                             hasInfo: false,
-                            title: "Personal Email",
+                            title: appLocalizations.profile_tabs_personal_fields_label_email,
                             child: Builder(builder: (context) {
                               final PersonalInformationState personalState =
                                   context
@@ -85,7 +85,7 @@ class ContactInformationWidget extends AppStatelessWidget {
                         children: [
                           EachTextField(
                             hasInfo: false,
-                            title: "Primary Phone Number",
+                            title: appLocalizations.profile_tabs_personal_fields_label_primaryPhoneNumber,
                             child: Row(
                               children: [
                                 const CountryCodePicker(),
@@ -93,7 +93,7 @@ class ContactInformationWidget extends AppStatelessWidget {
                                 Expanded(
                                   child: AppTextFields.simpleTextField(
                                       name: "phoneNumber",
-                                      hint: "Enter Phone Number",
+                                      hint: "",
                                       type: TextFieldType.number,
                                       keyboardType: TextInputType.number),
                                 ),
@@ -132,7 +132,7 @@ class ContactInformationWidget extends AppStatelessWidget {
                                                 .currentState!.instantValue);
                                   }
                                 },
-                                child: const Text("Apply Changes"),
+                                child: Text(appLocalizations.profile_tabs_preferences_button_applyChanges),
                               ),
                             ),
                           ),

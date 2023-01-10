@@ -36,7 +36,12 @@ class AssetsOverviewChartsColors {
       case AssetTypes.otherAsset:
         return appLocalizations
             .manage_assetAndLiability_assetAndLiabilityList_others_title;
+      case AssetTypes.otherAssets:
+        return appLocalizations
+            .manage_assetAndLiability_assetAndLiabilityList_others_title;
       default:
+        print(type);
+        return "Wrong asset type";
     }
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/info_icon.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class YtdItdWidget extends StatelessWidget {
@@ -17,8 +18,8 @@ class YtdItdWidget extends StatelessWidget {
     return Row(
       children: List.generate(2, (index) {
         final List items = [
-          ["YTD", ytd, "$ytd%"],
-          ["ITD", itd, "$itd%"],
+          [AppLocalizations.of(context).assets_label_ytd, ytd, "$ytd%"],
+          [AppLocalizations.of(context).assets_label_itd, itd, "$itd%"],
         ];
         final item = items[index];
         return ExpandedIf(

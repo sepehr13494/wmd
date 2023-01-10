@@ -9,8 +9,8 @@ class AssetTypeMobileTableTitle extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     List<String> items = [
-      "Asset name",
-      "Value/ITD/YTD",
+      appLocalizations.assets_table_header_asset,
+      appLocalizations.assets_table_header_valueItdYtd,
     ];
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
