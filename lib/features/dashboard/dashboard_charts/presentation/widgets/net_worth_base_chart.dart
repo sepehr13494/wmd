@@ -126,11 +126,11 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          'No data avaliable yet',
+          appLocalizations.common_emptyText_title,
           style: textTheme.bodyMedium,
         ),
         Text(
-          'Asset class allocation will appear here once your data is connected.',
+          appLocalizations.common_emptyText_assetClassDescription,
           textAlign: TextAlign.center,
           style: textTheme.bodySmall,
         ),
