@@ -5,6 +5,7 @@ import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/custodian_bank_entity.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/widget/custodian_auth_status_modal.dart';
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
@@ -58,6 +59,9 @@ class CustodianBankWidgetV2 extends AppStatelessWidget {
                                   .read<UserStatusCubit>()
                                   .postUserStatus(map: map);
                             }
+                            context
+                                .read<CustodianStatusListCubit>()
+                                .getCustodianStatusList();
                             context.goNamed(AppRoutes.main);
                           },
                         );

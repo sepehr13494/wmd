@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
-import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/dashboard_app_bar.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/filter_add_widget.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/net_worth_base_chart.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/summery_widget.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
-
 import '../../../dashboard_charts/presentation/widgets/pie_chart_sample.dart';
 import '../../../dashboard_charts/presentation/widgets/random_map.dart';
 import '../widget/bank_auth_process.dart';
@@ -74,12 +72,17 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                               listener: BlocHelper.defaultBlocListener(
                                   listener: (context, state) {}),
                               builder: (context, state) {
+                                final isCustodianNotEmpty = context
+                                    .read<CustodianStatusListCubit>()
+                                    .statutes
+                                    .isNotEmpty;
                                 return state is MainDashboardNetWorthLoaded
                                     ? (state.netWorthObj.assets.currentValue !=
                                                 0 ||
                                             state.netWorthObj.liabilities
                                                     .currentValue !=
-                                                0)
+                                                0 ||
+                                            isCustodianNotEmpty)
                                         ? Column(
                                             children: [
                                               const FilterAddPart(),
@@ -101,7 +104,7 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                                   ExpandedIf(
                                                       expanded: !isMobile,
                                                       child:
-                                                      const RandomWorldMapGenrator()),
+                                                          const RandomWorldMapGenrator()),
                                                 ],
                                               ),
                                             ]
