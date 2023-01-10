@@ -63,11 +63,14 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(width: 8),
-                                Text(
-                                  AssetsOverviewChartsColors.getAssetType(
-                                      appLocalizations, item),
-                                  style: const TextStyle(fontSize: 10),
-                                ),
+                                SizedBox(
+                                  width: 90,
+                                  child: Text(
+                                    AssetsOverviewChartsColors.getAssetType(
+                                        appLocalizations, item),
+                                    style: const TextStyle(fontSize: 10),
+                                  ),
+                                )
                               ],
                             ),
                           );

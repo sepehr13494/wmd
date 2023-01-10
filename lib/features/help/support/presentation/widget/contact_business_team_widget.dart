@@ -114,14 +114,6 @@ class ContactBusinessWidget extends ModalWidget {
                             const SizedBox(
                               height: 40,
                             ),
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context, false);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  minimumSize: const Size(100, 50)),
-                              child: Text("Close"),
-                            )
                           ]))
                     ]))));
           } else {
