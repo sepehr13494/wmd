@@ -46,14 +46,18 @@ class _MainPageState extends State<MainPage> {
         return BlocBuilder<MainPageCubit, int>(
           builder: (context, state) {
             return Scaffold(
-              body: DoubleBackToCloseApp(
-                snackBar: const SnackBar(
-                  content: Text('for exit click again'),
-                ),
-                child: Center(
-                  child: _widgetOptions.elementAt(state),
-                ),
-              ),
+              body: state == 0
+                  ? DoubleBackToCloseApp(
+                      snackBar: const SnackBar(
+                        content: Text('for exit click again'),
+                      ),
+                      child: Center(
+                        child: _widgetOptions.elementAt(state),
+                      ),
+                    )
+                  : Center(
+                      child: _widgetOptions.elementAt(state),
+                    ),
               bottomNavigationBar:
                   BlocConsumer<MainDashboardCubit, MainDashboardState>(
                       listener: BlocHelper.defaultBlocListener(
@@ -83,7 +87,8 @@ class _MainPageState extends State<MainPage> {
                                             const TextStyle(fontSize: 10),
                                         selectedLabelStyle:
                                             const TextStyle(fontSize: 12),
-                                        currentIndex: state,
+                                        currentIndex:
+                                            context.read<MainPageCubit>().state,
                                         showUnselectedLabels: true,
                                         type: BottomNavigationBarType.fixed,
                                         onTap: context
