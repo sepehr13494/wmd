@@ -46,7 +46,7 @@ class ListedAssetResponse extends ListedAssetEntity
         asOfDate:
             json["asOfDate"] == null ? null : DateTime.parse(json["asOfDate"]),
         id: json["id"],
-        type: json["type"],
+        type: double.tryParse(json['type'].toString()) ?? 0,
         isActive: json["isActive"],
         country: json["country"],
         region: json["region"],

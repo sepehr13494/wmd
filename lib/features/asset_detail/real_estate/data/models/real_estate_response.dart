@@ -15,7 +15,7 @@ class RealEstateResponse extends RealEstateEntity implements GetDetailResponse {
     required DateTime valuationDate,
     required DateTime? asOfDate,
     required String id,
-    required String type,
+    required double type,
     required bool isActive,
     required String country,
     required String region,
@@ -64,7 +64,7 @@ class RealEstateResponse extends RealEstateEntity implements GetDetailResponse {
       asOfDate:
           json["asOfDate"] == null ? null : DateTime.parse(json["asOfDate"]),
       id: json['id'] ?? '',
-      type: json['type'] ?? '',
+      type: double.tryParse(json["type"].toString()) ?? 0,
       isActive: json['isActive'] ?? '',
       country: json['country'] ?? '',
       region: json['region'] ?? '',
