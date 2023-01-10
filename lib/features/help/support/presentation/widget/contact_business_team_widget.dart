@@ -50,12 +50,6 @@ class ContactBusinessWidget extends ModalWidget {
             listener: (context, state) {
           debugPrint(state.toString());
 
-          // if (state is SuccessState) {
-          //   GlobalFunctions.showSnackBar(
-          //       context, "Your inquiry submited successfully!",
-          //       type: "success");
-          //   Navigator.pop(context, false);
-          // } else
           if (state is ErrorState) {
             GlobalFunctions.showSnackBar(context, state.failure.message,
                 color: Colors.red[800], type: "error");
@@ -64,8 +58,10 @@ class ContactBusinessWidget extends ModalWidget {
         }, builder: (context, state) {
           if (state is SuccessState) {
             return SingleChildScrollView(
-                child: SizedBox(
-                    width: double.infinity,
+                child: Container(
+                    decoration:
+                        BoxDecoration(border: Border.all(color: Colors.grey)),
+                    width: MediaQuery.of(context).size.width * 0.9,
                     height: isMobile
                         ? MediaQuery.of(context).size.height * 0.7
                         : MediaQuery.of(context).size.height * 0.5,
@@ -90,7 +86,7 @@ class ContactBusinessWidget extends ModalWidget {
                               ),
                             ),
                             const SizedBox(
-                              height: 20,
+                              height: 50,
                             ),
                             Text(
                               appLocalizations
@@ -104,11 +100,12 @@ class ContactBusinessWidget extends ModalWidget {
                             Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal:
-                                        responsiveHelper.bigger16Gap * 2),
+                                        responsiveHelper.bigger16Gap * 3.5),
                                 child: Text(
                                   appLocalizations
                                       .common_submitEnquiryModal_emailSent_description,
-                                  style: textTheme.bodySmall,
+                                  style: textTheme.bodyMedium!
+                                      .copyWith(fontSize: 14),
                                   textAlign: TextAlign.center,
                                 )),
                             const SizedBox(
