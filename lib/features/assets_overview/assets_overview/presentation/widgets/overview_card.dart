@@ -105,7 +105,14 @@ class OverViewCard extends AppStatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            (context.read<MainDashboardCubit>().dateTimeRange ??  AppConstants.timeFilter(context).first).key,
+                                            (context
+                                                        .read<
+                                                            MainDashboardCubit>()
+                                                        .dateTimeRange ??
+                                                    AppConstants.timeFilter(
+                                                            context)
+                                                        .first)
+                                                .key,
                                             style: textTheme.bodySmall,
                                           ),
                                           Row(
