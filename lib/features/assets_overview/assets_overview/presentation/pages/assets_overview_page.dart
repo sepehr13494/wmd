@@ -79,7 +79,7 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "Assets",
+                                        appLocalizations.assets_page_title,
                                         style: textTheme.titleLarge,
                                       ),
                                       AddButton(

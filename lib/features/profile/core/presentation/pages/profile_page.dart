@@ -27,8 +27,8 @@ class ProfilePage extends AppStatelessWidget {
           listener:
               BlocHelper.defaultBlocListener(listener: (context, state) {}),
           child: Scaffold(
-              appBar: const AddAssetHeader(
-                title: "Settings",
+              appBar: AddAssetHeader(
+                title: appLocalizations.profile_tabs_heading,
               ),
               body: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(vertical: 32),
@@ -49,9 +49,9 @@ class ProfilePage extends AppStatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Preferred language",
+                          Text(appLocalizations.profile_tabs_preferences_heading,
                               style: textTheme.titleMedium),
-                          Text("Select your preferred language:",
+                          Text(appLocalizations.profile_tabs_preferences_subHeading,
                               style: textTheme.bodyMedium),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,7 +70,7 @@ class ProfilePage extends AppStatelessWidget {
                                           return const LanguageBottomSheet();
                                         });
                                   },
-                                  child: const Text("Change"))
+                                  child: Text(appLocalizations.profile_tabs_preferences_button_applyChanges))
                             ],
                           ),
                         ]
@@ -85,12 +85,12 @@ class ProfilePage extends AppStatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Password", style: textTheme.titleMedium),
+                          Text(appLocalizations.profile_changePassword_text_password, style: textTheme.titleMedium),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Password",
+                                appLocalizations.profile_changePassword_text_password,
                                 style: textTheme.bodyMedium!
                                     .apply(color: textTheme.bodyLarge!.color!),
                               ),
@@ -100,10 +100,10 @@ class ProfilePage extends AppStatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              ProfileRestPasswordPage(),
+                                              const ProfileRestPasswordPage(),
                                         ));
                                   },
-                                  child: Text("Change password"))
+                                  child: Text(appLocalizations.profile_changePassword_heading))
                             ],
                           ),
                         ]
@@ -114,7 +114,7 @@ class ProfilePage extends AppStatelessWidget {
                                 ))
                             .toList(),
                       ),
-                      const Divider(height: 48),
+                      /*const Divider(height: 48),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -143,7 +143,7 @@ class ProfilePage extends AppStatelessWidget {
                                   child: e,
                                 ))
                             .toList(),
-                      ),
+                      ),*/
                     ],
                   ),
                 ),

@@ -43,7 +43,10 @@ class PieChart2State extends AppState {
                       GetPieEntity pieEntity = state.getPieEntity[index];
                       return EachAssetViewModel(
                         color: AssetsOverviewChartsColors.colorsMap[pieEntity.name],
-                        name: pieEntity.name,
+                        name: AssetsOverviewChartsColors.getAssetType(
+                          appLocalizations,
+                          pieEntity.name,
+                        ),
                         price: pieEntity.value.convertMoney(addDollar: true),
                         value: pieEntity.value,
                         percentage: "${pieEntity.percentage.toStringAsFixed(1)}%",

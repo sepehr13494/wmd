@@ -48,7 +48,7 @@ class OverViewCard extends AppStatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Your holdings",
+                                    appLocalizations.assets_label_yourHoldings,
                                     style: textTheme.titleSmall,
                                   ),
                                   SizedBox(
@@ -91,7 +91,7 @@ class OverViewCard extends AppStatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Net change",
+                                  appLocalizations.assets_label_netChange,
                                   style: textTheme.titleSmall,
                                 ),
                                 SizedBox(height: responsiveHelper.bigger16Gap),
