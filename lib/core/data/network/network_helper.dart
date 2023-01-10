@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../util/local_storage.dart';
 
@@ -29,6 +30,8 @@ class NetworkHelper {
         onRequest: (request, handler) async {
           final String token = localStorage.getToken();
           request.headers['Authorization'] = token;
+          request.headers['accept-language'] =
+              localStorage.getLocale().toLanguageTag();
           return handler.next(request);
         },
       ),

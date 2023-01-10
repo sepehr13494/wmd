@@ -25,7 +25,9 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    final String date = (context.watch<MainDashboardCubit>().dateTimeRange ?? AppConstants.timeFilter(context).first).key;
+    final String date = (context.watch<MainDashboardCubit>().dateTimeRange ??
+            AppConstants.timeFilter(context).first)
+        .key;
     final List items = [
       [
         appLocalizations.home_label_totalNetWorth,
@@ -66,7 +68,12 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextWithInfo(title: item[0], hasInfo: true,tooltipText: item[4]),
+                      TextWithInfo(
+                        title: item[0],
+                        hasInfo: true,
+                        tooltipText: item[4],
+                        icon: Icons.info,
+                      ),
                       const SizedBox(height: 8),
                       Text((item[1] as double).convertMoney(addDollar: true),
                           style: textTheme.headlineSmall),

@@ -14,8 +14,6 @@ class ChartsWrapper extends AppStatelessWidget {
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
-    final time = context.read<MainDashboardCubit>().dateTimeRange ??
-        AppConstants.timeFilter(context).first;
     return BlocBuilder<MainDashboardCubit, MainDashboardState>(
         builder: (context, state) {
       return Column(
@@ -30,7 +28,7 @@ class ChartsWrapper extends AppStatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                '(${time.key})',
+                '(${(context.read<MainDashboardCubit>().dateTimeRange ?? AppConstants.timeFilter(context).first).key})',
                 style: textTheme.bodySmall,
               ),
             ],
@@ -46,7 +44,9 @@ class ChartsWrapper extends AppStatelessWidget {
                       width: 300,
                       child: TabBar(
                         tabs: [
-                          Tab(text: appLocalizations.assets_charts_tabs_assetClass),
+                          Tab(
+                              text: appLocalizations
+                                  .assets_charts_tabs_assetClass),
                           // Tab(text: "Geography"),
                           // Tab(text: "Currency"),
                         ],
