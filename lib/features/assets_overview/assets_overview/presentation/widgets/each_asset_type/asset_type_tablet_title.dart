@@ -14,11 +14,11 @@ class AssetTypeTabletTableTitle extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     final flexList = AssetsOverviewInherit.of(context).flexList;
     List texts = [
-      "Asset name",
-      "Current value",
-      "ITD",
-      "YTD",
-      "Geography",
+      appLocalizations.assets_table_header_assetName,
+      appLocalizations.assets_table_header_currentValue,
+      appLocalizations.assets_table_header_itd,
+      appLocalizations.assets_table_header_ytd,
+      appLocalizations.assets_table_header_geography,
     ];
     return Row(
       children: List.generate(texts.length, (index) {

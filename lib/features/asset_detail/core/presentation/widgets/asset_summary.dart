@@ -174,15 +174,22 @@ class SummaryCardWidget extends AppStatelessWidget {
                         padding: isMobile
                             ? const EdgeInsets.symmetric(vertical: 12)
                             : const EdgeInsets.symmetric(vertical: 8),
-                        child: PortfolioContributionWidget(
-                          portfolioContribution: portfolioContribution,
-                          netWorth: (context.read<MainDashboardCubit>().state
-                                  as MainDashboardNetWorthLoaded)
-                              .netWorthObj
-                              .totalNetWorth
-                              .currentValue,
-                          currencyCode: currencyCode,
-                        ),
+                        child: Builder(builder: (context) {
+                          if ((context.read<MainDashboardCubit>().state
+                              is MainDashboardNetWorthLoaded)) {
+                            return PortfolioContributionWidget(
+                              portfolioContribution: portfolioContribution,
+                              netWorth: (context
+                                      .read<MainDashboardCubit>()
+                                      .state as MainDashboardNetWorthLoaded)
+                                  .netWorthObj
+                                  .totalNetWorth
+                                  .currentValue,
+                              currencyCode: currencyCode,
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        }),
                       ),
                     ],
                   ),

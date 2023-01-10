@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 
-class AddButton extends StatelessWidget {
+class AddButton extends AppStatelessWidget {
   final void Function() onTap;
   final bool addAsset;
 
@@ -12,7 +14,7 @@ class AddButton extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context, TextTheme textTheme, AppLocalizations appLocalizations) {
     return ElevatedButton(
         onPressed: onTap,
         child: Row(
@@ -20,8 +22,9 @@ class AddButton extends StatelessWidget {
           children: [
             const Icon(Icons.add_circle_outlined),
             const SizedBox(width: 8),
-            Text((ResponsiveHelper(context: context).isMobile || !addAsset) ? "Add" : "Add asset")
+            Text((ResponsiveHelper(context: context).isMobile || !addAsset) ? appLocalizations.common_button_add : appLocalizations.common_button_addAsset)
           ],
         ));
   }
+
 }

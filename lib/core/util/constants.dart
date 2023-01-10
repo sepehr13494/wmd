@@ -364,4 +364,5 @@ class AssetTypes {
   static const String privateDebt = 'PrivateDebt';
   static const String privateEquity = 'PrivateEquity';
   static const String otherAsset = 'OtherAsset';
+  static const String otherAssets = 'OtherAssets';
 }

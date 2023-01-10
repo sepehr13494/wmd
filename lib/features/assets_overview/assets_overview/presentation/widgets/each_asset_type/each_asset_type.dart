@@ -25,6 +25,7 @@ import 'asset_type_tablet_title.dart';
 
 class EachAssetType extends AppStatelessWidget {
   final AssetsOverviewEntity assetsOverview;
+
   const EachAssetType({Key? key, required this.assetsOverview})
       : super(key: key);
 
@@ -56,7 +57,11 @@ class EachAssetType extends AppStatelessWidget {
                           DotWidget(
                               color: _getAssetColorByType(assetsOverview.type)),
                           const SizedBox(width: 8),
-                          Text(_getAssetNameByType(assetsOverview.type),
+                          Text(
+                              AssetsOverviewChartsColors.getAssetType(
+                                appLocalizations,
+                                _getAssetNameByType(assetsOverview.type).replaceAll(" ", ""),
+                              ),
                               style: textTheme.titleSmall)
                         ],
                       ),

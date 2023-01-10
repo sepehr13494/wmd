@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/change_language_button.dart';
-import 'package:wmd/core/util/app_theme.dart';
 import 'package:wmd/core/util/local_storage.dart';
-import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
 import 'package:wmd/injection_container.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
   final bool? showHelp;
@@ -34,8 +32,8 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
         PopupMenuButton(
           itemBuilder: (BuildContext context) {
             final List items = [
-              ["Profile", Icons.arrow_forward_ios_rounded],
-              ["Logout", Icons.logout],
+              [AppLocalizations.of(context).profile_page_title, Icons.arrow_forward_ios_rounded],
+              [AppLocalizations.of(context).profile_changePassword_button_logout, Icons.logout],
             ];
             return List.generate(
                 items.length,

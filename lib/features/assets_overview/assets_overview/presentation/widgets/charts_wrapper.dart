@@ -25,12 +25,12 @@ class ChartsWrapper extends AppStatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                'Allocation by',
+                appLocalizations.assets_charts_title,
                 style: textTheme.bodyLarge,
               ),
               const SizedBox(width: 8),
               Text(
-                "(Last ${context.read<MainDashboardCubit>().dateTimeRange?.value} days)",
+                '(${time.key})',
                 style: textTheme.bodySmall,
               ),
             ],
@@ -41,12 +41,12 @@ class ChartsWrapper extends AppStatelessWidget {
             child: Column(
               children: [
                 Row(
-                  children: const [
+                  children: [
                     SizedBox(
                       width: 300,
                       child: TabBar(
                         tabs: [
-                          Tab(text: "Asset Class"),
+                          Tab(text: appLocalizations.assets_charts_tabs_assetClass),
                           // Tab(text: "Geography"),
                           // Tab(text: "Currency"),
                         ],

@@ -39,10 +39,10 @@ class StatusEntity extends Equatable {
 
   String statusText(AppLocalizations appLocalizations) {
     if (shareWithBank && signLetter && !bankConfirmation) {
-      return 'Letter signed and shared with the bank';
+      return appLocalizations.home_custodianBankList_statusText_shareWithBank;
     } else if (signLetter && !shareWithBank) {
-      return 'Waiting for you to share with the bank';
+      return appLocalizations.home_custodianBankList_statusText_signLetter;
     }
-    return 'Download and sign the letter';
+    return appLocalizations.home_custodianBankList_statusText_signLetter;
   }
 }
