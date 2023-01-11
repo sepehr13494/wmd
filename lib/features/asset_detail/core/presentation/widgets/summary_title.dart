@@ -25,7 +25,7 @@ class _SummaryTitleState extends AppState<SummaryTitle> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text('Summary', style: textTheme.bodyLarge),
+        Text(appLocalizations.assets_summary, style: textTheme.bodyLarge),
         Row(
           children: [
             Icon(
