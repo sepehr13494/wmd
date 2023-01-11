@@ -46,7 +46,7 @@ class _TermsWidgetState extends AppState<TermsWidget> {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Scaffold(
-        appBar: const CustomAuthAppBar(),
+        appBar: const CustomAuthAppBar(hideLocalise: true),
         body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           /*Padding(
               padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 16),

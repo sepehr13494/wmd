@@ -7,8 +7,12 @@ import 'package:wmd/core/util/app_theme.dart';
 class CustomAuthAppBar extends StatelessWidget with PreferredSizeWidget {
   final Color? backgroundColor;
   final bool automaticallyImplyLeading;
+  final bool? hideLocalise;
   const CustomAuthAppBar(
-      {Key? key, this.backgroundColor, this.automaticallyImplyLeading = true})
+      {Key? key,
+      this.backgroundColor,
+      this.automaticallyImplyLeading = true,
+      this.hideLocalise = false})
       : super(key: key);
 
   @override
@@ -18,7 +22,7 @@ class CustomAuthAppBar extends StatelessWidget with PreferredSizeWidget {
       centerTitle: false,
       automaticallyImplyLeading: automaticallyImplyLeading,
       actions: [
-        const ChangeLanguageButton(),
+        if (!hideLocalise!) const ChangeLanguageButton(),
         // Switch(
         //     value: context.watch<ThemeManager>().state == ThemeMode.light,
         //     onChanged: (val) {

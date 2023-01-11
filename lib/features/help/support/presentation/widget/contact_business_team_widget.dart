@@ -43,6 +43,7 @@ class ContactBusinessWidget extends ModalWidget {
     final responsiveHelper = ResponsiveHelper(context: context);
     final isMobile = responsiveHelper.isMobile;
     final appLocalizations = AppLocalizations.of(context);
+    final contactReasonList = ContactReason.contactReasonList(context);
 
     return BlocProvider(
         create: (context) => sl<GeneralInquiryCubit>(),
@@ -177,13 +178,16 @@ class ContactBusinessWidget extends ModalWidget {
                                               name: "reason",
                                               hint: appLocalizations
                                                   .common_submitEnquiryModal_placeholder,
-                                              items: ContactReason
-                                                  .contactReasonList
+                                              items: contactReasonList
                                                   .map((e) => DropdownMenuItem(
                                                         value: e.value,
                                                         child: Text(e.name),
                                                       ))
-                                                  .toList(),
+                                                  .toList()
+                                              // as List<
+                                              //     DropdownMenuItem<
+                                              //         dynamic>>
+                                              ,
                                               onChanged: checkFinalValid),
                                           const SizedBox(
                                             height: 16,
