@@ -18,6 +18,7 @@ import 'package:wmd/features/dashboard/onboarding/presentation/widget/add_asset_
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/onboarding_appbar.dart';
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
+import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 import 'package:wmd/global_variables.dart';
 import 'package:wmd/injection_container.dart';
 
@@ -31,7 +32,7 @@ class AssetsListViewPage extends AppStatelessWidget {
       if (sl<GetUserStatusUseCase>().showOnboarding) {
         return const OnboardingAppBar(page: 1, isAsset: true);
       } else {
-        return const BaseAppBar(title: "Add assets");
+        return BaseAppBar(title: appLocalizations.common_button_addAsset);
       }
     }
 
@@ -45,7 +46,7 @@ class AssetsListViewPage extends AppStatelessWidget {
             return const SizedBox.shrink();
           }
           return AddAssetFooter(
-              buttonText: "Add Asset",
+              buttonText: appLocalizations.common_button_addAsset,
               onTap: state == null
                   ? () {}
                   : () {
@@ -189,12 +190,12 @@ class ChooseAssetWidget extends AppStatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Choose an asset / Liability",
+            appLocalizations.manage_assetAndLiability_title,
             style: textTheme.titleLarge,
           ),
           const SizedBox(height: 8),
           Text(
-            "you can add more later",
+            appLocalizations.manage_assetAndLiability_description,
             style: textTheme.bodySmall,
           ),
         ],
@@ -205,6 +206,7 @@ class ChooseAssetWidget extends AppStatelessWidget {
 
 class AssetsPart extends AppStatelessWidget {
   final bool isLiability;
+
   const AssetsPart({Key? key, required this.isLiability}) : super(key: key);
 
   @override
@@ -227,7 +229,7 @@ class AssetsPart extends AppStatelessWidget {
       assets = [
         EachAssetModel(
           id: 2,
-          pageRoute: AppRoutes.autoManualPage,
+          pageRoute: AppRoutes.addBankManualPage,
           image: "assets/images/add_assets/bank_asset.svg",
           title: appLocalizations
               .manage_assetAndLiability_assetAndLiabilityList_bankAccount_title,
@@ -323,12 +325,24 @@ class AddAssetTopWidget extends AppStatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 16),
-          Text("Hi !", style: textTheme.headlineSmall),
+          BlocBuilder<PersonalInformationCubit, PersonalInformationState>(
+            builder: (context, state) {
+              String name = "";
+              if(state is PersonalInformationLoaded){
+                name = state.getNameEntity.firstName;
+              }
+                return Text(
+                  appLocalizations.manage_heading.replaceFirst(
+                    "{{name}}", name
+                  ),
+                  style: textTheme.headlineSmall);
+            },
+          ),
           const SizedBox(height: 8),
-          const WidthLimiterWidget(
+          WidthLimiterWidget(
             width: 350,
             child: Text(
-                "Diversify your portfolio by adding an asset or a liability"),
+                appLocalizations.manage_subHeading),
           ),
           const SizedBox(height: 24),
           Container(
@@ -349,7 +363,7 @@ class AddAssetTopWidget extends AppStatelessWidget {
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        "Your privacy & data security is our utmost priority",
+                        appLocalizations.manage_securityInfoWidget_title,
                         style:
                             textTheme.titleMedium!.apply(color: primaryColor),
                       ),
@@ -361,7 +375,7 @@ class AddAssetTopWidget extends AppStatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        "Your credentials are never accessible to any other service. Your data is secured in transit using bank grade TLS 1.2 technology.",
+                        appLocalizations.manage_securityInfoWidget_description,
                         style: textTheme.bodyMedium!
                             .apply(color: AppColors.dashBoardGreyTextColor),
                       ),

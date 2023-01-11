@@ -5,11 +5,10 @@ import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
-import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/valuation/data/models/get_all_valuation_params.dart';
 import 'package:wmd/features/asset_detail/valuation/domain/entities/get_all_valuation_entity.dart';
 import 'package:wmd/injection_container.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../manager/valuation_cubit.dart';
 
 class ValuationWidget extends AppStatelessWidget {
@@ -25,11 +24,11 @@ class ValuationWidget extends AppStatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Valuation',
+            appLocalizations.assets_label_valuation,
             style: textTheme.bodyLarge,
           ),
           Text(
-            'To keep your networth updated, add your recent valuation.',
+            appLocalizations.assets_label_keepNetWorth,
             style: textTheme.bodyMedium,
           ),
           const SizedBox(height: 8),
@@ -43,7 +42,7 @@ class ValuationWidget extends AppStatelessWidget {
               builder: (context, state) {
                 if (state is GetAllValuationLoaded) {
                   if (state.getAllValuationEntities.isEmpty) {
-                    return const Text('No history');
+                    return Text(appLocalizations.common_emptyText_title);
                   }
                   return ValuationTableWidget(
                       getAllValuationEntities: state.getAllValuationEntities);
@@ -69,22 +68,24 @@ class ValuationTableWidget extends StatefulWidget {
 
 class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
   bool isSummary = true;
+  static const columnWidths = {
+    0: IntrinsicColumnWidth(),
+    1: FlexColumnWidth(1.7),
+    3: IntrinsicColumnWidth(),
+    // 3: IntrinsicColumnWidth(),
+    // 4: FlexColumnWidth(1),
+  };
   @override
-  Widget buildWidget(BuildContext context, texttheme, applocalizations) {
+  Widget buildWidget(BuildContext context, texttheme, appLocalizations) {
     final length = widget.getAllValuationEntities.length;
     if (isSummary) {
       return Column(
         children: [
           Table(
             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-            columnWidths: const {
-              0: IntrinsicColumnWidth(),
-              1: FlexColumnWidth(3),
-              3: IntrinsicColumnWidth(),
-              // 4: FlexColumnWidth(1),
-            },
+            columnWidths: columnWidths,
             children: [
-              buildTableHeader(context),
+              buildTableHeader(context, appLocalizations),
               ...List.generate(length > 3 ? 3 : length, (index) {
                 final e = widget.getAllValuationEntities[index];
                 return buildTableRow(context,
@@ -110,7 +111,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                     child: Padding(
                       padding: const EdgeInsets.all(12),
                       child: Text(
-                        "Load all",
+                        appLocalizations.common_button_seeMore,
                         style: TextStyle(color: Theme.of(context).primaryColor),
                       ),
                     ),
@@ -123,14 +124,9 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
     }
     return Table(
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-      columnWidths: const {
-        0: IntrinsicColumnWidth(),
-        1: FlexColumnWidth(3),
-        3: IntrinsicColumnWidth(),
-        // 4: FlexColumnWidth(1),
-      },
+      columnWidths: columnWidths,
       children: [
-        buildTableHeader(context),
+        buildTableHeader(context, appLocalizations),
         ...List.generate(widget.getAllValuationEntities.length, (index) {
           final e = widget.getAllValuationEntities[index];
           return buildTableRow(context,
@@ -143,7 +139,8 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
     );
   }
 
-  TableRow buildTableHeader(BuildContext context,
+  TableRow buildTableHeader(
+      BuildContext context, AppLocalizations appLocalization,
       {EdgeInsetsGeometry padding =
           const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8)}) {
     final textTheme = Theme.of(context).textTheme;
@@ -152,21 +149,21 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
         Padding(
           padding: padding,
           child: Text(
-            'Date',
+            appLocalization.assets_label_updatedDate,
             style: textTheme.bodySmall,
           ),
         ),
         Padding(
           padding: padding,
           child: Text(
-            'Note',
+            appLocalization.assets_label_notes,
             style: textTheme.bodySmall,
           ),
         ),
         Padding(
           padding: padding,
           child: Text(
-            'Value',
+            appLocalization.assets_label_value,
             style: textTheme.bodySmall,
           ),
         ),

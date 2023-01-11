@@ -23,17 +23,17 @@ class SupportActionCard extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    return SizedBox(
-      height: 118,
-      child: Card(
-        semanticContainer: true,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6),
-        ),
-        color: Theme.of(context).brightness == Brightness.dark
-            ? AppColors.anotherCardColorForDarkTheme
-            : AppColors.anotherCardColorForLightTheme,
-        elevation: 5,
+    return Card(
+      semanticContainer: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(6),
+      ),
+      color: Theme.of(context).brightness == Brightness.dark
+          ? AppColors.anotherCardColorForDarkTheme
+          : AppColors.anotherCardColorForLightTheme,
+      elevation: 5,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16),
         child: ListTile(
           minVerticalPadding: 10,
           onTap: () {

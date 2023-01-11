@@ -8,11 +8,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class AddAssetHeader extends StatelessWidget with PreferredSizeWidget {
   final Color? backgroundColor = AppColors.cardColor;
   final String title;
-  const AddAssetHeader({Key? key, required this.title}) : super(key: key);
+  final bool considerFirstTime;
+  const AddAssetHeader({Key? key, required this.title, this.considerFirstTime = true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (sl<GetUserStatusUseCase>().showOnboarding) {
+    if (sl<GetUserStatusUseCase>().showOnboarding && considerFirstTime) {
       return const OnboardingAppBar(page: 2, isAsset: true);
     } else {
       return AppBar(

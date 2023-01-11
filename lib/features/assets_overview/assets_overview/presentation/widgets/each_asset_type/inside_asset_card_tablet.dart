@@ -34,22 +34,11 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                   builder: (context) {
                     switch (index) {
                       case 0:
-                        return Row(
-                          children: [
-                            const Icon(
-                              Icons.link,
-                              color: Colors.grey,
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Text(
-                                asset.assetName,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor),
-                              ),
-                            ),
-                          ],
+                        return Text(
+                          asset.assetName,
+                          overflow: TextOverflow.ellipsis,
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
                         );
                       case 1:
                         return Align(

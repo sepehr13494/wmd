@@ -15,9 +15,6 @@ class MinMaxCalculator{
         if(minY > 0){
           minY = 0;
         }
-        if(isOneData){
-          minY *= 2;
-        }
       }
     }
     if(allocations.isNotEmpty){
@@ -30,9 +27,6 @@ class MinMaxCalculator{
         }
         if(maxY < 0){
           maxY = 0;
-        }
-        if(isOneData){
-          maxY *= 2;
         }
       }
     }

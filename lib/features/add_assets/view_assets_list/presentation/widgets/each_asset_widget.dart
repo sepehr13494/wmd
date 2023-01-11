@@ -77,7 +77,7 @@ class EachAssetWidget extends AppStatelessWidget {
                       eachAssetModel.description,
                       style: textTheme.bodySmall,
                       overflow: TextOverflow.ellipsis,
-                      maxLines: 3,
+                      maxLines: 2,
                     ),
                   ],
                 ),

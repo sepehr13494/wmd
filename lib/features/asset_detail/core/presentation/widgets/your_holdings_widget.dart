@@ -20,7 +20,7 @@ class YourHoldingsWidget extends AppStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Your holdings',
+          appLocalizations.assets_label_yourHoldings,
           style: textTheme.titleSmall,
         ),
         SizedBox(height: responsiveHelper.biggerGap),

@@ -75,7 +75,7 @@ class LoginPage extends AppStatelessWidget {
                                       textTheme.bodySmall!.toLinkStyle(context),
                                 )),
                             if (kIsWeb)
-                              SizedBox()
+                              const SizedBox()
                             else if (Platform.isIOS)
                               FormBuilderSwitch(
                                   name: "face_id",

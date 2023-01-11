@@ -9,6 +9,7 @@ import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/dashboard_app_bar.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/summart_time_filter.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/injection_container.dart';
@@ -45,6 +46,7 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
             },
             child: SafeArea(
               child: Scaffold(
+                appBar: const DashboardAppBar(),
                 body: Stack(
                   children: [
                     const LeafBackground(),

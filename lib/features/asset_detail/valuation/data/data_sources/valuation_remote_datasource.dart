@@ -67,9 +67,10 @@ class ValuationRemoteDataSourceImpl extends AppServerDataSource
     try {
       final appRequestOptions = AppRequestOptions(
           RequestTypes.get, AppUrls.getValuationPerformance(params.id), {
-        'to': CustomizableDateTime.yyyyMmDd(DateTime.now()),
-        'from': CustomizableDateTime.yyyyMmDd(
-            DateTime.now().subtract(Duration(days: params.days))),
+        'to': DateTime.now().toIso8601String(),
+        'from': DateTime.now()
+            .subtract(Duration(days: params.days))
+            .toIso8601String(),
       });
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);

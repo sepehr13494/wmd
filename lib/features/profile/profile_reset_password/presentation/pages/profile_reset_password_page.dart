@@ -71,7 +71,9 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
     return BlocProvider(
       create: (context) => sl<ProfileResetPasswordCubit>(),
       child: Scaffold(
-        appBar: AddAssetHeader(title: "Change password"),
+        appBar: AddAssetHeader(
+            title: appLocalizations.profile_changePassword_heading,
+            considerFirstTime: false),
         body: Builder(builder: (context) {
           return BlocListener<ProfileResetPasswordCubit,
               ProfileResetPasswordState>(
@@ -90,18 +92,21 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
                                 color: Theme.of(context).primaryColor,
                                 size: 30),
                             Text(
-                              "Password Changed",
+                              appLocalizations
+                                  .profile_changePassword_passwordChanged_heading,
                               style: textTheme.titleLarge,
                             ),
                             Text(
-                                "You now need to log out and log in again with the new credentials.",
+                                appLocalizations
+                                    .profile_changePassword_passwordChanged_subheading,
                                 textAlign: TextAlign.center),
                             ElevatedButton(
                                 onPressed: () {
                                   sl<LocalStorage>().logout();
                                   context.replaceNamed(AppRoutes.splash);
                                 },
-                                child: Text("logout"))
+                                child: Text(appLocalizations
+                                    .profile_changePassword_button_logout))
                           ]
                               .map((e) => Padding(
                                     padding: const EdgeInsets.all(16),
@@ -121,22 +126,31 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     EachTextField(
-                      title: "Old password",
+                      title: appLocalizations
+                          .profile_changePassword_label_oldPassword,
                       hasInfo: false,
-                      child: PasswordTextField(name: "oldPassword",showEye: false),
+                      child: PasswordTextField(
+                        name: "oldPassword",
+                        showEye: false,
+                        hint: appLocalizations
+                            .profile_changePassword_placeholder_oldPassword,
+                      ),
                     ),
                     EachTextField(
-                      title: "New password",
+                      title: appLocalizations
+                          .profile_changePassword_label_password,
                       hasInfo: false,
                       child: PasswordTextField(
                         passwordKey: passwordFieldKey,
                         onChange: onPasswordChange,
                         name: "newPassword",
+                        hint: appLocalizations
+                            .profile_changePassword_placeholder_newPassword,
                         showEye: false,
                       ),
                     ),
-                    if ((passwordFieldKey.currentState?.value !=
-                        null || buttonPressed) &&
+                    if ((passwordFieldKey.currentState?.value != null ||
+                            buttonPressed) &&
                         !checkPasswordValidity())
                       PasswordValidation(
                         lowercase: lowercase,
@@ -146,9 +160,14 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
                         length: length,
                       ),
                     EachTextField(
-                      title: "Confirm password",
+                      title: appLocalizations
+                          .auth_change_input_confirmPassword_label,
                       hasInfo: false,
-                      child: PasswordTextField(name: "confirmPassword",showEye: false),
+                      child: PasswordTextField(
+                        name: "confirmPassword",
+                        hint: appLocalizations.auth_change_input_confirmPassword_placeholder,
+                        showEye: false,
+                      ),
                     ),
                     const SizedBox(),
                     ElevatedButton(
@@ -169,7 +188,8 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
                                 color: AppColors.errorColor);
                           }
                         },
-                        child: Text(appLocalizations.profile_changePassword_button_update)),
+                        child: Text(appLocalizations
+                            .profile_changePassword_button_update)),
                   ]
                       .map((e) => Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),
