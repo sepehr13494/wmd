@@ -1,7 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
+
+Future<bool?> showTermsModal({
+  required BuildContext context,
+}) async {
+  return await showDialog<bool?>(
+    context: context,
+    builder: (context) {
+      return const Dialog(
+        insetPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        alignment: Alignment.center,
+        child: TermsWidget(),
+        // actionsOverflowButtonSpacing: 0,
+      );
+    },
+  );
+}
 
 class TermsWidget extends StatefulWidget {
   const TermsWidget({Key? key}) : super(key: key);
@@ -46,7 +64,7 @@ class _TermsWidgetState extends AppState<TermsWidget> {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Scaffold(
-        appBar: const CustomAuthAppBar(hideLocalise: true),
+        // appBar: const CustomAuthAppBar(hideLocalise: true),
         body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           /*Padding(
               padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 16),
@@ -62,6 +80,17 @@ class _TermsWidgetState extends AppState<TermsWidget> {
                 ],
               ),
             ),*/
+          Align(
+            alignment: Alignment.centerRight,
+            child: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                  Icons.close,
+                  color: Theme.of(context).primaryColor,
+                )),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
             child: Text(
@@ -90,15 +119,8 @@ class _TermsWidgetState extends AppState<TermsWidget> {
           const Divider(),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
               children: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text("cancel")),
-                const Spacer(),
                 SizedBox(
                   width: 150,
                   child: ElevatedButton(
@@ -107,9 +129,13 @@ class _TermsWidgetState extends AppState<TermsWidget> {
                               Navigator.pop(context, true);
                             }
                           : null,
-                      child: Text("Accept All")),
+                      child: Text(appLocalizations.common_button_acceptAll)),
                 ),
-                const SizedBox(height: 24),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(appLocalizations.common_button_cancel)),
               ],
             ),
           )

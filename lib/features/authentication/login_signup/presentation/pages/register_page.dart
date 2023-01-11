@@ -159,18 +159,27 @@ class _RegisterPageState extends AppState<RegisterPage> {
                                               .toLinkStyle(context),
                                           recognizer: TapGestureRecognizer()
                                             ..onTap = () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const TermsWidget(),
-                                                  )).then((value) {
+                                              showTermsModal(context: context)
+                                                  .then((value) {
+                                                print(value);
                                                 if (value ?? false) {
                                                   formKey.currentState!
                                                       .patchValue(
                                                           {"terms": true});
                                                 }
                                               });
+                                              // Navigator.push(
+                                              //     context,
+                                              //     MaterialPageRoute(
+                                              //       builder: (context) =>
+                                              //           const TermsWidget(),
+                                              //     )).then((value) {
+                                              //   if (value ?? false) {
+                                              //     formKey.currentState!
+                                              //         .patchValue(
+                                              //             {"terms": true});
+                                              //   }
+                                              // });
                                             },
                                         ),
                                       ]),
