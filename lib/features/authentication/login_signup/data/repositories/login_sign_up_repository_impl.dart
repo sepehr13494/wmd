@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
@@ -29,7 +30,13 @@ class LoginSignUpRepositoryImpl implements LoginSignUpRepository {
       localStorage.setRefreshToken(result.refreshToken);
       return const Right(AppSuccess(message: 'Login successful'));
     } on ServerException catch (error) {
-      return Left(ServerFailure.fromServerException(error));
+      debugPrint(error.message);
+      if (error.message == "Wrong email or password.") {
+        return const Left(ServerFailure(
+            message: "Invalid email or password, Please try again."));
+      } else {
+        return Left(ServerFailure.fromServerException(error));
+      }
     } on CacheException catch (cacheError) {
       return Left(CacheFailure(message: cacheError.message));
     }

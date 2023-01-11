@@ -44,7 +44,8 @@ class FilterAddPart extends AppStatelessWidget {
             // ),
             const SizedBox(width: 12),
             SizedBox(
-              height: 32,
+              height: 38,
+              width: 66,
               child: ElevatedButton(
                 onPressed: () {
                   context.pushNamed(AppRoutes.addAssetsView);
@@ -53,13 +54,14 @@ class FilterAddPart extends AppStatelessWidget {
                   fit: BoxFit.scaleDown,
                   child: Row(
                     children: [
-                      const Icon(Icons.add_circle, size: 15),
+                      const Icon(Icons.add_circle, size: 22),
                       isMobile
                           ? const SizedBox()
                           : Row(
                               children: [
                                 const SizedBox(width: 8),
-                                Text(AppLocalizations.of(context).common_button_add),
+                                Text(AppLocalizations.of(context)
+                                    .common_button_add),
                               ],
                             ),
                     ],

@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/change_language_button.dart';
-import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
-import 'package:wmd/core/util/app_theme.dart';
 import 'package:wmd/core/util/colors.dart';
-import 'package:wmd/core/util/local_storage.dart';
-import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
-import 'package:wmd/injection_container.dart';
 
 class OnboardingAppBar extends StatelessWidget with PreferredSizeWidget {
   final int page;
@@ -22,7 +15,7 @@ class OnboardingAppBar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    return AppBar(
+    final bottom = AppBar(
       centerTitle: false,
       title: Row(
         children: isAsset
@@ -100,8 +93,38 @@ class OnboardingAppBar extends StatelessWidget with PreferredSizeWidget {
             : [],
       ),
     );
+
+    if (isAsset) {
+      return AppBar(
+        title: Row(
+          mainAxisAlignment:
+              isAsset ? MainAxisAlignment.spaceBetween : MainAxisAlignment.end,
+          children: [
+            IconButton(
+              onPressed: () {
+                context.goNamed(AppRoutes.onboarding);
+              },
+              icon: const Icon(Icons.arrow_back),
+            ),
+            const ChangeLanguageButton(),
+          ],
+        ),
+        bottom: bottom,
+      );
+    }
+
+    return AppBar(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: const [
+          ChangeLanguageButton(),
+        ],
+      ),
+    );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(60);
+  Size get preferredSize {
+    return isAsset ? const Size.fromHeight(100) : const Size.fromHeight(60);
+  }
 }

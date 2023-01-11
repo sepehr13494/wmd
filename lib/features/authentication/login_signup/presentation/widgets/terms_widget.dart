@@ -47,10 +47,8 @@ class _TermsWidgetState extends AppState<TermsWidget> {
       ),
       child: Scaffold(
         appBar: const CustomAuthAppBar(),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /*Padding(
+        body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          /*Padding(
               padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,51 +62,58 @@ class _TermsWidgetState extends AppState<TermsWidget> {
                 ],
               ),
             ),*/
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8),
-              child: Text(appLocalizations.auth_signup_tos_title,style: textTheme.headlineSmall,),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+            child: Text(
+              appLocalizations.auth_signup_tos_title,
+              style: textTheme.headlineSmall,
+              textAlign: TextAlign.center,
             ),
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                controller: scrollController,
-                child: Center(
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              controller: scrollController,
+              child: Center(
                   child: Column(
-                    children: [
-                      Text(appLocalizations.auth_signup_tos_content),
-                    ].map((e) => Padding(padding: const EdgeInsets.symmetric(vertical: 8),child: e,)).toList(),
-                  )
-                ),
-              ),
-            ),
-            const Divider(),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text("cancel")),
-                  const Spacer(),
-                  SizedBox(
-                    width: 150,
-                    child: ElevatedButton(
-                        onPressed: reachEnd
-                            ? () {
-                                Navigator.pop(context, true);
-                              }
-                            : null,
-                        child: Text("Accept All")),
-                  ),
-                  const SizedBox(height: 24),
-                ],
-              ),
-            )
-          ]
-        ),
+                  Text(appLocalizations.auth_signup_tos_content),
+                ]
+                    .map((e) => Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: e,
+                        ))
+                    .toList(),
+              )),
+            ),
+          ),
+          const Divider(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text("cancel")),
+                const Spacer(),
+                SizedBox(
+                  width: 150,
+                  child: ElevatedButton(
+                      onPressed: reachEnd
+                          ? () {
+                              Navigator.pop(context, true);
+                            }
+                          : null,
+                      child: Text("Accept All")),
+                ),
+                const SizedBox(height: 24),
+              ],
+            ),
+          )
+        ]),
       ),
     );
   }
