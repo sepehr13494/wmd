@@ -5,6 +5,7 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:fl_chart/fl_chart.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PerformanceLineChart extends AppStatelessWidget {
   final List<MapEntry<DateTime, double>> values;
@@ -23,12 +24,14 @@ class PerformanceLineChart extends AppStatelessWidget {
         Row(
           children: [
             Text(
-              'Performance chart',
+              appLocalizations.assets_label_performanceChart,
               style: textTheme.bodyLarge,
             ),
             const SizedBox(width: 8),
             Text(
-              '(Last $days days)',
+              appLocalizations.assets_label_lastDurationDays.replaceFirstMapped(
+                  '{{duration}}', (match) => days.toString()),
+              // '(Last $days days)',
               style: textTheme.bodySmall,
             ),
           ],
@@ -39,7 +42,7 @@ class PerformanceLineChart extends AppStatelessWidget {
           child: values.isEmpty
               ? const EmptyChartWidget()
               : LineChart(
-                  mainData(context),
+                  mainData(context, appLocalizations),
                 ),
         ),
       ],
@@ -93,7 +96,7 @@ class PerformanceLineChart extends AppStatelessWidget {
     );
   }
 
-  LineChartData mainData(context) {
+  LineChartData mainData(context, AppLocalizations appLocalizations) {
     double minY = 0;
     if (values.isNotEmpty) {
       minY = values[0].value;
@@ -179,7 +182,8 @@ class PerformanceLineChart extends AppStatelessWidget {
                 textAlign: TextAlign.start,
                 children: [
                   TextSpan(
-                      text: '\nCurrent Balance', style: textTheme.bodyMedium),
+                      text: '\n${appLocalizations.assets_label_currentBalance}',
+                      style: textTheme.bodyMedium),
                   TextSpan(
                       // ignore: prefer_interpolation_to_compose_strings
                       text: '\n' +
@@ -232,12 +236,12 @@ class EmptyChartWidget extends AppStatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.info),
+          const Icon(Icons.info),
           const SizedBox(height: 4),
-          Text('Looks like something went wrong'),
+          Text(appLocalizations.common_errors_somethingWentWrong),
           const SizedBox(height: 4),
           Text(
-            'Please try checking back again in few moments.',
+            appLocalizations.common_dashboardErrorStateWidget_description,
             style: textTheme.bodySmall,
           ),
         ],

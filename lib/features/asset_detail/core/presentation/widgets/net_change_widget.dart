@@ -29,7 +29,7 @@ class NetChangeWidget extends AppStatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Net change",
+              appLocalizations.assets_label_netChange,
               style: textTheme.titleSmall,
             ),
             // TextButton(
@@ -45,7 +45,8 @@ class NetChangeWidget extends AppStatelessWidget {
         ),
         SizedBox(height: responsiveHelper.defaultGap),
         Text(
-          "Last $days days",
+          appLocalizations.assets_label_lastDurationDays
+              .replaceFirstMapped('{{duration}}', (match) => days.toString()),
           style: textTheme.bodySmall,
         ),
         Builder(builder: (context) {
