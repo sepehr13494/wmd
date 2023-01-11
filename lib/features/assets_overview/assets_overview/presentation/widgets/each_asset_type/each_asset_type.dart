@@ -60,7 +60,8 @@ class EachAssetType extends AppStatelessWidget {
                           Text(
                               AssetsOverviewChartsColors.getAssetType(
                                 appLocalizations,
-                                _getAssetNameByType(assetsOverview.type).replaceAll(" ", ""),
+                                _getAssetNameByType(assetsOverview.type)
+                                    .replaceAll(" ", ""),
                               ),
                               style: textTheme.titleSmall)
                         ],
@@ -78,8 +79,10 @@ class EachAssetType extends AppStatelessWidget {
                       ),
                       SizedBox(width: responsiveHelper.bigger16Gap, height: 16),
                       YtdItdWidget(
-                          ytd: assetsOverview.yearToDate,
-                          itd: assetsOverview.inceptionToDate),
+                        ytd: assetsOverview.yearToDate,
+                        itd: assetsOverview.inceptionToDate,
+                        showToolTip: false,
+                      ),
                     ],
                   )
                 ],
