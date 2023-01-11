@@ -10,6 +10,7 @@ import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/das
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_goe_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
+import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 import 'core/presentation/routes/app_router.dart';
 import 'core/util/app_localization.dart';
 import 'core/util/app_theme.dart';
@@ -96,6 +97,10 @@ class MyApp extends StatelessWidget {
           create: (context) =>
               sl<CustodianStatusListCubit>()..getCustodianStatusList(),
         ),
+        BlocProvider(
+          create: (context) => sl<PersonalInformationCubit>()..getName(),
+        ),
+
       ],
       child: Builder(builder: (context) {
         return MaterialApp.router(

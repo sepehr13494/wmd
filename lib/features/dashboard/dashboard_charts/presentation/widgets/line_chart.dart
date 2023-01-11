@@ -26,14 +26,31 @@ class _LineChartSample2State extends State<LineChartSample2> {
     if (widget.allocations.length == 1) {
       isOneData = true;
       widget.allocations.add(widget.allocations.first);
+      widget.allocations.add(widget.allocations.first);
     }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return LineChart(
-      mainData(context),
+    return Stack(
+      alignment: Alignment.topCenter,
+      children: [
+        LineChart(
+          mainData(context),
+        ),
+        isOneData ? InkWell(
+          child: Container(
+            margin: const EdgeInsets.only(left: 45),
+            width: 5,
+            height: 5,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: AppColors.chartColor,
+            ),
+          ),
+        ) : const SizedBox()
+      ],
     );
   }
 
@@ -41,12 +58,21 @@ class _LineChartSample2State extends State<LineChartSample2> {
     int x = (widget.allocations.length/7).ceil();
     var dateString = widget.allocations[value.toInt()].name.split("/");
     DateTime dateTime = DateTime(int.parse(dateString[2]),int.parse(dateString[0]),int.parse(dateString[1]));
-    return value.toInt() % x == 0 ? SideTitleWidget(
-      axisSide: meta.axisSide,
-      child: Text(
-          CustomizableDateTime.localizedDdMm(dateTime),
-          style: const TextStyle(fontSize: 8)),
-    ) : const SizedBox();
+    if(isOneData){
+      return value.toInt() == 1 ? SideTitleWidget(
+        axisSide: meta.axisSide,
+        child: Text(
+            CustomizableDateTime.localizedDdMm(dateTime),
+            style: const TextStyle(fontSize: 8)),
+      ) : const SizedBox();
+    }else{
+      return value.toInt() % x == 0 ? SideTitleWidget(
+        axisSide: meta.axisSide,
+        child: Text(
+            CustomizableDateTime.localizedDdMm(dateTime),
+            style: const TextStyle(fontSize: 8)),
+      ) : const SizedBox();
+    }
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
@@ -198,7 +224,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
               : (maxY.abs()).ceil().toDouble(),
       lineBarsData: [
         LineChartBarData(
-          spots: List.generate(widget.allocations.length, (index) {
+          spots: isOneData ? [] : List.generate(widget.allocations.length, (index) {
             return FlSpot(
                 index.toDouble(), widget.allocations[index].netWorth / x);
           }),

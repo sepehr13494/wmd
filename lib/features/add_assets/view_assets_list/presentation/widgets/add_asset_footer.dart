@@ -85,7 +85,7 @@ class AddAssetFooter extends AppStatelessWidget {
                                 context.goNamed(AppRoutes.main);
                               }
                             },
-                            child: const Text("Back"))),
+                            child: Text(appLocalizations.common_button_back))),
                     const SizedBox(width: 12),
                     Expanded(
                         child: ElevatedButton(
@@ -97,7 +97,6 @@ class AddAssetFooter extends AppStatelessWidget {
                                           "",
                                   "loginAt": DateTime.now().toIso8601String()
                                 };
-
                                 context
                                     .read<UserStatusCubit>()
                                     .postUserStatus(map: map);
