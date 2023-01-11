@@ -23,6 +23,10 @@ extension CustomizableDateTime on DateTime {
     return Jiffy(input).format("do\nMMM");
   }
 
+  static String localizedDdMmOneLine(dynamic input) {
+    return Jiffy(input).format("do MMM");
+  }
+
   static String localizedDdMmYyyy(dynamic input) {
     return Jiffy(input).format("do MMM yyyy");
   }
@@ -37,5 +41,17 @@ extension CustomizableDateTime on DateTime {
 
   static String yyyyMmDd(DateTime dateTime) {
     return Jiffy(dateTime).format("yyyy.MM.dd");
+  }
+
+  static String miniDate(String dateTimeString){
+    var dateString = dateTimeString.split("/");
+    DateTime dateTime = DateTime(int.parse(dateString[2]),int.parse(dateString[0]),int.parse(dateString[1]));
+    return CustomizableDateTime.localizedDdMm(dateTime);
+  }
+
+  static String miniDateOneLine(String dateTimeString){
+    var dateString = dateTimeString.split("/");
+    DateTime dateTime = DateTime(int.parse(dateString[2]),int.parse(dateString[0]),int.parse(dateString[1]));
+    return CustomizableDateTime.localizedDdMmOneLine(dateTime);
   }
 }

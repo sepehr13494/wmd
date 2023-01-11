@@ -15,7 +15,6 @@ class AssetViewCubit extends Cubit<AssetViewState?> {
   }
 
   selectAsset(EachAssetModel assetModel) {
-    print(assetModel.title);
     emit(assetModel);
   }
 }
