@@ -20,6 +20,7 @@ class LineChartSample2 extends StatefulWidget {
 
 class _LineChartSample2State extends State<LineChartSample2> {
   bool isOneData = false;
+  bool showOneTooltip = false;
 
   @override
   void initState() {
@@ -36,18 +37,46 @@ class _LineChartSample2State extends State<LineChartSample2> {
     return Stack(
       alignment: Alignment.topCenter,
       children: [
-        LineChart(
-          mainData(context),
+        GestureDetector(
+          onTapDown: (detail){
+            setState(() {
+              showOneTooltip = true;
+            });
+          },
+          onTapUp: (detail){
+            setState(() {
+              showOneTooltip = false;
+            });
+          },
+          onTapCancel: (){
+            setState(() {
+              showOneTooltip = false;
+            });
+          },
+          child: LineChart(
+            mainData(context),
+          ),
         ),
-        isOneData ? InkWell(
+        isOneData ? Container(
+          margin: const EdgeInsets.only(left: 45),
+          width: 5,
+          height: 5,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: AppColors.chartColor,
+          ),
+        ) : const SizedBox(),
+        showOneTooltip ? Align(
+          alignment: Alignment.center,
           child: Container(
-            margin: const EdgeInsets.only(left: 45),
-            width: 5,
-            height: 5,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColors.chartColor,
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Theme.of(context).brightness == Brightness.dark ? AppColors.anotherCardColorForDarkTheme : AppColors.anotherCardColorForLightTheme,
+              borderRadius: BorderRadius.circular(4),
             ),
+            child: RichText(text: TextSpan(
+              children: _textSpans(0, Theme.of(context).textTheme)
+            )),
           ),
         ) : const SizedBox()
       ],
@@ -55,23 +84,27 @@ class _LineChartSample2State extends State<LineChartSample2> {
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    int x = (widget.allocations.length/7).ceil();
-    var dateString = widget.allocations[value.toInt()].name.split("/");
-    DateTime dateTime = DateTime(int.parse(dateString[2]),int.parse(dateString[0]),int.parse(dateString[1]));
-    if(isOneData){
-      return value.toInt() == 1 ? SideTitleWidget(
-        axisSide: meta.axisSide,
-        child: Text(
-            CustomizableDateTime.localizedDdMm(dateTime),
-            style: const TextStyle(fontSize: 8)),
-      ) : const SizedBox();
+    if(widget.allocations.isNotEmpty){
+      int x = (widget.allocations.length/7).ceil();
+      var dateString = widget.allocations[value.toInt()].name.split("/");
+      DateTime dateTime = DateTime(int.parse(dateString[2]),int.parse(dateString[0]),int.parse(dateString[1]));
+      if(isOneData){
+        return value.toInt() == 1 ? SideTitleWidget(
+          axisSide: meta.axisSide,
+          child: Text(
+              CustomizableDateTime.localizedDdMm(dateTime),
+              style: const TextStyle(fontSize: 8)),
+        ) : const SizedBox();
+      }else{
+        return value.toInt() % x == 0 ? SideTitleWidget(
+          axisSide: meta.axisSide,
+          child: Text(
+              CustomizableDateTime.localizedDdMm(dateTime),
+              style: const TextStyle(fontSize: 8)),
+        ) : const SizedBox();
+      }
     }else{
-      return value.toInt() % x == 0 ? SideTitleWidget(
-        axisSide: meta.axisSide,
-        child: Text(
-            CustomizableDateTime.localizedDdMm(dateTime),
-            style: const TextStyle(fontSize: 8)),
-      ) : const SizedBox();
+      return const SizedBox();
     }
   }
 
@@ -166,43 +199,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
                 CustomizableDateTime.miniDateOneLine(widget.allocations[touchedSpots.first.x.toInt()].name),
                 textTheme.titleSmall!,
                 textAlign: TextAlign.start,
-                children: [
-                  TextSpan(
-                    // ignore: prefer_interpolation_to_compose_strings
-                      text: '\n\n' +
-                          AppLocalizations.of(context).home_dashboardCharts_legendLabel_netWorth+ "    ",
-                      style: textTheme.titleSmall),
-                  TextSpan(
-                    // ignore: prefer_interpolation_to_compose_strings
-                      text: widget.allocations[touchedSpots.first.x.toInt()]
-                          .netWorth
-                          .formatNumberWithDecimal(),
-                      style: textTheme.titleSmall!
-                          .apply(color: AppColors.chartColor)),
-                  TextSpan(
-                    // ignore: prefer_interpolation_to_compose_strings
-                      text: '\n' +
-                          AppLocalizations.of(context).home_dashboardCharts_legendLabel_assets+ "         ",
-                      style: textTheme.titleSmall),
-                  TextSpan(
-                    // ignore: prefer_interpolation_to_compose_strings
-                      text: widget.allocations[touchedSpots.first.x.toInt()]
-                          .asset
-                          .formatNumberWithDecimal(),
-                      style: textTheme.titleSmall!
-                          .apply(color: AppColors.chartColor)),
-                  TextSpan(
-                    // ignore: prefer_interpolation_to_compose_strings
-                      text: '\n' + AppLocalizations.of(context).home_dashboardCharts_legendLabel_liability+ "      ",
-                      style: textTheme.titleSmall),
-                  TextSpan(
-                    // ignore: prefer_interpolation_to_compose_strings
-                      text: widget.allocations[touchedSpots.first.x.toInt()]
-                          .liability
-                          .formatNumberWithDecimal(),
-                      style: textTheme.titleSmall!
-                          .apply(color: AppColors.chartColor)),
-                ],
+                children: _textSpans(touchedSpots.first.x.toInt(),textTheme),
               )
             ];
           },
@@ -277,5 +274,45 @@ class _LineChartSample2State extends State<LineChartSample2> {
         ),
       ],
     );
+  }
+
+  _textSpans(int x,textTheme) {
+    return [
+      TextSpan(
+        // ignore: prefer_interpolation_to_compose_strings
+          text: '\n\n' +
+              AppLocalizations.of(context).home_dashboardCharts_legendLabel_netWorth+ "    ",
+          style: textTheme.titleSmall),
+      TextSpan(
+        // ignore: prefer_interpolation_to_compose_strings
+          text: widget.allocations[x]
+              .netWorth
+              .formatNumberWithDecimal(),
+          style: textTheme.titleSmall!
+              .apply(color: AppColors.chartColor)),
+      TextSpan(
+        // ignore: prefer_interpolation_to_compose_strings
+          text: '\n' +
+              AppLocalizations.of(context).home_dashboardCharts_legendLabel_assets+ "         ",
+          style: textTheme.titleSmall),
+      TextSpan(
+        // ignore: prefer_interpolation_to_compose_strings
+          text: widget.allocations[x]
+              .asset
+              .formatNumberWithDecimal(),
+          style: textTheme.titleSmall!
+              .apply(color: AppColors.chartColor)),
+      TextSpan(
+        // ignore: prefer_interpolation_to_compose_strings
+          text: '\n' + AppLocalizations.of(context).home_dashboardCharts_legendLabel_liability+ "      ",
+          style: textTheme.titleSmall),
+      TextSpan(
+        // ignore: prefer_interpolation_to_compose_strings
+          text: widget.allocations[x]
+              .liability
+              .formatNumberWithDecimal(),
+          style: textTheme.titleSmall!
+              .apply(color: AppColors.chartColor)),
+    ];
   }
 }
