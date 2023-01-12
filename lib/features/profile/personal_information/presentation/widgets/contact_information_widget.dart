@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -13,9 +14,17 @@ import 'package:wmd/global_functions.dart';
 
 import '../manager/personal_information_cubit.dart';
 
-class ContactInformationWidget extends AppStatelessWidget {
+class ContactInformationWidget extends StatefulWidget {
   const ContactInformationWidget({Key? key}) : super(key: key);
 
+  @override
+  AppState<ContactInformationWidget> createState() => _ContactInformationWidgetState();
+}
+
+class _ContactInformationWidgetState extends AppState<ContactInformationWidget> {
+
+  TextEditingController emailController = TextEditingController();
+  
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
@@ -28,8 +37,8 @@ class ContactInformationWidget extends AppStatelessWidget {
           var json = state.getNameEntity.toJson();
           json.removeWhere((key, value) => (value == "" || value == null));
           formKey.currentState!.patchValue(json);
+          emailController.text = state.getNameEntity.email;
         }
-
         if (state is SuccessStatePhone) {
           GlobalFunctions.showSnackBar(
               context,
@@ -40,114 +49,110 @@ class ContactInformationWidget extends AppStatelessWidget {
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: FormBuilder(
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                appLocalizations.profile_tabs_personal_headings_contactInfo,
-                style: textTheme.titleMedium,
-              ),
-              const SizedBox(height: 16),
-              RowOrColumn(
-                  rowCrossAxisAlignment: CrossAxisAlignment.start,
-                  showRow: isTablet,
-                  children: [
-                    ExpandedIf(
-                      expanded: isTablet,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: EachTextField(
-                            hasInfo: false,
-                            title: appLocalizations.profile_tabs_personal_fields_label_email,
-                            child: Builder(builder: (context) {
-                              final PersonalInformationState personalState =
-                                  context
-                                      .watch<PersonalInformationCubit>()
-                                      .state;
-                              return TextField(
-                                enabled: false,
-                                style: TextStyle(color: Colors.grey[500]),
-                                controller: TextEditingController(
-                                    text: (personalState
-                                            is PersonalInformationLoaded)
-                                        ? personalState.getNameEntity.email
-                                        : ""),
-                              );
-                            })),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    ExpandedIf(
-                      expanded: isTablet,
-                      child: Column(
-                        children: [
-                          EachTextField(
-                            hasInfo: false,
-                            title: appLocalizations.profile_tabs_personal_fields_label_primaryPhoneNumber,
-                            child: Row(
-                              children: [
-                                const CountryCodePicker(),
-                                const SizedBox(width: 8),
-                                Expanded(
-                                  child: AppTextFields.simpleTextField(
-                                      name: "phoneNumber",
-                                      hint: "",
-                                      type: TextFieldType.number,
-                                      keyboardType: TextInputType.number),
+        child: Builder(
+          builder: (context) {
+            return FormBuilder(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    appLocalizations.profile_tabs_personal_headings_contactInfo,
+                    style: textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 16),
+                  RowOrColumn(
+                      rowCrossAxisAlignment: CrossAxisAlignment.start,
+                      showRow: isTablet,
+                      children: [
+                        ExpandedIf(
+                          expanded: isTablet,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: EachTextField(
+                                hasInfo: false,
+                                title: appLocalizations.profile_tabs_personal_fields_label_email,
+                                child: Builder(builder: (context) {
+                                  return TextField(
+                                    enabled: false,
+                                    style: TextStyle(color: Colors.grey[500]),
+                                    controller: emailController,
+                                  );
+                                })),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        ExpandedIf(
+                          expanded: isTablet,
+                          child: Column(
+                            children: [
+                              EachTextField(
+                                hasInfo: false,
+                                title: appLocalizations.profile_tabs_personal_fields_label_primaryPhoneNumber,
+                                child: Row(
+                                  children: [
+                                    const CountryCodePicker(),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: AppTextFields.simpleTextField(
+                                          name: "phoneNumber",
+                                          hint: "",
+                                          type: TextFieldType.number,
+                                          keyboardType: TextInputType.number),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                          /* RichText(
-                            text: TextSpan(children: [
-                              TextSpan(
-                                text:
-                                "To keep your account secure, we need to verify your phone number,",
-                                style: textTheme.bodyMedium,
                               ),
-                              TextSpan(
-                                text: " Send verification code",
-                                style: textTheme.bodyMedium!.toLinkStyle(
-                                    context),
-                              )
-                            ]),
-                          ),*/
-                          Align(
-                            alignment: AlignmentDirectional.centerEnd,
-                            child: SizedBox(
-                              width: isTablet ? 160 : null,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  if (formKey.currentState!.validate()) {
-                                    debugPrint(formKey
-                                        .currentState!.instantValue
-                                        .toString());
+                              /* RichText(
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                    text:
+                                    "To keep your account secure, we need to verify your phone number,",
+                                    style: textTheme.bodyMedium,
+                                  ),
+                                  TextSpan(
+                                    text: " Send verification code",
+                                    style: textTheme.bodyMedium!.toLinkStyle(
+                                        context),
+                                  )
+                                ]),
+                              ),*/
+                              Align(
+                                alignment: AlignmentDirectional.centerEnd,
+                                child: SizedBox(
+                                  width: isTablet ? 160 : null,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      if (formKey.currentState!.validate()) {
+                                        debugPrint(formKey
+                                            .currentState!.instantValue
+                                            .toString());
 
-                                    context
-                                        .read<PersonalInformationCubit>()
-                                        .setNumber(
-                                            map: formKey
-                                                .currentState!.instantValue);
-                                  }
-                                },
-                                child: Text(appLocalizations.profile_tabs_preferences_button_applyChanges),
+                                        context
+                                            .read<PersonalInformationCubit>()
+                                            .setNumber(
+                                                map: formKey
+                                                    .currentState!.instantValue);
+                                      }
+                                    },
+                                    child: Text(appLocalizations.profile_tabs_preferences_button_applyChanges),
+                                  ),
+                                ),
                               ),
-                            ),
+                            ]
+                                .map((e) => Padding(
+                                      padding:
+                                          const EdgeInsets.symmetric(vertical: 8),
+                                      child: e,
+                                    ))
+                                .toList(),
                           ),
-                        ]
-                            .map((e) => Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8),
-                                  child: e,
-                                ))
-                            .toList(),
-                      ),
-                    ),
-                  ])
-            ],
-          ),
+                        ),
+                      ])
+                ],
+              ),
+            );
+          }
         ),
       ),
     );

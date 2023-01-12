@@ -17,7 +17,7 @@ class GetNameEntity extends Equatable {
   Map<String, dynamic> toJson() => {
         "email": email,
         "phoneNumber": phoneNumber?.number,
-        "country": phoneNumber?.countryCode,
+        //"country": phoneNumber?.countryCode,
         "firstName": firstName,
         "lastName": lastName,
       };

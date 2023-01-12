@@ -72,10 +72,14 @@ class EachAssetType extends AppStatelessWidget {
                     columnCrossAxisAlignment: CrossAxisAlignment.start,
                     showRow: !isMobile,
                     children: [
-                      Text(
-                        assetsOverview.totalAmount
-                            .convertMoney(addDollar: true),
-                        style: const TextStyle(fontSize: 28),
+                      SizedBox(
+                        width: 200,
+                        child: Text(
+                          assetsOverview.totalAmount
+                              .convertMoney(addDollar: true),
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontSize: 28),
+                        ),
                       ),
                       SizedBox(width: responsiveHelper.bigger16Gap, height: 16),
                       YtdItdWidget(
