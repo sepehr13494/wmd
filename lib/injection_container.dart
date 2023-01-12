@@ -113,9 +113,13 @@ import 'package:wmd/features/help/faq/domain/repositories/faq_repository.dart';
 import 'package:wmd/features/help/faq/domain/use_cases/get_faq_usecase.dart';
 import 'package:wmd/features/help/faq/presentation/manager/faq_cubit.dart';
 import 'package:wmd/features/help/support/data/data_sources/general_inquiry_remote_data_source.dart';
+import 'package:wmd/features/help/support/data/data_sources/schedule_call_remote_data_source.dart';
 import 'package:wmd/features/help/support/data/repositories/general_inquiry_respository_impl.dart';
+import 'package:wmd/features/help/support/data/repositories/schedule_call_repository_impl.dart';
 import 'package:wmd/features/help/support/domain/repositories/general_inquiry_repository.dart';
+import 'package:wmd/features/help/support/domain/repositories/schedule_call_repository.dart';
 import 'package:wmd/features/help/support/domain/use_cases/post_general_inquiry_usecase.dart';
+import 'package:wmd/features/help/support/domain/use_cases/post_schedule_call_usecase.dart';
 import 'package:wmd/features/help/support/presentation/manager/general_inquiry_cubit.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/features/profile/personal_information/data/data_sources/personal_information_remote_datasource.dart';
@@ -396,6 +400,13 @@ Future<void> init() async {
       () => GeneralInquiryRepositoryImpl(sl()));
   sl.registerLazySingleton<GeneralInquiryRemoteDataSource>(
       () => GeneralInquiryRemoteDataSourceImpl(sl()));
+
+  // shedule a call
+  sl.registerLazySingleton(() => PostScheduleCallUseCase(sl()));
+  sl.registerLazySingleton<ScheduleCallRepository>(
+      () => ScheduleCallRepositoryImpl(sl()));
+  sl.registerLazySingleton<ScheduleCallRemoteDataSource>(
+      () => ScheduleCallRemoteDataSourceImpl(sl()));
 
   await initExternal();
 }
