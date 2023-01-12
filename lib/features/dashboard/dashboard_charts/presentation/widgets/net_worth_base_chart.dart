@@ -50,41 +50,43 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
                                 appLocalizations
                                     .assets_charts_allocationCharts_areaChartLabel
                               ];
-                              return DropdownButton<String>(
-                                  items: List.generate(2, (index) {
-                                    return DropdownMenuItem<String>(
-                                      value: items[index],
-                                      child: Text(
-                                        items[index],
-                                        style: textTheme.bodyMedium!.apply(
-                                            color:
-                                                Theme.of(context).primaryColor),
-                                      ),
-                                    );
-                                  }),
-                                  onChanged: ((value) {
-                                    if (value ==
-                                        appLocalizations
-                                            .assets_charts_allocationCharts_barChartLabel) {
-                                      setState(() {
-                                        barChart = true;
-                                      });
-                                    } else {
-                                      setState(() {
-                                        barChart = false;
-                                      });
-                                    }
-                                  }),
-                                  icon: Icon(
-                                    Icons.keyboard_arrow_down,
-                                    size: 15,
-                                    color: Theme.of(context).primaryColor,
-                                  ),
-                                  value: barChart
-                                      ? appLocalizations
-                                          .assets_charts_allocationCharts_barChartLabel
-                                      : appLocalizations
-                                          .assets_charts_allocationCharts_areaChartLabel);
+                              return DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                    items: List.generate(2, (index) {
+                                      return DropdownMenuItem<String>(
+                                        value: items[index],
+                                        child: Text(
+                                          items[index],
+                                          style: textTheme.bodyMedium!.apply(
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                        ),
+                                      );
+                                    }),
+                                    onChanged: ((value) {
+                                      if (value ==
+                                          appLocalizations
+                                              .assets_charts_allocationCharts_barChartLabel) {
+                                        setState(() {
+                                          barChart = true;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          barChart = false;
+                                        });
+                                      }
+                                    }),
+                                    icon: Icon(
+                                      Icons.keyboard_arrow_down,
+                                      size: 15,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                    value: barChart
+                                        ? appLocalizations
+                                            .assets_charts_allocationCharts_barChartLabel
+                                        : appLocalizations
+                                            .assets_charts_allocationCharts_areaChartLabel),
+                              );
                             })
                           ],
                         ),
@@ -118,5 +120,4 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
       );
     });
   }
-
 }
