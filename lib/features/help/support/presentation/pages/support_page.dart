@@ -81,7 +81,8 @@ class _SupportPageState extends AppState<SupportPage> {
                                 //     )),
                                 Text(
                                   appLocalizations.support_heading,
-                                  style: textTheme.headlineSmall,
+                                  style: textTheme.headlineMedium!.apply(
+                                      color: textTheme.headlineSmall?.color),
                                 ),
                                 const SizedBox(
                                   height: 16,
