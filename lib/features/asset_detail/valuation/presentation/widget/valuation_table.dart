@@ -70,8 +70,10 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
   bool isSummary = true;
   static const columnWidths = {
     0: IntrinsicColumnWidth(),
-    1: FlexColumnWidth(1.7),
-    3: IntrinsicColumnWidth(),
+    1: FlexColumnWidth(0.3),
+    2: FlexColumnWidth(1.7),
+    3: FlexColumnWidth(0.3),
+    4: IntrinsicColumnWidth(),
     // 3: IntrinsicColumnWidth(),
     // 4: FlexColumnWidth(1),
   };
@@ -153,6 +155,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             style: textTheme.bodySmall,
           ),
         ),
+        const SizedBox.shrink(),
         Padding(
           padding: padding,
           child: Text(
@@ -160,6 +163,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             style: textTheme.bodySmall,
           ),
         ),
+        const SizedBox.shrink(),
         Padding(
           padding: padding,
           child: Text(
@@ -197,6 +201,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             style: textTheme.labelMedium!,
           ),
         ),
+        const SizedBox.shrink(),
         Padding(
           padding: padding,
           child: Text(
@@ -206,6 +211,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             overflow: TextOverflow.ellipsis,
           ),
         ),
+        const SizedBox.shrink(),
         FittedBox(
           fit: BoxFit.scaleDown,
           alignment: Alignment.centerLeft,
