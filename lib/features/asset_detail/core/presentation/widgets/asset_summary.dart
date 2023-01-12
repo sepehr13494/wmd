@@ -173,7 +173,7 @@ class SummaryCardWidget extends AppStatelessWidget {
                       Padding(
                         padding: isMobile
                             ? const EdgeInsets.symmetric(vertical: 12)
-                            : const EdgeInsets.symmetric(vertical: 8),
+                            : const EdgeInsets.symmetric(vertical: 0),
                         child: Builder(builder: (context) {
                           if ((context.read<MainDashboardCubit>().state
                               is MainDashboardNetWorthLoaded)) {
@@ -197,7 +197,7 @@ class SummaryCardWidget extends AppStatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          isMobile ? const SizedBox(height: 16) : const SizedBox(),
           if (asOfDate != null) AsOfDateWidget(shownDate: asOfDate!),
         ],
       ),
@@ -212,9 +212,10 @@ class SummaryCardWidget extends AppStatelessWidget {
       ),
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 "YTD",
