@@ -62,7 +62,7 @@ class ChartsWrapper extends AppStatelessWidget {
                 ),
                 AspectRatio(
                   aspectRatio:
-                      ResponsiveHelper(context: context).isMobile ? 1.4 : 1.3,
+                      ResponsiveHelper(context: context).isMobile ? 1 : 1.3,
                   child: TabBarView(children: [
                     Padding(
                       padding: EdgeInsets.symmetric(
@@ -76,15 +76,6 @@ class ChartsWrapper extends AppStatelessWidget {
                           padding: const EdgeInsets.all(16.0),
                           child: Column(
                             children: const [
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.end,
-                              //   children: [
-                              //     ChartPicker(
-                              //       value: 0,
-                              //       onChange: (value) {},
-                              //     ),
-                              //   ],
-                              // ),
                               Expanded(child: BaseAssetsOverviewChartsWidget()),
                             ],
                           ),
