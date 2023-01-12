@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/presentation/widgets/empty_chart.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
@@ -97,8 +98,7 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
                             padding: const EdgeInsets.all(12),
                             child: Builder(builder: (context) {
                               if (state.getAllocationEntity.isEmpty) {
-                                return _buildEmptyChart(
-                                    appLocalizations, textTheme);
+                                return const EmptyChart();
                               }
                               return barChart
                                   ? BarChartMainDashboard(
@@ -119,22 +119,4 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
     });
   }
 
-  Widget _buildEmptyChart(
-      AppLocalizations appLocalizations, TextTheme textTheme) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          appLocalizations.common_emptyText_title,
-          style: textTheme.bodyMedium,
-        ),
-        Text(
-          appLocalizations.common_emptyText_assetClassDescription,
-          textAlign: TextAlign.center,
-          style: textTheme.bodySmall,
-        ),
-      ],
-    );
-  }
 }

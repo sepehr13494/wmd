@@ -37,7 +37,11 @@ class _LineChartSample2State extends State<LineChartSample2> {
     return Stack(
       alignment: Alignment.topCenter,
       children: [
-        GestureDetector(
+        LineChart(
+          mainData(context),
+        ),
+        isOneData ? GestureDetector(
+          behavior: HitTestBehavior.translucent,
           onTapDown: (detail){
             setState(() {
               showOneTooltip = true;
@@ -48,22 +52,24 @@ class _LineChartSample2State extends State<LineChartSample2> {
               showOneTooltip = false;
             });
           },
-          onTapCancel: (){
+          onLongPressUp: () {
             setState(() {
               showOneTooltip = false;
             });
           },
-          child: LineChart(
-            mainData(context),
-          ),
-        ),
-        isOneData ? Container(
-          margin: const EdgeInsets.only(left: 45),
-          width: 5,
-          height: 5,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: AppColors.chartColor,
+          child: Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(left: 45),
+                width: 5,
+                height: 5,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppColors.chartColor,
+                ),
+              ),
+              const SizedBox(height: 60,width: 100)
+            ],
           ),
         ) : const SizedBox(),
         showOneTooltip ? Align(
@@ -75,7 +81,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
               borderRadius: BorderRadius.circular(4),
             ),
             child: RichText(text: TextSpan(
-              children: _textSpans(0, Theme.of(context).textTheme)
+              children: _textSpans(0, Theme.of(context).textTheme,true)
             )),
           ),
         ) : const SizedBox()
@@ -84,27 +90,23 @@ class _LineChartSample2State extends State<LineChartSample2> {
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    if(widget.allocations.isNotEmpty){
-      int x = (widget.allocations.length/7).ceil();
-      var dateString = widget.allocations[value.toInt()].name.split("/");
-      DateTime dateTime = DateTime(int.parse(dateString[2]),int.parse(dateString[0]),int.parse(dateString[1]));
-      if(isOneData){
-        return value.toInt() == 1 ? SideTitleWidget(
-          axisSide: meta.axisSide,
-          child: Text(
-              CustomizableDateTime.localizedDdMm(dateTime),
-              style: const TextStyle(fontSize: 8)),
-        ) : const SizedBox();
-      }else{
-        return value.toInt() % x == 0 ? SideTitleWidget(
-          axisSide: meta.axisSide,
-          child: Text(
-              CustomizableDateTime.localizedDdMm(dateTime),
-              style: const TextStyle(fontSize: 8)),
-        ) : const SizedBox();
-      }
+    int x = (widget.allocations.length/7).ceil();
+    var dateString = widget.allocations[value.toInt()].name.split("/");
+    DateTime dateTime = DateTime(int.parse(dateString[2]),int.parse(dateString[0]),int.parse(dateString[1]));
+    if(isOneData){
+      return value.toInt() == 1 ? SideTitleWidget(
+        axisSide: meta.axisSide,
+        child: Text(
+            CustomizableDateTime.localizedDdMm(dateTime),
+            style: const TextStyle(fontSize: 8)),
+      ) : const SizedBox();
     }else{
-      return const SizedBox();
+      return value.toInt() % x == 0 ? SideTitleWidget(
+        axisSide: meta.axisSide,
+        child: Text(
+            CustomizableDateTime.localizedDdMm(dateTime),
+            style: const TextStyle(fontSize: 8)),
+      ) : const SizedBox();
     }
   }
 
@@ -199,7 +201,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
                 CustomizableDateTime.miniDateOneLine(widget.allocations[touchedSpots.first.x.toInt()].name),
                 textTheme.titleSmall!,
                 textAlign: TextAlign.start,
-                children: _textSpans(touchedSpots.first.x.toInt(),textTheme),
+                children: _textSpans(touchedSpots.first.x.toInt(),textTheme,false),
               )
             ];
           },
@@ -276,8 +278,11 @@ class _LineChartSample2State extends State<LineChartSample2> {
     );
   }
 
-  _textSpans(int x,textTheme) {
+  _textSpans(int x,textTheme, bool showDate) {
     return [
+      showDate ? TextSpan(
+        text: CustomizableDateTime.miniDateOneLine(widget.allocations[x].name),
+      ) : const TextSpan(),
       TextSpan(
         // ignore: prefer_interpolation_to_compose_strings
           text: '\n\n' +

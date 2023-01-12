@@ -20,7 +20,9 @@ class ProfilePage extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final appTheme = Theme.of(context);
-    return Builder(builder: (context) {
+    return BlocProvider(
+  create: (context) => sl<PersonalInformationCubit>()..getName(),
+  child: Builder(builder: (context) {
       return BlocListener<PersonalInformationCubit, PersonalInformationState>(
         listener:
             BlocHelper.defaultBlocListener(listener: (context, state) {}),
@@ -41,9 +43,9 @@ class ProfilePage extends AppStatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    const PersonalInformationWidget(),
-                    const Divider(height: 48),
                     const ContactInformationWidget(),
+                    const Divider(height: 48),
+                    const PersonalInformationWidget(),
                     const Divider(height: 48),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,6 +150,7 @@ class ProfilePage extends AppStatelessWidget {
               ),
             )),
       );
-    });
+    }),
+);
   }
 }

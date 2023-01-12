@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/assets_overview/charts/domain/entities/get_chart_entity.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'constants.dart';
 
@@ -110,19 +112,42 @@ class AssetsOverviewCharts extends StatelessWidget {
                       getChartEntity.others+
                       getChartEntity.bankAccount+
                       getChartEntity.listedAsset;
+              final appLocalizations = AppLocalizations.of(context);
               return BarTooltipItem(
-                getChartEntity.date,
+                "${CustomizableDateTime.miniDateOneLine(getChartEntity.date)}\n",
                 textTheme.titleSmall!,
                 textAlign: TextAlign.start,
                 children: [
-                  TextSpan(
-                      text: '\nCurrent Balance', style: textTheme.bodyMedium),
-                  TextSpan(
-                    // ignore: prefer_interpolation_to_compose_strings
-                      text: '\n' +
-                          sum.formatNumberWithDecimal(),
-                      style: textTheme.titleSmall!
-                          .apply(color: AppColors.chartColor)),
+                  getChartEntity.bankAccount != 0 ? TextSpan(
+                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
+                    appLocalizations,
+                    "Bank Account".replaceAll(" ", ""),
+                  ) + "\t\t"),TextSpan(text: getChartEntity.bankAccount.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
+                  getChartEntity.privateEquity != 0 ? TextSpan(
+                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
+                    appLocalizations,
+                    "Private Equity".replaceAll(" ", ""),
+                  ) + "\t\t"),TextSpan(text: getChartEntity.privateEquity.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
+                  getChartEntity.privateDebt != 0 ? TextSpan(
+                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
+                    appLocalizations,
+                    "Private Debt".replaceAll(" ", ""),
+                  ) + "\t\t"),TextSpan(text: getChartEntity.privateDebt.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
+                  getChartEntity.realEstate != 0 ? TextSpan(
+                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
+                    appLocalizations,
+                    "Real Estate".replaceAll(" ", ""),
+                  ) + "\t\t"),TextSpan(text: getChartEntity.realEstate.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
+                  getChartEntity.listedAsset != 0 ? TextSpan(
+                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
+                    appLocalizations,
+                    "Listed Asset".replaceAll(" ", ""),
+                  ) + "\t\t"),TextSpan(text: getChartEntity.listedAsset.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
+                  getChartEntity.others != 0 ? TextSpan(
+                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
+                    appLocalizations,
+                    "Other Assets".replaceAll(" ", ""),
+                  ) + "\t"),TextSpan(text: getChartEntity.others.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
                 ],
               );
             },
@@ -217,5 +242,24 @@ class AssetsOverviewCharts extends StatelessWidget {
         ],
       );
     });
+  }
+
+  String _getAssetNameByType(String type) {
+    switch (type) {
+      case AssetTypes.bankAccount:
+        return "Bank Account";
+      case AssetTypes.privateEquity:
+        return "Private Equity";
+      case AssetTypes.privateDebt:
+        return "Private Debt";
+      case AssetTypes.realEstate:
+        return "Real Estate";
+      case AssetTypes.listedAsset:
+        return "Listed Asset";
+      case AssetTypes.otherAsset:
+        return "Other Assets";
+      default:
+        return "";
+    }
   }
 }
