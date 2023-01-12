@@ -20,7 +20,7 @@ class PortfolioContributionWidget extends AppStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Portfolio contribution",
+          appLocalizations.assets_label_portfolioContribution,
           style: textTheme.bodySmall,
         ),
         Builder(builder: (context) {

@@ -63,7 +63,7 @@ class VerifyEmailPage extends AppStatelessWidget {
                   _isForgotPasswordPage()
                       ? appLocalizations.auth_forgot_emailSentSuccess_heading
                       : appLocalizations.auth_verifyResponse_page_description,
-                  style: textTheme.headlineSmall,
+                  style: textTheme.titleLarge,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(

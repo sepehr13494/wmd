@@ -32,7 +32,12 @@ class _FaqItemListState extends AppState<FaqItemList> {
             final faqList = state.faqs;
 
             setState(() {
-              expanded = List<bool>.generate(faqList.length, (i) => false);
+              expanded = List<bool>.generate(faqList.length, (i) {
+                if (i == 0) {
+                  return true;
+                }
+                return false;
+              });
             });
           }
         }), builder: (context, state) {

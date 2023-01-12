@@ -1,18 +1,13 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
-import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/dashboard_app_bar.dart';
-import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/features/help/faq/presentation/widgets/faq_item_list_view.dart';
 import 'package:wmd/features/help/support/presentation/manager/general_inquiry_cubit.dart';
 import 'package:wmd/features/help/support/presentation/widget/contact_business_team_widget.dart';
@@ -93,7 +88,9 @@ class _SupportPageState extends AppState<SupportPage> {
                                 ),
                                 Text(
                                   appLocalizations.support_subheading,
-                                  style: textTheme.bodySmall,
+                                  style: textTheme.headlineSmall!.apply(
+                                      color: textTheme.bodyMedium?.color),
+                                  textAlign: TextAlign.center,
                                 ),
                               ]),
                           const SizedBox(
@@ -142,8 +139,9 @@ class _SupportPageState extends AppState<SupportPage> {
                                                       context);
                                                 })),
                                       ]))),
-                          const SizedBox(
+                          const Divider(
                             height: 24,
+                            // color: Colors.red,
                           ),
                           Text(
                             appLocalizations.support_headings_faqs,
@@ -171,9 +169,10 @@ class _SupportPageState extends AppState<SupportPage> {
                                 children: [
                                   Container(
                                       padding: const EdgeInsets.all(12),
-                                      child: const Icon(
+                                      child: Icon(
                                         Icons.email,
-                                        color: AppColors.primary,
+                                        size: 12,
+                                        color: textTheme.bodyMedium?.color,
                                       )),
                                   Text(
                                     appLocalizations.support_text_email,
