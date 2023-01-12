@@ -7,26 +7,34 @@ import 'package:wmd/core/util/colors.dart';
 class AddAssetOnBoarding extends AppStatelessWidget {
   const AddAssetOnBoarding({Key? key}) : super(key: key);
 
-  static const List<Map<String, dynamic>> itemList = [
-    {
-      "count": 1,
-      "title": "Select asset classes",
-      "body":
-          "Help us with the type of assets and liabilities you own. This is to get your started. You can always add more.",
-    },
-    {
-      "count": 2,
-      "title": "Add your first asset",
-      "body":
-          "Take a minute to add one of your assets. You can simillarly add your assets.",
-    },
-    {
-      "count": 3,
-      "title": "View your dashboard ",
-      "body":
-          "A guided walkthrough of your wealth overview based on the asset added. Add all your assets here and visualize your wealth.",
-    },
-  ];
+  static List<Map<String, dynamic>> itemList(
+          AppLocalizations appLocalizations) =>
+      [
+        {
+          "count": 1,
+          "title": appLocalizations
+              .common_guidedOnBoardingModalStepper_selectAsset_title,
+          "body": appLocalizations
+              .manage_guidedOnBoarding_steps_selectAsset_description
+          // "Help us with the type of assets and liabilities you own. This is to get your started. You can always add more.",
+        },
+        {
+          "count": 2,
+          "title": appLocalizations
+              .common_guidedOnBoardingModalStepper_firstAsset_title,
+          "body": appLocalizations
+              .manage_guidedOnBoarding_steps_firstAsset_description,
+          // "Take a minute to add one of your assets. You can simillarly add your assets.",
+        },
+        {
+          "count": 3,
+          "title": appLocalizations
+              .common_guidedOnBoardingModalStepper_viewDashboard_title,
+          "body": appLocalizations
+              .manage_guidedOnBoarding_steps_viewDashboard_description,
+          // "A guided walkthrough of your wealth overview based on the asset added. Add all your assets here and visualize your wealth.",
+        },
+      ];
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -38,13 +46,14 @@ class AddAssetOnBoarding extends AppStatelessWidget {
         padding: const EdgeInsets.only(top: 10),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
-            'Let\'s set up your dashboard',
+            appLocalizations.manage_guidedOnBoarding_heading,
+            // 'Let\'s set up your dashboard',
             style:
                 textTheme.headlineSmall!.apply(fontWeightDelta: 1).copyWith(),
           ),
           const SizedBox(height: 16),
           Column(
-              children: itemList
+              children: itemList(appLocalizations)
                   .map((e) => OnboardingStepItem(
                         count: e["count"],
                         title: e["title"],

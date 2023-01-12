@@ -18,7 +18,7 @@ class OnBoardingSecurityView extends AppStatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Security and Privacy come first at The Family Office',
+          appLocalizations.home_guidedOnBoarding_securityAndPrivacy_title,
           style: textTheme.headlineSmall!.apply(fontWeightDelta: 1).copyWith(
               fontSize: responsiveHelper.getFontSize(30),
               height: responsiveHelper.getLineHeight(1.2)),

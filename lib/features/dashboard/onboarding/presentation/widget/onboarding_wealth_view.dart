@@ -18,7 +18,7 @@ class OnBoardingWealthView extends AppStatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Track and visualize your wealth',
+          appLocalizations.home_guidedOnBoarding_trackAndVisualizeWealth_title,
           style: textTheme.headlineSmall!.apply(fontWeightDelta: 1).copyWith(
               fontSize: responsiveHelper.getFontSize(30),
               height: responsiveHelper.getLineHeight(1.2)),

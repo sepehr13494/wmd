@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/change_language_button.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnboardingAppBar extends StatelessWidget with PreferredSizeWidget {
   final int page;
@@ -14,7 +15,7 @@ class OnboardingAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-
+    final appLocalizations = AppLocalizations.of(context);
     final bottom = AppBar(
       centerTitle: false,
       title: Row(
@@ -43,7 +44,10 @@ class OnboardingAppBar extends StatelessWidget with PreferredSizeWidget {
                 ),
                 const SizedBox(width: 12),
                 if (page == 1)
-                  Text("Select assets", style: textTheme.titleSmall),
+                  Text(
+                      appLocalizations
+                          .common_guidedOnBoardingModalStepper_selectAsset_title,
+                      style: textTheme.titleSmall),
                 const SizedBox(width: 16),
                 Container(
                   width: 30,
@@ -67,7 +71,10 @@ class OnboardingAppBar extends StatelessWidget with PreferredSizeWidget {
                 ),
                 const SizedBox(width: 12),
                 if (page == 2)
-                  Text("Add your first asset", style: textTheme.titleSmall),
+                  Text(
+                      appLocalizations
+                          .common_guidedOnBoardingModalStepper_firstAsset_title,
+                      style: textTheme.titleSmall),
                 const SizedBox(width: 16),
                 Container(
                   width: 30,
