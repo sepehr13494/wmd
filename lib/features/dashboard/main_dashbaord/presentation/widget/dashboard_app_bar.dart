@@ -16,12 +16,6 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: false,
-      leading: IconButton(
-        onPressed: () {
-          context.goNamed(AppRoutes.onboarding);
-        },
-        icon: const Icon(Icons.arrow_back),
-      ),
       actions: [
         const ChangeLanguageButton(),
         // Switch(
