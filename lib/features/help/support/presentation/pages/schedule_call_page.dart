@@ -14,6 +14,10 @@ import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_bloc_he
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
+import 'package:wmd/features/help/support/data/models/call_reason.dart';
+import 'package:wmd/features/help/support/data/models/meeting_type.dart';
+import 'package:wmd/features/help/support/data/models/time_zones.dart';
+import 'package:wmd/features/help/support/presentation/widget/schedule_call_footer.dart';
 import 'package:wmd/injection_container.dart';
 
 class ScheduleCallPage extends StatefulWidget {
@@ -23,9 +27,9 @@ class ScheduleCallPage extends StatefulWidget {
 }
 
 class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
-  final privateDebtFormKey = GlobalKey<FormBuilderState>();
+  final formKey = GlobalKey<FormBuilderState>();
   bool enableAddAssetButton = false;
-  DateTime? aqusitionDateValue;
+  DateTime? availableDateValue;
   @override
   void didUpdateWidget(covariant ScheduleCallPage oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -33,7 +37,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
 
   void checkFinalValid(value) async {
     await Future.delayed(const Duration(milliseconds: 100));
-    bool finalValid = privateDebtFormKey.currentState!.isValid;
+    bool finalValid = formKey.currentState!.isValid;
     if (finalValid) {
       if (!enableAddAssetButton) {
         setState(() {
@@ -57,15 +61,15 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: const AddAssetHeader(
-            title: "Add Real Estate",
+            title: "",
           ),
-          bottomSheet: AddAssetFooter(
-              buttonText: "Add asset",
+          bottomSheet: ScheduleCallFooter(
+              formKey: formKey,
               onTap: !enableAddAssetButton
                   ? null
                   : () {
                       Map<String, dynamic> finalMap = {
-                        ...privateDebtFormKey.currentState!.instantValue,
+                        ...formKey.currentState!.instantValue,
                       };
 
                       print(finalMap);
@@ -89,46 +93,23 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                           return SingleChildScrollView(
                             child: Column(children: [
                               FormBuilder(
-                                key: privateDebtFormKey,
+                                key: formKey,
                                 initialValue:
                                     AddAssetConstants.initialJsonForAddAsset,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Add Real Estate",
-                                      style: textTheme.headlineSmall,
-                                    ),
-                                    Text(
                                       appLocalizations
-                                          .manage_assetAndLiability_assetAndLiabilityList_realEstate_description,
-                                      style: textTheme.bodySmall,
+                                          .support_card_contactClientService_title,
+                                      style: textTheme.headlineMedium,
                                     ),
-                                    Text(
-                                      "Fill in your property details",
-                                      style: textTheme.titleSmall,
-                                    ),
-                                    EachTextField(
-                                      hasInfo: false,
-                                      title: "Name",
-                                      child: AppTextFields.simpleTextField(
-                                          title: "Name",
-                                          name: "name",
-                                          onChanged: checkFinalValid,
-                                          extraValidators: [
-                                            (val) {
-                                              return (val != null &&
-                                                      val.length > 100)
-                                                  ? "Name cannot be more than 100 characters"
-                                                  : null;
-                                            }
-                                          ],
-                                          hint:
-                                              "A nickname to identify your property"),
+                                    const SizedBox(
+                                      height: 30,
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Type of real estate",
+                                      title: "Select your time zone",
                                       child: AppTextFields.dropDownTextField(
                                         onChanged: (val) async {
                                           // setState(() {
@@ -140,9 +121,66 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                                               milliseconds: 200));
                                           checkFinalValid(val);
                                         },
-                                        name: "realEstateType",
-                                        hint: "Type or select real estate type",
-                                        items: RealEstateType.realEstateList
+                                        name: "timezone",
+                                        hint: "Select",
+                                        items: TimeZones.timezonesList
+                                            .map((e) => DropdownMenuItem(
+                                                  value: e.value,
+                                                  child: Text(e.name),
+                                                ))
+                                            .toList(),
+                                      ),
+                                    ),
+                                    EachTextField(
+                                      title: "Select an available date",
+                                      child: FormBuilderDateTimePicker(
+                                        onChanged: (selectedDate) {
+                                          checkFinalValid(selectedDate);
+                                          setState(() {
+                                            availableDateValue = selectedDate;
+                                          });
+                                        },
+                                        firstDate: DateTime.now(),
+                                        inputType: InputType.date,
+                                        format: DateFormat("dd/MM/yyyy"),
+                                        selectableDayPredicate:
+                                            (DateTime date) {
+                                          if (date.weekday ==
+                                                  DateTime.saturday ||
+                                              date.weekday == DateTime.friday) {
+                                            return false;
+                                          }
+                                          return true;
+                                        },
+                                        name: "date",
+                                        decoration: InputDecoration(
+                                            suffixIcon: Icon(
+                                              Icons.calendar_today_outlined,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                            ),
+                                            hintText: "DD/MM/YYYY"),
+                                      ),
+                                    ),
+                                    if (availableDateValue != null)
+                                      const EachTextField(
+                                          title: "Select an available date",
+                                          child: TimeslotsSelector<String>(
+                                            name: "time",
+                                          )),
+                                    EachTextField(
+                                      hasInfo: false,
+                                      title: "Meeting type",
+                                      child: AppTextFields.dropDownTextField(
+                                        onChanged: (val) async {
+                                          await Future.delayed(const Duration(
+                                              milliseconds: 200));
+                                          checkFinalValid(val);
+                                        },
+                                        name: "type",
+                                        enabled: false,
+                                        hint: "Select",
+                                        items: MeetingType.meetingTypeList
                                             .map((e) => DropdownMenuItem(
                                                   value: e.value,
                                                   child: Text(e.name),
@@ -152,7 +190,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Address (optional)",
+                                      title: "Email",
                                       child: AppTextFields.simpleTextField(
                                           title: "Address",
                                           name: "address",
@@ -162,108 +200,48 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Country",
-                                      child: CountriesDropdown(
-                                        onChanged: checkFinalValid,
-                                      ),
-                                    ),
-                                    EachTextField(
-                                      hasInfo: false,
-                                      title: "Currency",
-                                      child: CurrenciesDropdown(
-                                        onChanged: checkFinalValid,
-                                        showExchange: true,
-                                      ),
-                                    ),
-                                    EachTextField(
-                                      hasInfo: false,
-                                      title: "Number of units",
-                                      child: AppTextFields.simpleTextField(
-                                          type: TextFieldType.number,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: checkFinalValid,
-                                          name: "noOfUnits",
-                                          hint: "No. of Units"),
-                                    ),
-                                    EachTextField(
-                                      title: "Acquisition cost per unit",
-                                      child: AppTextFields.simpleTextField(
-                                          onChanged: checkFinalValid,
-                                          type: TextFieldType.money,
-                                          keyboardType: TextInputType.number,
-                                          name: "acquisitionCostPerUnit",
-                                          hint: "Type a cost"),
-                                    ),
-                                    EachTextField(
-                                      title: "Acquisition date",
-                                      child: FormBuilderDateTimePicker(
-                                        onChanged: (selectedDate) {
-                                          checkFinalValid(selectedDate);
-                                          setState(() {
-                                            aqusitionDateValue = selectedDate;
-                                          });
+                                      title: "Call reason",
+                                      child: AppTextFields.dropDownTextField(
+                                        onChanged: (val) async {
+                                          // setState(() {
+                                          //   bottomFormKey =
+                                          //       GlobalKey<FormBuilderState>();
+                                          //   accountType = val;
+                                          // });
+                                          await Future.delayed(const Duration(
+                                              milliseconds: 200));
+                                          checkFinalValid(val);
                                         },
-                                        lastDate: DateTime.now(),
-                                        inputType: InputType.date,
-                                        format: DateFormat("dd/MM/yyyy"),
-                                        name: "acquisitionDate",
-                                        decoration: InputDecoration(
-                                            suffixIcon: Icon(
-                                              Icons.calendar_today_outlined,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                            ),
-                                            hintText: "DD/MM/YYYY"),
+                                        name: "reason",
+                                        hint: "Select",
+                                        items: CallReason.callReasonList
+                                            .map((e) => DropdownMenuItem(
+                                                  value: e.value,
+                                                  child: Text(e.name),
+                                                ))
+                                            .toList(),
                                       ),
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Your ownership",
+                                      title: "Additional Info",
                                       child: AppTextFields.simpleTextField(
+                                          title: "info",
+                                          name: "reason",
+                                          minLines: 5,
+                                          onChanged: checkFinalValid,
                                           extraValidators: [
                                             (val) {
-                                              return ((int.tryParse(
-                                                              val ?? "0") ??
-                                                          0) <=
-                                                      100)
-                                                  ? null
-                                                  : "Ownership can't be greater then 100";
+                                              return (val != null &&
+                                                      val.length > 100)
+                                                  ? "Inquiry cannot be more than 100 characters"
+                                                  : null;
                                             }
                                           ],
-                                          type: TextFieldType.number,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: checkFinalValid,
-                                          name: "ownershipPercentage",
-                                          hint: "Type in a figure e.g 72%"),
+                                          hint: appLocalizations
+                                              .common_submitEnquiryModal_textarea_placeholder),
                                     ),
-                                    EachTextField(
-                                      title: "Value per unit (optional)",
-                                      child: AppTextFields.simpleTextField(
-                                          required: false,
-                                          type: TextFieldType.money,
-                                          keyboardType: TextInputType.number,
-                                          name: "marketValue",
-                                          hint: "Current market value"),
-                                    ),
-                                    EachTextField(
-                                      title: "Valuation date (optional)",
-                                      child: FormBuilderDateTimePicker(
-                                        firstDate: aqusitionDateValue,
-                                        lastDate: DateTime.now(),
-                                        format: DateFormat("dd/MM/yyyy"),
-                                        inputType: InputType.date,
-                                        name: "valuationDate",
-                                        onChanged: checkFinalValid,
-                                        decoration: InputDecoration(
-                                            suffixIcon: Icon(
-                                              Icons.calendar_today_outlined,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                            ),
-                                            hintText: "DD/MM/YYYY"),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 60),
+                                    const SizedBox(height: 120),
                                   ]
                                       .map((e) => Padding(
                                             padding: const EdgeInsets.symmetric(

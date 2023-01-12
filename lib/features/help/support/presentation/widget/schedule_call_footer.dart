@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
-import 'package:wmd/core/presentation/routes/app_routes.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal.dart';
-import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/support_widget.dart';
-import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
-import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
-import 'package:wmd/global_functions.dart';
-import 'package:wmd/injection_container.dart';
 
-class ScheduleCallFooter extends AppStatelessWidget {
-  final String buttonText;
+class ScheduleCallFooter extends StatefulWidget {
   final void Function()? onTap;
+  final GlobalKey<FormBuilderState> formKey;
+
   const ScheduleCallFooter({
     Key? key,
-    required this.buttonText,
     required this.onTap,
+    required this.formKey,
   }) : super(key: key);
+  @override
+  AppState<ScheduleCallFooter> createState() => _ScheduleCallFooterState();
+}
+
+class _ScheduleCallFooterState extends AppState<ScheduleCallFooter> {
+  bool isExpandedFooter = false;
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -29,89 +27,170 @@ class ScheduleCallFooter extends AppStatelessWidget {
 
     return Container(
       width: double.maxFinite,
-      height: 60,
+      height: isExpandedFooter ? 500 : 120,
       color: Theme.of(context).cardColor,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Row(
-          children: [
-            isMobile
-                ? const SizedBox()
-                : Expanded(
-                    child: Row(
-                      children: [
-                        const SupportWidget(),
-                        const SizedBox(width: 12),
-                        Expanded(
-                            child: Center(
-                                child: Text(
-                          "You can add another asset on the next screen",
-                          style: textTheme.bodySmall,
-                        ))),
-                        const SizedBox(width: 12),
-                      ],
-                    ),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: [
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      isExpandedFooter = !isExpandedFooter;
+                    });
+                  },
+                  icon: Icon(
+                    isExpandedFooter
+                        ? Icons.keyboard_arrow_down
+                        : Icons.keyboard_arrow_up,
+                    color: Theme.of(context).primaryColor,
+                  )),
+              if (isExpandedFooter)
+                SizedBox(
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CallSummarySection(
+                          title: "Call details",
+                          child: Column(
+                            children: [
+                              CallSummaryRow(
+                                  label: "Time Zone",
+                                  value: widget.formKey.currentState!
+                                      .instantValue["timezone"]
+                                      .toString()),
+                              CallSummaryRow(
+                                label: "Date",
+                                value: widget
+                                    .formKey.currentState!.instantValue["date"]
+                                    .toString(),
+                              ),
+                              CallSummaryRow(
+                                  label: "Time",
+                                  value: widget.formKey.currentState!
+                                      .instantValue["time"]
+                                      .toString()),
+                              CallSummaryRow(
+                                label: "Meeting type",
+                                value: widget.formKey.currentState!
+                                        .instantValue["type"] ??
+                                    "Missing",
+                              ),
+                              CallSummaryRow(
+                                label: "Email",
+                                value: widget
+                                    .formKey.currentState!.instantValue["date"]
+                                    .toString(),
+                              ),
+                            ],
+                          )),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      CallSummarySection(
+                        title: "Call specification",
+                        child: CallSummaryRow(
+                          label: "Reason",
+                          value: widget.formKey.currentState!
+                                  .instantValue["reason"] ??
+                              "Not specified",
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                    ],
                   ),
-            ExpandedIf(
-              expanded: isMobile,
-              child: SizedBox(
-                width: isMobile ? double.maxFinite : 300,
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: OutlinedButton(
-                            onPressed: () {
-                              try {
-                                if (GoRouter.of(context).location ==
-                                    "/${AppRoutes.addAssetsView}") {
-                                  if (Navigator.of(context).canPop()) {
-                                    Navigator.of(context).maybePop();
-                                  } else {
-                                    context.goNamed(AppRoutes.main);
-                                  }
-                                } else {
-                                  GlobalFunctions.showExitDialog(
-                                      context: context,
-                                      onExitClick: () {
-                                        if (Navigator.of(context).canPop()) {
-                                          Navigator.of(context).maybePop();
-                                        } else {
-                                          context.goNamed(AppRoutes.main);
-                                        }
-                                      });
-                                }
-                              } catch (e) {
-                                debugPrint("footer error$e");
-                                context.goNamed(AppRoutes.main);
-                              }
-                            },
-                            child: Text(appLocalizations.common_button_back))),
-                    const SizedBox(width: 12),
-                    Expanded(
-                        child: ElevatedButton(
-                            onPressed: () {
-                              if (sl<GetUserStatusUseCase>().showOnboarding) {
-                                Map<String, dynamic> map = {
-                                  "email":
-                                      sl<GetUserStatusUseCase>().userEmail ??
-                                          "",
-                                  "loginAt": DateTime.now().toIso8601String()
-                                };
-                                context
-                                    .read<UserStatusCubit>()
-                                    .postUserStatus(map: map);
-                              }
-
-                              onTap!();
-                            },
-                            child: Text(buttonText))),
-                  ],
                 ),
+              Row(
+                children: [
+                  ExpandedIf(
+                    expanded: isMobile,
+                    child: SizedBox(
+                      width: isMobile ? double.maxFinite : 300,
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    widget.onTap!();
+                                  },
+                                  child: const Text("Schedule a call"))),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
               ),
-            )
+            ],
+          )),
+    );
+  }
+}
+
+class CallSummarySection extends AppStatelessWidget {
+  final String title;
+  final Widget child;
+
+  const CallSummarySection({required this.title, required this.child, Key? key})
+      : super(key: key);
+
+  @override
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title),
+        const SizedBox(
+          height: 20,
+        ),
+        Divider(
+          height: 0.5,
+          thickness: 1,
+          color: Theme.of(context).dividerColor,
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        child
+      ],
+    );
+  }
+}
+
+class CallSummaryRow extends AppStatelessWidget {
+  final String label;
+  final String value;
+
+  const CallSummaryRow({required this.label, required this.value, Key? key})
+      : super(key: key);
+
+  @override
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              label,
+              style: textTheme.bodyMedium,
+            ),
+            if (value != "null")
+              Text(
+                value,
+                style: textTheme.titleSmall,
+              ),
+            if (value == "null") const Text("Missing"),
           ],
         ),
-      ),
+        const SizedBox(
+          height: 20,
+        ),
+      ],
     );
   }
 }

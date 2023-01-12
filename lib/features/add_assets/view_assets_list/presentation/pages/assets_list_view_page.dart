@@ -328,21 +328,19 @@ class AddAssetTopWidget extends AppStatelessWidget {
           BlocBuilder<PersonalInformationCubit, PersonalInformationState>(
             builder: (context, state) {
               String name = "";
-              if(state is PersonalInformationLoaded){
+              if (state is PersonalInformationLoaded) {
                 name = state.getNameEntity.firstName;
               }
-                return Text(
-                  appLocalizations.manage_heading.replaceFirst(
-                    "{{name}}", name
-                  ),
+              return Text(
+                  appLocalizations.manage_heading
+                      .replaceFirst("{{name}}", name),
                   style: textTheme.headlineSmall);
             },
           ),
           const SizedBox(height: 8),
           WidthLimiterWidget(
             width: 350,
-            child: Text(
-                appLocalizations.manage_subHeading),
+            child: Text(appLocalizations.manage_subHeading),
           ),
           const SizedBox(height: 24),
           Container(
