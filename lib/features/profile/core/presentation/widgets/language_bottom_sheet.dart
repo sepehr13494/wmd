@@ -54,7 +54,7 @@ class LanguageBottomSheet extends AppStatelessWidget {
             ),
           ),
           Builder(builder: (context) {
-            List<Locale> locales = AppLocalizations.supportedLocales;
+            List<Locale> locales = AppLocalizations.supportedLocales.reversed.toList();
             return ListView.separated(
               padding: const EdgeInsets.all(8),
               itemBuilder: (context, index) {

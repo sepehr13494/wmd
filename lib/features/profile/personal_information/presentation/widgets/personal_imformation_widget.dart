@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
+import 'package:wmd/features/profile/personal_information/domain/entities/get_name_entity.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 import 'package:wmd/global_functions.dart';
 
@@ -61,86 +62,90 @@ class _PersonalInformationWidgetState
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: FormBuilder(
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                appLocalizations.profile_tabs_personal_headings_personalInfo,
-                style: textTheme.titleMedium,
-              ),
-              const SizedBox(height: 16),
-              RowOrColumn(
-                  rowCrossAxisAlignment: CrossAxisAlignment.start,
-                  showRow: isTablet,
-                  children: [
-                    ExpandedIf(
-                      expanded: isTablet,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: EachTextField(
-                          hasInfo: false,
-                          title: appLocalizations.profile_tabs_personal_fields_label_firstName,
-                          child: AppTextFields.simpleTextField(
-                            name: "firstName",
-                            hint: appLocalizations.profile_tabs_personal_placeholders_firstName,
-                            onChanged: checkFinalValid,
-                            extraValidators: [
-                              (val) {
-                                return (val!.contains(RegExp(r'[0-9]')))
-                                    ? "First name cannot be contain numeric characters"
-                                    : null;
-                              }
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    ExpandedIf(
-                      expanded: isTablet,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: EachTextField(
-                          hasInfo: false,
-                          title: appLocalizations.profile_tabs_personal_fields_label_lastName,
-                          child: AppTextFields.simpleTextField(
-                            name: "lastName",
-                            hint: appLocalizations.profile_tabs_personal_placeholders_lastName,
-                            onChanged: checkFinalValid,
-                            extraValidators: [
-                              (val) {
-                                return (val!.contains(RegExp(r'[0-9]')))
-                                    ? "Last name cannot be contain numeric characters"
-                                    : null;
-                              }
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ]),
-              const SizedBox(height: 16),
-              Align(
-                alignment: AlignmentDirectional.centerEnd,
-                child: SizedBox(
-                  width: isTablet ? 160 : null,
-                  child: ElevatedButton(
-                    onPressed: !enableSubmitButton
-                        ? null
-                        : () {
-                            if (formKey.currentState!.validate()) {
-                              context.read<PersonalInformationCubit>().setName(
-                                  map: formKey.currentState!.instantValue);
-                            }
-                          },
-                    child: Text(appLocalizations.profile_tabs_preferences_button_applyChanges),
+        child: Builder(
+          builder: (context) {
+            return FormBuilder(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    appLocalizations.profile_tabs_personal_headings_personalInfo,
+                    style: textTheme.titleMedium,
                   ),
-                ),
+                  const SizedBox(height: 16),
+                  RowOrColumn(
+                      rowCrossAxisAlignment: CrossAxisAlignment.start,
+                      showRow: isTablet,
+                      children: [
+                        ExpandedIf(
+                          expanded: isTablet,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: EachTextField(
+                              hasInfo: false,
+                              title: appLocalizations.profile_tabs_personal_fields_label_firstName,
+                              child: AppTextFields.simpleTextField(
+                                name: "firstName",
+                                hint: appLocalizations.profile_tabs_personal_placeholders_firstName,
+                                onChanged: checkFinalValid,
+                                extraValidators: [
+                                  (val) {
+                                    return (val!.contains(RegExp(r'[0-9]')))
+                                        ? "First name cannot be contain numeric characters"
+                                        : null;
+                                  }
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        ExpandedIf(
+                          expanded: isTablet,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: EachTextField(
+                              hasInfo: false,
+                              title: appLocalizations.profile_tabs_personal_fields_label_lastName,
+                              child: AppTextFields.simpleTextField(
+                                name: "lastName",
+                                hint: appLocalizations.profile_tabs_personal_placeholders_lastName,
+                                onChanged: checkFinalValid,
+                                extraValidators: [
+                                  (val) {
+                                    return (val!.contains(RegExp(r'[0-9]')))
+                                        ? "Last name cannot be contain numeric characters"
+                                        : null;
+                                  }
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]),
+                  const SizedBox(height: 16),
+                  Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: SizedBox(
+                      width: isTablet ? 160 : null,
+                      child: ElevatedButton(
+                        onPressed: !enableSubmitButton
+                            ? null
+                            : () {
+                                if (formKey.currentState!.validate()) {
+                                  context.read<PersonalInformationCubit>().setName(
+                                      map: formKey.currentState!.instantValue);
+                                }
+                              },
+                        child: Text(appLocalizations.profile_tabs_preferences_button_applyChanges),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            );
+          }
         ),
       ),
     );

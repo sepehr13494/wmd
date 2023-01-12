@@ -27,7 +27,7 @@ class SupportWidget extends AppStatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Need support",
+              appLocalizations.common_help_heading,
               style: textTheme.bodyMedium!
                   .apply(color: AppColors.dashBoardGreyTextColor),
             ),
@@ -36,7 +36,7 @@ class SupportWidget extends AppStatelessWidget {
                 context.goNamed(AppRoutes.support);
               },
               child: Text(
-                "Get in touch",
+                appLocalizations.common_help_link_support,
                 style: textTheme.bodyMedium!,
               ),
             ),

@@ -20,6 +20,7 @@ class LineChartSample2 extends StatefulWidget {
 
 class _LineChartSample2State extends State<LineChartSample2> {
   bool isOneData = false;
+  bool showOneTooltip = false;
 
   @override
   void initState() {
@@ -39,15 +40,49 @@ class _LineChartSample2State extends State<LineChartSample2> {
         LineChart(
           mainData(context),
         ),
-        isOneData ? InkWell(
+        isOneData ? GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTapDown: (detail){
+            setState(() {
+              showOneTooltip = true;
+            });
+          },
+          onTapUp: (detail){
+            setState(() {
+              showOneTooltip = false;
+            });
+          },
+          onLongPressUp: () {
+            setState(() {
+              showOneTooltip = false;
+            });
+          },
+          child: Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(left: 45),
+                width: 5,
+                height: 5,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppColors.chartColor,
+                ),
+              ),
+              const SizedBox(height: 60,width: 100)
+            ],
+          ),
+        ) : const SizedBox(),
+        showOneTooltip ? Align(
+          alignment: Alignment.center,
           child: Container(
-            margin: const EdgeInsets.only(left: 45),
-            width: 5,
-            height: 5,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColors.chartColor,
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Theme.of(context).brightness == Brightness.dark ? AppColors.anotherCardColorForDarkTheme : AppColors.anotherCardColorForLightTheme,
+              borderRadius: BorderRadius.circular(4),
             ),
+            child: RichText(text: TextSpan(
+              children: _textSpans(0, Theme.of(context).textTheme,true)
+            )),
           ),
         ) : const SizedBox()
       ],
@@ -166,43 +201,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
                 CustomizableDateTime.miniDateOneLine(widget.allocations[touchedSpots.first.x.toInt()].name),
                 textTheme.titleSmall!,
                 textAlign: TextAlign.start,
-                children: [
-                  TextSpan(
-                    // ignore: prefer_interpolation_to_compose_strings
-                      text: '\n\n' +
-                          AppLocalizations.of(context).home_dashboardCharts_legendLabel_netWorth+ "    ",
-                      style: textTheme.titleSmall),
-                  TextSpan(
-                    // ignore: prefer_interpolation_to_compose_strings
-                      text: widget.allocations[touchedSpots.first.x.toInt()]
-                          .netWorth
-                          .formatNumberWithDecimal(),
-                      style: textTheme.titleSmall!
-                          .apply(color: AppColors.chartColor)),
-                  TextSpan(
-                    // ignore: prefer_interpolation_to_compose_strings
-                      text: '\n' +
-                          AppLocalizations.of(context).home_dashboardCharts_legendLabel_assets+ "         ",
-                      style: textTheme.titleSmall),
-                  TextSpan(
-                    // ignore: prefer_interpolation_to_compose_strings
-                      text: widget.allocations[touchedSpots.first.x.toInt()]
-                          .asset
-                          .formatNumberWithDecimal(),
-                      style: textTheme.titleSmall!
-                          .apply(color: AppColors.chartColor)),
-                  TextSpan(
-                    // ignore: prefer_interpolation_to_compose_strings
-                      text: '\n' + AppLocalizations.of(context).home_dashboardCharts_legendLabel_liability+ "      ",
-                      style: textTheme.titleSmall),
-                  TextSpan(
-                    // ignore: prefer_interpolation_to_compose_strings
-                      text: widget.allocations[touchedSpots.first.x.toInt()]
-                          .liability
-                          .formatNumberWithDecimal(),
-                      style: textTheme.titleSmall!
-                          .apply(color: AppColors.chartColor)),
-                ],
+                children: _textSpans(touchedSpots.first.x.toInt(),textTheme,false),
               )
             ];
           },
@@ -277,5 +276,48 @@ class _LineChartSample2State extends State<LineChartSample2> {
         ),
       ],
     );
+  }
+
+  _textSpans(int x,textTheme, bool showDate) {
+    return [
+      showDate ? TextSpan(
+        text: CustomizableDateTime.miniDateOneLine(widget.allocations[x].name),
+      ) : const TextSpan(),
+      TextSpan(
+        // ignore: prefer_interpolation_to_compose_strings
+          text: '\n\n' +
+              AppLocalizations.of(context).home_dashboardCharts_legendLabel_netWorth+ "    ",
+          style: textTheme.titleSmall),
+      TextSpan(
+        // ignore: prefer_interpolation_to_compose_strings
+          text: widget.allocations[x]
+              .netWorth
+              .formatNumberWithDecimal(),
+          style: textTheme.titleSmall!
+              .apply(color: AppColors.chartColor)),
+      TextSpan(
+        // ignore: prefer_interpolation_to_compose_strings
+          text: '\n' +
+              AppLocalizations.of(context).home_dashboardCharts_legendLabel_assets+ "         ",
+          style: textTheme.titleSmall),
+      TextSpan(
+        // ignore: prefer_interpolation_to_compose_strings
+          text: widget.allocations[x]
+              .asset
+              .formatNumberWithDecimal(),
+          style: textTheme.titleSmall!
+              .apply(color: AppColors.chartColor)),
+      TextSpan(
+        // ignore: prefer_interpolation_to_compose_strings
+          text: '\n' + AppLocalizations.of(context).home_dashboardCharts_legendLabel_liability+ "      ",
+          style: textTheme.titleSmall),
+      TextSpan(
+        // ignore: prefer_interpolation_to_compose_strings
+          text: widget.allocations[x]
+              .liability
+              .formatNumberWithDecimal(),
+          style: textTheme.titleSmall!
+              .apply(color: AppColors.chartColor)),
+    ];
   }
 }

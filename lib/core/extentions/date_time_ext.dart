@@ -20,7 +20,7 @@ extension CustomizableDateTime on DateTime {
   }
 
   static String localizedDdMm(dynamic input) {
-    return Jiffy(input).format("do\nMMM");
+    return Jiffy(input).format("d MMM");
   }
 
   static String localizedDdMmOneLine(dynamic input) {

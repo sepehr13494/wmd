@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
+import 'package:wmd/core/presentation/widgets/empty_chart.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
@@ -17,7 +18,7 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
       child: BlocBuilder<ChartsCubit, ChartsState>(
         builder: (context, state) {
           return state is GetChartLoaded
-              ? Column(
+              ? state.getChartEntities.isEmpty ? const EmptyChart() : Column(
                   children: [
                     Expanded(
                       child: AssetsOverviewCharts(
