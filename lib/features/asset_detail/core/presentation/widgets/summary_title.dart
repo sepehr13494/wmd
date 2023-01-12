@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
-import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 
+@Deprecated('Not in use rigth now')
 class SummaryTitle extends StatefulWidget {
   const SummaryTitle({
     Key? key,
