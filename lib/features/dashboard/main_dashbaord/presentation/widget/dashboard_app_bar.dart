@@ -9,6 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
   final bool? showHelp;
+
   const DashboardAppBar({Key? key, this.showHelp = true}) : super(key: key);
 
   @override
@@ -32,8 +33,15 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
         PopupMenuButton(
           itemBuilder: (BuildContext context) {
             final List items = [
-              [AppLocalizations.of(context).profile_page_title, Icons.arrow_forward_ios_rounded],
-              [AppLocalizations.of(context).profile_changePassword_button_logout, Icons.logout],
+              [
+                AppLocalizations.of(context).profile_page_title,
+                Icons.arrow_forward_ios_rounded
+              ],
+              [
+                AppLocalizations.of(context)
+                    .profile_changePassword_button_logout,
+                Icons.logout
+              ],
             ];
             return List.generate(
                 items.length,

@@ -34,7 +34,8 @@ class AssetDetailPage extends StatefulWidget {
 }
 
 class _AssetDetailPageState extends AppState<AssetDetailPage> {
-  late TimeFilterObj selectedTimeFilter = AppConstants.timeFilter(context).first;
+  late TimeFilterObj selectedTimeFilter =
+      AppConstants.timeFilter(context).first;
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -43,7 +44,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
     final primaryColor = Theme.of(context).primaryColor;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Assets'),
+        title: Text(appLocalizations.assets_breadCrumb_assets),
       ),
       body: Stack(
         children: [
@@ -67,9 +68,11 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                           return Column(
                             children: [
                               _buildSummaryCard(
-                                  responsiveHelper,
-                                  selectedTimeFilter.value,
-                                  state.performanceEntity.netChange),
+                                responsiveHelper,
+                                selectedTimeFilter.value,
+                                state.performanceEntity.netChange,
+                                appLocalizations,
+                              ),
                               Padding(
                                 padding:
                                     EdgeInsets.all(responsiveHelper.biggerGap),
@@ -102,12 +105,13 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
     );
   }
 
-  Row _buildHeader(TextTheme textTheme, Color primaryColor) {
+  Row _buildHeader(TextTheme textTheme, Color primaryColor,
+      AppLocalizations appLocalizations) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'Summary',
+          appLocalizations.assets_summary,
           style: textTheme.bodyLarge,
         ),
         Row(
@@ -118,33 +122,36 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
               color: primaryColor,
             ),
             const SizedBox(width: 4),
-            DropdownButton<TimeFilterObj>(
-              items: AppConstants.timeFilter(context)
-                  .map((e) => DropdownMenuItem<TimeFilterObj>(
-                      value: e,
-                      child: Text(
-                        e.key,
-                        style: textTheme.bodyMedium!.apply(color: primaryColor),
-                        // textTheme.bodyMedium!.toLinkStyle(context),
-                      )))
-                  .toList(),
-              onChanged: ((value) {
-                if (value != null) {
-                  setState(() {
-                    selectedTimeFilter = value;
-                  });
-                  sl<PerformanceChartCubit>().getValuationPerformance(
-                      GetValuationPerformanceParams(
-                          days: value.value, id: widget.assetId));
-                }
-              }),
-              value: selectedTimeFilter,
-              icon: Icon(
-                Icons.keyboard_arrow_down,
-                size: 15,
-                color: primaryColor,
+            DropdownButtonHideUnderline(
+              child: DropdownButton<TimeFilterObj>(
+                items: AppConstants.timeFilter(context)
+                    .map((e) => DropdownMenuItem<TimeFilterObj>(
+                        value: e,
+                        child: Text(
+                          e.key,
+                          style:
+                              textTheme.bodyMedium!.apply(color: primaryColor),
+                          // textTheme.bodyMedium!.toLinkStyle(context),
+                        )))
+                    .toList(),
+                onChanged: ((value) {
+                  if (value != null) {
+                    setState(() {
+                      selectedTimeFilter = value;
+                    });
+                    sl<PerformanceChartCubit>().getValuationPerformance(
+                        GetValuationPerformanceParams(
+                            days: value.value, id: widget.assetId));
+                  }
+                }),
+                value: selectedTimeFilter,
+                icon: Icon(
+                  Icons.keyboard_arrow_down,
+                  size: 15,
+                  color: primaryColor,
+                ),
+                // style: textTheme.labelLarge,
               ),
-              // style: textTheme.labelLarge,
             ),
           ],
         ),
@@ -153,7 +160,10 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
   }
 
   BlocProvider<AssetDetailCubit> _buildSummaryCard(
-      ResponsiveHelper responsiveHelper, int days, double netChange) {
+      ResponsiveHelper responsiveHelper,
+      int days,
+      double netChange,
+      appLocalizations) {
     return BlocProvider(
       create: (context) => sl<AssetDetailCubit>()
         ..getDetail(
@@ -178,6 +188,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                     child: _buildHeader(
                       Theme.of(context).textTheme,
                       Theme.of(context).primaryColor,
+                      appLocalizations,
                     ),
                   );
                 case AssetTypes.realEstate:
@@ -190,10 +201,8 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                     netChange: netChange,
                     portfolioContribution: item.portfolioContribution,
                     asOfDate: item.asOfDate,
-                    child: _buildHeader(
-                      Theme.of(context).textTheme,
-                      Theme.of(context).primaryColor,
-                    ),
+                    child: _buildHeader(Theme.of(context).textTheme,
+                        Theme.of(context).primaryColor, appLocalizations),
                   );
                 // return RealEstateDetailPage(
                 //     realEstateEntity:
@@ -212,6 +221,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                     child: _buildHeader(
                       Theme.of(context).textTheme,
                       Theme.of(context).primaryColor,
+                      appLocalizations,
                     ),
                   );
 
@@ -229,6 +239,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                     child: _buildHeader(
                       Theme.of(context).textTheme,
                       Theme.of(context).primaryColor,
+                      appLocalizations,
                     ),
                   );
                 case AssetTypes.privateEquity:
@@ -245,6 +256,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                     child: _buildHeader(
                       Theme.of(context).textTheme,
                       Theme.of(context).primaryColor,
+                      appLocalizations,
                     ),
                   );
                 case AssetTypes.otherAsset:
@@ -261,6 +273,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                     child: _buildHeader(
                       Theme.of(context).textTheme,
                       Theme.of(context).primaryColor,
+                      appLocalizations,
                     ),
                   );
                 default:

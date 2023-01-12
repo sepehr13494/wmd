@@ -30,37 +30,38 @@ class SummaryTimeFilter extends AppStatelessWidget {
                 color: Theme.of(context).primaryColor,
               ),
               const SizedBox(width: 8),
-              DropdownButton<TimeFilterObj>(
-                items: AppConstants.timeFilter(context)
-                    .map((e) => DropdownMenuItem<TimeFilterObj>(
-                        value: e,
-                        child: Text(
-                          e.key,
-                          style: textTheme.bodyMedium!
-                              .apply(color: Theme.of(context).primaryColor),
-                          // textTheme.bodyMedium!.toLinkStyle(context),
-                        )))
-                    .toList(),
-                onChanged: ((value) {
-                  if (value != null) {
-                    context
-                        .read<MainDashboardCubit>()
-                        .getNetWorth(dateTimeRange: value);
-                    context
-                        .read<DashboardAllocationCubit>()
-                        .getAllocation(dateTime: value);
-                    context
-                        .read<ChartsCubit>()
-                        .getChart(dateTime: value);
-                  }
-                }),
-                value: context.read<MainDashboardCubit>().dateTimeRange ?? AppConstants.timeFilter(context).first,
-                icon: Icon(
-                  Icons.keyboard_arrow_down,
-                  size: 15,
-                  color: Theme.of(context).primaryColor,
+              DropdownButtonHideUnderline(
+                child: DropdownButton<TimeFilterObj>(
+                  items: AppConstants.timeFilter(context)
+                      .map((e) => DropdownMenuItem<TimeFilterObj>(
+                          value: e,
+                          child: Text(
+                            e.key,
+                            style: textTheme.bodyMedium!
+                                .apply(color: Theme.of(context).primaryColor),
+                            // textTheme.bodyMedium!.toLinkStyle(context),
+                          )))
+                      .toList(),
+                  onChanged: ((value) {
+                    if (value != null) {
+                      context
+                          .read<MainDashboardCubit>()
+                          .getNetWorth(dateTimeRange: value);
+                      context
+                          .read<DashboardAllocationCubit>()
+                          .getAllocation(dateTime: value);
+                      context.read<ChartsCubit>().getChart(dateTime: value);
+                    }
+                  }),
+                  value: context.read<MainDashboardCubit>().dateTimeRange ??
+                      AppConstants.timeFilter(context).first,
+                  icon: Icon(
+                    Icons.keyboard_arrow_down,
+                    size: 15,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  // style: textTheme.labelLarge,
                 ),
-                // style: textTheme.labelLarge,
               ),
             ],
           );

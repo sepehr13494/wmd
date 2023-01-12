@@ -15,11 +15,8 @@ import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/ad
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/each_asset_widget.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/support_widget.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/add_asset_onboarding_view.dart';
-import 'package:wmd/features/dashboard/onboarding/presentation/widget/onboarding_appbar.dart';
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
-import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
-import 'package:wmd/global_variables.dart';
 import 'package:wmd/injection_container.dart';
 
 class AssetsListViewPage extends AppStatelessWidget {
@@ -29,11 +26,12 @@ class AssetsListViewPage extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     PreferredSizeWidget? renderAppBar() {
-      if (sl<GetUserStatusUseCase>().showOnboarding) {
-        return const OnboardingAppBar(page: 1, isAsset: true);
-      } else {
-        return BaseAppBar(title: appLocalizations.common_button_addAsset);
-      }
+      return const BaseAppBar();
+      // if (sl<GetUserStatusUseCase>().showOnboarding) {
+      //   return const OnboardingAppBar(page: 1, isAsset: true);
+      // } else {
+      //   return BaseAppBar(title: appLocalizations.common_button_addAsset);
+      // }
     }
 
     return BlocProvider(
@@ -328,21 +326,19 @@ class AddAssetTopWidget extends AppStatelessWidget {
           BlocBuilder<PersonalInformationCubit, PersonalInformationState>(
             builder: (context, state) {
               String name = "";
-              if(state is PersonalInformationLoaded){
+              if (state is PersonalInformationLoaded) {
                 name = state.getNameEntity.firstName;
               }
-                return Text(
-                  appLocalizations.manage_heading.replaceFirst(
-                    "{{name}}", name
-                  ),
+              return Text(
+                  appLocalizations.manage_heading
+                      .replaceFirst("{{name}}", name),
                   style: textTheme.headlineSmall);
             },
           ),
           const SizedBox(height: 8),
           WidthLimiterWidget(
             width: 350,
-            child: Text(
-                appLocalizations.manage_subHeading),
+            child: Text(appLocalizations.manage_subHeading),
           ),
           const SizedBox(height: 24),
           Container(

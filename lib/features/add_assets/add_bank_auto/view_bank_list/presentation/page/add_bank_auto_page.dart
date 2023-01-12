@@ -22,7 +22,8 @@ class AddBankAutoPage extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     return Scaffold(
-      appBar: AppBar(title: Text("Connect your account")),
+      appBar: AppBar(
+          title: Text(appLocalizations.linkAccount_automaticLink_page_title)),
       body: Stack(
         children: const [
           LeafBackground(
@@ -96,10 +97,11 @@ class BankListHeader extends AppStatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         const SizedBox(height: 16),
-        Text("Add listed asset details", style: textTheme.headlineSmall),
+        Text(appLocalizations.linkAccount_automaticLink_heading,
+            style: textTheme.headlineSmall),
         const SizedBox(height: 16),
         Text(
-          "Current account, savings account and term deposit accounts.",
+          appLocalizations.linkAccount_automaticLink_description,
           style: textTheme.titleSmall!
               .apply(color: AppColors.dashBoardGreyTextColor),
         ),
@@ -131,13 +133,15 @@ class BankList extends AppStatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const SizedBox(height: 16),
-                Text("Link you bank accounts", style: textTheme.headlineSmall),
+                Text(appLocalizations.linkAccount_automaticLink_title,
+                    style: textTheme.headlineSmall),
                 const SizedBox(height: 8),
-                Text("Search for your bank or select an option below",
+                Text(appLocalizations.linkAccount_automaticLink_label_search,
                     style: textTheme.titleMedium),
                 const SizedBox(height: 8),
                 SearchTextField(
-                  hint: 'Type a bank name',
+                  hint: appLocalizations
+                      .linkAccount_automaticLink_input_bank_placeholder,
                   function: (text) {
                     if (text == null || text.isEmpty) {
                       context.read<BankListCubit>().getPopularBankList();
@@ -151,7 +155,8 @@ class BankList extends AppStatelessWidget {
                   builder: (context) {
                     if (state is BankListSuccess) {
                       if (state.banks.isEmpty) {
-                        return Text('No bank found');
+                        return Text(appLocalizations
+                            .linkAccount_automaticLink_text_notFound);
                       } else {
                         return Column(
                           children: state.banks
@@ -166,7 +171,8 @@ class BankList extends AppStatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              'Most popular banks',
+                              appLocalizations
+                                  .linkAccount_automaticLink_label_popularBank,
                               style: textTheme.titleMedium,
                             ),
                           ),
