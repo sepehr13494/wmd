@@ -29,7 +29,7 @@ class DashboardChartsCubit extends Cubit<DashboardChartsState> {
 
   getAllocation({TimeFilterObj? dateTime}) async {
     emit(LoadingState());
-    final result = await getAllocationUseCase(dateTime?? const TimeFilterObj(key: "",value: 7));
+    final result = await getAllocationUseCase(dateTime?? const TimeFilterObj(key: ".",value: 7));
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (entities) {
       emit(GetAllocationLoaded(getAllocationEntity: entities));

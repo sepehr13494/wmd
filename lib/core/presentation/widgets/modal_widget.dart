@@ -12,8 +12,8 @@ class ModalWidget extends StatelessWidget {
     super.key,
     required this.title,
     this.body = '',
-    this.confirmBtn = "",
-    this.cancelBtn = "",
+    this.confirmBtn = ".",
+    this.cancelBtn = ".",
   });
 
   @override

@@ -15,20 +15,20 @@ extension CustomizableDateTime on DateTime {
     return DateFormat('yyyy-MM-dd').format(current).toString();
   }
 
-  static String dateLocalized(dynamic input) {
-    return Jiffy(input).format("do MMMM yyyy kk:mm aaa");
+  static String dateLocalized(DateTime input) {
+    return DateFormat("d${getDayOfMonthSuffix(input.day)} MMMM yyyy kk:mm aaa","en").format(input);
   }
 
   static String localizedDdMm(dynamic input) {
-    return Jiffy(input).format("d MMM");
+    return DateFormat("d MMM","en").format(input);
   }
 
-  static String localizedDdMmOneLine(dynamic input) {
-    return Jiffy(input).format("do MMM");
+  static String localizedDdMmOneLine(DateTime input) {
+    return DateFormat("d${getDayOfMonthSuffix(input.day)} MMM","en").format(input);
   }
 
-  static String localizedDdMmYyyy(dynamic input) {
-    return Jiffy(input).format("do MMM yyyy");
+  static String localizedDdMmYyyy(DateTime input) {
+    return DateFormat("d${getDayOfMonthSuffix(input.day)} MMM yyyy","en").format(input);
   }
 
   static DateTime get currentDateTime {
@@ -36,11 +36,11 @@ extension CustomizableDateTime on DateTime {
   }
 
   static String ddMmYyyy(DateTime dateTime) {
-    return Jiffy(dateTime).format("dd.MM.yyyy");
+    return DateFormat("dd.MM.yyyy","en").format(dateTime);
   }
 
   static String yyyyMmDd(DateTime dateTime) {
-    return Jiffy(dateTime).format("yyyy.MM.dd");
+    return DateFormat("yyyy.MM.dd","en").format(dateTime);
   }
 
   static String miniDate(String dateTimeString){
@@ -53,5 +53,9 @@ extension CustomizableDateTime on DateTime {
     var dateString = dateTimeString.split("/");
     DateTime dateTime = DateTime(int.parse(dateString[2]),int.parse(dateString[0]),int.parse(dateString[1]));
     return CustomizableDateTime.localizedDdMmOneLine(dateTime);
+  }
+
+  static String getDayOfMonthSuffix(int dayNum) {
+    return "";
   }
 }

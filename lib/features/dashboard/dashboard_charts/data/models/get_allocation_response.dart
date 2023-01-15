@@ -14,7 +14,7 @@ class GetAllocationResponse  extends GetAllocationEntity{
     );
 
     factory GetAllocationResponse.fromJson(Map<String, dynamic> json) => GetAllocationResponse(
-        name: json["name"]??"",
+        name: json["name"]??".",
         asset: double.tryParse(json["asset"].toString())??0,
         liability: double.tryParse(json["liability"].toString())??0,
         netWorth: double.tryParse(json["netWorth"].toString())??0,

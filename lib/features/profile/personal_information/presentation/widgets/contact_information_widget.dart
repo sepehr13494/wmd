@@ -121,7 +121,7 @@ class _ContactInformationWidgetState extends AppState<ContactInformationWidget> 
                                     Expanded(
                                       child: AppTextFields.simpleTextField(
                                           name: "phoneNumber",
-                                          hint: "",
+                                          hint: ".",
                                           type: TextFieldType.number,
                                           keyboardType: TextInputType.number,
                                         onChanged: checkFinalValid

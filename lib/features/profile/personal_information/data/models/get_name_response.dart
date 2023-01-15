@@ -17,11 +17,11 @@ class GetNameResponse extends GetNameEntity {
 
   factory GetNameResponse.fromJson(Map<String, dynamic> json) =>
       GetNameResponse(
-        email: json["email"] ?? "",
+        email: json["email"] ?? ".",
         phoneNumber: json["phoneNumber"] != null
             ? PhoneNumberEntity.fromJson(json["phoneNumber"])
             : null,
-        firstName: json["firstName"] ?? "",
-        lastName: json["lastName"] ?? "",
+        firstName: json["firstName"] ?? ".",
+        lastName: json["lastName"] ?? ".",
       );
 }

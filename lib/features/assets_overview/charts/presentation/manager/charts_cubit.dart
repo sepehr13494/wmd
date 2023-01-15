@@ -24,7 +24,7 @@ class ChartsCubit extends Cubit<ChartsState> {
 
   getChart({TimeFilterObj? dateTime}) async {
     emit(LoadingState());
-    final result = await getChartUseCase(dateTime?? const TimeFilterObj(key: "",value: 7));
+    final result = await getChartUseCase(dateTime?? const TimeFilterObj(key: ".",value: 7));
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (entities) {
       
