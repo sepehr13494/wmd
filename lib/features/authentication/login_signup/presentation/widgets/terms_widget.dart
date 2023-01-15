@@ -9,7 +9,7 @@ Future<bool?> showTermsModal({
     context: context,
     builder: (context) {
       return const Dialog(
-        insetPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+        insetPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 50),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
         clipBehavior: Clip.antiAliasWithSaveLayer,

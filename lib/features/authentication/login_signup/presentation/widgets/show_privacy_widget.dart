@@ -9,7 +9,7 @@ Future<bool?> showPrivacyModal({
     context: context,
     builder: (context) {
       return const Dialog(
-        insetPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+        insetPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 50),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -48,7 +48,7 @@ class PrivacyWidget extends AppStatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
             child: Text(
-              'SELAMUN ALEYK',
+              'Table of Contents',
               // appLocalizations.auth_signup_tos_title,
               style: textTheme.headlineSmall,
               textAlign: TextAlign.center,
@@ -58,15 +58,11 @@ class PrivacyWidget extends AppStatelessWidget {
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(16),
               child: Center(
-                  child: Column(
-                children: [
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(children: [
                   Text(appLocalizations.auth_signup_tos_content),
-                ]
-                    .map((e) => Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: e,
-                        ))
-                    .toList(),
+                ]),
               )),
             ),
           ),
