@@ -37,6 +37,13 @@ class AppRouter {
         },
       ),
       GoRoute(
+        name: AppRoutes.resetPassword,
+        path: "/password/update",
+        builder: (BuildContext context, GoRouterState state) {
+          return ResetPasswordPage(verifyMap: state.queryParams);
+        },
+      ),
+      GoRoute(
           name: AppRoutes.welcome,
           path: "/welcome",
           builder: (BuildContext context, GoRouterState state) {
@@ -69,13 +76,6 @@ class AppRouter {
               path: "forget_password",
               builder: (BuildContext context, GoRouterState state) {
                 return const ForgetPasswordPage();
-              },
-            ),
-            GoRoute(
-              name: AppRoutes.resetPassword,
-              path: "reset_password",
-              builder: (BuildContext context, GoRouterState state) {
-                return ResetPasswordPage(verifyMap: state.queryParams);
               },
             ),
           ]),

@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/asset_detail/core/domain/entities/asset_summary_entity.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'as_of_date_widget.dart';
 import 'net_change_widget.dart';
@@ -12,27 +13,15 @@ import 'portfolio_contribution_widget.dart';
 import 'your_holdings_widget.dart';
 
 class AsssetSummary extends AppStatelessWidget {
-  final String title;
-  final String? subTitle;
-  final String currencyCode;
-  final double holdings;
-  final int days;
-  final double netChange;
-  final double portfolioContribution;
-  final DateTime? asOfDate;
+  final AssetSummaryEntitiy summary;
   final void Function()? onEdit;
   final Widget? child;
+  final int days;
   const AsssetSummary({
-    required this.title,
-    this.subTitle,
+    required this.summary,
+    required this.days,
     this.onEdit,
     this.child,
-    required this.currencyCode,
-    required this.holdings,
-    required this.days,
-    required this.netChange,
-    required this.portfolioContribution,
-    this.asOfDate,
     Key? key,
   }) : super(key: key);
 
@@ -45,24 +34,24 @@ class AsssetSummary extends AppStatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: textTheme.headlineSmall),
+          Text(summary.assetName, style: textTheme.headlineSmall),
           const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              if (subTitle != null) Text(subTitle!),
-              if (onEdit != null)
-                _buildEditButton(primaryColor, textTheme, context),
-            ],
-          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     if (summary.assetClassName != null) Text(summary.assetClassName),
+          //     if (onEdit != null)
+          //       _buildEditButton(primaryColor, textTheme, context),
+          //   ],
+          // ),
           if (child != null) child!,
           SummaryCardWidget(
-              currencyCode: currencyCode,
-              holdings: holdings,
-              days: days,
-              netChange: netChange,
-              portfolioContribution: portfolioContribution,
-              asOfDate: asOfDate)
+            holdings: summary.totalAssetsAmount,
+            days: days,
+            netChange: summary.netChange,
+            portfolioContribution: summary.dealContribution,
+            asOfDate: summary.date,
+          )
         ],
       ),
     );
@@ -92,14 +81,12 @@ class AsssetSummary extends AppStatelessWidget {
 }
 
 class SummaryCardWidget extends AppStatelessWidget {
-  final String currencyCode;
   final double holdings;
   final int days;
   final double netChange;
   final double portfolioContribution;
   final DateTime? asOfDate;
   const SummaryCardWidget({
-    required this.currencyCode,
     required this.holdings,
     required this.days,
     required this.netChange,
@@ -111,8 +98,6 @@ class SummaryCardWidget extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    final String currencySymbol =
-        AppConstants.getCurrencySymbolByCode(currencyCode);
     final lineColor = Theme.of(context).dividerColor;
     final responsiveHelper = ResponsiveHelper(context: context);
     bool isMobile = responsiveHelper.isMobile;
@@ -134,10 +119,7 @@ class SummaryCardWidget extends AppStatelessWidget {
               rowMainAxisAlignment: MainAxisAlignment.start,
               showRow: !isMobile,
               children: [
-                YourHoldingsWidget(
-                  holdings: holdings,
-                  currencyCode: currencyCode,
-                ),
+                YourHoldingsWidget(holdings: holdings),
                 !isMobile
                     ? Container(
                         margin: EdgeInsets.symmetric(
@@ -178,15 +160,13 @@ class SummaryCardWidget extends AppStatelessWidget {
                           if ((context.read<MainDashboardCubit>().state
                               is MainDashboardNetWorthLoaded)) {
                             return PortfolioContributionWidget(
-                              portfolioContribution: portfolioContribution,
-                              netWorth: (context
-                                      .read<MainDashboardCubit>()
-                                      .state as MainDashboardNetWorthLoaded)
-                                  .netWorthObj
-                                  .totalNetWorth
-                                  .currentValue,
-                              currencyCode: currencyCode,
-                            );
+                                portfolioContribution: portfolioContribution,
+                                netWorth: (context
+                                        .read<MainDashboardCubit>()
+                                        .state as MainDashboardNetWorthLoaded)
+                                    .netWorthObj
+                                    .totalNetWorth
+                                    .currentValue);
                           }
                           return const SizedBox.shrink();
                         }),
