@@ -704,3 +704,102 @@ class _RadioButtontate<T> extends AppState<RadioButton> {
     // );
   }
 }
+
+class TimeslotsSelector<T> extends StatelessWidget {
+  final String name;
+
+  final ValueChanged<T?>? onChanged;
+
+  const TimeslotsSelector({Key? key, required this.name, this.onChanged})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FormBuilderField<T>(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        onChanged: onChanged,
+        builder: (FormFieldState field) {
+          return Column(
+            children: [
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: ["9.00 - 10.00", "11.00 - 12.00"]
+                      .map((time) => OutlinedButton(
+                            onPressed: () {
+                              field.didChange(time);
+                            },
+                            style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(6.0)),
+                                ),
+                                side: field.value != time
+                                    ? MaterialStateProperty.all(
+                                        const BorderSide(
+                                        color: Colors.transparent,
+                                      ))
+                                    : null,
+                                minimumSize: MaterialStateProperty.all(
+                                    const Size(220, 50)),
+                                backgroundColor: MaterialStateProperty.all(
+                                    Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .color!
+                                        .withOpacity(0.07))),
+                            child: Text(time),
+                          ))
+                      .toList()),
+              const SizedBox(
+                height: 15,
+              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: ["13.00 - 14.00", "15.00 - 16.00"]
+                      .map((time) => OutlinedButton(
+                            onPressed: () {
+                              field.didChange(time);
+                            },
+                            style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(6.0)),
+                                ),
+                                side: field.value != time
+                                    ? MaterialStateProperty.all(
+                                        const BorderSide(
+                                        color: Colors.transparent,
+                                      ))
+                                    : null,
+                                minimumSize: MaterialStateProperty.all(
+                                    const Size(220, 50)),
+                                backgroundColor: MaterialStateProperty.all(
+                                    Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .color!
+                                        .withOpacity(0.07))),
+                            child: Text(time),
+                          ))
+                      .toList()),
+            ],
+          );
+
+          // DropdownSearch<T>(
+          //   itemAsString: itemAsString,
+          //   filterFn: filterFn,
+          //   popupProps:
+          //       PopupProps.menu(showSearchBox: true, itemBuilder: itemBuilder),
+          //   items: items,
+          //   dropdownDecoratorProps: DropDownDecoratorProps(
+          //     dropdownSearchDecoration: InputDecoration(
+          //       hintText: hint,
+          //     ),
+          //   ),
+          //   onChanged: (value) => field.didChange(value),
+          //   selectedItem: field.value,
+          // );
+        },
+        name: name);
+  }
+}
