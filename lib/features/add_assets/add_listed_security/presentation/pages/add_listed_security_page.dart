@@ -213,14 +213,14 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                                             Text(
                                                                 securityName
                                                                         ?.securityShortName ??
-                                                                    "",
+                                                                    ".",
                                                                 style: textTheme
                                                                     .bodySmall),
                                                             const Text(" . "),
                                                             Text(
                                                                 securityName
                                                                         ?.tradedExchange ??
-                                                                    "",
+                                                                    ".",
                                                                 style: textTheme
                                                                     .bodySmall),
                                                           ],
@@ -228,7 +228,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                                         Text(
                                                             securityName
                                                                     ?.isin ??
-                                                                "",
+                                                                ".",
                                                             style: textTheme
                                                                 .bodySmall)
                                                       ])

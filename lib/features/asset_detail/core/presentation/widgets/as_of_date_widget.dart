@@ -20,6 +20,7 @@ class AsOfDateWidget extends AppStatelessWidget {
         child: Text(
           "${appLocalizations.assets_label_lastUpdatedOn} ${CustomizableDateTime.dateLocalized(shownDate)}",
           style: textTheme.bodySmall,
+          textDirection: TextDirection.ltr,
         ),
       ),
     );

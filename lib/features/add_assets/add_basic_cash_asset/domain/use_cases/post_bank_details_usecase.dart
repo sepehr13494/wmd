@@ -95,10 +95,10 @@ class BankSaveParams extends Equatable {
 
   Map<String, dynamic> toJson() => {
         "isActive": isActive ?? false,
-        "owner": owner ?? "",
+        "owner": owner ?? ".",
         "bankName": bankName,
         "country": country,
-        "description": description ?? "",
+        "description": description ?? ".",
         "accountType": accountType,
         "currencyCode": currencyCode,
         "currentBalance": currentBalance,

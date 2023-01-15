@@ -61,7 +61,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: const AddAssetHeader(
-            title: "",
+            title: ".",
           ),
           bottomSheet: ScheduleCallFooter(
               formKey: formKey,

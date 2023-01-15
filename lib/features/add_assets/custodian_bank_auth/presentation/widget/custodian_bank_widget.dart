@@ -52,7 +52,7 @@ class CustodianBankWidgetV2 extends AppStatelessWidget {
                             if (sl<GetUserStatusUseCase>().showOnboarding) {
                               Map<String, dynamic> map = {
                                 "email":
-                                    sl<GetUserStatusUseCase>().userEmail ?? "",
+                                    sl<GetUserStatusUseCase>().userEmail ?? ".",
                                 "loginAt": DateTime.now().toIso8601String()
                               };
                               context

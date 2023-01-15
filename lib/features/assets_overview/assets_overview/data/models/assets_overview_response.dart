@@ -17,7 +17,7 @@ class AssetsOverviewResponse extends AssetsOverviewEntity {
 
   factory AssetsOverviewResponse.fromJson(Map<String, dynamic> json) =>
       AssetsOverviewResponse(
-        type: json["type"] ?? "",
+        type: json["type"] ?? ".",
         totalAmount: double.tryParse(json["totalAmount"].toString()) ?? 0,
         assetList: List<AssetListResponse>.from(
             json["assetList"].map((x) => AssetListResponse.fromJson(x))),
@@ -67,12 +67,12 @@ class AssetListResponse extends AssetList {
 
   factory AssetListResponse.fromJson(Map<String, dynamic> json) =>
       AssetListResponse(
-        assetId: json["assetId"] ?? "",
-        assetName: json["assetName"] ?? "",
+        assetId: json["assetId"] ?? ".",
+        assetName: json["assetName"] ?? ".",
         currentValue: double.tryParse(json["currentValue"].toString()) ?? 0,
         inceptionToDate:
             double.tryParse(json["inceptionToDate"].toString()) ?? 0,
         yearToDate: double.tryParse(json["yearToDate"].toString()) ?? 0,
-        geography: json["geography"] ?? "",
+        geography: json["geography"] ?? ".",
       );
 }

@@ -66,14 +66,14 @@ class _FaqItemListState extends AppState<FaqItemList> {
                         return Padding(
                             padding: const EdgeInsets.all(15),
                             child: Text(
-                              currentFaq.title ?? "",
+                              currentFaq.title ?? ".",
                             ));
                       },
                       body: Container(
                         padding: const EdgeInsets.all(20),
                         width: double.infinity,
                         child: Text(
-                          currentFaq.description ?? "",
+                          currentFaq.description ?? ".",
                           style: textTheme.bodySmall,
                         ),
                       ),
