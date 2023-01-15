@@ -12,6 +12,7 @@ class BaseAssetView extends AppStatelessWidget {
   final String title;
   final String secondTitle;
   final Widget child;
+  final Widget emptyChild;
   final Function onMoreTap;
   final List<EachAssetViewModel> assets;
 
@@ -20,6 +21,7 @@ class BaseAssetView extends AppStatelessWidget {
       required this.title,
       required this.secondTitle,
       required this.child,
+      required this.emptyChild,
       required this.onMoreTap,
       required this.assets})
       : super(key: key);
@@ -64,7 +66,7 @@ class BaseAssetView extends AppStatelessWidget {
               child,
               Builder(builder: (context) {
                 if (assets.isEmpty) {
-                  return _buildEmptyChart(appLocalizations, textTheme);
+                  return emptyChild;
                 }
                 return Column(
                   children: [
@@ -145,28 +147,6 @@ class BaseAssetView extends AppStatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildEmptyChart(
-      AppLocalizations appLocalizations, TextTheme textTheme) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 24),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            appLocalizations.common_emptyText_title,
-            style: textTheme.bodyMedium,
-          ),
-          Text(
-            appLocalizations.common_emptyText_mapDescription,
-            textAlign: TextAlign.center,
-            style: textTheme.bodySmall,
-          ),
-        ],
       ),
     );
   }
