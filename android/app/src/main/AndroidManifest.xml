@@ -70,6 +70,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https" android:host="app-wmd-qa-01.azurewebsites.net" android:path="/verify-response"/>
+                <data android:scheme="https" android:host="app-wmd-qa-01.azurewebsites.net" android:path="/password/update"/>
             </intent-filter>
         </activity>
             <!-- Don't delete the meta-data below.

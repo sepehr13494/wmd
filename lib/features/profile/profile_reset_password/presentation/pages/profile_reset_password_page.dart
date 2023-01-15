@@ -149,23 +149,27 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
                         showEye: false,
                       ),
                     ),
-                    if ((passwordFieldKey.currentState?.value != null ||
-                            buttonPressed) &&
-                        !checkPasswordValidity())
-                      PasswordValidation(
-                        lowercase: lowercase,
-                        uppercase: uppercase,
-                        numbers: numbers,
-                        special: special,
-                        length: length,
-                      ),
+                    ((passwordFieldKey.currentState?.value != null ||
+                                buttonPressed) &&
+                            !checkPasswordValidity())
+                        ? PasswordValidation(
+                            lowercase: lowercase,
+                            uppercase: uppercase,
+                            numbers: numbers,
+                            special: special,
+                            length: length,
+                          )
+                        : const SizedBox(
+                            height: 0,
+                          ),
                     EachTextField(
                       title: appLocalizations
                           .auth_change_input_confirmPassword_label,
                       hasInfo: false,
                       child: PasswordTextField(
                         name: "confirmPassword",
-                        hint: appLocalizations.auth_change_input_confirmPassword_placeholder,
+                        hint: appLocalizations
+                            .auth_change_input_confirmPassword_placeholder,
                         showEye: false,
                       ),
                     ),
