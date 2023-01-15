@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
@@ -100,7 +99,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => sl<PersonalInformationCubit>()..getName(),
         ),
-
       ],
       child: Builder(builder: (context) {
         return MaterialApp.router(
