@@ -45,9 +45,11 @@ class BaseAssetView extends AppStatelessWidget {
                   ),
                   const Spacer(),
                   InkWell(
-                    onTap: () {
-                      context.read<MainPageCubit>().onItemTapped(1);
-                    },
+                    onTap: assets.isEmpty
+                        ? null
+                        : () {
+                            context.read<MainPageCubit>().onItemTapped(1);
+                          },
                     child: Row(
                       children: [
                         Text(appLocalizations.home_widget_geography_button_more,
