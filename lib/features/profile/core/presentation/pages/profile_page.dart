@@ -43,9 +43,9 @@ class ProfilePage extends AppStatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    const ContactInformationWidget(),
-                    const Divider(height: 48),
                     const PersonalInformationWidget(),
+                    const Divider(height: 48),
+                    const ContactInformationWidget(),
                     const Divider(height: 48),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
