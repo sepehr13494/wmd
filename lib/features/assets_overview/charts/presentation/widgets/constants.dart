@@ -20,6 +20,15 @@ class AssetsOverviewChartsColors {
     AssetTypes.otherAsset: Color(0xffFFFFFF),
   };
 
+  static const Map<String, Color> colorsMapPie = {
+    AssetTypes.bankAccount: Color(0xff69544B),
+    AssetTypes.listedAsset: Color(0xff41765D),
+    AssetTypes.privateEquity: Color(0xff8E6B9E),
+    AssetTypes.privateDebt: Color(0xff3C4C53),
+    AssetTypes.realEstate: Color(0xff44344C),
+    AssetTypes.otherAsset: Color(0xff769EA7),
+  };
+
   static getAssetType(AppLocalizations appLocalizations, String type) {
     switch (type) {
       case AssetTypes.bankAccount:

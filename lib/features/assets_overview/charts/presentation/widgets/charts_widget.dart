@@ -114,7 +114,7 @@ class AssetsOverviewCharts extends StatelessWidget {
                       getChartEntity.listedAsset;
               final appLocalizations = AppLocalizations.of(context);
               return BarTooltipItem(
-                "${CustomizableDateTime.miniDateOneLine(getChartEntity.date)}\n",
+                "${CustomizableDateTime.localizedDdMm(getChartEntity.date)}\n",
                 textTheme.titleSmall!,
                 textAlign: TextAlign.start,
                 children: [
@@ -242,24 +242,5 @@ class AssetsOverviewCharts extends StatelessWidget {
         ],
       );
     });
-  }
-
-  String _getAssetNameByType(String type) {
-    switch (type) {
-      case AssetTypes.bankAccount:
-        return "Bank Account";
-      case AssetTypes.privateEquity:
-        return "Private Equity";
-      case AssetTypes.privateDebt:
-        return "Private Debt";
-      case AssetTypes.realEstate:
-        return "Real Estate";
-      case AssetTypes.listedAsset:
-        return "Listed Asset";
-      case AssetTypes.otherAsset:
-        return "Other Assets";
-      default:
-        return "";
-    }
   }
 }
