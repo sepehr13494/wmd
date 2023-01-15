@@ -10,6 +10,7 @@ import 'package:wmd/injection_container.dart';
 import 'base_cubit.dart';
 import '../widgets/loading_widget.dart';
 import '../../util/loading/loading_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BlocHelper {
   static BlocWidgetListener defaultBlocListener({
@@ -20,8 +21,6 @@ class BlocHelper {
         LoadingOverlay().show(context: context, text: state.message);
       } else if (state is ErrorState) {
         LoadingOverlay().hide();
-        // GlobalFunctions.showSnackBar(context, state.failure.message,
-        //     color: Colors.red[800], type: "error");
         if (state.failure is ServerFailure) {
           switch ((state.failure as ServerFailure).type) {
             case ExceptionType.normal:
