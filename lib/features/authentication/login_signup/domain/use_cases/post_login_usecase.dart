@@ -21,8 +21,8 @@ class LoginParams extends Equatable {
   final String password;
 
   const LoginParams({
-    this.username = "",
-    this.password = "",
+    this.username = ".",
+    this.password = ".",
   });
 
   Map<String, dynamic> toJson() => {

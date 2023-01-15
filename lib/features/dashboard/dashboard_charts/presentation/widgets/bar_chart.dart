@@ -35,8 +35,6 @@ class BarChartMainDashboard extends StatelessWidget {
     List<double> minMax = MinMaxCalculator.calculateMinyMaxY(allocations,false);
     double minY = minMax[0];
     double maxY = minMax[1];
-    print(minY);
-    print(maxY);
     double x = max(maxY.abs() , minY.abs()) / 5;
     return FittedBox(
       fit: BoxFit.scaleDown,

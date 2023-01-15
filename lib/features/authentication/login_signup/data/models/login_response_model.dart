@@ -22,11 +22,11 @@ class LoginResponse extends Equatable{
   factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
     roles: json["roles"]==null ? [] : List<String>.from(json["roles"].map((x) => x)),
     isSocial: json["isSocial"]??false,
-    idToken: json["idToken"]??"",
+    idToken: json["idToken"]??".",
     expiresIn: json["expiresIn"]??0,
-    refreshToken: json["refreshToken"]??"",
-    accessToken: json["accessToken"]??"",
-    tokenType: json["tokenType"]??"",
+    refreshToken: json["refreshToken"]??".",
+    accessToken: json["accessToken"]??".",
+    tokenType: json["tokenType"]??".",
   );
 
   Map<String, dynamic> toJson() => {

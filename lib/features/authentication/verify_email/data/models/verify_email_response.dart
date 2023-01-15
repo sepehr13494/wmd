@@ -6,7 +6,7 @@ class VerifyEmailResponse {
   bool success;
 
   factory VerifyEmailResponse.fromJson(Map<String, dynamic> json) => VerifyEmailResponse(
-    success: json["success"]??"",
+    success: json["success"]??".",
   );
 
   Map<String, dynamic> toJson() => {

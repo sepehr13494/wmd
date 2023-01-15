@@ -99,6 +99,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => sl<PersonalInformationCubit>()..getName(),
         ),
+
       ],
       child: Builder(builder: (context) {
         return MaterialApp.router(

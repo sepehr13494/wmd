@@ -12,7 +12,7 @@ class GetPieResponse extends GetPieEntity {
         );
 
   factory GetPieResponse.fromJson(Map<String, dynamic> json) => GetPieResponse(
-        name: json["type"]??"",
+        name: json["type"]??".",
         value: double.tryParse(json["value"].toString())??0,
         percentage: double.tryParse(json["percentage"].toString())??0,
       );

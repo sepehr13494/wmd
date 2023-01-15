@@ -94,7 +94,7 @@ class AddAssetFooter extends AppStatelessWidget {
                                 Map<String, dynamic> map = {
                                   "email":
                                       sl<GetUserStatusUseCase>().userEmail ??
-                                          "",
+                                          ".",
                                   "loginAt": DateTime.now().toIso8601String()
                                 };
                                 context

@@ -12,7 +12,7 @@ class GetGeographicResponse  extends GetGeographicEntity{
     );
 
     factory GetGeographicResponse.fromJson(Map<String, dynamic> json) => GetGeographicResponse(
-        continent: json["continent"]??"",
+        continent: json["continent"]??".",
         amount: double.tryParse(json["amount"].toString())??0,
         percentage: double.tryParse(json["percentage"].toString())??0,
     );
