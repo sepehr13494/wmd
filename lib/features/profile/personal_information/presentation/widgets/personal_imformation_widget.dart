@@ -6,7 +6,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
-import 'package:wmd/features/profile/personal_information/domain/entities/get_name_entity.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 import 'package:wmd/global_functions.dart';
 
@@ -21,11 +20,12 @@ class _PersonalInformationWidgetState
     extends AppState<PersonalInformationWidget> {
   bool enableSubmitButton = false;
   final formKey = GlobalKey<FormBuilderState>();
-
+  late Map<String,dynamic> lastValue;
   void checkFinalValid(value) async {
     await Future.delayed(const Duration(milliseconds: 100));
     bool finalValid = formKey.currentState!.isValid;
-    if (finalValid) {
+    Map<String, dynamic> instantValue = formKey.currentState!.instantValue;
+    if (finalValid && lastValue.toString() != instantValue.toString()) {
       if (!enableSubmitButton) {
         setState(() {
           enableSubmitButton = true;
@@ -52,9 +52,14 @@ class _PersonalInformationWidgetState
           var json = state.getNameEntity.toJson();
           json.removeWhere((key, value) => value == "");
           formKey.currentState!.patchValue(json);
+          lastValue = formKey.currentState!.instantValue;
         }
 
         if (state is SuccessStateName) {
+          setState(() {
+            lastValue = formKey.currentState!.instantValue;
+            checkFinalValid("");
+          });
           GlobalFunctions.showSnackBar(context,
               appLocalizations.profile_tabs_preferences_toast_description,
               type: "success");

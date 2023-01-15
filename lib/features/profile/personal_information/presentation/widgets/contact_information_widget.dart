@@ -24,13 +24,33 @@ class ContactInformationWidget extends StatefulWidget {
 class _ContactInformationWidgetState extends AppState<ContactInformationWidget> {
 
   TextEditingController emailController = TextEditingController();
+  bool enableSubmitButton = false;
+  final formKey = GlobalKey<FormBuilderState>();
+  late Map<String,dynamic> lastValue;
+  void checkFinalValid(value) async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    bool finalValid = formKey.currentState!.isValid;
+    Map<String, dynamic> instantValue = formKey.currentState!.instantValue;
+    if (finalValid && lastValue.toString() != instantValue.toString()) {
+      if (!enableSubmitButton) {
+        setState(() {
+          enableSubmitButton = true;
+        });
+      }
+    } else {
+      if (enableSubmitButton) {
+        setState(() {
+          enableSubmitButton = false;
+        });
+      }
+    }
+  }
   
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
     final isTablet = !responsiveHelper.isMobile;
-    final formKey = GlobalKey<FormBuilderState>();
     return BlocListener<PersonalInformationCubit, PersonalInformationState>(
       listener: (context, state) {
         if (state is PersonalInformationLoaded) {
@@ -38,8 +58,13 @@ class _ContactInformationWidgetState extends AppState<ContactInformationWidget> 
           json.removeWhere((key, value) => (value == "" || value == null));
           formKey.currentState!.patchValue(json);
           emailController.text = state.getNameEntity.email;
+          lastValue = formKey.currentState!.instantValue;
         }
         if (state is SuccessStatePhone) {
+          setState(() {
+            lastValue = formKey.currentState!.instantValue;
+            checkFinalValid("");
+          });
           GlobalFunctions.showSnackBar(
               context,
               appLocalizations
@@ -91,14 +116,16 @@ class _ContactInformationWidgetState extends AppState<ContactInformationWidget> 
                                 title: appLocalizations.profile_tabs_personal_fields_label_primaryPhoneNumber,
                                 child: Row(
                                   children: [
-                                    const CountryCodePicker(),
+                                    CountryCodePicker(onChange: checkFinalValid),
                                     const SizedBox(width: 8),
                                     Expanded(
                                       child: AppTextFields.simpleTextField(
                                           name: "phoneNumber",
                                           hint: "",
                                           type: TextFieldType.number,
-                                          keyboardType: TextInputType.number),
+                                          keyboardType: TextInputType.number,
+                                        onChanged: checkFinalValid
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -122,7 +149,9 @@ class _ContactInformationWidgetState extends AppState<ContactInformationWidget> 
                                 child: SizedBox(
                                   width: isTablet ? 160 : null,
                                   child: ElevatedButton(
-                                    onPressed: () {
+                                    onPressed: !enableSubmitButton
+                                        ? null
+                                        : () {
                                       if (formKey.currentState!.validate()) {
                                         debugPrint(formKey
                                             .currentState!.instantValue

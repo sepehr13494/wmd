@@ -5,7 +5,8 @@ import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 
 class CountryCodePicker extends StatefulWidget {
-  const CountryCodePicker({Key? key}) : super(key: key);
+  final ValueChanged<Country?>? onChange;
+  const CountryCodePicker({Key? key, required this.onChange}) : super(key: key);
 
   @override
   State<CountryCodePicker> createState() => _CountryCodePickerState();
@@ -27,6 +28,9 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
   @override
   Widget build(BuildContext context) {
     return FormBuilderField<Country>(builder: ((field) {
+      if(field.value!=null){
+        controller.text = "${field.value!.flagEmoji} +${field.value!.phoneCode}";
+      }
       return SizedBox(
         width: 100,
         child: TextField(
@@ -45,6 +49,6 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
           },
         ),
       );
-    }), name: "country",initialValue: defaultCountry,);
+    }), name: "country",initialValue: defaultCountry,onChanged: widget.onChange,);
   }
 }
