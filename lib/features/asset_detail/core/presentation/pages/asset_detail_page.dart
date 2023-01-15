@@ -7,20 +7,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
-import 'package:wmd/features/asset_detail/bank_account/domain/entity/bank_account_entity.dart';
-import 'package:wmd/features/asset_detail/core/data/models/get_detail_params.dart';
+import 'package:wmd/features/asset_detail/core/data/models/get_summary_params.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/asset_summary.dart';
-import 'package:wmd/features/asset_detail/listed_asset/domain/entity/listed_asset_entity.dart';
-import 'package:wmd/features/asset_detail/other_asset/domain/entity/other_asset_entity.dart';
-import 'package:wmd/features/asset_detail/private_debt/domain/entity/private_debt_entity.dart';
-import 'package:wmd/features/asset_detail/private_equity/domain/entity/private_equity_entity.dart';
-import 'package:wmd/features/asset_detail/real_estate/domain/entity/real_estate_entity.dart';
-import 'package:wmd/features/asset_detail/real_estate/presentation/page/real_estate_page.dart';
 import 'package:wmd/features/asset_detail/valuation/data/models/get_valuation_performance_params.dart';
 import 'package:wmd/features/asset_detail/valuation/presentation/manager/performance_chart_cubit.dart';
 import 'package:wmd/features/asset_detail/valuation/presentation/widget/performance_chart.dart';
 import 'package:wmd/injection_container.dart';
-import '../manager/asset_detail_cubit.dart';
+import '../manager/asset_summary_cubit.dart';
 import '../../../valuation/presentation/widget/valuation_table.dart';
 
 class AssetDetailPage extends StatefulWidget {
@@ -54,6 +47,11 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
           SingleChildScrollView(
             child: Column(
               children: [
+                _buildSummaryCard(
+                  responsiveHelper,
+                  selectedTimeFilter.value,
+                  appLocalizations,
+                ),
                 BlocProvider(
                   create: (context) => sl<PerformanceChartCubit>()
                     ..getValuationPerformance(GetValuationPerformanceParams(
@@ -65,26 +63,14 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                       ),
                       builder: (context, state) {
                         if (state is PerformanceLoaded) {
-                          return Column(
-                            children: [
-                              _buildSummaryCard(
-                                responsiveHelper,
-                                selectedTimeFilter.value,
-                                state.performanceEntity.netChange,
-                                appLocalizations,
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsets.all(responsiveHelper.biggerGap),
-                                child: PerformanceLineChart(
-                                  values: state
-                                      .performanceEntity.valuationHistory
-                                      .map((e) => MapEntry(e.date, e.value))
-                                      .toList(),
-                                  days: selectedTimeFilter.value,
-                                ),
-                              ),
-                            ],
+                          return Padding(
+                            padding: EdgeInsets.all(responsiveHelper.biggerGap),
+                            child: PerformanceLineChart(
+                              values: state.performanceEntity.valuationHistory
+                                  .map((e) => MapEntry(e.date, e.value))
+                                  .toList(),
+                              days: selectedTimeFilter.value,
+                            ),
                           );
                         }
                         return Padding(
@@ -159,126 +145,26 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
     );
   }
 
-  BlocProvider<AssetDetailCubit> _buildSummaryCard(
-      ResponsiveHelper responsiveHelper,
-      int days,
-      double netChange,
-      appLocalizations) {
+  BlocProvider<AssetSummaryCubit> _buildSummaryCard(
+      ResponsiveHelper responsiveHelper, int days, appLocalizations) {
     return BlocProvider(
-      create: (context) => sl<AssetDetailCubit>()
-        ..getDetail(
-            GetDetailParams(type: widget.type, assetId: widget.assetId)),
-      child: BlocConsumer<AssetDetailCubit, AssetDetailState>(
+      create: (context) => sl<AssetSummaryCubit>()
+        ..getSummary(GetSummaryParams(assetId: widget.assetId, days: days)),
+      child: BlocConsumer<AssetSummaryCubit, AssetSummaryState>(
           listener: BlocHelper.defaultBlocListener(
             listener: (context, state) {},
           ),
           builder: (context, state) {
             if (state is AssetLoaded) {
-              switch (widget.type) {
-                case AssetTypes.bankAccount:
-                  final item = state.assetDetailEntity as BankAccountEntity;
-                  return AsssetSummary(
-                    title: item.bankName,
-                    currencyCode: item.currencyCode,
-                    holdings: item.holdings,
-                    days: days,
-                    netChange: netChange,
-                    portfolioContribution: item.portfolioContribution,
-                    asOfDate: item.asOfDate,
-                    child: _buildHeader(
-                      Theme.of(context).textTheme,
-                      Theme.of(context).primaryColor,
-                      appLocalizations,
-                    ),
-                  );
-                case AssetTypes.realEstate:
-                  final item = state.assetDetailEntity as RealEstateEntity;
-                  return AsssetSummary(
-                    title: item.name,
-                    currencyCode: item.currencyCode,
-                    holdings: item.holdings,
-                    days: days,
-                    netChange: netChange,
-                    portfolioContribution: item.portfolioContribution,
-                    asOfDate: item.asOfDate,
-                    child: _buildHeader(Theme.of(context).textTheme,
-                        Theme.of(context).primaryColor, appLocalizations),
-                  );
-                // return RealEstateDetailPage(
-                //     realEstateEntity:
-                //         state.assetDetailEntity as RealEstateEntity);
-                case AssetTypes.listedAsset:
-                  final item = state.assetDetailEntity as ListedAssetEntity;
-                  return AsssetSummary(
-                    title: item.securityName,
-                    subTitle: item.brokerName,
-                    currencyCode: item.currencyCode,
-                    holdings: item.holdings,
-                    days: days,
-                    netChange: netChange,
-                    portfolioContribution: item.portfolioContribution,
-                    asOfDate: item.asOfDate,
-                    child: _buildHeader(
-                      Theme.of(context).textTheme,
-                      Theme.of(context).primaryColor,
-                      appLocalizations,
-                    ),
-                  );
-
-                case AssetTypes.privateDebt:
-                  final item = state.assetDetailEntity as PrivateDebtEntity;
-                  return AsssetSummary(
-                    title: item.investmentName,
-                    subTitle: item.wealthManager,
-                    currencyCode: item.currencyCode,
-                    holdings: item.holdings,
-                    days: days,
-                    netChange: netChange,
-                    portfolioContribution: item.portfolioContribution,
-                    asOfDate: item.asOfDate,
-                    child: _buildHeader(
-                      Theme.of(context).textTheme,
-                      Theme.of(context).primaryColor,
-                      appLocalizations,
-                    ),
-                  );
-                case AssetTypes.privateEquity:
-                  final item = state.assetDetailEntity as PrivateEquityEntity;
-                  return AsssetSummary(
-                    title: item.investmentName,
-                    subTitle: item.wealthManager,
-                    currencyCode: item.currencyCode,
-                    holdings: item.holdings,
-                    days: days,
-                    netChange: netChange,
-                    portfolioContribution: item.portfolioContribution,
-                    asOfDate: item.asOfDate,
-                    child: _buildHeader(
-                      Theme.of(context).textTheme,
-                      Theme.of(context).primaryColor,
-                      appLocalizations,
-                    ),
-                  );
-                case AssetTypes.otherAsset:
-                  final item = state.assetDetailEntity as OtherAssetEntity;
-                  return AsssetSummary(
-                    title: item.name,
-                    subTitle: item.wealthManager,
-                    currencyCode: item.currencyCode,
-                    holdings: item.holdings,
-                    days: days,
-                    netChange: netChange,
-                    portfolioContribution: item.portfolioContribution,
-                    asOfDate: item.asOfDate,
-                    child: _buildHeader(
-                      Theme.of(context).textTheme,
-                      Theme.of(context).primaryColor,
-                      appLocalizations,
-                    ),
-                  );
-                default:
-                  return Text(state.assetDetailEntity.toString());
-              }
+              return AsssetSummary(
+                summary: state.assetSummaryEntity,
+                days: days,
+                child: _buildHeader(
+                  Theme.of(context).textTheme,
+                  Theme.of(context).primaryColor,
+                  appLocalizations,
+                ),
+              );
             }
             return Padding(
               padding: EdgeInsets.all(responsiveHelper.bigger24Gap),

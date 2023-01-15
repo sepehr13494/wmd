@@ -8,6 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:wmd/core/models/radio_button_options.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
+import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 import 'package:wmd/features/add_assets/core/data/models/listed_security_name.dart';
@@ -715,6 +716,9 @@ class TimeslotsSelector<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final responsiveHelper = ResponsiveHelper(context: context);
+    final isMobile = responsiveHelper.isMobile;
+
     return FormBuilderField<T>(
         autovalidateMode: AutovalidateMode.onUserInteraction,
         onChanged: onChanged,
@@ -722,65 +726,75 @@ class TimeslotsSelector<T> extends StatelessWidget {
           return Column(
             children: [
               Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: ["9.00 - 10.00", "11.00 - 12.00"]
-                      .map((time) => OutlinedButton(
-                            onPressed: () {
-                              field.didChange(time);
-                            },
-                            style: ButtonStyle(
-                                shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(6.0)),
-                                ),
-                                side: field.value != time
-                                    ? MaterialStateProperty.all(
-                                        const BorderSide(
-                                        color: Colors.transparent,
-                                      ))
-                                    : null,
-                                minimumSize: MaterialStateProperty.all(
-                                    const Size(220, 50)),
-                                backgroundColor: MaterialStateProperty.all(
-                                    Theme.of(context)
-                                        .textTheme
-                                        .bodySmall!
-                                        .color!
-                                        .withOpacity(0.07))),
-                            child: Text(time),
-                          ))
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: ["9.00 - 10.00", "", "11.00 - 12.00"]
+                      .map((time) => time == ""
+                          ? const SizedBox(
+                              width: 15,
+                            )
+                          : Expanded(
+                              child: OutlinedButton(
+                              onPressed: () {
+                                field.didChange(time);
+                              },
+                              style: ButtonStyle(
+                                  shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(6.0)),
+                                  ),
+                                  side: field.value != time
+                                      ? MaterialStateProperty.all(
+                                          const BorderSide(
+                                          color: Colors.transparent,
+                                        ))
+                                      : null,
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .color!
+                                          .withOpacity(0.07))),
+                              child: Text(time),
+                            )))
                       .toList()),
               const SizedBox(
                 height: 15,
               ),
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: ["13.00 - 14.00", "15.00 - 16.00"]
-                      .map((time) => OutlinedButton(
-                            onPressed: () {
-                              field.didChange(time);
-                            },
-                            style: ButtonStyle(
-                                shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(6.0)),
-                                ),
-                                side: field.value != time
-                                    ? MaterialStateProperty.all(
-                                        const BorderSide(
-                                        color: Colors.transparent,
-                                      ))
-                                    : null,
-                                minimumSize: MaterialStateProperty.all(
-                                    const Size(220, 50)),
-                                backgroundColor: MaterialStateProperty.all(
-                                    Theme.of(context)
-                                        .textTheme
-                                        .bodySmall!
-                                        .color!
-                                        .withOpacity(0.07))),
-                            child: Text(time),
-                          ))
+                  children: ["13.00 - 14.00", "", "15.00 - 16.00"]
+                      .map((time) => time == ""
+                          ? const SizedBox(
+                              width: 15,
+                            )
+                          : Expanded(
+                              child: OutlinedButton(
+                              onPressed: () {
+                                field.didChange(time);
+                              },
+                              style: ButtonStyle(
+                                  shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(6.0)),
+                                  ),
+                                  side: field.value != time
+                                      ? MaterialStateProperty.all(
+                                          const BorderSide(
+                                          color: Colors.transparent,
+                                        ))
+                                      : null,
+                                  minimumSize: MaterialStateProperty.all(
+                                      const Size(220, 50)),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .color!
+                                          .withOpacity(0.07))),
+                              child: Text(time),
+                            )))
                       .toList()),
             ],
           );

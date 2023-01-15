@@ -9,7 +9,7 @@ Future<bool?> showTermsModal({
     context: context,
     builder: (context) {
       return const Dialog(
-        insetPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+        insetPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 50),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -64,22 +64,7 @@ class _TermsWidgetState extends AppState<TermsWidget> {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Scaffold(
-        // appBar: const CustomAuthAppBar(hideLocalise: true),
         body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          /*Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const AppLogoWidget(),
-                  IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(Icons.close))
-                ],
-              ),
-            ),*/
           Align(
             alignment: Alignment.centerRight,
             child: IconButton(
