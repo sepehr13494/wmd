@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-Future<bool?> showTermsModal({
+Future<bool?> showPrivacyModal({
   required BuildContext context,
 }) async {
   return await showDialog<bool?>(
@@ -14,46 +14,15 @@ Future<bool?> showTermsModal({
             borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
         clipBehavior: Clip.antiAliasWithSaveLayer,
         alignment: Alignment.center,
-        child: TermsWidget(),
+        child: PrivacyWidget(),
         // actionsOverflowButtonSpacing: 0,
       );
     },
   );
 }
 
-class TermsWidget extends StatefulWidget {
-  const TermsWidget({Key? key}) : super(key: key);
-
-  @override
-  AppState<TermsWidget> createState() => _TermsWidgetState();
-}
-
-class _TermsWidgetState extends AppState<TermsWidget> {
-  final ScrollController scrollController = ScrollController();
-  bool reachEnd = false;
-
-  @override
-  void initState() {
-    scrollController.addListener(() async {
-      if (!reachEnd) {
-        double maxScroll = scrollController.position.maxScrollExtent;
-        double currentScroll = scrollController.position.pixels;
-        double delta = 0.0; // or something else..
-        if (maxScroll - currentScroll <= delta) {
-          setState(() {
-            reachEnd = true;
-          });
-        }
-      }
-    });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
-  }
+class PrivacyWidget extends AppStatelessWidget {
+  const PrivacyWidget({super.key});
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -79,7 +48,8 @@ class _TermsWidgetState extends AppState<TermsWidget> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
             child: Text(
-              appLocalizations.auth_signup_tos_title,
+              'SELAMUN ALEYK',
+              // appLocalizations.auth_signup_tos_title,
               style: textTheme.headlineSmall,
               textAlign: TextAlign.center,
             ),
@@ -87,7 +57,6 @@ class _TermsWidgetState extends AppState<TermsWidget> {
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(16),
-              controller: scrollController,
               child: Center(
                   child: Column(
                 children: [
@@ -101,29 +70,6 @@ class _TermsWidgetState extends AppState<TermsWidget> {
               )),
             ),
           ),
-          const Divider(),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            child: Column(
-              children: [
-                SizedBox(
-                  width: 150,
-                  child: ElevatedButton(
-                      onPressed: reachEnd
-                          ? () {
-                              Navigator.pop(context, true);
-                            }
-                          : null,
-                      child: Text(appLocalizations.common_button_acceptAll)),
-                ),
-                TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text(appLocalizations.common_button_cancel)),
-              ],
-            ),
-          )
         ]),
       ),
     );
