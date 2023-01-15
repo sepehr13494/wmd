@@ -143,7 +143,8 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
                                             context.goNamed(
                                                 AppRoutes.addAssetsView);
                                           },
-                                          child: const Text('Skip'),
+                                          child: Text(appLocalizations
+                                              .common_button_skip),
                                         ),
                                       ),
                                       const SizedBox(width: 16),
@@ -162,7 +163,8 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
                                                   curve: Curves.linear);
                                             }
                                           },
-                                          child: const Text('Next'),
+                                          child: Text(appLocalizations
+                                              .common_button_next),
                                         ),
                                       ),
                                     ],

@@ -24,9 +24,11 @@ class NetChangeWidget extends AppStatelessWidget {
     // percent = change == 0 ? 0 : percent;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
               appLocalizations.assets_label_netChange,

@@ -20,4 +20,14 @@ class GeneralInquiryCubit extends Cubit<GeneralInquiryState> {
       emit(SuccessState(appSuccess: statusSuccess));
     });
   }
+
+  postScheduleCall({required Map<String, dynamic> map}) async {
+    emit(LoadingState());
+    final result = await postGeneralInquiryUseCase(map);
+    result.fold((failure) {
+      emit(ErrorState(failure: failure));
+    }, (statusSuccess) {
+      emit(SuccessState(appSuccess: statusSuccess));
+    });
+  }
 }

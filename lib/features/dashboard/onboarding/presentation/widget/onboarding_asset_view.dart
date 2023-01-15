@@ -18,7 +18,7 @@ class OnBoardingAssetView extends AppStatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Add or link your assets with ease',
+          appLocalizations.home_guidedOnBoarding_addAndLinkAsset_title,
           style: textTheme.headlineSmall!.apply(fontWeightDelta: 4).copyWith(
               fontSize: responsiveHelper.getFontSize(30),
               height: responsiveHelper.getLineHeight(1.2)),

@@ -62,7 +62,7 @@ class ChartsWrapper extends AppStatelessWidget {
                 ),
                 AspectRatio(
                   aspectRatio:
-                      ResponsiveHelper(context: context).isMobile ? 1.4 : 1.3,
+                      ResponsiveHelper(context: context).isMobile ? 1 : 1.3,
                   child: TabBarView(children: [
                     Padding(
                       padding: EdgeInsets.symmetric(
@@ -76,15 +76,6 @@ class ChartsWrapper extends AppStatelessWidget {
                           padding: const EdgeInsets.all(16.0),
                           child: Column(
                             children: const [
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.end,
-                              //   children: [
-                              //     ChartPicker(
-                              //       value: 0,
-                              //       onChange: (value) {},
-                              //     ),
-                              //   ],
-                              // ),
                               Expanded(child: BaseAssetsOverviewChartsWidget()),
                             ],
                           ),
@@ -116,33 +107,35 @@ class ChartPicker extends AppStatelessWidget {
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
-    return DropdownButton<int>(
-      items: [
-        DropdownMenuItem<int>(
-            value: 0,
-            child: Row(
-              children: [
-                Icon(
-                  Icons.bar_chart,
-                  color: Theme.of(context).primaryColor,
-                ),
-                Text(
-                  'Bar Chart',
-                  style: textTheme.bodyMedium!
-                      .apply(color: Theme.of(context).primaryColor),
-                  // textTheme.bodyMedium!.toLinkStyle(context),
-                ),
-              ],
-            ))
-      ],
-      onChanged: onChange,
-      value: value,
-      icon: Icon(
-        Icons.keyboard_arrow_down,
-        size: 15,
-        color: Theme.of(context).primaryColor,
+    return DropdownButtonHideUnderline(
+      child: DropdownButton<int>(
+        items: [
+          DropdownMenuItem<int>(
+              value: 0,
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.bar_chart,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  Text(
+                    'Bar Chart',
+                    style: textTheme.bodyMedium!
+                        .apply(color: Theme.of(context).primaryColor),
+                    // textTheme.bodyMedium!.toLinkStyle(context),
+                  ),
+                ],
+              ))
+        ],
+        onChanged: onChange,
+        value: value,
+        icon: Icon(
+          Icons.keyboard_arrow_down,
+          size: 15,
+          color: Theme.of(context).primaryColor,
+        ),
+        // style: textTheme.labelLarge,
       ),
-      // style: textTheme.labelLarge,
     );
   }
 }
