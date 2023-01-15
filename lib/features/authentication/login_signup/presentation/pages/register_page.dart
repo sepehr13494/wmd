@@ -20,6 +20,8 @@ import 'package:wmd/features/authentication/login_signup/presentation/widgets/pa
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/terms_widget.dart';
 import 'package:wmd/injection_container.dart';
 
+import '../widgets/show_privacy_widget.dart';
+
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
 
@@ -168,18 +170,19 @@ class _RegisterPageState extends AppState<RegisterPage> {
                                                           {"terms": true});
                                                 }
                                               });
-                                              // Navigator.push(
-                                              //     context,
-                                              //     MaterialPageRoute(
-                                              //       builder: (context) =>
-                                              //           const TermsWidget(),
-                                              //     )).then((value) {
-                                              //   if (value ?? false) {
-                                              //     formKey.currentState!
-                                              //         .patchValue(
-                                              //             {"terms": true});
-                                              //   }
-                                              // });
+                                            },
+                                        ),
+                                        TextSpan(
+                                            text: " and ",
+                                            style: textTheme.bodySmall),
+                                        TextSpan(
+                                          text: 'Privacy Policy',
+                                          style: textTheme.bodySmall!
+                                              .toLinkStyle(context),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () {
+                                              showPrivacyModal(
+                                                  context: context);
                                             },
                                         ),
                                       ]),
