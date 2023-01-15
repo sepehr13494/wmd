@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import '../../domain/entities/get_detail_entity.dart';
 
+@Deprecated('Replaced with asset summary')
 class GetDetailResponse extends GetDetailEntity {
   GetDetailResponse();
 

@@ -18,7 +18,7 @@ abstract class BaseState extends Equatable
         MainDashboardState,
         AssetsOverviewState,
         BankSaveState,
-        AssetDetailState,
+        AssetSummaryState,
         PlaidState,
         FaqState,
         GeneralInquiryState,

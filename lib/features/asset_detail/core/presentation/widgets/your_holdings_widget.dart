@@ -6,10 +6,9 @@ import 'package:wmd/core/util/constants.dart';
 
 class YourHoldingsWidget extends AppStatelessWidget {
   final double holdings;
-  final String currencyCode;
+
   const YourHoldingsWidget({
     required this.holdings,
-    required this.currencyCode,
     super.key,
   });
 

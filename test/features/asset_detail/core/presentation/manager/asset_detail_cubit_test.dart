@@ -9,18 +9,18 @@ import 'package:wmd/features/asset_detail/bank_account/data/models/bank_account_
 import 'package:wmd/features/asset_detail/core/data/models/get_detail_params.dart';
 import 'package:wmd/features/asset_detail/core/domain/entities/get_detail_entity.dart';
 import 'package:wmd/features/asset_detail/core/domain/use_cases/get_detail_usecase.dart';
-import 'package:wmd/features/asset_detail/core/presentation/manager/asset_detail_cubit.dart';
+import 'package:wmd/features/asset_detail/core/presentation/manager/asset_summary_cubit.dart';
 
 import 'asset_detail_cubit_test.mocks.dart';
 
 @GenerateMocks([GetDetailUseCase])
 void main() {
   late MockGetDetailUseCase mockGetDetailUseCase;
-  late AssetDetailCubit assetDetailCubit;
+  late AssetSummaryCubit assetDetailCubit;
 
   setUp(() {
     mockGetDetailUseCase = MockGetDetailUseCase();
-    assetDetailCubit = AssetDetailCubit(mockGetDetailUseCase);
+    assetDetailCubit = AssetSummaryCubit(mockGetDetailUseCase);
   });
 
   // const int count = 1;
@@ -35,7 +35,7 @@ void main() {
     build: () => assetDetailCubit,
     setUp: () => when(mockGetDetailUseCase(any))
         .thenAnswer((realInvocation) async => tEither),
-    act: (bloc) async => await bloc.getDetail(params),
+    act: (bloc) async => await bloc.getSummary(params),
     expect: () => [
       isA<LoadingState>(),
       isA<AssetLoaded>(),

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+@Deprecated('Replaced with asset summary')
 class GetDetailParams extends Equatable {
   final String type;
   final String assetId;

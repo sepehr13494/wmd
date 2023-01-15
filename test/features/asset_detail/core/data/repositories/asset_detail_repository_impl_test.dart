@@ -7,7 +7,7 @@ import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/features/asset_detail/bank_account/data/models/bank_account_response.dart';
 import 'package:wmd/features/asset_detail/core/data/data_sources/asset_detail_remote_datasource.dart';
 import 'package:wmd/features/asset_detail/core/data/models/get_detail_params.dart';
-import 'package:wmd/features/asset_detail/core/data/repositories/asset_detail_repository_impl.dart';
+import 'package:wmd/features/asset_detail/core/data/repositories/asset_summary_repository_impl.dart';
 import 'package:wmd/features/asset_detail/core/domain/repositories/asset_detail_repository.dart';
 
 import 'asset_detail_repository_impl_test.mocks.dart';
