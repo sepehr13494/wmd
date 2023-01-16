@@ -88,7 +88,7 @@
   "auth_forgot_link_resend": "Resend",
   "auth_forgot_link_resendIn": "Resend in",
   "auth_forgot_emailSentSuccess_heading": "Check your email",
-  "auth_forgot_emailSentSuccess_subheading": "<0>We have sent a message to <1>{{email}}</1> with instructions to reset your password.</0>",
+  "auth_forgot_emailSentSuccess_subheading": "We have sent a message to %s with instructions to reset your password.",
   "auth_forgot_text_didNotReceiveEmail": "Didn’t receive an email?",
   "auth_forgot_toast_success_title": "Email Sent",
   "auth_forgot_toast_error_title": "Email could not be sent",
