@@ -6,14 +6,15 @@ class EmptyChart extends AppStatelessWidget {
   const EmptyChart({Key? key}) : super(key: key);
 
   @override
-  Widget buildWidget(BuildContext context,TextTheme textTheme, AppLocalizations appLocalizations) {
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           appLocalizations.common_emptyText_title,
-          style: textTheme.bodyMedium,
+          style: textTheme.bodyLarge,
         ),
         Text(
           appLocalizations.common_emptyText_assetClassDescription,
