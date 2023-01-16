@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/widgets/change_language_button.dart';
-import 'package:wmd/core/util/app_theme.dart';
 import 'package:wmd/core/util/local_storage.dart';
+import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../routes/app_routes.dart';
@@ -18,7 +17,30 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
       centerTitle: false,
       leading: IconButton(
         onPressed: () {
-          context.goNamed(AppRoutes.onboarding);
+          // context.goNamed(AppRoutes.main);
+          try {
+            if (GoRouter.of(context).location ==
+                "/${AppRoutes.addAssetsView}") {
+              if (Navigator.of(context).canPop()) {
+                Navigator.of(context).maybePop();
+              } else {
+                context.goNamed(AppRoutes.main);
+              }
+            } else {
+              GlobalFunctions.showExitDialog(
+                  context: context,
+                  onExitClick: () {
+                    if (Navigator.of(context).canPop()) {
+                      Navigator.of(context).maybePop();
+                    } else {
+                      context.goNamed(AppRoutes.main);
+                    }
+                  });
+            }
+          } catch (e) {
+            debugPrint("footer error$e");
+            context.goNamed(AppRoutes.main);
+          }
         },
         icon: const Icon(Icons.arrow_back),
       ),
