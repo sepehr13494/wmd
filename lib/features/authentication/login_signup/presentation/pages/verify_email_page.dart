@@ -34,6 +34,7 @@ class VerifyEmailPage extends AppStatelessWidget {
         return sl<LoginSignUpCubit>();
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: const CustomAuthAppBar(automaticallyImplyLeading: false),
         body: WidthLimiterWidget(
             child: BlocConsumer<LoginSignUpCubit, LoginSignUpState>(
@@ -45,6 +46,7 @@ class VerifyEmailPage extends AppStatelessWidget {
           }),
           builder: (context, state) {
             return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Spacer(),
                 Container(
@@ -150,7 +152,7 @@ class VerifyEmailPage extends AppStatelessWidget {
                                     },
                                 ),
                               ])),
-                const SizedBox(height: 24)
+                const SizedBox(height: 20)
               ]
                   .map((e) => e is Spacer
                       ? e
