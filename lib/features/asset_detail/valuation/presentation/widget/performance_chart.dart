@@ -41,22 +41,46 @@ class PerformanceLineChart extends AppStatelessWidget {
           aspectRatio: ResponsiveHelper(context: context).isMobile ? 1.6 : 2.2,
           child: values.isEmpty
               ? const EmptyChartWidget()
-              : LineChart(
-                  mainData(context, appLocalizations),
-                ),
+              : Builder(builder: (context) {
+                  if (values.length == 1) {
+                    return Row(
+                      children: [
+                        Expanded(
+                          child: LineChart(
+                            mainData(context, appLocalizations,
+                                hideValues: true),
+                          ),
+                        ),
+                        Expanded(
+                          child: LineChart(
+                            mainData(context, appLocalizations,
+                                showLeft: false),
+                          ),
+                        )
+                      ],
+                    );
+                  }
+                  return LineChart(
+                    mainData(context, appLocalizations),
+                  );
+                }),
         ),
       ],
     );
   }
 
-  Widget bottomTitleWidgets(double value, TitleMeta meta) {
+  Widget bottomTitleWidgets(double value, TitleMeta meta, bool hideValues) {
     late final Widget child;
-    child = FittedBox(
-      fit: BoxFit.scaleDown,
-      child: Text(
-          CustomizableDateTime.localizedDdMm(values[(value).toInt()].key),
-          style: const TextStyle(fontSize: 8)),
-    );
+    if (hideValues) {
+      child = const SizedBox.shrink();
+    } else {
+      child = FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text(
+            CustomizableDateTime.localizedDdMm(values[(value).toInt()].key),
+            style: const TextStyle(fontSize: 8)),
+      );
+    }
     return SideTitleWidget(
       axisSide: meta.axisSide,
       child: child,
@@ -96,7 +120,8 @@ class PerformanceLineChart extends AppStatelessWidget {
     );
   }
 
-  LineChartData mainData(context, AppLocalizations appLocalizations) {
+  LineChartData mainData(context, AppLocalizations appLocalizations,
+      {bool showLeft = true, bool hideValues = false}) {
     double minY = 0;
     if (values.isNotEmpty) {
       minY = values[0].value;
@@ -149,12 +174,13 @@ class PerformanceLineChart extends AppStatelessWidget {
             showTitles: true,
             interval: 1,
             reservedSize: 30,
-            getTitlesWidget: bottomTitleWidgets,
+            getTitlesWidget: (value, meta) =>
+                bottomTitleWidgets(value, meta, hideValues),
           ),
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
-            showTitles: true,
+            showTitles: showLeft,
             interval: 1,
             reservedSize: 42,
             getTitlesWidget: leftTitleWidgets,
@@ -197,14 +223,16 @@ class PerformanceLineChart extends AppStatelessWidget {
             ];
           },
           maxContentWidth: 200,
-          tooltipBgColor: Color.fromARGB(255, 38, 49, 52),
+          tooltipBgColor: const Color.fromARGB(255, 38, 49, 52),
         ),
       ),
       lineBarsData: [
         LineChartBarData(
-          spots: List.generate(values.length, (index) {
-            return FlSpot((index).toDouble(), values[index].value / x);
-          }),
+          spots: hideValues
+              ? []
+              : List.generate(values.length, (index) {
+                  return FlSpot((index).toDouble(), values[index].value / x);
+                }),
           isCurved: false,
           color: AppColors.chartColor,
           barWidth: 2,
