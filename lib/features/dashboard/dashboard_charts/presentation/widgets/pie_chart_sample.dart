@@ -72,6 +72,18 @@ class PieChart2State extends AppState {
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
+                      if (isEmpty)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          child: PieChart(PieChartData(sections: [
+                            PieChartSectionData(
+                              color: Colors.white12,
+                              value: 100,
+                              title: '',
+                              radius: (height - inside) / 4,
+                            )
+                          ])),
+                        ),
                       PieChart(
                         PieChartData(
                           pieTouchData: PieTouchData(
