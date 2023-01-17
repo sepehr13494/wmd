@@ -25,11 +25,12 @@ class AddOtherAssetPage extends StatefulWidget {
 }
 
 class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
-  final privateDebtFormKey = GlobalKey<FormBuilderState>();
+  final formKey = GlobalKey<FormBuilderState>();
   bool enableAddAssetButton = false;
   String currentDayValue = "--";
   String? noOfUnits = "";
   String? valuePerUnit = "";
+  bool isPainting = false;
   @override
   void didUpdateWidget(covariant AddOtherAssetPage oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -37,7 +38,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
 
   void checkFinalValid(value) async {
     await Future.delayed(const Duration(milliseconds: 100));
-    bool finalValid = privateDebtFormKey.currentState!.isValid;
+    bool finalValid = formKey.currentState!.isValid;
     if (finalValid) {
       if (!enableAddAssetButton) {
         setState(() {
@@ -90,12 +91,12 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
             title: "Add Asset Details",
           ),
           bottomSheet: AddAssetFooter(
-              buttonText: "Add asset",
+              buttonText: appLocalizations.common_button_addAsset,
               onTap: !enableAddAssetButton
                   ? null
                   : () {
                       Map<String, dynamic> finalMap = {
-                        ...privateDebtFormKey.currentState!.instantValue,
+                        ...formKey.currentState!.instantValue,
                         "currentDayValue":
                             currentDayValue == "--" ? "0" : currentDayValue
                       };
@@ -121,27 +122,31 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                           return SingleChildScrollView(
                             child: Column(children: [
                               FormBuilder(
-                                key: privateDebtFormKey,
+                                key: formKey,
                                 initialValue:
                                     AddAssetConstants.initialJsonForAddAsset,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Add other asset",
+                                      appLocalizations
+                                          .assetLiabilityForms_heading_others,
                                       style: textTheme.headlineSmall,
                                     ),
                                     Text(
-                                      "Uncategorized other investments including vehicles, jewelry and art.",
+                                      appLocalizations
+                                          .assetLiabilityForms_subHeading_others,
                                       style: textTheme.bodySmall,
                                     ),
                                     Text(
-                                      "Fill in your asset details",
+                                      appLocalizations
+                                          .assetLiabilityForms_forms_others_title,
                                       style: textTheme.titleSmall,
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Name",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_others_inputFields_name_label,
                                       child: AppTextFields.simpleTextField(
                                           title: "Name",
                                           name: "name",
@@ -154,28 +159,42 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                                   : null;
                                             }
                                           ],
-                                          hint:
-                                              "A nickname to identify your property"),
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_others_inputFields_name_placeholder),
                                     ),
-                                    const EachTextField(
+                                    EachTextField(
                                       hasInfo: false,
-                                      title: "Wealth manager (optional)",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_others_inputFields_wealthManager_label,
                                       child: FormBuilderTypeAhead(
                                           name: "wealthManager",
-                                          hint: "Type the name of custodian",
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_others_inputFields_wealthManager_placeholder,
                                           items: AppConstants.custodianList),
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Type of asset",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_others_inputFields_assetType_label,
                                       child: AppTextFields.dropDownTextField(
                                         onChanged: (val) async {
                                           await Future.delayed(const Duration(
                                               milliseconds: 200));
                                           checkFinalValid(val);
+
+                                          if (val == "Painting") {
+                                            setState(() {
+                                              isPainting = true;
+                                            });
+                                          } else {
+                                            setState(() {
+                                              isPainting = false;
+                                            });
+                                          }
                                         },
                                         name: "assetType",
-                                        hint: "Type or select real estate type",
+                                        hint: appLocalizations
+                                            .assetLiabilityForms_forms_others_inputFields_assetType_placeholder,
                                         items: OtherAssetType.otherAssetList
                                             .map((e) => DropdownMenuItem(
                                                   value: e.value,
@@ -184,16 +203,41 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                             .toList(),
                                       ),
                                     ),
+                                    if (isPainting)
+                                      EachTextField(
+                                        title: appLocalizations
+                                            .assetLiabilityForms_forms_others_inputFields_valuationDate_label,
+                                        child: FormBuilderDateTimePicker(
+                                          onChanged: (selectedDate) {
+                                            checkFinalValid(selectedDate);
+                                          },
+                                          lastDate: DateTime.now(),
+                                          inputType: InputType.date,
+                                          initialValue: DateTime.now(),
+                                          format: DateFormat("dd/MM/yyyy"),
+                                          name: "valuationDate",
+                                          decoration: InputDecoration(
+                                              suffixIcon: Icon(
+                                                Icons.calendar_today_outlined,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              ),
+                                              hintText: appLocalizations
+                                                  .assetLiabilityForms_forms_others_inputFields_valuationDate_placeholder),
+                                        ),
+                                      ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Country",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_others_inputFields_country_label,
                                       child: CountriesDropdown(
                                         onChanged: checkFinalValid,
                                       ),
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Currency",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_others_inputFields_currency_label,
                                       child: CurrenciesDropdown(
                                         onChanged: checkFinalValid,
                                         showExchange: true,
@@ -201,7 +245,8 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Number of units",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_others_inputFields_units_label,
                                       child: AppTextFields.simpleTextField(
                                           type: TextFieldType.number,
                                           onChanged: (val) {
@@ -213,20 +258,23 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                           },
                                           keyboardType: TextInputType.number,
                                           name: "units",
-                                          hint: "No. of Units"),
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_others_inputFields_units_placeholder),
                                     ),
                                     EachTextField(
-                                      title: "Acquisition cost",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_others_inputFields_acquisitionCost_label,
                                       child: AppTextFields.simpleTextField(
                                           onChanged: checkFinalValid,
                                           type: TextFieldType.money,
                                           keyboardType: TextInputType.number,
                                           name: "acquisitionCost",
-                                          hint:
-                                              "Type the purchase price of asset"),
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_others_inputFields_acquisitionCost_placeholder),
                                     ),
                                     EachTextField(
-                                      title: "Acquisition date",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_others_inputFields_acquisitionDate_label,
                                       child: FormBuilderDateTimePicker(
                                         onChanged: (selectedDate) {
                                           checkFinalValid(selectedDate);
@@ -241,12 +289,14 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                               color: Theme.of(context)
                                                   .primaryColor,
                                             ),
-                                            hintText: "DD/MM/YYYY"),
+                                            hintText: appLocalizations
+                                                .assetLiabilityForms_forms_others_inputFields_acquisitionDate_placeholder),
                                       ),
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Ownership",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_others_inputFields_ownerShip_label,
                                       child: AppTextFields.simpleTextField(
                                           extraValidators: [
                                             (val) {
@@ -262,10 +312,12 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                           keyboardType: TextInputType.number,
                                           onChanged: checkFinalValid,
                                           name: "ownerShip",
-                                          hint: "Type in a figure e.g 72%"),
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_others_inputFields_ownerShip_placeholder),
                                     ),
                                     EachTextField(
-                                      title: "Value per unit (optional)",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_others_inputFields_valuePerUnit_label,
                                       child: AppTextFields.simpleTextField(
                                           required: false,
                                           onChanged: (val) {
@@ -277,8 +329,8 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                           type: TextFieldType.money,
                                           keyboardType: TextInputType.number,
                                           name: "valuePerUnit",
-                                          hint:
-                                              "The current day value of asset"),
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_others_inputFields_valuePerUnit_placeholder),
                                     ),
                                     Container(
                                       padding: const EdgeInsets.all(16),
@@ -298,7 +350,8 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            const Text("Current day value"),
+                                            Text(appLocalizations
+                                                .assetLiabilityForms_forms_others_inputFields_currentDayValue_label),
                                             const SizedBox(height: 8),
                                             Text(currentDayValue)
                                           ],

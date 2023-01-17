@@ -250,7 +250,7 @@ class ContactBusinessWidget extends ModalWidget {
   }
 
   @override
-  Widget buildModalHeader(BuildContext context) {
+  Widget buildModalHeader(BuildContext context, {Function? onClose}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
