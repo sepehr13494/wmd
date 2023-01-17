@@ -1,14 +1,17 @@
 import 'dart:ui';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/modal_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SuccessModalWidget extends ModalWidget {
-  final String aquiredCost, marketPrice, netWorth, netWorthChange;
+  final String startingBalance, currencyCode, netWorth, netWorthChange;
+  final double currencyRate;
 
   const SuccessModalWidget({
     super.key,
@@ -16,8 +19,9 @@ class SuccessModalWidget extends ModalWidget {
     super.body,
     required super.confirmBtn,
     required super.cancelBtn,
-    required this.aquiredCost,
-    required this.marketPrice,
+    required this.startingBalance,
+    required this.currencyCode,
+    required this.currencyRate,
     required this.netWorth,
     required this.netWorthChange,
   });
@@ -27,15 +31,17 @@ class SuccessModalWidget extends ModalWidget {
     final appTextTheme = Theme.of(context).textTheme;
     final responsiveHelper = ResponsiveHelper(context: context);
     final isMobile = responsiveHelper.isMobile;
+    final appLocalizations = AppLocalizations.of(context);
 
     return SizedBox(
       width: double.infinity,
       height: isMobile
           ? MediaQuery.of(context).size.height * 0.7
-          : MediaQuery.of(context).size.height * 0.4,
+          : MediaQuery.of(context).size.height * 0.5,
       child: Column(
         children: [
-          buildModalHeader(context),
+          buildModalHeader(context,
+              onClose: () => context.goNamed(AppRoutes.addAssetsView)),
           Expanded(
               flex: 2,
               child: Column(
@@ -55,6 +61,15 @@ class SuccessModalWidget extends ModalWidget {
                             style: TextStyle(
                                 fontSize: responsiveHelper.xxLargeFontSize),
                           ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            appLocalizations
+                                .common_formSuccessModal_description,
+                            textAlign: TextAlign.center,
+                            style: appTextTheme.bodyMedium,
+                          ),
                           SizedBox(height: responsiveHelper.biggerGap),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -63,21 +78,22 @@ class SuccessModalWidget extends ModalWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Aquired cost',
+                                    appLocalizations
+                                        .common_formSuccessModal_startingBalance,
                                     textAlign: TextAlign.center,
                                     style: appTextTheme.bodyMedium,
                                   ),
                                   SizedBox(
                                       height: responsiveHelper.defaultSmallGap),
                                   Text(
-                                    aquiredCost,
+                                    "$currencyCode $startingBalance",
                                     textAlign: TextAlign.center,
                                     style: appTextTheme.bodyLarge,
                                   ),
                                   SizedBox(
                                       height: responsiveHelper.defaultSmallGap),
                                   Text(
-                                    'Market Value: $marketPrice',
+                                    '$currencyRate $currencyCode = 1 USD',
                                     textAlign: TextAlign.center,
                                     style: appTextTheme.bodySmall,
                                   ),
@@ -125,8 +141,27 @@ class SuccessModalWidget extends ModalWidget {
                     ),
                     const SizedBox(height: 15.0),
                     buildActionContainer(context),
+                    SizedBox(height: responsiveHelper.bigger16Gap * 3),
+                    RichText(
+                        text: TextSpan(
+                            style: const TextStyle(height: 1.3),
+                            children: [
+                          TextSpan(
+                              text:
+                                  "${appLocalizations.common_help_needSupport} ",
+                              style: appTextTheme.titleMedium),
+                          TextSpan(
+                            text: "Get in touch",
+                            style: appTextTheme.titleMedium!
+                                .toLinkStyleSecondary(context),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                context.goNamed(AppRoutes.support);
+                              },
+                          ),
+                        ])),
                     SizedBox(
-                      height: responsiveHelper.bigger16Gap * 3,
+                      height: responsiveHelper.bigger16Gap,
                     )
                   ]))
         ],
