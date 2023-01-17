@@ -12,8 +12,12 @@ class AddAssetHeader extends StatelessWidget with PreferredSizeWidget {
   final Color? backgroundColor = AppColors.cardColor;
   final String title;
   final bool considerFirstTime;
+  final bool showExitModal;
   const AddAssetHeader(
-      {Key? key, required this.title, this.considerFirstTime = true})
+      {Key? key,
+      required this.title,
+      this.considerFirstTime = true,
+      this.showExitModal = false})
       : super(key: key);
 
   @override
@@ -25,28 +29,32 @@ class AddAssetHeader extends StatelessWidget with PreferredSizeWidget {
         leadingWidth: 100,
         leading: InkWell(
           onTap: () {
-            try {
-              if (GoRouter.of(context).location ==
-                  "/${AppRoutes.addAssetsView}") {
-                if (Navigator.of(context).canPop()) {
-                  Navigator.of(context).maybePop();
+            if (showExitModal) {
+              try {
+                if (GoRouter.of(context).location ==
+                    "/${AppRoutes.addAssetsView}") {
+                  if (Navigator.of(context).canPop()) {
+                    Navigator.of(context).maybePop();
+                  } else {
+                    context.goNamed(AppRoutes.main);
+                  }
                 } else {
-                  context.goNamed(AppRoutes.main);
+                  GlobalFunctions.showExitDialog(
+                      context: context,
+                      onExitClick: () {
+                        if (Navigator.of(context).canPop()) {
+                          Navigator.of(context).maybePop();
+                        } else {
+                          context.goNamed(AppRoutes.main);
+                        }
+                      });
                 }
-              } else {
-                GlobalFunctions.showExitDialog(
-                    context: context,
-                    onExitClick: () {
-                      if (Navigator.of(context).canPop()) {
-                        Navigator.of(context).maybePop();
-                      } else {
-                        context.goNamed(AppRoutes.main);
-                      }
-                    });
+              } catch (e) {
+                debugPrint("footer error$e");
+                context.goNamed(AppRoutes.main);
               }
-            } catch (e) {
-              debugPrint("footer error$e");
-              context.goNamed(AppRoutes.main);
+            } else {
+              Navigator.of(context).pop();
             }
           },
           child: Padding(
