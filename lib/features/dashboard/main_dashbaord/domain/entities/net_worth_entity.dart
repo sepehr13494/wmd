@@ -30,7 +30,7 @@ class AssetsEntity extends Equatable{
     required this.change,
   });
 
-  final double newAsset;
+  final int newAsset;
   final double currentValue;
   final double change;
 
@@ -56,7 +56,7 @@ class LiabilitiesEntity extends Equatable{
     required this.change,
   });
 
-  final double newLiability;
+  final int newLiability;
   final double currentValue;
   final double change;
 

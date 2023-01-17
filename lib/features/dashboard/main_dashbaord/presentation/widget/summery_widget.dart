@@ -28,27 +28,29 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
     final String date = (context.watch<MainDashboardCubit>().dateTimeRange ??
             AppConstants.timeFilter(context).first)
         .key;
+    final assetText = appLocalizations.home_widget_summaryCard_tooltip_assets.replaceAll("{{count}}", widget.netWorthEntity.assets.newAsset.toString()).replaceAll("{{change}}", widget.netWorthEntity.assets.change.convertMoney().toString());
+    final liabilitiesText = appLocalizations.home_widget_summaryCard_tooltip_liabilities.replaceAll("{{count}}", widget.netWorthEntity.liabilities.newLiability.toString()).replaceAll("{{change}}", widget.netWorthEntity.liabilities.change.convertMoney().toString());
     final List items = [
       [
         appLocalizations.home_label_totalNetWorth,
         widget.netWorthEntity.totalNetWorth.currentValue,
         date,
         widget.netWorthEntity.totalNetWorth.change,
-        "Includes 5 new assets added worth USD 10,000\nIncludes 1 new liability added worth USD 50,000"
+        "$assetText\n$liabilitiesText",
       ],
       [
         appLocalizations.home_label_assets,
         widget.netWorthEntity.assets.currentValue,
         date,
         widget.netWorthEntity.assets.change,
-        "Includes 5 new assets added worth USD 10,000"
+        assetText,
       ],
       [
         appLocalizations.home_label_liabilities,
         widget.netWorthEntity.liabilities.currentValue,
         date,
         widget.netWorthEntity.liabilities.change,
-        "Includes 1 new liability added worth USD 50,000"
+        liabilitiesText,
       ],
     ];
     final bool isMobile = ResponsiveHelper(context: context).isMobile;

@@ -37,7 +37,7 @@ class NetWorthResponseObj extends NetWorthEntity {
 
 class Assets extends AssetsEntity {
   const Assets({
-    required double newAsset,
+    required int newAsset,
     required double currentValue,
     required double change,
   }) : super(
@@ -47,7 +47,7 @@ class Assets extends AssetsEntity {
         );
 
   factory Assets.fromJson(Map<String, dynamic> json) => Assets(
-        newAsset: double.tryParse(json["newAsset"].toString()) ?? 0,
+        newAsset: int.tryParse(json["newAsset"].toString()) ?? 0,
         currentValue: double.tryParse(json["currentValue"].toString()) ?? 0,
         change: double.tryParse(json["change"].toString()) ?? 0,
       );
@@ -55,7 +55,7 @@ class Assets extends AssetsEntity {
 
 class Liabilities extends LiabilitiesEntity {
   const Liabilities({
-    required double newLiability,
+    required int newLiability,
     required double currentValue,
     required double change,
   }) : super(
@@ -65,7 +65,7 @@ class Liabilities extends LiabilitiesEntity {
         );
 
   factory Liabilities.fromJson(Map<String, dynamic> json) => Liabilities(
-        newLiability: double.tryParse(json["newLiability"].toString()) ?? 1,
+        newLiability: int.tryParse(json["newLiability"].toString()) ?? 1,
         currentValue: double.tryParse(json["currentValue"].toString()) ?? 1,
         change: double.tryParse(json["change"].toString()) ?? 1,
       );
