@@ -8,4 +8,12 @@ extension TextStyleExt on TextStyle {
         color: Theme.of(context).primaryColor,
         decoration: TextDecoration.underline);
   }
+
+  TextStyle toLinkStyleSecondary(
+    BuildContext context,
+  ) {
+    return copyWith(
+      color: Theme.of(context).primaryColor,
+    );
+  }
 }

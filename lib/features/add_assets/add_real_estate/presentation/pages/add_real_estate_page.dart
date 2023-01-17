@@ -96,7 +96,8 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Add Real Estate",
+                                      appLocalizations
+                                          .assetLiabilityForms_heading_realEstate,
                                       style: textTheme.headlineSmall,
                                     ),
                                     Text(
@@ -105,12 +106,14 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                       style: textTheme.bodySmall,
                                     ),
                                     Text(
-                                      "Fill in your property details",
+                                      appLocalizations
+                                          .assetLiabilityForms_forms_realEstate_title,
                                       style: textTheme.titleSmall,
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Name",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_realEstate_inputFields_name_label,
                                       child: AppTextFields.simpleTextField(
                                           title: "Name",
                                           name: "name",
@@ -123,12 +126,13 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                                   : null;
                                             }
                                           ],
-                                          hint:
-                                              "A nickname to identify your property"),
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_realEstate_inputFields_name_placeholder),
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Type of real estate",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_realEstate_inputFields_typeOfRealEstate_label,
                                       child: AppTextFields.dropDownTextField(
                                         onChanged: (val) async {
                                           // setState(() {
@@ -141,7 +145,8 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                           checkFinalValid(val);
                                         },
                                         name: "realEstateType",
-                                        hint: "Type or select real estate type",
+                                        hint: appLocalizations
+                                            .assetLiabilityForms_forms_realEstate_inputFields_typeOfRealEstate_placeholder,
                                         items: RealEstateType.realEstateList
                                             .map((e) => DropdownMenuItem(
                                                   value: e.value,
@@ -152,24 +157,28 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Address (optional)",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_realEstate_inputFields_address_label,
                                       child: AppTextFields.simpleTextField(
                                           title: "Address",
                                           name: "address",
                                           required: false,
                                           // onChanged: checkFinalValid,
-                                          hint: "Address"),
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_realEstate_inputFields_address_placeholder),
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Country",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_realEstate_inputFields_country_label,
                                       child: CountriesDropdown(
                                         onChanged: checkFinalValid,
                                       ),
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Currency",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_realEstate_inputFields_currency_label,
                                       child: CurrenciesDropdown(
                                         onChanged: checkFinalValid,
                                         showExchange: true,
@@ -177,25 +186,30 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Number of units",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_label,
                                       child: AppTextFields.simpleTextField(
                                           type: TextFieldType.number,
                                           keyboardType: TextInputType.number,
                                           onChanged: checkFinalValid,
                                           name: "noOfUnits",
-                                          hint: "No. of Units"),
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_placeholder),
                                     ),
                                     EachTextField(
-                                      title: "Acquisition cost per unit",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_realEstate_inputFields_acquisitionCostPerUnit_label,
                                       child: AppTextFields.simpleTextField(
                                           onChanged: checkFinalValid,
                                           type: TextFieldType.money,
                                           keyboardType: TextInputType.number,
                                           name: "acquisitionCostPerUnit",
-                                          hint: "Type a cost"),
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_realEstate_inputFields_acquisitionCostPerUnit_placeholder),
                                     ),
                                     EachTextField(
-                                      title: "Acquisition date",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_realEstate_inputFields_acquisitionDate_label,
                                       child: FormBuilderDateTimePicker(
                                         onChanged: (selectedDate) {
                                           checkFinalValid(selectedDate);
@@ -213,12 +227,14 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                               color: Theme.of(context)
                                                   .primaryColor,
                                             ),
-                                            hintText: "DD/MM/YYYY"),
+                                            hintText: appLocalizations
+                                                .assetLiabilityForms_forms_realEstate_inputFields_acquisitionDate_placeholder),
                                       ),
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Your ownership",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_realEstate_inputFields_yourOwnership_label,
                                       child: AppTextFields.simpleTextField(
                                           extraValidators: [
                                             (val) {
@@ -234,19 +250,23 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                           keyboardType: TextInputType.number,
                                           onChanged: checkFinalValid,
                                           name: "ownershipPercentage",
-                                          hint: "Type in a figure e.g 72%"),
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_realEstate_inputFields_yourOwnership_placeholder),
                                     ),
                                     EachTextField(
-                                      title: "Value per unit (optional)",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_label,
                                       child: AppTextFields.simpleTextField(
                                           required: false,
                                           type: TextFieldType.money,
                                           keyboardType: TextInputType.number,
                                           name: "marketValue",
-                                          hint: "Current market value"),
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_placeholder),
                                     ),
                                     EachTextField(
-                                      title: "Valuation date (optional)",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_realEstate_inputFields_valuationDate_label,
                                       child: FormBuilderDateTimePicker(
                                         firstDate: aqusitionDateValue,
                                         lastDate: DateTime.now(),
@@ -260,7 +280,8 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                               color: Theme.of(context)
                                                   .primaryColor,
                                             ),
-                                            hintText: "DD/MM/YYYY"),
+                                            hintText: appLocalizations
+                                                .assetLiabilityForms_forms_realEstate_inputFields_valuationDate_placeholder),
                                       ),
                                     ),
                                     const SizedBox(height: 60),

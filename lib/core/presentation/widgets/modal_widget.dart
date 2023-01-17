@@ -102,13 +102,13 @@ class ModalWidget extends StatelessWidget {
   }
 
   /// Modal Header with close button
-  Widget buildModalHeader(BuildContext context) {
+  Widget buildModalHeader(BuildContext context, {Function? onClose}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         IconButton(
             onPressed: () {
-              Navigator.pop(context, false);
+              onClose == null ? onClose : Navigator.pop(context, false);
               // GoRouter.of(context).goNamed(AppRoutes.dashboard);
             },
             icon: const Icon(Icons.cancel_rounded)),

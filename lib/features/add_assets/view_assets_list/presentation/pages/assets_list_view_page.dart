@@ -202,6 +202,7 @@ class AssetsPart extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
+
     late List<EachAssetModel> assets;
     if (isLiability) {
       assets = [
