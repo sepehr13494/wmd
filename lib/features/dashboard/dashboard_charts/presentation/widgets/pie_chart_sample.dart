@@ -54,6 +54,7 @@ class PieChart2State extends AppState {
                           name: AssetsOverviewChartsColors.getAssetType(
                             appLocalizations,
                             pieEntity.name,
+                            category: pieEntity.subType
                           ),
                           price: pieEntity.value.convertMoney(addDollar: true),
                           value: pieEntity.value,

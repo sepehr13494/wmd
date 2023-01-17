@@ -62,6 +62,7 @@ class EachAssetType extends AppStatelessWidget {
                                 appLocalizations,
                                 _getAssetNameByType(assetsOverview.type)
                                     .replaceAll(" ", ""),
+                                category: assetsOverview.subType
                               ),
                               style: textTheme.titleSmall)
                         ],
@@ -169,8 +170,11 @@ class EachAssetType extends AppStatelessWidget {
         return "Listed Asset";
       case AssetTypes.otherAsset:
         return "Other Assets";
+      case AssetTypes.otherAssets:
+        return "Other Assets";
       default:
-        return "";
+        print("wrong type $type");
+        return "wrong type";
     }
   }
 
@@ -187,6 +191,8 @@ class EachAssetType extends AppStatelessWidget {
       case AssetTypes.realEstate:
         return AssetsOverviewChartsColors.colors[4];
       case AssetTypes.otherAsset:
+        return AssetsOverviewChartsColors.colors[5];
+      case AssetTypes.otherAssets:
         return AssetsOverviewChartsColors.colors[5];
       default:
         return AssetsOverviewChartsColors.colors[0];
