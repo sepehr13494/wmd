@@ -9,6 +9,7 @@ import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_geographic_entity.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/base_asset_view.dart';
@@ -70,15 +71,15 @@ class _RandomWorldMapGenratorState extends AppState<RandomWorldMapGenrator> {
                   assets: List.generate(
                     state.getGeographicEntity.length,
                     (index) {
-                      GetGeographicEntity eographicEntity =
+                      GetGeographicEntity geographicEntity =
                           state.getGeographicEntity[index];
                       return EachAssetViewModel(
-                        name: eographicEntity.continent,
-                        price: eographicEntity.amount
+                        name: AssetsOverviewChartsColors.getContinentsNames(appLocalizations, geographicEntity.continent),
+                        price: geographicEntity.amount
                             .convertMoney(addDollar: true),
-                        value: eographicEntity.amount,
+                        value: geographicEntity.amount,
                         percentage:
-                            "${eographicEntity.percentage.toStringAsFixed(1)}%",
+                            "${geographicEntity.percentage.toStringAsFixed(1)}%",
                       );
                     },
                   ),

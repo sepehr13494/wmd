@@ -67,4 +67,26 @@ class AssetsOverviewChartsColors {
         return "Wrong asset type";
     }
   }
+
+  static String getContinentsNames(AppLocalizations appLocalizations,String name){
+    switch (name.toLowerCase().replaceAll(" ", "")){
+      case "asia":
+        return appLocalizations.assets_geography_Asia;
+      case "europe":
+        return appLocalizations.assets_geography_Asia;
+      case "oceania":
+        return appLocalizations.assets_geography_Asia;
+      case "Oceania":
+        return appLocalizations.assets_geography_Asia;
+      case "africa":
+        return appLocalizations.assets_geography_Asia;
+      case "northamerica":
+        return appLocalizations.assets_geography_Asia;
+      case "southamerica":
+        return appLocalizations.assets_geography_Asia;
+      default:
+        print("wrong continent : $name");
+        return appLocalizations.assets_geography_Asia;
+    }
+  }
 }
