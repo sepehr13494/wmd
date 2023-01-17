@@ -90,7 +90,8 @@ class AssetBlocHelper extends BlocHelper {
         if (state is AddAssetState) {
           context.read<MainDashboardCubit>().initPage();
           context.read<AssetsOverviewCubit>().initPage();
-          context.read<DashboardAllocationCubit>().getAllocation(dateTime: context.read<MainDashboardCubit>().dateTimeRange);
+          context.read<DashboardAllocationCubit>().getAllocation(
+              dateTime: context.read<MainDashboardCubit>().dateTimeRange);
           context.read<DashboardGoeCubit>().getGeographic();
           context.read<DashboardPieCubit>().getPie();
           final successValue = state.addAsset;
@@ -103,8 +104,9 @@ class AssetBlocHelper extends BlocHelper {
                     appLocalizations.common_formSuccessModal_buttons_viewAsset,
                 cancelBtn:
                     appLocalizations.common_formSuccessModal_buttons_addAsset,
-                aquiredCost: successValue.startingBalance.convertMoney(),
-                marketPrice: successValue.totalNetWorthChange.convertMoney(),
+                startingBalance: successValue.startingBalance.convertMoney(),
+                currencyCode: successValue.currencyCode,
+                currencyRate: successValue.currencyRate,
                 netWorth: successValue.totalNetWorth.convertMoney(),
                 netWorthChange: successValue.totalNetWorthChange.convertMoney(),
               );

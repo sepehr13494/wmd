@@ -207,7 +207,7 @@ class _CurrenciesDropdownState extends State<CurrenciesDropdown> {
           const SizedBox(
             height: 10,
           ),
-          Text('1 USD = 1.5 ${selectedCurrency?.symbol}'),
+          Text('1 USD = 1 ${selectedCurrency?.symbol}'),
           Text(
               'Exchange rate for ${DateFormat('d MMM, yyyy').format(DateTime.now()).toString()}')
         ]
