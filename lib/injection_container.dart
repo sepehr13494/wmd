@@ -394,7 +394,7 @@ Future<void> init() async {
       () => ProfileResetPasswordRemoteDataSourceImpl(sl()));
 
   //GeneralInquiryCubit
-  sl.registerFactory(() => GeneralInquiryCubit(sl()));
+  sl.registerFactory(() => GeneralInquiryCubit(sl(), sl()));
   sl.registerLazySingleton(() => PostGeneralInquiryUseCase(sl()));
   sl.registerLazySingleton<GeneralInquiryRepository>(
       () => GeneralInquiryRepositoryImpl(sl()));

@@ -91,8 +91,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: const AddAssetHeader(
-            title: "Add Asset Details",
-          ),
+              title: "Add Asset Details", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Add asset",
               onTap: !enableAddAssetButton

@@ -28,7 +28,7 @@ class AppUrls {
   static String setNumber = "${userBase}user/phone-number";
   static String faqsContent = "${contentBase}faqs";
   static String postInquiry = "${wealthBase}Inquiry";
-  static String postScheduleCall = "${wealthBase}Inquiry";
+  static String postScheduleCall = "${contentBase}portfolio/meetings/schedule";
 
   static String postBankDetails = "${wealthBase}BankAccount";
   static String postPrivateEquity = "${wealthBase}PrivateEquity";

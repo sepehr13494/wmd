@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
@@ -14,7 +15,29 @@ class PostScheduleCallUseCase
   @override
   Future<Either<Failure, AppSuccess>> call(Map<String, dynamic> params) async {
     try {
-      final postParams = ScheduleCallParams.fromJson(params);
+      debugPrint(params.toString());
+
+      final startTime = params["time"].split(' - ')[0].split('.')[0];
+      final endTime = params["time"].split(' - ')[1].split('.')[0];
+
+      final map = {
+        ...params,
+        "startTime": params["date"] != null
+            ? Jiffy(params["date"].toString())
+                .add(hours: int.parse(startTime))
+                .dateTime
+            : params["date"],
+        "endTime": params["date"] != null
+            ? Jiffy(params["date"].toString())
+                .add(hours: int.parse(endTime))
+                .dateTime
+            : params["date"],
+        "location": params["email"] ?? ""
+      };
+
+      debugPrint(map.toString());
+
+      final postParams = ScheduleCallParams.fromJson(map);
 
       return await scheduleCallRepository.postScheduleCall(postParams);
     } catch (e) {
@@ -26,37 +49,79 @@ class PostScheduleCallUseCase
 
 class ScheduleCallParams extends Equatable {
   const ScheduleCallParams({
-    required this.reason,
-    required this.enquiryText,
+    this.contactEmail = "n.albasri@tfoco.com",
+    required this.subject,
+    required this.content,
+    required this.startTime,
+    required this.endTime,
+    required this.timeZone,
+    required this.location,
+    this.isOnlineMeeting = true,
   });
 
-  final String reason;
-  final String enquiryText;
+  final String? contactEmail;
+  final String subject;
+  final String content;
+  final DateTime startTime;
+  final DateTime endTime;
+  final String timeZone;
+  final String location;
+  final bool? isOnlineMeeting;
 
   factory ScheduleCallParams.fromJson(Map<String, dynamic> json) =>
       ScheduleCallParams(
-        reason: json["reason"],
-        enquiryText: json["enquiryText"],
+        contactEmail: json["contactEmail"] ?? "n.albasri@tfoco.com",
+        subject: json["subject"],
+        content: json["content"],
+        startTime: json["startTime"],
+        endTime: json["endTime"],
+        timeZone: json["timeZone"],
+        location: json["location"],
+        isOnlineMeeting: json["isOnlineMeeting"] ?? true,
       );
 
   Map<String, dynamic> toJson() => {
-        "reason": reason,
-        "enquiryText": enquiryText,
+        "contactEmail": contactEmail,
+        "subject": subject,
+        "content": content,
+        "startTime": startTime.toIso8601String(),
+        "endTime": endTime.toIso8601String(),
+        "timeZone": timeZone,
+        "location": location,
+        "isOnlineMeeting": isOnlineMeeting,
       };
 
-  static final tGeneralInquiryMap = {
-    "reason": "reason",
-    "enquiryText": "enquiryText",
+  static final tScheduleCallMap = {
+    "contactEmail": "n.albasri@tfoco.com",
+    "subject": "enquiryText",
+    "content": "reason",
+    "startTime": DateTime.parse('2022-10-05T21:00:00.000Z'),
+    "endTime": DateTime.parse('2022-10-05T21:00:00.000Z'),
+    "timeZone": "enquiryText",
+    "location": "reason",
+    "isOnlineMeeting": true,
   };
 
-  static const tGeneralInquiryParams = ScheduleCallParams(
-    reason: "reason",
-    enquiryText: "enquiryText",
+  static final tScheduleCallParams = ScheduleCallParams(
+    contactEmail: "n.albasri@tfoco.com",
+    subject: "subject",
+    content: "content",
+    startTime: DateTime.parse('2022-10-05T21:00:00.000Z'),
+    endTime: DateTime.parse('2022-10-05T21:00:00.000Z'),
+    timeZone: "timeZone",
+    location: "location",
+    isOnlineMeeting: true,
   );
 
   @override
   List<Object?> get props => [
-        reason,
-        enquiryText,
+        contactEmail,
+        subject,
+        content,
+        startTime,
+        endTime,
+        timeZone,
+        location,
+        isOnlineMeeting
       ];
 }

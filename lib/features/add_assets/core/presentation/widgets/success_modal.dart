@@ -86,7 +86,7 @@ class SuccessModalWidget extends ModalWidget {
                                   SizedBox(
                                       height: responsiveHelper.defaultSmallGap),
                                   Text(
-                                    "$currencyCode $startingBalance",
+                                    "$currencyCode  \$$startingBalance",
                                     textAlign: TextAlign.center,
                                     style: appTextTheme.bodyLarge,
                                   ),
@@ -110,7 +110,7 @@ class SuccessModalWidget extends ModalWidget {
                                   SizedBox(
                                       height: responsiveHelper.defaultSmallGap),
                                   Text(
-                                    netWorth,
+                                    '\$$netWorth',
                                     textAlign: TextAlign.center,
                                     style: appTextTheme.bodyLarge,
                                   ),
@@ -123,7 +123,7 @@ class SuccessModalWidget extends ModalWidget {
                                         color: Colors.green[400],
                                       ),
                                       Text(
-                                        netWorthChange,
+                                        '\$$netWorthChange',
                                         textAlign: TextAlign.center,
                                         style: appTextTheme.bodySmall
                                             ?.merge(TextStyle(

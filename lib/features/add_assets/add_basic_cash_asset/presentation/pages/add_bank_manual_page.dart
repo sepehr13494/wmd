@@ -285,9 +285,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
       ],
       child: Builder(builder: (context) {
         return Scaffold(
-          appBar: const AddAssetHeader(
-            title: "Add asset",
-          ),
+          appBar: const AddAssetHeader(title: "Add asset", showExitModal: true),
           bottomSheet: AddAssetFooter(
             buttonText: "Add asset",
             onTap: !enableAddAssetButton

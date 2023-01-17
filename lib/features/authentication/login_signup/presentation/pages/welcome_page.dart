@@ -109,10 +109,9 @@ class WelcomePage extends AppStatelessWidget {
                           },
                           child:
                               Text(appLocalizations.auth_signup_button_join)),
-                      if (kIsWeb)
-                        const SizedBox()
-                      else if (Platform.isIOS)
-                        const ContinueAppleButton(),
+                      if (kIsWeb) const SizedBox(),
+                      // else if (Platform.isIOS)
+                      //   const ContinueAppleButton(),
                       SizedBox(
                         height: responsiveHelper.isMobile
                             ? 80
