@@ -105,6 +105,7 @@ class AssetsOverviewCharts extends StatelessWidget {
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
               final textTheme = Theme.of(context).textTheme;
               final getChartEntity = getChartEntities[groupIndex.toInt()];
+              final dateArray = getChartEntity.date.split("/");
               final double sum =
                   getChartEntity.privateEquity+
                       getChartEntity.realEstate+
@@ -114,7 +115,7 @@ class AssetsOverviewCharts extends StatelessWidget {
                       getChartEntity.listedAsset;
               final appLocalizations = AppLocalizations.of(context);
               return BarTooltipItem(
-                "${CustomizableDateTime.localizedDdMm(getChartEntity.date)}\n",
+                "${CustomizableDateTime.localizedDdMm(DateTime(int.parse(dateArray[2]),int.parse(dateArray[0]),int.parse(dateArray[1])))}\n",
                 textTheme.titleSmall!,
                 textAlign: TextAlign.start,
                 children: [
