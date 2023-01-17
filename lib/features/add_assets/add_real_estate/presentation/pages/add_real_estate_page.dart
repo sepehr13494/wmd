@@ -57,8 +57,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: const AddAssetHeader(
-            title: "Add Real Estate",
-          ),
+              title: "Add Real Estate", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Add asset",
               onTap: !enableAddAssetButton
@@ -193,6 +192,16 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                           keyboardType: TextInputType.number,
                                           onChanged: checkFinalValid,
                                           name: "noOfUnits",
+                                          extraValidators: [
+                                            (val) {
+                                              return ((int.tryParse(
+                                                              val ?? "0") ??
+                                                          0) <=
+                                                      100)
+                                                  ? null
+                                                  : "${appLocalizations.assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_label} can't be greater then 100";
+                                            }
+                                          ],
                                           hint: appLocalizations
                                               .assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_placeholder),
                                     ),

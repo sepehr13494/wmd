@@ -65,8 +65,7 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: const AddAssetHeader(
-            title: "Add private debt",
-          ),
+              title: "Add private debt", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Add asset",
               onTap: !enableAddAssetButton

@@ -57,9 +57,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
       create: (context) => sl<PrivateEquityCubit>(),
       child: Builder(builder: (context) {
         return Scaffold(
-          appBar: const AddAssetHeader(
-            title: "Add asset",
-          ),
+          appBar: const AddAssetHeader(title: "Add asset", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Save asset",
               onTap: !enableAddAssetButton

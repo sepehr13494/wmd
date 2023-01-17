@@ -18,6 +18,7 @@ import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/ad
 import 'package:wmd/features/help/support/data/models/call_reason.dart';
 import 'package:wmd/features/help/support/data/models/meeting_type.dart';
 import 'package:wmd/features/help/support/data/models/time_zones.dart';
+import 'package:wmd/features/help/support/presentation/manager/general_inquiry_cubit.dart';
 import 'package:wmd/features/help/support/presentation/widget/call_summary_widegt.dart';
 import 'package:wmd/features/help/support/presentation/widget/schedule_call_footer.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
@@ -62,11 +63,11 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
     final responsiveHelper = ResponsiveHelper(context: context);
 
     return BlocProvider(
-      create: (context) => sl<RealEstateCubit>(),
+      create: (context) => sl<GeneralInquiryCubit>(),
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: const AddAssetHeader(
-            title: ".",
+            title: "",
           ),
           bottomSheet: !responsiveHelper.isMobile
               ? null
@@ -82,8 +83,8 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                           print(finalMap);
 
                           context
-                              .read<RealEstateCubit>()
-                              .postRealEstate(map: finalMap);
+                              .read<GeneralInquiryCubit>()
+                              .postScheduleCall(map: finalMap);
                         }),
           body: Theme(
             data: Theme.of(context).copyWith(),
@@ -91,7 +92,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
               children: [
                 const LeafBackground(),
                 Builder(builder: (context) {
-                  return BlocConsumer<RealEstateCubit, RealEstateState>(
+                  return BlocConsumer<GeneralInquiryCubit, GeneralInquiryState>(
                       listener: (context, state) {},
                       builder: (context, state) {
                         return responsiveHelper.isMobile
@@ -135,7 +136,22 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                                                               formKey: formKey),
                                                           ElevatedButton(
                                                               onPressed: () {
-                                                                // widget.onTap!();
+                                                                Map<String,
+                                                                        dynamic>
+                                                                    finalMap = {
+                                                                  ...formKey
+                                                                      .currentState!
+                                                                      .instantValue,
+                                                                };
+
+                                                                print(finalMap);
+
+                                                                context
+                                                                    .read<
+                                                                        GeneralInquiryCubit>()
+                                                                    .postScheduleCall(
+                                                                        map:
+                                                                            finalMap);
                                                               },
                                                               child: const Text(
                                                                   "Schedule a call"))
@@ -165,172 +181,178 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
   Widget renderForm(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
-    return Column(children: [
-      FormBuilder(
-        key: formKey,
-        initialValue: AddAssetConstants.initialJsonForAddAsset,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              appLocalizations.support_card_contactClientService_title,
-              style: responsiveHelper.isMobile
-                  ? textTheme.headlineMedium
-                  : textTheme.headlineLarge,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            EachTextField(
-              hasInfo: false,
-              title: "Select your time zone",
-              child: AppTextFields.dropDownTextField(
-                onChanged: (val) async {
-                  // setState(() {
-                  //   bottomFormKey =
-                  //       GlobalKey<FormBuilderState>();
-                  //   accountType = val;
-                  // });
-                  await Future.delayed(const Duration(milliseconds: 200));
-                  checkFinalValid(val);
-                },
-                name: "timezone",
-                hint: "Select",
-                items: TimeZones.timezonesList
-                    .map((e) => DropdownMenuItem(
-                          value: e.value,
-                          child: Text(e.name),
-                        ))
-                    .toList(),
+    return Builder(builder: (context) {
+      final PersonalInformationState personalState =
+          context.watch<PersonalInformationCubit>().state;
+
+      return Column(children: [
+        FormBuilder(
+          key: formKey,
+          initialValue: {
+            "type": "Virtual Meeting",
+            "email": (personalState is PersonalInformationLoaded)
+                ? personalState.getNameEntity.email
+                : ""
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                appLocalizations.support_card_contactClientService_title,
+                style: responsiveHelper.isMobile
+                    ? textTheme.headlineMedium
+                    : textTheme.headlineLarge,
               ),
-            ),
-            EachTextField(
-              title: "Select an available date",
-              child: FormBuilderDateTimePicker(
-                onChanged: (selectedDate) {
-                  checkFinalValid(selectedDate);
-                  setState(() {
-                    availableDateValue = selectedDate;
-                  });
-                },
-                firstDate: DateTime.now(),
-                inputType: InputType.date,
-                format: DateFormat("dd/MM/yyyy"),
-                selectableDayPredicate: (DateTime date) {
-                  if (date.weekday == DateTime.saturday ||
-                      date.weekday == DateTime.friday) {
-                    return false;
-                  }
-                  return true;
-                },
-                name: "date",
-                decoration: InputDecoration(
-                    suffixIcon: Icon(
-                      Icons.calendar_today_outlined,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    hintText: "DD/MM/YYYY"),
+              const SizedBox(
+                height: 30,
               ),
-            ),
-            if (availableDateValue != null)
-              const EachTextField(
-                  title: "Select an available date",
-                  child: TimeslotsSelector<String>(
-                    name: "time",
-                  )),
-            EachTextField(
-              hasInfo: false,
-              title: "Meeting type",
-              child: AppTextFields.dropDownTextField(
-                onChanged: (val) async {
-                  await Future.delayed(const Duration(milliseconds: 200));
-                  checkFinalValid(val);
-                },
-                name: "type",
-                enabled: false,
-                hint: "Select",
-                items: MeetingType.meetingTypeList
-                    .map((e) => DropdownMenuItem(
-                          value: e.value,
-                          child: Text(e.name),
-                        ))
-                    .toList(),
+              EachTextField(
+                hasInfo: false,
+                title: "Select your time zone",
+                child: AppTextFields.dropDownTextField(
+                  onChanged: (val) async {
+                    // setState(() {
+                    //   bottomFormKey =
+                    //       GlobalKey<FormBuilderState>();
+                    //   accountType = val;
+                    // });
+                    await Future.delayed(const Duration(milliseconds: 200));
+                    checkFinalValid(val);
+                  },
+                  name: "timeZone",
+                  hint: "Select",
+                  items: TimeZones.timezonesList
+                      .map((e) => DropdownMenuItem(
+                            value: e.value,
+                            child: Text(e.name),
+                          ))
+                      .toList(),
+                ),
               ),
-            ),
-            EachTextField(
-              hasInfo: false,
-              title: "Email",
-              child: Builder(builder: (context) {
-                final PersonalInformationState personalState =
-                    context.watch<PersonalInformationCubit>().state;
-                return TextField(
+              EachTextField(
+                title: "Select an available date",
+                child: FormBuilderDateTimePicker(
+                  onChanged: (selectedDate) {
+                    checkFinalValid(selectedDate);
+                    setState(() {
+                      availableDateValue = selectedDate;
+                    });
+                  },
+                  firstDate: DateTime.now(),
+                  inputType: InputType.date,
+                  format: DateFormat("dd/MM/yyyy"),
+                  selectableDayPredicate: (DateTime date) {
+                    if (date.weekday == DateTime.saturday ||
+                        date.weekday == DateTime.friday) {
+                      return false;
+                    }
+                    return true;
+                  },
+                  name: "date",
+                  decoration: InputDecoration(
+                      suffixIcon: Icon(
+                        Icons.calendar_today_outlined,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      hintText: "DD/MM/YYYY"),
+                ),
+              ),
+              if (availableDateValue != null)
+                const EachTextField(
+                    title: "Select an available date",
+                    child: TimeslotsSelector<String>(
+                      name: "time",
+                    )),
+              EachTextField(
+                hasInfo: false,
+                title: "Meeting type",
+                child: AppTextFields.dropDownTextField(
+                  onChanged: (val) async {
+                    await Future.delayed(const Duration(milliseconds: 200));
+                    checkFinalValid(val);
+                  },
+                  name: "type",
+                  enabled: false,
+                  hint: "Select",
+                  items: MeetingType.meetingTypeList
+                      .map((e) => DropdownMenuItem(
+                            value: e.value,
+                            child: Text(e.name),
+                          ))
+                      .toList(),
+                ),
+              ),
+              EachTextField(
+                hasInfo: false,
+                title: "Email",
+                child: TextField(
                   enabled: false,
                   style: TextStyle(color: Colors.grey[500]),
                   controller: TextEditingController(
                       text: (personalState is PersonalInformationLoaded)
                           ? personalState.getNameEntity.email
                           : ""),
-                );
-              }),
+                ),
 
-              // AppTextFields.simpleTextField(
-              //     title: "Address",
-              //     name: "address",
-              //     required: false,
-              //     // onChanged: checkFinalValid,
-              //     hint: "Address"),
-            ),
-            EachTextField(
-              hasInfo: false,
-              title: "Call reason",
-              child: AppTextFields.dropDownTextField(
-                onChanged: (val) async {
-                  // setState(() {
-                  //   bottomFormKey =
-                  //       GlobalKey<FormBuilderState>();
-                  //   accountType = val;
-                  // });
-                  await Future.delayed(const Duration(milliseconds: 200));
-                  checkFinalValid(val);
-                },
-                name: "reason",
-                hint: "Select",
-                items: CallReason.callReasonList
-                    .map((e) => DropdownMenuItem(
-                          value: e.value,
-                          child: Text(e.name),
-                        ))
-                    .toList(),
+                // AppTextFields.simpleTextField(
+                //     title: "Address",
+                //     name: "address",
+                //     required: false,
+                //     // onChanged: checkFinalValid,
+                //     hint: "Address"),
               ),
-            ),
-            EachTextField(
-              hasInfo: false,
-              title: "Additional Info",
-              child: AppTextFields.simpleTextField(
-                  title: "info",
-                  name: "reason",
-                  minLines: 5,
-                  onChanged: checkFinalValid,
-                  extraValidators: [
-                    (val) {
-                      return (val != null && val.length > 100)
-                          ? "Inquiry cannot be more than 100 characters"
-                          : null;
-                    }
-                  ],
-                  hint: appLocalizations
-                      .common_submitEnquiryModal_textarea_placeholder),
-            ),
-            const SizedBox(height: 120),
-          ]
-              .map((e) => Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 16),
-                    child: e,
-                  ))
-              .toList(),
+              EachTextField(
+                hasInfo: false,
+                title: "Call reason",
+                child: AppTextFields.dropDownTextField(
+                  onChanged: (val) async {
+                    // setState(() {
+                    //   bottomFormKey =
+                    //       GlobalKey<FormBuilderState>();
+                    //   accountType = val;
+                    // });
+                    await Future.delayed(const Duration(milliseconds: 200));
+                    checkFinalValid(val);
+                  },
+                  name: "subject",
+                  hint: "Select",
+                  items: CallReason.callReasonList
+                      .map((e) => DropdownMenuItem(
+                            value: e.value,
+                            child: Text(e.name),
+                          ))
+                      .toList(),
+                ),
+              ),
+              EachTextField(
+                hasInfo: false,
+                title: "Additional Info",
+                child: AppTextFields.simpleTextField(
+                    title: "info",
+                    name: "content",
+                    minLines: 5,
+                    onChanged: checkFinalValid,
+                    extraValidators: [
+                      (val) {
+                        return (val != null && val.length > 100)
+                            ? "Inquiry cannot be more than 100 characters"
+                            : null;
+                      }
+                    ],
+                    hint: appLocalizations
+                        .common_submitEnquiryModal_textarea_placeholder),
+              ),
+              const SizedBox(height: 120),
+            ]
+                .map((e) => Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 16),
+                      child: e,
+                    ))
+                .toList(),
+          ),
         ),
-      ),
-    ]);
+      ]);
+    });
   }
 }
