@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/manager/asset_view_cubit.dart';
 
 class EachAssetModel extends AssetViewState {
@@ -42,6 +43,9 @@ class EachAssetWidget extends AppStatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         child: Container(
           decoration: BoxDecoration(
+              // color: borderAsset != null && borderAsset != eachAssetModel
+              //     ? AppColors.anotherCardColorForDarkTheme
+              //     : Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(8),
               border: borderAsset != eachAssetModel
                   ? null
@@ -54,12 +58,18 @@ class EachAssetWidget extends AppStatelessWidget {
                 padding: const EdgeInsets.all(12),
                 margin: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                    color: textTheme.bodySmall!.color!.withOpacity(0.2),
+                    color: textTheme.bodySmall!.color!.withOpacity(
+                        borderAsset != null && borderAsset != eachAssetModel
+                            ? 0.05
+                            : 0.2),
                     shape: BoxShape.circle),
                 child: SvgPicture.asset(
                   eachAssetModel.image,
                   width: 20,
                   height: 20,
+                  color: borderAsset != null && borderAsset != eachAssetModel
+                      ? Theme.of(context).disabledColor
+                      : null,
                 ),
               ),
               const SizedBox(width: 8),
@@ -70,12 +80,20 @@ class EachAssetWidget extends AppStatelessWidget {
                     const SizedBox(height: 12),
                     Text(
                       eachAssetModel.title,
-                      style: textTheme.titleMedium,
+                      style: textTheme.titleMedium?.copyWith(
+                          color: borderAsset != null &&
+                                  borderAsset != eachAssetModel
+                              ? Theme.of(context).disabledColor
+                              : null),
                     ),
                     const SizedBox(height: 12),
                     Text(
                       eachAssetModel.description,
-                      style: textTheme.bodySmall,
+                      style: textTheme.bodySmall?.copyWith(
+                          color: borderAsset != null &&
+                                  borderAsset != eachAssetModel
+                              ? Theme.of(context).disabledColor
+                              : null),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                     ),

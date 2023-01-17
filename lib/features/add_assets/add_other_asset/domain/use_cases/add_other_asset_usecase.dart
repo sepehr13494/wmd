@@ -33,6 +33,8 @@ class AddOtherAssetUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
             : DateTime.now(),
       };
 
+      debugPrint(newMap.toString());
+
       final privateDebtAssetParam = AddOtherAssetParams.fromJson(newMap);
 
       debugPrint(privateDebtAssetParam.toString());
@@ -69,7 +71,7 @@ class AddOtherAssetParams extends Equatable {
   final String currencyCode;
   final int units;
   final double acquisitionCost;
-  final DateTime acquisitionDate;
+  final DateTime? acquisitionDate;
   final DateTime? valuationDate;
   final double ownerShip;
   final double? valuePerUnit;
@@ -87,7 +89,9 @@ class AddOtherAssetParams extends Equatable {
         acquisitionCost: json["acquisitionCost"] != null
             ? double.tryParse(json["acquisitionCost"])
             : json["acquisitionCost"],
-        acquisitionDate: DateTime.parse(json["acquisitionDate"].toString()),
+        acquisitionDate: json["acquisitionDate"] != null
+            ? DateTime.parse(json["acquisitionDate"].toString())
+            : json["acquisitionDate"],
         valuationDate: DateTime.parse(json["valuationDate"].toString()),
         ownerShip: json["ownerShip"] != null
             ? double.tryParse(json["ownerShip"])
@@ -108,7 +112,7 @@ class AddOtherAssetParams extends Equatable {
         "currencyCode": currencyCode,
         "units": units,
         "acquisitionCost": acquisitionCost,
-        "acquisitionDate": acquisitionDate.toIso8601String(),
+        "acquisitionDate": acquisitionDate?.toIso8601String(),
         "valuationDate": valuationDate?.toIso8601String(),
         "ownerShip": ownerShip,
         "valuePerUnit": valuePerUnit,
