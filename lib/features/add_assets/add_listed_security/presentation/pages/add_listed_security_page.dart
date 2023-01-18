@@ -12,6 +12,7 @@ import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/add_listed_security/presentation/manager/listed_security_cubit.dart';
 import 'package:wmd/features/add_assets/core/constants.dart';
+import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 import 'package:wmd/features/add_assets/core/data/models/listed_security_name.dart';
 import 'package:wmd/features/add_assets/core/data/models/listed_security_type.dart';
 import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_bloc_helper.dart';
@@ -90,8 +91,9 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
       create: (context) => sl<ListedSecurityCubit>(),
       child: Builder(builder: (context) {
         return Scaffold(
-          appBar: const AddAssetHeader(
-              title: "Add Asset Details", showExitModal: true),
+          appBar: AddAssetHeader(
+              title: appLocalizations.assetLiabilityForms_heading_listedAssets,
+              showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Add asset",
               onTap: !enableAddAssetButton
@@ -156,6 +158,14 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                               checkFinalValid(e);
                                               setState(() {
                                                 securityName = e;
+                                              });
+                                              formKey.currentState!.patchValue({
+                                                "currencyCode": Currency
+                                                    .currenciesList
+                                                    .firstWhere((curr) =>
+                                                        curr.symbol ==
+                                                        e?.currencyCode),
+                                                "category": e?.category
                                               });
                                             },
                                             items: ListedSecurityName
@@ -391,7 +401,8 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                       Column(children: [
                                         EachTextField(
                                           hasInfo: false,
-                                          title: "Coupon Rate",
+                                          title: appLocalizations
+                                              .assetLiabilityForms_forms_listedAssets_inputFields_couponRate_label,
                                           child: AppTextFields.simpleTextField(
                                               extraValidators: [
                                                 (val) {
@@ -417,7 +428,8 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                         ),
                                         const SizedBox(height: 30),
                                         EachTextField(
-                                          title: "Maturity Date",
+                                          title: appLocalizations
+                                              .assetLiabilityForms_forms_listedAssets_inputFields_maturityDate_label,
                                           child: FormBuilderDateTimePicker(
                                             onChanged: (selectedDate) {
                                               checkFinalValid(selectedDate);

@@ -120,6 +120,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                 inputType: InputType.date,
                 validator: FormBuilderValidators.required(),
                 name: "startDate",
+                lastDate: DateTime.now(),
                 onChanged: checkFinalValid,
                 decoration: InputDecoration(
                     suffixIcon: Icon(
@@ -348,8 +349,17 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               FormBuilderTypeAhead(
+                                                  extraValidators: [
+                                                    (val) {
+                                                      return (val != null &&
+                                                              val.length > 100)
+                                                          ? "Name cannot be more than 100 characters"
+                                                          : null;
+                                                    }
+                                                  ],
                                                   name: "bankName",
                                                   onChange: (e) {
+                                                    // debugPrint(e);
                                                     if (e != null) {
                                                       context
                                                           .read<BankListCubit>()
