@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
@@ -71,7 +73,7 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                     CustodianStatusListState>(
                                 listener: BlocHelper.defaultBlocListener(
                                     listener: (context, state) {}),
-                                builder: (context, state) {
+                                builder: (context, custodianState) {
                                   return BlocConsumer<MainDashboardCubit,
                                       MainDashboardState>(
                                     listener: BlocHelper.defaultBlocListener(
