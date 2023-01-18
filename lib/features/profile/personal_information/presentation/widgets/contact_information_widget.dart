@@ -18,15 +18,16 @@ class ContactInformationWidget extends StatefulWidget {
   const ContactInformationWidget({Key? key}) : super(key: key);
 
   @override
-  AppState<ContactInformationWidget> createState() => _ContactInformationWidgetState();
+  AppState<ContactInformationWidget> createState() =>
+      _ContactInformationWidgetState();
 }
 
-class _ContactInformationWidgetState extends AppState<ContactInformationWidget> {
-
+class _ContactInformationWidgetState
+    extends AppState<ContactInformationWidget> {
   TextEditingController emailController = TextEditingController();
   bool enableSubmitButton = false;
   final formKey = GlobalKey<FormBuilderState>();
-  late Map<String,dynamic> lastValue;
+  late Map<String, dynamic> lastValue;
   void checkFinalValid(value) async {
     await Future.delayed(const Duration(milliseconds: 100));
     bool finalValid = formKey.currentState!.isValid;
@@ -45,7 +46,7 @@ class _ContactInformationWidgetState extends AppState<ContactInformationWidget> 
       }
     }
   }
-  
+
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
@@ -74,63 +75,71 @@ class _ContactInformationWidgetState extends AppState<ContactInformationWidget> 
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Builder(
-          builder: (context) {
-            return FormBuilder(
-              key: formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    appLocalizations.profile_tabs_personal_headings_contactInfo,
-                    style: textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 16),
-                  RowOrColumn(
-                      rowCrossAxisAlignment: CrossAxisAlignment.start,
-                      showRow: isTablet,
-                      children: [
-                        ExpandedIf(
-                          expanded: isTablet,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: EachTextField(
-                                hasInfo: false,
-                                title: appLocalizations.profile_tabs_personal_fields_label_email,
-                                child: Builder(builder: (context) {
-                                  return TextField(
-                                    enabled: false,
-                                    style: TextStyle(color: Colors.grey[500]),
-                                    controller: emailController,
-                                  );
-                                })),
-                          ),
+        child: Builder(builder: (context) {
+          return FormBuilder(
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  appLocalizations.profile_tabs_personal_headings_contactInfo,
+                  style: textTheme.titleMedium,
+                ),
+                const SizedBox(height: 16),
+                RowOrColumn(
+                    rowCrossAxisAlignment: CrossAxisAlignment.start,
+                    showRow: isTablet,
+                    children: [
+                      ExpandedIf(
+                        expanded: isTablet,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: EachTextField(
+                              hasInfo: false,
+                              title: appLocalizations
+                                  .profile_tabs_personal_fields_label_email,
+                              child: Builder(builder: (context) {
+                                return TextField(
+                                  enabled: false,
+                                  style: TextStyle(color: Colors.grey[500]),
+                                  controller: emailController,
+                                );
+                              })),
                         ),
-                        const SizedBox(width: 16),
-                        ExpandedIf(
-                          expanded: isTablet,
-                          child: Column(
-                            children: [
-                              EachTextField(
-                                hasInfo: false,
-                                title: appLocalizations.profile_tabs_personal_fields_label_primaryPhoneNumber,
-                                child: Row(
-                                  children: [
-                                    CountryCodePicker(onChange: checkFinalValid),
-                                    const SizedBox(width: 8),
-                                    Expanded(
-                                      child: AppTextFields.simpleTextField(
-                                          name: "phoneNumber",
-                                          hint: ".",
-                                          type: TextFieldType.number,
-                                          keyboardType: TextInputType.number,
-                                        onChanged: checkFinalValid
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                      ),
+                      const SizedBox(width: 16),
+                      ExpandedIf(
+                        expanded: isTablet,
+                        child: Column(
+                          children: [
+                            EachTextField(
+                              hasInfo: false,
+                              title: appLocalizations
+                                  .profile_tabs_personal_fields_label_primaryPhoneNumber,
+                              child: Row(
+                                children: [
+                                  CountryCodePicker(onChange: checkFinalValid),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: AppTextFields.simpleTextField(
+                                        name: "phoneNumber",
+                                        hint: ".",
+                                        type: TextFieldType.number,
+                                        keyboardType: TextInputType.number,
+                                        extraValidators: [
+                                          (val) {
+                                            return (!val!.contains(
+                                                    RegExp(r'^[0-9]*$')))
+                                                ? "${appLocalizations.profile_tabs_personal_fields_label_lastName} can only contain numbers"
+                                                : null;
+                                          }
+                                        ],
+                                        onChanged: checkFinalValid),
+                                  ),
+                                ],
                               ),
-                              /* RichText(
+                            ),
+                            /* RichText(
                                 text: TextSpan(children: [
                                   TextSpan(
                                     text:
@@ -144,45 +153,47 @@ class _ContactInformationWidgetState extends AppState<ContactInformationWidget> 
                                   )
                                 ]),
                               ),*/
-                              Align(
-                                alignment: AlignmentDirectional.centerEnd,
-                                child: SizedBox(
-                                  width: isTablet ? 160 : null,
-                                  child: ElevatedButton(
-                                    onPressed: !enableSubmitButton
-                                        ? null
-                                        : () {
-                                      if (formKey.currentState!.validate()) {
-                                        debugPrint(formKey
-                                            .currentState!.instantValue
-                                            .toString());
+                            Align(
+                              alignment: AlignmentDirectional.centerEnd,
+                              child: SizedBox(
+                                width: isTablet ? 160 : null,
+                                child: ElevatedButton(
+                                  onPressed: !enableSubmitButton
+                                      ? null
+                                      : () {
+                                          if (formKey.currentState!
+                                              .validate()) {
+                                            debugPrint(formKey
+                                                .currentState!.instantValue
+                                                .toString());
 
-                                        context
-                                            .read<PersonalInformationCubit>()
-                                            .setNumber(
-                                                map: formKey
-                                                    .currentState!.instantValue);
-                                      }
-                                    },
-                                    child: Text(appLocalizations.profile_tabs_preferences_button_applyChanges),
-                                  ),
+                                            context
+                                                .read<
+                                                    PersonalInformationCubit>()
+                                                .setNumber(
+                                                    map: formKey.currentState!
+                                                        .instantValue);
+                                          }
+                                        },
+                                  child: Text(appLocalizations
+                                      .profile_tabs_preferences_button_applyChanges),
                                 ),
                               ),
-                            ]
-                                .map((e) => Padding(
-                                      padding:
-                                          const EdgeInsets.symmetric(vertical: 8),
-                                      child: e,
-                                    ))
-                                .toList(),
-                          ),
+                            ),
+                          ]
+                              .map((e) => Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 8),
+                                    child: e,
+                                  ))
+                              .toList(),
                         ),
-                      ])
-                ],
-              ),
-            );
-          }
-        ),
+                      ),
+                    ])
+              ],
+            ),
+          );
+        }),
       ),
     );
   }
