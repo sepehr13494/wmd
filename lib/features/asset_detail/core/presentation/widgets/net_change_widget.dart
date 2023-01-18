@@ -20,8 +20,6 @@ class NetChangeWidget extends AppStatelessWidget {
     final ResponsiveHelper responsiveHelper =
         ResponsiveHelper(context: context);
 
-    // double percent = (current / change * 100);
-    // percent = change == 0 ? 0 : percent;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.end,
