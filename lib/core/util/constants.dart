@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/models/time_filer_obj.dart';
+import 'package:wmd/features/asset_detail/bank_account/presentation/page/bank_account_detail_page.dart';
+import 'package:wmd/features/asset_detail/real_estate/presentation/page/real_estate_detail_page.dart';
 
 class AppConstants {
   static const custodianList = [
@@ -346,9 +348,11 @@ class AppConstants {
   static List<TimeFilterObj> timeFilter(BuildContext context) {
     final appLocalization = AppLocalizations.of(context);
     return [
-        TimeFilterObj(key: appLocalization.home_select_duration_options_seven,value: 7),
-        TimeFilterObj(key: appLocalization.home_select_duration_options_thirty,value: 30),
-      ];
+      TimeFilterObj(
+          key: appLocalization.home_select_duration_options_seven, value: 7),
+      TimeFilterObj(
+          key: appLocalization.home_select_duration_options_thirty, value: 30),
+    ];
   }
 }
 
@@ -365,4 +369,15 @@ class AssetTypes {
   static const String privateEquity = 'PrivateEquity';
   static const String otherAsset = 'OtherAsset';
   static const String otherAssets = 'OtherAssets';
+
+  static Widget? getDetailPage(type, id) {
+    switch (type) {
+      case realEstate:
+        return RealEstateDetailPage(id: id);
+      case bankAccount:
+        return BankAccountDetailPage(id: id);
+      default:
+        return null;
+    }
+  }
 }

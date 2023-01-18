@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:wmd/features/asset_detail/core/data/models/get_summary_params.dart';
 import '../../domain/entities/asset_summary_entity.dart';
 import '../../domain/repositories/asset_summary_repository.dart';
-import '../data_sources/asset_summart_datasource.dart';
+import '../data_sources/asset_summary_datasource.dart';
 
 class AssetSummaryRepositoryImpl implements AssetSummaryRepository {
   final AssetSummaryRemoteDataSource remoteDataSource;

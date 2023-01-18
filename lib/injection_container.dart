@@ -144,7 +144,7 @@ import 'features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_b
 import 'features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_status_list_usecase.dart';
 import 'features/add_assets/custodian_bank_auth/domain/use_cases/post_custodian_bank_status_usecase.dart';
 import 'features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_list_cubit.dart';
-import 'features/asset_detail/core/data/data_sources/asset_summart_datasource.dart';
+import 'features/asset_detail/core/data/data_sources/asset_summary_datasource.dart';
 import 'features/asset_detail/core/domain/repositories/asset_summary_repository.dart';
 import 'features/asset_detail/core/domain/use_cases/get_summary_usecase.dart';
 import 'features/asset_detail/valuation/data/data_sources/valuation_remote_datasource.dart';

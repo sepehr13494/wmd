@@ -18,9 +18,11 @@ class AsssetSummary extends AppStatelessWidget {
   final void Function()? onEdit;
   final Widget? child;
   final int days;
+  final String assetId;
   const AsssetSummary({
     required this.summary,
     required this.days,
+    required this.assetId,
     this.onEdit,
     this.child,
     Key? key,
@@ -40,7 +42,7 @@ class AsssetSummary extends AppStatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (summary.assetClassName != null) Text(summary.assetClassName),
+              // if (summary.assetClassName != null) Text(summary.assetClassName),
               if (onEdit != null)
                 InkWell(
                   onTap: () {
@@ -65,11 +67,9 @@ class AsssetSummary extends AppStatelessWidget {
           ),
           if (child != null) child!,
           SummaryCardWidget(
-            holdings: summary.totalAssetsAmount,
+            summary: summary,
             days: days,
-            netChange: summary.netChange,
-            portfolioContribution: summary.dealContribution,
-            asOfDate: summary.date,
+            assetId: assetId,
           )
         ],
       ),
@@ -78,17 +78,13 @@ class AsssetSummary extends AppStatelessWidget {
 }
 
 class SummaryCardWidget extends AppStatelessWidget {
-  final double holdings;
+  final AssetSummaryEntitiy summary;
   final int days;
-  final double netChange;
-  final double portfolioContribution;
-  final DateTime? asOfDate;
+  final String assetId;
   const SummaryCardWidget({
-    required this.holdings,
+    required this.summary,
     required this.days,
-    required this.netChange,
-    required this.portfolioContribution,
-    this.asOfDate,
+    required this.assetId,
     Key? key,
   }) : super(key: key);
 
@@ -117,7 +113,7 @@ class SummaryCardWidget extends AppStatelessWidget {
               rowMainAxisAlignment: MainAxisAlignment.start,
               showRow: !isMobile,
               children: [
-                YourHoldingsWidget(holdings: holdings),
+                YourHoldingsWidget(holdings: summary.totalAssetsAmount),
                 !isMobile
                     ? Container(
                         margin: EdgeInsets.symmetric(
@@ -170,7 +166,7 @@ class SummaryCardWidget extends AppStatelessWidget {
                                   is MainDashboardNetWorthLoaded)) {
                                 return PortfolioContributionWidget(
                                     portfolioContribution:
-                                        portfolioContribution,
+                                        summary.dealContribution,
                                     netWorth: (context
                                                 .read<MainDashboardCubit>()
                                                 .state
@@ -191,7 +187,7 @@ class SummaryCardWidget extends AppStatelessWidget {
             ),
           ),
           isMobile ? const SizedBox(height: 16) : const SizedBox(),
-          if (asOfDate != null) AsOfDateWidget(shownDate: asOfDate!),
+          if (summary.date != null) AsOfDateWidget(shownDate: summary.date),
         ],
       ),
     );
@@ -207,17 +203,25 @@ class SummaryCardWidget extends AppStatelessWidget {
           appLocalizations.assets_label_netChange,
           style: textTheme.titleSmall,
         ),
-        TextButton(
-          onPressed: () {
-            showSeeMoreModal(context: context, child: Text('data'));
-          },
-          child: Text(
-            '${appLocalizations.common_button_seeMore} >',
-            style: textTheme.labelSmall!.apply(
-                color: Theme.of(context).primaryColor,
-                decoration: TextDecoration.underline),
-          ),
-        ),
+        Builder(builder: (context) {
+          final page =
+              AssetTypes.getDetailPage(summary.assetClassName, assetId);
+          if (page != null) {
+            return TextButton(
+              onPressed: () {
+                showSeeMoreModal(context: context, child: page);
+              },
+              child: Text(
+                '${appLocalizations.common_button_seeMore} >',
+                style: textTheme.labelSmall!.apply(
+                    color: Theme.of(context).primaryColor,
+                    decoration: TextDecoration.underline),
+              ),
+            );
+          } else {
+            return const SizedBox();
+          }
+        }),
       ],
     );
   }
@@ -226,7 +230,7 @@ class SummaryCardWidget extends AppStatelessWidget {
     return [
       NetChangeWidget(
         days: days,
-        change: netChange,
+        change: summary.netChange,
       ),
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,7 +251,9 @@ class SummaryCardWidget extends AppStatelessWidget {
               )
             ],
           ),
-          const ChangeWidget(number: 60, text: "60.0%"),
+          ChangeWidget(
+              number: summary.ytdPerformance,
+              text: "${summary.ytdPerformance}%"),
         ],
       ),
       Column(
@@ -268,7 +274,9 @@ class SummaryCardWidget extends AppStatelessWidget {
               )
             ],
           ),
-          const ChangeWidget(number: 12.12, text: "12.12%"),
+          ChangeWidget(
+              number: summary.itdPerformance,
+              text: "${summary.itdPerformance}%"),
         ],
       ),
     ];

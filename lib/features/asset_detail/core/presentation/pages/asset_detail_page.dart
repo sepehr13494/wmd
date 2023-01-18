@@ -47,10 +47,35 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
           SingleChildScrollView(
             child: Column(
               children: [
-                _buildSummaryCard(
-                  responsiveHelper,
-                  selectedTimeFilter.value,
-                  appLocalizations,
+                BlocProvider(
+                  create: (context) => sl<AssetSummaryCubit>()
+                    ..getSummary(GetSummaryParams(
+                        assetId: widget.assetId,
+                        days: selectedTimeFilter.value)),
+                  child: BlocConsumer<AssetSummaryCubit, AssetSummaryState>(
+                      listener: BlocHelper.defaultBlocListener(
+                        listener: (context, state) {},
+                      ),
+                      builder: (context, state) {
+                        if (state is AssetLoaded) {
+                          return AsssetSummary(
+                            summary: state.assetSummaryEntity,
+                            days: selectedTimeFilter.value,
+                            assetId: widget.assetId,
+                            child: _buildHeader(
+                              Theme.of(context).textTheme,
+                              Theme.of(context).primaryColor,
+                              appLocalizations,
+                            ),
+                          );
+                        }
+                        return Padding(
+                          padding: EdgeInsets.all(responsiveHelper.bigger24Gap),
+                          child: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      }),
                 ),
                 BlocProvider(
                   create: (context) => sl<PerformanceChartCubit>()
@@ -142,37 +167,6 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
           ],
         ),
       ],
-    );
-  }
-
-  BlocProvider<AssetSummaryCubit> _buildSummaryCard(
-      ResponsiveHelper responsiveHelper, int days, appLocalizations) {
-    return BlocProvider(
-      create: (context) => sl<AssetSummaryCubit>()
-        ..getSummary(GetSummaryParams(assetId: widget.assetId, days: days)),
-      child: BlocConsumer<AssetSummaryCubit, AssetSummaryState>(
-          listener: BlocHelper.defaultBlocListener(
-            listener: (context, state) {},
-          ),
-          builder: (context, state) {
-            if (state is AssetLoaded) {
-              return AsssetSummary(
-                summary: state.assetSummaryEntity,
-                days: days,
-                child: _buildHeader(
-                  Theme.of(context).textTheme,
-                  Theme.of(context).primaryColor,
-                  appLocalizations,
-                ),
-              );
-            }
-            return Padding(
-              padding: EdgeInsets.all(responsiveHelper.bigger24Gap),
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }),
     );
   }
 }
