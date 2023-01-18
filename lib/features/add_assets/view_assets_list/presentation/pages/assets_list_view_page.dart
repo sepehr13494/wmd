@@ -25,19 +25,10 @@ class AssetsListViewPage extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    PreferredSizeWidget? renderAppBar() {
-      return const BaseAppBar();
-      // if (sl<GetUserStatusUseCase>().showOnboarding) {
-      //   return const OnboardingAppBar(page: 1, isAsset: true);
-      // } else {
-      //   return BaseAppBar(title: appLocalizations.common_button_addAsset);
-      // }
-    }
-
     return BlocProvider(
       create: (context) => sl<AssetViewCubit>(),
       child: Scaffold(
-        appBar: renderAppBar(),
+        appBar: const BaseAppBar(),
         bottomSheet: Builder(builder: (context) {
           final state = context.watch<AssetViewCubit>().state;
           if (state is CustodianPage) {

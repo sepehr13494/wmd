@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
+import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentation/manager/bank_list_cubit.dart';
 import 'package:wmd/features/add_assets/add_loan_liability/data/models/radio_type.dart';
 import 'package:wmd/features/add_assets/add_loan_liability/presentation/manager/loan_liability_cubit.dart';
@@ -29,6 +31,7 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
   bool enableAddAssetButton = false;
   bool isPersonalLoan = false;
   DateTime? aqusitionDateValue;
+  DateTime? endDateValue;
   @override
   void didUpdateWidget(covariant AddLoanLiabilityPage oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -52,6 +55,17 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
     }
   }
 
+  int getDateDiff(DateTime? start, DateTime? end, type) {
+    int totalDays = end!.difference(start ?? DateTime.now()).inDays;
+    int years = totalDays ~/ 365;
+
+    if (type == 'y') {
+      return years;
+    } else {
+      return (totalDays - years * 365) ~/ 30;
+    }
+  }
+
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
@@ -66,9 +80,9 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
       ],
       child: Builder(builder: (context) {
         return Scaffold(
-          appBar: const AddAssetHeader(
-            title: "Add Real Estate",
-          ),
+          appBar: AddAssetHeader(
+              title: appLocalizations.assetLiabilityForms_heading_loan,
+              showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Add liability",
               onTap: !enableAddAssetButton
@@ -105,20 +119,24 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Add loan details",
+                                      appLocalizations
+                                          .assetLiabilityForms_heading_loan,
                                       style: textTheme.headlineSmall,
                                     ),
                                     Text(
-                                      "Mortgage, personal loan, vehicle loan etc.",
+                                      appLocalizations
+                                          .assetLiabilityForms_subHeading_loan,
                                       style: textTheme.bodySmall,
                                     ),
                                     Text(
-                                      "Fill in your liability details",
+                                      appLocalizations
+                                          .assetLiabilityForms_forms_loan_title,
                                       style: textTheme.titleSmall,
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Name",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_loan_inputFields_name_label,
                                       child: AppTextFields.simpleTextField(
                                           title: "Name",
                                           name: "loanName",
@@ -131,8 +149,8 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                                                   : null;
                                             }
                                           ],
-                                          hint:
-                                              "A nickname you give to your loan"),
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_loan_inputFields_name_placeholder),
                                     ),
                                     BlocSelector<BankListCubit, BankListState,
                                         List<String>>(
@@ -147,7 +165,8 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                                       builder: (context, state) {
                                         return EachTextField(
                                             hasInfo: false,
-                                            title: "Bank name (optional)",
+                                            title: appLocalizations
+                                                .assetLiabilityForms_forms_loan_inputFields_bankName_label,
                                             child: FormBuilderTypeAhead(
                                                 name: "bankName",
                                                 onChange: (e) {
@@ -160,13 +179,15 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                                                 prefixIcon: const Icon(
                                                   Icons.search,
                                                 ),
-                                                hint: "Your bank name",
+                                                hint: appLocalizations
+                                                    .assetLiabilityForms_forms_loan_inputFields_bankName_placeholder,
                                                 items: state));
                                       },
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Type",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_loan_inputFields_type_label,
                                       child: AppTextFields.dropDownTextField(
                                         onChanged: (e) {
                                           if (e == "Personal") {
@@ -182,7 +203,8 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                                           checkFinalValid(e);
                                         },
                                         name: "loanType",
-                                        hint: "Type or select the loan type",
+                                        hint: appLocalizations
+                                            .assetLiabilityForms_forms_loan_inputFields_type_placeholder,
                                         items: LoanType.loanList
                                             .map((e) => DropdownMenuItem(
                                                   value: e.value,
@@ -193,37 +215,42 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Currency",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_loan_inputFields_currency_label,
                                       child: CurrenciesDropdown(
                                         onChanged: checkFinalValid,
                                         showExchange: true,
                                       ),
                                     ),
                                     EachTextField(
-                                      hasInfo: false,
-                                      title: "Loan amount - outstanding",
+                                      hasInfo: true,
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_loan_inputFields_loanAmount_label,
                                       child: AppTextFields.simpleTextField(
                                           required: false,
                                           onChanged: checkFinalValid,
                                           type: TextFieldType.money,
                                           keyboardType: TextInputType.number,
                                           name: "loanAmountOutstanding",
-                                          hint: "Type loan amount"),
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_loan_inputFields_loanAmount_placeholder),
                                     ),
                                     EachTextField(
-                                      hasInfo: false,
-                                      title:
-                                          "Loan amount - sanctioned (optional)",
+                                      hasInfo: true,
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_loan_inputFields_loanAmountSanctioned_label,
                                       child: AppTextFields.simpleTextField(
                                           required: false,
                                           type: TextFieldType.money,
                                           keyboardType: TextInputType.number,
                                           name: "loanAmountSanctioned",
-                                          hint: "Type sanctioned loan amount"),
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_loan_inputFields_loanAmountSanctioned_placeholder),
                                     ),
                                     EachTextField(
-                                      hasInfo: false,
-                                      title: "Start date (optional)",
+                                      hasInfo: true,
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_loan_inputFields_startDate_label,
                                       child: FormBuilderDateTimePicker(
                                         onChanged: (selectedDate) {
                                           setState(() {
@@ -240,30 +267,71 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                                               color: Theme.of(context)
                                                   .primaryColor,
                                             ),
-                                            hintText: "DD/MM/YYYY"),
+                                            hintText: appLocalizations
+                                                .assetLiabilityForms_forms_loan_inputFields_startDate_placeholder),
                                       ),
                                     ),
                                     EachTextField(
-                                      hasInfo: false,
-                                      title: "End date (optional)",
+                                      hasInfo: true,
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_loan_inputFields_endDate_label,
                                       child: FormBuilderDateTimePicker(
                                         firstDate: aqusitionDateValue,
-                                        lastDate: DateTime.now(),
                                         format: DateFormat("dd/MM/yyyy"),
                                         inputType: InputType.date,
                                         name: "endDate",
+                                        onChanged: (selectedDate) {
+                                          setState(() {
+                                            endDateValue = selectedDate;
+                                          });
+                                        },
                                         decoration: InputDecoration(
                                             suffixIcon: Icon(
                                               Icons.calendar_today_outlined,
                                               color: Theme.of(context)
                                                   .primaryColor,
                                             ),
-                                            hintText: "DD/MM/YYYY"),
+                                            hintText: appLocalizations
+                                                .assetLiabilityForms_forms_loan_inputFields_endDate_placeholder),
                                       ),
                                     ),
+                                    (endDateValue != null &&
+                                            aqusitionDateValue != null)
+                                        ? Container(
+                                            padding: const EdgeInsets.all(16),
+                                            decoration: BoxDecoration(
+                                                color: Theme.of(context)
+                                                            .brightness ==
+                                                        Brightness.dark
+                                                    ? AppColors
+                                                        .anotherCardColorForDarkTheme
+                                                    : AppColors
+                                                        .anotherCardColorForLightTheme,
+                                                borderRadius:
+                                                    BorderRadius.circular(8)),
+                                            child: Align(
+                                              alignment: AlignmentDirectional
+                                                  .centerStart,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(appLocalizations
+                                                      .assetLiabilityForms_labels_endTermIn),
+                                                  const SizedBox(height: 8),
+                                                  Text(
+                                                      '${getDateDiff(aqusitionDateValue, endDateValue, 'y')} years ${getDateDiff(aqusitionDateValue, endDateValue, 'm')} months')
+                                                ],
+                                              ),
+                                            ),
+                                          )
+                                        : const SizedBox(
+                                            height: 0,
+                                          ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Rate (optional)",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_loan_inputFields_rate_label,
                                       child: AppTextFields.simpleTextField(
                                           extraValidators: [
                                             (val) {
@@ -280,30 +348,35 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                                           keyboardType: TextInputType.number,
                                           onChanged: checkFinalValid,
                                           name: "rate",
-                                          hint: "Type in a figure"),
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_loan_inputFields_rate_placeholder),
                                     ),
                                     EachTextField(
-                                      hasInfo: false,
-                                      title: "Monathly payment (optional)",
+                                      hasInfo: true,
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_loan_inputFields_monthlyPayment_label,
                                       child: AppTextFields.simpleTextField(
                                           required: false,
                                           type: TextFieldType.money,
                                           keyboardType: TextInputType.number,
                                           name: "monthlyPayment",
-                                          hint: "Type monthly payment"),
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_loan_inputFields_monthlyPayment_placeholder),
                                     ),
                                     if (!isPersonalLoan)
-                                      const EachTextField(
+                                      EachTextField(
                                           hasInfo: false,
-                                          title: "Collateral (optional)",
-                                          child: RadioButton<bool>(
+                                          title: appLocalizations
+                                              .assetLiabilityForms_forms_loan_inputFields_collateral_label,
+                                          child: const RadioButton<bool>(
                                               items: RadioLiabilityType
                                                   .radioLiabilityList,
                                               name: "collateral")),
-                                    const EachTextField(
+                                    EachTextField(
                                         hasInfo: false,
-                                        title: "Insurance (optional)",
-                                        child: RadioButton<bool>(
+                                        title: appLocalizations
+                                            .assetLiabilityForms_forms_loan_inputFields_insurance_label,
+                                        child: const RadioButton<bool>(
                                             items: RadioLiabilityType
                                                 .radioLiabilityList,
                                             name: "insurance")),

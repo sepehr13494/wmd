@@ -88,8 +88,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: const AddAssetHeader(
-            title: "Add Asset Details",
-          ),
+              title: "Add Asset Details", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: appLocalizations.common_button_addAsset,
               onTap: !enableAddAssetButton
