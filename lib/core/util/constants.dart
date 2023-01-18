@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/models/time_filer_obj.dart';
 import 'package:wmd/features/asset_detail/bank_account/presentation/page/bank_account_detail_page.dart';
+import 'package:wmd/features/asset_detail/other_asset/presentation/page/other_asset_detail_page.dart';
 import 'package:wmd/features/asset_detail/real_estate/presentation/page/real_estate_detail_page.dart';
 
 class AppConstants {
@@ -376,6 +377,8 @@ class AssetTypes {
         return RealEstateDetailPage(id: id);
       case bankAccount:
         return BankAccountDetailPage(id: id);
+      case otherAsset:
+        return OtherAssetDetailPage(id: id);
       default:
         return null;
     }
