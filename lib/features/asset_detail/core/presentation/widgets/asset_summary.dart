@@ -6,6 +6,7 @@ import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/core/domain/entities/asset_summary_entity.dart';
+import 'package:wmd/features/asset_detail/core/presentation/widgets/see_more_popup.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'as_of_date_widget.dart';
 import 'net_change_widget.dart';
@@ -36,14 +37,32 @@ class AsssetSummary extends AppStatelessWidget {
         children: [
           Text(summary.assetName, style: textTheme.headlineSmall),
           const SizedBox(height: 12),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     if (summary.assetClassName != null) Text(summary.assetClassName),
-          //     if (onEdit != null)
-          //       _buildEditButton(primaryColor, textTheme, context),
-          //   ],
-          // ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              if (summary.assetClassName != null) Text(summary.assetClassName),
+              if (onEdit != null)
+                InkWell(
+                  onTap: () {
+                    onEdit!();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(color: primaryColor),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(2))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(6),
+                      child: Text(
+                        appLocalizations.common_button_editDetails,
+                        style: textTheme.labelMedium!
+                            .apply(color: Theme.of(context).primaryColor),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
           if (child != null) child!,
           SummaryCardWidget(
             holdings: summary.totalAssetsAmount,
@@ -53,28 +72,6 @@ class AsssetSummary extends AppStatelessWidget {
             asOfDate: summary.date,
           )
         ],
-      ),
-    );
-  }
-
-  InkWell _buildEditButton(
-      Color primaryColor, TextTheme textTheme, BuildContext context) {
-    return InkWell(
-      onTap: () {
-        onEdit!();
-      },
-      child: Container(
-        decoration: BoxDecoration(
-            border: Border.all(color: primaryColor),
-            borderRadius: const BorderRadius.all(Radius.circular(2))),
-        child: Padding(
-          padding: const EdgeInsets.all(6),
-          child: Text(
-            'Edit details',
-            style: textTheme.labelMedium!
-                .apply(color: Theme.of(context).primaryColor),
-          ),
-        ),
       ),
     );
   }
@@ -101,6 +98,7 @@ class SummaryCardWidget extends AppStatelessWidget {
     final lineColor = Theme.of(context).dividerColor;
     final responsiveHelper = ResponsiveHelper(context: context);
     bool isMobile = responsiveHelper.isMobile;
+    // isMobile = true;
     final gap = responsiveHelper.bigger24Gap;
     return Container(
       width: double.maxFinite,
@@ -139,37 +137,52 @@ class SummaryCardWidget extends AppStatelessWidget {
                       ),
                 ExpandedIf(
                   expanded: !isMobile,
-                  child: RowOrColumn(
-                    showRow: !isMobile,
-                    columnCrossAxisAlignment: CrossAxisAlignment.start,
-                    rowCrossAxisAlignment: CrossAxisAlignment.end,
-                    rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
                     children: [
-                      if (isMobile)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: buildChildren(context, textTheme),
-                        ),
-                      if (!isMobile) ...buildChildren(context, textTheme),
-                      Padding(
-                        padding: isMobile
-                            ? const EdgeInsets.symmetric(vertical: 12)
-                            : const EdgeInsets.symmetric(vertical: 0),
-                        child: Builder(builder: (context) {
-                          if ((context.read<MainDashboardCubit>().state
-                              is MainDashboardNetWorthLoaded)) {
-                            return PortfolioContributionWidget(
-                                portfolioContribution: portfolioContribution,
-                                netWorth: (context
-                                        .read<MainDashboardCubit>()
-                                        .state as MainDashboardNetWorthLoaded)
-                                    .netWorthObj
-                                    .totalNetWorth
-                                    .currentValue);
-                          }
-                          return const SizedBox.shrink();
-                        }),
+                      if (!isMobile)
+                        _buildHeader(appLocalizations, textTheme, context),
+                      RowOrColumn(
+                        showRow: !isMobile,
+                        columnCrossAxisAlignment: CrossAxisAlignment.start,
+                        rowCrossAxisAlignment: CrossAxisAlignment.end,
+                        rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          if (isMobile)
+                            Column(
+                              children: [
+                                _buildHeader(
+                                    appLocalizations, textTheme, context),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: buildChildren(context, textTheme),
+                                ),
+                              ],
+                            ),
+                          if (!isMobile) ...buildChildren(context, textTheme),
+                          Padding(
+                            padding: isMobile
+                                ? const EdgeInsets.symmetric(vertical: 12)
+                                : const EdgeInsets.symmetric(vertical: 0),
+                            child: Builder(builder: (context) {
+                              if ((context.read<MainDashboardCubit>().state
+                                  is MainDashboardNetWorthLoaded)) {
+                                return PortfolioContributionWidget(
+                                    portfolioContribution:
+                                        portfolioContribution,
+                                    netWorth: (context
+                                                .read<MainDashboardCubit>()
+                                                .state
+                                            as MainDashboardNetWorthLoaded)
+                                        .netWorthObj
+                                        .totalNetWorth
+                                        .currentValue);
+                              }
+                              return const SizedBox.shrink();
+                            }),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -181,6 +194,31 @@ class SummaryCardWidget extends AppStatelessWidget {
           if (asOfDate != null) AsOfDateWidget(shownDate: asOfDate!),
         ],
       ),
+    );
+  }
+
+  Row _buildHeader(AppLocalizations appLocalizations, TextTheme textTheme,
+      BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          appLocalizations.assets_label_netChange,
+          style: textTheme.titleSmall,
+        ),
+        TextButton(
+          onPressed: () {
+            showSeeMoreModal(context: context, child: Text('data'));
+          },
+          child: Text(
+            '${appLocalizations.common_button_seeMore} >',
+            style: textTheme.labelSmall!.apply(
+                color: Theme.of(context).primaryColor,
+                decoration: TextDecoration.underline),
+          ),
+        ),
+      ],
     );
   }
 
