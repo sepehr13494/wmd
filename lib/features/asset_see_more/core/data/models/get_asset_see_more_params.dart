@@ -2,10 +2,10 @@ import 'package:equatable/equatable.dart';
 
 class GetSeeMoreParams extends Equatable {
   final String type;
-  final String id;
+  final String assetId;
   const GetSeeMoreParams({
     required this.type,
-    required this.id,
+    required this.assetId,
   });
 
   Map<String, dynamic> toJson() => {
@@ -15,5 +15,5 @@ class GetSeeMoreParams extends Equatable {
   @override
   List<Object?> get props => [type];
 
-  static const tParams = GetSeeMoreParams(type: 'BankAccount', id: 'id');
+  static const tParams = GetSeeMoreParams(type: 'BankAccount', assetId: 'id');
 }

@@ -20,7 +20,7 @@ class SeeMorePage extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
     return BlocProvider(
       create: (context) => sl<AssetSeeMoreCubit>()
-        ..getAssetSeeMore(GetSeeMoreParams(type: type, id: id)),
+        ..getAssetSeeMore(GetSeeMoreParams(type: type, assetId: id)),
       child: BlocConsumer<AssetSeeMoreCubit, AssetSeeMoreState>(
           listener: BlocHelper.defaultBlocListener(
             listener: (context, state) {},
