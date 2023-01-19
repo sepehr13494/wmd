@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:restart_app/restart_app.dart';
 import 'package:wmd/core/presentation/widgets/change_language_button.dart';
 import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/global_functions.dart';
@@ -91,7 +92,7 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
                             break;
                           case 1:
                             sl<LocalStorage>().logout();
-                            context.replaceNamed(AppRoutes.splash);
+                            Restart.restartApp();
                             break;
                         }
                       },

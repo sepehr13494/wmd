@@ -41,7 +41,9 @@ class AssetsOverviewCharts extends StatelessWidget {
     double maxY = 0;
     if(getChartEntities.isNotEmpty){
       maxY += getChartEntities[0].bankAccount;
-      maxY += getChartEntities[0].listedAsset;
+      maxY += getChartEntities[0].listedAssetEquity;
+      maxY += getChartEntities[0].listedAssetFixedIncome;
+      maxY += getChartEntities[0].listedAssetOther;
       maxY += getChartEntities[0].others;
       maxY += getChartEntities[0].privateDebt;
       maxY += getChartEntities[0].realEstate;
@@ -49,7 +51,9 @@ class AssetsOverviewCharts extends StatelessWidget {
       for (var element in getChartEntities) {
         double maxY2 = 0;
         maxY2 += element.bankAccount;
-        maxY2 += element.listedAsset;
+        maxY2 += element.listedAssetEquity;
+        maxY2 += element.listedAssetFixedIncome;
+        maxY2 += element.listedAssetOther;
         maxY2 += element.others;
         maxY2 += element.privateDebt;
         maxY2 += element.realEstate;
@@ -75,7 +79,9 @@ class AssetsOverviewCharts extends StatelessWidget {
     double maxY = 0;
     if(getChartEntities.isNotEmpty){
       maxY += getChartEntities[0].bankAccount;
-      maxY += getChartEntities[0].listedAsset;
+      maxY += getChartEntities[0].listedAssetEquity;
+      maxY += getChartEntities[0].listedAssetFixedIncome;
+      maxY += getChartEntities[0].listedAssetOther;
       maxY += getChartEntities[0].others;
       maxY += getChartEntities[0].privateDebt;
       maxY += getChartEntities[0].realEstate;
@@ -83,7 +89,9 @@ class AssetsOverviewCharts extends StatelessWidget {
       for (var element in getChartEntities) {
         double maxY2 = 0;
         maxY2 += element.bankAccount;
-        maxY2 += element.listedAsset;
+        maxY2 += element.listedAssetEquity;
+        maxY2 += element.listedAssetFixedIncome;
+        maxY2 += element.listedAssetOther;
         maxY2 += element.others;
         maxY2 += element.privateDebt;
         maxY2 += element.realEstate;
@@ -112,7 +120,9 @@ class AssetsOverviewCharts extends StatelessWidget {
                       getChartEntity.privateDebt+
                       getChartEntity.others+
                       getChartEntity.bankAccount+
-                      getChartEntity.listedAsset;
+                      getChartEntity.listedAssetEquity+
+                      getChartEntity.listedAssetFixedIncome+
+                      getChartEntity.listedAssetEquity;
               final appLocalizations = AppLocalizations.of(context);
               return BarTooltipItem(
                 "${CustomizableDateTime.localizedDdMm(DateTime(int.parse(dateArray[2]),int.parse(dateArray[0]),int.parse(dateArray[1])))}\n",
@@ -139,11 +149,21 @@ class AssetsOverviewCharts extends StatelessWidget {
                     appLocalizations,
                     "Real Estate".replaceAll(" ", ""),
                   ) + "\t\t"),TextSpan(text: getChartEntity.realEstate.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                  getChartEntity.listedAsset != 0 ? TextSpan(
+                  getChartEntity.listedAssetEquity != 0 ? TextSpan(
                       style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
                     appLocalizations,
                     "Listed Asset".replaceAll(" ", ""),
-                  ) + "\t\t"),TextSpan(text: getChartEntity.listedAsset.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
+                  ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetEquity.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
+                  getChartEntity.listedAssetFixedIncome != 0 ? TextSpan(
+                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
+                    appLocalizations,
+                    "Listed Asset".replaceAll(" ", ""),
+                  ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetFixedIncome.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
+                  getChartEntity.listedAssetOther != 0 ? TextSpan(
+                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
+                    appLocalizations,
+                    "Listed Asset".replaceAll(" ", ""),
+                  ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetOther.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
                   getChartEntity.others != 0 ? TextSpan(
                       style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
                     appLocalizations,
@@ -219,11 +239,15 @@ class AssetsOverviewCharts extends StatelessWidget {
           getChartEntity.privateDebt+
           getChartEntity.others+
           getChartEntity.bankAccount+
-          getChartEntity.listedAsset;
-      final bankList = getChartEntity.bankAccount/x + getChartEntity.listedAsset/x;
+          getChartEntity.listedAssetEquity+
+          getChartEntity.listedAssetFixedIncome+
+          getChartEntity.listedAssetOther;
+      final bankList = getChartEntity.bankAccount/x + getChartEntity.listedAssetEquity/x;
       final bankListEquity = bankList + getChartEntity.privateEquity/x;
       final bankListEquityDept = bankListEquity + getChartEntity.privateDebt/x;
       final bankListEquityDeptEstate = bankListEquityDept + getChartEntity.realEstate/x;
+      final bankListEquityDeptEstateFix = bankListEquityDeptEstate + getChartEntity.listedAssetFixedIncome/x;
+      final bankListEquityDeptEstateFixOther = bankListEquityDeptEstateFix + getChartEntity.listedAssetOther/x;
       return BarChartGroupData(
         x: index,
         barsSpace: 4,
@@ -231,12 +255,14 @@ class AssetsOverviewCharts extends StatelessWidget {
           BarChartRodData(
             toY: sum/x,
             rodStackItems: [
-              BarChartRodStackItem(0, getChartEntity.bankAccount/x, AssetsOverviewChartsColors.colors[0]),
-              BarChartRodStackItem(getChartEntity.bankAccount/x, bankList, AssetsOverviewChartsColors.colors[1]),
-              BarChartRodStackItem(bankList, bankListEquity, AssetsOverviewChartsColors.colors[2]),
-              BarChartRodStackItem(bankListEquity, bankListEquityDept, AssetsOverviewChartsColors.colors[3]),
-              BarChartRodStackItem(bankListEquityDept, bankListEquityDeptEstate, AssetsOverviewChartsColors.colors[4]),
-              BarChartRodStackItem(bankListEquityDeptEstate, sum/x, AssetsOverviewChartsColors.colors[5]),
+              BarChartRodStackItem(0, getChartEntity.bankAccount/x, AssetsOverviewChartsColors.colorsMap[AssetTypes.bankAccount]??Colors.brown),
+              BarChartRodStackItem(getChartEntity.bankAccount/x, bankList, AssetsOverviewChartsColors.colorsMap[AssetTypes.listedAssetEquity]??Colors.brown),
+              BarChartRodStackItem(bankList, bankListEquity, AssetsOverviewChartsColors.colorsMap[AssetTypes.privateEquity]??Colors.brown),
+              BarChartRodStackItem(bankListEquity, bankListEquityDept, AssetsOverviewChartsColors.colorsMap[AssetTypes.privateDebt]??Colors.brown),
+              BarChartRodStackItem(bankListEquityDept, bankListEquityDeptEstate, AssetsOverviewChartsColors.colorsMap[AssetTypes.realEstate]??Colors.brown),
+              BarChartRodStackItem(bankListEquityDeptEstate, bankListEquityDeptEstateFix, AssetsOverviewChartsColors.colorsMap[AssetTypes.listedAssetFixedIncome]??Colors.brown),
+              BarChartRodStackItem(bankListEquityDeptEstateFix, bankListEquityDeptEstateFixOther, AssetsOverviewChartsColors.colorsMap[AssetTypes.listedAssetOther]??Colors.brown),
+              BarChartRodStackItem(bankListEquityDeptEstateFixOther, sum/x, AssetsOverviewChartsColors.colorsMap[AssetTypes.otherAsset]??Colors.brown),
             ],
             borderRadius: BorderRadius.zero,
           ),

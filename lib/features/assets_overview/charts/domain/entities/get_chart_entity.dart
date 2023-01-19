@@ -6,7 +6,9 @@ class GetChartEntity extends Equatable {
         required this.bankAccount,
         required this.realEstate,
         required this.privateEquity,
-        required this.listedAsset,
+        required this.listedAssetEquity,
+        required this.listedAssetFixedIncome,
+        required this.listedAssetOther,
         required this.privateDebt,
         required this.others,
     });
@@ -15,7 +17,9 @@ class GetChartEntity extends Equatable {
     final double bankAccount;
     final double realEstate;
     final double privateEquity;
-    final double listedAsset;
+    final double listedAssetEquity;
+    final double listedAssetFixedIncome;
+    final double listedAssetOther;
     final double privateDebt;
     final double others;
 
@@ -24,7 +28,9 @@ class GetChartEntity extends Equatable {
         "bankAccount": bankAccount,
         "realEstate": realEstate,
         "privateEquity": privateEquity,
-        "listedAsset": listedAsset,
+        "listedAssetEquity": listedAssetEquity,
+        "listedAssetFixedIncome": listedAssetFixedIncome,
+        "listedAssetOther": listedAssetOther,
         "privateDebt": privateDebt,
         "others": others,
     };
@@ -35,7 +41,9 @@ class GetChartEntity extends Equatable {
         bankAccount,
         realEstate,
         privateEquity,
-        listedAsset,
+        listedAssetEquity,
+        listedAssetFixedIncome,
+        listedAssetOther,
         privateDebt,
         others,
     ];

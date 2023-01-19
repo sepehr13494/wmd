@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 class AssetsOverviewEntity extends Equatable{
   const AssetsOverviewEntity({
     required this.type,
+    required this.subType,
     required this.totalAmount,
     required this.assetList,
     required this.yearToDate,
@@ -10,6 +11,7 @@ class AssetsOverviewEntity extends Equatable{
   });
 
   final String type;
+  final String? subType;
   final double totalAmount;
   final List<AssetList> assetList;
   final double yearToDate;
@@ -17,6 +19,7 @@ class AssetsOverviewEntity extends Equatable{
 
   Map<String, dynamic> toJson() => {
     "type": type,
+    "subType": subType,
     "totalAmount": totalAmount,
     "assetList": List<dynamic>.from(assetList.map((x) => x.toJson())),
     "yearToDate": yearToDate,
@@ -26,6 +29,7 @@ class AssetsOverviewEntity extends Equatable{
   @override
   List<Object?> get props => [
     type,
+    subType,
     totalAmount,
     assetList,
     yearToDate,

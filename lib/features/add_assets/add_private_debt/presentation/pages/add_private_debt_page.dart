@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:wmd/core/extentions/num_ext.dart';
-import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
-import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
@@ -17,10 +13,7 @@ import 'package:wmd/features/add_assets/core/constants.dart';
 import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_bloc_helper.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
-import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
-import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
-import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
 class AddPrivateDebtPage extends StatefulWidget {
@@ -64,8 +57,9 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
       create: (context) => sl<PrivateDebtCubit>(),
       child: Builder(builder: (context) {
         return Scaffold(
-          appBar: const AddAssetHeader(
-              title: "Add private debt", showExitModal: true),
+          appBar: AddAssetHeader(
+              title: appLocalizations.assetLiabilityForms_heading_privateDebt,
+              showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Add asset",
               onTap: !enableAddAssetButton
@@ -113,12 +107,14 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                       style: textTheme.bodySmall,
                                     ),
                                     Text(
-                                      "Fill in the private debt details",
+                                      appLocalizations
+                                          .assetLiabilityForms_forms_privateDebt_title,
                                       style: textTheme.titleSmall,
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Name",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateDebt_inputFields_name_label,
                                       child: AppTextFields.simpleTextField(
                                           title: "Name",
                                           name: "investmentName",
@@ -131,27 +127,31 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                                   : null;
                                             }
                                           ],
-                                          hint:
-                                              "Type the name of your private debt"),
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_privateDebt_inputFields_name_placeholder),
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Custodian (optional)",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateDebt_inputFields_custodian_label,
                                       child: FormBuilderTypeAhead(
                                           onChange: checkFinalValid,
                                           name: "wealthManager",
-                                          hint: "Type the name of custodian",
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_privateDebt_inputFields_custodian_placeholder,
                                           items: AppConstants.custodianList),
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Country",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateDebt_inputFields_country_label,
                                       child: CountriesDropdown(
                                         onChanged: checkFinalValid,
                                       ),
                                     ),
                                     EachTextField(
-                                      title: "Acquisition date",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateDebt_inputFields_acquisitionDate_label,
                                       child: FormBuilderDateTimePicker(
                                         onChanged: (selectedDate) {
                                           checkFinalValid(selectedDate);
@@ -172,12 +172,14 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                               color: Theme.of(context)
                                                   .primaryColor,
                                             ),
-                                            hintText: "DD/MM/YYYY"),
+                                            hintText: appLocalizations
+                                                .assetLiabilityForms_forms_privateDebt_inputFields_acquisitionDate_placeholder),
                                       ),
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Currency",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateDebt_inputFields_currency_label,
                                       child: CurrenciesDropdown(
                                         onChanged: checkFinalValid,
                                         showExchange: true,
@@ -185,16 +187,18 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Initial investment amount",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateDebt_inputFields_initialInvestmentAmount_label,
                                       child: AppTextFields.simpleTextField(
                                           onChanged: checkFinalValid,
                                           type: TextFieldType.money,
                                           name: "investmentAmount",
-                                          hint:
-                                              "Book value of initial investment"),
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_privateDebt_inputFields_initialInvestmentAmount_placeholder),
                                     ),
                                     EachTextField(
-                                      title: "Valuation date",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateDebt_inputFields_valuationDate_label,
                                       child: FormBuilderDateTimePicker(
                                         firstDate: aqusitionDateValue,
                                         lastDate: DateTime.now(),
@@ -213,18 +217,20 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                               color: Theme.of(context)
                                                   .primaryColor,
                                             ),
-                                            hintText: "DD/MM/YYYY"),
+                                            hintText: appLocalizations
+                                                .assetLiabilityForms_forms_privateDebt_inputFields_valuationDate_placeholder),
                                       ),
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Current value",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateDebt_inputFields_currentValue_label,
                                       child: AppTextFields.simpleTextField(
                                           onChanged: checkFinalValid,
                                           type: TextFieldType.money,
                                           name: "marketValue",
-                                          hint:
-                                              "The current day value of the asset"),
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_privateDebt_inputFields_currentValue_placeholder),
                                     ),
                                     const SizedBox(height: 60),
                                   ]

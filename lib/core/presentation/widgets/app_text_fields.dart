@@ -23,6 +23,8 @@ class CurrencyInputFormatter extends TextInputFormatter {
 
     double value = double.tryParse(newValue.text.replaceAll(",", "")) ?? 0;
 
+    debugPrint(value.toString());
+
     String newText = NumberFormat("#,##0", "en_US").format(value);
 
     return newValue.copyWith(
@@ -225,7 +227,8 @@ class CountriesDropdown extends StatelessWidget {
     return FormBuilderSearchableDropdown<Country>(
       name: "country",
       hint: "Type or select a country",
-      items: Country.countriesList,
+      items: Country.countriesList
+        ..sort((a, b) => a.countryName.compareTo(b.countryName)),
       onChanged: onChanged,
       itemAsString: (country) => country.countryName,
       filterFn: (country, string) {
@@ -294,6 +297,7 @@ class FormBuilderTypeAhead extends StatefulWidget {
   final ValueChanged<String?>? onChange;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
+  final List<String? Function(String?)>? extraValidators;
   const FormBuilderTypeAhead(
       {Key? key,
       required this.name,
@@ -301,6 +305,7 @@ class FormBuilderTypeAhead extends StatefulWidget {
       required this.hint,
       this.prefixIcon,
       this.suffixIcon,
+      this.extraValidators,
       this.onChange})
       : super(key: key);
 
@@ -310,6 +315,7 @@ class FormBuilderTypeAhead extends StatefulWidget {
 
 class _FormBuilderTypeAheadState extends State<FormBuilderTypeAhead> {
   TextEditingController typeController = TextEditingController();
+  final validators = <String? Function(String?)>[];
 
   @override
   Widget build(BuildContext context) {
@@ -347,6 +353,9 @@ class _FormBuilderTypeAheadState extends State<FormBuilderTypeAhead> {
           );
         },
         onChanged: widget.onChange,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator:
+            FormBuilderValidators.compose(widget.extraValidators ?? validators),
         name: widget.name);
   }
 }
