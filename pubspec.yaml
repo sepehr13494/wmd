@@ -74,7 +74,7 @@ dependencies:
   country_picker: ^2.0.18
   jiffy: ^5.0.0
   shimmer: ^2.0.0
-  restart_app: ^1.1.1+1
+  restart_app: ^1.1.0+1
 
 dev_dependencies:
   flutter_test:
