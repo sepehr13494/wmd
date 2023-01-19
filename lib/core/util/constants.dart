@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/models/time_filer_obj.dart';
-import 'package:wmd/features/asset_see_more/bank_account/presentation/page/bank_account_detail_page.dart';
-import 'package:wmd/features/asset_see_more/other_asset/presentation/page/other_asset_detail_page.dart';
-import 'package:wmd/features/asset_see_more/real_estate/presentation/page/real_estate_detail_page.dart';
 
 class AppConstants {
   static const custodianList = [
@@ -374,17 +371,4 @@ class AssetTypes {
   static const String privateEquity = 'PrivateEquity';
   static const String otherAsset = 'OtherAsset';
   static const String otherAssets = 'OtherAssets';
-
-  static Widget? getDetailPage(type, id) {
-    switch (type) {
-      case realEstate:
-        return RealEstateDetailPage(id: id);
-      case bankAccount:
-        return BankAccountDetailPage(id: id);
-      case otherAsset:
-        return OtherAssetDetailPage(id: id);
-      default:
-        return null;
-    }
-  }
 }

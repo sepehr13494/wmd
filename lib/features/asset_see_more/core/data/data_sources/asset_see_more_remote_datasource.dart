@@ -22,9 +22,8 @@ class AssetSeeMoreRemoteDataSourceImpl extends AppServerDataSource
   @override
   Future<GetSeeMoreResponse> getAssetSeeMore(GetSeeMoreParams params) async {
     try {
-      final appRequestOptions = AppRequestOptions(
-          RequestTypes.get, AppUrls.getSeeMore('RealEstate'), {
-        // AppRequestOptions(RequestTypes.get, AppUrls.getSeeMore(params.type), {
+      final appRequestOptions =
+          AppRequestOptions(RequestTypes.get, AppUrls.getSeeMore(params.type), {
         'assetId': params.assetId,
       });
       final response =

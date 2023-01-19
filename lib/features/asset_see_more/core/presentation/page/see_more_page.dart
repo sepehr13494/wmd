@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
+import 'package:wmd/core/presentation/widgets/loading_widget.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_see_more/core/data/models/get_asset_see_more_params.dart';
+import 'package:wmd/features/asset_see_more/real_estate/presentation/page/data/model/real_estate_more_entity.dart';
+import 'package:wmd/features/asset_see_more/real_estate/presentation/page/real_estate_detail_page.dart';
 import 'package:wmd/injection_container.dart';
 
 import '../manager/asset_see_more_cubit.dart';
@@ -26,7 +30,20 @@ class SeeMorePage extends AppStatelessWidget {
             listener: (context, state) {},
           ),
           builder: (context, state) {
-            return Text(state.toString());
+            if (state is GetSeeMoreLoaded) {
+              switch (type) {
+                case AssetTypes.bankAccount:
+                case AssetTypes.realEstate:
+                  return RealEstateDetailPage(
+                      entity:
+                          state.getAssetSeeMoreEntity as RealEstateMoreEntity);
+
+                default:
+                  return Text(state.toString());
+              }
+            } else {
+              return const LoadingWidget();
+            }
           }),
     );
   }
