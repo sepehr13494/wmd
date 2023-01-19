@@ -77,7 +77,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
               child: AppTextFields.simpleTextField(
                   extraValidators: [
                     (val) {
-                      return ((int.tryParse(val ?? "0") ?? 0) < 100)
+                      return ((int.tryParse(val ?? "0") ?? 0) <= 100)
                           ? null
                           : "Ownership can't be greater then 100";
                     }
@@ -85,6 +85,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                   onChanged: checkFinalValid,
                   name: "ownershipPercentage",
                   hint: "50%",
+                  type: TextFieldType.rate,
                   keyboardType: TextInputType.number),
             ),
             EachTextField(
@@ -101,7 +102,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
               child: AppTextFields.simpleTextField(
                 extraValidators: [
                   (val) {
-                    return ((int.tryParse(val ?? "0") ?? 0) < 100)
+                    return ((int.tryParse(val ?? "0") ?? 0) <= 100)
                         ? (int.tryParse(val ?? "0") ?? 0) < 0
                             ? "Rate cannot be negative"
                             : null
