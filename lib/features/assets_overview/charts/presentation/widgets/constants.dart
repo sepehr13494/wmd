@@ -14,19 +14,27 @@ class AssetsOverviewChartsColors {
   static const Map<String, Color> colorsMap = {
     AssetTypes.bankAccount: Color(0xff6C5379),
     AssetTypes.listedAsset: Color(0xff5DA683),
+    AssetTypes.listedAssetEquity: Color(0xff5d95a6),
+    AssetTypes.listedAssetFixedIncome: Color(0xffa6675d),
+    AssetTypes.listedAssetOther: Color(0xff89a65d),
     AssetTypes.privateEquity: Color(0xff4353D6),
     AssetTypes.privateDebt: Color(0xff50747C),
     AssetTypes.realEstate: Color(0xffB99855),
     AssetTypes.otherAsset: Color(0xffFFFFFF),
+    AssetTypes.otherAssets: Color(0xffFFFFFF),
   };
 
   static const Map<String, Color> colorsMapPie = {
     AssetTypes.bankAccount: Color(0xff69544B),
     AssetTypes.listedAsset: Color(0xff41765D),
+    AssetTypes.listedAssetEquity: Color(0xff5d95a6),
+    AssetTypes.listedAssetFixedIncome: Color(0xffa6675d),
+    AssetTypes.listedAssetOther: Color(0xff89a65d),
     AssetTypes.privateEquity: Color(0xff8E6B9E),
     AssetTypes.privateDebt: Color(0xff3C4C53),
     AssetTypes.realEstate: Color(0xff44344C),
     AssetTypes.otherAsset: Color(0xff769EA7),
+    AssetTypes.otherAssets: Color(0xff769EA7),
   };
 
   static getAssetType(AppLocalizations appLocalizations, String type) {

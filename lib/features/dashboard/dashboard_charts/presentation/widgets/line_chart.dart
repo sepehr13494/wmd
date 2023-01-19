@@ -43,11 +43,7 @@ class LineChartSample2 extends AppStatelessWidget {
     DateTime dateTime = DateTime(int.parse(dateString[2]),
         int.parse(dateString[0]), int.parse(dateString[1]));
     if (hideValues) {
-      return SideTitleWidget(
-        axisSide: meta.axisSide,
-        child: Text(CustomizableDateTime.localizedDdMm(dateTime),
-            style: const TextStyle(fontSize: 8)),
-      );
+      return SizedBox();
     } else {
       return value.toInt() % x == 0
           ? SideTitleWidget(

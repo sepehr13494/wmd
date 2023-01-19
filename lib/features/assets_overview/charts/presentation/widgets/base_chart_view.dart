@@ -33,8 +33,14 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                         if (element.realEstate != 0) {
                           titles.add(AssetTypes.realEstate);
                         }
-                        if (element.listedAsset != 0) {
-                          titles.add(AssetTypes.listedAsset);
+                        if (element.listedAssetEquity != 0) {
+                          titles.add(AssetTypes.listedAssetEquity);
+                        }
+                        if (element.listedAssetFixedIncome != 0) {
+                          titles.add(AssetTypes.listedAssetFixedIncome);
+                        }
+                        if (element.listedAssetOther != 0) {
+                          titles.add(AssetTypes.listedAssetOther);
                         }
                         if (element.others != 0) {
                           titles.add(AssetTypes.otherAsset);

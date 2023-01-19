@@ -361,6 +361,9 @@ class AssetTypes {
   static const String bankAccount = 'BankAccount';
   static const String realEstate = 'RealEstate';
   static const String listedAsset = 'ListedAsset';
+  static const String listedAssetEquity = 'listedAssetEquity';
+  static const String listedAssetFixedIncome = 'listedAssetFixedIncome';
+  static const String listedAssetOther = 'listedAssetOther';
   static const String privateDebt = 'PrivateDebt';
   static const String privateEquity = 'PrivateEquity';
   static const String otherAsset = 'OtherAsset';
