@@ -1,11 +1,14 @@
+abstract class GetSeeMoreResponse {
+  // GetSeeMoreResponse();
 
+  // factory GetSeeMoreResponse.fromJson(Map<String, dynamic> json) => GetSeeMoreResponse(
+  // );
 
-class GetSeeMoreResponse {
-    GetSeeMoreResponse();
-
-    factory GetSeeMoreResponse.fromJson(Map<String, dynamic> json) => GetSeeMoreResponse(
-    );
-    
-    static final tResponse = GetSeeMoreResponse();
+  // static final tResponse = GetSeeMoreResponse();
 }
-    
+
+class DefaultMoreEntity extends GetSeeMoreResponse {
+  final String json;
+
+  DefaultMoreEntity(this.json);
+}

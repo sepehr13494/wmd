@@ -26,7 +26,7 @@ class SeeMorePage extends AppStatelessWidget {
             listener: (context, state) {},
           ),
           builder: (context, state) {
-            return Text(id);
+            return Text(state.toString());
           }),
     );
   }
