@@ -11,4 +11,8 @@ class DefaultMoreEntity extends GetSeeMoreResponse {
   final String json;
 
   DefaultMoreEntity(this.json);
+
+  toJson() => {'json': json};
+
+  static DefaultMoreEntity tResponse = DefaultMoreEntity('json');
 }
