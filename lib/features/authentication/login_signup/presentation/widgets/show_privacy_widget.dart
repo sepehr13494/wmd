@@ -61,7 +61,7 @@ class PrivacyWidget extends AppStatelessWidget {
                   child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(children: [
-                  Text(appLocalizations.auth_signup_tos_content),
+                  Text(appLocalizations.auth_signup_privacy_mobile),
                 ]),
               )),
             ),
