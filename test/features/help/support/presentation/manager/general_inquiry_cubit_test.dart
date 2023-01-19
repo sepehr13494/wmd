@@ -3,26 +3,26 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
-import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
-import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
-import 'package:wmd/features/help/faq/data/models/faq.dart';
-import 'package:wmd/features/help/support/data/models/support_status.dart';
 import 'package:wmd/features/help/support/domain/use_cases/post_general_inquiry_usecase.dart';
+import 'package:wmd/features/help/support/domain/use_cases/post_schedule_call_usecase.dart';
 import 'package:wmd/features/help/support/presentation/manager/general_inquiry_cubit.dart';
 
 import 'general_inquiry_cubit_test.mocks.dart';
 
-@GenerateMocks([PostGeneralInquiryUseCase])
+@GenerateMocks([PostGeneralInquiryUseCase, PostScheduleCallUseCase])
 void main() {
   late MockPostGeneralInquiryUseCase mockPostGeneralInquiryUseCase;
+  late MockPostScheduleCallUseCase mockPostScheduleCallUseCase;
   late GeneralInquiryCubit generalInquiryCubit;
 
   setUp(() {
     mockPostGeneralInquiryUseCase = MockPostGeneralInquiryUseCase();
-    generalInquiryCubit = GeneralInquiryCubit(mockPostGeneralInquiryUseCase);
+    mockPostScheduleCallUseCase = MockPostScheduleCallUseCase();
+    generalInquiryCubit = GeneralInquiryCubit(
+        mockPostGeneralInquiryUseCase, mockPostScheduleCallUseCase);
   });
 
   group("getFAQs", () {

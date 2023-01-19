@@ -80,7 +80,8 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                     return BlocConsumer<PrivateEquityCubit, PrivateEquityState>(
                         listener: AssetBlocHelper.defaultBlocListener(
                             listener: (context, state) {},
-                            asset: "Private equity"),
+                            asset: appLocalizations
+                                .assetLiabilityForms_assets_privateEquity),
                         builder: (context, state) {
                           return SingleChildScrollView(
                             child: Column(children: [
@@ -93,17 +94,25 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Add private equity",
+                                      appLocalizations
+                                          .assetLiabilityForms_heading_privateEquity,
                                       style: textTheme.headlineSmall,
                                       textAlign: TextAlign.start,
                                     ),
                                     Text(
-                                      "Investment in an entity that is not publicly listed.",
+                                      appLocalizations
+                                          .assetLiabilityForms_subHeading_privateEquity,
                                       style: textTheme.titleMedium,
+                                    ),
+                                    Text(
+                                      appLocalizations
+                                          .assetLiabilityForms_forms_privateEquity_title,
+                                      style: textTheme.titleSmall,
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Name",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateEquity_inputFields_name_label,
                                       child: AppTextFields.simpleTextField(
                                           onChanged: checkFinalValid,
                                           extraValidators: [
@@ -115,27 +124,31 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                           ],
                                           title: "Name",
                                           name: "investmentName",
-                                          hint:
-                                              "Type the name of your private equity"),
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_privateEquity_inputFields_name_placeholder),
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Custodian (optional)",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateEquity_inputFields_custodian_label,
                                       child: FormBuilderTypeAhead(
                                           onChange: checkFinalValid,
                                           name: "custodian",
-                                          hint: "Type the name of custodian",
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_privateEquity_inputFields_custodian_placeholder,
                                           items: AppConstants.custodianList),
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Country",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateEquity_inputFields_country_label,
                                       child: CountriesDropdown(
                                         onChanged: checkFinalValid,
                                       ),
                                     ),
                                     EachTextField(
-                                      title: "Acquisition date",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateEquity_inputFields_acquisitionDate_label,
                                       child: FormBuilderDateTimePicker(
                                         validator:
                                             FormBuilderValidators.required(),
@@ -155,12 +168,14 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                               color: Theme.of(context)
                                                   .primaryColor,
                                             ),
-                                            hintText: "DD/MM/YYYY"),
+                                            hintText: appLocalizations
+                                                .assetLiabilityForms_forms_privateEquity_inputFields_acquisitionDate_placeholder),
                                       ),
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Currency",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateEquity_inputFields_currency_label,
                                       child: CurrenciesDropdown(
                                         onChanged: checkFinalValid,
                                         showExchange: true,
@@ -168,17 +183,19 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Initial investment amount",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_label,
                                       child: AppTextFields.simpleTextField(
                                           onChanged: checkFinalValid,
                                           title: "Initial investment amount",
                                           type: TextFieldType.money,
                                           name: "investmentAmount",
-                                          hint:
-                                              "Book value of initial investment"),
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_placeholder),
                                     ),
                                     EachTextField(
-                                      title: "Valuation date",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_label,
                                       child: FormBuilderDateTimePicker(
                                         validator:
                                             FormBuilderValidators.required(),
@@ -195,19 +212,21 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                               color: Theme.of(context)
                                                   .primaryColor,
                                             ),
-                                            hintText: "DD/MM/YYYY"),
+                                            hintText: appLocalizations
+                                                .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_placeholder),
                                       ),
                                     ),
                                     EachTextField(
                                       hasInfo: false,
-                                      title: "Current value",
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateEquity_inputFields_currentValue_label,
                                       child: AppTextFields.simpleTextField(
                                           onChanged: checkFinalValid,
                                           title: "Current value",
                                           type: TextFieldType.money,
                                           name: "marketValue",
-                                          hint:
-                                              "The current day value of the asset"),
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_privateEquity_inputFields_currentValue_placeholder),
                                     ),
                                     const SizedBox(height: 60),
                                   ]

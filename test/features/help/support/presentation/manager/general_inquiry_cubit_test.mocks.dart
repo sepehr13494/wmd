@@ -3,16 +3,20 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i6;
 
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:wmd/core/error_and_success/failures.dart' as _i6;
-import 'package:wmd/core/error_and_success/succeses.dart' as _i7;
+import 'package:wmd/core/error_and_success/failures.dart' as _i7;
+import 'package:wmd/core/error_and_success/succeses.dart' as _i8;
 import 'package:wmd/features/help/support/domain/repositories/general_inquiry_repository.dart'
     as _i2;
-import 'package:wmd/features/help/support/domain/use_cases/post_general_inquiry_usecase.dart'
+import 'package:wmd/features/help/support/domain/repositories/schedule_call_repository.dart'
     as _i4;
+import 'package:wmd/features/help/support/domain/use_cases/post_general_inquiry_usecase.dart'
+    as _i5;
+import 'package:wmd/features/help/support/domain/use_cases/post_schedule_call_usecase.dart'
+    as _i9;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -46,11 +50,22 @@ class _FakeEither_1<L, R> extends _i1.SmartFake implements _i3.Either<L, R> {
         );
 }
 
+class _FakeScheduleCallRepository_2 extends _i1.SmartFake
+    implements _i4.ScheduleCallRepository {
+  _FakeScheduleCallRepository_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [PostGeneralInquiryUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockPostGeneralInquiryUseCase extends _i1.Mock
-    implements _i4.PostGeneralInquiryUseCase {
+    implements _i5.PostGeneralInquiryUseCase {
   MockPostGeneralInquiryUseCase() {
     _i1.throwOnMissingStub(this);
   }
@@ -65,20 +80,56 @@ class MockPostGeneralInquiryUseCase extends _i1.Mock
         ),
       ) as _i2.GeneralInquiryRepository);
   @override
-  _i5.Future<_i3.Either<_i6.Failure, _i7.AppSuccess>> call(
+  _i6.Future<_i3.Either<_i7.Failure, _i8.AppSuccess>> call(
           Map<String, dynamic>? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
           [params],
         ),
-        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i7.AppSuccess>>.value(
-            _FakeEither_1<_i6.Failure, _i7.AppSuccess>(
+        returnValue: _i6.Future<_i3.Either<_i7.Failure, _i8.AppSuccess>>.value(
+            _FakeEither_1<_i7.Failure, _i8.AppSuccess>(
           this,
           Invocation.method(
             #call,
             [params],
           ),
         )),
-      ) as _i5.Future<_i3.Either<_i6.Failure, _i7.AppSuccess>>);
+      ) as _i6.Future<_i3.Either<_i7.Failure, _i8.AppSuccess>>);
+}
+
+/// A class which mocks [PostScheduleCallUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockPostScheduleCallUseCase extends _i1.Mock
+    implements _i9.PostScheduleCallUseCase {
+  MockPostScheduleCallUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.ScheduleCallRepository get scheduleCallRepository => (super.noSuchMethod(
+        Invocation.getter(#scheduleCallRepository),
+        returnValue: _FakeScheduleCallRepository_2(
+          this,
+          Invocation.getter(#scheduleCallRepository),
+        ),
+      ) as _i4.ScheduleCallRepository);
+  @override
+  _i6.Future<_i3.Either<_i7.Failure, _i8.AppSuccess>> call(
+          Map<String, dynamic>? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i6.Future<_i3.Either<_i7.Failure, _i8.AppSuccess>>.value(
+            _FakeEither_1<_i7.Failure, _i8.AppSuccess>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i6.Future<_i3.Either<_i7.Failure, _i8.AppSuccess>>);
 }

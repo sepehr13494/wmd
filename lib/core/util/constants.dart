@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/models/time_filer_obj.dart';
 
 class AppConstants {
+  static bool publicMvp2Items = dotenv.env['NEXT_PUBLIC_MVP2_ITEM']! == 'true';
+
   static const custodianList = [
     "Abbot Downing",
     "ABN Amro",
@@ -346,9 +349,11 @@ class AppConstants {
   static List<TimeFilterObj> timeFilter(BuildContext context) {
     final appLocalization = AppLocalizations.of(context);
     return [
-        TimeFilterObj(key: appLocalization.home_select_duration_options_seven,value: 7),
-        TimeFilterObj(key: appLocalization.home_select_duration_options_thirty,value: 30),
-      ];
+      TimeFilterObj(
+          key: appLocalization.home_select_duration_options_seven, value: 7),
+      TimeFilterObj(
+          key: appLocalization.home_select_duration_options_thirty, value: 30),
+    ];
   }
 }
 
