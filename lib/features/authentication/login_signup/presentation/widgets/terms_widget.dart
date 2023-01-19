@@ -91,7 +91,7 @@ class _TermsWidgetState extends AppState<TermsWidget> {
               child: Center(
                   child: Column(
                 children: [
-                  Text(appLocalizations.auth_signup_tos_content),
+                  Text(appLocalizations.auth_signup_tos_content_mobile),
                 ]
                     .map((e) => Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8),

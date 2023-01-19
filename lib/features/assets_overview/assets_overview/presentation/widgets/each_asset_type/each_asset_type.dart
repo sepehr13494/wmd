@@ -34,7 +34,6 @@ class EachAssetType extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
     bool isMobile = responsiveHelper.isMobile;
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: Column(
@@ -55,13 +54,14 @@ class EachAssetType extends AppStatelessWidget {
                       child: Row(
                         children: [
                           DotWidget(
-                              color: _getAssetColorByType(assetsOverview.type)),
+                              color: AssetsOverviewChartsColors.colorsMap[(assetsOverview.type+(assetsOverview.subType??""))]??Colors.brown),
                           const SizedBox(width: 8),
                           Text(
                               AssetsOverviewChartsColors.getAssetType(
                                 appLocalizations,
                                 _getAssetNameByType(assetsOverview.type)
                                     .replaceAll(" ", ""),
+                                category: assetsOverview.subType
                               ),
                               style: textTheme.titleSmall)
                         ],
@@ -169,8 +169,11 @@ class EachAssetType extends AppStatelessWidget {
         return "Listed Asset";
       case AssetTypes.otherAsset:
         return "Other Assets";
+      case AssetTypes.otherAssets:
+        return "Other Assets";
       default:
-        return "";
+        print("wrong type $type");
+        return "wrong type";
     }
   }
 
@@ -187,6 +190,8 @@ class EachAssetType extends AppStatelessWidget {
       case AssetTypes.realEstate:
         return AssetsOverviewChartsColors.colors[4];
       case AssetTypes.otherAsset:
+        return AssetsOverviewChartsColors.colors[5];
+      case AssetTypes.otherAssets:
         return AssetsOverviewChartsColors.colors[5];
       default:
         return AssetsOverviewChartsColors.colors[0];

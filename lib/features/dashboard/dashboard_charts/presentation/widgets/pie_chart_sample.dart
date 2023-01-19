@@ -50,10 +50,11 @@ class PieChart2State extends AppState {
                         GetPieEntity pieEntity = state.getPieEntity[index];
                         return EachAssetViewModel(
                           color: AssetsOverviewChartsColors
-                              .colorsMapPie[pieEntity.name],
+                              .colorsMapPie[pieEntity.name]??Colors.brown,
                           name: AssetsOverviewChartsColors.getAssetType(
                             appLocalizations,
                             pieEntity.name,
+                            category: pieEntity.subType
                           ),
                           price: pieEntity.value.convertMoney(addDollar: true),
                           value: pieEntity.value,
@@ -178,7 +179,7 @@ class PieChart2State extends AppState {
       final radius = isTouched ? pieStrokeWidth + 10 : pieStrokeWidth;
       GetPieEntity pieEntity = getPieEntity[index];
       return PieChartSectionData(
-        color: AssetsOverviewChartsColors.colorsMapPie[pieEntity.name],
+        color: AssetsOverviewChartsColors.colorsMapPie[pieEntity.name]??Colors.brown,
         value: pieEntity.percentage,
         title: '',
         radius: radius,
