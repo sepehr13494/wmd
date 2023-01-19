@@ -69,7 +69,7 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: AssetsOverviewChartsColors
-                                        .colorsMap[item],
+                                        .colorsMap[item]??Colors.brown,
                                   ),
                                 ),
                                 const SizedBox(width: 8),

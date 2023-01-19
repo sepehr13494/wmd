@@ -34,7 +34,6 @@ class EachAssetType extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
     bool isMobile = responsiveHelper.isMobile;
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: Column(
@@ -55,7 +54,7 @@ class EachAssetType extends AppStatelessWidget {
                       child: Row(
                         children: [
                           DotWidget(
-                              color: _getAssetColorByType(assetsOverview.type)),
+                              color: AssetsOverviewChartsColors.colorsMap[(assetsOverview.type+(assetsOverview.subType??""))]??Colors.brown),
                           const SizedBox(width: 8),
                           Text(
                               AssetsOverviewChartsColors.getAssetType(

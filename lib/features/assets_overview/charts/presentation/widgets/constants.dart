@@ -17,6 +17,7 @@ class AssetsOverviewChartsColors {
     AssetTypes.listedAssetEquity: Color(0xff5d95a6),
     AssetTypes.listedAssetFixedIncome: Color(0xffa6675d),
     AssetTypes.listedAssetOther: Color(0xff89a65d),
+    AssetTypes.listedAssetOtherAsset: Color(0xff89a65d),
     AssetTypes.privateEquity: Color(0xff4353D6),
     AssetTypes.privateDebt: Color(0xff50747C),
     AssetTypes.realEstate: Color(0xffB99855),
