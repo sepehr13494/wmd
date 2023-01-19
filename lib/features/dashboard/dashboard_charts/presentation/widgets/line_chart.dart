@@ -4,115 +4,59 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/min_max_calculator.dart';
-
 import '../../domain/entities/get_allocation_entity.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class LineChartSample2 extends StatefulWidget {
+class LineChartSample2 extends AppStatelessWidget {
   final List<GetAllocationEntity> allocations;
   const LineChartSample2({super.key, required this.allocations});
 
   @override
-  State<LineChartSample2> createState() => _LineChartSample2State();
-}
-
-class _LineChartSample2State extends State<LineChartSample2> {
-  bool isOneData = false;
-  bool showOneTooltip = false;
-
-  @override
-  void initState() {
-    if (widget.allocations.length == 1) {
-      isOneData = true;
-      widget.allocations.add(widget.allocations.first);
-      widget.allocations.add(widget.allocations.first);
-    }
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.topCenter,
-      children: [
-        LineChart(
-          mainData(context),
-        ),
-        isOneData ? GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTapDown: (detail){
-            setState(() {
-              showOneTooltip = true;
-            });
-          },
-          onTapUp: (detail){
-            setState(() {
-              showOneTooltip = false;
-            });
-          },
-          onLongPressUp: () {
-            setState(() {
-              showOneTooltip = false;
-            });
-          },
-          child: Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(left: 45),
-                width: 5,
-                height: 5,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.chartColor,
-                ),
-              ),
-              const SizedBox(height: 60,width: 100)
-            ],
-          ),
-        ) : const SizedBox(),
-        showOneTooltip ? Align(
-          alignment: Alignment.center,
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Theme.of(context).brightness == Brightness.dark ? AppColors.anotherCardColorForDarkTheme : AppColors.anotherCardColorForLightTheme,
-              borderRadius: BorderRadius.circular(4),
+  Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
+    if (allocations.length == 1) {
+      return Row(
+        children: [
+          Expanded(
+            child: LineChart(
+              mainData(context, appLocalizations, hideValues: true),
             ),
-            child: RichText(text: TextSpan(
-              children: _textSpans(0, Theme.of(context).textTheme,true)
-            )),
           ),
-        ) : const SizedBox()
-      ],
+          Expanded(
+            child: LineChart(
+              mainData(context, appLocalizations, showLeft: false),
+            ),
+          )
+        ],
+      );
+    }
+    return LineChart(
+      mainData(context, appLocalizations),
     );
   }
 
-  Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    int x = (widget.allocations.length/7).ceil();
-    var dateString = widget.allocations[value.toInt()].name.split("/");
-    DateTime dateTime = DateTime(int.parse(dateString[2]),int.parse(dateString[0]),int.parse(dateString[1]));
-    if(isOneData){
-      return value.toInt() == 1 ? SideTitleWidget(
-        axisSide: meta.axisSide,
-        child: Text(
-            CustomizableDateTime.localizedDdMm(dateTime),
-            style: const TextStyle(fontSize: 8)),
-      ) : const SizedBox();
-    }else{
-      return value.toInt() % x == 0 ? SideTitleWidget(
-        axisSide: meta.axisSide,
-        child: Text(
-            CustomizableDateTime.localizedDdMm(dateTime),
-            style: const TextStyle(fontSize: 8)),
-      ) : const SizedBox();
+  Widget bottomTitleWidgets(double value, TitleMeta meta, bool hideValues) {
+    int x = (allocations.length / 7).ceil();
+    var dateString = allocations[value.toInt()].name.split("/");
+    DateTime dateTime = DateTime(int.parse(dateString[2]),
+        int.parse(dateString[0]), int.parse(dateString[1]));
+    if (hideValues) {
+      return SizedBox();
+    } else {
+      return value.toInt() % x == 0
+          ? SideTitleWidget(
+              axisSide: meta.axisSide,
+              child: Text(CustomizableDateTime.localizedDdMm(dateTime),
+                  style: const TextStyle(fontSize: 8)),
+            )
+          : const SizedBox();
     }
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-    List<double> minMax =
-        MinMaxCalculator.calculateMinyMaxY(widget.allocations, isOneData);
+    List<double> minMax = MinMaxCalculator.calculateMinyMaxY(allocations);
     final double minY = minMax[0];
     final double maxY = minMax[1];
     double x = max(maxY.abs(), minY.abs()) / 5;
@@ -126,9 +70,9 @@ class _LineChartSample2State extends State<LineChartSample2> {
     );
   }
 
-  LineChartData mainData(context) {
-    List<double> minMax =
-        MinMaxCalculator.calculateMinyMaxY(widget.allocations, isOneData);
+  LineChartData mainData(context, AppLocalizations appLocalizations,
+      {bool showLeft = true, bool hideValues = false}) {
+    List<double> minMax = MinMaxCalculator.calculateMinyMaxY(allocations);
     double minY = minMax[0];
     double maxY = minMax[1];
     double x = max(maxY.abs(), minY.abs()) / 5;
@@ -173,12 +117,13 @@ class _LineChartSample2State extends State<LineChartSample2> {
             showTitles: true,
             reservedSize: 30,
             interval: 1,
-            getTitlesWidget: bottomTitleWidgets,
+            getTitlesWidget: (value, meta) =>
+                bottomTitleWidgets(value, meta, hideValues),
           ),
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
-            showTitles: true,
+            showTitles: showLeft,
             interval: 1,
             getTitlesWidget: leftTitleWidgets,
             reservedSize: 42,
@@ -198,10 +143,12 @@ class _LineChartSample2State extends State<LineChartSample2> {
             final textTheme = Theme.of(context).textTheme;
             return [
               LineTooltipItem(
-                CustomizableDateTime.miniDateOneLine(widget.allocations[touchedSpots.first.x.toInt()].name),
+                CustomizableDateTime.miniDateOneLine(
+                    allocations[touchedSpots.first.x.toInt()].name),
                 textTheme.titleSmall!,
                 textAlign: TextAlign.start,
-                children: _textSpans(touchedSpots.first.x.toInt(),textTheme,false),
+                children: _textSpans(touchedSpots.first.x.toInt(), textTheme,
+                    false, appLocalizations),
               )
             ];
           },
@@ -210,7 +157,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
         ),
       ),
       minX: 0,
-      maxX: widget.allocations.length.toDouble() - 1,
+      maxX: allocations.length.toDouble() - 1,
       minY: minY.abs() == maxTotal
           ? minY
           : minY >= 0
@@ -223,10 +170,12 @@ class _LineChartSample2State extends State<LineChartSample2> {
               : (maxY.abs()).ceil().toDouble(),
       lineBarsData: [
         LineChartBarData(
-          spots: isOneData ? [] : List.generate(widget.allocations.length, (index) {
-            return FlSpot(
-                index.toDouble(), widget.allocations[index].netWorth / x);
-          }),
+          spots: hideValues
+              ? []
+              : List.generate(allocations.length, (index) {
+                  return FlSpot(
+                      index.toDouble(), allocations[index].netWorth / x);
+                }),
           isCurved: false,
           color: AppColors.chartColor,
           gradient: LinearGradient(colors: [
@@ -243,7 +192,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
           barWidth: 2,
           isStrokeCapRound: true,
           dotData: FlDotData(
-            show: false,
+            show: allocations.length == 1,
           ),
           belowBarData: BarAreaData(
             show: true,
@@ -278,46 +227,43 @@ class _LineChartSample2State extends State<LineChartSample2> {
     );
   }
 
-  _textSpans(int x,textTheme, bool showDate) {
+  _textSpans(int x, textTheme, bool showDate, appLocalizations) {
     return [
-      showDate ? TextSpan(
-        text: CustomizableDateTime.miniDateOneLine(widget.allocations[x].name),
-      ) : const TextSpan(),
+      showDate
+          ? TextSpan(
+              text: CustomizableDateTime.miniDateOneLine(allocations[x].name),
+            )
+          : const TextSpan(),
       TextSpan(
-        // ignore: prefer_interpolation_to_compose_strings
+          // ignore: prefer_interpolation_to_compose_strings
           text: '\n\n' +
-              AppLocalizations.of(context).home_dashboardCharts_legendLabel_netWorth+ "    ",
+              appLocalizations.home_dashboardCharts_legendLabel_netWorth +
+              "    ",
           style: textTheme.titleSmall),
       TextSpan(
-        // ignore: prefer_interpolation_to_compose_strings
-          text: widget.allocations[x]
-              .netWorth
-              .formatNumberWithDecimal(),
-          style: textTheme.titleSmall!
-              .apply(color: AppColors.chartColor)),
+          // ignore: prefer_interpolation_to_compose_strings
+          text: allocations[x].netWorth.formatNumberWithDecimal(),
+          style: textTheme.titleSmall!.apply(color: AppColors.chartColor)),
       TextSpan(
-        // ignore: prefer_interpolation_to_compose_strings
+          // ignore: prefer_interpolation_to_compose_strings
           text: '\n' +
-              AppLocalizations.of(context).home_dashboardCharts_legendLabel_assets+ "         ",
+              appLocalizations.home_dashboardCharts_legendLabel_assets +
+              "         ",
           style: textTheme.titleSmall),
       TextSpan(
-        // ignore: prefer_interpolation_to_compose_strings
-          text: widget.allocations[x]
-              .asset
-              .formatNumberWithDecimal(),
-          style: textTheme.titleSmall!
-              .apply(color: AppColors.chartColor)),
+          // ignore: prefer_interpolation_to_compose_strings
+          text: allocations[x].asset.formatNumberWithDecimal(),
+          style: textTheme.titleSmall!.apply(color: AppColors.chartColor)),
       TextSpan(
-        // ignore: prefer_interpolation_to_compose_strings
-          text: '\n' + AppLocalizations.of(context).home_dashboardCharts_legendLabel_liability+ "      ",
+          // ignore: prefer_interpolation_to_compose_strings
+          text: '\n' +
+              appLocalizations.home_dashboardCharts_legendLabel_liability +
+              "      ",
           style: textTheme.titleSmall),
       TextSpan(
-        // ignore: prefer_interpolation_to_compose_strings
-          text: widget.allocations[x]
-              .liability
-              .formatNumberWithDecimal(),
-          style: textTheme.titleSmall!
-              .apply(color: AppColors.chartColor)),
+          // ignore: prefer_interpolation_to_compose_strings
+          text: allocations[x].liability.formatNumberWithDecimal(),
+          style: textTheme.titleSmall!.apply(color: AppColors.chartColor)),
     ];
   }
 }

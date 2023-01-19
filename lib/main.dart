@@ -29,7 +29,7 @@ Future<void> main() async {
 
   const String envFor = String.fromEnvironment(
     'env',
-    defaultValue: 'dev',
+    defaultValue: 'qa',
   );
   final envFile = envInitConfig(envFor);
   await dotenv.load(fileName: envFile);
@@ -99,7 +99,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => sl<PersonalInformationCubit>()..getName(),
         ),
-
       ],
       child: Builder(builder: (context) {
         return MaterialApp.router(
