@@ -37,12 +37,26 @@ class AssetsOverviewChartsColors {
     AssetTypes.otherAssets: Color(0xff769EA7),
   };
 
-  static getAssetType(AppLocalizations appLocalizations, String type) {
+  static String getAssetType(AppLocalizations appLocalizations, String type,{String? category}) {
     switch (type) {
       case AssetTypes.bankAccount:
         return appLocalizations.assetLiabilityForms_assets_bankAccount;
       case AssetTypes.listedAsset:
-        return appLocalizations.assetLiabilityForms_assets_listedAssets;
+        String after = " - ";
+        if(category != null){
+          switch (category.toLowerCase().replaceAll(" ", "")){
+            case "equity":
+              after += appLocalizations.assetLiabilityForms_forms_listedAssets_inputFields_assetType_options_equity;
+              break;
+            case "fixedincome":
+              after += appLocalizations.assetLiabilityForms_forms_listedAssets_inputFields_assetType_options_fixedIncome;
+              break;
+            default:
+              after += appLocalizations.assetLiabilityForms_forms_others_inputFields_assetType_options_other;
+              break;
+          }
+        }
+        return appLocalizations.assetLiabilityForms_assets_listedAssets + after;
       case AssetTypes.privateEquity:
         return appLocalizations.assetLiabilityForms_assets_privateEquity;
       case AssetTypes.privateDebt:
@@ -57,8 +71,30 @@ class AssetsOverviewChartsColors {
         return appLocalizations
             .manage_assetAndLiability_assetAndLiabilityList_others_title;
       default:
-        print(type);
+        print("wrong type : $type");
         return "Wrong asset type";
+    }
+  }
+
+  static String getContinentsNames(AppLocalizations appLocalizations,String name){
+    switch (name.toLowerCase().replaceAll(" ", "")){
+      case "asia":
+        return appLocalizations.assets_geography_Asia;
+      case "europe":
+        return appLocalizations.assets_geography_Asia;
+      case "oceania":
+        return appLocalizations.assets_geography_Asia;
+      case "Oceania":
+        return appLocalizations.assets_geography_Asia;
+      case "africa":
+        return appLocalizations.assets_geography_Asia;
+      case "northamerica":
+        return appLocalizations.assets_geography_Asia;
+      case "southamerica":
+        return appLocalizations.assets_geography_Asia;
+      default:
+        print("wrong continent : $name");
+        return appLocalizations.assets_geography_Asia;
     }
   }
 }
