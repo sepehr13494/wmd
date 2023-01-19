@@ -7,8 +7,6 @@ class RealEstateDetailPage extends AppStatelessWidget {
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
-    return Container(
-      child: Text(id),
-    );
+    return Container();
   }
 }

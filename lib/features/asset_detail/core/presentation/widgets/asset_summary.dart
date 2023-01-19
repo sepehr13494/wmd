@@ -6,6 +6,7 @@ import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/core/domain/entities/asset_summary_entity.dart';
+import 'package:wmd/features/asset_see_more/core/presentation/page/see_more_page.dart';
 import 'package:wmd/features/asset_see_more/core/presentation/widget/see_more_popup.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'as_of_date_widget.dart';
@@ -204,23 +205,22 @@ class SummaryCardWidget extends AppStatelessWidget {
           style: textTheme.titleSmall,
         ),
         Builder(builder: (context) {
-          final page =
-              AssetTypes.getDetailPage(summary.assetClassName, assetId);
-          if (page != null) {
-            return TextButton(
-              onPressed: () {
-                showSeeMoreModal(context: context, child: page);
-              },
-              child: Text(
-                '${appLocalizations.common_button_seeMore} >',
-                style: textTheme.labelSmall!.apply(
-                    color: Theme.of(context).primaryColor,
-                    decoration: TextDecoration.underline),
-              ),
-            );
-          } else {
-            return const SizedBox();
-          }
+          return TextButton(
+            onPressed: () {
+              showSeeMoreModal(
+                  context: context,
+                  child: SeeMorePage(
+                    id: assetId,
+                    type: summary.assetClassName,
+                  ));
+            },
+            child: Text(
+              '${appLocalizations.common_button_seeMore} >',
+              style: textTheme.labelSmall!.apply(
+                  color: Theme.of(context).primaryColor,
+                  decoration: TextDecoration.underline),
+            ),
+          );
         }),
       ],
     );

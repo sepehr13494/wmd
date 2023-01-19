@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/models/time_filer_obj.dart';
-import 'package:wmd/features/asset_detail/bank_account/presentation/page/bank_account_detail_page.dart';
-import 'package:wmd/features/asset_detail/other_asset/presentation/page/other_asset_detail_page.dart';
-import 'package:wmd/features/asset_detail/real_estate/presentation/page/real_estate_detail_page.dart';
+import 'package:wmd/features/asset_see_more/bank_account/presentation/page/bank_account_detail_page.dart';
+import 'package:wmd/features/asset_see_more/other_asset/presentation/page/other_asset_detail_page.dart';
+import 'package:wmd/features/asset_see_more/real_estate/presentation/page/real_estate_detail_page.dart';
 
 class AppConstants {
   static const custodianList = [

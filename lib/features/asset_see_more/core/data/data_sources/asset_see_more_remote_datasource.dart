@@ -27,7 +27,7 @@ class AssetSeeMoreRemoteDataSourceImpl extends AppServerDataSource
     } on ServerException {
       rethrow;
     } catch (e) {
-      throw AppException(
+      throw const AppException(
           message: "format Exception", type: ExceptionType.format);
     }
   }
