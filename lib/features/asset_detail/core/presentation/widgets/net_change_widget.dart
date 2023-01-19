@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
-import 'package:wmd/features/asset_detail/core/presentation/widgets/see_more_popup.dart';
 
 class NetChangeWidget extends AppStatelessWidget {
   // final double current;

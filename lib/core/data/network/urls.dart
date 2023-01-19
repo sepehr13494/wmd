@@ -53,6 +53,7 @@ class AppUrls {
   static String getListedAsset = "${wealthBase}ListedAsset";
   static String getOtherAsset = "${wealthBase}OtherAsset";
   static String getRealEstate = "${wealthBase}RealEstate";
+  static String getSeeMore(String type) => "$wealthBase/$type";
   static String getAssetSummary(String id) => "${wealthBase}Assets/$id/summary";
 
   static String linkToken = "${banking}openbanking/link-token";

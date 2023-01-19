@@ -6,7 +6,7 @@ import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/core/domain/entities/asset_summary_entity.dart';
-import 'package:wmd/features/asset_detail/core/presentation/widgets/see_more_popup.dart';
+import 'package:wmd/features/asset_see_more/core/presentation/widget/see_more_popup.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'as_of_date_widget.dart';
 import 'net_change_widget.dart';

@@ -13,6 +13,7 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/features/asset_detail/core/presentation/manager/asset_summary_cubit.dart';
 import 'package:wmd/features/asset_detail/valuation/presentation/manager/valuation_cubit.dart';
+import 'package:wmd/features/asset_see_more/core/presentation/manager/asset_see_more_cubit.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
 import 'package:wmd/features/add_assets/add_other_asset/presentation/manager/other_asset_cubit.dart';
 import 'package:wmd/features/add_assets/add_real_estate/presentation/manager/real_estate_cubit.dart';
