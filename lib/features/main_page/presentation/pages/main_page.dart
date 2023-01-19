@@ -40,7 +40,7 @@ class _MainPageState extends State<MainPage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => sl<MainPageCubit>()),
-        BlocProvider(create: (context) => sl<MainDashboardCubit>()..initPage()),
+        // BlocProvider(create: (context) => sl<MainDashboardCubit>()..initPage()), // we have already provider in main.dart for that. it was cousing issue.
       ],
       child: Builder(builder: (context) {
         return BlocBuilder<MainPageCubit, int>(
