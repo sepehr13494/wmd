@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
+import 'package:restart_app/restart_app.dart';
 import 'package:wmd/core/extentions/app_form_validators.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
@@ -103,7 +104,7 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
                             ElevatedButton(
                                 onPressed: () {
                                   sl<LocalStorage>().logout();
-                                  context.replaceNamed(AppRoutes.splash);
+                                  Restart.restartApp();
                                 },
                                 child: Text(appLocalizations
                                     .profile_changePassword_button_logout))
