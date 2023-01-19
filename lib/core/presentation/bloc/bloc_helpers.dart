@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:restart_app/restart_app.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
@@ -64,7 +65,7 @@ class BlocHelper {
             case ExceptionType.auth:
               GlobalFunctions.showSnackBar(context, state.failure.message);
               sl<LocalStorage>().logout();
-              context.replaceNamed(AppRoutes.splash);
+              Restart.restartApp();
               break;
           }
         }else{
