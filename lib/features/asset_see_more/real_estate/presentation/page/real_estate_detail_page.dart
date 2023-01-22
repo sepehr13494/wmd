@@ -11,7 +11,7 @@ import 'package:wmd/features/asset_see_more/core/presentation/widget/title_subti
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 
-import 'data/model/real_estate_more_entity.dart';
+import '../../data/model/real_estate_more_entity.dart';
 
 class RealEstateDetailPage extends AppStatelessWidget {
   final RealEstateMoreEntity entity;
@@ -105,8 +105,18 @@ class RealEstateDetailPage extends AppStatelessWidget {
             height: dividerGap,
             color: Theme.of(context).hintColor,
           ),
-          Text(appLocalizations.assets_seeMore_labels_performance,
-              style: textTheme.bodyLarge),
+          Row(
+            children: [
+              Text(appLocalizations.assets_seeMore_labels_performance,
+                  style: textTheme.bodyLarge),
+              const SizedBox(width: 8),
+              Icon(
+                Icons.info_outline,
+                color: Theme.of(context).primaryColor,
+                size: 14,
+              )
+            ],
+          ),
           SizedBox(height: gap),
           Wrap(
             runSpacing: 16,

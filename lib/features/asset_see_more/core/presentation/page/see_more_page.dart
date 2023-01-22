@@ -5,7 +5,9 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_see_more/core/data/models/get_asset_see_more_params.dart';
-import 'package:wmd/features/asset_see_more/real_estate/presentation/page/data/model/real_estate_more_entity.dart';
+import 'package:wmd/features/asset_see_more/other_asset/data/model/other_asset_more_entity.dart';
+import 'package:wmd/features/asset_see_more/other_asset/presentation/page/other_asset_detail_page.dart';
+import 'package:wmd/features/asset_see_more/real_estate/data/model/real_estate_more_entity.dart';
 import 'package:wmd/features/asset_see_more/real_estate/presentation/page/real_estate_detail_page.dart';
 import 'package:wmd/injection_container.dart';
 
@@ -32,14 +34,18 @@ class SeeMorePage extends AppStatelessWidget {
           builder: (context, state) {
             if (state is GetSeeMoreLoaded) {
               switch (type) {
-                case AssetTypes.bankAccount:
+                case AssetTypes.otherAsset:
+                  return OtherAssetDetailPage(
+                      entity:
+                          state.getAssetSeeMoreEntity as OtherAseetMoreEntity);
                 case AssetTypes.realEstate:
                   return RealEstateDetailPage(
                       entity:
                           state.getAssetSeeMoreEntity as RealEstateMoreEntity);
+                // case AssetTypes.bankAccount:
 
                 default:
-                  return Text(state.toString());
+                  return Text('Type:$type  => $state');
               }
             } else {
               return const LoadingWidget();
