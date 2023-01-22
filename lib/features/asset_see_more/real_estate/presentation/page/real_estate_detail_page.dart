@@ -105,8 +105,18 @@ class RealEstateDetailPage extends AppStatelessWidget {
             height: dividerGap,
             color: Theme.of(context).hintColor,
           ),
-          Text(appLocalizations.assets_seeMore_labels_performance,
-              style: textTheme.bodyLarge),
+          Row(
+            children: [
+              Text(appLocalizations.assets_seeMore_labels_performance,
+                  style: textTheme.bodyLarge),
+              const SizedBox(width: 8),
+              Icon(
+                Icons.info_outline,
+                color: Theme.of(context).primaryColor,
+                size: 14,
+              )
+            ],
+          ),
           SizedBox(height: gap),
           Wrap(
             runSpacing: 16,
