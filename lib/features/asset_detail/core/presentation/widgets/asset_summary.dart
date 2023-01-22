@@ -205,22 +205,25 @@ class SummaryCardWidget extends AppStatelessWidget {
           style: textTheme.titleSmall,
         ),
         Builder(builder: (context) {
-          return TextButton(
-            onPressed: () {
-              showSeeMoreModal(
-                  context: context,
-                  child: SeeMorePage(
-                    id: assetId,
-                    type: summary.assetClassName,
-                  ));
-            },
-            child: Text(
-              '${appLocalizations.common_button_seeMore} >',
-              style: textTheme.labelSmall!.apply(
-                  color: Theme.of(context).primaryColor,
-                  decoration: TextDecoration.underline),
-            ),
-          );
+          if (AppConstants.publicMvp2Items) {
+            return TextButton(
+              onPressed: () {
+                showSeeMoreModal(
+                    context: context,
+                    child: SeeMorePage(
+                      id: assetId,
+                      type: summary.assetClassName,
+                    ));
+              },
+              child: Text(
+                '${appLocalizations.common_button_seeMore} >',
+                style: textTheme.labelSmall!.apply(
+                    color: Theme.of(context).primaryColor,
+                    decoration: TextDecoration.underline),
+              ),
+            );
+          }
+          return const SizedBox();
         }),
       ],
     );

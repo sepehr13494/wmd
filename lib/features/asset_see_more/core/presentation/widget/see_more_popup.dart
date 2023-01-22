@@ -32,7 +32,11 @@ Future<bool?> showSeeMoreModal({
                         color: Theme.of(context).primaryColor,
                       )),
                 ),
-                child,
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: child,
+                  ),
+                ),
               ],
             ),
           ),

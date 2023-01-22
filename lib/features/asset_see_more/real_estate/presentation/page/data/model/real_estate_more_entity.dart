@@ -30,7 +30,7 @@ class RealEstateMoreEntity extends GetSeeMoreResponse {
   });
 
   final String name;
-  final String realEstateType;
+  final int realEstateType;
   final String address;
   final double noOfUnits;
   final double acquisitionCostPerUnit;
