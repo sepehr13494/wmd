@@ -87,8 +87,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
       create: (context) => sl<OtherAssetCubit>(),
       child: Builder(builder: (context) {
         return Scaffold(
-          appBar: const AddAssetHeader(
-              title: "Add Asset Details", showExitModal: true),
+          appBar: const AddAssetHeader(title: "", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: appLocalizations.common_button_addAsset,
               onTap: !enableAddAssetButton

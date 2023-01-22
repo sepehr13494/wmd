@@ -91,26 +91,25 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
       create: (context) => sl<ListedSecurityCubit>(),
       child: Builder(builder: (context) {
         return Scaffold(
-          appBar: AddAssetHeader(
-              title: appLocalizations.assetLiabilityForms_heading_listedAssets,
-              showExitModal: true),
+          appBar: const AddAssetHeader(title: "", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Add asset",
-              onTap: !enableAddAssetButton
-                  ? null
-                  : () {
-                      Map<String, dynamic> finalMap = {
-                        ...formKey.currentState!.instantValue,
-                        "totalCost": currentDayValue,
-                      };
+              onTap: () {
+                formKey.currentState?.validate();
+                if (enableAddAssetButton) {
+                  Map<String, dynamic> finalMap = {
+                    ...formKey.currentState!.instantValue,
+                    "totalCost": currentDayValue,
+                  };
 
-                      print("finalMap");
-                      print(finalMap);
+                  print("finalMap");
+                  print(finalMap);
 
-                      context
-                          .read<ListedSecurityCubit>()
-                          .postListedSecurity(map: finalMap);
-                    }),
+                  context
+                      .read<ListedSecurityCubit>()
+                      .postListedSecurity(map: finalMap);
+                }
+              }),
           body: Theme(
             data: Theme.of(context).copyWith(),
             child: Stack(
@@ -415,8 +414,6 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                                 }
                                               ],
                                               type: TextFieldType.rate,
-                                              keyboardType:
-                                                  TextInputType.number,
                                               onChanged: checkFinalValid,
                                               name: "couponRate",
                                               hint: "00",

@@ -8,6 +8,8 @@ import 'dart:async' as _i4;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:wmd/core/error_and_success/failures.dart' as _i5;
+import 'package:wmd/features/add_assets/add_listed_security/data/models/listed_security_name.dart'
+    as _i8;
 import 'package:wmd/features/add_assets/add_listed_security/domain/repositories/listed_security_repository.dart'
     as _i3;
 import 'package:wmd/features/add_assets/add_listed_security/domain/use_cases/add_listed_security_usecase.dart'
@@ -62,4 +64,23 @@ class MockListedSecurityRepository extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, _i6.AddAsset>>);
+  @override
+  _i4.Future<
+      _i2.Either<_i5.Failure, List<_i8.ListedSecurityName>>> getListedSecurity(
+          String? name) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getListedSecurity,
+          [name],
+        ),
+        returnValue: _i4.Future<
+                _i2.Either<_i5.Failure, List<_i8.ListedSecurityName>>>.value(
+            _FakeEither_0<_i5.Failure, List<_i8.ListedSecurityName>>(
+          this,
+          Invocation.method(
+            #getListedSecurity,
+            [name],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, List<_i8.ListedSecurityName>>>);
 }

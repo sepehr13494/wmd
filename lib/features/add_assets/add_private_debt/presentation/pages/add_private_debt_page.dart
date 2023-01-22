@@ -57,9 +57,7 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
       create: (context) => sl<PrivateDebtCubit>(),
       child: Builder(builder: (context) {
         return Scaffold(
-          appBar: AddAssetHeader(
-              title: appLocalizations.assetLiabilityForms_heading_privateDebt,
-              showExitModal: true),
+          appBar: const AddAssetHeader(title: "", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Add asset",
               onTap: !enableAddAssetButton
