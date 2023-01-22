@@ -17,19 +17,22 @@ class LineChartSample2 extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
     if (allocations.length == 1) {
-      return Row(
-        children: [
-          Expanded(
-            child: LineChart(
-              mainData(context, appLocalizations, hideValues: true),
+      return Directionality(
+        textDirection: TextDirection.ltr,
+        child: Row(
+          children: [
+            Expanded(
+              child: LineChart(
+                mainData(context, appLocalizations, hideValues: true),
+              ),
             ),
-          ),
-          Expanded(
-            child: LineChart(
-              mainData(context, appLocalizations, showLeft: false),
-            ),
-          )
-        ],
+            Expanded(
+              child: LineChart(
+                mainData(context, appLocalizations, showLeft: false),
+              ),
+            )
+          ],
+        ),
       );
     }
     return LineChart(
