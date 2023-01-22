@@ -6,6 +6,7 @@ import 'package:wmd/core/data/repository/app_data_source.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/models/app_request_options.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/asset_see_more/other_asset/data/model/other_asset_more_entity.dart';
 import 'package:wmd/features/asset_see_more/real_estate/presentation/page/data/model/real_estate_more_entity.dart';
 
 import '../models/get_asset_see_more_params.dart';
@@ -22,7 +23,7 @@ class AssetSeeMoreRemoteDataSourceImpl extends AppServerDataSource
   @override
   Future<GetSeeMoreResponse> getAssetSeeMore(GetSeeMoreParams params) async {
     String type = params.type;
-    type = AssetTypes.realEstate;
+    type = AssetTypes.otherAsset;
     try {
       final appRequestOptions =
           AppRequestOptions(RequestTypes.get, AppUrls.getSeeMore(type), {
@@ -36,9 +37,13 @@ class AssetSeeMoreRemoteDataSourceImpl extends AppServerDataSource
         case AssetTypes.realEstate:
           result = RealEstateMoreEntity.fromJson(response);
           break;
+        case AssetTypes.otherAsset:
+          result = OtherAseetMoreEntity.fromJson(response);
+          break;
         default:
           // result = RealEstateMoreEntity.fromJson(response);
-          result = DefaultMoreEntity(response.toString());
+          result = OtherAseetMoreEntity.fromJson(response);
+        // result = DefaultMoreEntity(response.toString());
       }
       return result;
     } on ServerException {
