@@ -34,7 +34,6 @@ class SeeMorePage extends AppStatelessWidget {
           builder: (context, state) {
             if (state is GetSeeMoreLoaded) {
               switch (type) {
-                case AssetTypes.bankAccount:
                 case AssetTypes.otherAsset:
                   return OtherAssetDetailPage(
                       entity:
@@ -43,9 +42,10 @@ class SeeMorePage extends AppStatelessWidget {
                   return RealEstateDetailPage(
                       entity:
                           state.getAssetSeeMoreEntity as RealEstateMoreEntity);
+                // case AssetTypes.bankAccount:
 
                 default:
-                  return Text(state.toString());
+                  return Text('Type:$type  => $state');
               }
             } else {
               return const LoadingWidget();

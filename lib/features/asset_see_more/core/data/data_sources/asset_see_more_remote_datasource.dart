@@ -23,7 +23,7 @@ class AssetSeeMoreRemoteDataSourceImpl extends AppServerDataSource
   @override
   Future<GetSeeMoreResponse> getAssetSeeMore(GetSeeMoreParams params) async {
     String type = params.type;
-    type = AssetTypes.otherAsset;
+    // type = AssetTypes.otherAsset;
     try {
       final appRequestOptions =
           AppRequestOptions(RequestTypes.get, AppUrls.getSeeMore(type), {
@@ -42,8 +42,8 @@ class AssetSeeMoreRemoteDataSourceImpl extends AppServerDataSource
           break;
         default:
           // result = RealEstateMoreEntity.fromJson(response);
-          result = OtherAseetMoreEntity.fromJson(response);
-        // result = DefaultMoreEntity(response.toString());
+          // result = OtherAseetMoreEntity.fromJson(response);
+          result = DefaultMoreEntity(response.toString());
       }
       return result;
     } on ServerException {
