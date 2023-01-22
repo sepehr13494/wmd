@@ -58,6 +58,12 @@ class AssetsOverviewChartsColors {
           }
         }
         return appLocalizations.assetLiabilityForms_assets_listedAssets + after;
+      case AssetTypes.listedAssetEquity:
+        return "${appLocalizations.assetLiabilityForms_assets_listedAssets} - ${appLocalizations.assetLiabilityForms_forms_listedAssets_inputFields_assetType_options_equity}";
+      case AssetTypes.listedAssetFixedIncome:
+        return "${appLocalizations.assetLiabilityForms_assets_listedAssets} - ${appLocalizations.assetLiabilityForms_forms_listedAssets_inputFields_assetType_options_fixedIncome}";
+      case AssetTypes.listedAssetOther:
+        return "${appLocalizations.assetLiabilityForms_assets_listedAssets} - ${appLocalizations.assetLiabilityForms_forms_others_inputFields_assetType_options_other}";
       case AssetTypes.privateEquity:
         return appLocalizations.assetLiabilityForms_assets_privateEquity;
       case AssetTypes.privateDebt:
@@ -82,20 +88,20 @@ class AssetsOverviewChartsColors {
       case "asia":
         return appLocalizations.assets_geography_Asia;
       case "europe":
-        return appLocalizations.assets_geography_Asia;
+        return appLocalizations.assets_geography_Europe;
       case "oceania":
-        return appLocalizations.assets_geography_Asia;
+        return appLocalizations.assets_geography_Australia;
       case "Oceania":
-        return appLocalizations.assets_geography_Asia;
+        return appLocalizations.assets_geography_Australia;
       case "africa":
-        return appLocalizations.assets_geography_Asia;
+        return appLocalizations.assets_geography_Africa;
       case "northamerica":
-        return appLocalizations.assets_geography_Asia;
+        return appLocalizations.assets_geography_NorthAmerica;
       case "southamerica":
-        return appLocalizations.assets_geography_Asia;
+        return appLocalizations.assets_geography_SouthAmerica;
       default:
         print("wrong continent : $name");
-        return appLocalizations.assets_geography_Asia;
+        return "wrong continent";
     }
   }
 }
