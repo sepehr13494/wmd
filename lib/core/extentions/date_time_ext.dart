@@ -16,19 +16,23 @@ extension CustomizableDateTime on DateTime {
   }
 
   static String dateLocalized(DateTime input) {
-    return DateFormat("d${getDayOfMonthSuffix(input.day)} MMMM yyyy kk:mm aaa","en").format(input);
+    return DateFormat(
+            "d${getDayOfMonthSuffix(input.day)} MMMM yyyy kk:mm aaa", "en")
+        .format(input);
   }
 
   static String localizedDdMm(dynamic input) {
-    return DateFormat("d MMM","en").format(input);
+    return DateFormat("d MMM", "en").format(input);
   }
 
   static String localizedDdMmOneLine(DateTime input) {
-    return DateFormat("d${getDayOfMonthSuffix(input.day)} MMM","en").format(input);
+    return DateFormat("d${getDayOfMonthSuffix(input.day)} MMM", "en")
+        .format(input);
   }
 
   static String localizedDdMmYyyy(DateTime input) {
-    return DateFormat("d${getDayOfMonthSuffix(input.day)} MMM yyyy","en").format(input);
+    return DateFormat("d${getDayOfMonthSuffix(input.day)} MMM yyyy", "en")
+        .format(input);
   }
 
   static DateTime get currentDateTime {
@@ -36,22 +40,24 @@ extension CustomizableDateTime on DateTime {
   }
 
   static String ddMmYyyy(DateTime dateTime) {
-    return DateFormat("dd.MM.yyyy","en").format(dateTime);
+    return DateFormat("dd.MM.yyyy", "en").format(dateTime);
   }
 
   static String yyyyMmDd(DateTime dateTime) {
-    return DateFormat("yyyy.MM.dd","en").format(dateTime);
+    return DateFormat("yyyy.MM.dd", "en").format(dateTime);
   }
 
-  static String miniDate(String dateTimeString){
+  static String miniDate(String dateTimeString) {
     var dateString = dateTimeString.split("/");
-    DateTime dateTime = DateTime(int.parse(dateString[2]),int.parse(dateString[0]),int.parse(dateString[1]));
+    DateTime dateTime = DateTime(int.parse(dateString[2]),
+        int.parse(dateString[0]), int.parse(dateString[1]));
     return CustomizableDateTime.localizedDdMm(dateTime);
   }
 
-  static String miniDateOneLine(String dateTimeString){
+  static String miniDateOneLine(String dateTimeString) {
     var dateString = dateTimeString.split("/");
-    DateTime dateTime = DateTime(int.parse(dateString[2]),int.parse(dateString[0]),int.parse(dateString[1]));
+    DateTime dateTime = DateTime(int.parse(dateString[2]),
+        int.parse(dateString[0]), int.parse(dateString[1]));
     return CustomizableDateTime.localizedDdMmOneLine(dateTime);
   }
 
