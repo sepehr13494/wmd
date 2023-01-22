@@ -73,35 +73,41 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
         child: Column(
           children: [
             EachTextField(
-              title: "Ownership",
+              title: appLocalizations
+                  .assetLiabilityForms_forms_bankAccount_inputFields_ownership_label,
               child: AppTextFields.simpleTextField(
                   extraValidators: [
                     (val) {
-                      return ((int.tryParse(val ?? "0") ?? 0) < 100)
+                      return ((int.tryParse(val ?? "0") ?? 0) <= 100)
                           ? null
                           : "Ownership can't be greater then 100";
                     }
                   ],
                   onChanged: checkFinalValid,
                   name: "ownershipPercentage",
-                  hint: "50%",
+                  hint: appLocalizations
+                      .assetLiabilityForms_forms_bankAccount_inputFields_ownership_placeholder,
+                  type: TextFieldType.rate,
                   keyboardType: TextInputType.number),
             ),
             EachTextField(
-              title: "Principal (original deposit amount)",
+              title: appLocalizations
+                  .assetLiabilityForms_forms_bankAccount_inputFields_principal_label,
               child: AppTextFields.simpleTextField(
                 type: TextFieldType.money,
                 onChanged: checkFinalValid,
                 name: "principal",
-                hint: "\$20,000",
+                hint: appLocalizations
+                    .assetLiabilityForms_forms_bankAccount_inputFields_principal_placeholder,
               ),
             ),
             EachTextField(
-              title: "Rate (optional)",
+              title: appLocalizations
+                  .assetLiabilityForms_forms_bankAccount_inputFields_rate_label,
               child: AppTextFields.simpleTextField(
                 extraValidators: [
                   (val) {
-                    return ((int.tryParse(val ?? "0") ?? 0) < 100)
+                    return ((int.tryParse(val ?? "0") ?? 0) <= 100)
                         ? (int.tryParse(val ?? "0") ?? 0) < 0
                             ? "Rate cannot be negative"
                             : null
@@ -109,13 +115,15 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                   }
                 ],
                 name: "interestRate",
-                hint: "50.00",
+                hint: appLocalizations
+                    .assetLiabilityForms_forms_bankAccount_inputFields_rate_placeholder,
                 type: TextFieldType.rate,
                 required: false,
               ),
             ),
             EachTextField(
-              title: "Start date",
+              title: appLocalizations
+                  .assetLiabilityForms_forms_bankAccount_inputFields_startDate_label,
               child: FormBuilderDateTimePicker(
                 inputType: InputType.date,
                 validator: FormBuilderValidators.required(),
@@ -127,11 +135,13 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                       Icons.calendar_today_outlined,
                       color: Theme.of(context).primaryColor,
                     ),
-                    hintText: "02/11/2022"),
+                    hintText: appLocalizations
+                        .assetLiabilityForms_forms_bankAccount_inputFields_startDate_placeholder),
               ),
             ),
             EachTextField(
-                title: "Tenure",
+                title: appLocalizations
+                    .assetLiabilityForms_forms_bankAccount_inputFields_tenure_label,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Row(
@@ -147,7 +157,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                 changeDate();
                               },
                               name: "years",
-                              hint: "00",
+                              hint: appLocalizations
+                                  .assetLiabilityForms_forms_bankAccount_inputFields_tenureYears_placeholder,
                               keyboardType: TextInputType.number),
                         ),
                       ),
@@ -155,7 +166,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                       Expanded(
                         child: EachTextField(
                           hasInfo: false,
-                          title: "Months",
+                          title: appLocalizations
+                              .assetLiabilityForms_forms_bankAccount_inputFields_tenureMonths_label,
                           child: AppTextFields.simpleTextField(
                               name: "months",
                               extraValidators: [
@@ -169,7 +181,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                 checkFinalValid(val);
                                 changeDate();
                               },
-                              hint: "00",
+                              hint: appLocalizations
+                                  .assetLiabilityForms_forms_bankAccount_inputFields_tenureMonths_placeholder,
                               required: false,
                               keyboardType: TextInputType.number),
                         ),
@@ -178,7 +191,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                       Expanded(
                         child: EachTextField(
                           hasInfo: false,
-                          title: "Days",
+                          title: appLocalizations
+                              .assetLiabilityForms_forms_bankAccount_inputFields_tenureDays_label,
                           child: AppTextFields.simpleTextField(
                               required: false,
                               extraValidators: [
@@ -193,7 +207,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                 changeDate();
                               },
                               name: "days",
-                              hint: "00",
+                              hint: appLocalizations
+                                  .assetLiabilityForms_forms_bankAccount_inputFields_tenureDays_placeholder,
                               keyboardType: TextInputType.number),
                         ),
                       ),
@@ -212,7 +227,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("End term"),
+                    const Text("End term"),
                     const SizedBox(height: 8),
                     Text(date)
                   ],
