@@ -73,7 +73,7 @@ class AddPrivateEquityParams extends Equatable {
       AddPrivateEquityParams(
         isActive: json["isActive"],
         investmentName: json["investmentName"],
-        country: (json["country"] as Country).countryName,
+        country: (json["country"] as Country).name,
         currencyCode: (json["currencyCode"] as Currency).symbol,
         investmentAmount: json["investmentAmount"] != null
             ? double.tryParse(json["investmentAmount"])

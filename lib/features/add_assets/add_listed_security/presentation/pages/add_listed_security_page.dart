@@ -357,7 +357,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_listedAssets_inputFields_quantity_label,
                                       child: AppTextFields.simpleTextField(
-                                          type: TextFieldType.number,
+                                          type: TextFieldType.rate,
                                           onChanged: (val) {
                                             setState(() {
                                               noOfUnits = val;
@@ -414,7 +414,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                                       : "Ownership can't be greater then 100";
                                                 }
                                               ],
-                                              type: TextFieldType.number,
+                                              type: TextFieldType.rate,
                                               keyboardType:
                                                   TextInputType.number,
                                               onChanged: checkFinalValid,
