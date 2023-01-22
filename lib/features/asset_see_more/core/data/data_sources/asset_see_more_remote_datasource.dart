@@ -7,7 +7,7 @@ import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/models/app_request_options.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_see_more/other_asset/data/model/other_asset_more_entity.dart';
-import 'package:wmd/features/asset_see_more/real_estate/presentation/page/data/model/real_estate_more_entity.dart';
+import 'package:wmd/features/asset_see_more/real_estate/data/model/real_estate_more_entity.dart';
 
 import '../models/get_asset_see_more_params.dart';
 import '../models/get_asset_see_more_response.dart';

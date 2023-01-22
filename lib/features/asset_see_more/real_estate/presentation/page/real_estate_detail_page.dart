@@ -11,7 +11,7 @@ import 'package:wmd/features/asset_see_more/core/presentation/widget/title_subti
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 
-import 'data/model/real_estate_more_entity.dart';
+import '../../data/model/real_estate_more_entity.dart';
 
 class RealEstateDetailPage extends AppStatelessWidget {
   final RealEstateMoreEntity entity;
