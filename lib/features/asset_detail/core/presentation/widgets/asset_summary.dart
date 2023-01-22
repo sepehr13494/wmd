@@ -205,7 +205,7 @@ class SummaryCardWidget extends AppStatelessWidget {
           style: textTheme.titleSmall,
         ),
         Builder(builder: (context) {
-          // return const SizedBox();
+          return const SizedBox();
           if (AppConstants.publicMvp2Items) {
             return TextButton(
               onPressed: () {
