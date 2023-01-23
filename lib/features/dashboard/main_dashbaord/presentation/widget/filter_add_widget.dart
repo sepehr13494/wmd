@@ -5,6 +5,7 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/local_storage.dart';
+import 'package:wmd/features/assets_overview/assets_overview/presentation/widgets/add_button.dart';
 import 'package:wmd/injection_container.dart';
 
 class FilterAddPart extends AppStatelessWidget {
@@ -45,28 +46,11 @@ class FilterAddPart extends AppStatelessWidget {
             const SizedBox(width: 12),
             SizedBox(
               height: 38,
-              width: 66,
-              child: ElevatedButton(
-                onPressed: () {
+              child: AddButton(
+                addAsset: false,
+                onTap: () {
                   context.pushNamed(AppRoutes.addAssetsView);
                 },
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Row(
-                    children: [
-                      const Icon(Icons.add_circle, size: 22),
-                      isMobile
-                          ? const SizedBox()
-                          : Row(
-                              children: [
-                                const SizedBox(width: 8),
-                                Text(AppLocalizations.of(context)
-                                    .common_button_add),
-                              ],
-                            ),
-                    ],
-                  ),
-                ),
               ),
             ),
           ],

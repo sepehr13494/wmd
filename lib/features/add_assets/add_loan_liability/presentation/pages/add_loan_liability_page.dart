@@ -80,9 +80,7 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
       ],
       child: Builder(builder: (context) {
         return Scaffold(
-          appBar: AddAssetHeader(
-              title: appLocalizations.assetLiabilityForms_heading_loan,
-              showExitModal: true),
+          appBar: const AddAssetHeader(title: "", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Add liability",
               onTap: !enableAddAssetButton

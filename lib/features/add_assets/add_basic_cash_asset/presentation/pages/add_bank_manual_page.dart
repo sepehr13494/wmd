@@ -69,7 +69,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
     if (isDepositTerm) {
       changeItems = FormBuilder(
         key: bottomFormKey,
-        // initialValue: ,
+        initialValue: const {"ownershipPercentage": "100"},
         child: Column(
           children: [
             EachTextField(
@@ -301,7 +301,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
       ],
       child: Builder(builder: (context) {
         return Scaffold(
-          appBar: const AddAssetHeader(title: "Add asset", showExitModal: true),
+          appBar: const AddAssetHeader(title: "", showExitModal: true),
           bottomSheet: AddAssetFooter(
             buttonText: "Add asset",
             onTap: !enableAddAssetButton
