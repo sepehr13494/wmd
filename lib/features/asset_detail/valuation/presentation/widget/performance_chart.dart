@@ -29,8 +29,7 @@ class PerformanceLineChart extends AppStatelessWidget {
             ),
             const SizedBox(width: 8),
             Text(
-              appLocalizations.assets_label_lastDurationDays.replaceFirstMapped(
-                  '{{duration}}', (match) => days.toString()),
+              '(${appLocalizations.assets_label_lastDurationDays.replaceFirstMapped('{{duration}}', (match) => days.toString())})',
               // '(Last $days days)',
               style: textTheme.bodySmall,
             ),
