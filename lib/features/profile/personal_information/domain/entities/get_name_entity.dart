@@ -17,22 +17,22 @@ class GetNameEntity extends Equatable {
 
   Map<String, dynamic> toJson() {
     var country;
-    if(phoneNumber?.countryCode != null){
+    if (phoneNumber?.countryCode != null) {
       var allCountries = CountryService().getAll();
       for (var element in allCountries) {
-        if(element.phoneCode == phoneNumber?.countryCode.replaceAll("+", "")){
+        if (element.phoneCode == phoneNumber?.countryCode.replaceAll("+", "")) {
           country = element;
         }
       }
     }
     print(country);
     return {
-        "email": email,
-        "phoneNumber": phoneNumber?.number,
-        "country": country,
-        "firstName": firstName,
-        "lastName": lastName,
-      };
+      "email": email,
+      "phoneNumber": phoneNumber?.number,
+      "country": country,
+      "firstName": firstName,
+      "lastName": lastName,
+    };
   }
 
   @override

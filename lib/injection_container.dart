@@ -335,7 +335,7 @@ Future<void> init() async {
       () => OtherAssetRemoteDataSourceImpl(sl()));
 
   // Add listed security
-  sl.registerFactory(() => ListedSecurityCubit(sl()));
+  sl.registerFactory(() => ListedSecurityCubit(sl(), sl()));
   sl.registerLazySingleton(() => AddListedSecurityUseCase(sl()));
   sl.registerLazySingleton<ListedSecurityRepository>(
       () => ListedSecurityRepositoryImpl(sl()));

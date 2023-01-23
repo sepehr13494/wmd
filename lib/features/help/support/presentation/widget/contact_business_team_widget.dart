@@ -217,23 +217,29 @@ class ContactBusinessWidget extends ModalWidget {
                                       children: [
                                         Expanded(
                                             child: ElevatedButton(
-                                          onPressed:
-                                              // enableSubmitButton
-                                              //     ?
-                                              () {
-                                            Map<String, dynamic> finalMap = {
-                                              ...formKey
-                                                  .currentState!.instantValue,
-                                            };
+                                          onPressed: () async {
+                                            formKey.currentState?.validate();
 
-                                            print(finalMap);
-                                            print(
-                                                formKey.currentState!.isValid);
+                                            await Future.delayed(const Duration(
+                                                milliseconds: 100));
+                                            bool finalValid =
+                                                formKey.currentState!.isValid;
 
-                                            context
-                                                .read<GeneralInquiryCubit>()
-                                                .postGeneralInquiry(
-                                                    map: finalMap);
+                                            if (finalValid) {
+                                              Map<String, dynamic> finalMap = {
+                                                ...formKey
+                                                    .currentState!.instantValue,
+                                              };
+
+                                              print(finalMap);
+                                              print(formKey
+                                                  .currentState!.isValid);
+
+                                              context
+                                                  .read<GeneralInquiryCubit>()
+                                                  .postGeneralInquiry(
+                                                      map: finalMap);
+                                            }
                                           }
                                           // : null
                                           ,

@@ -56,8 +56,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
       create: (context) => sl<RealEstateCubit>(),
       child: Builder(builder: (context) {
         return Scaffold(
-          appBar: const AddAssetHeader(
-              title: "Add Real Estate", showExitModal: true),
+          appBar: const AddAssetHeader(title: "", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Add asset",
               onTap: !enableAddAssetButton
