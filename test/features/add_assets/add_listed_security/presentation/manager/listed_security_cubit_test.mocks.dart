@@ -8,10 +8,16 @@ import 'dart:async' as _i5;
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:wmd/core/error_and_success/failures.dart' as _i6;
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/entity/bank_entity.dart'
+    as _i9;
+import 'package:wmd/features/add_assets/add_listed_security/data/models/listed_security_name.dart'
+    as _i10;
 import 'package:wmd/features/add_assets/add_listed_security/domain/repositories/listed_security_repository.dart'
     as _i2;
 import 'package:wmd/features/add_assets/add_listed_security/domain/use_cases/add_listed_security_usecase.dart'
     as _i4;
+import 'package:wmd/features/add_assets/add_listed_security/domain/use_cases/get_listed_security_usecase.dart'
+    as _i8;
 import 'package:wmd/features/add_assets/core/domain/entities/add_asset_response.dart'
     as _i7;
 
@@ -82,4 +88,50 @@ class MockAddListedSecurityUseCase extends _i1.Mock
           ),
         )),
       ) as _i5.Future<_i3.Either<_i6.Failure, _i7.AddAsset>>);
+}
+
+/// A class which mocks [GetListedSecurityUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGetListedSecurityUseCase extends _i1.Mock
+    implements _i8.GetListedSecurityUseCase {
+  MockGetListedSecurityUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.ListedSecurityRepository get listedSecurityRepository =>
+      (super.noSuchMethod(
+        Invocation.getter(#listedSecurityRepository),
+        returnValue: _FakeListedSecurityRepository_0(
+          this,
+          Invocation.getter(#listedSecurityRepository),
+        ),
+      ) as _i2.ListedSecurityRepository);
+  @override
+  set banks(List<_i9.BankEntity>? _banks) => super.noSuchMethod(
+        Invocation.setter(
+          #banks,
+          _banks,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  _i5.Future<_i3.Either<_i6.Failure, List<_i10.ListedSecurityName>>> call(
+          String? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i5.Future<
+                _i3.Either<_i6.Failure, List<_i10.ListedSecurityName>>>.value(
+            _FakeEither_1<_i6.Failure, List<_i10.ListedSecurityName>>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i6.Failure, List<_i10.ListedSecurityName>>>);
 }

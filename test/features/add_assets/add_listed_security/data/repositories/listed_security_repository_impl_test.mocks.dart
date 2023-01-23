@@ -8,6 +8,8 @@ import 'dart:async' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:wmd/features/add_assets/add_listed_security/data/data_sources/listed_security_remote_data_source.dart'
     as _i3;
+import 'package:wmd/features/add_assets/add_listed_security/data/models/listed_security_name.dart'
+    as _i6;
 import 'package:wmd/features/add_assets/add_listed_security/domain/use_cases/add_listed_security_usecase.dart'
     as _i5;
 import 'package:wmd/features/add_assets/core/data/models/add_asset_model.dart'
@@ -59,4 +61,14 @@ class MockListedSecurityRemoteDataSource extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.AddAssetModel>);
+  @override
+  _i4.Future<List<_i6.ListedSecurityName>> getListedSecurity(String? name) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getListedSecurity,
+          [name],
+        ),
+        returnValue: _i4.Future<List<_i6.ListedSecurityName>>.value(
+            <_i6.ListedSecurityName>[]),
+      ) as _i4.Future<List<_i6.ListedSecurityName>>);
 }

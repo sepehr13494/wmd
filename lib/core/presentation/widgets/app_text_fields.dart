@@ -93,7 +93,7 @@ class AppTextFields {
               : type == TextFieldType.rate
                   ? [
                       FilteringTextInputFormatter.allow(
-                          RegExp(r'^\d+\.?\d{0,2}'))
+                          RegExp(r'^\d+\.?\d{0,3}'))
                     ]
                   : null,
       scrollPadding:

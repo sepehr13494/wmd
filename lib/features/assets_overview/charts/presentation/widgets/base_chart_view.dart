@@ -58,30 +58,29 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                         runSpacing: 5, // gap between lines
                         children: List.generate(titles.length, (index) {
                           final item = titles.elementAt(index);
-                          return Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Container(
-                                  width: 10,
-                                  height: 10,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: AssetsOverviewChartsColors
-                                        .colorsMap[item]??Colors.brown,
+                          return SizedBox(
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    width: 10,
+                                    height: 10,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AssetsOverviewChartsColors
+                                          .colorsMap[item]??Colors.brown,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(width: 8),
-                                SizedBox(
-                                  width: 100,
-                                  child: Text(
+                                  const SizedBox(width: 8),
+                                  Text(
                                     AssetsOverviewChartsColors.getAssetType(
                                         appLocalizations, item),
                                     style: const TextStyle(fontSize: 10),
-                                  ),
-                                )
-                              ],
+                                  )
+                                ],
+                              ),
                             ),
                           );
                         }),

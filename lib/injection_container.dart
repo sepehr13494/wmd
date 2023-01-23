@@ -50,6 +50,8 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager
 import 'package:wmd/features/add_assets/view_assets_list/presentation/manager/asset_view_cubit.dart';
 import 'package:wmd/features/asset_detail/core/data/repositories/asset_summary_repository_impl.dart';
 import 'package:wmd/features/asset_detail/core/presentation/manager/asset_summary_cubit.dart';
+import 'package:wmd/features/asset_see_more/core/domain/repositories/asset_see_more_repository.dart';
+import 'package:wmd/features/asset_see_more/core/presentation/manager/asset_see_more_cubit.dart';
 import 'package:wmd/features/assets_overview/assets_overview/data/data_sources/asset_overview_remote_datasource.dart';
 import 'package:wmd/features/assets_overview/assets_overview/data/repositories/assets_overview_repository_impl.dart';
 import 'package:wmd/features/assets_overview/assets_overview/domain/repositories/assets_overview_repository.dart';
@@ -144,7 +146,7 @@ import 'features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_b
 import 'features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_status_list_usecase.dart';
 import 'features/add_assets/custodian_bank_auth/domain/use_cases/post_custodian_bank_status_usecase.dart';
 import 'features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_list_cubit.dart';
-import 'features/asset_detail/core/data/data_sources/asset_summart_datasource.dart';
+import 'features/asset_detail/core/data/data_sources/asset_summary_datasource.dart';
 import 'features/asset_detail/core/domain/repositories/asset_summary_repository.dart';
 import 'features/asset_detail/core/domain/use_cases/get_summary_usecase.dart';
 import 'features/asset_detail/valuation/data/data_sources/valuation_remote_datasource.dart';
@@ -155,6 +157,9 @@ import 'features/asset_detail/valuation/domain/use_cases/get_valuation_performan
 import 'features/asset_detail/valuation/domain/use_cases/post_valuation_usecase.dart';
 import 'features/asset_detail/valuation/presentation/manager/performance_chart_cubit.dart';
 import 'features/asset_detail/valuation/presentation/manager/valuation_cubit.dart';
+import 'features/asset_see_more/core/data/data_sources/asset_see_more_remote_datasource.dart';
+import 'features/asset_see_more/core/data/repositories/asset_see_more_repository_impl.dart';
+import 'features/asset_see_more/core/domain/use_cases/get_asset_see_more_usecase.dart';
 import 'features/splash/data/repositories/splash_repository_impl.dart';
 import 'features/splash/domain/repositories/splash_repository.dart';
 import 'features/splash/domain/use_cases/check_login_usecase.dart';
@@ -330,7 +335,7 @@ Future<void> init() async {
       () => OtherAssetRemoteDataSourceImpl(sl()));
 
   // Add listed security
-  sl.registerFactory(() => ListedSecurityCubit(sl()));
+  sl.registerFactory(() => ListedSecurityCubit(sl(), sl()));
   sl.registerLazySingleton(() => AddListedSecurityUseCase(sl()));
   sl.registerLazySingleton<ListedSecurityRepository>(
       () => ListedSecurityRepositoryImpl(sl()));
@@ -407,6 +412,14 @@ Future<void> init() async {
       () => ScheduleCallRepositoryImpl(sl()));
   sl.registerLazySingleton<ScheduleCallRemoteDataSource>(
       () => ScheduleCallRemoteDataSourceImpl(sl()));
+
+  //AssetSeeMore
+  sl.registerFactory(() => AssetSeeMoreCubit(sl()));
+  sl.registerLazySingleton(() => GetSeeMoreUseCase(sl()));
+  sl.registerLazySingleton<AssetSeeMoreRepository>(
+      () => AssetSeeMoreRepositoryImpl(sl()));
+  sl.registerLazySingleton<AssetSeeMoreRemoteDataSource>(
+      () => AssetSeeMoreRemoteDataSourceImpl(sl()));
 
   await initExternal();
 }

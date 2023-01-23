@@ -6,6 +6,8 @@ import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/core/domain/entities/asset_summary_entity.dart';
+import 'package:wmd/features/asset_see_more/core/presentation/page/see_more_page.dart';
+import 'package:wmd/features/asset_see_more/core/presentation/widget/see_more_popup.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'as_of_date_widget.dart';
 import 'net_change_widget.dart';
@@ -17,9 +19,11 @@ class AsssetSummary extends AppStatelessWidget {
   final void Function()? onEdit;
   final Widget? child;
   final int days;
+  final String assetId;
   const AsssetSummary({
     required this.summary,
     required this.days,
+    required this.assetId,
     this.onEdit,
     this.child,
     Key? key,
@@ -36,62 +40,52 @@ class AsssetSummary extends AppStatelessWidget {
         children: [
           Text(summary.assetName, style: textTheme.headlineSmall),
           const SizedBox(height: 12),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     if (summary.assetClassName != null) Text(summary.assetClassName),
-          //     if (onEdit != null)
-          //       _buildEditButton(primaryColor, textTheme, context),
-          //   ],
-          // ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // if (summary.assetClassName != null) Text(summary.assetClassName),
+              if (onEdit != null)
+                InkWell(
+                  onTap: () {
+                    onEdit!();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(color: primaryColor),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(2))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(6),
+                      child: Text(
+                        appLocalizations.common_button_editDetails,
+                        style: textTheme.labelMedium!
+                            .apply(color: Theme.of(context).primaryColor),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
           if (child != null) child!,
           SummaryCardWidget(
-            holdings: summary.totalAssetsAmount,
+            summary: summary,
             days: days,
-            netChange: summary.netChange,
-            portfolioContribution: summary.dealContribution,
-            asOfDate: summary.date,
+            assetId: assetId,
           )
         ],
-      ),
-    );
-  }
-
-  InkWell _buildEditButton(
-      Color primaryColor, TextTheme textTheme, BuildContext context) {
-    return InkWell(
-      onTap: () {
-        onEdit!();
-      },
-      child: Container(
-        decoration: BoxDecoration(
-            border: Border.all(color: primaryColor),
-            borderRadius: const BorderRadius.all(Radius.circular(2))),
-        child: Padding(
-          padding: const EdgeInsets.all(6),
-          child: Text(
-            'Edit details',
-            style: textTheme.labelMedium!
-                .apply(color: Theme.of(context).primaryColor),
-          ),
-        ),
       ),
     );
   }
 }
 
 class SummaryCardWidget extends AppStatelessWidget {
-  final double holdings;
+  final AssetSummaryEntitiy summary;
   final int days;
-  final double netChange;
-  final double portfolioContribution;
-  final DateTime? asOfDate;
+  final String assetId;
   const SummaryCardWidget({
-    required this.holdings,
+    required this.summary,
     required this.days,
-    required this.netChange,
-    required this.portfolioContribution,
-    this.asOfDate,
+    required this.assetId,
     Key? key,
   }) : super(key: key);
 
@@ -101,6 +95,7 @@ class SummaryCardWidget extends AppStatelessWidget {
     final lineColor = Theme.of(context).dividerColor;
     final responsiveHelper = ResponsiveHelper(context: context);
     bool isMobile = responsiveHelper.isMobile;
+    // isMobile = true;
     final gap = responsiveHelper.bigger24Gap;
     return Container(
       width: double.maxFinite,
@@ -119,7 +114,7 @@ class SummaryCardWidget extends AppStatelessWidget {
               rowMainAxisAlignment: MainAxisAlignment.start,
               showRow: !isMobile,
               children: [
-                YourHoldingsWidget(holdings: holdings),
+                YourHoldingsWidget(holdings: summary.totalAssetsAmount),
                 !isMobile
                     ? Container(
                         margin: EdgeInsets.symmetric(
@@ -139,37 +134,52 @@ class SummaryCardWidget extends AppStatelessWidget {
                       ),
                 ExpandedIf(
                   expanded: !isMobile,
-                  child: RowOrColumn(
-                    showRow: !isMobile,
-                    columnCrossAxisAlignment: CrossAxisAlignment.start,
-                    rowCrossAxisAlignment: CrossAxisAlignment.end,
-                    rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
                     children: [
-                      if (isMobile)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: buildChildren(context, textTheme),
-                        ),
-                      if (!isMobile) ...buildChildren(context, textTheme),
-                      Padding(
-                        padding: isMobile
-                            ? const EdgeInsets.symmetric(vertical: 12)
-                            : const EdgeInsets.symmetric(vertical: 0),
-                        child: Builder(builder: (context) {
-                          if ((context.read<MainDashboardCubit>().state
-                              is MainDashboardNetWorthLoaded)) {
-                            return PortfolioContributionWidget(
-                                portfolioContribution: portfolioContribution,
-                                netWorth: (context
-                                        .read<MainDashboardCubit>()
-                                        .state as MainDashboardNetWorthLoaded)
-                                    .netWorthObj
-                                    .totalNetWorth
-                                    .currentValue);
-                          }
-                          return const SizedBox.shrink();
-                        }),
+                      if (!isMobile)
+                        _buildHeader(appLocalizations, textTheme, context),
+                      RowOrColumn(
+                        showRow: !isMobile,
+                        columnCrossAxisAlignment: CrossAxisAlignment.start,
+                        rowCrossAxisAlignment: CrossAxisAlignment.end,
+                        rowMainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          if (isMobile)
+                            Column(
+                              children: [
+                                _buildHeader(
+                                    appLocalizations, textTheme, context),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: buildChildren(context, textTheme),
+                                ),
+                              ],
+                            ),
+                          if (!isMobile) ...buildChildren(context, textTheme),
+                          Padding(
+                            padding: isMobile
+                                ? const EdgeInsets.symmetric(vertical: 12)
+                                : const EdgeInsets.symmetric(vertical: 0),
+                            child: Builder(builder: (context) {
+                              if ((context.read<MainDashboardCubit>().state
+                                  is MainDashboardNetWorthLoaded)) {
+                                return PortfolioContributionWidget(
+                                    portfolioContribution:
+                                        summary.dealContribution,
+                                    netWorth: (context
+                                                .read<MainDashboardCubit>()
+                                                .state
+                                            as MainDashboardNetWorthLoaded)
+                                        .netWorthObj
+                                        .totalNetWorth
+                                        .currentValue);
+                              }
+                              return const SizedBox.shrink();
+                            }),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -178,9 +188,45 @@ class SummaryCardWidget extends AppStatelessWidget {
             ),
           ),
           isMobile ? const SizedBox(height: 16) : const SizedBox(),
-          if (asOfDate != null) AsOfDateWidget(shownDate: asOfDate!),
+          if (summary.date != null) AsOfDateWidget(shownDate: summary.date),
         ],
       ),
+    );
+  }
+
+  Row _buildHeader(AppLocalizations appLocalizations, TextTheme textTheme,
+      BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          appLocalizations.assets_label_netChange,
+          style: textTheme.titleSmall,
+        ),
+        Builder(builder: (context) {
+          return const SizedBox();
+          if (AppConstants.publicMvp2Items) {
+            return TextButton(
+              onPressed: () {
+                showSeeMoreModal(
+                    context: context,
+                    child: SeeMorePage(
+                      id: assetId,
+                      type: summary.assetClassName,
+                    ));
+              },
+              child: Text(
+                '${appLocalizations.common_button_seeMore} >',
+                style: textTheme.labelSmall!.apply(
+                    color: Theme.of(context).primaryColor,
+                    decoration: TextDecoration.underline),
+              ),
+            );
+          }
+          return const SizedBox();
+        }),
+      ],
     );
   }
 
@@ -188,7 +234,7 @@ class SummaryCardWidget extends AppStatelessWidget {
     return [
       NetChangeWidget(
         days: days,
-        change: netChange,
+        change: summary.netChange,
       ),
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -209,7 +255,9 @@ class SummaryCardWidget extends AppStatelessWidget {
               )
             ],
           ),
-          const ChangeWidget(number: 60, text: "60.0%"),
+          ChangeWidget(
+              number: summary.ytdPerformance,
+              text: "${summary.ytdPerformance}%"),
         ],
       ),
       Column(
@@ -230,7 +278,9 @@ class SummaryCardWidget extends AppStatelessWidget {
               )
             ],
           ),
-          const ChangeWidget(number: 12.12, text: "12.12%"),
+          ChangeWidget(
+              number: summary.itdPerformance,
+              text: "${summary.itdPerformance}%"),
         ],
       ),
     ];

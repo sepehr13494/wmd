@@ -123,7 +123,7 @@ class _ContactInformationWidgetState
                                   Expanded(
                                     child: AppTextFields.simpleTextField(
                                         name: "phoneNumber",
-                                        hint: ".",
+                                        hint: "",
                                         type: TextFieldType.number,
                                         keyboardType: TextInputType.number,
                                         extraValidators: [
