@@ -123,7 +123,7 @@ class _ContactInformationWidgetState
                                   Expanded(
                                     child: AppTextFields.simpleTextField(
                                         name: "phoneNumber",
-                                        hint: ".",
+                                        hint: appLocalizations.profile_tabs_personal_fields_label_primaryPhoneNumber,
                                         type: TextFieldType.number,
                                         keyboardType: TextInputType.number,
                                         extraValidators: [
