@@ -13,9 +13,9 @@ import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_
 import '../../../../../core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import '../../data/model/other_asset_more_entity.dart';
 
-class OtherAssetDetailPage extends AppStatelessWidget {
+class OtherAssetMorePage extends AppStatelessWidget {
   final OtherAseetMoreEntity entity;
-  const OtherAssetDetailPage({super.key, required this.entity});
+  const OtherAssetMorePage({super.key, required this.entity});
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
