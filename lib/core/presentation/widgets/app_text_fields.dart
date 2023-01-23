@@ -38,7 +38,27 @@ enum TextFieldType { email, password, phone, simpleText, money, number, rate }
 class AppTextFields {
   AppTextFields._();
 
-  static FormBuilderTextField simpleTextField({
+  static FormBuilderDropdown dropDownTextField({
+    required final String name,
+    required final String hint,
+    final ValueChanged? onChanged,
+    required final List<DropdownMenuItem> items,
+    bool enabled = true,
+  }) {
+    return FormBuilderDropdown(
+      name: name,
+      enabled: enabled,
+      onChanged: onChanged,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      decoration: InputDecoration(
+        hintText: hint,
+      ),
+      items: items,
+      validator: FormBuilderValidators.required(),
+    );
+  }
+
+  static Widget simpleTextField({
     required String name,
     bool showTitle = false,
     TextFieldType type = TextFieldType.simpleText,
@@ -55,22 +75,81 @@ class AppTextFields {
     List<String? Function(String?)>? extraValidators,
     ValueChanged<String?>? onChanged,
   }) {
+    return SimpleTextField(
+        name:name,
+        showTitle:showTitle,
+        type:type,
+        formKey:key,
+        title:title,
+        hint:hint,
+        keyboardType:keyboardType,
+        minLines:minLines,
+        enabled:enabled,
+        obscureText:obscureText,
+        suffixIcon:suffixIcon,
+        required:required,
+        readOnly:readOnly,
+        extraValidators:extraValidators,
+        onChanged:onChanged,
+    );
+  }
+}
+
+class SimpleTextField extends AppStatelessWidget {
+  final String name;
+  final bool showTitle;
+  final TextFieldType type;
+  final GlobalKey<FormBuilderFieldState>? formKey;
+  final String? title;
+  final String? hint;
+  final TextInputType keyboardType;
+  final int? minLines;
+  final bool enabled;
+  final bool obscureText;
+  final Widget? suffixIcon;
+  final bool required;
+  final bool readOnly;
+  final List<String? Function(String?)>? extraValidators;
+  final ValueChanged<String?>? onChanged;
+
+  const SimpleTextField({
+    Key? key,
+    required this.name,
+    required this.showTitle,
+    required this.type,
+    this.formKey,
+    this.title,
+    this.hint,
+    this.keyboardType = TextInputType.text,
+    this.minLines,
+    this.enabled = true,
+    this.obscureText = false,
+    this.suffixIcon,
+    this.required = true,
+    this.readOnly = false,
+    this.extraValidators,
+    this.onChanged,
+  }) : super(key: key);
+
+  @override
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
     final validators = <String? Function(String?)>[];
     if (extraValidators != null) {
-      validators.addAll(extraValidators);
+      validators.addAll(extraValidators!);
     }
     if (required) {
       validators.add(FormBuilderValidators.required(
           errorText:
-              title != null ? 'Please enter ${title.toLowerCase()}' : null));
+          title != null ? 'Please enter ${title!.toLowerCase()}' : appLocalizations.common_errors_required));
     }
     switch (type) {
       case TextFieldType.email:
         validators.add(FormBuilderValidators.email());
         break;
       case TextFieldType.password:
-        // validators.add(FormBuilderValidators.minLength(8));
-        // validators.add(AppFormValidators.validatePassword());
+      // validators.add(FormBuilderValidators.minLength(8));
+      // validators.add(AppFormValidators.validatePassword());
         break;
       case TextFieldType.phone:
         break;
@@ -117,7 +196,7 @@ class AppTextFields {
     );
   }
 
-  static String? _getAutofillHint(TextFieldType type) {
+  String? _getAutofillHint(TextFieldType type) {
     switch (type) {
       case TextFieldType.email:
         return AutofillHints.email;
@@ -135,31 +214,12 @@ class AppTextFields {
         return null;
     }
   }
-
-  static FormBuilderDropdown dropDownTextField({
-    required final String name,
-    required final String hint,
-    final ValueChanged? onChanged,
-    required final List<DropdownMenuItem> items,
-    bool enabled = true,
-  }) {
-    return FormBuilderDropdown(
-      name: name,
-      enabled: enabled,
-      onChanged: onChanged,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      decoration: InputDecoration(
-        hintText: hint,
-      ),
-      items: items,
-      validator: FormBuilderValidators.required(),
-    );
-  }
 }
 
 class CurrenciesDropdown extends StatefulWidget {
   final ValueChanged<Currency?>? onChanged;
   final bool showExchange;
+
   const CurrenciesDropdown(
       {Key? key, this.onChanged, this.showExchange = false})
       : super(key: key);
@@ -220,6 +280,7 @@ class _CurrenciesDropdownState extends State<CurrenciesDropdown> {
 
 class CountriesDropdown extends StatelessWidget {
   final ValueChanged<Country?>? onChanged;
+
   const CountriesDropdown({Key? key, this.onChanged}) : super(key: key);
 
   @override
@@ -298,6 +359,7 @@ class FormBuilderTypeAhead extends StatefulWidget {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final List<String? Function(String?)>? extraValidators;
+
   const FormBuilderTypeAhead(
       {Key? key,
       required this.name,
