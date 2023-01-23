@@ -6,16 +6,16 @@ import 'package:wmd/features/asset_see_more/core/data/models/get_asset_see_more_
 
 class BankAccountMoreEntity extends GetSeeMoreResponse {
   BankAccountMoreEntity({
-    required this.category,
-    required this.units,
-    required this.acquisitionCost,
-    required this.ownerShip,
-    required this.valuePerUnit,
-    required this.currentDayValue,
-    required this.name,
-    required this.wealthManager,
-    required this.acquisitionDate,
-    required this.valuationDate,
+    required this.bankName,
+    required this.description,
+    required this.accountType,
+    required this.currentBalance,
+    required this.isJointAccount,
+    required this.noOfCoOwners,
+    required this.ownershipPercentage,
+    required this.interestRate,
+    this.startDate,
+    this.endDate,
     required this.id,
     required this.type,
     required this.isActive,
@@ -27,20 +27,21 @@ class BankAccountMoreEntity extends GetSeeMoreResponse {
     required this.yearToDate,
     required this.inceptionToDate,
     required this.asOfDate,
+    this.subType,
   });
 
-  final String name;
-  final String wealthManager;
-  final double category;
-  final double units;
-  final double acquisitionCost;
-  final DateTime acquisitionDate;
-  final DateTime valuationDate;
-  final double ownerShip;
-  final double valuePerUnit;
-  final double currentDayValue;
+  final String bankName;
+  final String description;
+  final int accountType;
+  final double currentBalance;
+  final bool isJointAccount;
+  final int noOfCoOwners;
+  final double ownershipPercentage;
+  final double interestRate;
+  final DateTime? startDate;
+  final DateTime? endDate;
   final String id;
-  final double type;
+  final int type;
   final bool isActive;
   final String country;
   final String region;
@@ -50,14 +51,15 @@ class BankAccountMoreEntity extends GetSeeMoreResponse {
   final double yearToDate;
   final double inceptionToDate;
   final DateTime asOfDate;
+  final String? subType;
 
   factory BankAccountMoreEntity.fromJson(Map<String, dynamic> json) =>
       BankAccountMoreEntity(
-        name: json["name"],
-        acquisitionDate: DateTime.parse(json["acquisitionDate"]),
-        valuationDate: DateTime.parse(json["valuationDate"]),
+        bankName: json["bankName"],
+        description: json["description"],
+        type: json["type"],
         id: json["id"],
-        type: double.tryParse(json["type"].toString()) ?? 0,
+        accountType: json["accountType"],
         isActive: json["isActive"],
         country: json["country"],
         region: json["region"],
@@ -69,27 +71,25 @@ class BankAccountMoreEntity extends GetSeeMoreResponse {
         inceptionToDate:
             double.tryParse(json["inceptionToDate"].toString()) ?? 0,
         asOfDate: DateTime.parse(json["asOfDate"]),
-        wealthManager: json["wealthManager"],
-        category: double.tryParse(json["category"].toString()) ?? 0,
-        units: double.tryParse(json["units"].toString()) ?? 0,
-        acquisitionCost: json["acquisitionCost"],
-        ownerShip: double.tryParse(json["ownerShip"].toString()) ?? 0,
-        valuePerUnit: double.tryParse(json["valuePerUnit"].toString()) ?? 0,
-        currentDayValue:
-            double.tryParse(json["currentDayValue"].toString()) ?? 0,
+        currentBalance: double.tryParse(json["currentBalance"].toString()) ?? 0,
+        interestRate: double.tryParse(json["interestRate"].toString()) ?? 0,
+        isJointAccount: json["isJointAccount"],
+        noOfCoOwners: json["noOfCoOwners"],
+        ownershipPercentage:
+            double.tryParse(json["ownershipPercentage"].toString()) ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
-        "name": name,
-        "wealthManager": wealthManager,
-        "category": category,
-        "units": units,
-        "acquisitionCost": acquisitionCost,
-        "acquisitionDate": acquisitionDate.toIso8601String(),
-        "valuationDate": valuationDate.toIso8601String(),
-        "ownerShip": ownerShip,
-        "valuePerUnit": valuePerUnit,
-        "currentDayValue": currentDayValue,
+        "bankName": bankName,
+        "description": description,
+        "accountType": accountType,
+        "currentBalance": currentBalance,
+        "isJointAccount": isJointAccount,
+        "noOfCoOwners": noOfCoOwners,
+        "ownershipPercentage": ownershipPercentage,
+        "interestRate": interestRate,
+        "startDate": startDate,
+        "endDate": endDate,
         "id": id,
         "type": type,
         "isActive": isActive,
@@ -101,5 +101,6 @@ class BankAccountMoreEntity extends GetSeeMoreResponse {
         "yearToDate": yearToDate,
         "inceptionToDate": inceptionToDate,
         "asOfDate": asOfDate.toIso8601String(),
+        "subType": subType,
       };
 }

@@ -4,6 +4,8 @@ import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/asset_see_more/bank_account/data/model/bank_account_more_entity.dart';
+import 'package:wmd/features/asset_see_more/bank_account/presentation/page/bank_account_more_page.dart';
 import 'package:wmd/features/asset_see_more/core/data/models/get_asset_see_more_params.dart';
 import 'package:wmd/features/asset_see_more/other_asset/data/model/other_asset_more_entity.dart';
 import 'package:wmd/features/asset_see_more/other_asset/presentation/page/other_asset_more_page.dart';
@@ -34,6 +36,10 @@ class SeeMorePage extends AppStatelessWidget {
           builder: (context, state) {
             if (state is GetSeeMoreLoaded) {
               switch (type) {
+                case AssetTypes.bankAccount:
+                  return BankAccountMorePage(
+                      entity:
+                          state.getAssetSeeMoreEntity as BankAccountMoreEntity);
                 case AssetTypes.otherAsset:
                   return OtherAssetMorePage(
                       entity:

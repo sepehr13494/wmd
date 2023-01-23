@@ -32,50 +32,50 @@ class BankAccountMorePage extends AppStatelessWidget {
           entity.country,
     );
 
-    var type = TitleSubtitle(
+    final type = TitleSubtitle(
       title: appLocalizations.assets_seeMore_labels_type,
-      subTitle: entity.type.toString(),
+      subTitle: entity.accountType.toString(),
     );
-    var acquisCost = TitleSubtitle(
-        title: appLocalizations.assets_seeMore_labels_acquisitionCost,
-        subTitle: entity.acquisitionCost.toString());
-    var acquisDate = TitleSubtitle(
-        title: appLocalizations.assets_seeMore_labels_acquisitionDate,
-        subTitle:
-            CustomizableDateTime.localizedDdMmYyyy(entity.acquisitionDate));
-    var currentValue = TitleSubtitle(
-        title: appLocalizations.assets_seeMore_labels_currentTotalValue,
+    final bankName = TitleSubtitle(
+      title: '*Bank name',
+      subTitle: entity.bankName,
+    );
+    final currency = TitleSubtitle(
+      title: '*Currency',
+      subTitle: entity.currencyCode,
+    );
+
+    final currentBalance = TitleSubtitle(
+        title: '*Currency balance',
+        subTitle: entity.currentBalance.convertMoney(addDollar: true));
+    final interestRate = TitleSubtitle(
+        title: '*interestRate', subTitle: '${entity.interestRate}%');
+    final startingBalance = TitleSubtitle(
+        title: '*Starting balance',
         subTitle: entity.holdings.convertMoney(addDollar: true));
-    var ownerShip = TitleSubtitle(
-        title: appLocalizations.assets_label_ownership,
-        subTitle: '${entity.ownerShip}%');
-    var ownerShipBasedValue = TitleSubtitle(
-        title: appLocalizations.assets_label_ownershipBased,
-        subTitle: entity.holdings.convertMoney(addDollar: true));
-    var assetClass = TitleSubtitle(
+
+    final assetClass = TitleSubtitle(
         title: appLocalizations.assets_seeMore_labels_assetClass,
         subTitle: AssetsOverviewChartsColors.getAssetType(
             appLocalizations, AssetTypes.otherAsset));
-    var assetClassContr = TitleSubtitle(
+
+    final assetClassContr = TitleSubtitle(
         title: appLocalizations.assets_seeMore_labels_assetClassContribution,
-        subTitle: 'Not data');
-    var portfolioCont = TitleSubtitle(
+        subTitle: '*Not data');
+    final portfolioCont = TitleSubtitle(
         title: appLocalizations.assets_seeMore_labels_portfolioContribution,
         subTitle:
             '${entity.portfolioContribution}% of ${netWorth.convertMoney(addDollar: true)}');
-    var accountAddded = TitleSubtitle(
+    final accountAddded = TitleSubtitle(
         title: appLocalizations.assets_seeMore_labels_accountAdded,
-        subTitle: CustomizableDateTime.localizedDdMmYyyy(entity.valuationDate));
-    var ytd = TitleChangeSubtitle(
-      title: appLocalizations.assets_seeMore_labels_ytd,
-      subTitle: entity.holdings.convertMoney(addDollar: true),
+        subTitle: CustomizableDateTime.localizedDdMmYyyy(entity.asOfDate));
+    final netChange = TitleChangeSubtitle(
+      bigTitle: '*Net change',
+      title: '*Last 30 days',
+      subTitle: entity.currentBalance.convertMoney(addDollar: true),
       value: 12,
     );
-    var itd = TitleChangeSubtitle(
-      title: appLocalizations.assets_seeMore_labels_itd,
-      subTitle: entity.holdings.convertMoney(addDollar: true),
-      value: 12,
-    );
+
     final gap = ResponsiveHelper(context: context).bigger24Gap;
     final dividerGap = gap * 1.8;
     return Padding(
@@ -83,7 +83,7 @@ class BankAccountMorePage extends AppStatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(entity.name, style: textTheme.titleLarge),
+          Text(entity.bankName, style: textTheme.titleLarge),
           const SizedBox(height: 24),
           Text(appLocalizations.assets_seeMore_labels_basicDetails,
               style: textTheme.bodyLarge),
@@ -92,13 +92,13 @@ class BankAccountMorePage extends AppStatelessWidget {
             runSpacing: 16,
             spacing: gap,
             children: [
+              bankName,
               country,
+              currency,
               type,
-              acquisCost,
-              acquisDate,
-              currentValue,
-              ownerShip,
-              ownerShipBasedValue
+              startingBalance,
+              currentBalance,
+              interestRate,
             ],
           ),
           Divider(
@@ -121,7 +121,7 @@ class BankAccountMorePage extends AppStatelessWidget {
           Wrap(
             runSpacing: 16,
             spacing: gap,
-            children: [ytd, itd],
+            children: [netChange],
           ),
           Divider(
             height: dividerGap,
