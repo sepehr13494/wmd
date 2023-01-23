@@ -17,7 +17,7 @@ extension NumExt on num {
 
   String get formatNumber {
     return NumberFormat.compactCurrency(
-      decimalDigits: 2,
+      decimalDigits: 1,
       symbol:
           '', // if you want to add currency symbol then pass that in this else leave it empty.
     ).format(this);
