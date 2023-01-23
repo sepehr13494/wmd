@@ -13,9 +13,9 @@ import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_
 
 import '../../data/model/real_estate_more_entity.dart';
 
-class RealEstateDetailPage extends AppStatelessWidget {
+class RealEstateMorePage extends AppStatelessWidget {
   final RealEstateMoreEntity entity;
-  const RealEstateDetailPage({super.key, required this.entity});
+  const RealEstateMorePage({super.key, required this.entity});
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
