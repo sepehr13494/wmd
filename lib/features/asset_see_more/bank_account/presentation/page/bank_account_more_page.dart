@@ -37,21 +37,21 @@ class BankAccountMorePage extends AppStatelessWidget {
       subTitle: entity.accountType.toString(),
     );
     final bankName = TitleSubtitle(
-      title: '*Bank name',
+      title: 'Bank name',
       subTitle: entity.bankName,
     );
     final currency = TitleSubtitle(
-      title: '*Currency',
+      title: 'Currency',
       subTitle: entity.currencyCode,
     );
 
     final currentBalance = TitleSubtitle(
-        title: '*Currency balance',
+        title: 'Currency balance',
         subTitle: entity.currentBalance.convertMoney(addDollar: true));
     final interestRate = TitleSubtitle(
-        title: '*interestRate', subTitle: '${entity.interestRate}%');
+        title: 'interestRate', subTitle: '${entity.interestRate}%');
     final startingBalance = TitleSubtitle(
-        title: '*Starting balance',
+        title: 'Starting balance',
         subTitle: entity.holdings.convertMoney(addDollar: true));
 
     final assetClass = TitleSubtitle(
@@ -61,7 +61,7 @@ class BankAccountMorePage extends AppStatelessWidget {
 
     final assetClassContr = TitleSubtitle(
         title: appLocalizations.assets_seeMore_labels_assetClassContribution,
-        subTitle: '*Not data');
+        subTitle: 'Not data');
     final portfolioCont = TitleSubtitle(
         title: appLocalizations.assets_seeMore_labels_portfolioContribution,
         subTitle:
@@ -70,8 +70,8 @@ class BankAccountMorePage extends AppStatelessWidget {
         title: appLocalizations.assets_seeMore_labels_accountAdded,
         subTitle: CustomizableDateTime.localizedDdMmYyyy(entity.asOfDate));
     final netChange = TitleChangeSubtitle(
-      bigTitle: '*Net change',
-      title: '*Last 30 days',
+      bigTitle: 'Net change',
+      title: 'Last 30 days',
       subTitle: entity.currentBalance.convertMoney(addDollar: true),
       value: 12,
     );
