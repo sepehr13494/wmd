@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:restart_app/restart_app.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
-import 'package:wmd/core/presentation/routes/app_routes.dart';
+import 'package:wmd/core/util/app_restart.dart';
 import 'package:wmd/core/util/loading/loading_screen.dart';
 import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_base_state.dart';
@@ -77,7 +75,7 @@ class AssetBlocHelper extends BlocHelper {
             case ExceptionType.auth:
               GlobalFunctions.showSnackBar(context, state.failure.message);
               sl<LocalStorage>().logout();
-              Restart.restartApp();
+              AppRestart.restart(context);
               break;
           }
         } else {

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:restart_app/restart_app.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
+import 'package:wmd/core/util/app_restart.dart';
 import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
@@ -63,15 +62,15 @@ class BlocHelper {
             case ExceptionType.auth:
               GlobalFunctions.showSnackBar(context, state.failure.message);
               sl<LocalStorage>().logout();
-              Restart.restartApp();
+              AppRestart.restart(context);
               break;
           }
-        }else{
+        } else {
           GlobalFunctions.showSnackBar(context, state.failure.message,
               color: Colors.red[800], type: "error");
         }
       } else {
-        if(state is SuccessState){
+        if (state is SuccessState) {
           debugPrint(state.appSuccess.message);
         }
         LoadingOverlay().hide();

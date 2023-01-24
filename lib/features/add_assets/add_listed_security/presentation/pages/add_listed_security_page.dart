@@ -87,8 +87,15 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    return BlocProvider(
-      create: (context) => sl<ListedSecurityCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => sl<ListedSecurityCubit>(),
+        ),
+        // BlocProvider(
+        //   create: (context) => sl<ListedSecurityCubit>()..getListedSecurity(""),
+        // )
+      ],
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: const AddAssetHeader(title: "", showExitModal: true),
