@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
@@ -44,7 +45,7 @@ Future<void> main() async {
     },
     appRunner: () => runApp(const MyApp()),
   );*/
-  runApp(const MyApp());
+  runApp(Phoenix(child: const MyApp()));
 }
 
 envInitConfig(env) {

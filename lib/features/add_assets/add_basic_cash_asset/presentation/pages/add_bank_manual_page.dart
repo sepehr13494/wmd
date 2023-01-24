@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:intl/intl.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
@@ -125,10 +126,11 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
               title: appLocalizations
                   .assetLiabilityForms_forms_bankAccount_inputFields_startDate_label,
               child: FormBuilderDateTimePicker(
-                inputType: InputType.date,
                 validator: FormBuilderValidators.required(),
                 name: "startDate",
                 lastDate: DateTime.now(),
+                inputType: InputType.date,
+                format: DateFormat("dd/MM/yyyy"),
                 onChanged: checkFinalValid,
                 decoration: InputDecoration(
                     suffixIcon: Icon(
