@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/empty_chart.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/line_chart.dart';
 import '../manager/dashboard_charts_cubit.dart';
@@ -90,7 +91,36 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
                             })
                           ],
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 4),
+                        barChart
+                            ? Builder(
+                              builder: (context) {
+                                final items = [
+                                  [appLocalizations.home_dashboardCharts_legendLabel_netWorth,AppColors.chartColor],
+                                  [appLocalizations.home_dashboardCharts_legendLabel_assets,AppColors.chartColor],
+                                  [appLocalizations.home_dashboardCharts_legendLabel_liability,AppColors.redChartColor],
+                                ];
+                                return Row(
+                          children: List.generate(3, (index) {
+                                final item = items[index];
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        height: index == 0 ? 1 : 8,
+                                        width: index == 0 ? 12 :  8,
+                                        color: item[1] as Color,
+                                      ),
+                                      const SizedBox(width: 4),
+                                      Text(item[0].toString(),style: textTheme.bodySmall,)
+                                    ],
+                                  ),
+                                );
+                          }),
+                        );
+                              }
+                            ) : const SizedBox(),
                         AspectRatio(
                           aspectRatio:
                               ResponsiveHelper(context: context).isMobile

@@ -144,7 +144,7 @@ class PieChart2State extends AppState {
                                         ),
                                         const SizedBox(width: 24),
                                         Text(
-                                          "${pieEntity.percentage} %",
+                                          "${pieEntity.percentage.toStringAsFixed(1)} %",
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall!

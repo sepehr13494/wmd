@@ -6,6 +6,7 @@ import 'package:wmd/core/data/repository/app_data_source.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/models/app_request_options.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/asset_see_more/bank_account/data/model/bank_account_more_entity.dart';
 import 'package:wmd/features/asset_see_more/other_asset/data/model/other_asset_more_entity.dart';
 import 'package:wmd/features/asset_see_more/real_estate/data/model/real_estate_more_entity.dart';
 
@@ -39,6 +40,9 @@ class AssetSeeMoreRemoteDataSourceImpl extends AppServerDataSource
           break;
         case AssetTypes.otherAsset:
           result = OtherAseetMoreEntity.fromJson(response);
+          break;
+        case AssetTypes.bankAccount:
+          result = BankAccountMoreEntity.fromJson(response);
           break;
         default:
           // result = RealEstateMoreEntity.fromJson(response);

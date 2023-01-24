@@ -10,7 +10,8 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/widget/custodian_auth_status_modal.dart';
 
 class BanksAuthorizationProcess extends StatefulWidget {
-  const BanksAuthorizationProcess({super.key});
+  final bool initiallyExpanded;
+  const BanksAuthorizationProcess({super.key, required this.initiallyExpanded});
 
   @override
   AppState<BanksAuthorizationProcess> createState() =>
@@ -20,6 +21,12 @@ class BanksAuthorizationProcess extends StatefulWidget {
 class _BanksAuthorizationProcessState
     extends AppState<BanksAuthorizationProcess> {
   bool isExpanded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isExpanded = widget.initiallyExpanded;
+  }
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
