@@ -251,45 +251,45 @@ class AppRouter {
                       name: AppRoutes.addBankAutoPage,
                       path: "add_auto_bank",
                       builder: (BuildContext context, GoRouterState state) {
-                        return const AddBankAutoPage();
+                        return addAssetMainBlocProvider(child: const AddBankAutoPage());
                       },
                     ),
                     GoRoute(
                       name: AppRoutes.addPrivateEquity,
                       path: "add_private_equity",
                       builder: (BuildContext context, GoRouterState state) {
-                        return const AddPrivateEquityPage();
+                        return addAssetMainBlocProvider(child: const AddPrivateEquityPage());
                       },
                     ),
                     GoRoute(
                         name: AppRoutes.addPrivateDebt,
                         path: "add_private_debt",
                         builder: (BuildContext context, GoRouterState state) {
-                          return const AddPrivateDebtPage();
+                          return addAssetMainBlocProvider(child: const AddPrivateDebtPage());
                         }),
                     GoRoute(
                         name: AppRoutes.addRealEstate,
                         path: "add_real_estate",
                         builder: (BuildContext context, GoRouterState state) {
-                          return const AddRealEstatePage();
+                          return addAssetMainBlocProvider(child: const AddRealEstatePage());
                         }),
                     GoRoute(
                         name: AppRoutes.addOther,
                         path: "add_other",
                         builder: (BuildContext context, GoRouterState state) {
-                          return const AddOtherAssetPage();
+                          return addAssetMainBlocProvider(child: const AddOtherAssetPage());
                         }),
                     GoRoute(
                         name: AppRoutes.addListedAsset,
                         path: "add_listed_asset",
                         builder: (BuildContext context, GoRouterState state) {
-                          return const AddListedSecurityPage();
+                          return addAssetMainBlocProvider(child: const AddListedSecurityPage());
                         }),
                     GoRoute(
                         name: AppRoutes.addLiability,
                         path: "add_liability",
                         builder: (BuildContext context, GoRouterState state) {
-                          return const AddLoanLiabilityPage();
+                          return addAssetMainBlocProvider(child: const AddLoanLiabilityPage());
                         }),
                   ]),
             ]),
