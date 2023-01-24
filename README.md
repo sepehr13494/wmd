@@ -3,6 +3,7 @@ socials sign in ios config
 https://pub.dev/packages/google_sign_in
 https://pub.dev/packages/twitter_login
 https://pub.dev/packages/sign_in_with_apple
+https://pub.dev/packages/local_auth
 
 deeplink ios config  
 https://docs.flutter.dev/development/ui/navigation/deep-linking

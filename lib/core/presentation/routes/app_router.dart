@@ -23,19 +23,18 @@ import 'package:wmd/features/dashboard/onboarding/presentation/pages/onboarding_
 import 'package:wmd/features/help/support/presentation/pages/schedule_call_page.dart';
 import 'package:wmd/features/help/support/presentation/pages/support_page.dart';
 import 'package:wmd/features/main_page/presentation/pages/main_page.dart';
-import 'package:wmd/features/splash/presentation/pages/splash_page.dart';
 import 'package:wmd/features/profile/core/presentation/pages/profile_page.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
     routes: <GoRoute>[
-      GoRoute(
+      /*GoRoute(
         name: AppRoutes.splash,
         path: "/",
         builder: (BuildContext context, GoRouterState state) {
           return const SplashPage();
         },
-      ),
+      ),*/
       GoRoute(
         name: AppRoutes.resetPassword,
         path: "/password/update",
@@ -45,7 +44,7 @@ class AppRouter {
       ),
       GoRoute(
           name: AppRoutes.welcome,
-          path: "/welcome",
+          path: "/",
           builder: (BuildContext context, GoRouterState state) {
             return const WelcomePage();
           },
