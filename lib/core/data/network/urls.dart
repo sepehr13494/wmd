@@ -29,6 +29,9 @@ class AppUrls {
   static String faqsContent = "${contentBase}faqs";
   static String postInquiry = "${wealthBase}Inquiry";
   static String postScheduleCall = "${contentBase}portfolio/meetings/schedule";
+  static String postVerifyPhone = "${contentBase}portfolio/meetings/schedule";
+  static String postResendVerifyPhone =
+      "${contentBase}portfolio/meetings/schedule";
 
   static String postBankDetails = "${wealthBase}BankAccount";
   static String postPrivateEquity = "${wealthBase}PrivateEquity";

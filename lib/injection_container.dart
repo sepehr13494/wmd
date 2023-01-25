@@ -134,6 +134,12 @@ import 'package:wmd/features/profile/profile_reset_password/data/repositories/pr
 import 'package:wmd/features/profile/profile_reset_password/domain/repositories/profile_reset_password_repository.dart';
 import 'package:wmd/features/profile/profile_reset_password/domain/use_cases/reset_usecase.dart';
 import 'package:wmd/features/profile/profile_reset_password/presentation/manager/profile_reset_password_cubit.dart';
+import 'package:wmd/features/profile/verify_phone/data/data_sources/verify_phone_remote_datasource.dart';
+import 'package:wmd/features/profile/verify_phone/data/repositories/verify_phone_repository_impl.dart';
+import 'package:wmd/features/profile/verify_phone/domain/repositories/verify_phone_repository.dart';
+import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_resend_verify_phone_usecase.dart';
+import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_verify_phone_usecase.dart';
+import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
 import 'core/data/network/network_helper.dart';
 import 'core/data/network/server_request_manager.dart';
 import 'core/util/app_localization.dart';
@@ -379,6 +385,15 @@ Future<void> init() async {
   sl.registerLazySingleton<FaqRepository>(() => FaqRepositoryImpl(sl()));
   sl.registerLazySingleton<FaqRemoteDataSource>(
       () => FaqRemoteDataSourceImpl(sl()));
+
+  //profile phone verify
+  sl.registerFactory(() => VerifyPhoneCubit(sl(), sl()));
+  sl.registerLazySingleton(() => PostVerifyPhoneUseCase(sl()));
+  sl.registerLazySingleton(() => PostResendVerifyPhoneUseCase(sl()));
+  sl.registerLazySingleton<VerifyPhoneRepository>(
+      () => VerifyPhoneRepositoryImpl(sl()));
+  sl.registerLazySingleton<VerifyPhoneRemoteDataSource>(
+      () => VerifyPhoneRemoteDataSourceImpl(sl()));
 
   //Valuation
   sl.registerFactory(() => ValuationCubit(sl(), sl()));
