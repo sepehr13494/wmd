@@ -4,6 +4,8 @@ import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/app_localization.dart';
+import 'package:wmd/core/util/local_auth_manager.dart';
+import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/profile/core/presentation/widgets/language_bottom_sheet.dart';
 import 'package:wmd/features/profile/personal_information/presentation/widgets/personal_imformation_widget.dart';
@@ -21,101 +23,125 @@ class ProfilePage extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     final appTheme = Theme.of(context);
     return BlocProvider(
-  create: (context) => sl<PersonalInformationCubit>()..getName(),
-  child: Builder(builder: (context) {
-      return BlocListener<PersonalInformationCubit, PersonalInformationState>(
-        listener:
-            BlocHelper.defaultBlocListener(listener: (context, state) {}),
-        child: Scaffold(
-            appBar: AddAssetHeader(
-              title: appLocalizations.profile_tabs_heading,
-              considerFirstTime: false,
-            ),
-            body: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(vertical: 32),
-              child: Theme(
-                data: Theme.of(context).copyWith(
-                  outlinedButtonTheme: OutlinedButtonThemeData(
-                    style: appTheme.outlinedButtonTheme.style!.copyWith(
-                        minimumSize:
-                            MaterialStateProperty.all(const Size(0, 38))),
+      create: (context) => sl<PersonalInformationCubit>()..getName(),
+      child: Builder(builder: (context) {
+        return BlocListener<PersonalInformationCubit, PersonalInformationState>(
+          listener:
+              BlocHelper.defaultBlocListener(listener: (context, state) {}),
+          child: Scaffold(
+              appBar: AddAssetHeader(
+                title: appLocalizations.profile_tabs_heading,
+                considerFirstTime: false,
+              ),
+              body: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(vertical: 32),
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    outlinedButtonTheme: OutlinedButtonThemeData(
+                      style: appTheme.outlinedButtonTheme.style!.copyWith(
+                          minimumSize:
+                              MaterialStateProperty.all(const Size(0, 38))),
+                    ),
                   ),
-                ),
-                child: Column(
-                  children: [
-                    const PersonalInformationWidget(),
-                    const Divider(height: 48),
-                    const ContactInformationWidget(),
-                    const Divider(height: 48),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(appLocalizations.profile_tabs_preferences_heading,
-                            style: textTheme.titleMedium),
-                        Text(appLocalizations.profile_tabs_preferences_subHeading,
-                            style: textTheme.bodyMedium),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              context.read<LocalizationManager>().getName(),
-                              style: textTheme.bodyMedium!
-                                  .apply(color: textTheme.bodyLarge!.color!),
-                            ),
-                            OutlinedButton(
-                                onPressed: () {
-                                  showModalBottomSheet(
-                                    isScrollControlled: true,
-                                      context: context,
-                                      builder: (context) {
-                                        return const LanguageBottomSheet();
-                                      });
-                                },
-                                child: Text(appLocalizations.profile_tabs_preferences_button_applyChanges))
-                          ],
+                  child: Column(
+                    children: [
+                      const PersonalInformationWidget(),
+                      const Divider(height: 48),
+                      const ContactInformationWidget(),
+                      const Divider(height: 48),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                              appLocalizations.profile_tabs_preferences_heading,
+                              style: textTheme.titleMedium),
+                          Text(
+                              appLocalizations
+                                  .profile_tabs_preferences_subHeading,
+                              style: textTheme.bodyMedium),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                context.read<LocalizationManager>().getName(),
+                                style: textTheme.bodyMedium!
+                                    .apply(color: textTheme.bodyLarge!.color!),
+                              ),
+                              OutlinedButton(
+                                  onPressed: () {
+                                    showModalBottomSheet(
+                                        isScrollControlled: true,
+                                        context: context,
+                                        builder: (context) {
+                                          return const LanguageBottomSheet();
+                                        });
+                                  },
+                                  child: Text(appLocalizations
+                                      .profile_tabs_preferences_button_applyChanges))
+                            ],
+                          ),
+                        ]
+                            .map((e) => Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 16),
+                                  child: e,
+                                ))
+                            .toList(),
+                      ),
+                      const Divider(height: 48),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                              appLocalizations
+                                  .profile_changePassword_text_password,
+                              style: textTheme.titleMedium),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                appLocalizations
+                                    .profile_changePassword_text_password,
+                                style: textTheme.bodyMedium!
+                                    .apply(color: textTheme.bodyLarge!.color!),
+                              ),
+                              OutlinedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ProfileRestPasswordPage(),
+                                        ));
+                                  },
+                                  child: Text(appLocalizations
+                                      .profile_changePassword_heading))
+                            ],
+                          ),
+                        ]
+                            .map((e) => Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 16),
+                                  child: e,
+                                ))
+                            .toList(),
+                      ),
+                      const Divider(height: 48),
+                      BlocProvider(
+                        create: (context) => sl<LocalAuthManager>()..getLocalAuth(),
+                        child: Builder(
+                          builder: (context) {
+                            return SwitchListTile.adaptive(
+                              value: context.watch<LocalAuthManager>().state,
+                              onChanged: (val) async {
+                                context.read<LocalAuthManager>().setLocalAuth(val, context);
+                              },
+                              title: Text("local auth"),
+                            );
+                          }
                         ),
-                      ]
-                          .map((e) => Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 16),
-                                child: e,
-                              ))
-                          .toList(),
-                    ),
-                    const Divider(height: 48),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(appLocalizations.profile_changePassword_text_password, style: textTheme.titleMedium),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              appLocalizations.profile_changePassword_text_password,
-                              style: textTheme.bodyMedium!
-                                  .apply(color: textTheme.bodyLarge!.color!),
-                            ),
-                            OutlinedButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ProfileRestPasswordPage(),
-                                      ));
-                                },
-                                child: Text(appLocalizations.profile_changePassword_heading))
-                          ],
-                        ),
-                      ]
-                          .map((e) => Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 16),
-                                child: e,
-                              ))
-                          .toList(),
-                    ),
-                    /*const Divider(height: 48),
+                      )
+                      /*const Divider(height: 48),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -145,12 +171,12 @@ class ProfilePage extends AppStatelessWidget {
                               ))
                           .toList(),
                     ),*/
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            )),
-      );
-    }),
-);
+              )),
+        );
+      }),
+    );
   }
 }

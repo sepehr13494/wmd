@@ -429,7 +429,7 @@ Future<void> initUtils() async{
   //localization_manager
   sl.registerFactory(() => LocalizationManager(sl()));
   //local_auth_manager
-  sl.registerLazySingleton<LocalAuthManager>(() => LocalAuthManager(sl()));
+  sl.registerFactory(() => LocalAuthManager(sl()));
 }
 
 Future<void> initExternal() async {

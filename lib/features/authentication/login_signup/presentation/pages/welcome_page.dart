@@ -17,6 +17,7 @@ import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/util/local_auth_manager.dart';
+import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/video_player_widget/video_player_widget.dart';
 import 'package:wmd/features/splash/presentation/manager/splash_cubit.dart';
@@ -45,15 +46,19 @@ class WelcomePage extends AppStatelessWidget {
                 listener: (context, state) async {
                   if (state is SplashLoaded) {
                     if (state.isLogin) {
-                      final bool didAuth = await sl<LocalAuthManager>()
-                          .authenticate(context);
-                      if (didAuth) {
-                        // ignore: use_build_context_synchronously
-                        //context.goNamed(AppRoutes.main);
-                      } else {
-                        // ignore: use_build_context_synchronously
-                        GlobalFunctions.showSnackBar(
-                            context, "local auth failed");
+                      if(sl<LocalStorage>().getLocalAuth()){
+                        final bool didAuth = await sl<LocalAuthManager>()
+                            .authenticate(context);
+                        if (didAuth) {
+                          // ignore: use_build_context_synchronously
+                          context.goNamed(AppRoutes.main);
+                        } else {
+                          // ignore: use_build_context_synchronously
+                          GlobalFunctions.showSnackBar(
+                              context, "local auth failed");
+                        }
+                      }else{
+                        context.goNamed(AppRoutes.login);
                       }
                     }
                   }
