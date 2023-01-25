@@ -184,7 +184,7 @@ class AppRouter {
                     },
                   ),
                 ],
-                child: MainPage(),
+                child: const MainPage(),
               );
             },
             routes: [
