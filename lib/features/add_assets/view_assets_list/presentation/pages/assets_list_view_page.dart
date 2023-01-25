@@ -318,7 +318,8 @@ class AddAssetTopWidget extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     final primaryColor = Theme.of(context).primaryColor;
 
-    if (sl<GetUserStatusUseCase>().showOnboarding) {
+    if (sl<GetUserStatusUseCase>().showOnboarding &&
+        AppConstants.publicMvp2Items) {
       return const AddAssetOnBoarding();
     } else {
       return Column(
