@@ -62,7 +62,7 @@ extension CustomizableDateTime on DateTime {
     var dateString = dateTimeString.split("/");
     DateTime dateTime = DateTime(int.parse(dateString[2]),
         int.parse(dateString[0]), int.parse(dateString[1]));
-    return CustomizableDateTime.localizedDdMmOneLine(dateTime);
+    return CustomizableDateTime.localizedDdMmYyyy(dateTime);
   }
 
   static String getDayOfMonthSuffix(int dayNum) {
