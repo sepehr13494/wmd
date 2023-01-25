@@ -617,9 +617,8 @@ class _PasswordTextFieldState extends AppState<PasswordTextField> {
             key: widget.passwordKey,
             name: widget.name ?? "password",
             type: TextFieldType.password,
-            hint: widget.name ??
-                (widget.hint ??
-                    appLocalizations.auth_signup_input_password_placeholder),
+            hint: widget.hint ??
+                appLocalizations.auth_signup_input_password_placeholder,
             obscureText: !visible,
             suffixIcon: widget.showEye
                 ? IconButton(

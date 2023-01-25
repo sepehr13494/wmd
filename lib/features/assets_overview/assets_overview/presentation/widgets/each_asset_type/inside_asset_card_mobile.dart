@@ -60,7 +60,7 @@ class InsideAssetCardMobile extends AppStatelessWidget {
                   const SizedBox(width: 8),
                   ChangeWidget(
                       number: asset.inceptionToDate,
-                      text: "${asset.inceptionToDate}%"),
+                      text: "${asset.inceptionToDate.toStringAsFixed(1)}%"),
                 ],
               )
             ],
