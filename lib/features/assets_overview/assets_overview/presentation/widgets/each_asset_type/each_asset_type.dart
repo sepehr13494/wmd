@@ -59,8 +59,7 @@ class EachAssetType extends AppStatelessWidget {
                           Text(
                               AssetsOverviewChartsColors.getAssetType(
                                 appLocalizations,
-                                _getAssetNameByType(assetsOverview.type)
-                                    .replaceAll(" ", ""),
+                                assetsOverview.type,
                                 category: assetsOverview.subType
                               ),
                               style: textTheme.titleSmall)

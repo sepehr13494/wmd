@@ -42,7 +42,8 @@ class LineChartSample2 extends AppStatelessWidget {
 
   Widget bottomTitleWidgets(double value, TitleMeta meta, bool hideValues) {
     int x = (allocations.length / 7).ceil();
-    var dateString = allocations[value.toInt()].name.split("/");
+    print(allocations[value.toInt()].name);
+    var dateString = allocations[value.toInt()].name.split(" ")[0].split("/");
     DateTime dateTime = DateTime(int.parse(dateString[2]),
         int.parse(dateString[0]), int.parse(dateString[1]));
     if (hideValues) {
