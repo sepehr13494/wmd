@@ -17,6 +17,7 @@ class AppRoutes {
   static const String dashboard = "dashboard";
   static const String onboarding = "onboarding";
   static const String settings = "settings";
+  static const String verifyPhone = "verify-phone";
   static const String support = "support";
   static const String scheduleCall = "schedule-meeting";
 
