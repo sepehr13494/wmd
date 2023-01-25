@@ -15,6 +15,10 @@ extension CustomizableDateTime on DateTime {
     return DateFormat('yyyy-MM-dd').format(current).toString();
   }
 
+  static String serverFormatDate(DateTime dateTime) {
+    return DateFormat('yyyy-MM-dd').format(dateTime).toString();
+  }
+
   static String dateLocalized(DateTime input) {
     return DateFormat(
             "d${getDayOfMonthSuffix(input.day)} MMMM yyyy kk:mm aaa", "en")
@@ -48,7 +52,7 @@ extension CustomizableDateTime on DateTime {
   }
 
   static String miniDate(String dateTimeString) {
-    var dateString = dateTimeString.split("/");
+    var dateString = dateTimeString.split(" ")[0].split("/");
     DateTime dateTime = DateTime(int.parse(dateString[2]),
         int.parse(dateString[0]), int.parse(dateString[1]));
     return CustomizableDateTime.localizedDdMm(dateTime);

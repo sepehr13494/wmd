@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
@@ -45,7 +44,7 @@ Future<void> main() async {
     },
     appRunner: () => runApp(const MyApp()),
   );*/
-  runApp(Phoenix(child: const MyApp()));
+  runApp(const MyApp());
 }
 
 envInitConfig(env) {
@@ -67,7 +66,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final router = AppRouter.router;
+    final router = AppRouter().router();
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -76,30 +75,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (context) => sl<LocalizationManager>()
               ..changeLang(sl<LocalStorage>().getLocale())),
-        BlocProvider(create: (context) => sl<UserStatusCubit>()),
-        BlocProvider(create: (context) => sl<MainDashboardCubit>()..initPage()),
-        BlocProvider(
-            create: (context) =>
-                sl<AssetsOverviewCubit>()..getAssetsOverview()),
-        BlocProvider(
-          create: (context) => sl<ChartsCubit>()..getChart(),
-        ),
-        BlocProvider(
-          create: (context) => sl<DashboardAllocationCubit>()..getAllocation(),
-        ),
-        BlocProvider(
-          create: (context) => sl<DashboardPieCubit>()..getPie(),
-        ),
-        BlocProvider(
-          create: (context) => sl<DashboardGoeCubit>()..getGeographic(),
-        ),
-        BlocProvider(
-          create: (context) =>
-              sl<CustodianStatusListCubit>()..getCustodianStatusList(),
-        ),
-        BlocProvider(
-          create: (context) => sl<PersonalInformationCubit>()..getName(),
-        ),
       ],
       child: Builder(builder: (context) {
         return MaterialApp.router(

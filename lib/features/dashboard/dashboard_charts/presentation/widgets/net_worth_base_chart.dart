@@ -92,35 +92,53 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
                           ],
                         ),
                         const SizedBox(height: 4),
-                        barChart
-                            ? Builder(
-                              builder: (context) {
+                        Builder(builder: (context) {
                                 final items = [
-                                  [appLocalizations.home_dashboardCharts_legendLabel_netWorth,AppColors.chartColor],
-                                  [appLocalizations.home_dashboardCharts_legendLabel_assets,AppColors.chartColor],
-                                  [appLocalizations.home_dashboardCharts_legendLabel_liability,AppColors.redChartColor],
+                                  [
+                                    appLocalizations
+                                        .home_dashboardCharts_legendLabel_netWorth,
+                                    AppColors.chartColor
+                                  ],
                                 ];
-                                return Row(
-                          children: List.generate(3, (index) {
-                                final item = items[index];
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        height: index == 0 ? 1 : 8,
-                                        width: index == 0 ? 12 :  8,
-                                        color: item[1] as Color,
-                                      ),
-                                      const SizedBox(width: 4),
-                                      Text(item[0].toString(),style: textTheme.bodySmall,)
+                                if (barChart) {
+                                  items.addAll(
+                                    [
+                                      [
+                                        appLocalizations
+                                            .home_dashboardCharts_legendLabel_assets,
+                                        AppColors.chartColor
+                                      ],
+                                      [
+                                        appLocalizations
+                                            .home_dashboardCharts_legendLabel_liability,
+                                        AppColors.redChartColor
+                                      ],
                                     ],
-                                  ),
+                                  );
+                                }
+                                return Row(
+                                  children: List.generate(items.length, (index) {
+                                    final item = items[index];
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            height: index == 0 ? 1 : 8,
+                                            width: index == 0 ? 12 : 8,
+                                            color: item[1] as Color,
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Text(
+                                            item[0].toString(),
+                                            style: textTheme.bodySmall,
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  }),
                                 );
-                          }),
-                        );
-                              }
-                            ) : const SizedBox(),
+                              }),
                         AspectRatio(
                           aspectRatio:
                               ResponsiveHelper(context: context).isMobile
