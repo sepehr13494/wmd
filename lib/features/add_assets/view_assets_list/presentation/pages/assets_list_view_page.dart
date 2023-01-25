@@ -9,6 +9,7 @@ import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/page/custodian_banks_page.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/manager/asset_view_cubit.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
@@ -50,7 +51,7 @@ class AssetsListViewPage extends AppStatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: ResponsiveWidget(
-                mobile: AddAssetMobileWidget(),
+                mobile: AssetTabWrapper(),
                 desktop: AddAssetTabletView(),
                 tablet: AddAssetTabletView(),
               ),
@@ -81,34 +82,40 @@ class AddAssetTabletView extends StatelessWidget {
         const SizedBox(width: 16),
         Expanded(
             flex: ResponsiveHelper(context: context).isDesktop ? 6 : 4,
-            child: const AddAssetMobileWidget())
+            child: const AssetTabWrapper())
       ],
     );
   }
 }
 
-class AddAssetMobileWidget extends StatefulWidget {
-  const AddAssetMobileWidget({Key? key}) : super(key: key);
+class AssetTabWrapper extends StatefulWidget {
+  const AssetTabWrapper({Key? key}) : super(key: key);
 
   @override
-  AppState<AddAssetMobileWidget> createState() => _AddAssetMobileWidgetState();
+  AppState<AssetTabWrapper> createState() => _AssetTabWrapperState();
 }
 
-class _AddAssetMobileWidgetState extends AppState<AddAssetMobileWidget>
+class _AssetTabWrapperState extends AppState<AssetTabWrapper>
     with TickerProviderStateMixin {
   late TabController _tabController;
+  bool showMvp2 = AppConstants.publicMvp2Items;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-    _tabController.addListener(() {
-      if (_tabController.index == 2) {
-        context.read<AssetViewCubit>().selectCustodian();
-      } else {
-        context.read<AssetViewCubit>().empty();
-      }
-    });
+
+    _tabController = TabController(length: showMvp2 ? 3 : 1, vsync: this);
+    if (showMvp2) {
+      _tabController.addListener(() {
+        if (_tabController.index == 2) {
+          context.read<AssetViewCubit>().selectCustodian();
+        } else {
+          context.read<AssetViewCubit>().empty();
+        }
+      });
+    } else {
+      context.read<AssetViewCubit>().selectCustodian();
+    }
   }
 
   @override
@@ -135,10 +142,12 @@ class _AddAssetMobileWidgetState extends AppState<AddAssetMobileWidget>
                   child: TabBar(
                     controller: _tabController,
                     tabs: [
-                      Tab(text: appLocalizations.assets_breadCrumb_assets),
-                      Tab(
-                          text: appLocalizations
-                              .liabilities_breadCrumb_liabilities),
+                      if (showMvp2)
+                        Tab(text: appLocalizations.assets_breadCrumb_assets),
+                      if (showMvp2)
+                        Tab(
+                            text: appLocalizations
+                                .liabilities_breadCrumb_liabilities),
                       Tab(text: appLocalizations.common_labels_custodianBank),
                     ],
                     isScrollable: true,
@@ -154,12 +163,13 @@ class _AddAssetMobileWidgetState extends AppState<AddAssetMobileWidget>
             Expanded(
                 child: TabBarView(
               controller: _tabController,
-              children: const [
-                AssetsPart(isLiability: false),
-                AssetsPart(
-                  isLiability: true,
-                ),
-                AddCustodianBanksPage(),
+              children: [
+                if (showMvp2) const AssetsPart(isLiability: false),
+                if (showMvp2)
+                  const AssetsPart(
+                    isLiability: true,
+                  ),
+                const AddCustodianBanksPage(),
               ],
             ))
           ],
