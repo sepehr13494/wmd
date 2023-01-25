@@ -23,6 +23,7 @@ import 'package:wmd/features/dashboard/onboarding/presentation/pages/onboarding_
 import 'package:wmd/features/help/support/presentation/pages/schedule_call_page.dart';
 import 'package:wmd/features/help/support/presentation/pages/support_page.dart';
 import 'package:wmd/features/main_page/presentation/pages/main_page.dart';
+import 'package:wmd/features/profile/verify_phone/presentation/pages/verify_phone_number_page.dart';
 import 'package:wmd/features/splash/presentation/pages/splash_page.dart';
 import 'package:wmd/features/profile/core/presentation/pages/profile_page.dart';
 
@@ -114,6 +115,13 @@ class AppRouter {
               path: "settings",
               builder: (BuildContext context, GoRouterState state) {
                 return const ProfilePage();
+              },
+            ),
+            GoRoute(
+              name: AppRoutes.verifyPhone,
+              path: "verify-phone",
+              builder: (BuildContext context, GoRouterState state) {
+                return const VerifyPhoneNumberPage();
               },
             ),
             GoRoute(

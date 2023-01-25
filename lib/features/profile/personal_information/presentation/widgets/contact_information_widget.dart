@@ -1,13 +1,15 @@
-import 'package:country_picker/country_picker.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/profile/personal_information/presentation/widgets/country_code_picker.dart';
 import 'package:wmd/global_functions.dart';
@@ -123,7 +125,8 @@ class _ContactInformationWidgetState
                                   Expanded(
                                     child: AppTextFields.simpleTextField(
                                         name: "phoneNumber",
-                                        hint: appLocalizations.profile_tabs_personal_fields_label_primaryPhoneNumber,
+                                        hint: appLocalizations
+                                            .profile_tabs_personal_fields_label_primaryPhoneNumber,
                                         type: TextFieldType.number,
                                         keyboardType: TextInputType.number,
                                         extraValidators: [
@@ -161,18 +164,23 @@ class _ContactInformationWidgetState
                                   onPressed: !enableSubmitButton
                                       ? null
                                       : () {
-                                          if (formKey.currentState!
-                                              .validate()) {
-                                            debugPrint(formKey
-                                                .currentState!.instantValue
-                                                .toString());
+                                          if (AppConstants.publicMvp2Items) {
+                                            context.pushNamed(
+                                                AppRoutes.verifyPhone);
+                                          } else {
+                                            if (formKey.currentState!
+                                                .validate()) {
+                                              debugPrint(formKey
+                                                  .currentState!.instantValue
+                                                  .toString());
 
-                                            context
-                                                .read<
-                                                    PersonalInformationCubit>()
-                                                .setNumber(
-                                                    map: formKey.currentState!
-                                                        .instantValue);
+                                              context
+                                                  .read<
+                                                      PersonalInformationCubit>()
+                                                  .setNumber(
+                                                      map: formKey.currentState!
+                                                          .instantValue);
+                                            }
                                           }
                                         },
                                   child: Text(appLocalizations
