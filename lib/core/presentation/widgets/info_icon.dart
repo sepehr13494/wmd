@@ -4,7 +4,7 @@ class InfoIcon extends StatelessWidget {
   final IconData? icon;
   const InfoIcon({
     Key? key,
-    this.icon = Icons.info_outline,
+    this.icon = Icons.info,
   }) : super(key: key);
 
   @override

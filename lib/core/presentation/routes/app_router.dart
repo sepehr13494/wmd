@@ -48,15 +48,15 @@ class AppRouter {
     return _instance;
   }
 
-  late UserStatusCubit _userStatusCubit;
-  late MainDashboardCubit _mainDashboardCubit;
-  late AssetsOverviewCubit _assetsOverviewCubit;
-  late ChartsCubit _chartsCubit;
-  late DashboardAllocationCubit _dashboardAllocationCubit;
-  late DashboardPieCubit _dashboardPieCubit;
-  late DashboardGoeCubit _dashboardGoeCubit;
-  late CustodianStatusListCubit _custodianStatusListCubit;
-  late PersonalInformationCubit _personalInformationCubit;
+  UserStatusCubit _userStatusCubit = sl<UserStatusCubit>();
+  MainDashboardCubit _mainDashboardCubit = sl<MainDashboardCubit>();
+  AssetsOverviewCubit _assetsOverviewCubit = sl<AssetsOverviewCubit>();
+  ChartsCubit _chartsCubit = sl<ChartsCubit>();
+  DashboardAllocationCubit _dashboardAllocationCubit = sl<DashboardAllocationCubit>();
+  DashboardPieCubit _dashboardPieCubit = sl<DashboardPieCubit>();
+  DashboardGoeCubit _dashboardGoeCubit = sl<DashboardGoeCubit>();
+  CustodianStatusListCubit _custodianStatusListCubit = sl<CustodianStatusListCubit>();
+  PersonalInformationCubit _personalInformationCubit = sl<PersonalInformationCubit>();
 
   GoRouter router() {
     return GoRouter(
