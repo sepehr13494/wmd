@@ -113,7 +113,6 @@ class AssetsOverviewCharts extends StatelessWidget {
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
               final textTheme = Theme.of(context).textTheme;
               final getChartEntity = getChartEntities[groupIndex.toInt()];
-              final dateArray = getChartEntity.date.split("/");
               final double sum =
                   getChartEntity.privateEquity+
                       getChartEntity.realEstate+
@@ -125,7 +124,7 @@ class AssetsOverviewCharts extends StatelessWidget {
                       getChartEntity.listedAssetEquity;
               final appLocalizations = AppLocalizations.of(context);
               return BarTooltipItem(
-                "${CustomizableDateTime.localizedDdMm(DateTime(int.parse(dateArray[2]),int.parse(dateArray[0]),int.parse(dateArray[1])))}\n",
+                "${CustomizableDateTime.miniDateWithYear(getChartEntity.date)}\n",
                 textTheme.titleSmall!,
                 textAlign: TextAlign.start,
                 children: [
@@ -152,17 +151,17 @@ class AssetsOverviewCharts extends StatelessWidget {
                   getChartEntity.listedAssetEquity != 0 ? TextSpan(
                       style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
                     appLocalizations,
-                    "Listed Asset".replaceAll(" ", ""),
+                    AssetTypes.listedAssetEquity.replaceAll(" ", ""),
                   ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetEquity.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
                   getChartEntity.listedAssetFixedIncome != 0 ? TextSpan(
                       style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
                     appLocalizations,
-                    "Listed Asset".replaceAll(" ", ""),
+                    AssetTypes.listedAssetFixedIncome.replaceAll(" ", ""),
                   ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetFixedIncome.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
                   getChartEntity.listedAssetOther != 0 ? TextSpan(
                       style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
                     appLocalizations,
-                    "Listed Asset".replaceAll(" ", ""),
+                    AssetTypes.listedAssetOther.replaceAll(" ", ""),
                   ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetOther.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
                   getChartEntity.others != 0 ? TextSpan(
                       style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(

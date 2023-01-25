@@ -49,7 +49,7 @@ class TitleChangeSubtitle extends AppStatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(subTitle, style: textTheme.bodyLarge),
-            ChangeWidget(number: value, text: value.toString()),
+            ChangeWidget(number: value, text: value.toStringAsFixed(1)),
           ],
         ),
       ],

@@ -146,7 +146,7 @@ class LineChartSample2 extends AppStatelessWidget {
             final textTheme = Theme.of(context).textTheme;
             return [
               LineTooltipItem(
-                CustomizableDateTime.miniDateOneLine(
+                CustomizableDateTime.miniDateWithYear(
                     allocations[touchedSpots.first.x.toInt()].name),
                 textTheme.titleSmall!,
                 textAlign: TextAlign.start,

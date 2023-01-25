@@ -64,7 +64,7 @@ class BarChartMainDashboard extends StatelessWidget {
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
               final textTheme = Theme.of(context).textTheme;
               return BarTooltipItem(
-                CustomizableDateTime.miniDateOneLine(
+                CustomizableDateTime.miniDateWithYear(
                     allocations[groupIndex.toInt()].name),
                 textTheme.titleSmall!,
                 textAlign: TextAlign.start,

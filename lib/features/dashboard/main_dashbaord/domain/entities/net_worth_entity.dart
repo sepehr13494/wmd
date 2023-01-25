@@ -28,17 +28,23 @@ class AssetsEntity extends Equatable{
     required this.newAsset,
     required this.currentValue,
     required this.change,
+    required this.ytd,
+    required this.itd,
   });
 
   final int newAsset;
   final double currentValue;
   final double change;
+  final double ytd;
+  final double itd;
 
   @override
   List<Object?> get props => [
     newAsset,
     currentValue,
     change,
+    ytd,
+    itd,
   ];
 
   Map<String, dynamic> toJson() =>
@@ -46,6 +52,8 @@ class AssetsEntity extends Equatable{
         "newAsset": newAsset,
         "currentValue": currentValue,
         "change": change,
+        "ytd": ytd,
+        "itd": itd,
       };
 }
 
@@ -54,17 +62,23 @@ class LiabilitiesEntity extends Equatable{
     required this.newLiability,
     required this.currentValue,
     required this.change,
+    required this.ytd,
+    required this.itd,
   });
 
   final int newLiability;
   final double currentValue;
   final double change;
+  final double ytd;
+  final double itd;
 
   @override
   List<Object?> get props => [
     newLiability,
     currentValue,
     change,
+    ytd,
+    itd,
   ];
 
   Map<String, dynamic> toJson() =>
@@ -72,6 +86,8 @@ class LiabilitiesEntity extends Equatable{
         "newLiability": newLiability,
         "currentValue": currentValue,
         "change": change,
+        "ytd": ytd,
+        "itd": itd,
       };
 }
 
