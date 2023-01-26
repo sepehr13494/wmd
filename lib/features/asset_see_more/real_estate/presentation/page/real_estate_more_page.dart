@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
+import 'package:wmd/core/presentation/widgets/info_icon.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/support_widget.dart';
@@ -110,11 +111,7 @@ class RealEstateMorePage extends AppStatelessWidget {
               Text(appLocalizations.assets_seeMore_labels_performance,
                   style: textTheme.bodyLarge),
               const SizedBox(width: 8),
-              Icon(
-                Icons.info_outline,
-                color: Theme.of(context).primaryColor,
-                size: 14,
-              )
+              const InfoIcon(),
             ],
           ),
           SizedBox(height: gap),

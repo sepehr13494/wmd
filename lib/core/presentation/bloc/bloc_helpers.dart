@@ -9,6 +9,7 @@ import 'package:wmd/injection_container.dart';
 import 'base_cubit.dart';
 import '../widgets/loading_widget.dart';
 import '../../util/loading/loading_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BlocHelper {
   static BlocWidgetListener defaultBlocListener({
@@ -60,7 +61,7 @@ class BlocHelper {
               }
               break;
             case ExceptionType.auth:
-              GlobalFunctions.showSnackBar(context, state.failure.message);
+              GlobalFunctions.showSnackBar(context, AppLocalizations.of(context).auth_login_toast_wrongToken);
               sl<LocalStorage>().logout();
               AppRestart.restart(context);
               break;

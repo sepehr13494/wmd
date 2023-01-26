@@ -175,10 +175,10 @@ class _RegisterPageState extends AppState<RegisterPage> {
                                             },
                                         ),
                                         TextSpan(
-                                            text: " and ",
+                                            text: " ${appLocalizations.auth_signup_checkbox_and} ",
                                             style: textTheme.bodySmall),
                                         TextSpan(
-                                          text: 'Privacy Policy',
+                                          text: appLocalizations.auth_signup_checkbox_privacyPolicy,
                                           style: textTheme.bodySmall!
                                               .toLinkStyle(context),
                                           recognizer: TapGestureRecognizer()

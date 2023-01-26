@@ -123,8 +123,9 @@ class OverViewCard extends AppStatelessWidget {
                                                         addDollar: true),
                                                 style: textTheme.bodyLarge,
                                               ),
-                                              const ChangeWidget(
-                                                  number: 8.03, text: "8.03%"),
+                                              const SizedBox(width: 4),
+                                              ChangeWidget(
+                                                  number: state.netWorthObj.assets.changePercentage, text: "${state.netWorthObj.assets.changePercentage.toStringAsFixed(1)}%"),
                                             ],
                                           ),
                                         ],

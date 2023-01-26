@@ -6,12 +6,22 @@ class NetWorthEntity extends Equatable{
     required this.assets,
     required this.liabilities,
     required this.durationInDays,
+    required this.lastUpdated,
   });
 
   final TotalNetWorthEntity totalNetWorth;
   final AssetsEntity assets;
   final LiabilitiesEntity liabilities;
   final int durationInDays;
+  final String lastUpdated;
+
+  Map<String, dynamic> toJson() => {
+    "totalNetWorth": totalNetWorth.toJson(),
+    "assets": assets.toJson(),
+    "liabilities": liabilities.toJson(),
+    "durationInDays": durationInDays,
+    "lastUpdated": lastUpdated,
+  };
 
   @override
   List<Object?> get props => [
@@ -19,6 +29,7 @@ class NetWorthEntity extends Equatable{
     assets,
     liabilities,
     durationInDays,
+    lastUpdated,
   ];
 
 }
@@ -28,6 +39,7 @@ class AssetsEntity extends Equatable{
     required this.newAsset,
     required this.currentValue,
     required this.change,
+    required this.changePercentage,
     required this.ytd,
     required this.itd,
   });
@@ -35,6 +47,7 @@ class AssetsEntity extends Equatable{
   final int newAsset;
   final double currentValue;
   final double change;
+  final double changePercentage;
   final double ytd;
   final double itd;
 
@@ -43,6 +56,7 @@ class AssetsEntity extends Equatable{
     newAsset,
     currentValue,
     change,
+    changePercentage,
     ytd,
     itd,
   ];
@@ -52,6 +66,7 @@ class AssetsEntity extends Equatable{
         "newAsset": newAsset,
         "currentValue": currentValue,
         "change": change,
+        "changePercentage": changePercentage,
         "ytd": ytd,
         "itd": itd,
       };
