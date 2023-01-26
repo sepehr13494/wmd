@@ -153,6 +153,11 @@ class AssetsOverviewCharts extends StatelessWidget {
                     appLocalizations,
                     AssetTypes.listedAssetEquity.replaceAll(" ", ""),
                   ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetEquity.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
+                  getChartEntity.listedAssetEquity != 0 ? TextSpan(
+                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
+                    appLocalizations,
+                    AssetTypes.listedAssetEquity.replaceAll(" ", ""),
+                  ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetEquity.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
                   getChartEntity.listedAssetFixedIncome != 0 ? TextSpan(
                       style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
                     appLocalizations,
