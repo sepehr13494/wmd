@@ -34,12 +34,12 @@ import 'package:wmd/features/help/support/presentation/pages/support_page.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/features/main_page/presentation/pages/main_page.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
+import 'package:wmd/features/profile/verify_phone/presentation/pages/verify_phone_number_page.dart';
 import 'package:wmd/features/splash/presentation/pages/splash_page.dart';
 import 'package:wmd/features/profile/core/presentation/pages/profile_page.dart';
 import 'package:wmd/injection_container.dart';
 
 class AppRouter {
-
   AppRouter._privateConstructor();
 
   static final AppRouter _instance = AppRouter._privateConstructor();
@@ -52,11 +52,14 @@ class AppRouter {
   MainDashboardCubit _mainDashboardCubit = sl<MainDashboardCubit>();
   AssetsOverviewCubit _assetsOverviewCubit = sl<AssetsOverviewCubit>();
   ChartsCubit _chartsCubit = sl<ChartsCubit>();
-  DashboardAllocationCubit _dashboardAllocationCubit = sl<DashboardAllocationCubit>();
+  DashboardAllocationCubit _dashboardAllocationCubit =
+      sl<DashboardAllocationCubit>();
   DashboardPieCubit _dashboardPieCubit = sl<DashboardPieCubit>();
   DashboardGoeCubit _dashboardGoeCubit = sl<DashboardGoeCubit>();
-  CustodianStatusListCubit _custodianStatusListCubit = sl<CustodianStatusListCubit>();
-  PersonalInformationCubit _personalInformationCubit = sl<PersonalInformationCubit>();
+  CustodianStatusListCubit _custodianStatusListCubit =
+      sl<CustodianStatusListCubit>();
+  PersonalInformationCubit _personalInformationCubit =
+      sl<PersonalInformationCubit>();
 
   GoRouter router() {
     return GoRouter(
@@ -172,7 +175,8 @@ class AppRouter {
                     create: (context) {
                       _custodianStatusListCubit =
                           sl<CustodianStatusListCubit>();
-                      return _custodianStatusListCubit..getCustodianStatusList();
+                      return _custodianStatusListCubit
+                        ..getCustodianStatusList();
                     },
                   ),
                   BlocProvider(
@@ -192,22 +196,33 @@ class AppRouter {
                 name: AppRoutes.assetDetailPage,
                 path: "asset_detail",
                 builder: (BuildContext context, GoRouterState state) {
-                  return AssetDetailPage(
-                    assetId: state.queryParams['assetId'] as String,
-                    type: state.queryParams['type'] as String,
+                  return BlocProvider.value(
+                    value: _mainDashboardCubit,
+                    child: AssetDetailPage(
+                      assetId: state.queryParams['assetId'] as String,
+                      type: state.queryParams['type'] as String,
+                    ),
                   );
                 },
               ),
               GoRoute(
-                name: AppRoutes.settings,
-                path: "settings",
-                builder: (BuildContext context, GoRouterState state) {
-                  return BlocProvider.value(
-                    value: _personalInformationCubit..getName(),
-                    child: const ProfilePage(),
-                  );
-                },
-              ),
+                  name: AppRoutes.settings,
+                  path: "settings",
+                  builder: (BuildContext context, GoRouterState state) {
+                    return BlocProvider.value(
+                      value: _personalInformationCubit..getName(),
+                      child: const ProfilePage(),
+                    );
+                  },
+                  routes: [
+                    GoRoute(
+                      name: AppRoutes.verifyPhone,
+                      path: "verify-phone",
+                      builder: (BuildContext context, GoRouterState state) {
+                        return const VerifyPhoneNumberPage();
+                      },
+                    ),
+                  ]),
               GoRoute(
                 name: AppRoutes.support,
                 path: "support",
@@ -251,45 +266,52 @@ class AppRouter {
                       name: AppRoutes.addBankAutoPage,
                       path: "add_auto_bank",
                       builder: (BuildContext context, GoRouterState state) {
-                        return addAssetMainBlocProvider(child: const AddBankAutoPage());
+                        return addAssetMainBlocProvider(
+                            child: const AddBankAutoPage());
                       },
                     ),
                     GoRoute(
                       name: AppRoutes.addPrivateEquity,
                       path: "add_private_equity",
                       builder: (BuildContext context, GoRouterState state) {
-                        return addAssetMainBlocProvider(child: const AddPrivateEquityPage());
+                        return addAssetMainBlocProvider(
+                            child: const AddPrivateEquityPage());
                       },
                     ),
                     GoRoute(
                         name: AppRoutes.addPrivateDebt,
                         path: "add_private_debt",
                         builder: (BuildContext context, GoRouterState state) {
-                          return addAssetMainBlocProvider(child: const AddPrivateDebtPage());
+                          return addAssetMainBlocProvider(
+                              child: const AddPrivateDebtPage());
                         }),
                     GoRoute(
                         name: AppRoutes.addRealEstate,
                         path: "add_real_estate",
                         builder: (BuildContext context, GoRouterState state) {
-                          return addAssetMainBlocProvider(child: const AddRealEstatePage());
+                          return addAssetMainBlocProvider(
+                              child: const AddRealEstatePage());
                         }),
                     GoRoute(
                         name: AppRoutes.addOther,
                         path: "add_other",
                         builder: (BuildContext context, GoRouterState state) {
-                          return addAssetMainBlocProvider(child: const AddOtherAssetPage());
+                          return addAssetMainBlocProvider(
+                              child: const AddOtherAssetPage());
                         }),
                     GoRoute(
                         name: AppRoutes.addListedAsset,
                         path: "add_listed_asset",
                         builder: (BuildContext context, GoRouterState state) {
-                          return addAssetMainBlocProvider(child: const AddListedSecurityPage());
+                          return addAssetMainBlocProvider(
+                              child: const AddListedSecurityPage());
                         }),
                     GoRoute(
                         name: AppRoutes.addLiability,
                         path: "add_liability",
                         builder: (BuildContext context, GoRouterState state) {
-                          return addAssetMainBlocProvider(child: const AddLoanLiabilityPage());
+                          return addAssetMainBlocProvider(
+                              child: const AddLoanLiabilityPage());
                         }),
                   ]),
             ]),
@@ -316,9 +338,6 @@ class AppRouter {
       ),
       BlocProvider.value(
         value: _dashboardGoeCubit,
-      ),
-      BlocProvider.value(
-        value: _custodianStatusListCubit,
       ),
     ], child: child);
   }

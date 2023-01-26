@@ -28,7 +28,7 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
         //     }),
         if (showHelp == true)
           IconButton(
-            onPressed: () => context.goNamed(AppRoutes.support),
+            onPressed: () => context.pushNamed(AppRoutes.support),
             icon: SvgPicture.asset("assets/images/add_assets/question.svg"),
           ),
         PopupMenuButton(
