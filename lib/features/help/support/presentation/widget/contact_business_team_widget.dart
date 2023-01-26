@@ -119,7 +119,7 @@ class ContactBusinessWidget extends ModalWidget {
                 child: SizedBox(
                     width: double.infinity,
                     height: isMobile
-                        ? MediaQuery.of(context).size.height * 0.8
+                        ? MediaQuery.of(context).size.height * 0.85
                         : MediaQuery.of(context).size.height * 0.5,
                     child: Column(children: [
                       buildModalHeader(context),
@@ -193,7 +193,6 @@ class ContactBusinessWidget extends ModalWidget {
                                             height: 16,
                                           ),
                                           AppTextFields.simpleTextField(
-                                              title: "Enquiry",
                                               name: "enquiryText",
                                               minLines: 5,
                                               onChanged: checkFinalValid,
