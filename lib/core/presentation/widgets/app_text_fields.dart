@@ -11,6 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:wmd/core/models/radio_button_options.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 import 'package:wmd/features/add_assets/core/data/models/listed_security_name.dart';
@@ -55,6 +56,7 @@ class AppTextFields {
       decoration: InputDecoration(
         hintText: hint,
       ),
+      dropdownColor: AppColors.backgroundColorPageDark,
       items: items,
       validator: FormBuilderValidators.required(),
     );
