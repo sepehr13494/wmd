@@ -15,7 +15,7 @@ class CountryCodePicker extends StatefulWidget {
 class _CountryCodePickerState extends State<CountryCodePicker> {
 
   TextEditingController controller = TextEditingController();
-  final Country? defaultCountry = Country.tryParse("Saudi Arabia");
+  final Country? defaultCountry = Country.tryParse("bahrain");
 
   @override
   void initState() {
