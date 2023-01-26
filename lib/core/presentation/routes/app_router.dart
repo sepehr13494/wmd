@@ -234,7 +234,10 @@ class AppRouter {
                 name: AppRoutes.scheduleCall,
                 path: "schedule-meeting",
                 builder: (BuildContext context, GoRouterState state) {
-                  return const ScheduleCallPage();
+                  return BlocProvider.value(
+                    value: _personalInformationCubit,
+                    child: const ScheduleCallPage(),
+                  );
                 },
               ),
               GoRoute(

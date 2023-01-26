@@ -65,12 +65,8 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
       AppLocalizations appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => sl<GeneralInquiryCubit>()),
-        BlocProvider(
-            create: (context) => sl<PersonalInformationCubit>()..getName()),
-      ],
+    return BlocProvider(
+      create: (context) => sl<GeneralInquiryCubit>(),
       child: BlocConsumer<GeneralInquiryCubit, GeneralInquiryState>(
           listener: BlocHelper.defaultBlocListener(listener: (context, state) {
         if (state is SuccessState) {
