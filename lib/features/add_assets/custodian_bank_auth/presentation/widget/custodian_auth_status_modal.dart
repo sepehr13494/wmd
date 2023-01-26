@@ -24,7 +24,7 @@ showCustodianBankStatus({
   await showDialog(
     context: context,
     builder: (context) {
-      return BottomModalWidget(
+      return CenterModalWidget(
         confirmBtn: appLocalization.common_button_ok,
         body: BankStatusModalBody(bankId: bankId),
         // cancelBtn: 'Cancel',
