@@ -193,7 +193,7 @@ class ContactBusinessWidget extends ModalWidget {
                                             height: 16,
                                           ),
                                           AppTextFields.simpleTextField(
-                                              title: "Inquiry",
+                                              title: "Enquiry",
                                               name: "enquiryText",
                                               minLines: 5,
                                               onChanged: checkFinalValid,
@@ -201,7 +201,7 @@ class ContactBusinessWidget extends ModalWidget {
                                                 (val) {
                                                   return (val != null &&
                                                           val.length > 100)
-                                                      ? "Inquiry cannot be more than 100 characters"
+                                                      ? "Enquiry cannot be more than 100 characters"
                                                       : null;
                                                 }
                                               ],
