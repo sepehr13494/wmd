@@ -62,13 +62,14 @@ class ProfilePage extends AppStatelessWidget {
                           OutlinedButton(
                               onPressed: () {
                                 showModalBottomSheet(
+                                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                                     isScrollControlled: true,
                                     context: context,
                                     builder: (context) {
                                       return const LanguageBottomSheet();
                                     });
                               },
-                              child: Text(appLocalizations.profile_tabs_preferences_button_applyChanges))
+                              child: Text(appLocalizations.profile_changePassword_change))
                         ],
                       ),
                     ]
