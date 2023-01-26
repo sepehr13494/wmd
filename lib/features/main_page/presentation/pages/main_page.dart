@@ -37,73 +37,67 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => sl<MainPageCubit>()),
-        // BlocProvider(create: (context) => sl<MainDashboardCubit>()..initPage()), // we have already provider in main.dart for that. it was cousing issue.
-      ],
-      child: Builder(builder: (context) {
-        return BlocBuilder<MainPageCubit, int>(
-          builder: (context, state) {
-            return Scaffold(
-              body: state == 0
-                  ? DoubleBackToCloseApp(
-                      snackBar: const SnackBar(
-                        content: Text('for exit click again'),
-                      ),
-                      child: Center(
-                        child: _widgetOptions.elementAt(state),
-                      ),
-                    )
-                  : Center(
+    return Builder(builder: (context) {
+      return BlocBuilder<MainPageCubit, int>(
+        builder: (context, state) {
+          return Scaffold(
+            body: state == 0
+                ? DoubleBackToCloseApp(
+                    snackBar: const SnackBar(
+                      content: Text('for exit click again'),
+                    ),
+                    child: Center(
                       child: _widgetOptions.elementAt(state),
                     ),
-              bottomNavigationBar:
-                  BlocConsumer<MainDashboardCubit, MainDashboardState>(
-                      listener: BlocHelper.defaultBlocListener(
-                          listener: (mainContext, mainState) {}),
-                      builder: (mainContext, mainState) {
-                        return mainState is MainDashboardNetWorthLoaded
-                            ? (mainState.netWorthObj.assets.currentValue != 0 ||
-                                    mainState.netWorthObj.liabilities
-                                            .currentValue !=
-                                        0)
-                                ? Material(
-                                    elevation: 10,
-                                    child: Container(
-                                      color: Theme.of(context)
-                                          .navigationBarTheme
-                                          .backgroundColor,
-                                      child: BottomNavigationBar(
-                                        elevation: 0,
-                                        items: List.generate(items.length,
-                                            (index) {
-                                          return BottomNavigationBarItem(
-                                            icon: Icon(items[index][0]),
-                                            label: items[index][1],
-                                          );
-                                        }),
-                                        unselectedLabelStyle:
-                                            const TextStyle(fontSize: 10),
-                                        selectedLabelStyle:
-                                            const TextStyle(fontSize: 12),
-                                        currentIndex:
-                                            context.read<MainPageCubit>().state,
-                                        showUnselectedLabels: true,
-                                        type: BottomNavigationBarType.fixed,
-                                        onTap: context
-                                            .read<MainPageCubit>()
-                                            .onItemTapped,
-                                      ),
+                  )
+                : Center(
+                    child: _widgetOptions.elementAt(state),
+                  ),
+            bottomNavigationBar:
+                BlocConsumer<MainDashboardCubit, MainDashboardState>(
+                    listener: BlocHelper.defaultBlocListener(
+                        listener: (mainContext, mainState) {}),
+                    builder: (mainContext, mainState) {
+                      return mainState is MainDashboardNetWorthLoaded
+                          ? (mainState.netWorthObj.assets.currentValue != 0 ||
+                                  mainState.netWorthObj.liabilities
+                                          .currentValue !=
+                                      0)
+                              ? Material(
+                                  elevation: 10,
+                                  child: Container(
+                                    color: Theme.of(context)
+                                        .navigationBarTheme
+                                        .backgroundColor,
+                                    child: BottomNavigationBar(
+                                      elevation: 0,
+                                      items: List.generate(items.length,
+                                          (index) {
+                                        return BottomNavigationBarItem(
+                                          icon: Icon(items[index][0]),
+                                          label: items[index][1],
+                                        );
+                                      }),
+                                      unselectedLabelStyle:
+                                          const TextStyle(fontSize: 10),
+                                      selectedLabelStyle:
+                                          const TextStyle(fontSize: 12),
+                                      currentIndex:
+                                          context.read<MainPageCubit>().state,
+                                      showUnselectedLabels: true,
+                                      type: BottomNavigationBarType.fixed,
+                                      onTap: context
+                                          .read<MainPageCubit>()
+                                          .onItemTapped,
                                     ),
-                                  )
-                                : const SizedBox.shrink()
-                            : const SizedBox.shrink();
-                      }),
-            );
-          },
-        );
-      }),
-    );
+                                  ),
+                                )
+                              : const SizedBox.shrink()
+                          : const SizedBox.shrink();
+                    }),
+          );
+        },
+      );
+    });
   }
 }

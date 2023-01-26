@@ -63,14 +63,24 @@
                 <action android:name="android.intent.action.VIEW" />                
                 <category android:name="android.intent.category.DEFAULT" />                
                 <category android:name="android.intent.category.BROWSABLE" />                
-                <data android:scheme="https" android:host="app-wmd-dev-01.azurewebsites.net" android:path="/verify-response"/>           
-                <data android:scheme="https" android:host="app-wmd-dev-01.azurewebsites.net" android:path="/password/update"/>           
+                <data android:scheme="https" android:host="app-wmd-dev-01.azurewebsites.net" android:path="/verify-response"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="app-wmd-dev-01.azurewebsites.net" android:path="/password/update"/>
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https" android:host="app-wmd-qa-01.azurewebsites.net" android:path="/verify-response"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https" android:host="app-wmd-qa-01.azurewebsites.net" android:path="/password/update"/>
             </intent-filter>
         </activity>

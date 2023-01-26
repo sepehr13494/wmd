@@ -30,8 +30,8 @@ class NetWorthResponseObj extends NetWorthEntity {
 
   static const NetWorthResponseObj tNetWorthResponseObj = NetWorthResponseObj(
       totalNetWorth: TotalNetWorth(currentValue: 0, change: 0),
-      assets: Assets(newAsset: 0, currentValue: 0, change: 0),
-      liabilities: Liabilities(newLiability: 0, currentValue: 0, change: 0),
+      assets: Assets(newAsset: 0, currentValue: 0, change: 0,itd: 0,ytd: 0),
+      liabilities: Liabilities(newLiability: 0, currentValue: 0, change: 0,itd: 0,ytd: 0),
       durationInDays: 0);
 }
 
@@ -40,16 +40,22 @@ class Assets extends AssetsEntity {
     required int newAsset,
     required double currentValue,
     required double change,
+    required double ytd,
+    required double itd,
   }) : super(
           newAsset: newAsset,
           currentValue: currentValue,
           change: change,
+          ytd: ytd,
+          itd: itd,
         );
 
   factory Assets.fromJson(Map<String, dynamic> json) => Assets(
         newAsset: int.tryParse(json["newAsset"].toString()) ?? 0,
         currentValue: double.tryParse(json["currentValue"].toString()) ?? 0,
         change: double.tryParse(json["change"].toString()) ?? 0,
+        ytd: double.tryParse(json["ytd"].toString()) ?? 0,
+        itd: double.tryParse(json["itd"].toString()) ?? 0,
       );
 }
 
@@ -58,16 +64,22 @@ class Liabilities extends LiabilitiesEntity {
     required int newLiability,
     required double currentValue,
     required double change,
+    required double ytd,
+    required double itd,
   }) : super(
           newLiability: newLiability,
           currentValue: currentValue,
           change: change,
+          ytd: ytd,
+          itd: itd,
         );
 
   factory Liabilities.fromJson(Map<String, dynamic> json) => Liabilities(
         newLiability: int.tryParse(json["newLiability"].toString()) ?? 1,
         currentValue: double.tryParse(json["currentValue"].toString()) ?? 1,
         change: double.tryParse(json["change"].toString()) ?? 1,
+        ytd: double.tryParse(json["ytd"].toString()) ?? 1,
+        itd: double.tryParse(json["itd"].toString()) ?? 1,
       );
 }
 

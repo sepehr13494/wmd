@@ -52,11 +52,11 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                       case 2:
                         return ChangeWidget(
                             number: asset.yearToDate,
-                            text: "${asset.yearToDate}%");
+                            text: "${asset.yearToDate.toStringAsFixed(1)}%");
                       case 3:
                         return ChangeWidget(
                             number: asset.inceptionToDate,
-                            text: "${asset.inceptionToDate}%");
+                            text: "${asset.inceptionToDate.toStringAsFixed(1)}%");
                       case 4:
                         return Align(
                           alignment: AlignmentDirectional.centerEnd,

@@ -101,7 +101,7 @@ class AssetsOverviewChartsColors {
         return appLocalizations.assets_geography_SouthAmerica;
       default:
         print("wrong continent : $name");
-        return "wrong continent";
+        return appLocalizations.assets_label_other;
     }
   }
 }

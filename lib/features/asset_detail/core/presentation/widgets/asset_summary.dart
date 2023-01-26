@@ -257,7 +257,7 @@ class SummaryCardWidget extends AppStatelessWidget {
           ),
           ChangeWidget(
               number: summary.ytdPerformance,
-              text: "${summary.ytdPerformance}%"),
+              text: "${summary.ytdPerformance.toStringAsFixed(1)}%"),
         ],
       ),
       Column(
@@ -280,7 +280,7 @@ class SummaryCardWidget extends AppStatelessWidget {
           ),
           ChangeWidget(
               number: summary.itdPerformance,
-              text: "${summary.itdPerformance}%"),
+              text: "${summary.itdPerformance.toStringAsFixed(1)}%"),
         ],
       ),
     ];

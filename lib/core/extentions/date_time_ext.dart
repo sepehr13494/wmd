@@ -12,7 +12,11 @@ extension CustomizableDateTime on DateTime {
   }
 
   static String get currentDate {
-    return DateFormat('yyyy-MM-dd').format(current).toString();
+    return DateFormat('yyyy-MM-dd',"en").format(current).toString();
+  }
+
+  static String serverFormatDate(DateTime dateTime) {
+    return DateFormat('yyyy-MM-dd',"en").format(dateTime).toString();
   }
 
   static String dateLocalized(DateTime input) {
@@ -48,17 +52,24 @@ extension CustomizableDateTime on DateTime {
   }
 
   static String miniDate(String dateTimeString) {
-    var dateString = dateTimeString.split("/");
+    var dateString = dateTimeString.split(" ")[0].split("/");
     DateTime dateTime = DateTime(int.parse(dateString[2]),
         int.parse(dateString[0]), int.parse(dateString[1]));
     return CustomizableDateTime.localizedDdMm(dateTime);
+  }
+
+  static String miniDateWithYear(String dateTimeString) {
+    var dateString = dateTimeString.split(" ")[0].split("/");
+    DateTime dateTime = DateTime(int.parse(dateString[2]),
+        int.parse(dateString[0]), int.parse(dateString[1]));
+    return "${CustomizableDateTime.localizedDdMm(dateTime)} ${dateString[2]}";
   }
 
   static String miniDateOneLine(String dateTimeString) {
     var dateString = dateTimeString.split("/");
     DateTime dateTime = DateTime(int.parse(dateString[2]),
         int.parse(dateString[0]), int.parse(dateString[1]));
-    return CustomizableDateTime.localizedDdMmOneLine(dateTime);
+    return CustomizableDateTime.localizedDdMmYyyy(dateTime);
   }
 
   static String getDayOfMonthSuffix(int dayNum) {
