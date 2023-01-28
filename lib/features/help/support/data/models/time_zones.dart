@@ -675,7 +675,7 @@ class TimeZones {
       };
 
   factory TimeZones.fromJson(Map<String, dynamic> json) => TimeZones(
-        value: json["value"] + " " + json["offset"],
+        value: json["value"],
         name: json["label"] + " " + json["offset"],
       );
 
