@@ -72,8 +72,12 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
         if (state is SuccessState) {
           GlobalFunctions.showSnackBar(context, "Call sheduled successfully!",
               type: "success");
+          Navigator.pop(context);
         }
       }), builder: (context, state) {
+        final PersonalInformationState personalState =
+            context.watch<PersonalInformationCubit>().state;
+
         return Scaffold(
           appBar: const AddAssetHeader(
             title: "",
@@ -87,6 +91,18 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                       : () {
                           Map<String, dynamic> finalMap = {
                             ...formKey.currentState!.instantValue,
+                            "email":
+                                (personalState is PersonalInformationLoaded)
+                                    ? personalState.getNameEntity.email
+                                    : "",
+                            "firstName":
+                                (personalState is PersonalInformationLoaded)
+                                    ? personalState.getNameEntity.firstName
+                                    : "",
+                            "lastName":
+                                (personalState is PersonalInformationLoaded)
+                                    ? personalState.getNameEntity.lastName
+                                    : "",
                           };
 
                           print(finalMap);
