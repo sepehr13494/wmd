@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:intl/intl.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -25,7 +26,8 @@ class CallSummaryWidget extends AppStatelessWidget {
                         .toString()),
                 CallSummaryRow(
                   label: "Date",
-                  value: formKey.currentState!.instantValue["date"].toString(),
+                  value: DateFormat('dd/MM/yyyy')
+                      .format(formKey.currentState!.instantValue["date"]),
                 ),
                 CallSummaryRow(
                     label: "Time",

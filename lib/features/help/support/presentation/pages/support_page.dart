@@ -91,8 +91,11 @@ class _SupportPageState extends AppState<SupportPage> {
                                 ),
                                 Text(
                                   appLocalizations.support_subheading,
-                                  style: textTheme.headlineSmall!.apply(
-                                      color: textTheme.bodyMedium?.color),
+                                  style: textTheme.headlineSmall!
+                                      .apply(
+                                        color: textTheme.bodyMedium?.color,
+                                      )
+                                      .copyWith(fontSize: 16),
                                   textAlign: TextAlign.center,
                                 ),
                               ]),

@@ -4,18 +4,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
-import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import 'package:wmd/core/presentation/widgets/info_icon.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/support_widget.dart';
 import 'package:wmd/features/asset_see_more/core/presentation/widget/title_subtitle.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 
-import '../../data/model/real_estate_more_entity.dart';
+import '../../../../../core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import '../../data/model/bank_account_more_entity.dart';
 
-class RealEstateDetailPage extends AppStatelessWidget {
-  final RealEstateMoreEntity entity;
-  const RealEstateDetailPage({super.key, required this.entity});
+class BankAccountMorePage extends AppStatelessWidget {
+  final BankAccountMoreEntity entity;
+  const BankAccountMorePage({super.key, required this.entity});
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
@@ -32,50 +33,50 @@ class RealEstateDetailPage extends AppStatelessWidget {
           entity.country,
     );
 
-    var type = TitleSubtitle(
+    final type = TitleSubtitle(
       title: appLocalizations.assets_seeMore_labels_type,
-      subTitle: entity.type.toString(),
+      subTitle: entity.accountType.toString(),
     );
-    var acquisCost = TitleSubtitle(
-        title: appLocalizations.assets_seeMore_labels_acquisitionCost,
-        subTitle: entity.acquisitionCostPerUnit.toString());
-    var acquisDate = TitleSubtitle(
-        title: appLocalizations.assets_seeMore_labels_acquisitionDate,
-        subTitle:
-            CustomizableDateTime.localizedDdMmYyyy(entity.acquisitionDate));
-    var currentValue = TitleSubtitle(
-        title: appLocalizations.assets_seeMore_labels_currentTotalValue,
+    final bankName = TitleSubtitle(
+      title: 'Bank name',
+      subTitle: entity.bankName,
+    );
+    final currency = TitleSubtitle(
+      title: 'Currency',
+      subTitle: entity.currencyCode,
+    );
+
+    final currentBalance = TitleSubtitle(
+        title: 'Currency balance',
+        subTitle: entity.currentBalance.convertMoney(addDollar: true));
+    final interestRate = TitleSubtitle(
+        title: 'interestRate', subTitle: '${entity.interestRate}%');
+    final startingBalance = TitleSubtitle(
+        title: 'Starting balance',
         subTitle: entity.holdings.convertMoney(addDollar: true));
-    var ownerShip = TitleSubtitle(
-        title: appLocalizations.assets_label_ownership,
-        subTitle: '${entity.ownershipPercentage}%');
-    var ownerShipBasedValue = TitleSubtitle(
-        title: appLocalizations.assets_label_ownershipBased,
-        subTitle: entity.holdings.convertMoney(addDollar: true));
-    var assetClass = TitleSubtitle(
+
+    final assetClass = TitleSubtitle(
         title: appLocalizations.assets_seeMore_labels_assetClass,
         subTitle: AssetsOverviewChartsColors.getAssetType(
-            appLocalizations, AssetTypes.realEstate));
-    var assetClassContr = TitleSubtitle(
+            appLocalizations, AssetTypes.otherAsset));
+
+    final assetClassContr = TitleSubtitle(
         title: appLocalizations.assets_seeMore_labels_assetClassContribution,
         subTitle: 'Not data');
-    var portfolioCont = TitleSubtitle(
+    final portfolioCont = TitleSubtitle(
         title: appLocalizations.assets_seeMore_labels_portfolioContribution,
         subTitle:
             '${entity.portfolioContribution}% of ${netWorth.convertMoney(addDollar: true)}');
-    var accountAddded = TitleSubtitle(
+    final accountAddded = TitleSubtitle(
         title: appLocalizations.assets_seeMore_labels_accountAdded,
-        subTitle: CustomizableDateTime.localizedDdMmYyyy(entity.valuationDate));
-    var ytd = TitleChangeSubtitle(
-      title: appLocalizations.assets_seeMore_labels_ytd,
-      subTitle: entity.holdings.convertMoney(addDollar: true),
+        subTitle: CustomizableDateTime.localizedDdMmYyyy(entity.asOfDate));
+    final netChange = TitleChangeSubtitle(
+      bigTitle: 'Net change',
+      title: 'Last 30 days',
+      subTitle: entity.currentBalance.convertMoney(addDollar: true),
       value: 12,
     );
-    var itd = TitleChangeSubtitle(
-      title: appLocalizations.assets_seeMore_labels_itd,
-      subTitle: entity.holdings.convertMoney(addDollar: true),
-      value: 12,
-    );
+
     final gap = ResponsiveHelper(context: context).bigger24Gap;
     final dividerGap = gap * 1.8;
     return Padding(
@@ -83,7 +84,7 @@ class RealEstateDetailPage extends AppStatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(entity.name, style: textTheme.titleLarge),
+          Text(entity.bankName, style: textTheme.titleLarge),
           const SizedBox(height: 24),
           Text(appLocalizations.assets_seeMore_labels_basicDetails,
               style: textTheme.bodyLarge),
@@ -92,13 +93,13 @@ class RealEstateDetailPage extends AppStatelessWidget {
             runSpacing: 16,
             spacing: gap,
             children: [
+              bankName,
               country,
+              currency,
               type,
-              acquisCost,
-              acquisDate,
-              currentValue,
-              ownerShip,
-              ownerShipBasedValue
+              startingBalance,
+              currentBalance,
+              interestRate,
             ],
           ),
           Divider(
@@ -110,18 +111,14 @@ class RealEstateDetailPage extends AppStatelessWidget {
               Text(appLocalizations.assets_seeMore_labels_performance,
                   style: textTheme.bodyLarge),
               const SizedBox(width: 8),
-              Icon(
-                Icons.info_outline,
-                color: Theme.of(context).primaryColor,
-                size: 14,
-              )
+              const InfoIcon(),
             ],
           ),
           SizedBox(height: gap),
           Wrap(
             runSpacing: 16,
             spacing: gap,
-            children: [ytd, itd],
+            children: [netChange],
           ),
           Divider(
             height: dividerGap,

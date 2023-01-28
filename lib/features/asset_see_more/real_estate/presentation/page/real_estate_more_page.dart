@@ -4,18 +4,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
+import 'package:wmd/core/presentation/widgets/info_icon.dart';
+import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/support_widget.dart';
 import 'package:wmd/features/asset_see_more/core/presentation/widget/title_subtitle.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 
-import '../../../../../core/presentation/widgets/responsive_helper/responsive_helper.dart';
-import '../../data/model/other_asset_more_entity.dart';
+import '../../data/model/real_estate_more_entity.dart';
 
-class OtherAssetDetailPage extends AppStatelessWidget {
-  final OtherAseetMoreEntity entity;
-  const OtherAssetDetailPage({super.key, required this.entity});
+class RealEstateMorePage extends AppStatelessWidget {
+  final RealEstateMoreEntity entity;
+  const RealEstateMorePage({super.key, required this.entity});
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
@@ -38,7 +39,7 @@ class OtherAssetDetailPage extends AppStatelessWidget {
     );
     var acquisCost = TitleSubtitle(
         title: appLocalizations.assets_seeMore_labels_acquisitionCost,
-        subTitle: entity.acquisitionCost.toString());
+        subTitle: entity.acquisitionCostPerUnit.toString());
     var acquisDate = TitleSubtitle(
         title: appLocalizations.assets_seeMore_labels_acquisitionDate,
         subTitle:
@@ -48,14 +49,14 @@ class OtherAssetDetailPage extends AppStatelessWidget {
         subTitle: entity.holdings.convertMoney(addDollar: true));
     var ownerShip = TitleSubtitle(
         title: appLocalizations.assets_label_ownership,
-        subTitle: '${entity.ownerShip}%');
+        subTitle: '${entity.ownershipPercentage}%');
     var ownerShipBasedValue = TitleSubtitle(
         title: appLocalizations.assets_label_ownershipBased,
         subTitle: entity.holdings.convertMoney(addDollar: true));
     var assetClass = TitleSubtitle(
         title: appLocalizations.assets_seeMore_labels_assetClass,
         subTitle: AssetsOverviewChartsColors.getAssetType(
-            appLocalizations, AssetTypes.otherAsset));
+            appLocalizations, AssetTypes.realEstate));
     var assetClassContr = TitleSubtitle(
         title: appLocalizations.assets_seeMore_labels_assetClassContribution,
         subTitle: 'Not data');
@@ -110,11 +111,7 @@ class OtherAssetDetailPage extends AppStatelessWidget {
               Text(appLocalizations.assets_seeMore_labels_performance,
                   style: textTheme.bodyLarge),
               const SizedBox(width: 8),
-              Icon(
-                Icons.info_outline,
-                color: Theme.of(context).primaryColor,
-                size: 14,
-              )
+              const InfoIcon(),
             ],
           ),
           SizedBox(height: gap),

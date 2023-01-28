@@ -10,6 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'min_max_calculator.dart';
 
+@Deprecated('We use Performance Bar Chart instead')
 class BarChartMainDashboard extends StatelessWidget {
   final List<GetAllocationEntity> allocations;
   const BarChartMainDashboard({super.key, required this.allocations});
@@ -64,7 +65,7 @@ class BarChartMainDashboard extends StatelessWidget {
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
               final textTheme = Theme.of(context).textTheme;
               return BarTooltipItem(
-                CustomizableDateTime.miniDateOneLine(
+                CustomizableDateTime.miniDateWithYear(
                     allocations[groupIndex.toInt()].name),
                 textTheme.titleSmall!,
                 textAlign: TextAlign.start,

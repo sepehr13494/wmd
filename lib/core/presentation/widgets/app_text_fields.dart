@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_new
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:wmd/core/models/radio_button_options.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 import 'package:wmd/features/add_assets/core/data/models/listed_security_name.dart';
@@ -53,6 +56,7 @@ class AppTextFields {
       decoration: InputDecoration(
         hintText: hint,
       ),
+      dropdownColor: AppColors.backgroundColorPageDark,
       items: items,
       validator: FormBuilderValidators.required(),
     );
@@ -76,21 +80,21 @@ class AppTextFields {
     ValueChanged<String?>? onChanged,
   }) {
     return SimpleTextField(
-        name:name,
-        showTitle:showTitle,
-        type:type,
-        formKey:key,
-        title:title,
-        hint:hint,
-        keyboardType:keyboardType,
-        minLines:minLines,
-        enabled:enabled,
-        obscureText:obscureText,
-        suffixIcon:suffixIcon,
-        required:required,
-        readOnly:readOnly,
-        extraValidators:extraValidators,
-        onChanged:onChanged,
+      name: name,
+      showTitle: showTitle,
+      type: type,
+      formKey: key,
+      title: title,
+      hint: hint,
+      keyboardType: keyboardType,
+      minLines: minLines,
+      enabled: enabled,
+      obscureText: obscureText,
+      suffixIcon: suffixIcon,
+      required: required,
+      readOnly: readOnly,
+      extraValidators: extraValidators,
+      onChanged: onChanged,
     );
   }
 }
@@ -140,16 +144,17 @@ class SimpleTextField extends AppStatelessWidget {
     }
     if (required) {
       validators.add(FormBuilderValidators.required(
-          errorText:
-          title != null ? 'Please enter ${title!.toLowerCase()}' : appLocalizations.common_errors_required));
+          errorText: title != null
+              ? 'Please enter ${title!.toLowerCase()}'
+              : appLocalizations.common_errors_required));
     }
     switch (type) {
       case TextFieldType.email:
         validators.add(FormBuilderValidators.email());
         break;
       case TextFieldType.password:
-      // validators.add(FormBuilderValidators.minLength(8));
-      // validators.add(AppFormValidators.validatePassword());
+        // validators.add(FormBuilderValidators.minLength(8));
+        // validators.add(AppFormValidators.validatePassword());
         break;
       case TextFieldType.phone:
         break;
@@ -306,14 +311,17 @@ class CountriesDropdown extends StatelessWidget {
   }
 }
 
-class FormBuilderSearchableDropdown<T> extends StatelessWidget {
+class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
   final String name;
+  final String? title;
   final String hint;
   final DropdownSearchItemAsString<T>? itemAsString;
   final DropdownSearchFilterFn<T>? filterFn;
   final DropdownSearchPopupItemBuilder<T>? itemBuilder;
   final List<T> items;
   final ValueChanged<T?>? onChanged;
+  final bool required;
+  final List<String? Function(T?)>? extraValidators;
 
   const FormBuilderSearchableDropdown(
       {Key? key,
@@ -321,43 +329,84 @@ class FormBuilderSearchableDropdown<T> extends StatelessWidget {
       required this.hint,
       this.itemAsString,
       this.filterFn,
+      this.title,
       this.itemBuilder,
+      this.extraValidators,
+      this.required = true,
       required this.items,
       this.onChanged})
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
+    final validators = <String? Function(T?)>[];
+    if (extraValidators != null) {
+      validators.addAll(extraValidators!);
+    }
+    if (required) {
+      validators.add(FormBuilderValidators.required(
+          errorText: title != null
+              ? 'Please enter ${title!.toLowerCase()}'
+              : appLocalizations.common_errors_required));
+    }
+
     return FormBuilderField<T>(
         autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: FormBuilderValidators.compose(validators),
         onChanged: onChanged,
         builder: (FormFieldState field) {
-          return DropdownSearch<T>(
-            itemAsString: itemAsString,
-            filterFn: filterFn,
-            popupProps:
-                PopupProps.menu(showSearchBox: true, itemBuilder: itemBuilder),
-            items: items,
-            dropdownDecoratorProps: DropDownDecoratorProps(
-              dropdownSearchDecoration: InputDecoration(
-                hintText: hint,
-              ),
-            ),
-            onChanged: (value) => field.didChange(value),
-            selectedItem: field.value,
-          );
+          return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DropdownSearch<T>(
+                  itemAsString: itemAsString,
+                  filterFn: filterFn,
+                  popupProps: PopupProps.menu(
+                      showSearchBox: true, itemBuilder: itemBuilder),
+                  items: items,
+                  dropdownDecoratorProps: DropDownDecoratorProps(
+                    dropdownSearchDecoration: InputDecoration(
+                      hintText: hint,
+                      enabledBorder: field.hasError
+                          ? const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
+                              borderSide: BorderSide(
+                                width: 1,
+                                color: Colors.red,
+                              ))
+                          : null,
+                    ),
+                  ),
+                  onChanged: (value) => field.didChange(value),
+                  selectedItem: field.value,
+                ),
+                if (field.hasError) ...[
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 9),
+                    child: Text(
+                      field.errorText ?? "",
+                      style: TextStyle(fontSize: 12, color: Colors.red[600]),
+                    ),
+                  ),
+                ]
+              ]);
         },
         name: name);
   }
 }
 
 class FormBuilderTypeAhead extends StatefulWidget {
+  final String? title;
   final String name;
   final String hint;
   final List<String> items;
   final ValueChanged<String?>? onChange;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
+  final bool? required;
   final List<String? Function(String?)>? extraValidators;
 
   const FormBuilderTypeAhead(
@@ -367,150 +416,228 @@ class FormBuilderTypeAhead extends StatefulWidget {
       required this.hint,
       this.prefixIcon,
       this.suffixIcon,
+      this.title,
       this.extraValidators,
+      this.required = true,
       this.onChange})
       : super(key: key);
 
   @override
-  State<FormBuilderTypeAhead> createState() => _FormBuilderTypeAheadState();
+  AppState<FormBuilderTypeAhead> createState() => _FormBuilderTypeAheadState();
 }
 
-class _FormBuilderTypeAheadState extends State<FormBuilderTypeAhead> {
+class _FormBuilderTypeAheadState extends AppState<FormBuilderTypeAhead> {
   TextEditingController typeController = TextEditingController();
   final validators = <String? Function(String?)>[];
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
+    if (widget.extraValidators != null) {
+      validators.addAll(widget.extraValidators!);
+    }
+    if (widget.required ?? false) {
+      validators.add(FormBuilderValidators.required(
+          errorText: widget.title != null
+              ? 'Please enter ${widget.title!.toLowerCase()}'
+              : appLocalizations.common_errors_required));
+    }
+
     return FormBuilderField<String?>(
         builder: (state) {
-          return TypeAheadField(
-            animationStart: 0,
-            animationDuration: Duration.zero,
-            textFieldConfiguration: TextFieldConfiguration(
-              decoration: InputDecoration(
-                hintText: widget.hint,
-                prefixIcon: widget.prefixIcon,
-                suffixIcon: widget.suffixIcon,
-              ),
-              controller: typeController,
-              onChanged: (value) {
-                state.didChange(value);
-              },
-            ),
-            suggestionsCallback: (pattern) {
-              return widget.items.where((element) =>
-                  element.toLowerCase().contains(pattern.toLowerCase()));
-            },
-            itemBuilder: (context, suggestion) {
-              return Padding(
-                padding: const EdgeInsets.all(8),
-                child: Text(suggestion),
-              );
-            },
-            onSuggestionSelected: (suggestion) {
-              typeController.text = suggestion;
-              state.didChange(suggestion);
-            },
-            hideOnEmpty: true,
-          );
+          return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TypeAheadField(
+                  animationStart: 0,
+                  animationDuration: Duration.zero,
+                  textFieldConfiguration: TextFieldConfiguration(
+                    decoration: InputDecoration(
+                      hintText: widget.hint,
+                      prefixIcon: widget.prefixIcon,
+                      suffixIcon: widget.suffixIcon,
+                      enabledBorder: state.hasError
+                          ? const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
+                              borderSide: BorderSide(
+                                width: 1,
+                                color: Colors.red,
+                              ))
+                          : null,
+                    ),
+                    controller: typeController,
+                    onChanged: (value) {
+                      state.didChange(value);
+                    },
+                  ),
+                  suggestionsCallback: (pattern) {
+                    return widget.items.where((element) =>
+                        element.toLowerCase().contains(pattern.toLowerCase()));
+                  },
+                  itemBuilder: (context, suggestion) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Text(suggestion),
+                    );
+                  },
+                  onSuggestionSelected: (suggestion) {
+                    typeController.text = suggestion;
+                    state.didChange(suggestion);
+                  },
+                  hideOnEmpty: true,
+                ),
+                if (state.hasError) ...[
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 9),
+                    child: Text(
+                      state.errorText ?? "",
+                      style: TextStyle(fontSize: 12, color: Colors.red[600]),
+                    ),
+                  ),
+                ]
+              ]);
         },
         onChanged: widget.onChange,
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator:
-            FormBuilderValidators.compose(widget.extraValidators ?? validators),
+        validator: FormBuilderValidators.compose(validators),
         name: widget.name);
   }
 }
 
 class ListedSecurityTypeAhead extends StatefulWidget {
   final String name;
+  final String? title;
   final String hint;
   final List<ListedSecurityName> items;
   final ValueChanged<ListedSecurityName?>? onChange;
+  final bool? required;
+  final List<String? Function(String?)>? extraValidators;
 
   const ListedSecurityTypeAhead(
       {Key? key,
       required this.name,
       required this.items,
       required this.hint,
+      this.extraValidators,
+      this.required = true,
+      this.title,
       this.onChange})
       : super(key: key);
 
   @override
-  State<ListedSecurityTypeAhead> createState() =>
+  AppState<ListedSecurityTypeAhead> createState() =>
       _ListedSecurityTypeAheadState();
 }
 
-class _ListedSecurityTypeAheadState extends State<ListedSecurityTypeAhead> {
+class _ListedSecurityTypeAheadState extends AppState<ListedSecurityTypeAhead> {
   TextEditingController typeController = TextEditingController();
+  final validators = <String? Function(ListedSecurityName?)>[];
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
     final appTextTheme = Theme.of(context).textTheme;
+
+    if (widget.required ?? false) {
+      validators.add(FormBuilderValidators.required(
+          errorText: widget.title != null
+              ? 'Please enter ${widget.title!.toLowerCase()}'
+              : appLocalizations.common_errors_required));
+    }
 
     return FormBuilderField<ListedSecurityName?>(
         builder: (state) {
-          return TypeAheadField(
-            animationStart: 0,
-            animationDuration: Duration.zero,
-            textFieldConfiguration: TextFieldConfiguration(
-              decoration: InputDecoration(
-                hintText: widget.hint,
-              ),
-              controller: typeController,
-              onChanged: (value) {
-                final currentValue = widget.items
-                    .firstWhere((element) => element.securityName == value);
-                state.didChange(currentValue);
-              },
-            ),
-            suggestionsCallback: (pattern) {
-              return widget.items.where((element) =>
-                  element.securityName
-                      .toLowerCase()
-                      .contains(pattern.toLowerCase()) ||
-                  element.securityShortName
-                      .toLowerCase()
-                      .contains(pattern.toLowerCase()) ||
-                  element.isin.toLowerCase().contains(pattern.toLowerCase()));
-            },
-            itemBuilder: (context, suggestion) {
-              return Padding(
-                padding: const EdgeInsets.all(8),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(child: Text(suggestion.securityName)),
-                          const SizedBox(width: 24),
-                          Expanded(child: Text(suggestion.currencyCode ?? "")),
-                          Expanded(child: Text(suggestion.category)),
-                        ],
-                      ),
-                      const SizedBox(height: 5),
-                      Row(
-                        children: [
-                          Text(suggestion.securityShortName,
-                              style: appTextTheme.bodySmall),
-                          const Text(" . "),
-                          Text(suggestion.tradedExchange,
-                              style: appTextTheme.bodySmall),
-                        ],
-                      ),
-                      Text(suggestion.isin, style: appTextTheme.bodySmall)
-                    ]),
-              );
-            },
-            onSuggestionSelected: (suggestion) {
-              typeController.text = suggestion.securityName;
-              state.didChange(suggestion);
-            },
-            hideOnEmpty: true,
-          );
+          return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TypeAheadField(
+                  animationStart: 0,
+                  animationDuration: Duration.zero,
+                  textFieldConfiguration: TextFieldConfiguration(
+                    decoration: InputDecoration(
+                      hintText: widget.hint,
+                      enabledBorder: state.hasError
+                          ? const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
+                              borderSide: BorderSide(
+                                width: 1,
+                                color: Colors.red,
+                              ))
+                          : null,
+                    ),
+                    controller: typeController,
+                    onChanged: (value) {
+                      final currentValue = widget.items.firstWhere(
+                          (element) => element.securityName == value);
+                      state.didChange(currentValue);
+                    },
+                  ),
+                  suggestionsCallback: (pattern) {
+                    return widget.items.where((element) =>
+                        element.securityName
+                            .toLowerCase()
+                            .contains(pattern.toLowerCase()) ||
+                        element.securityShortName
+                            .toLowerCase()
+                            .contains(pattern.toLowerCase()) ||
+                        element.isin
+                            .toLowerCase()
+                            .contains(pattern.toLowerCase()));
+                  },
+                  itemBuilder: (context, suggestion) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(child: Text(suggestion.securityName)),
+                                const SizedBox(width: 24),
+                                Expanded(
+                                    child: Text(suggestion.currencyCode ?? "")),
+                                Expanded(child: Text(suggestion.category)),
+                              ],
+                            ),
+                            const SizedBox(height: 5),
+                            Row(
+                              children: [
+                                Text(suggestion.securityShortName,
+                                    style: appTextTheme.bodySmall),
+                                const Text(" . "),
+                                Text(suggestion.tradedExchange,
+                                    style: appTextTheme.bodySmall),
+                              ],
+                            ),
+                            Text(suggestion.isin, style: appTextTheme.bodySmall)
+                          ]),
+                    );
+                  },
+                  onSuggestionSelected: (suggestion) {
+                    typeController.text = suggestion.securityName;
+                    state.didChange(suggestion);
+                  },
+                  hideOnEmpty: true,
+                ),
+                if (state.hasError) ...[
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 9),
+                    child: Text(
+                      state.errorText ?? "",
+                      style: TextStyle(fontSize: 12, color: Colors.red[600]),
+                    ),
+                  ),
+                ]
+              ]);
         },
         onChanged: widget.onChange,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: FormBuilderValidators.compose(validators),
         name: widget.name);
   }
 }
@@ -617,9 +744,8 @@ class _PasswordTextFieldState extends AppState<PasswordTextField> {
             key: widget.passwordKey,
             name: widget.name ?? "password",
             type: TextFieldType.password,
-            hint: widget.name ??
-                (widget.hint ??
-                    appLocalizations.auth_signup_input_password_placeholder),
+            hint: widget.hint ??
+                appLocalizations.auth_signup_input_password_placeholder,
             obscureText: !visible,
             suffixIcon: widget.showEye
                 ? IconButton(

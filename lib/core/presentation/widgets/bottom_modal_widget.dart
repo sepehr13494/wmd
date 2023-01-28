@@ -2,13 +2,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 
-class BottomModalWidget extends StatelessWidget {
+class CenterModalWidget extends StatelessWidget {
   final Widget body;
   final String? confirmBtn;
   final String? cancelBtn;
   final EdgeInsets contentPadding;
 
-  const BottomModalWidget({
+  const CenterModalWidget({
     super.key,
     required this.body,
     this.confirmBtn,
@@ -33,22 +33,15 @@ class BottomModalWidget extends StatelessWidget {
         alignment: Alignment.center,
         child: SizedBox(
           width: double.infinity,
-          height: isMobile
-              ? MediaQuery.of(context).size.height * 0.5
-              : MediaQuery.of(context).size.height * 0.4,
           child: Container(
             color: Theme.of(context).scaffoldBackgroundColor,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 buildModalHeader(context),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: contentPadding,
-                      child: body,
-                    ),
-                  ),
+                Padding(
+                  padding: contentPadding,
+                  child: body,
                 ),
                 buildActionContainer(context),
               ],

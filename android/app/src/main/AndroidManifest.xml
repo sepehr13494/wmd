@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"    
-    package="com.tfo.wmd">
+    package="com.tfo.wmd">   
 
     <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
       <!-- Provide required visibility configuration for API level 30 and above -->
@@ -69,7 +69,18 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="app-wmd-dev-01.azurewebsites.net" android:path="/password/update"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https" android:host="app-wmd-qa-01.azurewebsites.net" android:path="/verify-response"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https" android:host="app-wmd-qa-01.azurewebsites.net" android:path="/password/update"/>
             </intent-filter>
         </activity>

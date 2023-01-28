@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
+import 'package:wmd/core/presentation/widgets/info_icon.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/core/domain/entities/asset_summary_entity.dart';
@@ -205,7 +206,7 @@ class SummaryCardWidget extends AppStatelessWidget {
           style: textTheme.titleSmall,
         ),
         Builder(builder: (context) {
-          return const SizedBox();
+          // return const SizedBox();
           if (AppConstants.publicMvp2Items) {
             return TextButton(
               onPressed: () {
@@ -248,16 +249,12 @@ class SummaryCardWidget extends AppStatelessWidget {
                 style: textTheme.bodySmall,
               ),
               const SizedBox(width: 8),
-              Icon(
-                Icons.info_outline,
-                color: Theme.of(context).primaryColor,
-                size: 14,
-              )
+              const InfoIcon(),
             ],
           ),
           ChangeWidget(
               number: summary.ytdPerformance,
-              text: "${summary.ytdPerformance}%"),
+              text: "${summary.ytdPerformance.toStringAsFixed(1)}%"),
         ],
       ),
       Column(
@@ -271,16 +268,12 @@ class SummaryCardWidget extends AppStatelessWidget {
                 style: textTheme.bodySmall,
               ),
               const SizedBox(width: 8),
-              Icon(
-                Icons.info_outline,
-                color: Theme.of(context).primaryColor,
-                size: 14,
-              )
+              const InfoIcon(),
             ],
           ),
           ChangeWidget(
               number: summary.itdPerformance,
-              text: "${summary.itdPerformance}%"),
+              text: "${summary.itdPerformance.toStringAsFixed(1)}%"),
         ],
       ),
     ];

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
+import 'package:wmd/core/presentation/bloc/base_cubit.dart';
+import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
@@ -22,6 +24,7 @@ import 'package:wmd/features/help/support/presentation/manager/general_inquiry_c
 import 'package:wmd/features/help/support/presentation/widget/call_summary_widegt.dart';
 import 'package:wmd/features/help/support/presentation/widget/schedule_call_footer.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
+import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 
 class ScheduleCallPage extends StatefulWidget {
@@ -64,7 +67,17 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
 
     return BlocProvider(
       create: (context) => sl<GeneralInquiryCubit>(),
-      child: Builder(builder: (context) {
+      child: BlocConsumer<GeneralInquiryCubit, GeneralInquiryState>(
+          listener: BlocHelper.defaultBlocListener(listener: (context, state) {
+        if (state is SuccessState) {
+          GlobalFunctions.showSnackBar(context, "Call sheduled successfully!",
+              type: "success");
+          Navigator.pop(context);
+        }
+      }), builder: (context, state) {
+        final PersonalInformationState personalState =
+            context.watch<PersonalInformationCubit>().state;
+
         return Scaffold(
           appBar: const AddAssetHeader(
             title: "",
@@ -78,6 +91,18 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                       : () {
                           Map<String, dynamic> finalMap = {
                             ...formKey.currentState!.instantValue,
+                            "email":
+                                (personalState is PersonalInformationLoaded)
+                                    ? personalState.getNameEntity.email
+                                    : "",
+                            "firstName":
+                                (personalState is PersonalInformationLoaded)
+                                    ? personalState.getNameEntity.firstName
+                                    : "",
+                            "lastName":
+                                (personalState is PersonalInformationLoaded)
+                                    ? personalState.getNameEntity.lastName
+                                    : "",
                           };
 
                           print(finalMap);

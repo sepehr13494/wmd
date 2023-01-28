@@ -23,11 +23,14 @@ class TitleSubtitle extends AppStatelessWidget {
 
 class TitleChangeSubtitle extends AppStatelessWidget {
   final String title;
+  final String? bigTitle;
+
   final String subTitle;
   final double value;
   const TitleChangeSubtitle(
       {super.key,
       required this.title,
+      this.bigTitle,
       required this.subTitle,
       required this.value});
 
@@ -37,12 +40,16 @@ class TitleChangeSubtitle extends AppStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        if (bigTitle != null)
+          Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Text(bigTitle!, style: textTheme.bodyLarge)),
         Text(title, style: textTheme.bodySmall),
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(subTitle, style: textTheme.bodyLarge),
-            ChangeWidget(number: value, text: value.toString()),
+            ChangeWidget(number: value, text: value.toStringAsFixed(1)),
           ],
         ),
       ],

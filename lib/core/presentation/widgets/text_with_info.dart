@@ -11,7 +11,7 @@ class TextWithInfo extends StatelessWidget {
       {Key? key,
       required this.title,
       this.tooltipText = "text",
-      this.icon = Icons.info_outline,
+      this.icon = Icons.info,
       required this.hasInfo})
       : super(key: key);
 

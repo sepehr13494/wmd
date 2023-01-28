@@ -6,12 +6,22 @@ class NetWorthEntity extends Equatable{
     required this.assets,
     required this.liabilities,
     required this.durationInDays,
+    required this.lastUpdated,
   });
 
   final TotalNetWorthEntity totalNetWorth;
   final AssetsEntity assets;
   final LiabilitiesEntity liabilities;
   final int durationInDays;
+  final String lastUpdated;
+
+  Map<String, dynamic> toJson() => {
+    "totalNetWorth": totalNetWorth.toJson(),
+    "assets": assets.toJson(),
+    "liabilities": liabilities.toJson(),
+    "durationInDays": durationInDays,
+    "lastUpdated": lastUpdated,
+  };
 
   @override
   List<Object?> get props => [
@@ -19,6 +29,7 @@ class NetWorthEntity extends Equatable{
     assets,
     liabilities,
     durationInDays,
+    lastUpdated,
   ];
 
 }
@@ -28,17 +39,26 @@ class AssetsEntity extends Equatable{
     required this.newAsset,
     required this.currentValue,
     required this.change,
+    required this.changePercentage,
+    required this.ytd,
+    required this.itd,
   });
 
   final int newAsset;
   final double currentValue;
   final double change;
+  final double changePercentage;
+  final double ytd;
+  final double itd;
 
   @override
   List<Object?> get props => [
     newAsset,
     currentValue,
     change,
+    changePercentage,
+    ytd,
+    itd,
   ];
 
   Map<String, dynamic> toJson() =>
@@ -46,6 +66,9 @@ class AssetsEntity extends Equatable{
         "newAsset": newAsset,
         "currentValue": currentValue,
         "change": change,
+        "changePercentage": changePercentage,
+        "ytd": ytd,
+        "itd": itd,
       };
 }
 
@@ -54,17 +77,23 @@ class LiabilitiesEntity extends Equatable{
     required this.newLiability,
     required this.currentValue,
     required this.change,
+    required this.ytd,
+    required this.itd,
   });
 
   final int newLiability;
   final double currentValue;
   final double change;
+  final double ytd;
+  final double itd;
 
   @override
   List<Object?> get props => [
     newLiability,
     currentValue,
     change,
+    ytd,
+    itd,
   ];
 
   Map<String, dynamic> toJson() =>
@@ -72,6 +101,8 @@ class LiabilitiesEntity extends Equatable{
         "newLiability": newLiability,
         "currentValue": currentValue,
         "change": change,
+        "ytd": ytd,
+        "itd": itd,
       };
 }
 

@@ -42,7 +42,7 @@ class LineChartSample2 extends AppStatelessWidget {
 
   Widget bottomTitleWidgets(double value, TitleMeta meta, bool hideValues) {
     int x = (allocations.length / 7).ceil();
-    var dateString = allocations[value.toInt()].name.split("/");
+    var dateString = allocations[value.toInt()].name.split(" ")[0].split("/");
     DateTime dateTime = DateTime(int.parse(dateString[2]),
         int.parse(dateString[0]), int.parse(dateString[1]));
     if (hideValues) {
@@ -51,7 +51,7 @@ class LineChartSample2 extends AppStatelessWidget {
       return value.toInt() % x == 0
           ? SideTitleWidget(
               axisSide: meta.axisSide,
-              child: Text(CustomizableDateTime.localizedDdMm(dateTime),
+              child: Text(CustomizableDateTime.miniDate(allocations[value.toInt()].name),
                   style: const TextStyle(fontSize: 8)),
             )
           : const SizedBox();
@@ -146,7 +146,7 @@ class LineChartSample2 extends AppStatelessWidget {
             final textTheme = Theme.of(context).textTheme;
             return [
               LineTooltipItem(
-                CustomizableDateTime.miniDateOneLine(
+                CustomizableDateTime.miniDateWithYear(
                     allocations[touchedSpots.first.x.toInt()].name),
                 textTheme.titleSmall!,
                 textAlign: TextAlign.start,

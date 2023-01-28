@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
@@ -87,8 +88,15 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    return BlocProvider(
-      create: (context) => sl<ListedSecurityCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => sl<ListedSecurityCubit>(),
+        ),
+        // BlocProvider(
+        //   create: (context) => sl<ListedSecurityCubit>()..getListedSecurity(""),
+        // )
+      ],
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: const AddAssetHeader(title: "", showExitModal: true),
@@ -250,6 +258,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                           .assetLiabilityForms_forms_listedAssets_inputFields_brokerName_label,
                                       child: FormBuilderTypeAhead(
                                           name: "brokerName",
+                                          required: false,
                                           hint: appLocalizations
                                               .assetLiabilityForms_forms_listedAssets_inputFields_brokerName_placeholder,
                                           items: AppConstants.custodianList),
@@ -306,6 +315,12 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                         inputType: InputType.date,
                                         format: DateFormat("dd/MM/yyyy"),
                                         name: "investmentDate",
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        validator:
+                                            FormBuilderValidators.compose([
+                                          FormBuilderValidators.required()
+                                        ]),
                                         decoration: InputDecoration(
                                             suffixIcon: Icon(
                                               Icons.calendar_today_outlined,

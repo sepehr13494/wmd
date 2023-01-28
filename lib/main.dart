@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final router = AppRouter.router;
+    final router = AppRouter().router();
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -77,30 +77,6 @@ class MyApp extends StatelessWidget {
             create: (context) => sl<LocalizationManager>()
               ..changeLang(sl<LocalStorage>().getLocale())),
         BlocProvider(create: (context) => sl<LocalAuthManager>()),
-        BlocProvider(create: (context) => sl<UserStatusCubit>()),
-        BlocProvider(create: (context) => sl<MainDashboardCubit>()..initPage()),
-        BlocProvider(
-            create: (context) =>
-                sl<AssetsOverviewCubit>()..getAssetsOverview()),
-        BlocProvider(
-          create: (context) => sl<ChartsCubit>()..getChart(),
-        ),
-        BlocProvider(
-          create: (context) => sl<DashboardAllocationCubit>()..getAllocation(),
-        ),
-        BlocProvider(
-          create: (context) => sl<DashboardPieCubit>()..getPie(),
-        ),
-        BlocProvider(
-          create: (context) => sl<DashboardGoeCubit>()..getGeographic(),
-        ),
-        BlocProvider(
-          create: (context) =>
-              sl<CustodianStatusListCubit>()..getCustodianStatusList(),
-        ),
-        BlocProvider(
-          create: (context) => sl<PersonalInformationCubit>()..getName(),
-        ),
       ],
       child: Builder(builder: (context) {
         return MaterialApp.router(

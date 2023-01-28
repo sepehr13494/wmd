@@ -42,7 +42,7 @@ class StatusStepWidget extends AppStatelessWidget {
                 textAlign: TextAlign.center,
               )),
             ),
-      title: Text(title),
+      title: Text(title, style: textTheme.bodyMedium),
       subtitle: Builder(
         builder: (context) {
           if (isDone) {

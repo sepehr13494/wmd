@@ -23,7 +23,7 @@ class ListedSecurityCubit extends Cubit<ListedSecurityState> {
         (saveSuccess) => emit(AddAssetState(addAsset: saveSuccess)));
   }
 
-  getBankList(String text) async {
+  getListedSecurity(String text) async {
     emit(LoadingState());
     final result = await getListedSecurityUseCase(text);
     result.fold((failure) => emit(ErrorState(failure: failure)),

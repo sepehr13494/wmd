@@ -20,7 +20,7 @@ class ChangeWidget extends StatelessWidget {
             : Icon(
                 isPositive ? Icons.arrow_drop_up : Icons.arrow_drop_down,
                 color: color,
-                size: 11,
+                size: 15,
               ),
         Text(
           text,

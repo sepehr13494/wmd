@@ -44,6 +44,7 @@ class AppThemes {
             color: primaryColor,
           ),
         ),
+        bottomSheetTheme: BottomSheetThemeData(backgroundColor: appTheme.scaffoldBackgroundColor),
         scaffoldBackgroundColor: brightness == Brightness.dark
             ? AppColors.backgroundColorPageDark
             : Colors.white,

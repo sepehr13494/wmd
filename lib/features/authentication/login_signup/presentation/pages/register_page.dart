@@ -33,6 +33,7 @@ class _RegisterPageState extends AppState<RegisterPage> {
   bool termsChecked = false;
   final formKey = GlobalKey<FormBuilderState>();
   final passwordFieldKey = GlobalKey<FormBuilderFieldState>();
+  String? passwordValue;
   bool lowercase = false,
       uppercase = false,
       numbers = false,
@@ -52,7 +53,6 @@ class _RegisterPageState extends AppState<RegisterPage> {
           length = false;
         });
       }
-
       setState(() {
         lowercase = AppFormValidators.checkLowerCaseValidation(value);
         uppercase = AppFormValidators.checkUpperCaseValidation(value);
@@ -63,7 +63,10 @@ class _RegisterPageState extends AppState<RegisterPage> {
     }
 
     void onPasswordChange(String? e) {
-      validatePassword(passwordFieldKey.currentState?.value);
+      setState(() {
+        passwordValue = e;
+      });
+      validatePassword(e);
     }
 
     bool checkPasswordValidity() {
@@ -122,8 +125,8 @@ class _RegisterPageState extends AppState<RegisterPage> {
                                     onChange: onPasswordChange,
                                   ),
                                   const SizedBox(height: 10),
-                                  if (passwordFieldKey.currentState?.value !=
-                                          null &&
+                                  if (passwordValue != null &&
+                                      passwordValue!.isNotEmpty &&
                                       !checkPasswordValidity())
                                     PasswordValidation(
                                       lowercase: lowercase,
@@ -163,7 +166,6 @@ class _RegisterPageState extends AppState<RegisterPage> {
                                             ..onTap = () {
                                               showTermsModal(context: context)
                                                   .then((value) {
-                                                print(value);
                                                 if (value ?? false) {
                                                   formKey.currentState!
                                                       .patchValue(
@@ -173,10 +175,10 @@ class _RegisterPageState extends AppState<RegisterPage> {
                                             },
                                         ),
                                         TextSpan(
-                                            text: " and ",
+                                            text: " ${appLocalizations.auth_signup_checkbox_and} ",
                                             style: textTheme.bodySmall),
                                         TextSpan(
-                                          text: 'Privacy Policy',
+                                          text: appLocalizations.auth_signup_checkbox_privacyPolicy,
                                           style: textTheme.bodySmall!
                                               .toLinkStyle(context),
                                           recognizer: TapGestureRecognizer()
@@ -197,6 +199,7 @@ class _RegisterPageState extends AppState<RegisterPage> {
                                         if (formKey.currentState!.validate()) {
                                           Map<String, dynamic> map = formKey
                                               .currentState!.instantValue;
+
                                           context
                                               .read<LoginSignUpCubit>()
                                               .postRegister(

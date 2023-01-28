@@ -48,7 +48,7 @@ class PrivacyWidget extends AppStatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
             child: Text(
-              'Table of Contents',
+              appLocalizations.auth_signup_privacyItems_heading,
               // appLocalizations.auth_signup_tos_title,
               style: textTheme.headlineSmall,
               textAlign: TextAlign.center,

@@ -104,7 +104,10 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                             children: [
                                               const FilterAddPart(),
                                               const SizedBox(height: 12),
-                                              const BanksAuthorizationProcess(),
+                                              BanksAuthorizationProcess(
+                                                  initiallyExpanded:
+                                                      !(isAssetsNotEmpty ||
+                                                          isLiabilityNotEmpty)),
                                               if (isAssetsNotEmpty ||
                                                   isLiabilityNotEmpty)
                                                 SummeryWidget(

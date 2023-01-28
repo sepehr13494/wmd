@@ -118,6 +118,7 @@ class _PersonalInformationWidgetState
                                 .profile_tabs_personal_fields_label_lastName,
                             child: AppTextFields.simpleTextField(
                               name: "lastName",
+                              required: false,
                               hint: appLocalizations
                                   .profile_tabs_personal_placeholders_lastName,
                               onChanged: checkFinalValid,

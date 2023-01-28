@@ -22,8 +22,8 @@ class YtdItdWidget extends StatelessWidget {
     return Row(
       children: List.generate(2, (index) {
         final List items = [
-          [AppLocalizations.of(context).assets_label_ytd, ytd, "$ytd%"],
-          [AppLocalizations.of(context).assets_label_itd, itd, "$itd%"],
+          [AppLocalizations.of(context).assets_label_ytd, ytd, "${ytd.toStringAsFixed(1)}%"],
+          [AppLocalizations.of(context).assets_label_itd, itd, "${itd.toStringAsFixed(1)}%"],
         ];
         final item = items[index];
         return ExpandedIf(
