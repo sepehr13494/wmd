@@ -30,8 +30,7 @@ class LocalAuthManager extends Cubit<bool>{
       sl<LocalStorage>().setLocalAuth(val);
       emit(val);
     } else {
-      final didAuth = await sl<LocalAuthManager>()
-          .authenticate(context);
+      final didAuth = await authenticate(context);
       if (didAuth) {
         sl<LocalStorage>().setLocalAuth(val);
         emit(val);

@@ -136,7 +136,7 @@ class ProfilePage extends AppStatelessWidget {
                               onChanged: (val) async {
                                 context.read<LocalAuthManager>().setLocalAuth(val, context);
                               },
-                              title: Text("local auth"),
+                              title: Text(appLocalizations.profile_localAuth_enableFaceId),
                             );
                           }
                         ),

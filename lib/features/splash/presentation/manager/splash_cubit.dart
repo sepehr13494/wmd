@@ -11,9 +11,9 @@ class SplashCubit extends Cubit<SplashState> {
   final CheckLoginUseCase checkLoginUseCase;
   SplashCubit(this.checkLoginUseCase) : super(SplashInitial());
 
-  initSplash() async {
+  initSplash({int time = 2000}) async {
     Future.delayed(
-      const Duration(milliseconds: 2000),
+      Duration(milliseconds: time),
       () async {
         final result = await checkLoginUseCase(NoParams());
         result.fold(
