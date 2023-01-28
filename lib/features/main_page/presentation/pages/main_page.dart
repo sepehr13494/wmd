@@ -2,6 +2,9 @@ import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
+import 'package:wmd/core/presentation/widgets/local_auth_page.dart';
+import 'package:wmd/core/util/local_auth_manager.dart';
+import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/pages/assets_overview_page.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/pages/dashboard_main_page.dart';
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
@@ -18,7 +21,7 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   static final List<Widget> _widgetOptions = <Widget>[
     const DashboardMainPage(),
     const AssetsOverView(),
@@ -30,8 +33,26 @@ class _MainPageState extends State<MainPage> {
   ];
 
   @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    super.didChangeAppLifecycleState(state);
+    if(state == AppLifecycleState.resumed){
+      LocalAuthManager localAuthManager = context.read<LocalAuthManager>();
+      if(localAuthManager.state){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const LocalAuthPage()));
+      }
+    }
+  }
+
+  @override
   void initState() {
     context.read<UserStatusCubit>().getUserStatus();
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
 

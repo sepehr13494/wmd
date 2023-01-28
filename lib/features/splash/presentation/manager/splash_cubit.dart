@@ -11,9 +11,9 @@ class SplashCubit extends Cubit<SplashState> {
   final CheckLoginUseCase checkLoginUseCase;
   SplashCubit(this.checkLoginUseCase) : super(SplashInitial());
 
-  initSplash() async {
+  initSplash({int time = 2000}) async {
     Future.delayed(
-      const Duration(seconds: 2),
+      Duration(milliseconds: time),
       () async {
         final result = await checkLoginUseCase(NoParams());
         result.fold(
@@ -22,13 +22,7 @@ class SplashCubit extends Cubit<SplashState> {
                 tryAgainFunction: () {
                   initSplash();
                 })), (r) {
-          String routeName = "";
-          if (r) {
-            routeName = AppRoutes.main;
-          } else {
-            routeName = AppRoutes.welcome;
-          }
-          emit(SplashLoaded(routeName: routeName));
+          emit(SplashLoaded(isLogin: r));
         });
       },
     );

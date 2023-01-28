@@ -2,7 +2,9 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:wmd/core/data/network/error_handler_middleware.dart';
+import 'package:wmd/core/util/local_auth_manager.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/data/data_sources/plaid_data_source.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/data/repository/plaid_repository_impl.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/domain/repository/plaid_repository.dart';
@@ -273,18 +275,6 @@ Future<void> init() async {
       () => UserStatusRepositoryImpl(sl(), sl()));
   sl.registerLazySingleton<UserStatusRemoteDataSource>(
       () => UserStatusRemoteDataSourceImpl(sl()));
-  //local_storage
-  sl.registerLazySingleton<LocalStorage>(() => LocalStorage(sl()));
-  sl.registerLazySingleton<ServerRequestManager>(
-      () => ServerRequestManager(sl()));
-  sl.registerLazySingleton<ErrorHandlerMiddleware>(
-      () => ErrorHandlerMiddleware(sl()));
-  //device_info
-  sl.registerLazySingleton<AppDeviceInfo>(() => AppDeviceInfo(sl()));
-  //theme_manager
-  sl.registerFactory(() => ThemeManager(sl()));
-  //localization_manager
-  sl.registerFactory(() => LocalizationManager(sl()));
 
   // Add base cash asset
   sl.registerFactory(() => BankCubit(sl()));
@@ -439,6 +429,24 @@ Future<void> init() async {
       () => AssetSeeMoreRemoteDataSourceImpl(sl()));
 
   await initExternal();
+  await initUtils();
+}
+
+Future<void> initUtils() async{
+  //local_storage
+  sl.registerLazySingleton<LocalStorage>(() => LocalStorage(sl()));
+  sl.registerLazySingleton<ServerRequestManager>(
+          () => ServerRequestManager(sl()));
+  sl.registerLazySingleton<ErrorHandlerMiddleware>(
+          () => ErrorHandlerMiddleware(sl()));
+  //device_info
+  sl.registerLazySingleton<AppDeviceInfo>(() => AppDeviceInfo(sl()));
+  //theme_manager
+  sl.registerFactory(() => ThemeManager(sl()));
+  //localization_manager
+  sl.registerFactory(() => LocalizationManager(sl()));
+  //local_auth_manager
+  sl.registerFactory(() => LocalAuthManager(sl()));
 }
 
 Future<void> initExternal() async {
@@ -448,4 +456,6 @@ Future<void> initExternal() async {
 
   final Box authBox = await Hive.openBox("auth");
   sl.registerLazySingleton<Box>(() => authBox);
+
+  sl.registerLazySingleton<LocalAuthentication>(() => LocalAuthentication());
 }

@@ -4,6 +4,8 @@ import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/app_localization.dart';
+import 'package:wmd/core/util/local_auth_manager.dart';
+import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/profile/core/presentation/widgets/language_bottom_sheet.dart';
 import 'package:wmd/features/profile/personal_information/presentation/widgets/personal_imformation_widget.dart';
@@ -21,8 +23,7 @@ class ProfilePage extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     final appTheme = Theme.of(context);
     return BlocListener<PersonalInformationCubit, PersonalInformationState>(
-      listener:
-      BlocHelper.defaultBlocListener(listener: (context, state) {}),
+      listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
       child: Scaffold(
           appBar: AddAssetHeader(
             title: appLocalizations.profile_tabs_heading,
@@ -35,7 +36,7 @@ class ProfilePage extends AppStatelessWidget {
                 outlinedButtonTheme: OutlinedButtonThemeData(
                   style: appTheme.outlinedButtonTheme.style!.copyWith(
                       minimumSize:
-                      MaterialStateProperty.all(const Size(0, 38))),
+                          MaterialStateProperty.all(const Size(0, 38))),
                 ),
               ),
               child: Column(
@@ -62,34 +63,39 @@ class ProfilePage extends AppStatelessWidget {
                           OutlinedButton(
                               onPressed: () {
                                 showModalBottomSheet(
-                                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                    backgroundColor: Theme.of(context)
+                                        .scaffoldBackgroundColor,
                                     isScrollControlled: true,
                                     context: context,
                                     builder: (context) {
                                       return const LanguageBottomSheet();
                                     });
                               },
-                              child: Text(appLocalizations.profile_changePassword_change))
+                              child: Text(appLocalizations
+                                  .profile_changePassword_change))
                         ],
                       ),
                     ]
                         .map((e) => Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 16),
-                      child: e,
-                    ))
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 16),
+                              child: e,
+                            ))
                         .toList(),
                   ),
                   const Divider(height: 48),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(appLocalizations.profile_changePassword_text_password, style: textTheme.titleMedium),
+                      Text(
+                          appLocalizations.profile_changePassword_text_password,
+                          style: textTheme.titleMedium),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            appLocalizations.profile_changePassword_text_password,
+                            appLocalizations
+                                .profile_changePassword_text_password,
                             style: textTheme.bodyMedium!
                                 .apply(color: textTheme.bodyLarge!.color!),
                           ),
@@ -99,20 +105,37 @@ class ProfilePage extends AppStatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                      const ProfileRestPasswordPage(),
+                                          const ProfileRestPasswordPage(),
                                     ));
                               },
-                              child: Text(appLocalizations.profile_changePassword_heading))
+                              child: Text(appLocalizations
+                                  .profile_changePassword_heading))
                         ],
                       ),
                     ]
                         .map((e) => Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 16),
-                      child: e,
-                    ))
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 16),
+                              child: e,
+                            ))
                         .toList(),
                   ),
+                  const Divider(height: 48),
+                  BlocProvider(
+                    create: (context) => sl<LocalAuthManager>()..getLocalAuth(),
+                    child: Builder(builder: (context) {
+                      return SwitchListTile.adaptive(
+                        value: context.watch<LocalAuthManager>().state,
+                        onChanged: (val) async {
+                          context
+                              .read<LocalAuthManager>()
+                              .setLocalAuth(val, context);
+                        },
+                        title: Text(
+                            appLocalizations.profile_localAuth_enableFaceId),
+                      );
+                    }),
+                  )
                   /*const Divider(height: 48),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
