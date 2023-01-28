@@ -14,9 +14,13 @@ import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/util/local_auth_manager.dart';
+import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/manager/login_sign_up_cubit.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/social_auth_bar.dart';
+import 'package:wmd/features/splash/presentation/manager/splash_cubit.dart';
+import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 
 class LoginPage extends AppStatelessWidget {
@@ -74,16 +78,53 @@ class LoginPage extends AppStatelessWidget {
                                   style:
                                       textTheme.bodySmall!.toLinkStyle(context),
                                 )),
-                            if (kIsWeb)
-                              const SizedBox()
-                            else if (Platform.isIOS)
-                              FormBuilderSwitch(
-                                  name: "face_id",
-                                  title:
-                                      const Text("Enable sign in with Face ID"),
-                                  decoration: const InputDecoration(
-                                      border: InputBorder.none),
-                                  contentPadding: EdgeInsets.zero),
+                            const SizedBox(height: 16),
+                            Center(
+                              child: BlocProvider(
+                                create: (context) =>
+                                sl<SplashCubit>()..initSplash(time: 0),
+                                child: BlocBuilder<SplashCubit, SplashState>(
+                                  builder: (context, state) {
+                                    return state is SplashLoaded ? InkWell(
+                                      onTap: () async {
+                                        if(state.isLogin){
+                                          if(sl<LocalStorage>().getLocalAuth()){
+                                            final didAuth = await context.read<LocalAuthManager>().authenticate(context);
+                                            if(didAuth){
+                                              // ignore: use_build_context_synchronously
+                                              context.goNamed(AppRoutes.main);
+                                            }
+                                          }else{
+                                            GlobalFunctions.showSnackBar(context, "local auth disabled");
+                                          }
+                                        }else{
+                                          GlobalFunctions.showSnackBar(context, "local auth hasn't defined yet please login with credentials");
+                                        }
+                                      },
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            appLocalizations
+                                                .profile_localAuth_pleaseAuthenticate,
+                                            style: textTheme.bodyMedium!
+                                                .toLinkStyle(context),
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Icon(
+                                            Icons.fingerprint,
+                                            size: 30,
+                                            color:
+                                            Theme.of(context).primaryColor,
+                                          )
+                                        ],
+                                      ),
+                                    ) : const SizedBox();
+                                  },
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 12),
                           ],
                         ),
                       ),

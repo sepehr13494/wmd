@@ -33,6 +33,7 @@ class AppThemes {
         ),
         errorColor: AppColors.errorColor,
         primaryColor: primaryColor,
+        toggleableActiveColor: primaryColor,
         appBarTheme: AppBarTheme(
           elevation: 0,
           centerTitle: true,
@@ -52,7 +53,8 @@ class AppThemes {
             //foregroundColor: MaterialStateProperty.all(textColor),
             minimumSize:
                 MaterialStateProperty.all(const Size(double.maxFinite, 48)),
-            side: MaterialStateProperty.all(const BorderSide(width: 1, color: primaryColor)),
+            side: MaterialStateProperty.all(
+                const BorderSide(width: 1, color: primaryColor)),
           ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -70,7 +72,9 @@ class AppThemes {
           border: OutlineInputBorder(),
         ),
         dividerTheme: DividerThemeData(
-          color: brightness == Brightness.dark ? const Color(0xff222222) : textColor,
+          color: brightness == Brightness.dark
+              ? const Color(0xff222222)
+              : textColor,
         ),
         listTileTheme: const ListTileThemeData(
           horizontalTitleGap: 0,
@@ -99,13 +103,20 @@ class AppThemes {
         ),
         textTheme: TextTheme(
           bodyLarge: const TextStyle(height: 1.3),
-          bodySmall: TextStyle(height: 1.3,color: brightness == Brightness.dark ? const Color(0xffC7C7C7) : Colors.black),
-          bodyMedium: TextStyle(height: 1.3,color: brightness == Brightness.dark ? const Color(0xffC7C7C7) : Colors.black),
+          bodySmall: TextStyle(
+              height: 1.3,
+              color: brightness == Brightness.dark
+                  ? const Color(0xffC7C7C7)
+                  : Colors.black),
+          bodyMedium: TextStyle(
+              height: 1.3,
+              color: brightness == Brightness.dark
+                  ? const Color(0xffC7C7C7)
+                  : Colors.black),
           titleSmall: const TextStyle(height: 1.3),
           titleMedium: const TextStyle(height: 1.3),
           titleLarge: const TextStyle(height: 1.3),
           headlineSmall: const TextStyle(height: 1.3),
         ));
   }
-
 }
