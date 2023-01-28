@@ -65,19 +65,19 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
       AppLocalizations appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => sl<GeneralInquiryCubit>()),
-        BlocProvider(
-            create: (context) => sl<PersonalInformationCubit>()..getName()),
-      ],
+    return BlocProvider(
+      create: (context) => sl<GeneralInquiryCubit>(),
       child: BlocConsumer<GeneralInquiryCubit, GeneralInquiryState>(
           listener: BlocHelper.defaultBlocListener(listener: (context, state) {
         if (state is SuccessState) {
           GlobalFunctions.showSnackBar(context, "Call sheduled successfully!",
               type: "success");
+          Navigator.pop(context);
         }
       }), builder: (context, state) {
+        final PersonalInformationState personalState =
+            context.watch<PersonalInformationCubit>().state;
+
         return Scaffold(
           appBar: const AddAssetHeader(
             title: "",
@@ -91,6 +91,18 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                       : () {
                           Map<String, dynamic> finalMap = {
                             ...formKey.currentState!.instantValue,
+                            "email":
+                                (personalState is PersonalInformationLoaded)
+                                    ? personalState.getNameEntity.email
+                                    : "",
+                            "firstName":
+                                (personalState is PersonalInformationLoaded)
+                                    ? personalState.getNameEntity.firstName
+                                    : "",
+                            "lastName":
+                                (personalState is PersonalInformationLoaded)
+                                    ? personalState.getNameEntity.lastName
+                                    : "",
                           };
 
                           print(finalMap);

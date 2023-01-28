@@ -12,6 +12,7 @@ import 'package:wmd/features/dashboard/onboarding/presentation/widget/onboarding
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/onboarding_asset_view.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/onboarding_security_view.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/onboarding_wealth_view.dart';
+import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
@@ -140,6 +141,21 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
                                         width: 100,
                                         child: OutlinedButton(
                                           onPressed: () {
+                                            if (sl<GetUserStatusUseCase>()
+                                                .showOnboarding) {
+                                              Map<String, dynamic> map = {
+                                                "email":
+                                                    sl<GetUserStatusUseCase>()
+                                                            .userEmail ??
+                                                        ".",
+                                                "loginAt": DateTime.now()
+                                                    .toIso8601String()
+                                              };
+                                              context
+                                                  .read<UserStatusCubit>()
+                                                  .postUserStatus(map: map);
+                                            }
+
                                             context.goNamed(
                                                 AppRoutes.addAssetsView);
                                           },
@@ -154,6 +170,21 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
                                           onPressed: () {
                                             debugPrint(index.toString());
                                             if (index == 2) {
+                                              if (sl<GetUserStatusUseCase>()
+                                                  .showOnboarding) {
+                                                Map<String, dynamic> map = {
+                                                  "email":
+                                                      sl<GetUserStatusUseCase>()
+                                                              .userEmail ??
+                                                          ".",
+                                                  "loginAt": DateTime.now()
+                                                      .toIso8601String()
+                                                };
+                                                context
+                                                    .read<UserStatusCubit>()
+                                                    .postUserStatus(map: map);
+                                              }
+
                                               context.goNamed(
                                                   AppRoutes.addAssetsView);
                                             } else {

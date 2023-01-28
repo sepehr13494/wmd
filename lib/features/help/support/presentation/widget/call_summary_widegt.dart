@@ -26,7 +26,7 @@ class CallSummaryWidget extends AppStatelessWidget {
                         .toString()),
                 CallSummaryRow(
                   label: "Date",
-                  value: DateFormat('yyyy-MM-dd')
+                  value: DateFormat('dd/MM/yyyy')
                       .format(formKey.currentState!.instantValue["date"]),
                 ),
                 CallSummaryRow(
