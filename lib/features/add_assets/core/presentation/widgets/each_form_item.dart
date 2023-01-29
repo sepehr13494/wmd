@@ -6,12 +6,14 @@ class EachTextField extends StatelessWidget {
   final bool hasInfo;
   final void Function()? onInfoTap;
   final Widget child;
+  final bool showRequired;
 
   const EachTextField(
       {Key? key,
       required this.title,
       this.hasInfo = true,
       this.onInfoTap,
+      this.showRequired = false,
       required this.child})
       : super(key: key);
 
@@ -20,7 +22,8 @@ class EachTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TextWithInfo(title: title, hasInfo: hasInfo),
+        TextWithInfo(
+            title: title, hasInfo: hasInfo, showRequired: showRequired),
         const SizedBox(height: 8),
         child,
       ],

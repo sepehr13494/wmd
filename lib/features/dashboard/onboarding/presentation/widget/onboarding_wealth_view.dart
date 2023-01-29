@@ -27,7 +27,7 @@ class OnBoardingWealthView extends AppStatelessWidget {
         const SizedBox(height: 16),
         EmptyStateDashboard(
             responsiveHelper: responsiveHelper,
-            config: OnBoardingConfigModel.wealthConfigList),
+            config: OnBoardingConfigModel.wealthConfigList(appLocalizations)),
         const SizedBox(height: 24),
       ],
     );

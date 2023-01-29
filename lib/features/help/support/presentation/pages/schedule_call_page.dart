@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
@@ -10,13 +12,8 @@ import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
-import 'package:wmd/features/add_assets/add_real_estate/presentation/manager/real_estate_cubit.dart';
-import 'package:wmd/features/add_assets/core/constants.dart';
-import 'package:wmd/features/add_assets/core/data/models/real_estate_type.dart';
-import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_bloc_helper.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
-import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
 import 'package:wmd/features/help/support/data/models/call_reason.dart';
 import 'package:wmd/features/help/support/data/models/meeting_type.dart';
 import 'package:wmd/features/help/support/data/models/time_zones.dart';
@@ -36,7 +33,9 @@ class ScheduleCallPage extends StatefulWidget {
 class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
   final formKey = GlobalKey<FormBuilderState>();
   bool enableAddAssetButton = false;
+  bool hasTimeLineSelected = false;
   DateTime? availableDateValue;
+  FormBuilderState? formState;
   @override
   void didUpdateWidget(covariant ScheduleCallPage oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -45,6 +44,10 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
   void checkFinalValid(value) async {
     await Future.delayed(const Duration(milliseconds: 100));
     bool finalValid = formKey.currentState!.isValid;
+    setState(() {
+      formState = formKey.currentState;
+    });
+
     if (finalValid) {
       if (!enableAddAssetButton) {
         setState(() {
@@ -58,6 +61,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
         });
       }
     }
+    formState?.save();
   }
 
   @override
@@ -85,32 +89,31 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
           bottomSheet: !responsiveHelper.isMobile
               ? null
               : ScheduleCallFooter(
-                  formKey: formKey,
-                  onTap: !enableAddAssetButton
-                      ? null
-                      : () {
-                          Map<String, dynamic> finalMap = {
-                            ...formKey.currentState!.instantValue,
-                            "email":
-                                (personalState is PersonalInformationLoaded)
-                                    ? personalState.getNameEntity.email
-                                    : "",
-                            "firstName":
-                                (personalState is PersonalInformationLoaded)
-                                    ? personalState.getNameEntity.firstName
-                                    : "",
-                            "lastName":
-                                (personalState is PersonalInformationLoaded)
-                                    ? personalState.getNameEntity.lastName
-                                    : "",
-                          };
+                  formState: formState,
+                  onTap: () {
+                    formKey.currentState?.validate();
+                    if (enableAddAssetButton) {
+                      Map<String, dynamic> finalMap = {
+                        ...formKey.currentState!.instantValue,
+                        "email": (personalState is PersonalInformationLoaded)
+                            ? personalState.getNameEntity.email
+                            : "",
+                        "firstName":
+                            (personalState is PersonalInformationLoaded)
+                                ? personalState.getNameEntity.firstName
+                                : "",
+                        "lastName": (personalState is PersonalInformationLoaded)
+                            ? personalState.getNameEntity.lastName
+                            : "",
+                      };
 
-                          print(finalMap);
+                      print(finalMap);
 
-                          context
-                              .read<GeneralInquiryCubit>()
-                              .postScheduleCall(map: finalMap);
-                        }),
+                      context
+                          .read<GeneralInquiryCubit>()
+                          .postScheduleCall(map: finalMap);
+                    }
+                  }),
           body: Theme(
             data: Theme.of(context).copyWith(),
             child: Stack(
@@ -158,7 +161,8 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                                                       child: Column(
                                                         children: [
                                                           CallSummaryWidget(
-                                                              formKey: formKey),
+                                                              formState:
+                                                                  formState),
                                                           ElevatedButton(
                                                               onPressed: () {
                                                                 Map<String,
@@ -233,6 +237,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
               ),
               EachTextField(
                 hasInfo: false,
+                showRequired: true,
                 title: "Select your time zone",
                 child: AppTextFields.dropDownTextField(
                   onChanged: (val) async {
@@ -241,6 +246,15 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                     //       GlobalKey<FormBuilderState>();
                     //   accountType = val;
                     // });
+                    if (val != null) {
+                      setState(() {
+                        hasTimeLineSelected = true;
+                      });
+                    } else {
+                      setState(() {
+                        hasTimeLineSelected = false;
+                      });
+                    }
                     await Future.delayed(const Duration(milliseconds: 200));
                     checkFinalValid(val);
                   },
@@ -255,6 +269,8 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                 ),
               ),
               EachTextField(
+                hasInfo: false,
+                showRequired: true,
                 title: "Select an available date",
                 child: FormBuilderDateTimePicker(
                   onChanged: (selectedDate) {
@@ -263,8 +279,13 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                       availableDateValue = selectedDate;
                     });
                   },
+                  enabled: hasTimeLineSelected,
                   firstDate: DateTime.now(),
+                  lastDate: Jiffy(DateTime.now()).add(months: 6).dateTime,
                   inputType: InputType.date,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: FormBuilderValidators.compose(
+                      [FormBuilderValidators.required()]),
                   format: DateFormat("dd/MM/yyyy"),
                   selectableDayPredicate: (DateTime date) {
                     if (date.weekday == DateTime.saturday ||
@@ -284,12 +305,16 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
               ),
               if (availableDateValue != null)
                 const EachTextField(
+                    hasInfo: false,
+                    showRequired: true,
                     title: "Select an available date",
                     child: TimeslotsSelector<String>(
                       name: "time",
+                      // onChanged: (val) => checkFinalValid(val),
                     )),
               EachTextField(
                 hasInfo: false,
+                showRequired: true,
                 title: "Meeting type",
                 child: AppTextFields.dropDownTextField(
                   onChanged: (val) async {
@@ -309,6 +334,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
               ),
               EachTextField(
                 hasInfo: false,
+                showRequired: true,
                 title: "Email",
                 child: TextField(
                   enabled: false,
@@ -328,6 +354,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
               ),
               EachTextField(
                 hasInfo: false,
+                showRequired: true,
                 title: "Call reason",
                 child: AppTextFields.dropDownTextField(
                   onChanged: (val) async {
@@ -353,6 +380,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                 hasInfo: false,
                 title: "Additional Info",
                 child: AppTextFields.simpleTextField(
+                    required: false,
                     title: "info",
                     name: "content",
                     minLines: 5,

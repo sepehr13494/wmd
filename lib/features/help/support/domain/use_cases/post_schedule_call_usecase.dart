@@ -51,7 +51,7 @@ class ScheduleCallParams extends Equatable {
   const ScheduleCallParams({
     this.contactEmail = "n.albasri@tfoco.com",
     required this.subject,
-    required this.content,
+    this.content = "",
     required this.startTime,
     required this.endTime,
     required this.timeZone,
@@ -61,7 +61,7 @@ class ScheduleCallParams extends Equatable {
 
   final String? contactEmail;
   final String subject;
-  final String content;
+  final String? content;
   final DateTime startTime;
   final DateTime endTime;
   final String timeZone;
@@ -72,7 +72,7 @@ class ScheduleCallParams extends Equatable {
       ScheduleCallParams(
         contactEmail: json["contactEmail"] ?? "n.albasri@tfoco.com",
         subject: json["subject"],
-        content: json["content"],
+        content: json["content"] ?? "",
         startTime: json["startTime"],
         endTime: json["endTime"],
         timeZone: json["timeZone"],

@@ -18,76 +18,84 @@ class OnBoardingConfigModel extends Equatable {
         image: json["image"],
       );
 
-  static const assetjson = [
-    {
-      "key": 1,
-      "text": "We support multiple asset classes and currencies.",
-      "image": "assets/images/dashboard/dashboard_empty_home.svg"
-    },
-    {
-      "key": 2,
-      "text":
-          "Connect with your institutions and avoid the hassle of manual updates.",
-      "image": "assets/images/dashboard/dashboard_empty_bank.svg"
-    },
-    {
-      "key": 3,
-      "text": "Real times updates for all your listed assets.",
-      "image": "assets/images/dashboard/dashboard_empty_sheild.svg"
-    },
-  ];
+  static assetjson(appLocalizations) => [
+        {
+          "key": 1,
+          "text":
+              appLocalizations.home_guidedOnBoarding_addAndLinkAsset_assetClass,
+          "image": "assets/images/dashboard/dashboard_empty_home.svg"
+        },
+        {
+          "key": 2,
+          "text": appLocalizations
+              .home_guidedOnBoarding_addAndLinkAsset_connectInstitutionsIcon,
+          "image": "assets/images/dashboard/dashboard_empty_bank.svg"
+        },
+        {
+          "key": 3,
+          "text": appLocalizations
+              .home_guidedOnBoarding_addAndLinkAsset_realTimeUpdate,
+          "image": "assets/images/dashboard/dashboard_empty_sheild.svg"
+        },
+      ];
 
-  static const wealthjson = [
-    {
-      "key": 1,
-      "text":
-          "Add all your investments, assets and liabilities from all of your wealth managers in one place.",
-      "image":
-          "assets/images/dashboard/onboarding/onboarding_wealth_overview.png"
-    },
-    {
-      "key": 2,
-      "text":
-          "Asset allocation charts by class, geography & currency help you understand your portfolio diversity.",
-      "image": "assets/images/dashboard/onboarding/onboarding_wealth_charts.png"
-    },
-    {
-      "key": 3,
-      "text":
-          "Get personalized insights about your wealth which will help you manage your wealth better.",
-      "image": "assets/images/dashboard/onboarding/onboarding_wealth_asset.png"
-    },
-  ];
+  static wealthjson(appLocalizations) => [
+        {
+          "key": 1,
+          "text": appLocalizations
+              .home_guidedOnBoarding_trackAndVisualizeWealth_dashboardView,
+          "image":
+              "assets/images/dashboard/onboarding/onboarding_wealth_overview.png"
+        },
+        {
+          "key": 2,
+          "text": appLocalizations
+              .home_guidedOnBoarding_trackAndVisualizeWealth_dashboardAllocation,
+          "image":
+              "assets/images/dashboard/onboarding/onboarding_wealth_charts.png"
+        },
+        {
+          "key": 3,
+          "text": appLocalizations
+              .home_guidedOnBoarding_trackAndVisualizeWealth_assetDetailPage,
+          "image":
+              "assets/images/dashboard/onboarding/onboarding_wealth_asset.png"
+        },
+      ];
 
-  static const securityjson = [
-    {
-      "key": 1,
-      "text":
-          "We use the highest security standard “lorem ipsum” and “xyz” encryption with your data to make sure it is always safe.",
-      "image":
-          "assets/images/dashboard/onboarding/onboarding_security_verified.svg"
-    },
-    {
-      "key": 2,
-      "text":
-          "The family office employees have no access to your wealth information. Only you see your data.",
-      "image": "assets/images/dashboard/onboarding/onboarding_security_lock.svg"
-    },
-    {
-      "key": 3,
-      "text":
-          "If you chose to link your bank accounts, we do not see your credentials and make any transactions. We only pull your account balance and transactions.",
-      "image":
-          "assets/images/dashboard/onboarding/onboarding_security_password.svg"
-    },
-  ];
+  static securityjson(appLocalizations) => [
+        {
+          "key": 1,
+          "text": appLocalizations
+              .home_guidedOnBoarding_securityAndPrivacy_highestSecurity,
+          "image":
+              "assets/images/dashboard/onboarding/onboarding_security_verified.svg"
+        },
+        {
+          "key": 2,
+          "text": appLocalizations
+              .home_guidedOnBoarding_securityAndPrivacy_noAccess,
+          "image":
+              "assets/images/dashboard/onboarding/onboarding_security_lock.svg"
+        },
+        {
+          "key": 3,
+          "text": appLocalizations
+              .home_guidedOnBoarding_securityAndPrivacy_linkAccount,
+          "image":
+              "assets/images/dashboard/onboarding/onboarding_security_password.svg"
+        },
+      ];
 
-  static final assetConfigList =
-      assetjson.map((e) => OnBoardingConfigModel.fromJson(e)).toList();
-  static final wealthConfigList =
-      wealthjson.map((e) => OnBoardingConfigModel.fromJson(e)).toList();
-  static final securityConfigList =
-      securityjson.map((e) => OnBoardingConfigModel.fromJson(e)).toList();
+  static assetConfigList(appLocalizations) => assetjson(appLocalizations)
+      .map((Map<String, dynamic> e) => OnBoardingConfigModel.fromJson(e))
+      .toList();
+  static wealthConfigList(appLocalizations) => wealthjson(appLocalizations)
+      .map((Map<String, dynamic> e) => OnBoardingConfigModel.fromJson(e))
+      .toList();
+  static securityConfigList(appLocalizations) => securityjson(appLocalizations)
+      .map((Map<String, dynamic> e) => OnBoardingConfigModel.fromJson(e))
+      .toList();
 
   @override
   // TODO: implement props
