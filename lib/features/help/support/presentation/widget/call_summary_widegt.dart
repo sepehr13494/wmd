@@ -6,9 +6,10 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CallSummaryWidget extends AppStatelessWidget {
-  final GlobalKey<FormBuilderState> formKey;
+  final FormBuilderState? formState;
 
-  const CallSummaryWidget({required this.formKey, Key? key}) : super(key: key);
+  const CallSummaryWidget({required this.formState, Key? key})
+      : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -22,25 +23,34 @@ class CallSummaryWidget extends AppStatelessWidget {
               children: [
                 CallSummaryRow(
                     label: "Time Zone",
-                    value: formKey.currentState!.instantValue["timezone"]
-                        .toString()),
+                    value: formState != null
+                        ? formState!.value["timeZone"].toString()
+                        : "null"),
                 CallSummaryRow(
                   label: "Date",
-                  value: DateFormat('dd/MM/yyyy')
-                      .format(formKey.currentState!.instantValue["date"]),
+                  value: formState != null
+                      ? formState!.instantValue["date"] != null
+                          ? DateFormat('dd/MM/yyyy')
+                              .format(formState!.instantValue["date"])
+                          : "null"
+                      : "null",
                 ),
                 CallSummaryRow(
                     label: "Time",
-                    value:
-                        formKey.currentState!.instantValue["time"].toString()),
+                    value: formState != null
+                        ? formState!.instantValue["time"].toString()
+                        : "null"),
                 CallSummaryRow(
                   label: "Meeting type",
-                  value:
-                      formKey.currentState!.instantValue["type"] ?? "Missing",
+                  value: formState != null
+                      ? formState!.instantValue["type"]
+                      : "null",
                 ),
                 CallSummaryRow(
                   label: "Email",
-                  value: formKey.currentState!.instantValue["email"].toString(),
+                  value: formState != null
+                      ? formState!.instantValue["email"].toString()
+                      : "null",
                 ),
               ],
             )),
@@ -51,8 +61,9 @@ class CallSummaryWidget extends AppStatelessWidget {
           title: "Call specification",
           child: CallSummaryRow(
             label: "Reason",
-            value:
-                formKey.currentState!.instantValue["reason"] ?? "Not specified",
+            value: formState != null
+                ? formState!.value["subject"] ?? "Not specified"
+                : "Not specified",
           ),
         ),
         const SizedBox(

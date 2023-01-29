@@ -56,6 +56,7 @@ class AppTextFields {
       decoration: InputDecoration(
         hintText: hint,
       ),
+      style: TextStyle(fontSize: 15),
       dropdownColor: AppColors.backgroundColorPageDark,
       items: items,
       validator: FormBuilderValidators.required(),
@@ -905,7 +906,6 @@ class _RadioButtontate<T> extends AppState<RadioButton> {
 
 class TimeslotsSelector<T> extends StatelessWidget {
   final String name;
-
   final ValueChanged<T?>? onChanged;
 
   const TimeslotsSelector({Key? key, required this.name, this.onChanged})
