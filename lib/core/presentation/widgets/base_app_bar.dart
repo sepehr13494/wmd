@@ -28,15 +28,16 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
                 context.goNamed(AppRoutes.main);
               }
             } else {
-              GlobalFunctions.showExitDialog(
-                  context: context,
-                  onExitClick: () {
-                    if (Navigator.of(context).canPop()) {
-                      Navigator.of(context).maybePop();
-                    } else {
-                      context.goNamed(AppRoutes.main);
-                    }
-                  });
+              if (Navigator.of(context).canPop()) {
+                Navigator.of(context).maybePop();
+              } else {
+                context.goNamed(AppRoutes.main);
+              }
+              // GlobalFunctions.showExitDialog(
+              //     context: context,
+              //     onExitClick: () {
+
+              //     });
             }
           } catch (e) {
             debugPrint("footer error$e");
