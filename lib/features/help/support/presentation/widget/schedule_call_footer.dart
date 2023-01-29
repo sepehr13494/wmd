@@ -7,12 +7,12 @@ import 'package:wmd/features/help/support/presentation/widget/call_summary_wideg
 
 class ScheduleCallFooter extends StatefulWidget {
   final void Function()? onTap;
-  final GlobalKey<FormBuilderState> formKey;
+  final FormBuilderState? formState;
 
   const ScheduleCallFooter({
     Key? key,
     required this.onTap,
-    required this.formKey,
+    required this.formState,
   }) : super(key: key);
   @override
   AppState<ScheduleCallFooter> createState() => _ScheduleCallFooterState();
@@ -49,7 +49,7 @@ class _ScheduleCallFooterState extends AppState<ScheduleCallFooter> {
               if (isExpandedFooter)
                 SizedBox(
                     width: double.infinity,
-                    child: CallSummaryWidget(formKey: widget.formKey)),
+                    child: CallSummaryWidget(formState: widget.formState)),
               Row(
                 children: [
                   ExpandedIf(

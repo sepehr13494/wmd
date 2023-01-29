@@ -42,7 +42,7 @@ class DashboardPage extends AppStatelessWidget {
           EmptyStateDashboard(
               type: "asset",
               responsiveHelper: responsiveHelper,
-              config: OnBoardingConfigModel.assetConfigList),
+              config: OnBoardingConfigModel.assetConfigList(appLocalizations)),
           const SizedBox(height: 24),
           SizedBox(
             width: 160,

@@ -8,7 +8,7 @@ import 'package:wmd/features/dashboard/onboarding/data/models/onboarding_config.
 
 class EmptyStateDashboard extends AppStatelessWidget {
   final ResponsiveHelper responsiveHelper;
-  final List<OnBoardingConfigModel> config;
+  final List<dynamic> config;
   final String type;
 
   const EmptyStateDashboard(
@@ -28,7 +28,7 @@ class EmptyStateDashboard extends AppStatelessWidget {
           showRow: !responsiveHelper.isMobile,
           columnCrossAxisAlignment: CrossAxisAlignment.center,
           children: config
-              .map((OnBoardingConfigModel e) => ExpandedIf(
+              .map((dynamic e) => ExpandedIf(
                     expanded: !responsiveHelper.isMobile,
                     child: Stack(children: [
                       IconText(
