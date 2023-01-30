@@ -1,4 +1,7 @@
+import 'dart:developer';
+import 'dart:io' show Platform;
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
@@ -41,10 +44,16 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   @override
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
-    LocalAuthManager localAuthManager = context.read<LocalAuthManager>();
-    if(state == AppLifecycleState.resumed){
-      if(localAuthManager.state){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const LocalAuthPage()));
+    if (!kIsWeb) {
+      if (Platform.isAndroid) {
+        LocalAuthManager localAuthManager = context.read<LocalAuthManager>();
+        if (state == AppLifecycleState.resumed) {
+          log(state.toString());
+          if (localAuthManager.state) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const LocalAuthPage()));
+          }
+        }
       }
     }
   }
@@ -74,48 +83,46 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
                 : Center(
                     child: _widgetOptions.elementAt(state),
                   ),
-            bottomNavigationBar:
-                BlocConsumer<MainDashboardCubit, MainDashboardState>(
-                    listener: BlocHelper.defaultBlocListener(
-                        listener: (mainContext, mainState) {}),
-                    builder: (mainContext, mainState) {
-                      return mainState is MainDashboardNetWorthLoaded
-                          ? (mainState.netWorthObj.assets.currentValue != 0 ||
-                                  mainState.netWorthObj.liabilities
-                                          .currentValue !=
-                                      0)
-                              ? Material(
-                                  elevation: 10,
-                                  child: Container(
-                                    color: Theme.of(context)
-                                        .navigationBarTheme
-                                        .backgroundColor,
-                                    child: BottomNavigationBar(
-                                      elevation: 0,
-                                      items: List.generate(items.length,
-                                          (index) {
-                                        return BottomNavigationBarItem(
-                                          icon: Icon(items[index][0]),
-                                          label: items[index][1],
-                                        );
-                                      }),
-                                      unselectedLabelStyle:
-                                          const TextStyle(fontSize: 10),
-                                      selectedLabelStyle:
-                                          const TextStyle(fontSize: 12),
-                                      currentIndex:
-                                          context.read<MainPageCubit>().state,
-                                      showUnselectedLabels: true,
-                                      type: BottomNavigationBarType.fixed,
-                                      onTap: context
-                                          .read<MainPageCubit>()
-                                          .onItemTapped,
-                                    ),
-                                  ),
-                                )
-                              : const SizedBox.shrink()
-                          : const SizedBox.shrink();
-                    }),
+            bottomNavigationBar: BlocConsumer<MainDashboardCubit,
+                    MainDashboardState>(
+                listener: BlocHelper.defaultBlocListener(
+                    listener: (mainContext, mainState) {}),
+                builder: (mainContext, mainState) {
+                  return mainState is MainDashboardNetWorthLoaded
+                      ? (mainState.netWorthObj.assets.currentValue != 0 ||
+                              mainState.netWorthObj.liabilities.currentValue !=
+                                  0)
+                          ? Material(
+                              elevation: 10,
+                              child: Container(
+                                color: Theme.of(context)
+                                    .navigationBarTheme
+                                    .backgroundColor,
+                                child: BottomNavigationBar(
+                                  elevation: 0,
+                                  items: List.generate(items.length, (index) {
+                                    return BottomNavigationBarItem(
+                                      icon: Icon(items[index][0]),
+                                      label: items[index][1],
+                                    );
+                                  }),
+                                  unselectedLabelStyle:
+                                      const TextStyle(fontSize: 10),
+                                  selectedLabelStyle:
+                                      const TextStyle(fontSize: 12),
+                                  currentIndex:
+                                      context.read<MainPageCubit>().state,
+                                  showUnselectedLabels: true,
+                                  type: BottomNavigationBarType.fixed,
+                                  onTap: context
+                                      .read<MainPageCubit>()
+                                      .onItemTapped,
+                                ),
+                              ),
+                            )
+                          : const SizedBox.shrink()
+                      : const SizedBox.shrink();
+                }),
           );
         },
       );
