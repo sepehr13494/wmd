@@ -1,8 +1,9 @@
 class TimeZones {
   final String name;
+  final String offset;
   final String value;
 
-  TimeZones({required this.name, required this.value});
+  TimeZones({required this.name, required this.offset, required this.value});
 
   static final json = [
     {
@@ -671,11 +672,13 @@ class TimeZones {
 
   Map<String, dynamic> toJson() => {
         "value": value,
+        "offset": offset,
         "name": name,
       };
 
   factory TimeZones.fromJson(Map<String, dynamic> json) => TimeZones(
         value: json["value"],
+        offset: json["offset"],
         name: json["label"] + " " + json["offset"],
       );
 

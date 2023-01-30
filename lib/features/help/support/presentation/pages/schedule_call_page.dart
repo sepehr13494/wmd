@@ -36,6 +36,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
   bool hasTimeLineSelected = false;
   DateTime? availableDateValue;
   FormBuilderState? formState;
+
   @override
   void didUpdateWidget(covariant ScheduleCallPage oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -255,6 +256,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                         hasTimeLineSelected = false;
                       });
                     }
+
                     await Future.delayed(const Duration(milliseconds: 200));
                     checkFinalValid(val);
                   },
@@ -314,7 +316,6 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                     )),
               EachTextField(
                 hasInfo: false,
-                showRequired: true,
                 title: "Meeting type",
                 child: AppTextFields.dropDownTextField(
                   onChanged: (val) async {
