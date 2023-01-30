@@ -135,6 +135,8 @@ class CallSummaryRow extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    final responsiveHelper = ResponsiveHelper(context: context);
+
     return Column(
       children: [
         Row(
@@ -145,10 +147,13 @@ class CallSummaryRow extends AppStatelessWidget {
               style: textTheme.bodyMedium,
             ),
             if (value != "null")
-              Text(
-                value,
-                style: textTheme.titleSmall,
-              ),
+              SizedBox(
+                  width: responsiveHelper.optimalDeviceWidth * 0.6,
+                  child: Text(
+                    value,
+                    style: textTheme.titleSmall,
+                    textAlign: TextAlign.end,
+                  )),
             if (value == "null") const Text("Missing"),
           ],
         ),
