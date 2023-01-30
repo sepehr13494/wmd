@@ -55,6 +55,8 @@ PODS:
     - AppAuth/Core (~> 1.6)
     - GTMSessionFetcher/Core (< 3.0, >= 1.5)
   - GTMSessionFetcher/Core (2.1.0)
+  - local_auth_ios (0.0.1):
+    - Flutter
   - network_info_plus (0.0.1):
     - Flutter
   - path_provider_ios (0.0.1):
@@ -86,6 +88,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/ios`)
+  - local_auth_ios (from `.symlinks/plugins/local_auth_ios/ios`)
   - network_info_plus (from `.symlinks/plugins/network_info_plus/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
   - plaid_flutter (from `.symlinks/plugins/plaid_flutter/ios`)
@@ -119,6 +122,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_keyboard_visibility/ios"
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/ios"
+  local_auth_ios:
+    :path: ".symlinks/plugins/local_auth_ios/ios"
   network_info_plus:
     :path: ".symlinks/plugins/network_info_plus/ios"
   path_provider_ios:
@@ -150,6 +155,7 @@ SPEC CHECKSUMS:
   GoogleSignIn: 5651ce3a61e56ca864160e79b484cd9ed3f49b7a
   GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
   GTMSessionFetcher: ffbb25ec00ebcb5201adab0a56d808f6f1902d9f
+  local_auth_ios: 0d333dde7780f669e66f19d2ff6005f3ea84008d
   network_info_plus: b78876159360f5580608c2cea620d6ceffabd0ad
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   Plaid: 2c2dec029d9f5ecf3c6625ffd388551d3acd7232
