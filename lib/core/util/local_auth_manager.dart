@@ -9,7 +9,7 @@ import 'package:wmd/injection_container.dart';
 class LocalAuthManager extends Cubit<bool>{
   final LocalAuthentication auth;
 
-  LocalAuthManager(this.auth) : super(true);
+  LocalAuthManager(this.auth) : super(sl<LocalStorage>().getLocalAuth());
 
   Future<bool> authenticate(BuildContext context) async {
     try {
