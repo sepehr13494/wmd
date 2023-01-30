@@ -37,13 +37,18 @@ class _LocalAuthPageState extends AppState<LocalAuthPage> {
   }
 
   Future<void> _checkAuth() async {
-    final didAuth = await context.read<LocalAuthManager>().authenticate(context);
-    if(didAuth){
-      // ignore: use_build_context_synchronously
-      Navigator.pop(context);
+    final LocalAuthManager localAuthManager = context.read<LocalAuthManager>();
+    if(localAuthManager.state){
+      final didAuth = await localAuthManager.authenticate(context);
+      if(didAuth){
+        // ignore: use_build_context_synchronously
+        Navigator.pop(context);
+      }else{
+        // ignore: use_build_context_synchronously
+        context.goNamed(AppRoutes.login);
+      }
     }else{
-      // ignore: use_build_context_synchronously
-      context.goNamed(AppRoutes.login);
+      Navigator.pop(context);
     }
   }
 }

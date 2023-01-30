@@ -7,7 +7,7 @@ import 'local_storage.dart';
 class LocalizationManager extends Cubit<Locale> {
   final LocalStorage localStorage;
   LocalizationManager(this.localStorage)
-      : super(AppLocalizations.supportedLocales.first);
+      : super(AppLocalizations.supportedLocales.firstWhere((element) => element.languageCode == "en"));
 
   changeLang(Locale locale) async {
     await localStorage.setLocale(locale);

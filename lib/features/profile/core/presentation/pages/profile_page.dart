@@ -121,20 +121,15 @@ class ProfilePage extends AppStatelessWidget {
                         .toList(),
                   ),
                   const Divider(height: 48),
-                  BlocProvider(
-                    create: (context) => sl<LocalAuthManager>()..getLocalAuth(),
-                    child: Builder(builder: (context) {
-                      return SwitchListTile.adaptive(
-                        value: context.watch<LocalAuthManager>().state,
-                        onChanged: (val) async {
-                          context
-                              .read<LocalAuthManager>()
-                              .setLocalAuth(val, context);
-                        },
-                        title: Text(
-                            appLocalizations.profile_localAuth_enableFaceId),
-                      );
-                    }),
+                  SwitchListTile.adaptive(
+                    value: context.watch<LocalAuthManager>().state,
+                    onChanged: (val) {
+                      context
+                          .read<LocalAuthManager>()
+                          .setLocalAuth(val, context);
+                    },
+                    title: Text(
+                        appLocalizations.profile_localAuth_enableFaceId),
                   )
                   /*const Divider(height: 48),
                     Column(
