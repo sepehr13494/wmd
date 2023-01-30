@@ -41,8 +41,8 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   @override
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
+    LocalAuthManager localAuthManager = context.read<LocalAuthManager>();
     if(state == AppLifecycleState.resumed){
-      LocalAuthManager localAuthManager = context.read<LocalAuthManager>();
       if(localAuthManager.state){
         Navigator.push(context, MaterialPageRoute(builder: (context) => const LocalAuthPage()));
       }

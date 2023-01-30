@@ -85,20 +85,15 @@ class LoginPage extends AppStatelessWidget {
                                 sl<SplashCubit>()..initSplash(time: 0),
                                 child: BlocBuilder<SplashCubit, SplashState>(
                                   builder: (context, state) {
-                                    return state is SplashLoaded ? InkWell(
+                                    return state is SplashLoaded ? (state.isLogin && sl<LocalStorage>().getLocalAuth()) ? InkWell(
                                       onTap: () async {
-                                        if(state.isLogin){
-                                          if(sl<LocalStorage>().getLocalAuth()){
-                                            final didAuth = await context.read<LocalAuthManager>().authenticate(context);
-                                            if(didAuth){
-                                              // ignore: use_build_context_synchronously
-                                              context.goNamed(AppRoutes.main);
-                                            }
-                                          }else{
-                                            GlobalFunctions.showSnackBar(context, "local auth disabled");
-                                          }
+                                        final didAuth = await context.read<LocalAuthManager>().authenticate(context);
+                                        if(didAuth){
+                                          // ignore: use_build_context_synchronously
+                                          context.goNamed(AppRoutes.main);
                                         }else{
-                                          GlobalFunctions.showSnackBar(context, "local auth hasn't defined yet please login with credentials");
+                                          // ignore: use_build_context_synchronously
+                                          GlobalFunctions.showSnackBar(context, "local auth failed");
                                         }
                                       },
                                       child: Row(
@@ -119,7 +114,7 @@ class LoginPage extends AppStatelessWidget {
                                           )
                                         ],
                                       ),
-                                    ) : const SizedBox();
+                                    ) : const SizedBox() : const SizedBox();
                                   },
                                 ),
                               ),

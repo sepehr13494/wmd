@@ -12,21 +12,24 @@ class ChangeWidget extends StatelessWidget {
     final bool isPositive = number > 0;
     final bool isZero = number == 0;
     final color = isZero ? null : (isPositive ? AppColors.green : Colors.red);
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        isZero
-            ? const SizedBox()
-            : Icon(
-                isPositive ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-                color: color,
-                size: 15,
-              ),
-        Text(
-          text,
-          style: TextStyle(color: color),
-        ),
-      ],
+    return RichText(
+      text: TextSpan(
+        children: [
+          WidgetSpan(
+            child: isZero
+                ? const SizedBox()
+                : Icon(
+              isPositive ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+              color: color,
+              size: 20,
+            ),
+          ),
+          TextSpan(
+            text : text,
+            style: TextStyle(color: color),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -79,22 +79,32 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => sl<LocalAuthManager>()),
       ],
       child: Builder(builder: (context) {
-        return MaterialApp.router(
-          /*navigatorObservers: [
-            SentryNavigatorObserver(),
-          ],*/
-          routerConfig: router,
-          title: 'WMD',
-          theme: AppThemes.getAppTheme(context, brightness: Brightness.light),
-          darkTheme:
-              AppThemes.getAppTheme(context, brightness: Brightness.dark),
-          themeMode: context.watch<ThemeManager>().state,
-          localizationsDelegates: const [
-            ...AppLocalizations.localizationsDelegates,
-            FormBuilderLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          locale: context.watch<LocalizationManager>().state,
+        return GestureDetector(
+          onTap: (){
+            FocusScopeNode currentFocus = FocusScope.of(context);
+
+            if (!currentFocus.hasPrimaryFocus &&
+                currentFocus.focusedChild != null) {
+              FocusManager.instance.primaryFocus!.unfocus();
+            }
+          },
+          child: MaterialApp.router(
+            /*navigatorObservers: [
+              SentryNavigatorObserver(),
+            ],*/
+            routerConfig: router,
+            title: 'WMD',
+            theme: AppThemes.getAppTheme(context, brightness: Brightness.light),
+            darkTheme:
+                AppThemes.getAppTheme(context, brightness: Brightness.dark),
+            themeMode: context.watch<ThemeManager>().state,
+            localizationsDelegates: const [
+              ...AppLocalizations.localizationsDelegates,
+              FormBuilderLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: context.watch<LocalizationManager>().state,
+          ),
         );
       }),
     );
