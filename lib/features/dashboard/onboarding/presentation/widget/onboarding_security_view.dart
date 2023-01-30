@@ -28,7 +28,7 @@ class OnBoardingSecurityView extends AppStatelessWidget {
         EmptyStateDashboard(
             type: "security",
             responsiveHelper: responsiveHelper,
-            config: OnBoardingConfigModel.securityConfigList),
+            config: OnBoardingConfigModel.securityConfigList(appLocalizations)),
         const SizedBox(height: 24),
       ],
     );

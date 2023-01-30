@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
 extension NumExt on num {
@@ -24,10 +25,12 @@ extension NumExt on num {
   }
 
   String formatNumberWithDecimal([int digits = 0]) {
-    return NumberFormat.compactCurrency(
+    final val = NumberFormat.compactCurrency(
       decimalDigits: digits,
       symbol:
           '\$', // if you want to add currency symbol then pass that in this else leave it empty.
-    ).format(this);
+    );
+    val.significantDigits = 2;
+    return val.format(this);
   }
 }
