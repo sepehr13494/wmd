@@ -5,8 +5,18 @@ PODS:
   - AppAuth/Core (1.6.0)
   - AppAuth/ExternalUserAgent (1.6.0):
     - AppAuth/Core
+  - datadog_flutter_plugin (0.0.1):
+    - DatadogSDK (= 1.14.0)
+    - DatadogSDKCrashReporting (= 1.14.0)
+    - DictionaryCoder (= 1.0.8)
+    - Flutter
+  - DatadogSDK (1.14.0)
+  - DatadogSDKCrashReporting (1.14.0):
+    - DatadogSDK (= 1.14.0)
+    - PLCrashReporter (~> 1.11.0)
   - device_info_plus (0.0.1):
     - Flutter
+  - DictionaryCoder (1.0.8)
   - DKImagePickerController/Core (4.3.4):
     - DKImagePickerController/ImageDataManager
     - DKImagePickerController/Resource
@@ -65,6 +75,7 @@ PODS:
   - plaid_flutter (0.0.1):
     - Flutter
     - Plaid (= 4.0.1)
+  - PLCrashReporter (1.11.0)
   - SDWebImage (5.13.2):
     - SDWebImage/Core (= 5.13.2)
   - SDWebImage/Core (5.13.2)
@@ -83,6 +94,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - datadog_flutter_plugin (from `.symlinks/plugins/datadog_flutter_plugin/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
@@ -102,16 +114,22 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AppAuth
+    - DatadogSDK
+    - DatadogSDKCrashReporting
+    - DictionaryCoder
     - DKImagePickerController
     - DKPhotoGallery
     - GoogleSignIn
     - GTMAppAuth
     - GTMSessionFetcher
     - Plaid
+    - PLCrashReporter
     - SDWebImage
     - SwiftyGif
 
 EXTERNAL SOURCES:
+  datadog_flutter_plugin:
+    :path: ".symlinks/plugins/datadog_flutter_plugin/ios"
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
   file_picker:
@@ -145,7 +163,11 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AppAuth: 8fca6b5563a5baef2c04bee27538025e4ceb2add
+  datadog_flutter_plugin: 47360389e85adcf5bf9418ff3949cbf9f7a4632d
+  DatadogSDK: 78af0e8967f505643352cdc10c3e3da6ba17a19d
+  DatadogSDKCrashReporting: 785b1254e3bc38e1f29f5cfb3399c7db845ad473
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
+  DictionaryCoder: 5f84fff69f54cb806071538430bdafe04a89d658
   DKImagePickerController: b512c28220a2b8ac7419f21c491fc8534b7601ac
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
   file_picker: 817ab1d8cd2da9d2da412a417162deee3500fc95
@@ -160,6 +182,7 @@ SPEC CHECKSUMS:
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   Plaid: 2c2dec029d9f5ecf3c6625ffd388551d3acd7232
   plaid_flutter: 9a137ad381505ce283b56872d234688ea4dac1c3
+  PLCrashReporter: 7a9dff14a23ba5d2e28c6160f0bb6fada5e71a8d
   SDWebImage: 72f86271a6f3139cc7e4a89220946489d4b9a866
   sign_in_with_apple: f3bf75217ea4c2c8b91823f225d70230119b8440
   SwiftyGif: 6c3eafd0ce693cad58bb63d2b2fb9bacb8552780

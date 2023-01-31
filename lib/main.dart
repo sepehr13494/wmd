@@ -26,15 +26,6 @@ Future<void> main() async {
   await dotenv.load(fileName: envFile);
   await Hive.initFlutter();
   await di.init();
-  /*await SentryFlutter.init(
-        (options) {
-      options.dsn = 'https://eb60042051a848d298dbeab291c89f03@o1020394.ingest.sentry.io/6740091';
-      // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-      // We recommend adjusting this value in production.
-      options.tracesSampleRate = 1.0;
-    },
-    appRunner: () => runApp(const MyApp()),
-  );*/
 
   final configuration = DdSdkConfiguration(
     clientToken: 'pub8df6124a6a447c1cbdf885ffe962ac6d',
@@ -49,7 +40,6 @@ Future<void> main() async {
   await DatadogSdk.runApp(configuration, () async {
     runApp(const MyApp());
   });
-  // runApp(const MyApp());
 }
 
 envInitConfig(env) {
@@ -93,10 +83,6 @@ class MyApp extends StatelessWidget {
             }
           },
           child: MaterialApp.router(
-            /*navigatorObservers: [
-              SentryNavigatorObserver(),
-            ],*/
-
             routerConfig: router,
             title: 'WMD',
             theme: AppThemes.getAppTheme(context, brightness: Brightness.light),
