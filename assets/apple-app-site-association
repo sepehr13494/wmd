@@ -1,24 +1,19 @@
 {
-    "applinks": {
-        "details": [
-             {
-               "appIDs": ["com.tfo.wmd"],
-               "components": [
-                 {
-                    "#": "no_universal_links",
-                    "exclude": true,
-                    "comment": "Matches any URL with a fragment that equals no_universal_links and instructs the system not to open it as a universal link."
-                 },
-                 {
-                    "/": "/verify-response",
-                    "comment": "Matches any URL with a path that starts with /verify-response/."
-                 },
-                 {
-                    "/": "/password/update",
-                    "comment": "Matches any URL with a path that starts with /password/update/ and instructs the system not to open it as a universal link."
-                 }
-               ]
-             }
-         ]
-     }
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "1659995282.com.tfo.wmd",
+        "paths": [
+          "/verify-response"
+        ]
+      },
+      {
+        "appID": "1659995282.com.tfo.wmd",
+        "paths": [
+          "/password/update"
+        ]
+      }
+    ]
   }
+}
