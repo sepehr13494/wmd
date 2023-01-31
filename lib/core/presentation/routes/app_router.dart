@@ -1,3 +1,4 @@
+import 'package:datadog_flutter_plugin/datadog_flutter_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -63,6 +64,9 @@ class AppRouter {
 
   GoRouter router() {
     return GoRouter(
+      observers: [
+        DatadogNavigationObserver(datadogSdk: DatadogSdk.instance),
+      ],
       routes: <GoRoute>[
         GoRoute(
           name: AppRoutes.splash,

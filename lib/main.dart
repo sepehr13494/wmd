@@ -4,24 +4,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:wmd/core/util/local_auth_manager.dart';
-import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
-import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
-import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
-import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_goe_cubit.dart';
-import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
-import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
-import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 import 'core/presentation/routes/app_router.dart';
 import 'core/util/app_localization.dart';
 import 'core/util/app_theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'core/util/local_storage.dart';
-import 'features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
-import 'features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'injection_container.dart';
-
 import 'injection_container.dart' as di;
-
+import 'package:datadog_flutter_plugin/datadog_flutter_plugin.dart';
 import 'core/presentation/routes/url_strategy/url_strategy.dart';
 
 Future<void> main() async {
@@ -30,22 +20,26 @@ Future<void> main() async {
 
   const String envFor = String.fromEnvironment(
     'env',
-    defaultValue: 'dev',
+    defaultValue: 'qa',
   );
   final envFile = envInitConfig(envFor);
   await dotenv.load(fileName: envFile);
   await Hive.initFlutter();
   await di.init();
-  /*await SentryFlutter.init(
-        (options) {
-      options.dsn = 'https://eb60042051a848d298dbeab291c89f03@o1020394.ingest.sentry.io/6740091';
-      // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-      // We recommend adjusting this value in production.
-      options.tracesSampleRate = 1.0;
-    },
-    appRunner: () => runApp(const MyApp()),
-  );*/
-  runApp(const MyApp());
+
+  final configuration = DdSdkConfiguration(
+    clientToken: 'pub8df6124a6a447c1cbdf885ffe962ac6d',
+    env: 'dev',
+    site: DatadogSite.eu1,
+    trackingConsent: TrackingConsent.granted,
+    nativeCrashReportEnabled: true,
+    loggingConfiguration: LoggingConfiguration(),
+    rumConfiguration:
+        RumConfiguration(applicationId: '7cc0a75a-848f-47ee-b6e7-c54a9e9888c4'),
+  );
+  await DatadogSdk.runApp(configuration, () async {
+    runApp(const MyApp());
+  });
 }
 
 envInitConfig(env) {
@@ -80,7 +74,7 @@ class MyApp extends StatelessWidget {
       ],
       child: Builder(builder: (context) {
         return GestureDetector(
-          onTap: (){
+          onTap: () {
             FocusScopeNode currentFocus = FocusScope.of(context);
 
             if (!currentFocus.hasPrimaryFocus &&
@@ -89,9 +83,6 @@ class MyApp extends StatelessWidget {
             }
           },
           child: MaterialApp.router(
-            /*navigatorObservers: [
-              SentryNavigatorObserver(),
-            ],*/
             routerConfig: router,
             title: 'WMD',
             theme: AppThemes.getAppTheme(context, brightness: Brightness.light),
