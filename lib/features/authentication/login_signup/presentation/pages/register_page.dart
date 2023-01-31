@@ -70,7 +70,7 @@ class _RegisterPageState extends AppState<RegisterPage> {
     }
 
     bool checkPasswordValidity() {
-      return (lowercase && uppercase && special && length);
+      return (lowercase && uppercase && special && length && numbers);
     }
 
     return BlocProvider(
@@ -175,10 +175,12 @@ class _RegisterPageState extends AppState<RegisterPage> {
                                             },
                                         ),
                                         TextSpan(
-                                            text: " ${appLocalizations.auth_signup_checkbox_and} ",
+                                            text:
+                                                " ${appLocalizations.auth_signup_checkbox_and} ",
                                             style: textTheme.bodySmall),
                                         TextSpan(
-                                          text: appLocalizations.auth_signup_checkbox_privacyPolicy,
+                                          text: appLocalizations
+                                              .auth_signup_checkbox_privacyPolicy,
                                           style: textTheme.bodySmall!
                                               .toLinkStyle(context),
                                           recognizer: TapGestureRecognizer()
