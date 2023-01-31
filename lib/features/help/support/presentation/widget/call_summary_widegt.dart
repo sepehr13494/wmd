@@ -61,14 +61,12 @@ class CallSummaryWidget extends AppStatelessWidget {
                     label: "Meeting type",
                     value: formState != null
                         ? formState!.instantValue["type"]
-                        : "null",
+                        : "Virtual Meeting",
                   ),
                   CallSummaryRow(
                     label: "Email*",
-                    value: formState != null
-                        ? (personalState is PersonalInformationLoaded)
-                            ? personalState.getNameEntity.email
-                            : "null"
+                    value: (personalState is PersonalInformationLoaded)
+                        ? personalState.getNameEntity.email
                         : "null",
                   ),
                 ],
@@ -146,14 +144,20 @@ class CallSummaryRow extends AppStatelessWidget {
               label,
               style: textTheme.bodyMedium,
             ),
-            if (value != "null")
+            if (value != "null" && label == "Reason")
               SizedBox(
-                  width: responsiveHelper.optimalDeviceWidth * 0.6,
+                  width: responsiveHelper.optimalDeviceWidth * 0.65,
                   child: Text(
                     value,
                     style: textTheme.titleSmall,
                     textAlign: TextAlign.end,
                   )),
+            if (value != "null" && label != "Reason")
+              Text(
+                value,
+                style: textTheme.titleSmall,
+                textAlign: TextAlign.end,
+              ),
             if (value == "null") const Text("Missing"),
           ],
         ),
