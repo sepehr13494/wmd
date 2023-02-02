@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,18 +8,26 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/injection_container.dart';
 
-class LocalAuthManager extends Cubit<bool>{
+class LocalAuthManager extends Cubit<bool> {
   final LocalAuthentication auth;
+  DateTime? lastTime;
 
   LocalAuthManager(this.auth) : super(sl<LocalStorage>().getLocalAuth());
 
   Future<bool> authenticate(BuildContext context) async {
     try {
+      if (lastTime != null &&
+          DateTime.now().difference(lastTime!).inSeconds < 5) {
+        return true;
+      }
       final bool didAuthenticate = await auth.authenticate(
-        localizedReason: AppLocalizations.of(context)
-            .linkAccount_linkAccount_card_manual_title,
-        options: const AuthenticationOptions(stickyAuth: true,biometricOnly: true)
-      );
+          localizedReason: AppLocalizations.of(context)
+              .linkAccount_linkAccount_card_manual_title,
+          options: const AuthenticationOptions(
+              stickyAuth: true, biometricOnly: true));
+      if (didAuthenticate) {
+        lastTime = DateTime.now();
+      }
       return didAuthenticate;
     } on PlatformException catch (e) {
       debugPrint(e.toString());
@@ -25,7 +35,7 @@ class LocalAuthManager extends Cubit<bool>{
     }
   }
 
-  setLocalAuth(val,context) async {
+  setLocalAuth(val, context) async {
     if (val) {
       sl<LocalStorage>().setLocalAuth(val);
       emit(val);
@@ -36,11 +46,9 @@ class LocalAuthManager extends Cubit<bool>{
         emit(val);
       }
     }
-
   }
 
-
-  getLocalAuth(){
+  getLocalAuth() {
     emit(sl<LocalStorage>().getLocalAuth());
   }
 }

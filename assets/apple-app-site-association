@@ -1,0 +1,19 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "1659995282.com.tfo.wmd",
+        "paths": [
+          "/verify-response"
+        ]
+      },
+      {
+        "appID": "1659995282.com.tfo.wmd",
+        "paths": [
+          "/password/update"
+        ]
+      }
+    ]
+  }
+}

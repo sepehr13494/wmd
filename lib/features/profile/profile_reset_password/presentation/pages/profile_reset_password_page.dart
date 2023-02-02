@@ -61,7 +61,7 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
   }
 
   bool checkPasswordValidity() {
-    return (lowercase && uppercase && special && length);
+    return (lowercase && uppercase && special && length && numbers);
   }
 
   @override
