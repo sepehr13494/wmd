@@ -21,6 +21,7 @@ class BlocHelper {
       } else if (state is ErrorState) {
         LoadingOverlay().hide();
         if (state.failure is ServerFailure) {
+          debugPrint(state.failure.data);
           switch ((state.failure as ServerFailure).type) {
             case ExceptionType.normal:
             case ExceptionType.format:
@@ -74,6 +75,8 @@ class BlocHelper {
               break;
           }
         } else {
+          debugPrint(state.failure.data.toString());
+          debugPrint(state.failure.stackTrace.toString()??"");
           GlobalFunctions.showSnackBar(context, state.failure.message,
               color: Colors.red[800], type: "error");
         }
