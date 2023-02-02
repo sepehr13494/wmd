@@ -60,16 +60,17 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
           appBar: const AddAssetHeader(title: "", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Save asset",
-              onTap: !enableAddAssetButton
-                  ? null
-                  : () {
-                      Map<String, dynamic> finalMap = {
-                        ...privateEquityFormKey.currentState!.instantValue,
-                      };
-                      context
-                          .read<PrivateEquityCubit>()
-                          .postPrivateEquity(map: finalMap);
-                    }),
+              onTap: () {
+                privateEquityFormKey.currentState?.validate();
+                if (enableAddAssetButton) {
+                  Map<String, dynamic> finalMap = {
+                    ...privateEquityFormKey.currentState!.instantValue,
+                  };
+                  context
+                      .read<PrivateEquityCubit>()
+                      .postPrivateEquity(map: finalMap);
+                }
+              }),
           body: Theme(
             data: Theme.of(context).copyWith(),
             child: Stack(
@@ -150,11 +151,15 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_privateEquity_inputFields_acquisitionDate_label,
                                       child: FormBuilderDateTimePicker(
-                                        validator:
-                                            FormBuilderValidators.required(),
                                         inputType: InputType.date,
                                         format: DateFormat("dd/MM/yyyy"),
                                         lastDate: DateTime.now(),
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        validator:
+                                            FormBuilderValidators.compose([
+                                          FormBuilderValidators.required()
+                                        ]),
                                         name: "investmentDate",
                                         onChanged: (selectedDate) {
                                           checkFinalValid(selectedDate);
@@ -197,8 +202,12 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_label,
                                       child: FormBuilderDateTimePicker(
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
                                         validator:
-                                            FormBuilderValidators.required(),
+                                            FormBuilderValidators.compose([
+                                          FormBuilderValidators.required()
+                                        ]),
                                         enabled: acquisitionDateValue != null,
                                         format: DateFormat("dd/MM/yyyy"),
                                         inputType: InputType.date,

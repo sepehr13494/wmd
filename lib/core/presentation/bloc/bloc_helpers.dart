@@ -56,12 +56,19 @@ class BlocHelper {
                       );
                     });
               } else {
-                GlobalFunctions.showSnackBar(context, state.failure.message,
-                    color: Colors.red[800], type: "error");
+                GlobalFunctions.showSnackBar(
+                    context,
+                    state.failure.type == ExceptionType.unExpected
+                        ? AppLocalizations.of(context)
+                            .common_errors_somethingWentWrong
+                        : state.failure.message,
+                    color: Colors.red[800],
+                    type: "error");
               }
               break;
             case ExceptionType.auth:
-              GlobalFunctions.showSnackBar(context, AppLocalizations.of(context).auth_login_toast_wrongToken);
+              GlobalFunctions.showSnackBar(context,
+                  AppLocalizations.of(context).auth_login_toast_wrongToken);
               sl<LocalStorage>().logout();
               AppRestart.restart(context);
               break;

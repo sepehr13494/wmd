@@ -6,9 +6,9 @@ class ListedSecurityType {
 
   static const json = [
     {"value": "Equity", "name": "Equity"},
-    {"value": "Fixed Income", "name": "Fixed Income"},
-    {"value": "ETFs", "name": "ETFs"},
-    {"value": "Mutual Funds", "name": "Mutual Funds"},
+    {"value": "FixedIncome", "name": "Fixed Income"},
+    {"value": "ETF", "name": "ETFs"},
+    {"value": "MutualFund", "name": "Mutual Funds"},
   ];
 
   @override

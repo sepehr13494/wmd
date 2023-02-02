@@ -36,6 +36,8 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
   String? valuePerUnit = "";
   ListedSecurityName? securityName;
   bool isFixedIncome = false;
+  bool isDisableCategory = false;
+  bool isDisableCurrency = false;
   @override
   void didUpdateWidget(covariant AddListedSecurityPage oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -271,7 +273,18 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                         onChanged: (val) async {
                                           await Future.delayed(const Duration(
                                               milliseconds: 200));
-                                          if (val == "Fixed Income") {
+
+                                          if (securityName?.category == val) {
+                                            setState(() {
+                                              isDisableCategory = true;
+                                            });
+                                          } else {
+                                            setState(() {
+                                              isDisableCategory = false;
+                                            });
+                                          }
+
+                                          if (val == "FixedIncome") {
                                             setState(() {
                                               isFixedIncome = true;
                                             });
@@ -292,6 +305,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                           print(formKey.currentState!
                                               .instantValue["category"]);
                                         },
+                                        enabled: !isDisableCategory,
                                         name: "category",
                                         hint: appLocalizations
                                             .assetLiabilityForms_forms_listedAssets_inputFields_assetType_placeholder,
@@ -344,7 +358,26 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_listedAssets_inputFields_currency_label,
                                       child: CurrenciesDropdown(
-                                        onChanged: checkFinalValid,
+                                        enabled: !isDisableCurrency,
+                                        onChanged: (val) {
+                                          debugPrint("currency code");
+                                          debugPrint(val?.symbol);
+                                          debugPrint(
+                                              securityName?.currencyCode);
+
+                                          if (securityName?.currencyCode ==
+                                              val?.symbol) {
+                                            setState(() {
+                                              isDisableCurrency = true;
+                                            });
+                                          } else {
+                                            setState(() {
+                                              isDisableCurrency = false;
+                                            });
+                                          }
+
+                                          checkFinalValid(val);
+                                        },
                                         showExchange: true,
                                       ),
                                     ),
@@ -420,7 +453,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                           child: AppTextFields.simpleTextField(
                                               extraValidators: [
                                                 (val) {
-                                                  return ((int.tryParse(
+                                                  return ((double.tryParse(
                                                                   val ?? "0") ??
                                                               0) <=
                                                           100)
