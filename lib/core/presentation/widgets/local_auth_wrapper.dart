@@ -79,19 +79,12 @@ class _LocalAuthWrapperState extends AppState<LocalAuthWrapper>
     if (localAuthManager.state) {
       final didAuth = await localAuthManager.authenticate(context);
       if (didAuth) {
-        // ignore: use_build_context_synchronously
-        log('MErt:  pop');
         showContent = true;
       } else {
-        // ignore: use_build_context_synchronously
-        log('MErt:  goLogin');
-        // sl<LocalStorage>().logout();
-        // AppRestart.restart(context);
         // ignore: use_build_context_synchronously
         context.goNamed(AppRoutes.login);
       }
     } else {
-      log('MErt:  elsee');
       showContent = true;
     }
     setState(() {});
