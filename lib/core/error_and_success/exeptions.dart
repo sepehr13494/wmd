@@ -48,11 +48,13 @@ class AppException implements Exception {
   final String message;
   final ExceptionType type;
   final dynamic data;
+  final dynamic stackTrace;
 
   const AppException({
     required this.message,
     this.type = ExceptionType.normal,
     this.data,
+    this.stackTrace,
   });
 
   @override
