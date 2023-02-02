@@ -90,21 +90,20 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
           appBar: const AddAssetHeader(title: "", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: appLocalizations.common_button_addAsset,
-              onTap: !enableAddAssetButton
-                  ? null
-                  : () {
-                      Map<String, dynamic> finalMap = {
-                        ...formKey.currentState!.instantValue,
-                        "currentDayValue":
-                            currentDayValue == "--" ? "0" : currentDayValue
-                      };
+              onTap: () {
+                formKey.currentState?.validate();
+                if (enableAddAssetButton) {
+                  Map<String, dynamic> finalMap = {
+                    ...formKey.currentState!.instantValue,
+                    "currentDayValue":
+                        currentDayValue == "--" ? "0" : currentDayValue
+                  };
 
-                      print(finalMap);
+                  print(finalMap);
 
-                      context
-                          .read<OtherAssetCubit>()
-                          .postOtherAsset(map: finalMap);
-                    }),
+                  context.read<OtherAssetCubit>().postOtherAsset(map: finalMap);
+                }
+              }),
           body: Theme(
             data: Theme.of(context).copyWith(),
             child: Stack(
@@ -166,6 +165,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                           .assetLiabilityForms_forms_others_inputFields_wealthManager_label,
                                       child: FormBuilderTypeAhead(
                                           name: "wealthManager",
+                                          required: false,
                                           hint: appLocalizations
                                               .assetLiabilityForms_forms_others_inputFields_wealthManager_placeholder,
                                           items: AppConstants.custodianList),

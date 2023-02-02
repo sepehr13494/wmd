@@ -108,7 +108,12 @@ class ModalWidget extends StatelessWidget {
       children: [
         IconButton(
             onPressed: () {
-              onClose ?? Navigator.pop(context, false);
+              if (onClose != null) {
+                onClose();
+              } else {
+                Navigator.pop(context, false);
+              }
+              // onClose ?? Navigator.pop(context, false);
               // GoRouter.of(context).goNamed(AppRoutes.dashboard);
             },
             icon: const Icon(Icons.cancel_rounded)),
