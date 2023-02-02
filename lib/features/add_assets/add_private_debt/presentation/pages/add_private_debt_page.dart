@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -60,19 +61,20 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
           appBar: const AddAssetHeader(title: "", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Add asset",
-              onTap: !enableAddAssetButton
-                  ? null
-                  : () {
-                      Map<String, dynamic> finalMap = {
-                        ...privateDebtFormKey.currentState!.instantValue,
-                      };
+              onTap: () {
+                privateDebtFormKey.currentState?.validate();
+                if (enableAddAssetButton) {
+                  Map<String, dynamic> finalMap = {
+                    ...privateDebtFormKey.currentState!.instantValue,
+                  };
 
-                      print(finalMap);
+                  print(finalMap);
 
-                      context
-                          .read<PrivateDebtCubit>()
-                          .postPrivateDebt(map: finalMap);
-                    }),
+                  context
+                      .read<PrivateDebtCubit>()
+                      .postPrivateDebt(map: finalMap);
+                }
+              }),
           body: Theme(
             data: Theme.of(context).copyWith(),
             child: Stack(
@@ -133,6 +135,7 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_privateDebt_inputFields_custodian_label,
                                       child: FormBuilderTypeAhead(
+                                          required: false,
                                           onChange: checkFinalValid,
                                           name: "wealthManager",
                                           hint: appLocalizations
@@ -164,6 +167,12 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                         inputType: InputType.date,
                                         format: DateFormat("dd/MM/yyyy"),
                                         name: "investmentDate",
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        validator:
+                                            FormBuilderValidators.compose([
+                                          FormBuilderValidators.required()
+                                        ]),
                                         decoration: InputDecoration(
                                             suffixIcon: Icon(
                                               Icons.calendar_today_outlined,
@@ -202,6 +211,12 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                         lastDate: DateTime.now(),
                                         format: DateFormat("dd/MM/yyyy"),
                                         inputType: InputType.date,
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        validator:
+                                            FormBuilderValidators.compose([
+                                          FormBuilderValidators.required()
+                                        ]),
                                         name: "valuationDate",
                                         onChanged: (val) {
                                           setState(() {

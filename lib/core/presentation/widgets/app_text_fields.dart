@@ -225,9 +225,13 @@ class SimpleTextField extends AppStatelessWidget {
 class CurrenciesDropdown extends StatefulWidget {
   final ValueChanged<Currency?>? onChanged;
   final bool showExchange;
+  final bool enabled;
 
   const CurrenciesDropdown(
-      {Key? key, this.onChanged, this.showExchange = false})
+      {Key? key,
+      this.onChanged,
+      this.showExchange = false,
+      this.enabled = true})
       : super(key: key);
 
   @override
@@ -247,6 +251,7 @@ class _CurrenciesDropdownState extends State<CurrenciesDropdown> {
           name: "currencyCode",
           hint: "Type or select currency",
           items: Currency.currenciesList,
+          enabled: widget.enabled,
           onChanged: (val) {
             // setState
             if (widget.onChanged != null) {
@@ -322,6 +327,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
   final List<T> items;
   final ValueChanged<T?>? onChanged;
   final bool required;
+  final bool enabled;
   final List<String? Function(T?)>? extraValidators;
 
   const FormBuilderSearchableDropdown(
@@ -334,6 +340,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
       this.itemBuilder,
       this.extraValidators,
       this.required = true,
+      this.enabled = true,
       required this.items,
       this.onChanged})
       : super(key: key);
@@ -356,6 +363,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: FormBuilderValidators.compose(validators),
         onChanged: onChanged,
+        enabled: enabled,
         builder: (FormFieldState field) {
           return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -363,6 +371,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
                 DropdownSearch<T>(
                   itemAsString: itemAsString,
                   filterFn: filterFn,
+                  enabled: enabled,
                   popupProps: PopupProps.menu(
                       showSearchBox: true, itemBuilder: itemBuilder),
                   items: items,
