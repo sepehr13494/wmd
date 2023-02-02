@@ -3,11 +3,13 @@ import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 
 import '../../../domain/entities/assets_overview_entity.dart';
 
 class InsideAssetCardMobile extends AppStatelessWidget {
   final AssetList asset;
+
   const InsideAssetCardMobile({Key? key, required this.asset})
       : super(key: key);
 
@@ -41,7 +43,10 @@ class InsideAssetCardMobile extends AppStatelessWidget {
                                 color: Theme.of(context).primaryColor),
                             overflow: TextOverflow.ellipsis,
                           ),
-                          Text(asset.geography),
+                          Text(
+                            AssetsOverviewChartsColors.getContinentsNames(
+                                appLocalizations, asset.assetName),
+                          ),
                         ],
                       ),
                     ),

@@ -5,9 +5,14 @@ abstract class Failure extends Equatable {
   final String message;
   final ExceptionType type;
   final dynamic data;
+  final dynamic stackTrace;
 
-  const Failure(
-      {required this.message, this.type = ExceptionType.normal, this.data});
+  const Failure({
+    required this.message,
+    this.type = ExceptionType.normal,
+    this.data,
+    this.stackTrace,
+  });
 
   @override
   List<Object?> get props => [message];
@@ -40,14 +45,13 @@ class AppFailure extends Failure {
   const AppFailure(
       {required String message,
       ExceptionType type = ExceptionType.normal,
-      dynamic data})
-      : super(message: message, data: data, type: type);
+      dynamic data,
+      dynamic stackTrace,
+      })
+      : super(message: message, data: data, type: type,stackTrace: stackTrace);
 
-  factory AppFailure.fromAppException(AppException exception) =>
-      AppFailure(
-          message: exception.message,
-          data: exception.data,
-          type: exception.type);
+  factory AppFailure.fromAppException(AppException exception) => AppFailure(
+      message: exception.message, data: exception.data, type: exception.type,stackTrace: exception.stackTrace);
 
   static const tAppFailure = AppFailure(message: "test message");
 
