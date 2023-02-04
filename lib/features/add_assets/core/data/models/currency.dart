@@ -8,14 +8,14 @@ class Currency {
   });
 
   factory Currency.fromJson(Map<String, dynamic> json) => Currency(
-    symbol: json["value"],
-    name: json["label"],
-  );
+        symbol: json["value"],
+        name: json["label"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "value": symbol,
-    "label": name,
-  };
+        "value": symbol,
+        "label": name,
+      };
 
   @override
   String toString() {
@@ -93,7 +93,7 @@ class Currency {
     {"value": "HUF", "label": "Hungarian forint"},
     {"value": "IDR", "label": "Indonesian rupiah"},
     {"value": "ILS", "label": "Israeli new shekel"},
-    {"value": "INR", "label": "Indian rupee"},
+    {"value": "IND", "label": "Indian rupee"},
     {"value": "IQD", "label": "Iraqi dinar"},
     {"value": "IRR", "label": "Iranian rial"},
     {"value": "ISK", "label": "Icelandic króna"},

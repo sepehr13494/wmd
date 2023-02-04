@@ -40,6 +40,8 @@ import 'package:wmd/features/splash/presentation/pages/splash_page.dart';
 import 'package:wmd/features/profile/core/presentation/pages/profile_page.dart';
 import 'package:wmd/injection_container.dart';
 
+import '../widgets/local_auth_wrapper.dart';
+
 class AppRouter {
   AppRouter._privateConstructor();
 
@@ -192,7 +194,7 @@ class AppRouter {
                     },
                   ),
                 ],
-                child: const MainPage(),
+                child: const LocalAuthWrapper(child: MainPage()),
               );
             },
             routes: [

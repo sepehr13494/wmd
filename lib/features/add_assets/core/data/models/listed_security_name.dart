@@ -28,10 +28,10 @@ class ListedSecurityName {
       "securityName": "Amazon.com, Inc.",
       "securityShortName": "AMZN",
       "tradedExchange": "Nasdaq",
-      "value": "Amazon.com, Inc."
+      "value": "Amazon.com, Inc.",
     },
     {
-      "category": "ETFs",
+      "category": "FixedIncome",
       "currencyCode": "IND",
       "isin": "US02079K1079",
       "label": "Alphabet Inc Class A",
@@ -41,7 +41,7 @@ class ListedSecurityName {
       "value": "Alphabet Inc Class A"
     },
     {
-      "category": "EFF",
+      "category": "ETF",
       "currencyCode": "UAD",
       "isin": "US02079K1079",
       "label": "Tesla, Inc.",
@@ -51,7 +51,7 @@ class ListedSecurityName {
       "value": "Tesla, Inc."
     },
     {
-      "category": "ETFs",
+      "category": "MutualFund",
       "currencyCode": "USD",
       "isin": "US02079K1079",
       "label": "Meta Platforms, Inc. ",
@@ -61,7 +61,7 @@ class ListedSecurityName {
       "value": "Meta Platforms, Inc. "
     },
     {
-      "category": "Mutual Funds",
+      "category": "Equity",
       "currencyCode": "USD",
       "isin": "US02079K1079",
       "label": "Alphabet Inc Class C",
@@ -69,7 +69,7 @@ class ListedSecurityName {
       "securityShortName": "GOOGL",
       "tradedExchange": "Nasdaq",
       "value": "Alphabet Inc Class C"
-    }
+    },
   ];
 
   @override

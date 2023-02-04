@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -59,19 +60,18 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
           appBar: const AddAssetHeader(title: "", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Add asset",
-              onTap: !enableAddAssetButton
-                  ? null
-                  : () {
-                      Map<String, dynamic> finalMap = {
-                        ...privateDebtFormKey.currentState!.instantValue,
-                      };
+              onTap: () {
+                privateDebtFormKey.currentState?.validate();
+                if (enableAddAssetButton) {
+                  Map<String, dynamic> finalMap = {
+                    ...privateDebtFormKey.currentState!.instantValue,
+                  };
 
-                      print(finalMap);
+                  print(finalMap);
 
-                      context
-                          .read<RealEstateCubit>()
-                          .postRealEstate(map: finalMap);
-                    }),
+                  context.read<RealEstateCubit>().postRealEstate(map: finalMap);
+                }
+              }),
           body: Theme(
             data: Theme.of(context).copyWith(),
             child: Stack(
@@ -229,6 +229,12 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                         inputType: InputType.date,
                                         format: DateFormat("dd/MM/yyyy"),
                                         name: "acquisitionDate",
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        validator:
+                                            FormBuilderValidators.compose([
+                                          FormBuilderValidators.required()
+                                        ]),
                                         decoration: InputDecoration(
                                             suffixIcon: Icon(
                                               Icons.calendar_today_outlined,

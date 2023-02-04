@@ -238,6 +238,14 @@ class AssetsPart extends AppStatelessWidget {
               .manage_assetAndLiability_assetAndLiabilityList_bankAccount_description,
         ),
         EachAssetModel(
+            id: 5,
+            pageRoute: AppRoutes.addRealEstate,
+            image: "assets/images/add_assets/real_estate.svg",
+            title: appLocalizations
+                .manage_assetAndLiability_assetAndLiabilityList_realEstate_title,
+            description: appLocalizations
+                .manage_assetAndLiability_assetAndLiabilityList_realEstate_description),
+        EachAssetModel(
             id: 3,
             pageRoute: AppRoutes.addListedAsset,
             image: "assets/images/add_assets/listed_asset.svg",
@@ -245,6 +253,14 @@ class AssetsPart extends AppStatelessWidget {
                 .manage_assetAndLiability_assetAndLiabilityList_listedAssets_title,
             description: appLocalizations
                 .manage_assetAndLiability_assetAndLiabilityList_listedAssets_description),
+        EachAssetModel(
+            id: 6,
+            pageRoute: AppRoutes.addPrivateEquity,
+            image: "assets/images/add_assets/private_equity.svg",
+            title: appLocalizations
+                .manage_assetAndLiability_assetAndLiabilityList_privateEquity_title,
+            description: appLocalizations
+                .manage_assetAndLiability_assetAndLiabilityList_privateEquity_description),
         EachAssetModel(
           id: 4,
           pageRoute: AppRoutes.addPrivateDebt,
@@ -254,22 +270,6 @@ class AssetsPart extends AppStatelessWidget {
           description: appLocalizations
               .manage_assetAndLiability_assetAndLiabilityList_privateDebt_description,
         ),
-        EachAssetModel(
-            id: 5,
-            pageRoute: AppRoutes.addRealEstate,
-            image: "assets/images/add_assets/real_estate.svg",
-            title: appLocalizations
-                .manage_assetAndLiability_assetAndLiabilityList_realEstate_title,
-            description: appLocalizations
-                .manage_assetAndLiability_assetAndLiabilityList_realEstate_description),
-        EachAssetModel(
-            id: 6,
-            pageRoute: AppRoutes.addPrivateEquity,
-            image: "assets/images/add_assets/private_equity.svg",
-            title: appLocalizations
-                .manage_assetAndLiability_assetAndLiabilityList_privateEquity_title,
-            description: appLocalizations
-                .manage_assetAndLiability_assetAndLiabilityList_privateEquity_description),
         EachAssetModel(
             id: 7,
             pageRoute: AppRoutes.addOther,

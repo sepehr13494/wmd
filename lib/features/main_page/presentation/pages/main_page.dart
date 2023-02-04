@@ -5,8 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
-import 'package:wmd/core/presentation/widgets/local_auth_page.dart';
-import 'package:wmd/core/util/local_auth_manager.dart';
+
 import 'package:wmd/features/assets_overview/assets_overview/presentation/pages/assets_overview_page.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/pages/dashboard_main_page.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
@@ -33,32 +32,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   ];
 
   @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
-    super.didChangeAppLifecycleState(state);
-    if (!kIsWeb) {
-      if (Platform.isAndroid || Platform.isIOS) {
-        LocalAuthManager localAuthManager = context.read<LocalAuthManager>();
-        if (state == AppLifecycleState.resumed) {
-          if (localAuthManager.state) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const LocalAuthPage()));
-          }
-        }
-      }
-    }
-  }
-
-  @override
   void initState() {
-    context.read<UserStatusCubit>().getUserStatus();
-    WidgetsBinding.instance.addObserver(this);
     super.initState();
+    context.read<UserStatusCubit>().getUserStatus();
   }
 
   @override

@@ -83,19 +83,20 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
           appBar: const AddAssetHeader(title: "", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Add liability",
-              onTap: !enableAddAssetButton
-                  ? null
-                  : () {
-                      Map<String, dynamic> finalMap = {
-                        ...privateDebtFormKey.currentState!.instantValue,
-                      };
+              onTap: () {
+                privateDebtFormKey.currentState?.validate();
+                if (enableAddAssetButton) {
+                  Map<String, dynamic> finalMap = {
+                    ...privateDebtFormKey.currentState!.instantValue,
+                  };
 
-                      print(finalMap);
+                  print(finalMap);
 
-                      context
-                          .read<LoanLiabilityCubit>()
-                          .postLoanLiability(map: finalMap);
-                    }),
+                  context
+                      .read<LoanLiabilityCubit>()
+                      .postLoanLiability(map: finalMap);
+                }
+              }),
           body: Theme(
             data: Theme.of(context).copyWith(),
             child: Stack(
@@ -167,6 +168,7 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                                                 .assetLiabilityForms_forms_loan_inputFields_bankName_label,
                                             child: FormBuilderTypeAhead(
                                                 name: "bankName",
+                                                required: false,
                                                 onChange: (e) {
                                                   if (e != null) {
                                                     context
