@@ -48,6 +48,11 @@ class LocalAuthManager extends Cubit<bool> {
     }
   }
 
+  logoutLocalAuth() async {
+    sl<LocalStorage>().setLocalAuth(false);
+    emit(false);
+  }
+
   getLocalAuth() {
     emit(sl<LocalStorage>().getLocalAuth());
   }

@@ -320,7 +320,8 @@ class AppRouter {
                           return addAssetMainBlocProvider(
                               child: const AddLoanLiabilityPage());
                         }),
-                  ]),
+                  ],
+              ),
             ]),
       ],
     );
