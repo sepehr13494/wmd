@@ -6,7 +6,7 @@ import 'package:wmd/core/util/local_auth_manager.dart';
 
 class AppRestart {
   static restart(BuildContext context) {
-    context.read<LocalAuthManager>().setLocalAuth(false, context);
+    context.read<LocalAuthManager>().logoutLocalAuth();
     context.goNamed(AppRoutes.login);
   }
 }

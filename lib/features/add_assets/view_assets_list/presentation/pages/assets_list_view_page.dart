@@ -15,6 +15,7 @@ import 'package:wmd/features/add_assets/view_assets_list/presentation/manager/as
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/each_asset_widget.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/support_widget.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/dashboard_app_bar.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/add_asset_onboarding_view.dart';
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
@@ -29,7 +30,7 @@ class AssetsListViewPage extends AppStatelessWidget {
     return BlocProvider(
       create: (context) => sl<AssetViewCubit>(),
       child: Scaffold(
-        appBar: const BaseAppBar(),
+        appBar: const DashboardAppBar(),
         bottomSheet: Builder(builder: (context) {
           final state = context.watch<AssetViewCubit>().state;
           if (state is CustodianPage) {
