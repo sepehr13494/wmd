@@ -48,6 +48,7 @@ class CustodianBankWidgetV2 extends AppStatelessWidget {
                         await showCustodianBankStatus(
                           context: context,
                           bankId: bank.bankId,
+                          id: null,
                           onOk: () {
                             if (sl<GetUserStatusUseCase>().showOnboarding) {
                               Map<String, dynamic> map = {

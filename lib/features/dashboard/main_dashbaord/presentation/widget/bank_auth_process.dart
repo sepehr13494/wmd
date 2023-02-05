@@ -133,7 +133,10 @@ class _BanksAuthorizationProcessState
             child: InkWell(
               onTap: () async {
                 await showCustodianBankStatus(
-                    context: context, bankId: e.bankId);
+                  context: context,
+                  bankId: e.bankId,
+                  id: e.id,
+                );
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,

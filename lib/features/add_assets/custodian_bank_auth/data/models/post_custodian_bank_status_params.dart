@@ -4,12 +4,16 @@ import '../../domain/entities/custodian_bank_entity.dart';
 
 class PostCustodianBankStatusParams extends Equatable {
   const PostCustodianBankStatusParams({
+    this.id,
+    this.accountId,
     required this.bankId,
     required this.signLetter,
     required this.shareWithBank,
     required this.bankConfirmation,
   });
 
+  final String? id;
+  final String? accountId;
   final String bankId;
   final bool signLetter;
   final bool shareWithBank;
@@ -17,6 +21,8 @@ class PostCustodianBankStatusParams extends Equatable {
 
   factory PostCustodianBankStatusParams.fromJson(Map<String, dynamic> json) =>
       PostCustodianBankStatusParams(
+        id: json["id"],
+        accountId: json["accountId"],
         bankId: json["bankId"],
         signLetter: json["signLetter"],
         shareWithBank: json["shareWithBank"],
@@ -31,6 +37,8 @@ class PostCustodianBankStatusParams extends Equatable {
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
+        "accountId": accountId,
         "bankId": bankId,
         "signLetter": signLetter,
         "shareWithBank": shareWithBank,
@@ -39,6 +47,8 @@ class PostCustodianBankStatusParams extends Equatable {
 
   @override
   List<Object?> get props => [
+        id,
+        accountId,
         bankId,
         signLetter,
         shareWithBank,
