@@ -80,12 +80,13 @@ void main() {
         when(mockCustodianBankAuthRemoteDataSource.getCustodianBankStatus(any))
             .thenAnswer((_) async => resp);
         // act
-        final result =
-            await custodianBankAuthRepositoryImpl.getCustodianBankStatus(
-                GetCustodianBankStatusParams(bankId: resp.bankId));
+        final result = await custodianBankAuthRepositoryImpl
+            .getCustodianBankStatus(GetCustodianBankStatusParams(
+                bankId: resp.bankId, custodianBankStatusId: null));
         // assert
         verify(mockCustodianBankAuthRemoteDataSource.getCustodianBankStatus(
-            GetCustodianBankStatusParams(bankId: resp.bankId)));
+            GetCustodianBankStatusParams(
+                bankId: resp.bankId, custodianBankStatusId: null)));
         expect(
           result,
           equals(Right(resp)),
@@ -100,12 +101,13 @@ void main() {
         when(mockCustodianBankAuthRemoteDataSource.getCustodianBankStatus(any))
             .thenThrow(tServerException);
         // act
-        final result =
-            await custodianBankAuthRepositoryImpl.getCustodianBankStatus(
-                GetCustodianBankStatusParams(bankId: resp.bankId));
+        final result = await custodianBankAuthRepositoryImpl
+            .getCustodianBankStatus(GetCustodianBankStatusParams(
+                bankId: resp.bankId, custodianBankStatusId: ''));
         // assert
         verify(mockCustodianBankAuthRemoteDataSource.getCustodianBankStatus(
-            GetCustodianBankStatusParams(bankId: resp.bankId)));
+            GetCustodianBankStatusParams(
+                bankId: resp.bankId, custodianBankStatusId: '')));
 
         expect(result,
             equals(Left(ServerFailure(message: tServerException.message))));

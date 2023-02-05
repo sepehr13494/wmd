@@ -43,11 +43,13 @@ void main() {
       () async {
         // arrange
         when(mockCustodianBankAuthRepository.getCustodianBankStatus(
-                GetCustodianBankStatusParams(bankId: resp.bankId)))
+                GetCustodianBankStatusParams(
+                    bankId: resp.bankId, custodianBankStatusId: null)))
             .thenAnswer((_) async => tEither);
         // act
-        final result = await getCustodianBankStatusUseCase
-            .call(GetCustodianBankStatusParams(bankId: resp.bankId));
+        final result = await getCustodianBankStatusUseCase.call(
+            GetCustodianBankStatusParams(
+                bankId: resp.bankId, custodianBankStatusId: null));
         // assert
         expect(result.fold((l) => l, (r) => r), resp);
       },
@@ -59,11 +61,13 @@ void main() {
         const tServerFailure = ServerFailure(message: 'Server failure');
         // arrange
         when(mockCustodianBankAuthRepository.getCustodianBankStatus(
-                GetCustodianBankStatusParams(bankId: resp.bankId)))
+                GetCustodianBankStatusParams(
+                    bankId: resp.bankId, custodianBankStatusId: resp.bankId)))
             .thenAnswer((_) async => const Left(tServerFailure));
         // act
-        final result = await getCustodianBankStatusUseCase
-            .call(GetCustodianBankStatusParams(bankId: resp.bankId));
+        final result = await getCustodianBankStatusUseCase.call(
+            GetCustodianBankStatusParams(
+                bankId: resp.bankId, custodianBankStatusId: resp.bankId));
         // assert
         expect(result, const Left(tServerFailure));
       },
@@ -111,7 +115,7 @@ void main() {
   group('postCustodianBankStatusUseCase usecase test', () {
     final tModel = PostCustodianBankStatusParams.fromJson(
         PostCustodianBankStatusParams.tResponse);
-    const resp = PostCustodianBankStatusResponse();
+    const resp = PostCustodianBankStatusResponse(id: 'test');
     const tEither = Right<Failure, PostCustodianBankStatusEntity>(resp);
     test(
       'should get bool from repository',
