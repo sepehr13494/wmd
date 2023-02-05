@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
@@ -24,6 +25,7 @@ void main() {
   late DashboardChartsRepositoryImpl repositoryImpl;
 
   setUp(() async {
+    initializeDateFormatting();
     remoteDataSource = MockDashboardChartsRemoteDataSource();
     repositoryImpl = DashboardChartsRepositoryImpl(
         remoteDataSource);

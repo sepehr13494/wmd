@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
-import 'package:wmd/core/presentation/widgets/base_app_bar.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
