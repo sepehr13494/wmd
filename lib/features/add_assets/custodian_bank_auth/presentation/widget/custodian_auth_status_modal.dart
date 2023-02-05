@@ -18,6 +18,7 @@ import 'dart:io' show Platform;
 showCustodianBankStatus({
   required BuildContext context,
   required String bankId,
+  required String? id,
   void Function()? onOk,
 }) async {
   final appLocalization = AppLocalizations.of(context);
@@ -26,7 +27,7 @@ showCustodianBankStatus({
     builder: (context) {
       return CenterModalWidget(
         confirmBtn: appLocalization.common_button_ok,
-        body: BankStatusModalBody(bankId: bankId),
+        body: BankStatusModalBody(bankId: bankId, id: id),
         // cancelBtn: 'Cancel',
       );
     },
@@ -43,26 +44,38 @@ class BankStatusModalBody extends StatefulWidget {
   const BankStatusModalBody({
     Key? key,
     required this.bankId,
+    required this.id,
   }) : super(key: key);
 
   final String bankId;
+  final String? id;
 
   @override
   AppState<BankStatusModalBody> createState() => _BankStatusModalBodyState();
 }
 
 class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
+  String? id;
+
+  @override
+  void initState() {
+    super.initState();
+    id = widget.id;
+  }
+
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
     return BlocProvider(
       create: (context) => sl<CustodianBankAuthCubit>()
-        ..getCustodianBankStatus(
-            GetCustodianBankStatusParams(bankId: widget.bankId)),
+        ..getCustodianBankStatus(GetCustodianBankStatusParams(
+            bankId: widget.bankId, custodianBankStatusId: id)),
       child: BlocConsumer<CustodianBankAuthCubit, CustodianBankAuthState>(
           listener: (context, state) {
         if (state is CustodianBankStateUpdated) {
+          id = state.postCustodianBankStatusEntity.id;
           context.read<CustodianBankAuthCubit>().getCustodianBankStatus(
-              GetCustodianBankStatusParams(bankId: widget.bankId));
+              GetCustodianBankStatusParams(
+                  bankId: widget.bankId, custodianBankStatusId: id));
           sl<CustodianStatusListCubit>().getCustodianStatusList();
         }
       }, builder: (context, state) {
@@ -94,7 +107,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                 doneSubtitle: appLocalizations
                     .linkAccount_stepper_stepOne_action_completed,
                 isDone: status.signLetter,
-                onDone: () {
+                onDone: (val) {
                   downloadPdf(status);
                   context
                       .read<CustodianBankAuthCubit>()
@@ -119,15 +132,18 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                 stepNumber: '2',
                 title: appLocalizations.linkAccount_stepper_stepTwo_title,
                 trailing: '2 ${appLocalizations.assets_charts_days}',
+                showInput: true,
                 subtitle: (status.signLetter && !status.shareWithBank)
                     ? appLocalizations.linkAccount_stepper_stepTwo_action_active
                     : null,
                 isDone: status.shareWithBank,
-                onDone: () {
+                onDone: (val) {
                   context
                       .read<CustodianBankAuthCubit>()
                       .postCustodianBankStatus(PostCustodianBankStatusParams(
                           bankId: widget.bankId,
+                          id: id,
+                          accountId: val,
                           signLetter: true,
                           shareWithBank: true,
                           bankConfirmation: false));

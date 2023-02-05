@@ -3,34 +3,31 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StatusEntity extends Equatable {
   const StatusEntity({
-    required this.id,
+    this.id,
     required this.bankId,
     required this.bankName,
+    this.accountId,
     required this.signLetter,
     required this.signLetterLink,
     required this.shareWithBank,
     required this.bankConfirmation,
   });
 
-  final String id;
+  final String? id;
   final String bankId;
   final String bankName;
+  final String? accountId;
   final bool signLetter;
   final String signLetterLink;
   final bool shareWithBank;
   final bool bankConfirmation;
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "bankId": bankId,
-        "bankName": bankName,
-      };
 
   @override
   List<Object?> get props => [
         id,
         bankId,
         bankName,
+        accountId,
         signLetter,
         signLetterLink,
         shareWithBank,
