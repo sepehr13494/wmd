@@ -72,6 +72,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
       child: BlocConsumer<CustodianBankAuthCubit, CustodianBankAuthState>(
           listener: (context, state) {
         if (state is CustodianBankStateUpdated) {
+          id = state.postCustodianBankStatusEntity.id;
           context.read<CustodianBankAuthCubit>().getCustodianBankStatus(
               GetCustodianBankStatusParams(
                   bankId: widget.bankId, custodianBankStatusId: id));
