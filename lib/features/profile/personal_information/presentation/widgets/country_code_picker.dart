@@ -13,42 +13,50 @@ class CountryCodePicker extends StatefulWidget {
 }
 
 class _CountryCodePickerState extends State<CountryCodePicker> {
-
   TextEditingController controller = TextEditingController();
   final Country? defaultCountry = Country.tryParse("bahrain");
 
   @override
   void initState() {
-    if(defaultCountry != null){
-      controller.text = "${defaultCountry!.flagEmoji} +${defaultCountry!.phoneCode}";
+    if (defaultCountry != null) {
+      controller.text =
+          "${defaultCountry!.flagEmoji} +${defaultCountry!.phoneCode}";
     }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FormBuilderField<Country>(builder: ((field) {
-      if(field.value!=null){
-        controller.text = "${field.value!.flagEmoji} +${field.value!.phoneCode}";
-      }
-      return SizedBox(
-        width: 130,
-        child: TextField(
-          controller: controller,
-          readOnly: true,
-          onTap: (){
-            showCountryPicker(
-              context: context,
-              showPhoneCode: true, // optional. Shows phone code before the country name.
-              onSelect: (Country country) {
-                print('Select country: ${country.displayName}');
-                controller.text = "${country.flagEmoji} +${country.phoneCode}";
-                field.didChange(country);
-              },
-            );
-          },
-        ),
-      );
-    }), name: "country",initialValue: defaultCountry,onChanged: widget.onChange,);
+    return FormBuilderField<Country>(
+      builder: ((field) {
+        if (field.value != null) {
+          controller.text =
+              "${field.value!.flagEmoji} ${field.value!.countryCode} +${field.value!.phoneCode}";
+        }
+        return SizedBox(
+          width: 130,
+          child: TextField(
+            controller: controller,
+            readOnly: true,
+            onTap: () {
+              showCountryPicker(
+                context: context,
+                showPhoneCode:
+                    true, // optional. Shows phone code before the country name.
+                onSelect: (Country country) {
+                  print('Select country: ${country.displayName}');
+                  controller.text =
+                      "${field.value!.flagEmoji} ${field.value!.countryCode} +${field.value!.phoneCode}";
+                  field.didChange(country);
+                },
+              );
+            },
+          ),
+        );
+      }),
+      name: "country",
+      initialValue: defaultCountry,
+      onChanged: widget.onChange,
+    );
   }
 }

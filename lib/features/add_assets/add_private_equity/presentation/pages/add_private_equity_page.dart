@@ -82,7 +82,8 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                         listener: AssetBlocHelper.defaultBlocListener(
                             listener: (context, state) {},
                             asset: appLocalizations
-                                .assetLiabilityForms_assets_privateEquity),
+                                .assetLiabilityForms_assets_privateEquity,
+                            assetType: AssetTypes.privateEquity),
                         builder: (context, state) {
                           return SingleChildScrollView(
                             child: Column(children: [

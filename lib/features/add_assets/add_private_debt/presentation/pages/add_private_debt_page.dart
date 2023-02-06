@@ -85,7 +85,8 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                     return BlocConsumer<PrivateDebtCubit, PrivateDebtState>(
                         listener: AssetBlocHelper.defaultBlocListener(
                             listener: (context, state) {},
-                            asset: "Private debt"),
+                            asset: "Private debt",
+                            assetType: AssetTypes.privateDebt),
                         builder: (context, state) {
                           return SingleChildScrollView(
                             child: Column(children: [

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:dartz/dartz.dart';
@@ -12,13 +13,16 @@ class MainDashboardRepositoryImpl implements MainDashboardRepository {
   MainDashboardRepositoryImpl(this.dashboardRemoteDataSource);
 
   @override
-  Future<Either<Failure, NetWorthResponseObj>> userNetWorth(NetWorthParams params) async {
+  Future<Either<Failure, NetWorthResponseObj>> userNetWorth(
+      NetWorthParams params) async {
     try {
       final result = await dashboardRemoteDataSource.userNetWorth(params);
       return Right(result);
     } on ServerException catch (error) {
+      debugPrint("NetWorthResponseObj-----ServerException");
       return Left(ServerFailure.fromServerException(error));
-    } on AppException catch (error){
+    } on AppException catch (error) {
+      debugPrint("NetWorthResponseObj-----AppException");
       return Left(AppFailure.fromAppException(error));
     }
   }

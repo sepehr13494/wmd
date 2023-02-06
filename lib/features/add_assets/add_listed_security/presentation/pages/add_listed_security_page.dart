@@ -131,7 +131,8 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                             ListedSecurityState>(
                         listener: AssetBlocHelper.defaultBlocListener(
                             listener: (context, state) {},
-                            asset: "Listed asset"),
+                            asset: "Listed asset",
+                            assetType: AssetTypes.listedAsset),
                         builder: (context, state) {
                           return SingleChildScrollView(
                             child: Column(children: [
@@ -451,25 +452,23 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                           title: appLocalizations
                                               .assetLiabilityForms_forms_listedAssets_inputFields_couponRate_label,
                                           child: AppTextFields.simpleTextField(
-                                              extraValidators: [
-                                                (val) {
-                                                  return ((double.tryParse(
-                                                                  val ?? "0") ??
-                                                              0) <=
-                                                          100)
-                                                      ? null
-                                                      : "Ownership can't be greater then 100";
-                                                }
-                                              ],
-                                              type: TextFieldType.rate,
-                                              onChanged: checkFinalValid,
-                                              name: "couponRate",
-                                              hint: "00",
-                                              suffixIcon: Icon(
-                                                Icons.percent,
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                              )),
+                                            extraValidators: [
+                                              (val) {
+                                                return ((double.tryParse(
+                                                                val ?? "0") ??
+                                                            0) <=
+                                                        100)
+                                                    ? null
+                                                    : "Ownership can't be greater then 100";
+                                              }
+                                            ],
+                                            type: TextFieldType.rate,
+                                            onChanged: checkFinalValid,
+                                            name: "couponRate",
+                                            hint: "00",
+                                            suffixIcon:
+                                                AppTextFields.rateSuffixIcon(),
+                                          ),
                                         ),
                                         const SizedBox(height: 30),
                                         EachTextField(

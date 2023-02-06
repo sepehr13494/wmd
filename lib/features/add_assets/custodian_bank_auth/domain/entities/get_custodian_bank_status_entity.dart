@@ -38,6 +38,7 @@ class CustodianBankStatusEntity extends Equatable {
   static const tResponse = {
     "id": "844cc294-7cbf-41a6-9bdd-b6c839444364",
     "bankId": "hsbc",
+    "bankName": "hsbc",
     "signLetter": true,
     "signLetterLink":
         "https://a.storyblok.com/f/187108/x/169d159c71/creditsuisse.pdf",
