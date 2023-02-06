@@ -8,6 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/add_real_estate/presentation/manager/real_estate_cubit.dart';
 import 'package:wmd/features/add_assets/core/constants.dart';
 import 'package:wmd/features/add_assets/core/data/models/real_estate_type.dart';
@@ -82,7 +83,8 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                     return BlocConsumer<RealEstateCubit, RealEstateState>(
                         listener: AssetBlocHelper.defaultBlocListener(
                             listener: (context, state) {},
-                            asset: "Real estate"),
+                            asset: "Real estate",
+                            assetType: AssetTypes.realEstate),
                         builder: (context, state) {
                           return SingleChildScrollView(
                             child: Column(children: [

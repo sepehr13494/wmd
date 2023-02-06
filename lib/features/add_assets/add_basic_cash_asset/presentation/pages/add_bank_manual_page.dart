@@ -9,6 +9,7 @@ import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentation/manager/bank_list_cubit.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/manager/bank_cubit.dart';
 import 'package:wmd/features/add_assets/core/constants.dart';
@@ -104,7 +105,9 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                   child: Builder(builder: (context) {
                     return BlocConsumer<BankCubit, BankSaveState>(
                       listener: AssetBlocHelper.defaultBlocListener(
-                          listener: (context, state) {}, asset: "Bank account"),
+                          listener: (context, state) {},
+                          asset: "Bank account",
+                          assetType: AssetTypes.bankAccount),
                       builder: (context, state) {
                         return SingleChildScrollView(
                           child: Column(children: [
@@ -148,7 +151,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                     (val) {
                                                       return (val != null &&
                                                               val.length > 100)
-                                                          ? "Name cannot be more than 100 characters"
+                                                          ? "BankName must be at most 100 characters"
                                                           : null;
                                                     }
                                                   ],
@@ -263,6 +266,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                 child: AppTextFields
                                                     .simpleTextField(
                                                         name: "interestRate",
+                                                        suffixIcon: AppTextFields
+                                                            .rateSuffixIcon(),
                                                         type:
                                                             TextFieldType.rate,
                                                         required: false,
@@ -314,6 +319,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                               hint: appLocalizations
                                                   .assetLiabilityForms_forms_bankAccount_inputFields_ownership_placeholder,
                                               type: TextFieldType.rate,
+                                              suffixIcon: AppTextFields
+                                                  .rateSuffixIcon(),
                                               keyboardType:
                                                   TextInputType.number),
                                         ),
@@ -351,6 +358,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                             hint: appLocalizations
                                                 .assetLiabilityForms_forms_bankAccount_inputFields_rate_placeholder,
                                             type: TextFieldType.rate,
+                                            suffixIcon:
+                                                AppTextFields.rateSuffixIcon(),
                                             required: false,
                                           ),
                                         ),
