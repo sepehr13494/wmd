@@ -346,6 +346,9 @@ class AppRouter {
       BlocProvider.value(
         value: _dashboardGoeCubit,
       ),
+      BlocProvider.value(
+        value: _custodianStatusListCubit,
+      ),
     ], child: child);
   }
 }

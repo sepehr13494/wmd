@@ -52,100 +52,90 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                       child: Center(
                         child: SingleChildScrollView(
                           child: Theme(
-                            data: appTheme.copyWith(
-                                outlinedButtonTheme: OutlinedButtonThemeData(
-                                  style: appTheme.outlinedButtonTheme.style!
-                                      .copyWith(
-                                          minimumSize:
-                                              MaterialStateProperty.all(
-                                                  const Size(0, 48))),
-                                ),
-                                elevatedButtonTheme: ElevatedButtonThemeData(
-                                  style: appTheme.outlinedButtonTheme.style!
-                                      .copyWith(
-                                          minimumSize:
-                                              MaterialStateProperty.all(
-                                                  const Size(0, 48))),
-                                ),
-                                iconTheme: appTheme.iconTheme
-                                    .copyWith(color: appTheme.primaryColor)),
-                            child: BlocConsumer<CustodianStatusListCubit,
-                                    CustodianStatusListState>(
+                              data: appTheme.copyWith(
+                                  outlinedButtonTheme: OutlinedButtonThemeData(
+                                    style: appTheme.outlinedButtonTheme.style!
+                                        .copyWith(
+                                            minimumSize:
+                                                MaterialStateProperty.all(
+                                                    const Size(0, 48))),
+                                  ),
+                                  elevatedButtonTheme: ElevatedButtonThemeData(
+                                    style: appTheme.outlinedButtonTheme.style!
+                                        .copyWith(
+                                            minimumSize:
+                                                MaterialStateProperty.all(
+                                                    const Size(0, 48))),
+                                  ),
+                                  iconTheme: appTheme.iconTheme
+                                      .copyWith(color: appTheme.primaryColor)),
+                              child: BlocConsumer<MainDashboardCubit,
+                                  MainDashboardState>(
                                 listener: BlocHelper.defaultBlocListener(
                                     listener: (context, state) {}),
-                                builder: (context, custodianState) {
-                                  return BlocConsumer<MainDashboardCubit,
-                                      MainDashboardState>(
-                                    listener: BlocHelper.defaultBlocListener(
-                                        listener: (context, state) {}),
-                                    builder: (context, state) {
-                                      final isCustodianNotEmpty = context
-                                          .read<CustodianStatusListCubit>()
-                                          .statutes
-                                          .isNotEmpty;
+                                builder: (context, state) {
+                                  final isCustodianNotEmpty = context
+                                      .read<CustodianStatusListCubit>()
+                                      .statutes
+                                      .isNotEmpty;
 
-                                      if (state
-                                          is MainDashboardNetWorthLoaded) {
-                                        final isAssetsNotEmpty = state
-                                                .netWorthObj
-                                                .assets
-                                                .currentValue !=
+                                  if (state is MainDashboardNetWorthLoaded) {
+                                    final isAssetsNotEmpty =
+                                        state.netWorthObj.assets.currentValue !=
                                             0;
-                                        final isLiabilityNotEmpty = state
-                                                .netWorthObj
-                                                .liabilities
-                                                .currentValue !=
-                                            0;
+                                    final isLiabilityNotEmpty = state
+                                            .netWorthObj
+                                            .liabilities
+                                            .currentValue !=
+                                        0;
 
-                                        if (isAssetsNotEmpty ||
-                                            isCustodianNotEmpty ||
-                                            isLiabilityNotEmpty) {
-                                          return Column(
+                                    if (isAssetsNotEmpty ||
+                                        isCustodianNotEmpty ||
+                                        isLiabilityNotEmpty) {
+                                      return Column(
+                                        children: [
+                                          const FilterAddPart(),
+                                          const SizedBox(height: 12),
+                                          BanksAuthorizationProcess(
+                                              initiallyExpanded:
+                                                  !(isAssetsNotEmpty ||
+                                                      isLiabilityNotEmpty)),
+                                          if (isAssetsNotEmpty ||
+                                              isLiabilityNotEmpty)
+                                            SummeryWidget(
+                                                netWorthEntity:
+                                                    state.netWorthObj),
+                                          const NetWorthBaseChart(),
+                                          RowOrColumn(
+                                            rowCrossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            showRow: !isMobile,
                                             children: [
-                                              const FilterAddPart(),
-                                              const SizedBox(height: 12),
-                                              BanksAuthorizationProcess(
-                                                  initiallyExpanded:
-                                                      !(isAssetsNotEmpty ||
-                                                          isLiabilityNotEmpty)),
-                                              if (isAssetsNotEmpty ||
-                                                  isLiabilityNotEmpty)
-                                                SummeryWidget(
-                                                    netWorthEntity:
-                                                        state.netWorthObj),
-                                              const NetWorthBaseChart(),
-                                              RowOrColumn(
-                                                rowCrossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                showRow: !isMobile,
-                                                children: [
-                                                  ExpandedIf(
-                                                      expanded: !isMobile,
-                                                      child:
-                                                          const PieChartSample2()),
-                                                  ExpandedIf(
-                                                      expanded: !isMobile,
-                                                      child:
-                                                          const RandomWorldMapGenrator()),
-                                                ],
-                                              ),
-                                            ]
-                                                .map((e) => Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
+                                              ExpandedIf(
+                                                  expanded: !isMobile,
+                                                  child:
+                                                      const PieChartSample2()),
+                                              ExpandedIf(
+                                                  expanded: !isMobile,
+                                                  child:
+                                                      const RandomWorldMapGenrator()),
+                                            ],
+                                          ),
+                                        ]
+                                            .map((e) => Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
                                                         vertical: 8,
                                                         horizontal: 16),
-                                                    child: e))
-                                                .toList(),
-                                          );
-                                        }
-                                        return const DashboardPage();
-                                      }
-                                      return const LoadingWidget();
-                                    },
-                                  );
-                                }),
-                          ),
+                                                child: e))
+                                            .toList(),
+                                      );
+                                    }
+                                    return const DashboardPage();
+                                  }
+                                  return const LoadingWidget();
+                                },
+                              )),
                         ),
                       ),
                     )

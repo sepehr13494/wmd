@@ -9,12 +9,14 @@ String bankSaveResponseModelToJson(AddAssetModel data) =>
 
 class AddAssetModel extends AddAsset {
   const AddAssetModel({
+    required String id,
     required String currencyCode,
     required double currencyRate,
     required double startingBalance,
     required double totalNetWorthChange,
     required double totalNetWorth,
   }) : super(
+          id: id,
           currencyCode: currencyCode,
           currencyRate: currencyRate,
           startingBalance: startingBalance,
@@ -23,6 +25,7 @@ class AddAssetModel extends AddAsset {
         );
 
   factory AddAssetModel.fromJson(Map<String, dynamic> json) => AddAssetModel(
+        id: json["id"],
         currencyCode: json["currencyCode"],
         currencyRate: json["currencyRate"],
         startingBalance: json["startingBalance"],
@@ -31,6 +34,7 @@ class AddAssetModel extends AddAsset {
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "currencyCode": currencyCode,
         "currencyRate": currencyRate,
         "startingBalance": startingBalance,
@@ -39,6 +43,7 @@ class AddAssetModel extends AddAsset {
       };
 
   static final tAddAssetResponse = {
+    "id": "TRY",
     "currencyCode": "TRY",
     "currencyRate": 1.5,
     "startingBalance": 500.00,
@@ -47,6 +52,7 @@ class AddAssetModel extends AddAsset {
   };
 
   static const tAddAssetModel = AddAssetModel(
+    id: "TRY",
     currencyCode: "TRY",
     currencyRate: 1.5,
     startingBalance: 500.00,

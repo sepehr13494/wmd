@@ -114,7 +114,8 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                     return BlocConsumer<OtherAssetCubit, OtherAssetState>(
                         listener: AssetBlocHelper.defaultBlocListener(
                             listener: (context, state) {},
-                            asset: "Other asset"),
+                            asset: "Other asset",
+                            assetType: AssetTypes.otherAssets),
                         builder: (context, state) {
                           return SingleChildScrollView(
                             child: Column(children: [
