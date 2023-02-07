@@ -30,7 +30,7 @@ class AddBankManualPage extends StatefulWidget {
 
 class _AddBankManualPageState extends AppState<AddBankManualPage> {
   final baseFormKey = GlobalKey<FormBuilderState>();
-  GlobalKey<FormBuilderState> bottomFormKey = GlobalKey<FormBuilderState>();
+  // GlobalKey<FormBuilderState> bottomFormKey = GlobalKey<FormBuilderState>();
   String date = "--/--/--";
   String? accountType;
   String endDateToParse = "";
@@ -43,8 +43,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
 
   void checkFinalValid(value) async {
     await Future.delayed(const Duration(milliseconds: 100));
-    bool finalValid = (baseFormKey.currentState!.isValid &&
-        bottomFormKey.currentState!.isValid);
+    bool finalValid = (baseFormKey.currentState!.isValid);
 
     if (finalValid) {
       if (!enableAddAssetButton) {
@@ -86,7 +85,6 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
               if (enableAddAssetButton) {
                 Map<String, dynamic> finalMap = {
                   ...baseFormKey.currentState!.instantValue,
-                  ...bottomFormKey.currentState!.instantValue,
                 };
 
                 if (isDepositTerm && endDateToParse.isDate()) {
@@ -217,8 +215,6 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                     child: AppTextFields.dropDownTextField(
                                       onChanged: (val) async {
                                         setState(() {
-                                          bottomFormKey =
-                                              GlobalKey<FormBuilderState>();
                                           accountType = val;
                                         });
                                         await Future.delayed(
@@ -538,7 +534,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
   }
 
   void changeDate() {
-    final map = bottomFormKey.currentState!.instantValue;
+    final map = baseFormKey.currentState!.instantValue;
     var startDate = map["startDate"];
     if (startDate != null) {
       final int year = int.tryParse(map["years"] ?? "0") ?? 0;

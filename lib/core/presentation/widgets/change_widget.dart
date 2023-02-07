@@ -11,7 +11,8 @@ class ChangeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isPositive = number > 0;
     final bool isZero = number == 0;
-    final color = isZero ? null : (isPositive ? AppColors.green : Colors.red);
+    final color =
+        isZero ? AppColors.green : (isPositive ? AppColors.green : Colors.red);
     return RichText(
       text: TextSpan(
         children: [
@@ -19,13 +20,13 @@ class ChangeWidget extends StatelessWidget {
             child: isZero
                 ? const SizedBox()
                 : Icon(
-              isPositive ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-              color: color,
-              size: 20,
-            ),
+                    isPositive ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                    color: color,
+                    size: 20,
+                  ),
           ),
           TextSpan(
-            text : text,
+            text: text,
             style: TextStyle(color: color),
           ),
         ],

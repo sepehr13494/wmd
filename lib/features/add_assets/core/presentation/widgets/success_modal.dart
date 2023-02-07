@@ -43,7 +43,7 @@ class SuccessModalWidget extends ModalWidget {
     return SizedBox(
       width: double.infinity,
       height: isMobile
-          ? MediaQuery.of(context).size.height * 0.7
+          ? MediaQuery.of(context).size.height * 0.8
           : MediaQuery.of(context).size.height * 0.5,
       child: Column(
         children: [
