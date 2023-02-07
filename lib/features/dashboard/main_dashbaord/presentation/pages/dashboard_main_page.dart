@@ -106,6 +106,13 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                                 netWorthEntity:
                                                     state.netWorthObj),
                                           const NetWorthBaseChart(),
+                                          const SizedBox(height: 8),
+                                          Row(children: [
+                                            Text(
+                                                appLocalizations
+                                                    .home_label_yourAssets,
+                                                style: textTheme.titleLarge),
+                                          ]),
                                           RowOrColumn(
                                             rowCrossAxisAlignment:
                                                 CrossAxisAlignment.start,

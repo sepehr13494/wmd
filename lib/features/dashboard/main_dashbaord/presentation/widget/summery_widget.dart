@@ -28,8 +28,23 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
     final String date = (context.watch<MainDashboardCubit>().dateTimeRange ??
             AppConstants.timeFilter(context).first)
         .key;
-    final assetText = appLocalizations.home_widget_summaryCard_tooltip_assets.replaceAll("{{count}}", widget.netWorthEntity.assets.newAsset.toString()).replaceAll("{{change}}", widget.netWorthEntity.assets.change.convertMoney().toString());
-    final liabilitiesText = appLocalizations.home_widget_summaryCard_tooltip_liabilities.replaceAll("{{count}}", widget.netWorthEntity.liabilities.newLiability.toString()).replaceAll("{{change}}", widget.netWorthEntity.liabilities.change.convertMoney().toString());
+    final assetText = appLocalizations.home_widget_summaryCard_tooltip_assets
+        .replaceAll(
+            "{{count}}", widget.netWorthEntity.assets.newAsset.toString())
+        .replaceAll(
+            "{{change}}",
+            widget.netWorthEntity.assets.currentValue
+                .convertMoney()
+                .toString());
+    final liabilitiesText = appLocalizations
+        .home_widget_summaryCard_tooltip_liabilities
+        .replaceAll("{{count}}",
+            widget.netWorthEntity.liabilities.newLiability.toString())
+        .replaceAll(
+            "{{change}}",
+            widget.netWorthEntity.liabilities.currentValue
+                .convertMoney()
+                .toString());
     final List items = [
       [
         appLocalizations.home_label_totalNetWorth,

@@ -161,6 +161,14 @@ class SimpleTextField extends AppStatelessWidget {
               ? 'Please enter ${title!.toLowerCase()}'
               : appLocalizations.common_errors_required));
     }
+    if (type == TextFieldType.money) {
+      validators.add((val) {
+        return (val != null &&
+                (double.tryParse(val.replaceAll(",", "")) ?? 0) > 1000000000000)
+            ? "Amount should be less than 1,000,000,000,000"
+            : null;
+      });
+    }
     switch (type) {
       case TextFieldType.email:
         validators.add(FormBuilderValidators.email());
