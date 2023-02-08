@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/manager/chart_chooser_manager.dart';
 
 enum BarType {
   barChart,
-  lineChart,
   areaChart,
   treeChart,
 }
 
-class AllBarType {
+class AllChartType {
   final String name;
   final BarType barType;
 
-  AllBarType({
+  AllChartType({
     required this.name,
     required this.barType,
   });
 
-  static List<AllBarType> getAllTypes(BuildContext context){
+  static List<AllChartType> getAllTypes(BuildContext context){
     final appLocalizations = AppLocalizations.of(context);
     return [
-      AllBarType(name: appLocalizations.assets_charts_allocationCharts_barChartLabel, barType: BarType.barChart),
-      AllBarType(name: appLocalizations.assets_charts_allocationCharts_areaChartLabel, barType: BarType.areaChart),
-      AllBarType(name: appLocalizations.assets_charts_allocationCharts_barChartLabel, barType: BarType.barChart),
+      AllChartType(name: appLocalizations.assets_charts_allocationCharts_barChartLabel, barType: BarType.barChart),
+      AllChartType(name: appLocalizations.assets_charts_allocationCharts_areaChartLabel, barType: BarType.areaChart),
+      AllChartType(name: "tree chart", barType: BarType.treeChart),
     ];
   }
 }
 
 class ChartChooserWidget extends StatefulWidget {
-  final Function(AllBarType allBarType) onChanged;
 
-  const ChartChooserWidget({Key? key, required this.onChanged})
+  const ChartChooserWidget({Key? key})
       : super(key: key);
 
   @override
@@ -40,13 +40,6 @@ class ChartChooserWidget extends StatefulWidget {
 
 class _ChartChooserWidgetState extends AppState<ChartChooserWidget> {
 
-  late AllBarType allBarType;
-
-  @override
-  void initState() {
-    allBarType = AllBarType.getAllTypes(context).first;
-    super.initState();
-  }
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
@@ -60,11 +53,11 @@ class _ChartChooserWidgetState extends AppState<ChartChooserWidget> {
         ),
         const SizedBox(width: 8),
         Builder(builder: (context) {
-          final items = AllBarType.getAllTypes(context);
+          final items = AllChartType.getAllTypes(context);
           return DropdownButtonHideUnderline(
-            child: DropdownButton<AllBarType>(
-                items: List.generate(2, (index) {
-                  return DropdownMenuItem<AllBarType>(
+            child: DropdownButton<AllChartType>(
+                items: List.generate(items.length, (index) {
+                  return DropdownMenuItem<AllChartType>(
                     value: items[index],
                     child: Text(
                       items[index].name,
@@ -75,10 +68,7 @@ class _ChartChooserWidgetState extends AppState<ChartChooserWidget> {
                 }),
                 onChanged: ((value) {
                   if(value != null){
-                    setState(() {
-                      allBarType = value;
-                    });
-                    widget.onChanged(value);
+                    context.read<ChartChooserManager>().changeChart(value);
                   }
                 }),
                 icon: Icon(
@@ -86,7 +76,7 @@ class _ChartChooserWidgetState extends AppState<ChartChooserWidget> {
                   size: 15,
                   color: Theme.of(context).primaryColor,
                 ),
-                value: allBarType
+                value: context.read<ChartChooserManager>().state
             ),
           );
         })

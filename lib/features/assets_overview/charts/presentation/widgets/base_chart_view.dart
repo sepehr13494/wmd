@@ -8,6 +8,8 @@ import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/chart_chooser.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 
+import '../manager/chart_chooser_manager.dart';
+import 'assets_overview_area_chart.dart';
 import 'bar_charts_widget.dart';
 
 class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
@@ -22,12 +24,23 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
           return state is GetChartLoaded
               ? state.getChartEntities.isEmpty ? const EmptyChart() : Column(
                   children: [
-                    ChartChooserWidget(onChanged: (allBarType){
-
-                    }),
+                    const ChartChooserWidget(),
                     Expanded(
-                      child: AssetsOverviewBarCharts(
-                          getChartEntities: state.getChartEntities),
+                      child: Builder(
+                        builder: (context) {
+                          switch (context.read<ChartChooserManager>().state!.barType){
+                            case BarType.barChart:
+                              return AssetsOverviewBarCharts(
+                                  getChartEntities: state.getChartEntities);
+                            case BarType.areaChart:
+                              return AssetsOverviewAreaChart(
+                                  getChartEntities: state.getChartEntities);
+                            case BarType.treeChart:
+                              return AssetsOverviewBarCharts(
+                                  getChartEntities: state.getChartEntities);
+                          }
+                        }
+                      ),
                     ),
                     Builder(builder: (context) {
                       Set<String> titles = {};
