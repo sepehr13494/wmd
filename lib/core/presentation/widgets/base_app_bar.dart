@@ -48,16 +48,8 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
       ),
       actions: [
         const ChangeLanguageButton(),
-        // Switch(
-        //     value: context.watch<ThemeManager>().state == ThemeMode.light,
-        //     onChanged: (val) {
-        //       context
-        //           .read<ThemeManager>()
-        //           .changeTheme(val ? ThemeMode.light : ThemeMode.dark);
-        //     }),
-
         IconButton(
-          onPressed: () => context.goNamed(AppRoutes.support),
+          onPressed: () => context.pushNamed(AppRoutes.support),
           icon: SvgPicture.asset("assets/images/add_assets/question.svg"),
         ),
         PopupMenuButton(
@@ -89,7 +81,7 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
                       onTap: () {
                         switch (index) {
                           case 0:
-                            context.goNamed(AppRoutes.settings);
+                            context.pushNamed(AppRoutes.settings);
                             break;
                           case 1:
                             sl<LocalStorage>().logout();
