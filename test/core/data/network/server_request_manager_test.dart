@@ -35,6 +35,7 @@ Future<void> main() async {
         mockDio.post(
           any,
           data: anyNamed("data"),
+          options: anyNamed("options")
         ),
       ).thenAnswer((_) async => tResponse);
       //act
@@ -52,6 +53,7 @@ Future<void> main() async {
         mockDio.get(
           any,
           queryParameters: anyNamed("queryParameters"),
+          options: anyNamed("options"),
         ),
       ).thenAnswer((_) async => tResponse);
       //act
@@ -69,6 +71,7 @@ Future<void> main() async {
         mockDio.delete(
           any,
           data: anyNamed("data"),
+          options: anyNamed("options"),
         ),
       ).thenAnswer((_) async => tResponse);
       //act
@@ -86,6 +89,7 @@ Future<void> main() async {
         mockDio.put(
           any,
           data: anyNamed("data"),
+          options: anyNamed("options"),
         ),
       ).thenAnswer((_) async => tResponse);
       //act
@@ -103,6 +107,7 @@ Future<void> main() async {
         mockDio.patch(
           any,
           data: anyNamed("data"),
+          options: anyNamed("options"),
         ),
       ).thenAnswer((_) async => tResponse);
       //act

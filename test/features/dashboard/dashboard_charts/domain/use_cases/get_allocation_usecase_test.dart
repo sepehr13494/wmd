@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:mockito/mockito.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
@@ -17,6 +18,7 @@ void main() {
   late MockLocalStorage mockLocalStorage;
 
   setUp(() {
+    initializeDateFormatting();
     mockDashboardChartsRepository = MockDashboardChartsRepository();
     mockLocalStorage = MockLocalStorage();
     getAllocationUseCase = GetAllocationUseCase(mockDashboardChartsRepository,mockLocalStorage);
