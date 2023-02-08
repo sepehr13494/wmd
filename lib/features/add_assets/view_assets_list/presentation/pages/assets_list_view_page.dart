@@ -30,7 +30,7 @@ class AssetsListViewPage extends AppStatelessWidget {
     return BlocProvider(
       create: (context) => sl<AssetViewCubit>(),
       child: Scaffold(
-        appBar: const DashboardAppBar(),
+        appBar: const BaseAppBar(),
         bottomSheet: Builder(builder: (context) {
           final state = context.watch<AssetViewCubit>().state;
           if (state is CustodianPage) {

@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
+import 'package:wmd/core/models/time_filer_obj.dart';
 
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/data/models/get_allocation_params.dart';
@@ -60,7 +61,7 @@ void main() {
       expect: () =>
       [isA<LoadingState>(), GetAllocationLoaded(getAllocationEntity: GetAllocationResponse.tResponse)],
       verify: (_) {
-        verify(mockGetAllocationUseCase(null));
+        verify(mockGetAllocationUseCase(const TimeFilterObj(key: ".",value: 7)));
       },
     );
 
@@ -73,7 +74,7 @@ void main() {
       expect: () =>
       [isA<LoadingState>(), ErrorState(failure: ServerFailure.tServerFailure)],
       verify: (_) {
-        verify(mockGetAllocationUseCase(null));
+        verify(mockGetAllocationUseCase(const TimeFilterObj(key: ".",value: 7)));
       },
     );
   });
