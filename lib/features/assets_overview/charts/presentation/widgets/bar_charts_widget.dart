@@ -79,7 +79,7 @@ class AssetsOverviewBarCharts extends StatelessWidget {
               return BarTooltipItem(
                 "${CustomizableDateTime.miniDateWithYear(getChartEntity.date)}\n",
                 textTheme.titleSmall!,
-                textAlign: TextAlign.start,
+                textAlign: TextAlign.end,
                 children: [
                   getChartEntity.bankAccount != 0 ? TextSpan(
                       style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(

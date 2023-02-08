@@ -70,13 +70,13 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                           titles.add(AssetTypes.privateEquity);
                         }
                       }
-
                       return Wrap(
                         // spacing: 100, // gap between adjacent chips
                         runSpacing: 5, // gap between lines
                         children: List.generate(titles.length, (index) {
                           final item = titles.elementAt(index);
                           return SizedBox(
+                            width: 210,
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
                               child: Row(

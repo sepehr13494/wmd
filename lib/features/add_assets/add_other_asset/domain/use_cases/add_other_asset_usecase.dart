@@ -113,10 +113,10 @@ class AddOtherAssetParams extends Equatable {
         "units": units,
         "acquisitionCost": acquisitionCost,
         "acquisitionDate": acquisitionDate?.toIso8601String(),
-        "valuationDate": valuationDate?.toIso8601String(),
+        "valuationDate": valuationDate?.toString().substring(0, 10),
         "ownerShip": ownerShip,
         "valuePerUnit": valuePerUnit,
-        "currentDayValue": currentDayValue
+        "currentDayValue": currentDayValue == 0 ? null : currentDayValue
       };
 
   static final tAddOtherAssetMap = {

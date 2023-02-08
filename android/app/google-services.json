@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "332478051043",
+    "project_id": "wmdproject-5cb71",
+    "storage_bucket": "wmdproject-5cb71.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:332478051043:android:5f21dc236eab957c898bd6",
+        "android_client_info": {
+          "package_name": "com.tfo.wmd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "332478051043-n1jr494otqm169o6f74d103hohuno7m4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4es40UMBJnHo3nddRaWZ_mUwRXmhmvGg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "332478051043-n1jr494otqm169o6f74d103hohuno7m4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "332478051043-e2vqllv5cu7dar76h2uel33jbntfvr7n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tfo.wmd"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -6,6 +7,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:wmd/core/util/local_auth_manager.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/chart_chooser_manager.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/chart_chooser.dart';
+import 'package:wmd/firebase_options.dart';
 import 'core/presentation/routes/app_router.dart';
 import 'core/util/app_localization.dart';
 import 'core/util/app_theme.dart';
@@ -18,6 +20,9 @@ import 'core/presentation/routes/url_strategy/url_strategy.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   usePathUrlStrategy();
 
   const String envFor = String.fromEnvironment(

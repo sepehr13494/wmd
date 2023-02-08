@@ -106,7 +106,9 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                   child: Builder(builder: (context) {
                     return BlocConsumer<LoanLiabilityCubit, LoanLiabilityState>(
                         listener: AssetBlocHelper.defaultBlocListener(
-                            listener: (context, state) {}, asset: "Loan"),
+                            listener: (context, state) {},
+                            asset: "Loan",
+                            assetType: "LoanLiability"),
                         builder: (context, state) {
                           return SingleChildScrollView(
                             child: Column(children: [

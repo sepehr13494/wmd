@@ -10,7 +10,12 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SuccessModalWidget extends ModalWidget {
-  final String startingBalance, currencyCode, netWorth, netWorthChange;
+  final String startingBalance,
+      currencyCode,
+      netWorth,
+      netWorthChange,
+      assetId,
+      assetType;
   final double currencyRate;
 
   const SuccessModalWidget({
@@ -24,6 +29,8 @@ class SuccessModalWidget extends ModalWidget {
     required this.currencyRate,
     required this.netWorth,
     required this.netWorthChange,
+    required this.assetId,
+    required this.assetType,
   });
 
   @override
@@ -36,7 +43,7 @@ class SuccessModalWidget extends ModalWidget {
     return SizedBox(
       width: double.infinity,
       height: isMobile
-          ? MediaQuery.of(context).size.height * 0.7
+          ? MediaQuery.of(context).size.height * 0.8
           : MediaQuery.of(context).size.height * 0.5,
       child: Column(
         children: [
@@ -202,7 +209,8 @@ class SuccessModalWidget extends ModalWidget {
                 expanded: !isMobile,
                 child: ElevatedButton(
                   onPressed: () {
-                    context.goNamed(AppRoutes.main);
+                    context.goNamed(AppRoutes.assetDetailPage,
+                        queryParams: {'assetId': assetId, 'type': assetType});
                   },
                   style: ElevatedButton.styleFrom(
                       minimumSize: const Size(100, 50)),

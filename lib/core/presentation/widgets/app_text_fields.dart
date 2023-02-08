@@ -26,8 +26,6 @@ class CurrencyInputFormatter extends TextInputFormatter {
 
     double value = double.tryParse(newValue.text.replaceAll(",", "")) ?? 0;
 
-    debugPrint(value.toString());
-
     String newText = NumberFormat("#,##0", "en_US").format(value);
 
     return newValue.copyWith(
@@ -60,6 +58,20 @@ class AppTextFields {
       dropdownColor: AppColors.backgroundColorPageDark,
       items: items,
       validator: FormBuilderValidators.required(),
+    );
+  }
+
+  static Widget rateSuffixIcon() {
+    return Container(
+      decoration: const BoxDecoration(
+        color: Color.fromRGBO(255, 255, 255, 0.16),
+        borderRadius: BorderRadius.horizontal(
+            left: Radius.zero, right: Radius.circular(4)),
+      ),
+      child: const Icon(
+        Icons.percent,
+        color: Color.fromRGBO(170, 170, 170, 1),
+      ),
     );
   }
 
@@ -148,6 +160,14 @@ class SimpleTextField extends AppStatelessWidget {
           errorText: title != null
               ? 'Please enter ${title!.toLowerCase()}'
               : appLocalizations.common_errors_required));
+    }
+    if (type == TextFieldType.money) {
+      validators.add((val) {
+        return (val != null &&
+                (double.tryParse(val.replaceAll(",", "")) ?? 0) > 1000000000000)
+            ? "Amount should be less than 1,000,000,000,000"
+            : null;
+      });
     }
     switch (type) {
       case TextFieldType.email:

@@ -16,7 +16,7 @@ class AssetsOverviewAreaChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BarChart(
+    return LineChart(
       mainData(context),
     );
   }
@@ -50,21 +50,21 @@ class AssetsOverviewAreaChart extends StatelessWidget {
     );
   }
 
-  BarChartData mainData(context) {
+  LineChartData mainData(context) {
     double minY = calculateMinMax(getChartEntities)[0];
     double maxY = calculateMinMax(getChartEntities)[1];
     double x = max(maxY.abs() , minY.abs()) / 5;
     minY = (minY/x);
     maxY = (maxY/x);
     double maxTotal = max(minY.abs(), maxY.abs());
-    return BarChartData(
-        barTouchData: BarTouchData(
-          touchTooltipData: BarTouchTooltipData(
+    return LineChartData(
+        lineTouchData: LineTouchData(
+          touchTooltipData: LineTouchTooltipData(
             fitInsideVertically: true,
             fitInsideHorizontally: true,
-            getTooltipItem: (group, groupIndex, rod, rodIndex) {
+            getTooltipItems: (touchedSpots) {
               final textTheme = Theme.of(context).textTheme;
-              final getChartEntity = getChartEntities[groupIndex.toInt()];
+              final getChartEntity = getChartEntities[touchedSpots.first.x.toInt()];
               final double sum =
                   getChartEntity.privateEquity+
                       getChartEntity.realEstate+
@@ -75,7 +75,7 @@ class AssetsOverviewAreaChart extends StatelessWidget {
                       getChartEntity.listedAssetFixedIncome+
                       getChartEntity.listedAssetEquity;
               final appLocalizations = AppLocalizations.of(context);
-              return BarTooltipItem(
+              return [LineTooltipItem(
                 "${CustomizableDateTime.miniDateWithYear(getChartEntity.date)}\n",
                 textTheme.titleSmall!,
                 textAlign: TextAlign.start,
@@ -105,11 +105,6 @@ class AssetsOverviewAreaChart extends StatelessWidget {
                     appLocalizations,
                     AssetTypes.listedAssetEquity.replaceAll(" ", ""),
                   ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetEquity.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                  getChartEntity.listedAssetEquity != 0 ? TextSpan(
-                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    AssetTypes.listedAssetEquity.replaceAll(" ", ""),
-                  ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetEquity.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
                   getChartEntity.listedAssetFixedIncome != 0 ? TextSpan(
                       style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
                     appLocalizations,
@@ -126,7 +121,7 @@ class AssetsOverviewAreaChart extends StatelessWidget {
                     "Other Assets".replaceAll(" ", ""),
                   ) + "\t"),TextSpan(text: getChartEntity.others.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
                 ],
-              );
+              )];
             },
             maxContentWidth: 200,
             tooltipBgColor: const Color.fromARGB(255, 38, 49, 52),
@@ -180,49 +175,84 @@ class AssetsOverviewAreaChart extends StatelessWidget {
             border: const Border.symmetric(
                 horizontal: BorderSide(
                     width: 0.3, color: AppColors.dashBoardGreyTextColor))),
+        minX: 0,
         minY: minY.abs() == maxTotal ? minY : minY >= 0 ? 0 : (- (minY.abs()).ceil().toDouble()),
         maxY: maxY.abs() == maxTotal ? maxY : maxY <= 0 ? 0 : (maxY.abs()).ceil().toDouble(),
-        barGroups: getData(x)
+        lineBarsData: getData(x)
     );
   }
 
-  List<BarChartGroupData> getData(double x) {
-    return List.generate(getChartEntities.length, (index) {
-      GetChartEntity getChartEntity = getChartEntities[index];
-      final double sum =
-          getChartEntity.privateEquity+
-              getChartEntity.realEstate+
-              getChartEntity.privateDebt+
-              getChartEntity.others+
-              getChartEntity.bankAccount+
-              getChartEntity.listedAssetEquity+
-              getChartEntity.listedAssetFixedIncome+
-              getChartEntity.listedAssetOther;
-      final bankList = getChartEntity.bankAccount/x + getChartEntity.listedAssetEquity/x;
-      final bankListEquity = bankList + getChartEntity.privateEquity/x;
-      final bankListEquityDept = bankListEquity + getChartEntity.privateDebt/x;
-      final bankListEquityDeptEstate = bankListEquityDept + getChartEntity.realEstate/x;
-      final bankListEquityDeptEstateFix = bankListEquityDeptEstate + getChartEntity.listedAssetFixedIncome/x;
-      final bankListEquityDeptEstateFixOther = bankListEquityDeptEstateFix + getChartEntity.listedAssetOther/x;
-      return BarChartGroupData(
-        x: index,
-        barsSpace: 4,
-        barRods: [
-          BarChartRodData(
-            toY: sum/x,
-            rodStackItems: [
-              BarChartRodStackItem(0, getChartEntity.bankAccount/x, AssetsOverviewChartsColors.colorsMap[AssetTypes.bankAccount]??Colors.brown),
-              BarChartRodStackItem(getChartEntity.bankAccount/x, bankList, AssetsOverviewChartsColors.colorsMap[AssetTypes.listedAssetEquity]??Colors.brown),
-              BarChartRodStackItem(bankList, bankListEquity, AssetsOverviewChartsColors.colorsMap[AssetTypes.privateEquity]??Colors.brown),
-              BarChartRodStackItem(bankListEquity, bankListEquityDept, AssetsOverviewChartsColors.colorsMap[AssetTypes.privateDebt]??Colors.brown),
-              BarChartRodStackItem(bankListEquityDept, bankListEquityDeptEstate, AssetsOverviewChartsColors.colorsMap[AssetTypes.realEstate]??Colors.brown),
-              BarChartRodStackItem(bankListEquityDeptEstate, bankListEquityDeptEstateFix, AssetsOverviewChartsColors.colorsMap[AssetTypes.listedAssetFixedIncome]??Colors.brown),
-              BarChartRodStackItem(bankListEquityDeptEstateFix, bankListEquityDeptEstateFixOther, AssetsOverviewChartsColors.colorsMap[AssetTypes.listedAssetOther]??Colors.brown),
-              BarChartRodStackItem(bankListEquityDeptEstateFixOther, sum/x, AssetsOverviewChartsColors.colorsMap[AssetTypes.otherAsset]??Colors.brown),
-            ],
-            borderRadius: BorderRadius.zero,
-          ),
-        ],
+  List<LineChartBarData> getData(double x) {
+    return List.generate(9, (mainIndex) {
+      Color color = Colors.white;
+      switch (mainIndex){
+        case 0:
+          color = AssetsOverviewChartsColors.colorsMap[AssetTypes.bankAccount]??Colors.brown;
+          break;
+        case 1:
+          color = AssetsOverviewChartsColors.colorsMap[AssetTypes.privateEquity]??Colors.brown;
+          break;
+        case 2:
+          color = AssetsOverviewChartsColors.colorsMap[AssetTypes.privateDebt]??Colors.brown;
+          break;
+        case 3:
+          color =AssetsOverviewChartsColors.colorsMap[AssetTypes.realEstate]??Colors.brown;
+          break;
+        case 4:
+          color = AssetsOverviewChartsColors.colorsMap[AssetTypes.listedAssetEquity]??Colors.brown;
+          break;
+        case 5:
+          color = AssetsOverviewChartsColors.colorsMap[AssetTypes.listedAssetFixedIncome]??Colors.brown;
+          break;
+        case 6:
+          color = AssetsOverviewChartsColors.colorsMap[AssetTypes.listedAssetOther]??Colors.brown;
+          break;
+        case 7:
+          color = AssetsOverviewChartsColors.colorsMap[AssetTypes.otherAsset]??Colors.brown;
+          break;
+      }
+      return LineChartBarData(
+        isCurved: false,
+        color: color,
+        barWidth: 2,
+        isStrokeCapRound: true,
+        spots: List.generate(getChartEntities.length, (index) {
+          GetChartEntity getChartEntity = getChartEntities[index];
+          double y = 0;
+          switch (mainIndex){
+            case 0:
+              y = getChartEntity.bankAccount;
+              break;
+            case 1:
+              y = getChartEntity.privateEquity;
+              break;
+            case 2:
+              y = getChartEntity.privateDebt;
+              break;
+            case 3:
+              y = getChartEntity.realEstate;
+              break;
+            case 4:
+              y = getChartEntity.listedAssetEquity;
+              break;
+            case 5:
+              y = getChartEntity.listedAssetFixedIncome;
+              break;
+            case 6:
+              y = getChartEntity.listedAssetOther;
+              break;
+            case 7:
+              y = getChartEntity.others;
+              break;
+          }
+          return FlSpot(index.toDouble(), y);
+        }),
+        belowBarData: BarAreaData(
+          show: true,
+          cutOffY: 0,
+          applyCutOffY: true,
+          color: color.withOpacity(0.7)
+        ),
       );
     });
   }
