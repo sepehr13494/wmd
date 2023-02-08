@@ -10,9 +10,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'constants.dart';
 
-class AssetsOverviewCharts extends StatelessWidget {
+class AssetsOverviewBarCharts extends StatelessWidget {
   final List<GetChartEntity> getChartEntities;
-  const AssetsOverviewCharts({super.key, required this.getChartEntities});
+  const AssetsOverviewBarCharts({super.key, required this.getChartEntities});
 
   @override
   Widget build(BuildContext context) {
@@ -37,32 +37,9 @@ class AssetsOverviewCharts extends StatelessWidget {
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-    double minY = 0;
-    double maxY = 0;
-    if(getChartEntities.isNotEmpty){
-      maxY += getChartEntities[0].bankAccount;
-      maxY += getChartEntities[0].listedAssetEquity;
-      maxY += getChartEntities[0].listedAssetFixedIncome;
-      maxY += getChartEntities[0].listedAssetOther;
-      maxY += getChartEntities[0].others;
-      maxY += getChartEntities[0].privateDebt;
-      maxY += getChartEntities[0].realEstate;
-      maxY += getChartEntities[0].privateEquity;
-      for (var element in getChartEntities) {
-        double maxY2 = 0;
-        maxY2 += element.bankAccount;
-        maxY2 += element.listedAssetEquity;
-        maxY2 += element.listedAssetFixedIncome;
-        maxY2 += element.listedAssetOther;
-        maxY2 += element.others;
-        maxY2 += element.privateDebt;
-        maxY2 += element.realEstate;
-        maxY2 += element.privateEquity;
-        if(maxY2>maxY){
-          maxY = maxY2;
-        }
-      }
-    }
+
+    double minY = calculateMinMax(getChartEntities)[0];
+    double maxY = calculateMinMax(getChartEntities)[1];
     double x = max(maxY.abs() , minY.abs()) / 5;
     return FittedBox(
       fit: BoxFit.scaleDown,
@@ -75,32 +52,8 @@ class AssetsOverviewCharts extends StatelessWidget {
   }
 
   BarChartData mainData(context) {
-    double minY = 0;
-    double maxY = 0;
-    if(getChartEntities.isNotEmpty){
-      maxY += getChartEntities[0].bankAccount;
-      maxY += getChartEntities[0].listedAssetEquity;
-      maxY += getChartEntities[0].listedAssetFixedIncome;
-      maxY += getChartEntities[0].listedAssetOther;
-      maxY += getChartEntities[0].others;
-      maxY += getChartEntities[0].privateDebt;
-      maxY += getChartEntities[0].realEstate;
-      maxY += getChartEntities[0].privateEquity;
-      for (var element in getChartEntities) {
-        double maxY2 = 0;
-        maxY2 += element.bankAccount;
-        maxY2 += element.listedAssetEquity;
-        maxY2 += element.listedAssetFixedIncome;
-        maxY2 += element.listedAssetOther;
-        maxY2 += element.others;
-        maxY2 += element.privateDebt;
-        maxY2 += element.realEstate;
-        maxY2 += element.privateEquity;
-        if(maxY2>maxY){
-          maxY = maxY2;
-        }
-      }
-    }
+    double minY = calculateMinMax(getChartEntities)[0];
+    double maxY = calculateMinMax(getChartEntities)[1];
     double x = max(maxY.abs() , minY.abs()) / 5;
     minY = (minY/x);
     maxY = (maxY/x);
@@ -273,5 +226,35 @@ class AssetsOverviewCharts extends StatelessWidget {
         ],
       );
     });
+  }
+
+  calculateMinMax(List<GetChartEntity> getChartEntities) {
+    double minY = 0;
+    double maxY = 0;
+    if(getChartEntities.isNotEmpty){
+      maxY += getChartEntities[0].bankAccount;
+      maxY += getChartEntities[0].listedAssetEquity;
+      maxY += getChartEntities[0].listedAssetFixedIncome;
+      maxY += getChartEntities[0].listedAssetOther;
+      maxY += getChartEntities[0].others;
+      maxY += getChartEntities[0].privateDebt;
+      maxY += getChartEntities[0].realEstate;
+      maxY += getChartEntities[0].privateEquity;
+      for (var element in getChartEntities) {
+        double maxY2 = 0;
+        maxY2 += element.bankAccount;
+        maxY2 += element.listedAssetEquity;
+        maxY2 += element.listedAssetFixedIncome;
+        maxY2 += element.listedAssetOther;
+        maxY2 += element.others;
+        maxY2 += element.privateDebt;
+        maxY2 += element.realEstate;
+        maxY2 += element.privateEquity;
+        if(maxY2>maxY){
+          maxY = maxY2;
+        }
+      }
+    }
+    return [minY,maxY];
   }
 }

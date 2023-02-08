@@ -5,8 +5,10 @@ import 'package:wmd/core/presentation/widgets/empty_chart.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
-import 'package:wmd/features/assets_overview/charts/presentation/widgets/charts_widget.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/widgets/chart_chooser.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
+
+import 'bar_charts_widget.dart';
 
 class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
   const BaseAssetsOverviewChartsWidget({Key? key}) : super(key: key);
@@ -20,8 +22,11 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
           return state is GetChartLoaded
               ? state.getChartEntities.isEmpty ? const EmptyChart() : Column(
                   children: [
+                    ChartChooserWidget(onChanged: (allBarType){
+
+                    }),
                     Expanded(
-                      child: AssetsOverviewCharts(
+                      child: AssetsOverviewBarCharts(
                           getChartEntities: state.getChartEntities),
                     ),
                     Builder(builder: (context) {
