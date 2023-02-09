@@ -11,8 +11,7 @@ class ChangeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isPositive = number > 0;
     final bool isZero = number == 0;
-    final color =
-        isZero ? AppColors.green : (isPositive ? AppColors.green : Colors.red);
+    final color = isZero ? null : (isPositive ? AppColors.green : Colors.red);
     return RichText(
       text: TextSpan(
         children: [

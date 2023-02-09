@@ -66,11 +66,11 @@ class VerifyResponsePage extends AppStatelessWidget {
                         ])),
                 SizedBox(height: responsiveHelper.biggerGap),
                 SizedBox(
-                    width: 100, // <-- Your width
+                    width: 150, // <-- Your width
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        context.goNamed(AppRoutes.main);
+                        context.goNamed(AppRoutes.onboarding);
                       },
                       child: Text(
                         appLocalizations.common_button_continue,

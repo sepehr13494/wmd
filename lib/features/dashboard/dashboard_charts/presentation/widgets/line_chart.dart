@@ -89,6 +89,27 @@ class LineChartSample2 extends AppStatelessWidget {
       gradientStop = 0;
     }
     return LineChartData(
+      lineTouchData: LineTouchData(
+        touchTooltipData: LineTouchTooltipData(
+          fitInsideVertically: true,
+          fitInsideHorizontally: true,
+          getTooltipItems: (touchedSpots) {
+            final textTheme = Theme.of(context).textTheme;
+            return [
+              LineTooltipItem(
+                CustomizableDateTime.miniDateWithYear(
+                    allocations[touchedSpots.first.x.toInt()].name),
+                textTheme.titleSmall!,
+                textAlign: TextAlign.start,
+                children: _textSpans(touchedSpots.first.x.toInt(), textTheme,
+                    false, appLocalizations),
+              )
+            ];
+          },
+          maxContentWidth: 200,
+          tooltipBgColor: const Color.fromARGB(255, 38, 49, 52),
+        ),
+      ),
       gridData: FlGridData(
         show: true,
         drawVerticalLine: true,
@@ -138,27 +159,6 @@ class LineChartSample2 extends AppStatelessWidget {
           border: const Border.symmetric(
               horizontal: BorderSide(
                   width: 0.3, color: AppColors.dashBoardGreyTextColor))),
-      lineTouchData: LineTouchData(
-        touchTooltipData: LineTouchTooltipData(
-          fitInsideVertically: true,
-          fitInsideHorizontally: true,
-          getTooltipItems: (touchedSpots) {
-            final textTheme = Theme.of(context).textTheme;
-            return [
-              LineTooltipItem(
-                CustomizableDateTime.miniDateWithYear(
-                    allocations[touchedSpots.first.x.toInt()].name),
-                textTheme.titleSmall!,
-                textAlign: TextAlign.start,
-                children: _textSpans(touchedSpots.first.x.toInt(), textTheme,
-                    false, appLocalizations),
-              )
-            ];
-          },
-          maxContentWidth: 200,
-          tooltipBgColor: const Color.fromARGB(255, 38, 49, 52),
-        ),
-      ),
       minX: 0,
       maxX: allocations.length.toDouble() - 1,
       minY: minY.abs() == maxTotal
