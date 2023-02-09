@@ -16,7 +16,9 @@ import 'package:wmd/features/add_assets/view_assets_list/presentation/pages/asse
 import 'package:wmd/features/add_assets/view_assets_list/presentation/pages/auto_manual_page.dart';
 import 'package:wmd/features/asset_detail/core/presentation/pages/asset_detail_page.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/manager/chart_chooser_manager.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/widgets/chart_chooser.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/forget_password_page.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/reset_password_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/login_page.dart';
@@ -139,6 +141,7 @@ class AppRouter {
             builder: (context, state) {
               return MultiBlocProvider(
                 providers: [
+                  BlocProvider(create: (context) => sl<ChartChooserManager>()),
                   BlocProvider(create: (context) => sl<MainPageCubit>()),
                   BlocProvider(create: (context) {
                     _userStatusCubit = sl<UserStatusCubit>();
