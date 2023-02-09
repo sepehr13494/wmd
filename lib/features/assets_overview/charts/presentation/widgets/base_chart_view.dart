@@ -28,16 +28,20 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                     Expanded(
                       child: Builder(
                         builder: (context) {
-                          switch (context.read<ChartChooserManager>().state!.barType){
-                            case BarType.barChart:
-                              return AssetsOverviewBarCharts(
-                                  getChartEntities: state.getChartEntities);
-                            case BarType.areaChart:
-                              return AssetsOverviewAreaChart(
-                                  getChartEntities: state.getChartEntities);
-                            case BarType.treeChart:
-                              return AssetsOverviewBarCharts(
-                                  getChartEntities: state.getChartEntities);
+                          if(context.read<ChartChooserManager>().state == null){
+                            return SizedBox();
+                          }else{
+                            switch (context.read<ChartChooserManager>().state!.barType){
+                              case BarType.barChart:
+                                return AssetsOverviewBarCharts(
+                                    getChartEntities: state.getChartEntities);
+                              case BarType.areaChart:
+                                return AssetsOverviewAreaChart(
+                                    getChartEntities: state.getChartEntities);
+                              case BarType.treeChart:
+                                return AssetsOverviewBarCharts(
+                                    getChartEntities: state.getChartEntities);
+                            }
                           }
                         }
                       ),
