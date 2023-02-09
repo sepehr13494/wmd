@@ -69,6 +69,7 @@ import 'package:wmd/features/assets_overview/charts/data/data_sources/charts_rem
 import 'package:wmd/features/assets_overview/charts/data/repositories/charts_repository_impl.dart';
 import 'package:wmd/features/assets_overview/charts/domain/repositories/charts_repository.dart';
 import 'package:wmd/features/assets_overview/charts/domain/use_cases/get_chart_usecase.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/manager/chart_chooser_manager.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
 import 'package:wmd/features/authentication/forget_password/data/data_sources/forget_password_server_datasource.dart';
 import 'package:wmd/features/authentication/forget_password/data/repositories/forget_password_repository_impl.dart';
@@ -262,6 +263,8 @@ Future<void> init() async {
   //Charts
   sl.registerFactory(() => ChartsCubit(sl()));
   sl.registerLazySingleton(() => GetChartUseCase(sl(), sl()));
+  //chart_chooser_manager
+  sl.registerFactory(() => ChartChooserManager());
 
   sl.registerLazySingleton<ChartsRepository>(() => ChartsRepositoryImpl(sl()));
   sl.registerLazySingleton<ChartsRemoteDataSource>(
@@ -447,6 +450,7 @@ Future<void> initUtils() async{
   sl.registerFactory(() => LocalizationManager(sl()));
   //local_auth_manager
   sl.registerFactory(() => LocalAuthManager(sl()));
+
 }
 
 Future<void> initExternal() async {

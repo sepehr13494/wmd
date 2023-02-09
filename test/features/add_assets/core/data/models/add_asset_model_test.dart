@@ -4,6 +4,7 @@ import 'package:wmd/features/add_assets/core/domain/entities/add_asset_response.
 
 void main() {
   const tBankSaveModel = AddAssetModel(
+      id:"kkl",
       currencyCode: "TRY",
       currencyRate: 1.5,
       startingBalance: 500.00,
@@ -33,6 +34,7 @@ void main() {
   test('should return a json map containing proper data', () {
     // arrange
     final exceptedJson = {
+      "id":"kkl",
       "currencyCode": "TRY",
       "currencyRate": 1.5,
       "startingBalance": 500,

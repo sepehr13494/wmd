@@ -17,9 +17,9 @@ class NetWorthResponseObj extends NetWorthEntity {
 
   factory NetWorthResponseObj.fromJson(Map<String, dynamic> json) =>
       NetWorthResponseObj(
-        totalNetWorth: TotalNetWorth.fromJson(json["totalNetWorth"]),
-        assets: Assets.fromJson(json["assets"]),
-        liabilities: Liabilities.fromJson(json["liabilities"]),
+        totalNetWorth: TotalNetWorth.fromJson(json["totalNetWorth"]??const TotalNetWorth(currentValue: 0, change: 0).toJson()),
+        assets: Assets.fromJson(json["assets"]??const Assets(newAsset: 0, currentValue: 0, change: 0, changePercentage: 0, ytd: 0, itd: 0).toJson()),
+        liabilities: Liabilities.fromJson(json["liabilities"]??const Liabilities(newLiability: 0, currentValue: 0, change: 0, ytd: 0, itd: 0).toJson()),
         durationInDays: json["durationInDays"] ?? 0,
         lastUpdated: json["lastUpdated"] ?? "2022-12-31T00:00:00",
       );
