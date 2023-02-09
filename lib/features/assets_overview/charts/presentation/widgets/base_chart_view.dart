@@ -10,6 +10,7 @@ import 'package:wmd/features/assets_overview/charts/presentation/widgets/constan
 
 import '../manager/chart_chooser_manager.dart';
 import 'assets_overview_area_chart.dart';
+import 'assets_overview_tree_chart.dart';
 import 'bar_charts_widget.dart';
 
 class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
@@ -74,7 +75,7 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                                             getChartEntities:
                                                 state.getChartEntities,titles:titles.toList());
                                       case BarType.treeChart:
-                                        return AssetsOverviewBarCharts(
+                                        return AssetsOverviewTreeChart(
                                             getChartEntities:
                                                 state.getChartEntities);
                                     }
