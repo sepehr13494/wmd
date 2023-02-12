@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,13 @@ class LoginPage extends AppStatelessWidget {
             listener:
                 BlocHelper.defaultBlocListener(listener: (context, state) {
               if (state is SuccessState) {
+                FirebaseAnalytics.instance
+                    .logEvent(name: 'mobile test', parameters: {
+                  "label": "Mobile test",
+                  "action": "Mobile test",
+                  "category": "Mobile test category",
+                });
+
                 context.goNamed(AppRoutes.onboarding);
               }
             }),
@@ -82,39 +90,52 @@ class LoginPage extends AppStatelessWidget {
                             Center(
                               child: BlocProvider(
                                 create: (context) =>
-                                sl<SplashCubit>()..initSplash(time: 0),
+                                    sl<SplashCubit>()..initSplash(time: 0),
                                 child: BlocBuilder<SplashCubit, SplashState>(
                                   builder: (context, state) {
-                                    return state is SplashLoaded ? (state.isLogin && sl<LocalStorage>().getLocalAuth()) ? InkWell(
-                                      onTap: () async {
-                                        final didAuth = await context.read<LocalAuthManager>().authenticate(context);
-                                        if(didAuth){
-                                          // ignore: use_build_context_synchronously
-                                          context.goNamed(AppRoutes.main);
-                                        }else{
-                                          // ignore: use_build_context_synchronously
-                                          GlobalFunctions.showSnackBar(context, "local auth failed");
-                                        }
-                                      },
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text(
-                                            appLocalizations
-                                                .profile_localAuth_pleaseAuthenticate,
-                                            style: textTheme.bodyMedium!
-                                                .toLinkStyle(context),
-                                          ),
-                                          const SizedBox(width: 8),
-                                          Icon(
-                                            Icons.fingerprint,
-                                            size: 30,
-                                            color:
-                                            Theme.of(context).primaryColor,
-                                          )
-                                        ],
-                                      ),
-                                    ) : const SizedBox() : const SizedBox();
+                                    return state is SplashLoaded
+                                        ? (state.isLogin &&
+                                                sl<LocalStorage>()
+                                                    .getLocalAuth())
+                                            ? InkWell(
+                                                onTap: () async {
+                                                  final didAuth = await context
+                                                      .read<LocalAuthManager>()
+                                                      .authenticate(context);
+                                                  if (didAuth) {
+                                                    // ignore: use_build_context_synchronously
+                                                    context.goNamed(
+                                                        AppRoutes.main);
+                                                  } else {
+                                                    // ignore: use_build_context_synchronously
+                                                    GlobalFunctions.showSnackBar(
+                                                        context,
+                                                        "local auth failed");
+                                                  }
+                                                },
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Text(
+                                                      appLocalizations
+                                                          .profile_localAuth_pleaseAuthenticate,
+                                                      style: textTheme
+                                                          .bodyMedium!
+                                                          .toLinkStyle(context),
+                                                    ),
+                                                    const SizedBox(width: 8),
+                                                    Icon(
+                                                      Icons.fingerprint,
+                                                      size: 30,
+                                                      color: Theme.of(context)
+                                                          .primaryColor,
+                                                    )
+                                                  ],
+                                                ),
+                                              )
+                                            : const SizedBox()
+                                        : const SizedBox();
                                   },
                                 ),
                               ),

@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
@@ -48,7 +49,14 @@ class FilterAddPart extends AppStatelessWidget {
               height: 38,
               child: AddButton(
                 addAsset: false,
-                onTap: () {
+                onTap: () async {
+                  await FirebaseAnalytics.instance
+                      .logEvent(name: 'mobile_test', parameters: {
+                    "label": "Mobile test",
+                    "action": "Mobile test",
+                    "category": "Mobile test category",
+                  });
+
                   context.pushNamed(AppRoutes.addAssetsView);
                 },
               ),
