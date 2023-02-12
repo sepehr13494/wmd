@@ -101,7 +101,6 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
                                 textAlign: TextAlign.center),
                             ElevatedButton(
                                 onPressed: () {
-                                  sl<LocalStorage>().logout();
                                   AppRestart.restart(context);
                                 },
                                 child: Text(appLocalizations

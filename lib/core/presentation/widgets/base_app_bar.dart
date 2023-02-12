@@ -84,7 +84,6 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
                             context.pushNamed(AppRoutes.settings);
                             break;
                           case 1:
-                            sl<LocalStorage>().logout();
                             AppRestart.restart(context);
                             break;
                         }

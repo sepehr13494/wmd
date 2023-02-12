@@ -68,7 +68,7 @@ class AssetsOverviewAreaChart extends StatelessWidget {
               final getChartEntity = getChartEntities[touchedSpots.first.x.toInt()];
               final appLocalizations = AppLocalizations.of(context);
               return List.generate(touchedSpots.length, (index) {
-                return LineTooltipItem(
+                return index == 0 ? LineTooltipItem(
                   "${CustomizableDateTime.miniDateWithYear(getChartEntity.date)}\n",
                   textTheme.titleSmall!,
                   textAlign: TextAlign.start,
@@ -114,10 +114,10 @@ class AssetsOverviewAreaChart extends StatelessWidget {
                       "Other Assets".replaceAll(" ", ""),
                     ) + "\t"),TextSpan(text: getChartEntity.others.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
                   ],
-                );
+                ) : null;
               });
             },
-            maxContentWidth: 200,
+            maxContentWidth: 300,
             tooltipBgColor: const Color.fromARGB(255, 38, 49, 52),
           ),
         ),
