@@ -1138,5 +1138,7 @@
   "profile_changePassword_change": "Change",
   "profile_localAuth_pleaseAuthenticate": "Please Authenticate",
   "profile_localAuth_enableFaceId": "Enable login with face id / biometrics",
-  "auth_login_toast_wrongToken": "Session expired. Please login again"
+  "auth_login_toast_wrongToken": "Session expired. Please login again",
+  "scheduleMeeting_success_title": "Call scheduled",
+  "scheduleMeeting_success_description": "Thank you for contacting us. We will send an e-mail with the details of your call and look forward to speaking to you."
 }

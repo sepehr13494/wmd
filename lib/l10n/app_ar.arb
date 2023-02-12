@@ -1138,5 +1138,7 @@
   "profile_changePassword_change": ".",
   "profile_localAuth_pleaseAuthenticate": ".",
   "profile_localAuth_enableFaceId": ".",
-  "auth_login_toast_wrongToken": "."
+  "auth_login_toast_wrongToken": ".",
+  "scheduleMeeting_success_title": "تم تحديد موعد المكالمة",
+  "scheduleMeeting_success_description": "شكرا للتواصل معنا. سنرسل رسالة إلكترونية بتفاصيل المكالمة. نتطلع للتحدث معك."
 }
