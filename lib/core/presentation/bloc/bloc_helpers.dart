@@ -70,7 +70,6 @@ class BlocHelper {
             case ExceptionType.auth:
               GlobalFunctions.showSnackBar(context,
                   AppLocalizations.of(context).auth_login_toast_wrongToken);
-              sl<LocalStorage>().logout();
               AppRestart.restart(context);
               break;
           }

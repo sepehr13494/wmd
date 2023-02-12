@@ -39,7 +39,7 @@ class AssetsListViewPage extends AppStatelessWidget {
           return AddAssetFooter(
               buttonText: appLocalizations.common_button_addAsset,
               onTap: state == null
-                  ? () {}
+                  ? null
                   : () {
                       context.pushNamed((state as EachAssetModel).pageRoute);
                     });

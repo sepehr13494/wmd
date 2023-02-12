@@ -76,7 +76,6 @@ class AssetBlocHelper extends BlocHelper {
               break;
             case ExceptionType.auth:
               GlobalFunctions.showSnackBar(context, state.failure.message);
-              sl<LocalStorage>().logout();
               AppRestart.restart(context);
               break;
           }
