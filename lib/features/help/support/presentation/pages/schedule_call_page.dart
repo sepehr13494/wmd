@@ -69,141 +69,210 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
+    final isMobile = responsiveHelper.isMobile;
 
     return BlocProvider(
       create: (context) => sl<GeneralInquiryCubit>(),
       child: BlocConsumer<GeneralInquiryCubit, GeneralInquiryState>(
           listener: BlocHelper.defaultBlocListener(listener: (context, state) {
-        if (state is SuccessState) {
-          GlobalFunctions.showSnackBar(context, "Call sheduled successfully!",
-              type: "success");
-          Navigator.pop(context);
+        debugPrint(state.toString());
+
+        if (state is ErrorState) {
+          GlobalFunctions.showSnackBar(context, state.failure.message,
+              color: Colors.red[800], type: "error");
+          Navigator.pop(context, false);
         }
       }), builder: (context, state) {
         final PersonalInformationState personalState =
             context.watch<PersonalInformationCubit>().state;
 
-        return Scaffold(
-          appBar: const AddAssetHeader(
-            title: "",
-          ),
-          bottomSheet: !responsiveHelper.isMobile
-              ? null
-              : ScheduleCallFooter(
-                  formState: formState,
-                  onTap: () {
-                    formKey.currentState?.validate();
-                    if (enableAddAssetButton) {
-                      Map<String, dynamic> finalMap = {
-                        ...formKey.currentState!.instantValue,
-                        "email": (personalState is PersonalInformationLoaded)
-                            ? personalState.getNameEntity.email
-                            : "",
-                        "firstName":
-                            (personalState is PersonalInformationLoaded)
-                                ? personalState.getNameEntity.firstName
-                                : "",
-                        "lastName": (personalState is PersonalInformationLoaded)
-                            ? personalState.getNameEntity.lastName
-                            : "",
-                      };
-
-                      print(finalMap);
-
-                      context
-                          .read<GeneralInquiryCubit>()
-                          .postScheduleCall(map: finalMap);
-                    }
-                  }),
-          body: Theme(
-            data: Theme.of(context).copyWith(),
-            child: Stack(
-              children: [
-                const LeafBackground(),
-                Builder(builder: (context) {
-                  return BlocConsumer<GeneralInquiryCubit, GeneralInquiryState>(
-                      listener: (context, state) {},
-                      builder: (context, state) {
-                        return responsiveHelper.isMobile
-                            ? WidthLimiterWidget(
-                                child: SingleChildScrollView(
-                                    child: renderForm(
-                                        context, textTheme, appLocalizations)))
-                            : Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  WidthLimiterWidget(
-                                      width:
-                                          responsiveHelper.optimalDeviceWidth *
-                                              0.45,
-                                      child: SingleChildScrollView(
-                                          child: renderForm(context, textTheme,
-                                              appLocalizations))),
-                                  Container(
-                                      constraints: BoxConstraints(
-                                          maxWidth: responsiveHelper
-                                                  .optimalDeviceWidth *
-                                              0.55),
-                                      child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 28, horizontal: 24),
-                                          child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Card(
-                                                    clipBehavior:
-                                                        Clip.antiAlias,
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              28),
-                                                      child: Column(
-                                                        children: [
-                                                          CallSummaryWidget(
-                                                              formState:
-                                                                  formState),
-                                                          ElevatedButton(
-                                                              onPressed: () {
-                                                                Map<String,
-                                                                        dynamic>
-                                                                    finalMap = {
-                                                                  ...formKey
-                                                                      .currentState!
-                                                                      .instantValue,
-                                                                };
-
-                                                                print(finalMap);
-
-                                                                context
-                                                                    .read<
-                                                                        GeneralInquiryCubit>()
-                                                                    .postScheduleCall(
-                                                                        map:
-                                                                            finalMap);
-                                                              },
-                                                              child: const Text(
-                                                                  "Schedule a call"))
-                                                        ],
-                                                      ),
-                                                    )),
-                                                const SizedBox(
-                                                  height: 40,
-                                                ),
-                                                Text(
-                                                  "* Indicates a required field",
-                                                  style: textTheme.titleMedium,
-                                                )
-                                              ])))
-                                ],
-                              );
-                      });
-                }),
-              ],
+        if (state is SuccessState) {
+          return SingleChildScrollView(
+              child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: isMobile
+                      ? MediaQuery.of(context).size.height * 0.7
+                      : MediaQuery.of(context).size.height * 0.5,
+                  child: Center(
+                      child: Column(children: [
+                    Expanded(
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color:
+                                  textTheme.bodySmall!.color!.withOpacity(0.1),
+                            ),
+                            child: Icon(
+                              Icons.calendar_month,
+                              color: Theme.of(context).primaryColor,
+                              size: 50,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          Text(
+                            appLocalizations.scheduleMeeting_success_title,
+                            style: textTheme.headlineSmall,
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      responsiveHelper.bigger16Gap * 3.5),
+                              child: Text(
+                                appLocalizations
+                                    .scheduleMeeting_success_description,
+                                style: textTheme.bodyMedium!
+                                    .copyWith(fontSize: 14),
+                                textAlign: TextAlign.center,
+                              )),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          ElevatedButton(
+                            onPressed: () => Navigator.pop(context, true),
+                            style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(100, 50)),
+                            child: Text("Close"),
+                          ),
+                        ]))
+                  ]))));
+        } else {
+          return Scaffold(
+            appBar: const AddAssetHeader(
+              title: "",
             ),
-          ),
-        );
+            bottomSheet: !responsiveHelper.isMobile
+                ? null
+                : ScheduleCallFooter(
+                    formState: formState,
+                    onTap: () {
+                      formKey.currentState?.validate();
+                      if (enableAddAssetButton) {
+                        Map<String, dynamic> finalMap = {
+                          ...formKey.currentState!.instantValue,
+                          "email": (personalState is PersonalInformationLoaded)
+                              ? personalState.getNameEntity.email
+                              : "",
+                          "firstName":
+                              (personalState is PersonalInformationLoaded)
+                                  ? personalState.getNameEntity.firstName
+                                  : "",
+                          "lastName":
+                              (personalState is PersonalInformationLoaded)
+                                  ? personalState.getNameEntity.lastName
+                                  : "",
+                        };
+
+                        print(finalMap);
+
+                        context
+                            .read<GeneralInquiryCubit>()
+                            .postScheduleCall(map: finalMap);
+                      }
+                    }),
+            body: Theme(
+              data: Theme.of(context).copyWith(),
+              child: Stack(
+                children: [
+                  const LeafBackground(),
+                  Builder(builder: (context) {
+                    return BlocConsumer<GeneralInquiryCubit,
+                            GeneralInquiryState>(
+                        listener: (context, state) {},
+                        builder: (context, state) {
+                          return responsiveHelper.isMobile
+                              ? WidthLimiterWidget(
+                                  child: SingleChildScrollView(
+                                      child: renderForm(context, textTheme,
+                                          appLocalizations)))
+                              : Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    WidthLimiterWidget(
+                                        width: responsiveHelper
+                                                .optimalDeviceWidth *
+                                            0.45,
+                                        child: SingleChildScrollView(
+                                            child: renderForm(context,
+                                                textTheme, appLocalizations))),
+                                    Container(
+                                        constraints: BoxConstraints(
+                                            maxWidth: responsiveHelper
+                                                    .optimalDeviceWidth *
+                                                0.55),
+                                        child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 28, horizontal: 24),
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Card(
+                                                      clipBehavior:
+                                                          Clip.antiAlias,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(28),
+                                                        child: Column(
+                                                          children: [
+                                                            CallSummaryWidget(
+                                                                formState:
+                                                                    formState),
+                                                            ElevatedButton(
+                                                                onPressed: () {
+                                                                  Map<String,
+                                                                          dynamic>
+                                                                      finalMap =
+                                                                      {
+                                                                    ...formKey
+                                                                        .currentState!
+                                                                        .instantValue,
+                                                                  };
+
+                                                                  print(
+                                                                      finalMap);
+
+                                                                  context
+                                                                      .read<
+                                                                          GeneralInquiryCubit>()
+                                                                      .postScheduleCall(
+                                                                          map:
+                                                                              finalMap);
+                                                                },
+                                                                child: const Text(
+                                                                    "Schedule a call"))
+                                                          ],
+                                                        ),
+                                                      )),
+                                                  const SizedBox(
+                                                    height: 40,
+                                                  ),
+                                                  Text(
+                                                    "* Indicates a required field",
+                                                    style:
+                                                        textTheme.titleMedium,
+                                                  )
+                                                ])))
+                                  ],
+                                );
+                        });
+                  }),
+                ],
+              ),
+            ),
+          );
+        }
       }),
     );
   }
