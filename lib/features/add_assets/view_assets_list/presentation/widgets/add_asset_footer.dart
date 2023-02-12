@@ -89,7 +89,7 @@ class AddAssetFooter extends AppStatelessWidget {
                     const SizedBox(width: 12),
                     Expanded(
                         child: ElevatedButton(
-                            onPressed: () {
+                            onPressed: onTap == null ? null : () {
                               if (sl<GetUserStatusUseCase>().showOnboarding) {
                                 Map<String, dynamic> map = {
                                   "email":

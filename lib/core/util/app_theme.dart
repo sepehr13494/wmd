@@ -57,6 +57,15 @@ class AppThemes {
                 const BorderSide(width: 1, color: primaryColor)),
           ),
         ),
+        tooltipTheme: TooltipThemeData(
+          triggerMode: TooltipTriggerMode.tap,
+          decoration: BoxDecoration(
+            color: brightness == Brightness.dark
+                ? AppColors.anotherCardColorForDarkTheme
+                : AppColors.anotherCardColorForLightTheme
+          ),
+          textStyle: textTheme.bodySmall
+        ),
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
                 minimumSize:

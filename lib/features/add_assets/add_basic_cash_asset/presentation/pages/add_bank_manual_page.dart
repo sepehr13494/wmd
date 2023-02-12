@@ -80,7 +80,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
           appBar: const AddAssetHeader(title: "", showExitModal: true),
           bottomSheet: AddAssetFooter(
             buttonText: "Add asset",
-            onTap: () {
+            onTap: !enableAddAssetButton ? null : () {
               baseFormKey.currentState?.validate();
               if (enableAddAssetButton) {
                 Map<String, dynamic> finalMap = {

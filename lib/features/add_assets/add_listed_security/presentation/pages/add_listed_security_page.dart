@@ -104,7 +104,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
           appBar: const AddAssetHeader(title: "", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Add asset",
-              onTap: () {
+              onTap: !enableAddAssetButton ? null : () {
                 formKey.currentState?.validate();
                 if (enableAddAssetButton) {
                   Map<String, dynamic> finalMap = {
