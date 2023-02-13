@@ -21,7 +21,10 @@ import '../widget/bank_auth_process.dart';
 import 'dashboard_page.dart';
 
 class DashboardMainPage extends StatefulWidget {
-  const DashboardMainPage({Key? key}) : super(key: key);
+  final bool expandCustodian;
+
+  const DashboardMainPage({Key? key, this.expandCustodian = false})
+      : super(key: key);
 
   @override
   AppState<DashboardMainPage> createState() => _DashboardMainPageState();
@@ -31,6 +34,11 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    debugPrint("dashboard page---");
+    debugPrint(widget.expandCustodian.toString());
+    debugPrint(widget.expandCustodian.toString());
+    debugPrint(widget.expandCustodian.toString());
+
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
     final appTheme = Theme.of(context);
     return Scaffold(
@@ -98,8 +106,10 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                           const SizedBox(height: 12),
                                           BanksAuthorizationProcess(
                                               initiallyExpanded:
-                                                  !(isAssetsNotEmpty ||
-                                                      isLiabilityNotEmpty)),
+                                                  widget.expandCustodian
+                                                      ? true
+                                                      : !(isAssetsNotEmpty ||
+                                                          isLiabilityNotEmpty)),
                                           if (isAssetsNotEmpty ||
                                               isLiabilityNotEmpty)
                                             SummeryWidget(

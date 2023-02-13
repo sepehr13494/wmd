@@ -14,18 +14,15 @@ import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_
 import '../manager/main_page_cubit.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
+  final bool expandCustodian;
+
+  const MainPage({Key? key, this.expandCustodian = false}) : super(key: key);
 
   @override
   State<MainPage> createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
-  static final List<Widget> _widgetOptions = <Widget>[
-    const DashboardMainPage(),
-    const AssetsOverView(),
-  ];
-
   static final List<List> items = [
     [Icons.home, 'Home'],
     [Icons.bar_chart, 'Assets'],
@@ -39,6 +36,11 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> widgetOptions = <Widget>[
+      DashboardMainPage(expandCustodian: widget.expandCustodian),
+      const AssetsOverView(),
+    ];
+
     return Builder(builder: (context) {
       return BlocBuilder<MainPageCubit, int>(
         builder: (context, state) {
@@ -49,11 +51,11 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
                       content: Text('for exit click again'),
                     ),
                     child: Center(
-                      child: _widgetOptions.elementAt(state),
+                      child: widgetOptions.elementAt(state),
                     ),
                   )
                 : Center(
-                    child: _widgetOptions.elementAt(state),
+                    child: widgetOptions.elementAt(state),
                   ),
             bottomNavigationBar: BlocConsumer<MainDashboardCubit,
                     MainDashboardState>(

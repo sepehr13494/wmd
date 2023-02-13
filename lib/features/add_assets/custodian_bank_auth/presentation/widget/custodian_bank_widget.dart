@@ -46,6 +46,12 @@ class CustodianBankWidgetV2 extends AppStatelessWidget {
                   builder: (context) {
                     return InkWell(
                       onTap: () async {
+                        await AnalyticsUtils.triggerEvent(
+                            action:
+                                AnalyticsUtils.linkBankAction(bank.bankName),
+                            params:
+                                AnalyticsUtils.linkBankEvent(bank.bankName));
+
                         await showCustodianBankStatus(
                           context: context,
                           bankId: bank.bankId,
@@ -61,12 +67,6 @@ class CustodianBankWidgetV2 extends AppStatelessWidget {
                                   .read<UserStatusCubit>()
                                   .postUserStatus(map: map);
                             }
-
-                            AnalyticsUtils.triggerEvent(
-                                action: AnalyticsUtils.linkBankAction(
-                                    bank.bankName),
-                                params: AnalyticsUtils.linkBankEvent(
-                                    bank.bankName));
 
                             context
                                 .read<CustodianStatusListCubit>()
