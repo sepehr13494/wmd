@@ -12,7 +12,8 @@ import 'constants.dart';
 
 class AssetsOverviewAreaChart extends StatelessWidget {
   final List<GetChartEntity> getChartEntities;
-  const AssetsOverviewAreaChart({super.key, required this.getChartEntities});
+  final List<String> titles;
+  const AssetsOverviewAreaChart({super.key, required this.getChartEntities, required this.titles});
 
   @override
   Widget build(BuildContext context) {
@@ -65,65 +66,58 @@ class AssetsOverviewAreaChart extends StatelessWidget {
             getTooltipItems: (touchedSpots) {
               final textTheme = Theme.of(context).textTheme;
               final getChartEntity = getChartEntities[touchedSpots.first.x.toInt()];
-              final double sum =
-                  getChartEntity.privateEquity+
-                      getChartEntity.realEstate+
-                      getChartEntity.privateDebt+
-                      getChartEntity.others+
-                      getChartEntity.bankAccount+
-                      getChartEntity.listedAssetEquity+
-                      getChartEntity.listedAssetFixedIncome+
-                      getChartEntity.listedAssetEquity;
               final appLocalizations = AppLocalizations.of(context);
-              return [LineTooltipItem(
-                "${CustomizableDateTime.miniDateWithYear(getChartEntity.date)}\n",
-                textTheme.titleSmall!,
-                textAlign: TextAlign.start,
-                children: [
-                  getChartEntity.bankAccount != 0 ? TextSpan(
-                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    "Bank Account".replaceAll(" ", ""),
-                  ) + "\t\t"),TextSpan(text: getChartEntity.bankAccount.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                  getChartEntity.privateEquity != 0 ? TextSpan(
-                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    "Private Equity".replaceAll(" ", ""),
-                  ) + "\t\t"),TextSpan(text: getChartEntity.privateEquity.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                  getChartEntity.privateDebt != 0 ? TextSpan(
-                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    "Private Debt".replaceAll(" ", ""),
-                  ) + "\t\t"),TextSpan(text: getChartEntity.privateDebt.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                  getChartEntity.realEstate != 0 ? TextSpan(
-                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    "Real Estate".replaceAll(" ", ""),
-                  ) + "\t\t"),TextSpan(text: getChartEntity.realEstate.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                  getChartEntity.listedAssetEquity != 0 ? TextSpan(
-                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    AssetTypes.listedAssetEquity.replaceAll(" ", ""),
-                  ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetEquity.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                  getChartEntity.listedAssetFixedIncome != 0 ? TextSpan(
-                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    AssetTypes.listedAssetFixedIncome.replaceAll(" ", ""),
-                  ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetFixedIncome.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                  getChartEntity.listedAssetOther != 0 ? TextSpan(
-                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    AssetTypes.listedAssetOther.replaceAll(" ", ""),
-                  ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetOther.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                  getChartEntity.others != 0 ? TextSpan(
-                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    "Other Assets".replaceAll(" ", ""),
-                  ) + "\t"),TextSpan(text: getChartEntity.others.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                ],
-              )];
+              return List.generate(touchedSpots.length, (index) {
+                return index == 0 ? LineTooltipItem(
+                  "${CustomizableDateTime.miniDateWithYear(getChartEntity.date)}\n",
+                  textTheme.titleSmall!,
+                  textAlign: TextAlign.start,
+                  children: [
+                    getChartEntity.bankAccount != 0 ? TextSpan(
+                        style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
+                      appLocalizations,
+                      "Bank Account".replaceAll(" ", ""),
+                    ) + "\t\t"),TextSpan(text: getChartEntity.bankAccount.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
+                    getChartEntity.privateEquity != 0 ? TextSpan(
+                        style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
+                      appLocalizations,
+                      "Private Equity".replaceAll(" ", ""),
+                    ) + "\t\t"),TextSpan(text: getChartEntity.privateEquity.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
+                    getChartEntity.privateDebt != 0 ? TextSpan(
+                        style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
+                      appLocalizations,
+                      "Private Debt".replaceAll(" ", ""),
+                    ) + "\t\t"),TextSpan(text: getChartEntity.privateDebt.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
+                    getChartEntity.realEstate != 0 ? TextSpan(
+                        style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
+                      appLocalizations,
+                      "Real Estate".replaceAll(" ", ""),
+                    ) + "\t\t"),TextSpan(text: getChartEntity.realEstate.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
+                    getChartEntity.listedAssetEquity != 0 ? TextSpan(
+                        style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
+                      appLocalizations,
+                      AssetTypes.listedAssetEquity.replaceAll(" ", ""),
+                    ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetEquity.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
+                    getChartEntity.listedAssetFixedIncome != 0 ? TextSpan(
+                        style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
+                      appLocalizations,
+                      AssetTypes.listedAssetFixedIncome.replaceAll(" ", ""),
+                    ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetFixedIncome.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
+                    getChartEntity.listedAssetOther != 0 ? TextSpan(
+                        style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
+                      appLocalizations,
+                      AssetTypes.listedAssetOther.replaceAll(" ", ""),
+                    ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetOther.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
+                    getChartEntity.others != 0 ? TextSpan(
+                        style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
+                      appLocalizations,
+                      "Other Assets".replaceAll(" ", ""),
+                    ) + "\t"),TextSpan(text: getChartEntity.others.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
+                  ],
+                ) : null;
+              });
             },
-            maxContentWidth: 200,
+            maxContentWidth: 300,
             tooltipBgColor: const Color.fromARGB(255, 38, 49, 52),
           ),
         ),
@@ -183,31 +177,31 @@ class AssetsOverviewAreaChart extends StatelessWidget {
   }
 
   List<LineChartBarData> getData(double x) {
-    return List.generate(9, (mainIndex) {
-      Color color = Colors.white;
-      switch (mainIndex){
-        case 0:
+    return List.generate(titles.length, (mainIndex) {
+      Color color = Colors.transparent;
+      switch (titles[mainIndex]){
+        case AssetTypes.bankAccount:
           color = AssetsOverviewChartsColors.colorsMap[AssetTypes.bankAccount]??Colors.brown;
           break;
-        case 1:
+        case AssetTypes.privateEquity:
           color = AssetsOverviewChartsColors.colorsMap[AssetTypes.privateEquity]??Colors.brown;
           break;
-        case 2:
+        case AssetTypes.privateDebt:
           color = AssetsOverviewChartsColors.colorsMap[AssetTypes.privateDebt]??Colors.brown;
           break;
-        case 3:
+        case AssetTypes.realEstate:
           color =AssetsOverviewChartsColors.colorsMap[AssetTypes.realEstate]??Colors.brown;
           break;
-        case 4:
+        case AssetTypes.listedAssetEquity:
           color = AssetsOverviewChartsColors.colorsMap[AssetTypes.listedAssetEquity]??Colors.brown;
           break;
-        case 5:
+        case AssetTypes.listedAssetFixedIncome:
           color = AssetsOverviewChartsColors.colorsMap[AssetTypes.listedAssetFixedIncome]??Colors.brown;
           break;
-        case 6:
+        case AssetTypes.listedAssetOther:
           color = AssetsOverviewChartsColors.colorsMap[AssetTypes.listedAssetOther]??Colors.brown;
           break;
-        case 7:
+        case AssetTypes.otherAsset:
           color = AssetsOverviewChartsColors.colorsMap[AssetTypes.otherAsset]??Colors.brown;
           break;
       }
@@ -216,33 +210,34 @@ class AssetsOverviewAreaChart extends StatelessWidget {
         color: color,
         barWidth: 2,
         isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
         spots: List.generate(getChartEntities.length, (index) {
           GetChartEntity getChartEntity = getChartEntities[index];
           double y = 0;
-          switch (mainIndex){
-            case 0:
-              y = getChartEntity.bankAccount;
+          switch (titles[mainIndex]){
+            case AssetTypes.bankAccount:
+              y = getChartEntity.bankAccount/x;
               break;
-            case 1:
-              y = getChartEntity.privateEquity;
+            case AssetTypes.privateEquity:
+              y = getChartEntity.privateEquity/x;
               break;
-            case 2:
-              y = getChartEntity.privateDebt;
+            case AssetTypes.privateDebt:
+              y = getChartEntity.privateDebt/x;
               break;
-            case 3:
-              y = getChartEntity.realEstate;
+            case AssetTypes.realEstate:
+              y = getChartEntity.realEstate/x;
               break;
-            case 4:
-              y = getChartEntity.listedAssetEquity;
+            case AssetTypes.listedAssetEquity:
+              y = getChartEntity.listedAssetEquity/x;
               break;
-            case 5:
-              y = getChartEntity.listedAssetFixedIncome;
+            case AssetTypes.listedAssetFixedIncome:
+              y = getChartEntity.listedAssetFixedIncome/x;
               break;
-            case 6:
-              y = getChartEntity.listedAssetOther;
+            case AssetTypes.listedAssetOther:
+              y = getChartEntity.listedAssetOther/x;
               break;
-            case 7:
-              y = getChartEntity.others;
+            case AssetTypes.otherAsset:
+              y = getChartEntity.others/x;
               break;
           }
           return FlSpot(index.toDouble(), y);
@@ -251,7 +246,7 @@ class AssetsOverviewAreaChart extends StatelessWidget {
           show: true,
           cutOffY: 0,
           applyCutOffY: true,
-          color: color.withOpacity(0.7)
+          color: color.withOpacity(0.4)
         ),
       );
     });
@@ -261,26 +256,30 @@ class AssetsOverviewAreaChart extends StatelessWidget {
     double minY = 0;
     double maxY = 0;
     if(getChartEntities.isNotEmpty){
-      maxY += getChartEntities[0].bankAccount;
-      maxY += getChartEntities[0].listedAssetEquity;
-      maxY += getChartEntities[0].listedAssetFixedIncome;
-      maxY += getChartEntities[0].listedAssetOther;
-      maxY += getChartEntities[0].others;
-      maxY += getChartEntities[0].privateDebt;
-      maxY += getChartEntities[0].realEstate;
-      maxY += getChartEntities[0].privateEquity;
       for (var element in getChartEntities) {
-        double maxY2 = 0;
-        maxY2 += element.bankAccount;
-        maxY2 += element.listedAssetEquity;
-        maxY2 += element.listedAssetFixedIncome;
-        maxY2 += element.listedAssetOther;
-        maxY2 += element.others;
-        maxY2 += element.privateDebt;
-        maxY2 += element.realEstate;
-        maxY2 += element.privateEquity;
-        if(maxY2>maxY){
-          maxY = maxY2;
+        if(element.bankAccount > maxY){
+          maxY += element.bankAccount;
+        }
+        if(element.listedAssetEquity > maxY){
+          maxY += element.listedAssetEquity;
+        }
+        if(element.listedAssetFixedIncome > maxY){
+          maxY += element.listedAssetFixedIncome;
+        }
+        if(element.listedAssetOther > maxY){
+          maxY += element.listedAssetOther;
+        }
+        if(element.others > maxY){
+          maxY += element.others;
+        }
+        if(element.privateDebt > maxY){
+          maxY += element.privateDebt;
+        }
+        if(element.realEstate > maxY){
+          maxY += element.realEstate;
+        }
+        if(element.privateEquity > maxY){
+          maxY += element.privateEquity;
         }
       }
     }

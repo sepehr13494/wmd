@@ -5,8 +5,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:wmd/core/util/local_auth_manager.dart';
-import 'package:wmd/features/assets_overview/charts/presentation/manager/chart_chooser_manager.dart';
-import 'package:wmd/features/assets_overview/charts/presentation/widgets/chart_chooser.dart';
 import 'package:wmd/firebase_options.dart';
 import 'core/presentation/routes/app_router.dart';
 import 'core/util/app_localization.dart';
@@ -80,9 +78,6 @@ class MyApp extends StatelessWidget {
             create: (context) => sl<LocalizationManager>()
               ..changeLang(sl<LocalStorage>().getLocale())),
         BlocProvider(create: (context) => sl<LocalAuthManager>()),
-        BlocProvider(
-            create: (context) => sl<ChartChooserManager>()
-              ..changeChart(AllChartType.getAllTypes(context).first)),
       ],
       child: Builder(builder: (context) {
         return GestureDetector(

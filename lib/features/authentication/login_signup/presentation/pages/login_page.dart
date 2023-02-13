@@ -81,7 +81,7 @@ class LoginPage extends AppStatelessWidget {
                             Center(
                               child: BlocProvider(
                                 create: (context) =>
-                                    sl<SplashCubit>()..initSplash(time: 0),
+                                    sl<SplashCubit>()..initSplash(time: 200),
                                 child: BlocBuilder<SplashCubit, SplashState>(
                                   builder: (context, state) {
                                     return state is SplashLoaded

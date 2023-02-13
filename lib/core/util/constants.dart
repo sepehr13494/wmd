@@ -5,6 +5,7 @@ import 'package:wmd/core/models/time_filer_obj.dart';
 
 class AppConstants {
   static bool publicMvp2Items = dotenv.env['NEXT_PUBLIC_MVP2_ITEM']! == 'true';
+  static bool developMode = dotenv.env['DEVELOPING_MODE']! == 'true';
 
   static const custodianList = [
     "Abbot Downing",

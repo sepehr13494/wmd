@@ -63,7 +63,6 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
                             context.goNamed(AppRoutes.settings);
                             break;
                           case 1:
-                            sl<LocalStorage>().logout();
                             AppRestart.restart(context);
                             break;
                         }

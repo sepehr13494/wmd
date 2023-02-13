@@ -10,6 +10,7 @@ import 'package:wmd/features/assets_overview/charts/presentation/widgets/constan
 
 import '../manager/chart_chooser_manager.dart';
 import 'assets_overview_area_chart.dart';
+import 'assets_overview_tree_chart.dart';
 import 'bar_charts_widget.dart';
 
 class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
@@ -22,31 +23,10 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
       child: BlocBuilder<ChartsCubit, ChartsState>(
         builder: (context, state) {
           return state is GetChartLoaded
-              ? state.getChartEntities.isEmpty ? const EmptyChart() : Column(
-                  children: [
-                    const ChartChooserWidget(),
-                    Expanded(
-                      child: Builder(
-                        builder: (context) {
-                          if(context.read<ChartChooserManager>().state == null){
-                            return SizedBox();
-                          }else{
-                            switch (context.read<ChartChooserManager>().state!.barType){
-                              case BarType.barChart:
-                                return AssetsOverviewBarCharts(
-                                    getChartEntities: state.getChartEntities);
-                              case BarType.areaChart:
-                                return AssetsOverviewAreaChart(
-                                    getChartEntities: state.getChartEntities);
-                              case BarType.treeChart:
-                                return AssetsOverviewBarCharts(
-                                    getChartEntities: state.getChartEntities);
-                            }
-                          }
-                        }
-                      ),
-                    ),
-                    Builder(builder: (context) {
+              ? state.getChartEntities.isEmpty
+                  ? const EmptyChart()
+                  : Builder(
+                    builder: (context) {
                       Set<String> titles = {};
                       for (var element in state.getChartEntities) {
                         if (element.bankAccount != 0) {
@@ -74,42 +54,73 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                           titles.add(AssetTypes.privateEquity);
                         }
                       }
-                      return Wrap(
-                        // spacing: 100, // gap between adjacent chips
-                        runSpacing: 5, // gap between lines
-                        children: List.generate(titles.length, (index) {
-                          final item = titles.elementAt(index);
-                          return SizedBox(
-                            width: 210,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    width: 10,
-                                    height: 10,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: AssetsOverviewChartsColors
-                                          .colorsMap[item]??Colors.brown,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    AssetsOverviewChartsColors.getAssetType(
-                                        appLocalizations, item),
-                                    style: const TextStyle(fontSize: 10),
-                                  )
-                                ],
+                      return Column(
+                          children: [
+                            const ChartChooserWidget(),
+                            const SizedBox(height: 16),
+                            Expanded(
+                              child:
+                                  BlocBuilder<ChartChooserManager, AllChartType?>(
+                                builder: (context, chooseChartState) {
+                                  if (chooseChartState == null) {
+                                    return const SizedBox();
+                                  } else {
+                                    switch (chooseChartState.barType) {
+                                      case BarType.barChart:
+                                        return AssetsOverviewBarCharts(
+                                            getChartEntities:
+                                                state.getChartEntities);
+                                      case BarType.areaChart:
+                                        return AssetsOverviewAreaChart(
+                                            getChartEntities:
+                                                state.getChartEntities,titles:titles.toList());
+                                      case BarType.treeChart:
+                                        return AssetsOverviewTreeChart(
+                                            getChartEntities:
+                                                state.getChartEntities);
+                                    }
+                                  }
+                                },
                               ),
                             ),
-                          );
-                        }),
-                      );
-                    })
-                  ],
-                )
+                            Wrap(
+                              // spacing: 100, // gap between adjacent chips
+                              runSpacing: 5, // gap between lines
+                              children: List.generate(titles.length, (index) {
+                                final item = titles.elementAt(index);
+                                return SizedBox(
+                                  child: Padding(
+                                    padding:
+                                    const EdgeInsets.fromLTRB(20, 4, 20, 4),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          width: 10,
+                                          height: 10,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: AssetsOverviewChartsColors
+                                                .colorsMap[item] ??
+                                                Colors.brown,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Text(
+                                          AssetsOverviewChartsColors.getAssetType(
+                                              appLocalizations, item),
+                                          style: const TextStyle(fontSize: 10),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }),
+                            ),
+                          ],
+                        );
+                    }
+                  )
               : const LoadingWidget();
         },
       ),
