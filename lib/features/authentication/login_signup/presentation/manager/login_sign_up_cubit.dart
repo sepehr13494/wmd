@@ -4,6 +4,7 @@ import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/util/device_info.dart';
+import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_login_usecase.dart';
 import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_register_usecase.dart';
 import 'package:wmd/features/authentication/login_signup/domain/use_cases/resend_email_usecase.dart';
@@ -28,6 +29,9 @@ class LoginSignUpCubit extends Cubit<LoginSignUpState> {
 
   postLogin({required Map<String, dynamic> map}) async {
     emit(LoadingState());
+    await AnalyticsUtils.triggerEvent(
+        action: AnalyticsUtils.loginAction,
+        params: AnalyticsUtils.loginStartedEvent);
     final result = await postLoginUseCase(LoginParams.fromJson(map));
     //TODO: Call get user usecase and manage navigation for the not verified
     // TODO Create Login loaded state pass the route
@@ -37,6 +41,10 @@ class LoginSignUpCubit extends Cubit<LoginSignUpState> {
 
   postRegister({required Map<String, dynamic> map}) async {
     emit(LoadingState());
+    await AnalyticsUtils.triggerEvent(
+        action: AnalyticsUtils.signUpAction,
+        params: AnalyticsUtils.signUpStartEvent);
+
     final registerParamsForApi = RegisterParams.fromJson(map);
     final appDeviceInfoModel = await appDeviceInfo.getDeviceInfo();
     final termsAndCondition = TermsOfService(

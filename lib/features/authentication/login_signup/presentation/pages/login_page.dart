@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -82,39 +81,52 @@ class LoginPage extends AppStatelessWidget {
                             Center(
                               child: BlocProvider(
                                 create: (context) =>
-                                sl<SplashCubit>()..initSplash(time: 200),
+                                    sl<SplashCubit>()..initSplash(time: 200),
                                 child: BlocBuilder<SplashCubit, SplashState>(
                                   builder: (context, state) {
-                                    return state is SplashLoaded ? (state.isLogin && sl<LocalStorage>().getLocalAuth()) ? InkWell(
-                                      onTap: () async {
-                                        final didAuth = await context.read<LocalAuthManager>().authenticate(context);
-                                        if(didAuth){
-                                          // ignore: use_build_context_synchronously
-                                          context.goNamed(AppRoutes.main);
-                                        }else{
-                                          // ignore: use_build_context_synchronously
-                                          GlobalFunctions.showSnackBar(context, "local auth failed");
-                                        }
-                                      },
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text(
-                                            appLocalizations
-                                                .profile_localAuth_pleaseAuthenticate,
-                                            style: textTheme.bodyMedium!
-                                                .toLinkStyle(context),
-                                          ),
-                                          const SizedBox(width: 8),
-                                          Icon(
-                                            Icons.fingerprint,
-                                            size: 30,
-                                            color:
-                                            Theme.of(context).primaryColor,
-                                          )
-                                        ],
-                                      ),
-                                    ) : const SizedBox() : const SizedBox();
+                                    return state is SplashLoaded
+                                        ? (state.isLogin &&
+                                                sl<LocalStorage>()
+                                                    .getLocalAuth())
+                                            ? InkWell(
+                                                onTap: () async {
+                                                  final didAuth = await context
+                                                      .read<LocalAuthManager>()
+                                                      .authenticate(context);
+                                                  if (didAuth) {
+                                                    // ignore: use_build_context_synchronously
+                                                    context.goNamed(
+                                                        AppRoutes.main);
+                                                  } else {
+                                                    // ignore: use_build_context_synchronously
+                                                    GlobalFunctions.showSnackBar(
+                                                        context,
+                                                        "local auth failed");
+                                                  }
+                                                },
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Text(
+                                                      appLocalizations
+                                                          .profile_localAuth_pleaseAuthenticate,
+                                                      style: textTheme
+                                                          .bodyMedium!
+                                                          .toLinkStyle(context),
+                                                    ),
+                                                    const SizedBox(width: 8),
+                                                    Icon(
+                                                      Icons.fingerprint,
+                                                      size: 30,
+                                                      color: Theme.of(context)
+                                                          .primaryColor,
+                                                    )
+                                                  ],
+                                                ),
+                                              )
+                                            : const SizedBox()
+                                        : const SizedBox();
                                   },
                                 ),
                               ),
