@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,13 +38,6 @@ class LoginPage extends AppStatelessWidget {
             listener:
                 BlocHelper.defaultBlocListener(listener: (context, state) {
               if (state is SuccessState) {
-                FirebaseAnalytics.instance
-                    .logEvent(name: 'mobile test', parameters: {
-                  "label": "Mobile test",
-                  "action": "Mobile test",
-                  "category": "Mobile test category",
-                });
-
                 context.goNamed(AppRoutes.onboarding);
               }
             }),

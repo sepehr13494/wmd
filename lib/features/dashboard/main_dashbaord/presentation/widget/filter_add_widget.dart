@@ -49,14 +49,7 @@ class FilterAddPart extends AppStatelessWidget {
               height: 38,
               child: AddButton(
                 addAsset: false,
-                onTap: () async {
-                  await FirebaseAnalytics.instance
-                      .logEvent(name: 'mobile_test', parameters: {
-                    "label": "Mobile test",
-                    "action": "Mobile test",
-                    "category": "Mobile test category",
-                  });
-
+                onTap: () {
                   context.pushNamed(AppRoutes.addAssetsView);
                 },
               ),
