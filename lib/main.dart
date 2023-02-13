@@ -15,6 +15,7 @@ import 'injection_container.dart';
 import 'injection_container.dart' as di;
 import 'package:datadog_flutter_plugin/datadog_flutter_plugin.dart';
 import 'core/presentation/routes/url_strategy/url_strategy.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +23,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   usePathUrlStrategy();
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   const String envFor = String.fromEnvironment(
     'env',

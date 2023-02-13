@@ -6,6 +6,7 @@ import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/util/app_restart.dart';
+import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/core/util/loading/loading_screen.dart';
 import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_base_state.dart';
@@ -94,6 +95,7 @@ class AssetBlocHelper extends BlocHelper {
               dateTime: context.read<MainDashboardCubit>().dateTimeRange);
           context.read<DashboardGoeCubit>().getGeographic();
           context.read<DashboardPieCubit>().getPie();
+
           final successValue = state.addAsset;
           showDialog(
             context: context,
@@ -155,6 +157,10 @@ class AssetBlocHelper extends BlocHelper {
               // );
             },
           );
+
+          AnalyticsUtils.triggerEvent(
+              action: AnalyticsUtils.assetAdditionAction,
+              params: AnalyticsUtils.addAssetEvent);
         }
         LoadingOverlay().hide();
         listener(context, state);
