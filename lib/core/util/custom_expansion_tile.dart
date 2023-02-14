@@ -426,11 +426,32 @@ class _CustomExpansionTileState extends State<CustomExpansionTile>
       ..end = widget.iconColor ??
           expansionTileTheme.iconColor ??
           colorScheme.primary;
+
+    _isExpanded = PageStorage.of(context)?.readState(context) as bool? ??
+        widget.initiallyExpanded;
     _backgroundColorTween
       ..begin = widget.collapsedBackgroundColor ??
           expansionTileTheme.collapsedBackgroundColor
       ..end = widget.backgroundColor ?? expansionTileTheme.backgroundColor;
     super.didChangeDependencies();
+  }
+
+  @override
+  void didUpdateWidget(covariant CustomExpansionTile oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (_isExpanded != widget.initiallyExpanded) {
+      _controller.forward();
+    } else {
+      _controller.reverse().then<void>((void value) {
+        if (!mounted) {
+          return;
+        }
+        setState(() {
+          // Rebuild without widget.children.
+        });
+      });
+    }
   }
 
   @override

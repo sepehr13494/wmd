@@ -25,7 +25,15 @@ class _BanksAuthorizationProcessState
   @override
   void initState() {
     super.initState();
-    isExpanded = widget.initiallyExpanded;
+  }
+
+  @override
+  void didUpdateWidget(BanksAuthorizationProcess oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    setState(() {
+      isExpanded = widget.initiallyExpanded;
+    });
   }
 
   @override
