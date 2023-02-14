@@ -58,7 +58,6 @@ class AppThemes {
           ),
         ),
         tooltipTheme: TooltipThemeData(
-          triggerMode: TooltipTriggerMode.tap,
           decoration: BoxDecoration(
             color: brightness == Brightness.dark
                 ? AppColors.anotherCardColorForDarkTheme
