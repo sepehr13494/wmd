@@ -113,7 +113,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                     child: Padding(
                       padding: const EdgeInsets.all(12),
                       child: Text(
-                        appLocalizations.common_button_seeMore,
+                        appLocalizations.common_button_viewMore,
                         style: TextStyle(color: Theme.of(context).primaryColor),
                       ),
                     ),
@@ -124,21 +124,46 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
         ],
       );
     }
-    return Table(
-      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-      columnWidths: columnWidths,
-      children: [
-        buildTableHeader(context, appLocalizations),
-        ...List.generate(widget.getAllValuationEntities.length, (index) {
-          final e = widget.getAllValuationEntities[index];
-          return buildTableRow(context,
-              date: CustomizableDateTime.ddMmYyyy(e.valuatedAt),
-              note: e.note ?? '',
-              value: e.amountInUsd.convertMoney(addDollar: true),
-              index: index);
-        }),
-      ],
-    );
+    return Column(children: [
+      Table(
+        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+        columnWidths: columnWidths,
+        children: [
+          buildTableHeader(context, appLocalizations),
+          ...List.generate(widget.getAllValuationEntities.length, (index) {
+            final e = widget.getAllValuationEntities[index];
+            return buildTableRow(context,
+                date: CustomizableDateTime.ddMmYyyy(e.valuatedAt),
+                note: e.note ?? '',
+                value: e.amountInUsd.convertMoney(addDollar: true),
+                index: index);
+          }),
+        ],
+      ),
+      if (length > 3)
+        InkWell(
+          onTap: () {
+            setState(() {
+              isSummary = !isSummary;
+            });
+          },
+          child: Card(
+            margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
+            child: SizedBox(
+              width: double.maxFinite,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Text(
+                    appLocalizations.common_button_viewLess,
+                    style: TextStyle(color: Theme.of(context).primaryColor),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        )
+    ]);
   }
 
   TableRow buildTableHeader(

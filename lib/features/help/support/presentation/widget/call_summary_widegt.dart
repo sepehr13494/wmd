@@ -55,7 +55,9 @@ class CallSummaryWidget extends AppStatelessWidget {
                   CallSummaryRow(
                       label: "Time*",
                       value: formState != null
-                          ? formState!.instantValue["time"].toString()
+                          ? formState!.instantValue["time"]
+                              .toString()
+                              .split(" ")[0]
                           : "null"),
                   CallSummaryRow(
                     label: "Meeting type",
