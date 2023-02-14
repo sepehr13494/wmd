@@ -72,7 +72,7 @@ class EachAssetType extends AppStatelessWidget {
                     showRow: !isMobile,
                     children: [
                       SizedBox(
-                        width: 200,
+                        width: !isMobile ? 200 : null,
                         child: Text(
                           assetsOverview.totalAmount
                               .convertMoney(addDollar: true),
