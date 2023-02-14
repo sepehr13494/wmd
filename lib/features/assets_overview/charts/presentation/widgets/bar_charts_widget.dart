@@ -12,6 +12,7 @@ import 'constants.dart';
 
 class AssetsOverviewBarCharts extends StatelessWidget {
   final List<GetChartEntity> getChartEntities;
+
   const AssetsOverviewBarCharts({super.key, required this.getChartEntities});
 
   @override
@@ -22,25 +23,26 @@ class AssetsOverviewBarCharts extends StatelessWidget {
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    int x = (getChartEntities.length/7).ceil();
+    int x = (getChartEntities.length / 7).ceil();
     var dateString = getChartEntities[value.toInt()].date.split("/");
-    DateTime dateTime = DateTime(int.parse(dateString[2]),int.parse(dateString[0]),int.parse(dateString[1]));
-    return value.toInt() % x == 0 ? SideTitleWidget(
-      axisSide: meta.axisSide,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 2.0),
-        child: Text(
-            CustomizableDateTime.localizedDdMm(dateTime),
-            style: const TextStyle(fontSize: 8)),
-      ),
-    ) : const SizedBox();
+    DateTime dateTime = DateTime(int.parse(dateString[2]),
+        int.parse(dateString[0]), int.parse(dateString[1]));
+    return value.toInt() % x == 0
+        ? SideTitleWidget(
+            axisSide: meta.axisSide,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2.0),
+              child: Text(CustomizableDateTime.localizedDdMm(dateTime),
+                  style: const TextStyle(fontSize: 8)),
+            ),
+          )
+        : const SizedBox();
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-
     double minY = calculateMinMax(getChartEntities)[0];
     double maxY = calculateMinMax(getChartEntities)[1];
-    double x = max(maxY.abs() , minY.abs()) / 5;
+    double x = max(maxY.abs(), minY.abs()) / 5;
     return FittedBox(
       fit: BoxFit.scaleDown,
       child: Text(
@@ -54,9 +56,9 @@ class AssetsOverviewBarCharts extends StatelessWidget {
   BarChartData mainData(context) {
     double minY = calculateMinMax(getChartEntities)[0];
     double maxY = calculateMinMax(getChartEntities)[1];
-    double x = max(maxY.abs() , minY.abs()) / 5;
-    minY = (minY/x);
-    maxY = (maxY/x);
+    double x = max(maxY.abs(), minY.abs()) / 5;
+    minY = (minY / x);
+    maxY = (maxY / x);
     double maxTotal = max(minY.abs(), maxY.abs());
     return BarChartData(
         barTouchData: BarTouchData(
@@ -66,70 +68,156 @@ class AssetsOverviewBarCharts extends StatelessWidget {
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
               final textTheme = Theme.of(context).textTheme;
               final getChartEntity = getChartEntities[groupIndex.toInt()];
-              final double sum =
-                  getChartEntity.privateEquity+
-                      getChartEntity.realEstate+
-                      getChartEntity.privateDebt+
-                      getChartEntity.others+
-                      getChartEntity.bankAccount+
-                      getChartEntity.listedAssetEquity+
-                      getChartEntity.listedAssetFixedIncome+
-                      getChartEntity.listedAssetEquity;
+              final double sum = getChartEntity.privateEquity +
+                  getChartEntity.realEstate +
+                  getChartEntity.privateDebt +
+                  getChartEntity.others +
+                  getChartEntity.bankAccount +
+                  getChartEntity.listedAssetEquity +
+                  getChartEntity.listedAssetFixedIncome +
+                  getChartEntity.listedAssetEquity;
               final appLocalizations = AppLocalizations.of(context);
               return BarTooltipItem(
                 "${CustomizableDateTime.miniDateWithYear(getChartEntity.date)}\n",
                 textTheme.titleSmall!,
                 textAlign: TextAlign.end,
                 children: [
-                  getChartEntity.bankAccount != 0 ? TextSpan(
-                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    "Bank Account".replaceAll(" ", ""),
-                  ) + "\t\t"),TextSpan(text: getChartEntity.bankAccount.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                  getChartEntity.privateEquity != 0 ? TextSpan(
-                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    "Private Equity".replaceAll(" ", ""),
-                  ) + "\t\t"),TextSpan(text: getChartEntity.privateEquity.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                  getChartEntity.privateDebt != 0 ? TextSpan(
-                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    "Private Debt".replaceAll(" ", ""),
-                  ) + "\t\t"),TextSpan(text: getChartEntity.privateDebt.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                  getChartEntity.realEstate != 0 ? TextSpan(
-                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    "Real Estate".replaceAll(" ", ""),
-                  ) + "\t\t"),TextSpan(text: getChartEntity.realEstate.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                  getChartEntity.listedAssetEquity != 0 ? TextSpan(
-                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    AssetTypes.listedAssetEquity.replaceAll(" ", ""),
-                  ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetEquity.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                  getChartEntity.listedAssetEquity != 0 ? TextSpan(
-                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    AssetTypes.listedAssetEquity.replaceAll(" ", ""),
-                  ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetEquity.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                  getChartEntity.listedAssetFixedIncome != 0 ? TextSpan(
-                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    AssetTypes.listedAssetFixedIncome.replaceAll(" ", ""),
-                  ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetFixedIncome.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                  getChartEntity.listedAssetOther != 0 ? TextSpan(
-                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    AssetTypes.listedAssetOther.replaceAll(" ", ""),
-                  ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetOther.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                  getChartEntity.others != 0 ? TextSpan(
-                      style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    "Other Assets".replaceAll(" ", ""),
-                  ) + "\t"),TextSpan(text: getChartEntity.others.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
+                  getChartEntity.bankAccount != 0
+                      ? TextSpan(style: textTheme.bodyMedium, children: [
+                          TextSpan(
+                              text: "\n" +
+                                  AssetsOverviewChartsColors.getAssetType(
+                                    appLocalizations,
+                                    "Bank Account".replaceAll(" ", ""),
+                                  ) +
+                                  "\t\t"),
+                          TextSpan(
+                              text: getChartEntity.bankAccount
+                                  .formatNumberWithDecimal(),
+                              style:
+                                  const TextStyle(color: AppColors.chartColor))
+                        ])
+                      : const TextSpan(),
+                  getChartEntity.privateEquity != 0
+                      ? TextSpan(style: textTheme.bodyMedium, children: [
+                          TextSpan(
+                              text: "\n" +
+                                  AssetsOverviewChartsColors.getAssetType(
+                                    appLocalizations,
+                                    "Private Equity".replaceAll(" ", ""),
+                                  ) +
+                                  "\t\t"),
+                          TextSpan(
+                              text: getChartEntity.privateEquity
+                                  .formatNumberWithDecimal(),
+                              style:
+                                  const TextStyle(color: AppColors.chartColor))
+                        ])
+                      : const TextSpan(),
+                  getChartEntity.privateDebt != 0
+                      ? TextSpan(style: textTheme.bodyMedium, children: [
+                          TextSpan(
+                              text: "\n" +
+                                  AssetsOverviewChartsColors.getAssetType(
+                                    appLocalizations,
+                                    "Private Debt".replaceAll(" ", ""),
+                                  ) +
+                                  "\t\t"),
+                          TextSpan(
+                              text: getChartEntity.privateDebt
+                                  .formatNumberWithDecimal(),
+                              style:
+                                  const TextStyle(color: AppColors.chartColor))
+                        ])
+                      : const TextSpan(),
+                  getChartEntity.realEstate != 0
+                      ? TextSpan(style: textTheme.bodyMedium, children: [
+                          TextSpan(
+                              text: "\n" +
+                                  AssetsOverviewChartsColors.getAssetType(
+                                    appLocalizations,
+                                    "Real Estate".replaceAll(" ", ""),
+                                  ) +
+                                  "\t\t"),
+                          TextSpan(
+                              text: getChartEntity.realEstate
+                                  .formatNumberWithDecimal(),
+                              style:
+                                  const TextStyle(color: AppColors.chartColor))
+                        ])
+                      : const TextSpan(),
+                  getChartEntity.listedAssetEquity != 0
+                      ? TextSpan(style: textTheme.bodyMedium, children: [
+                          TextSpan(
+                              text: "\n" +
+                                  AssetsOverviewChartsColors.getAssetType(
+                                    appLocalizations,
+                                    AssetTypes.listedAssetEquity
+                                        .replaceAll(" ", ""),
+                                  ) +
+                                  "\t\t"),
+                          TextSpan(
+                              text: getChartEntity.listedAssetEquity
+                                  .formatNumberWithDecimal(),
+                              style:
+                                  const TextStyle(color: AppColors.chartColor))
+                        ])
+                      : const TextSpan(),
+                  getChartEntity.listedAssetFixedIncome != 0
+                      ? TextSpan(style: textTheme.bodyMedium, children: [
+                          TextSpan(
+                              text: "\n" +
+                                  AssetsOverviewChartsColors.getAssetType(
+                                    appLocalizations,
+                                    AssetTypes.listedAssetFixedIncome
+                                        .replaceAll(" ", ""),
+                                  ) +
+                                  "\t\t"),
+                          TextSpan(
+                              text: getChartEntity.listedAssetFixedIncome
+                                  .formatNumberWithDecimal(),
+                              style:
+                                  const TextStyle(color: AppColors.chartColor))
+                        ])
+                      : const TextSpan(),
+                  getChartEntity.listedAssetOther != 0
+                      ? TextSpan(style: textTheme.bodyMedium, children: [
+                          TextSpan(
+                              text: "\n" +
+                                  AssetsOverviewChartsColors.getAssetType(
+                                    appLocalizations,
+                                    AssetTypes.listedAssetOther
+                                        .replaceAll(" ", ""),
+                                  ) +
+                                  "\t\t"),
+                          TextSpan(
+                              text: getChartEntity.listedAssetOther
+                                  .formatNumberWithDecimal(),
+                              style:
+                                  const TextStyle(color: AppColors.chartColor))
+                        ])
+                      : const TextSpan(),
+                  getChartEntity.others != 0
+                      ? TextSpan(style: textTheme.bodyMedium, children: [
+                          TextSpan(
+                              text: "\n" +
+                                  AssetsOverviewChartsColors.getAssetType(
+                                    appLocalizations,
+                                    "Other Assets".replaceAll(" ", ""),
+                                  ) +
+                                  "\t"),
+                          TextSpan(
+                              text: getChartEntity.others
+                                  .formatNumberWithDecimal(),
+                              style:
+                                  const TextStyle(color: AppColors.chartColor))
+                        ])
+                      : const TextSpan(),
                 ],
               );
             },
-            maxContentWidth: 300,
+            maxContentWidth:
+                double.maxFinite > 350 ? 350 : double.maxFinite - 32,
             tooltipBgColor: const Color.fromARGB(255, 38, 49, 52),
           ),
         ),
@@ -181,45 +269,94 @@ class AssetsOverviewBarCharts extends StatelessWidget {
             border: const Border.symmetric(
                 horizontal: BorderSide(
                     width: 0.3, color: AppColors.dashBoardGreyTextColor))),
-        minY: minY.abs() == maxTotal ? minY : minY >= 0 ? 0 : (- (minY.abs()).ceil().toDouble()),
-        maxY: maxY.abs() == maxTotal ? maxY : maxY <= 0 ? 0 : (maxY.abs()).ceil().toDouble(),
-        barGroups: getData(x)
-    );
+        minY: minY.abs() == maxTotal
+            ? minY
+            : minY >= 0
+                ? 0
+                : (-(minY.abs()).ceil().toDouble()),
+        maxY: maxY.abs() == maxTotal
+            ? maxY
+            : maxY <= 0
+                ? 0
+                : (maxY.abs()).ceil().toDouble(),
+        barGroups: getData(x));
   }
 
   List<BarChartGroupData> getData(double x) {
     return List.generate(getChartEntities.length, (index) {
       GetChartEntity getChartEntity = getChartEntities[index];
-      final double sum =
-          getChartEntity.privateEquity+
-          getChartEntity.realEstate+
-          getChartEntity.privateDebt+
-          getChartEntity.others+
-          getChartEntity.bankAccount+
-          getChartEntity.listedAssetEquity+
-          getChartEntity.listedAssetFixedIncome+
+      final double sum = getChartEntity.privateEquity +
+          getChartEntity.realEstate +
+          getChartEntity.privateDebt +
+          getChartEntity.others +
+          getChartEntity.bankAccount +
+          getChartEntity.listedAssetEquity +
+          getChartEntity.listedAssetFixedIncome +
           getChartEntity.listedAssetOther;
-      final bankList = getChartEntity.bankAccount/x + getChartEntity.listedAssetEquity/x;
-      final bankListEquity = bankList + getChartEntity.privateEquity/x;
-      final bankListEquityDept = bankListEquity + getChartEntity.privateDebt/x;
-      final bankListEquityDeptEstate = bankListEquityDept + getChartEntity.realEstate/x;
-      final bankListEquityDeptEstateFix = bankListEquityDeptEstate + getChartEntity.listedAssetFixedIncome/x;
-      final bankListEquityDeptEstateFixOther = bankListEquityDeptEstateFix + getChartEntity.listedAssetOther/x;
+      final bankList =
+          getChartEntity.bankAccount / x + getChartEntity.listedAssetEquity / x;
+      final bankListEquity = bankList + getChartEntity.privateEquity / x;
+      final bankListEquityDept =
+          bankListEquity + getChartEntity.privateDebt / x;
+      final bankListEquityDeptEstate =
+          bankListEquityDept + getChartEntity.realEstate / x;
+      final bankListEquityDeptEstateFix =
+          bankListEquityDeptEstate + getChartEntity.listedAssetFixedIncome / x;
+      final bankListEquityDeptEstateFixOther =
+          bankListEquityDeptEstateFix + getChartEntity.listedAssetOther / x;
       return BarChartGroupData(
         x: index,
         barsSpace: 4,
         barRods: [
           BarChartRodData(
-            toY: sum/x,
+            toY: sum / x,
             rodStackItems: [
-              BarChartRodStackItem(0, getChartEntity.bankAccount/x, AssetsOverviewChartsColors.colorsMap[AssetTypes.bankAccount]??Colors.brown),
-              BarChartRodStackItem(getChartEntity.bankAccount/x, bankList, AssetsOverviewChartsColors.colorsMap[AssetTypes.listedAssetEquity]??Colors.brown),
-              BarChartRodStackItem(bankList, bankListEquity, AssetsOverviewChartsColors.colorsMap[AssetTypes.privateEquity]??Colors.brown),
-              BarChartRodStackItem(bankListEquity, bankListEquityDept, AssetsOverviewChartsColors.colorsMap[AssetTypes.privateDebt]??Colors.brown),
-              BarChartRodStackItem(bankListEquityDept, bankListEquityDeptEstate, AssetsOverviewChartsColors.colorsMap[AssetTypes.realEstate]??Colors.brown),
-              BarChartRodStackItem(bankListEquityDeptEstate, bankListEquityDeptEstateFix, AssetsOverviewChartsColors.colorsMap[AssetTypes.listedAssetFixedIncome]??Colors.brown),
-              BarChartRodStackItem(bankListEquityDeptEstateFix, bankListEquityDeptEstateFixOther, AssetsOverviewChartsColors.colorsMap[AssetTypes.listedAssetOther]??Colors.brown),
-              BarChartRodStackItem(bankListEquityDeptEstateFixOther, sum/x, AssetsOverviewChartsColors.colorsMap[AssetTypes.otherAsset]??Colors.brown),
+              BarChartRodStackItem(
+                  0,
+                  getChartEntity.bankAccount / x,
+                  AssetsOverviewChartsColors
+                          .colorsMap[AssetTypes.bankAccount] ??
+                      Colors.brown),
+              BarChartRodStackItem(
+                  getChartEntity.bankAccount / x,
+                  bankList,
+                  AssetsOverviewChartsColors
+                          .colorsMap[AssetTypes.listedAssetEquity] ??
+                      Colors.brown),
+              BarChartRodStackItem(
+                  bankList,
+                  bankListEquity,
+                  AssetsOverviewChartsColors
+                          .colorsMap[AssetTypes.privateEquity] ??
+                      Colors.brown),
+              BarChartRodStackItem(
+                  bankListEquity,
+                  bankListEquityDept,
+                  AssetsOverviewChartsColors
+                          .colorsMap[AssetTypes.privateDebt] ??
+                      Colors.brown),
+              BarChartRodStackItem(
+                  bankListEquityDept,
+                  bankListEquityDeptEstate,
+                  AssetsOverviewChartsColors.colorsMap[AssetTypes.realEstate] ??
+                      Colors.brown),
+              BarChartRodStackItem(
+                  bankListEquityDeptEstate,
+                  bankListEquityDeptEstateFix,
+                  AssetsOverviewChartsColors
+                          .colorsMap[AssetTypes.listedAssetFixedIncome] ??
+                      Colors.brown),
+              BarChartRodStackItem(
+                  bankListEquityDeptEstateFix,
+                  bankListEquityDeptEstateFixOther,
+                  AssetsOverviewChartsColors
+                          .colorsMap[AssetTypes.listedAssetOther] ??
+                      Colors.brown),
+              BarChartRodStackItem(
+                  bankListEquityDeptEstateFixOther,
+                  sum / x,
+                  AssetsOverviewChartsColors.colorsMap[AssetTypes.otherAsset] ??
+                      Colors.brown),
             ],
             borderRadius: BorderRadius.zero,
           ),
@@ -231,7 +368,7 @@ class AssetsOverviewBarCharts extends StatelessWidget {
   calculateMinMax(List<GetChartEntity> getChartEntities) {
     double minY = 0;
     double maxY = 0;
-    if(getChartEntities.isNotEmpty){
+    if (getChartEntities.isNotEmpty) {
       maxY += getChartEntities[0].bankAccount;
       maxY += getChartEntities[0].listedAssetEquity;
       maxY += getChartEntities[0].listedAssetFixedIncome;
@@ -250,11 +387,11 @@ class AssetsOverviewBarCharts extends StatelessWidget {
         maxY2 += element.privateDebt;
         maxY2 += element.realEstate;
         maxY2 += element.privateEquity;
-        if(maxY2>maxY){
+        if (maxY2 > maxY) {
           maxY = maxY2;
         }
       }
     }
-    return [minY,maxY];
+    return [minY, maxY];
   }
 }

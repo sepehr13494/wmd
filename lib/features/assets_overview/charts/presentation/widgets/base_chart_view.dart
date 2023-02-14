@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/empty_chart.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
+import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/chart_chooser.dart';
@@ -83,39 +84,51 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                                 },
                               ),
                             ),
-                            Wrap(
-                              // spacing: 100, // gap between adjacent chips
-                              runSpacing: 5, // gap between lines
-                              children: List.generate(titles.length, (index) {
-                                final item = titles.elementAt(index);
-                                return SizedBox(
-                                  child: Padding(
-                                    padding:
-                                    const EdgeInsets.fromLTRB(20, 4, 20, 4),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Container(
-                                          width: 10,
-                                          height: 10,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: AssetsOverviewChartsColors
-                                                .colorsMap[item] ??
-                                                Colors.brown,
-                                          ),
+                            LayoutBuilder(
+                              builder: (context,snap) {
+                                int count = ResponsiveHelper(context: context).isDesktop? 3 : 2;
+                                return GridView.count(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  crossAxisCount: count,
+                                  childAspectRatio: (snap.maxWidth/count)/32,
+                                  children: List.generate(titles.length, (index) {
+                                    final item = titles.elementAt(index);
+                                    return SizedBox(
+                                      child: Padding(
+                                        padding:
+                                        const EdgeInsets.fromLTRB(20, 4, 20, 4),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Container(
+                                              width: 10,
+                                              height: 10,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: AssetsOverviewChartsColors
+                                                    .colorsMap[item] ??
+                                                    Colors.brown,
+                                              ),
+                                            ),
+                                            const SizedBox(width: 8),
+                                            Expanded(
+                                              child: Align(
+                                                alignment: AlignmentDirectional.centerStart,
+                                                child: Text(
+                                                  AssetsOverviewChartsColors.getAssetType(
+                                                      appLocalizations, item),
+                                                  style: const TextStyle(fontSize: 10),
+                                                ),
+                                              ),
+                                            )
+                                          ],
                                         ),
-                                        const SizedBox(width: 8),
-                                        Text(
-                                          AssetsOverviewChartsColors.getAssetType(
-                                              appLocalizations, item),
-                                          style: const TextStyle(fontSize: 10),
-                                        )
-                                      ],
-                                    ),
-                                  ),
+                                      ),
+                                    );
+                                  }),
                                 );
-                              }),
+                              }
                             ),
                           ],
                         );
