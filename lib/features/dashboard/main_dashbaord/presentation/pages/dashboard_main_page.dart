@@ -34,11 +34,6 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    debugPrint("dashboard page---");
-    debugPrint(widget.expandCustodian.toString());
-    debugPrint(widget.expandCustodian.toString());
-    debugPrint(widget.expandCustodian.toString());
-
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
     final appTheme = Theme.of(context);
     return Scaffold(
@@ -106,9 +101,8 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                           const SizedBox(height: 12),
                                           BanksAuthorizationProcess(
                                               initiallyExpanded:
-                                                  widget.expandCustodian
-                                                      ? true
-                                                      : !(isAssetsNotEmpty ||
+                                                  widget.expandCustodian ||
+                                                      !(isAssetsNotEmpty ||
                                                           isLiabilityNotEmpty)),
                                           if (isAssetsNotEmpty ||
                                               isLiabilityNotEmpty)

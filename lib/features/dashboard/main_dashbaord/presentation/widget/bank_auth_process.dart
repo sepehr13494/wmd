@@ -25,16 +25,20 @@ class _BanksAuthorizationProcessState
   @override
   void initState() {
     super.initState();
-    isExpanded = widget.initiallyExpanded;
+  }
+
+  @override
+  void didUpdateWidget(BanksAuthorizationProcess oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    setState(() {
+      isExpanded = widget.initiallyExpanded;
+    });
   }
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    debugPrint("BanksAuthorizationProcess page---");
-
-    debugPrint(widget.initiallyExpanded.toString());
-
     final responsiveHelper = ResponsiveHelper(context: context);
     return BlocConsumer<CustodianStatusListCubit, CustodianStatusListState>(
       listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
@@ -45,8 +49,8 @@ class _BanksAuthorizationProcessState
           }
           return Card(
             child: CustomExpansionTile(
-              initiallyExpanded: widget.initiallyExpanded,
-              // onExpansionChanged: (value) => isExpanded = value,
+              initiallyExpanded: isExpanded,
+              onExpansionChanged: (value) => isExpanded = value,
               title: Text(
                 appLocalizations.home_custodianBankList_title,
                 style: textTheme.labelLarge,
