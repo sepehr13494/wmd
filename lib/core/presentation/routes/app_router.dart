@@ -138,7 +138,7 @@ class AppRouter {
         GoRoute(
             name: AppRoutes.main,
             path: "/main",
-            builder: (context, state) {
+            builder: (BuildContext context, GoRouterState state) {
               return MultiBlocProvider(
                 providers: [
                   BlocProvider(create: (context) => sl<ChartChooserManager>()),
@@ -197,7 +197,12 @@ class AppRouter {
                     },
                   ),
                 ],
-                child: const LocalAuthWrapper(child: MainPage()),
+                child: LocalAuthWrapper(
+                    child: MainPage(
+                        expandCustodian:
+                            state.queryParams['expandCustodian'] != null
+                                ? state.queryParams['expandCustodian'] == 'true'
+                                : false)),
               );
             },
             routes: [
@@ -250,82 +255,82 @@ class AppRouter {
                 },
               ),
               GoRoute(
-                  name: AppRoutes.addAssetsView,
-                  path: "add_assets_view",
-                  builder: (BuildContext context, GoRouterState state) {
-                    return BlocProvider.value(
-                      value: _personalInformationCubit,
-                      child: const AssetsListViewPage(),
-                    );
-                  },
-                  routes: [
-                    GoRoute(
-                      name: AppRoutes.autoManualPage,
-                      path: "auto_manual",
-                      builder: (BuildContext context, GoRouterState state) {
-                        return const AutoManualPage();
-                      },
-                    ),
-                    GoRoute(
-                      name: AppRoutes.addBankManualPage,
-                      path: "add_manual_bank",
+                name: AppRoutes.addAssetsView,
+                path: "add_assets_view",
+                builder: (BuildContext context, GoRouterState state) {
+                  return BlocProvider.value(
+                    value: _personalInformationCubit,
+                    child: const AssetsListViewPage(),
+                  );
+                },
+                routes: [
+                  GoRoute(
+                    name: AppRoutes.autoManualPage,
+                    path: "auto_manual",
+                    builder: (BuildContext context, GoRouterState state) {
+                      return const AutoManualPage();
+                    },
+                  ),
+                  GoRoute(
+                    name: AppRoutes.addBankManualPage,
+                    path: "add_manual_bank",
+                    builder: (BuildContext context, GoRouterState state) {
+                      return addAssetMainBlocProvider(
+                          child: const AddBankManualPage());
+                    },
+                  ),
+                  GoRoute(
+                    name: AppRoutes.addBankAutoPage,
+                    path: "add_auto_bank",
+                    builder: (BuildContext context, GoRouterState state) {
+                      return addAssetMainBlocProvider(
+                          child: const AddBankAutoPage());
+                    },
+                  ),
+                  GoRoute(
+                    name: AppRoutes.addPrivateEquity,
+                    path: "add_private_equity",
+                    builder: (BuildContext context, GoRouterState state) {
+                      return addAssetMainBlocProvider(
+                          child: const AddPrivateEquityPage());
+                    },
+                  ),
+                  GoRoute(
+                      name: AppRoutes.addPrivateDebt,
+                      path: "add_private_debt",
                       builder: (BuildContext context, GoRouterState state) {
                         return addAssetMainBlocProvider(
-                            child: const AddBankManualPage());
-                      },
-                    ),
-                    GoRoute(
-                      name: AppRoutes.addBankAutoPage,
-                      path: "add_auto_bank",
+                            child: const AddPrivateDebtPage());
+                      }),
+                  GoRoute(
+                      name: AppRoutes.addRealEstate,
+                      path: "add_real_estate",
                       builder: (BuildContext context, GoRouterState state) {
                         return addAssetMainBlocProvider(
-                            child: const AddBankAutoPage());
-                      },
-                    ),
-                    GoRoute(
-                      name: AppRoutes.addPrivateEquity,
-                      path: "add_private_equity",
+                            child: const AddRealEstatePage());
+                      }),
+                  GoRoute(
+                      name: AppRoutes.addOther,
+                      path: "add_other",
                       builder: (BuildContext context, GoRouterState state) {
                         return addAssetMainBlocProvider(
-                            child: const AddPrivateEquityPage());
-                      },
-                    ),
-                    GoRoute(
-                        name: AppRoutes.addPrivateDebt,
-                        path: "add_private_debt",
-                        builder: (BuildContext context, GoRouterState state) {
-                          return addAssetMainBlocProvider(
-                              child: const AddPrivateDebtPage());
-                        }),
-                    GoRoute(
-                        name: AppRoutes.addRealEstate,
-                        path: "add_real_estate",
-                        builder: (BuildContext context, GoRouterState state) {
-                          return addAssetMainBlocProvider(
-                              child: const AddRealEstatePage());
-                        }),
-                    GoRoute(
-                        name: AppRoutes.addOther,
-                        path: "add_other",
-                        builder: (BuildContext context, GoRouterState state) {
-                          return addAssetMainBlocProvider(
-                              child: const AddOtherAssetPage());
-                        }),
-                    GoRoute(
-                        name: AppRoutes.addListedAsset,
-                        path: "add_listed_asset",
-                        builder: (BuildContext context, GoRouterState state) {
-                          return addAssetMainBlocProvider(
-                              child: const AddListedSecurityPage());
-                        }),
-                    GoRoute(
-                        name: AppRoutes.addLiability,
-                        path: "add_liability",
-                        builder: (BuildContext context, GoRouterState state) {
-                          return addAssetMainBlocProvider(
-                              child: const AddLoanLiabilityPage());
-                        }),
-                  ],
+                            child: const AddOtherAssetPage());
+                      }),
+                  GoRoute(
+                      name: AppRoutes.addListedAsset,
+                      path: "add_listed_asset",
+                      builder: (BuildContext context, GoRouterState state) {
+                        return addAssetMainBlocProvider(
+                            child: const AddListedSecurityPage());
+                      }),
+                  GoRoute(
+                      name: AppRoutes.addLiability,
+                      path: "add_liability",
+                      builder: (BuildContext context, GoRouterState state) {
+                        return addAssetMainBlocProvider(
+                            child: const AddLoanLiabilityPage());
+                      }),
+                ],
               ),
             ]),
       ],
