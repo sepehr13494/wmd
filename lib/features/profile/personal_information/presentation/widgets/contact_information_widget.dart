@@ -135,7 +135,14 @@ class _ContactInformationWidgetState
                                                     RegExp(r'^[0-9]*$')))
                                                 ? "${appLocalizations.profile_tabs_personal_fields_label_lastName} can only contain numbers"
                                                 : null;
-                                          }
+                                          },
+                                          (val) {
+                                            return (val != null &&
+                                                    (val.length > 8 ||
+                                                        val.length < 8))
+                                                ? "${appLocalizations.profile_tabs_personal_fields_label_lastName} must be of 8 digits"
+                                                : null;
+                                          },
                                         ],
                                         onChanged: checkFinalValid),
                                   ),
