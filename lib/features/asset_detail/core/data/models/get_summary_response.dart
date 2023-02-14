@@ -16,9 +16,9 @@ class AssetSummaryResponse extends AssetSummaryEntitiy {
 
   factory AssetSummaryResponse.fromJson(Map<String, dynamic> json) =>
       AssetSummaryResponse(
-        assetName: json["assetName"],
+        assetName: json["assetName"] ?? "",
         assetClassName: json["assetClassName"],
-        custodian: json["custodian"],
+        custodian: json["custodian"] ?? "",
         date: DateTime.parse(json["date"]),
         dealNetWorth: json["dealNetWorth"],
         ytdPerformance: json["ytdPerformance"],

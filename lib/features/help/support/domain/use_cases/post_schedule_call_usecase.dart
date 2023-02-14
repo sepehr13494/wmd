@@ -89,6 +89,7 @@ class ScheduleCallParams extends Equatable {
         "timeZone": timeZone,
         "location": location,
         "isOnlineMeeting": isOnlineMeeting,
+        "userEmail": location,
       };
 
   static final tScheduleCallMap = {
