@@ -14,7 +14,6 @@ class GetCurrencyLoaded extends Equatable with CurrencyChartState{
   @override
   List<Object?> get props => [
     getCurrencyEntities,
-    
   ];
 }
 
