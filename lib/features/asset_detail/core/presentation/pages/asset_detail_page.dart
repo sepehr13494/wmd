@@ -7,6 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/features/asset_detail/core/data/models/get_summary_params.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/asset_summary.dart';
 import 'package:wmd/features/asset_detail/valuation/data/models/get_valuation_performance_params.dart';
@@ -35,89 +36,88 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
       AppLocalizations appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
     final primaryColor = Theme.of(context).primaryColor;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(appLocalizations.assets_breadCrumb_assets),
-      ),
-      body: Stack(
-        children: [
-          const LeafBackground(
-            opacity: 0.1,
+
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => sl<AssetSummaryCubit>()
+              ..getSummary(GetSummaryParams(
+                  assetId: widget.assetId, days: selectedTimeFilter.value)),
           ),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                BlocProvider(
-                  create: (context) => sl<AssetSummaryCubit>()
-                    ..getSummary(GetSummaryParams(
-                        assetId: widget.assetId,
-                        days: selectedTimeFilter.value)),
-                  child: BlocConsumer<AssetSummaryCubit, AssetSummaryState>(
-                      listener: BlocHelper.defaultBlocListener(
-                        listener: (context, state) {},
-                      ),
-                      builder: (context, state) {
-                        if (state is AssetLoaded) {
-                          return AsssetSummary(
-                            summary: state.assetSummaryEntity,
-                            days: selectedTimeFilter.value,
-                            assetId: widget.assetId,
-                            child: _buildHeader(
-                              Theme.of(context).textTheme,
-                              Theme.of(context).primaryColor,
-                              appLocalizations,
-                            ),
-                          );
-                        }
-                        return Padding(
-                          padding: EdgeInsets.all(responsiveHelper.bigger24Gap),
-                          child: const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        );
-                      }),
-                ),
-                BlocProvider(
-                  create: (context) => sl<PerformanceChartCubit>()
-                    ..getValuationPerformance(GetValuationPerformanceParams(
-                        days: selectedTimeFilter.value, id: widget.assetId)),
-                  child: BlocConsumer<PerformanceChartCubit,
-                          PerformanceChartState>(
-                      listener: BlocHelper.defaultBlocListener(
-                        listener: (context, state) {},
-                      ),
-                      builder: (context, state) {
-                        if (state is PerformanceLoaded) {
-                          return Padding(
-                            padding: EdgeInsets.all(responsiveHelper.biggerGap),
-                            child: PerformanceLineChart(
-                              values: state.performanceEntity.valuationHistory
-                                  .map((e) => MapEntry(e.date, e.value))
-                                  .toList(),
-                              days: selectedTimeFilter.value,
-                            ),
-                          );
-                        }
-                        return Padding(
-                          padding: EdgeInsets.all(
-                              ResponsiveHelper(context: context).bigger16Gap),
-                          child: const CircularProgressIndicator(),
-                        );
-                      }),
-                ),
-                SizedBox(height: responsiveHelper.biggerGap),
-                ValuationWidget(assetId: widget.assetId),
-                SizedBox(height: responsiveHelper.biggerGap),
-              ],
-            ),
-          ),
+          BlocProvider(
+            create: (context) => sl<PerformanceChartCubit>()
+              ..getValuationPerformance(GetValuationPerformanceParams(
+                  days: selectedTimeFilter.value, id: widget.assetId)),
+          )
         ],
-      ),
-    );
+        child: Builder(builder: (context) {
+          return Scaffold(
+            appBar: AppBar(),
+            body: BlocConsumer<PerformanceChartCubit, PerformanceChartState>(
+                listener: BlocHelper.defaultBlocListener(
+                  listener: (context, state) {},
+                ),
+                builder: (context, state) {
+                  return Stack(
+                    children: [
+                      const LeafBackground(
+                        opacity: 0.1,
+                      ),
+                      SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            BlocConsumer<AssetSummaryCubit, AssetSummaryState>(
+                                listener: BlocHelper.defaultBlocListener(
+                                  listener: (context, state) {},
+                                ),
+                                builder: (context, state) {
+                                  if (state is AssetLoaded) {
+                                    return AsssetSummary(
+                                      summary: state.assetSummaryEntity,
+                                      days: selectedTimeFilter.value,
+                                      assetId: widget.assetId,
+                                      child: _buildHeader(
+                                          Theme.of(context).textTheme,
+                                          Theme.of(context).primaryColor,
+                                          appLocalizations,
+                                          context),
+                                    );
+                                  }
+                                  return Padding(
+                                    padding: EdgeInsets.all(
+                                        responsiveHelper.bigger24Gap),
+                                    child: const Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  );
+                                }),
+                            if (state is PerformanceLoaded)
+                              Padding(
+                                padding:
+                                    EdgeInsets.all(responsiveHelper.biggerGap),
+                                child: PerformanceLineChart(
+                                  values: state
+                                      .performanceEntity.valuationHistory
+                                      .map((e) => MapEntry(e.date, e.value))
+                                      .toList(),
+                                  days: selectedTimeFilter.value,
+                                ),
+                              ),
+                            SizedBox(height: responsiveHelper.biggerGap),
+                            ValuationWidget(assetId: widget.assetId),
+                            SizedBox(height: responsiveHelper.biggerGap),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+          );
+        }));
   }
 
   Row _buildHeader(TextTheme textTheme, Color primaryColor,
-      AppLocalizations appLocalizations) {
+      AppLocalizations appLocalizations, BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -145,14 +145,25 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                           // textTheme.bodyMedium!.toLinkStyle(context),
                         )))
                     .toList(),
-                onChanged: ((value) {
+                onChanged: ((value) async {
                   if (value != null) {
-                    setState(() {
-                      selectedTimeFilter = value;
-                    });
-                    sl<PerformanceChartCubit>().getValuationPerformance(
-                        GetValuationPerformanceParams(
+                    selectedTimeFilter = value;
+                    setState(() {});
+
+                    context
+                        .read<PerformanceChartCubit>()
+                        .getValuationPerformance(GetValuationPerformanceParams(
                             days: value.value, id: widget.assetId));
+
+                    context.read<AssetSummaryCubit>().getSummary(
+                        GetSummaryParams(
+                            assetId: widget.assetId, days: value.value));
+
+                    await AnalyticsUtils.triggerEvent(
+                        action: AnalyticsUtils.changeDateIndividualAssetAction(
+                            widget.assetId, value.value),
+                        params: AnalyticsUtils.changeDateIndividualAssetEvent(
+                            widget.assetId, value.value));
                   }
                 }),
                 value: selectedTimeFilter,

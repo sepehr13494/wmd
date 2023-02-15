@@ -22,6 +22,7 @@ class CustodianBankAuthCubit extends Cubit<CustodianBankAuthState> {
 
   postCustodianBankStatus(PostCustodianBankStatusParams params) async {
     emit(LoadingState());
+
     final result = await postCustodianBankStatusUseCase(params);
     result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
       emit(CustodianBankStateUpdated(postCustodianBankStatusEntity: entity));

@@ -54,14 +54,15 @@ class EachAssetType extends AppStatelessWidget {
                       child: Row(
                         children: [
                           DotWidget(
-                              color: AssetsOverviewChartsColors.colorsMap[(assetsOverview.type+(assetsOverview.subType??""))]??Colors.brown),
+                              color: AssetsOverviewChartsColors.colorsMap[
+                                      (assetsOverview.type +
+                                          (assetsOverview.subType ?? ""))] ??
+                                  Colors.brown),
                           const SizedBox(width: 8),
                           Text(
                               AssetsOverviewChartsColors.getAssetType(
-                                appLocalizations,
-                                assetsOverview.type,
-                                category: assetsOverview.subType
-                              ),
+                                  appLocalizations, assetsOverview.type,
+                                  category: assetsOverview.subType),
                               style: textTheme.titleSmall)
                         ],
                       ),

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/features/assets_overview/assets_overview/domain/entities/assets_overview_entity.dart';
 
 import 'inside_asset_card_mobile.dart';
@@ -107,6 +108,10 @@ class _AssetListWidgetState extends State<AssetListWidget> {
   InkWell _buildAsset(BuildContext context, AssetList item, int index) {
     return InkWell(
       onTap: () {
+        AnalyticsUtils.triggerEvent(
+            action: AnalyticsUtils.viewIndividualAssetAction(item.assetName),
+            params: AnalyticsUtils.viewIndividualAssetEvent(item.assetName));
+
         context.goNamed(AppRoutes.assetDetailPage,
             queryParams: {'assetId': item.assetId, 'type': widget.type});
       },
