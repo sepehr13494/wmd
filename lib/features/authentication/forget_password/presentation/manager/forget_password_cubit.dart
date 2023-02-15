@@ -16,10 +16,6 @@ class ForgetPasswordCubit extends Cubit<BaseState> {
   forgetPassword({required Map<String, dynamic> map}) async {
     emit(LoadingState());
 
-    await AnalyticsUtils.triggerEvent(
-        action: AnalyticsUtils.forgotPasswordAction,
-        params: AnalyticsUtils.forgotPasswordEvent);
-
     final verifyEmailParams = ForgetPasswordParams.fromJson(map);
     final result = await forgetPasswordUseCase(verifyEmailParams);
     result.fold((failure) => emit(ErrorState(failure: failure)),
@@ -31,7 +27,7 @@ class ForgetPasswordCubit extends Cubit<BaseState> {
 
     await AnalyticsUtils.triggerEvent(
         action: AnalyticsUtils.forgotPasswordAction,
-        params: AnalyticsUtils.resetPasswordEvent);
+        params: AnalyticsUtils.forgotPasswordEvent);
 
     final data = ResetPasswordParams.fromJson(map);
     final result = await resetPasswordUseCase(data);

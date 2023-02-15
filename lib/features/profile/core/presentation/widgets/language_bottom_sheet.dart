@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/app_localization.dart';
+import 'package:wmd/core/util/firebase_analytics.dart';
 
 class LanguageBottomSheet extends AppStatelessWidget {
   const LanguageBottomSheet({Key? key}) : super(key: key);
@@ -54,13 +55,18 @@ class LanguageBottomSheet extends AppStatelessWidget {
             ),
           ),
           Builder(builder: (context) {
-            List<Locale> locales = AppLocalizations.supportedLocales.reversed.toList();
+            List<Locale> locales =
+                AppLocalizations.supportedLocales.reversed.toList();
             return ListView.separated(
               padding: const EdgeInsets.all(8),
               itemBuilder: (context, index) {
                 Locale e = locales[index];
                 return InkWell(
                   onTap: () {
+                    AnalyticsUtils.triggerEvent(
+                        action: AnalyticsUtils.changePasswordAction,
+                        params: AnalyticsUtils.changePasswordEvent);
+
                     context.read<LocalizationManager>().changeLang(e);
                   },
                   child: Padding(
@@ -69,7 +75,10 @@ class LanguageBottomSheet extends AppStatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(LocalizationManager.getNameFromLocale(e)),
-                        context.read<LocalizationManager>().state.languageCode ==
+                        context
+                                    .read<LocalizationManager>()
+                                    .state
+                                    .languageCode ==
                                 e.languageCode
                             ? const Icon(Icons.check, color: Colors.lightBlue)
                             : const SizedBox()

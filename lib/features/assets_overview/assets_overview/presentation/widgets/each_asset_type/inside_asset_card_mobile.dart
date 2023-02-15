@@ -33,20 +33,21 @@ class InsideAssetCardMobile extends AppStatelessWidget {
                     //     Icons.link,
                     //     color: Colors.grey,
                     //   ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 4),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            asset.assetName,
+                            asset.assetName.length > 15
+                                ? '${asset.assetName.substring(0, 15)}..'
+                                : asset.assetName,
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor),
                             overflow: TextOverflow.ellipsis,
                           ),
                           Text(
-                            AssetsOverviewChartsColors.getContinentsNames(
-                                appLocalizations, asset.assetName),
+                            asset.geography,
                           ),
                         ],
                       ),
@@ -57,16 +58,24 @@ class InsideAssetCardMobile extends AppStatelessWidget {
             ),
           ),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(asset.currentValue.convertMoney(addDollar: true),style: textTheme.bodyMedium!.apply(color: asset.currentValue.isNegative ? AppColors.errorColor : null),),
+              Text(
+                asset.currentValue.convertMoney(addDollar: true),
+                style: textTheme.bodyMedium!.apply(
+                    color: asset.currentValue.isNegative
+                        ? AppColors.errorColor
+                        : null),
+              ),
+              const SizedBox(height: 6),
               Row(
                 children: [
                   ChangeWidget(
-                      number: asset.yearToDate, text: "${asset.yearToDate}%"),
-                  const SizedBox(width: 8),
-                  ChangeWidget(
                       number: asset.inceptionToDate,
                       text: "${asset.inceptionToDate.toStringAsFixed(1)}%"),
+                  const SizedBox(width: 8),
+                  ChangeWidget(
+                      number: asset.yearToDate, text: "${asset.yearToDate} %"),
                 ],
               )
             ],

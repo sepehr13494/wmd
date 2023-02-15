@@ -4,6 +4,7 @@ import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 
 import '../models/each_asset_model.dart';
@@ -50,6 +51,22 @@ class BaseAssetView extends AppStatelessWidget {
                     onTap: assets.isEmpty
                         ? null
                         : () {
+                            if (title ==
+                                appLocalizations
+                                    .home_widget_assetClassAllocation_title) {
+                              AnalyticsUtils.triggerEvent(
+                                  action:
+                                      AnalyticsUtils.geographyWidgetMoreAction,
+                                  params: AnalyticsUtils
+                                      .assetClassMoreRedirectionEvent);
+                            } else {
+                              AnalyticsUtils.triggerEvent(
+                                  action:
+                                      AnalyticsUtils.geographyWidgetMoreAction,
+                                  params: AnalyticsUtils
+                                      .geographyMoreRedirectionEvent);
+                            }
+
                             context.read<MainPageCubit>().onItemTapped(1);
                           },
                     child: Row(
@@ -124,6 +141,22 @@ class BaseAssetView extends AppStatelessWidget {
                             Text(asset.percentage, style: textTheme.bodySmall),
                             InkWell(
                               onTap: () {
+                                if (title ==
+                                    appLocalizations
+                                        .home_widget_assetClassAllocation_title) {
+                                  AnalyticsUtils.triggerEvent(
+                                      action: AnalyticsUtils
+                                          .assetExposureArrowAction,
+                                      params: AnalyticsUtils
+                                          .assetOverviewInsideMoreEvent);
+                                } else {
+                                  AnalyticsUtils.triggerEvent(
+                                      action: AnalyticsUtils
+                                          .assetExposureArrowAction,
+                                      params: AnalyticsUtils
+                                          .geographyOverviewInsideMoreEvent);
+                                }
+
                                 context.read<MainPageCubit>().onItemTapped(1);
                               },
                               child: const Icon(Icons.arrow_forward_ios_rounded,

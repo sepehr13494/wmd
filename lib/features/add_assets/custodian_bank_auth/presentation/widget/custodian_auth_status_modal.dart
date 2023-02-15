@@ -8,6 +8,7 @@ import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/bottom_modal_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/get_custodian_bank_status_params.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/post_custodian_bank_status_params.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/get_custodian_bank_status_entity.dart';
@@ -109,7 +110,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                 doneSubtitle: appLocalizations
                     .linkAccount_stepper_stepOne_action_completed,
                 isDone: status.signLetter,
-                onDone: (val) {
+                onDone: (val) async {
                   downloadPdf(status);
                   context
                       .read<CustodianBankAuthCubit>()
@@ -118,6 +119,12 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                           signLetter: true,
                           shareWithBank: false,
                           bankConfirmation: false));
+
+                  await AnalyticsUtils.triggerEvent(
+                      action:
+                          AnalyticsUtils.linkBankStep2Action(status.bankName),
+                      params:
+                          AnalyticsUtils.linkBankStep2Event(status.bankName));
 
                   context.goNamed(AppRoutes.main,
                       queryParams: {'expandCustodian': "true"});
@@ -143,7 +150,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                     ? appLocalizations.linkAccount_stepper_stepTwo_action_active
                     : null,
                 isDone: status.shareWithBank,
-                onDone: (val) {
+                onDone: (val) async {
                   context
                       .read<CustodianBankAuthCubit>()
                       .postCustodianBankStatus(PostCustodianBankStatusParams(
@@ -153,6 +160,12 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                           signLetter: true,
                           shareWithBank: true,
                           bankConfirmation: false));
+
+                  await AnalyticsUtils.triggerEvent(
+                      action:
+                          AnalyticsUtils.linkBankStep3Action(status.bankName),
+                      params:
+                          AnalyticsUtils.linkBankStep3Event(status.bankName));
                 },
               ),
               StatusStepWidget(
