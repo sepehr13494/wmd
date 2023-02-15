@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/features/asset_detail/valuation/data/models/get_valuation_performance_response.dart';
 
@@ -20,6 +21,8 @@ class PerformanceChartCubit extends Cubit<PerformanceChartState> {
     emit(LoadingState());
     final result = await getValuationPerformanceUseCase(params);
     result.fold((failure) => emit(ErrorState(failure: failure)), (entities) {
+      debugPrint("entities.valuationHistory.toString()");
+      debugPrint(entities.valuationHistory.toString());
       emit(PerformanceLoaded(performanceEntity: entities));
     });
   }

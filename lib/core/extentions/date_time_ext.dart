@@ -12,16 +12,16 @@ extension CustomizableDateTime on DateTime {
   }
 
   static String get currentDate {
-    return DateFormat('yyyy-MM-dd',"en").format(current).toString();
+    return DateFormat('yyyy-MM-dd', "en").format(current).toString();
   }
 
   static String serverFormatDate(DateTime dateTime) {
-    return DateFormat('yyyy-MM-dd',"en").format(dateTime).toString();
+    return DateFormat('yyyy-MM-dd', "en").format(dateTime).toString();
   }
 
   static String dateLocalized(DateTime input) {
     return DateFormat(
-            "d${getDayOfMonthSuffix(input.day)} MMMM yyyy kk:mm aaa", "en")
+            "d${getDayOfMonthSuffix(input.day)} MMMM yyyy hh:mm aaa", "en")
         .format(input);
   }
 

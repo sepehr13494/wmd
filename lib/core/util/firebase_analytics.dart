@@ -9,24 +9,55 @@ class AnalyticsUtils {
   static const String forgotPasswordAction = "Forget_password_CTA";
   static const String assetExposureWidgetMoreAction = "More_CTA";
   static const String geographyWidgetMoreAction = "More_CTA";
-  static const String assetExposureArrowAction = "More_CTA";
+  static const String assetExposureArrowAction = "Arrow_CTA";
   static const String changePasswordAction = "Profile_CTA";
   static const String helpSupportAction = "Help_CTA";
   static const String changeDashboardFilterAction = "Dashboard_Filter_CTA";
 
 // dynamic
+  static String viewIndividualAssetAction(asset) => "View_$asset";
+  static String changeDateIndividualAssetAction(asset, date) =>
+      "${date}_chosen_to_be_viewed_for_$asset";
   static String linkBankAction(bankName) => "${bankName}_Connect_CTA";
+  static String linkBankStep2Action(bankName) => "${bankName}_Form_viewed";
+  static String linkBankStep3Action(bankName) =>
+      "${bankName}_Form_shared_with_the_bank";
 
   static linkBankEvent(bankName) => {
-        "action": guidedOnboardingAction,
-        "category": "Complete the guided on-boarding",
+        "action": "$bankName Connect CTA",
+        "category": "Link custodian bank account (aggregation)",
         "label": "$bankName Connect CTA"
+      };
+
+  static linkBankStep2Event(bankName) => {
+        "action": "$bankName  Form viewed",
+        "category": "Link custodian bank account (Step 1) (aggregation)",
+        "label": "$bankName Form viewed"
+      };
+
+  static linkBankStep3Event(bankName) => {
+        "action": "$bankName Form shared with the bank",
+        "category": "Share the letter with bank (Step 2) (aggregation)",
+        "label": "$bankName Form shared with the bank"
       };
 
   static changeDashboardFilterEvent(filter) => {
         "action": changeDashboardFilterAction,
         "category": "Change the date (personalization) on dashboard",
         "label": "$filter days chosen to be viewed"
+      };
+
+  static viewIndividualAssetEvent(asset) => {
+        "action": "View $asset",
+        "category": "Moving to Individual Asset page",
+        "label": "View $asset"
+      };
+
+  static changeDateIndividualAssetEvent(asset, date) => {
+        "action": "$date chosen to be viewed for $asset",
+        "category":
+            "Change the date (personalization) on individual asset page",
+        "label": "$date chosen to be viewed for $asset"
       };
 
   static const scheduleCallEvent = {
@@ -77,6 +108,12 @@ class AnalyticsUtils {
     "label": "Add CTA"
   };
 
+  static const addAssetOverviewEvent = {
+    "action": assetAdditionAction,
+    "category": "Add an asset from asset overview page",
+    "label": "Add CTA"
+  };
+
   static const assetClassMoreRedirectionEvent = {
     "action": assetExposureWidgetMoreAction,
     "category":
@@ -95,20 +132,14 @@ class AnalyticsUtils {
     "action": assetExposureArrowAction,
     "category":
         "Moving to Asset Overview page from Asset Class Exposure widget (arrow)",
-    "label": "More CTA"
+    "label": "Arrow CTA"
   };
 
   static const geographyOverviewInsideMoreEvent = {
     "action": assetExposureArrowAction,
     "category":
         "Moving to Asset Overview page from Geography Exposure widget (arrow)",
-    "label": "More CTA"
-  };
-
-  static const addAssetOverviewEvent = {
-    "action": "Add CTA",
-    "category": "Add an asset from asset overview page",
-    "label": "Add CTA",
+    "label": "Arrow CTA"
   };
 
   static const changePasswordEvent = {

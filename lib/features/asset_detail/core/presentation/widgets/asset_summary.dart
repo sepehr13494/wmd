@@ -115,7 +115,7 @@ class SummaryCardWidget extends AppStatelessWidget {
               rowMainAxisAlignment: MainAxisAlignment.start,
               showRow: !isMobile,
               children: [
-                YourHoldingsWidget(holdings: summary.totalAssetsAmount),
+                YourHoldingsWidget(holdings: summary.dealNetWorth),
                 !isMobile
                     ? Container(
                         margin: EdgeInsets.symmetric(

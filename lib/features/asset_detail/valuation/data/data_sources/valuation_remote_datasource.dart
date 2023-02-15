@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:wmd/core/data/network/server_request_manager.dart';
 import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/data/repository/app_data_source.dart';
@@ -67,10 +68,9 @@ class ValuationRemoteDataSourceImpl extends AppServerDataSource
     try {
       final appRequestOptions = AppRequestOptions(
           RequestTypes.get, AppUrls.getValuationPerformance(params.id), {
-        'to': DateTime.now().toIso8601String(),
-        'from': DateTime.now()
-            .subtract(Duration(days: params.days))
-            .toIso8601String(),
+        'to': DateFormat("yyyy-MM-dd").format(DateTime.now()),
+        'from': DateFormat("yyyy-MM-dd")
+            .format(DateTime.now().subtract(Duration(days: params.days))),
       });
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);

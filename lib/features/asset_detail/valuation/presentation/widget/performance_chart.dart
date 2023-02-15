@@ -18,6 +18,11 @@ class PerformanceLineChart extends AppStatelessWidget {
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
+    debugPrint("values.toString()");
+    debugPrint("values.toString()");
+    debugPrint("values.toString()");
+    debugPrint(values.toString());
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -121,6 +126,11 @@ class PerformanceLineChart extends AppStatelessWidget {
 
   LineChartData mainData(context, AppLocalizations appLocalizations,
       {bool showLeft = true, bool hideValues = false}) {
+    debugPrint("values.toString()");
+    debugPrint("mainData.toString()");
+    debugPrint("mainData.toString()");
+    debugPrint(values.toString());
+
     double minY = 0;
     if (values.isNotEmpty) {
       minY = values[0].value;
