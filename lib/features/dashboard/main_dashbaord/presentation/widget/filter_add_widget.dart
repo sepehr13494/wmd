@@ -5,6 +5,7 @@ import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/widgets/add_button.dart';
 import 'package:wmd/injection_container.dart';
@@ -49,7 +50,11 @@ class FilterAddPart extends AppStatelessWidget {
               height: 38,
               child: AddButton(
                 addAsset: false,
-                onTap: () {
+                onTap: () async {
+                  AnalyticsUtils.triggerEvent(
+                      action: AnalyticsUtils.assetAdditionAction,
+                      params: AnalyticsUtils.addAssetEvent);
+
                   context.pushNamed(AppRoutes.addAssetsView);
                 },
               ),

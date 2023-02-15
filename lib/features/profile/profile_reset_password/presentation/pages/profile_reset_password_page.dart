@@ -9,6 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/util/app_restart.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
@@ -79,6 +80,10 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
             listener:
                 BlocHelper.defaultBlocListener(listener: (context, state) {
               if (state is SuccessState) {
+                AnalyticsUtils.triggerEvent(
+                    action: AnalyticsUtils.changePasswordAction,
+                    params: AnalyticsUtils.changePasswordEvent);
+
                 Navigator.pop(context);
                 showDialog(
                     context: context,
