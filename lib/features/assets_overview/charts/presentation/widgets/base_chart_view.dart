@@ -87,14 +87,11 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                             LayoutBuilder(
                               builder: (context,snap) {
                                 int count = ResponsiveHelper(context: context).isDesktop? 3 : 2;
-                                return GridView.count(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  crossAxisCount: count,
-                                  childAspectRatio: (snap.maxWidth/count)/32,
+                                return Wrap(
                                   children: List.generate(titles.length, (index) {
                                     final item = titles.elementAt(index);
                                     return SizedBox(
+                                      width: snap.maxWidth/count,
                                       child: Padding(
                                         padding:
                                         const EdgeInsets.fromLTRB(20, 4, 20, 4),

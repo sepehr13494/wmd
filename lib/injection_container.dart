@@ -71,6 +71,11 @@ import 'package:wmd/features/assets_overview/charts/domain/repositories/charts_r
 import 'package:wmd/features/assets_overview/charts/domain/use_cases/get_chart_usecase.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/chart_chooser_manager.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
+import 'package:wmd/features/assets_overview/currency_chart/data/data_sources/currency_chart_remote_datasource.dart';
+import 'package:wmd/features/assets_overview/currency_chart/data/repositories/currency_chart_repository_impl.dart';
+import 'package:wmd/features/assets_overview/currency_chart/domain/repositories/currency_chart_repository.dart';
+import 'package:wmd/features/assets_overview/currency_chart/domain/use_cases/get_currency_usecase.dart';
+import 'package:wmd/features/assets_overview/currency_chart/presentation/manager/currency_chart_cubit.dart';
 import 'package:wmd/features/authentication/forget_password/data/data_sources/forget_password_server_datasource.dart';
 import 'package:wmd/features/authentication/forget_password/data/repositories/forget_password_repository_impl.dart';
 import 'package:wmd/features/authentication/forget_password/domain/repositories/forget_password_repository.dart';
@@ -269,6 +274,14 @@ Future<void> init() async {
   sl.registerLazySingleton<ChartsRepository>(() => ChartsRepositoryImpl(sl()));
   sl.registerLazySingleton<ChartsRemoteDataSource>(
       () => ChartsRemoteDataSourceImpl(sl()));
+
+//CurrencyChart
+  sl.registerFactory(() => CurrencyChartCubit(sl()));
+  sl.registerLazySingleton(() => GetCurrencyUseCase(sl(),sl()));
+  sl.registerLazySingleton<CurrencyChartRepository>(
+          () => CurrencyChartRepositoryImpl(sl()));
+  sl.registerLazySingleton<CurrencyChartRemoteDataSource>(
+          () => CurrencyChartRemoteDataSourceImpl(sl()));
 
   // Dashboard - user status dependencies
   sl.registerFactory(() => UserStatusCubit(sl(), sl()));
