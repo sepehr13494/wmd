@@ -237,7 +237,7 @@ class AssetsOverviewTreeChart extends AppStatelessWidget {
                                                               AlignmentDirectional
                                                                   .topStart,
                                                           child: Text(
-                                                              "${item.date}" /*\n${AssetsOverviewChartsColors.getAssetType(appLocalizations, flexItem.type)}*/),
+                                                              item.date /*\n${AssetsOverviewChartsColors.getAssetType(appLocalizations, flexItem.type)}*/),
                                                         ),
                                                       ),
                                                     ),

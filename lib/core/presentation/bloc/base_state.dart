@@ -33,6 +33,7 @@ abstract class BaseState extends Equatable
         VerifyPhoneState,
         ProfileResetPasswordState,
         AssetSeeMoreState,
+        CurrencyChartState,
         PerformanceChartState {}
 
 class BaseInitialState extends BaseState {
