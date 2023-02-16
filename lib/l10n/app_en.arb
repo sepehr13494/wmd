@@ -1075,7 +1075,7 @@
   "home_custodianBankList_label_status": "Status",
   "home_custodianBankList_label_list": "Banks List",
   "home_custodianBankList_button_view": "View",
-  "home_custodianBankList_statusText_signLetter": "The bank signed your letter of authorization",
+  "home_custodianBankList_statusText_signLetter": "Downloaded the authorization letter",
   "home_custodianBankList_statusText_shareWithBank": "The letter of authorization has been signed and shared with the bank",
   "home_custodianBankList_statusText_bankConfirmation": "Confirmation received",
   "manage_assetAndLiability_assetAndLiabilityList_otherAssets_title": "Others",
