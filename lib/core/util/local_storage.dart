@@ -51,7 +51,7 @@ class LocalStorage {
 
   bool getLocalAuth() {
     try {
-      return authBox.get(localAuth, defaultValue: true);
+      return authBox.get(localAuth, defaultValue: false);
     } catch (e) {
       throw CacheException(message: e.toString());
     }

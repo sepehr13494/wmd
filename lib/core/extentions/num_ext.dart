@@ -1,7 +1,18 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 extension NumExt on num {
+
+  bool isNumeric(String s) {
+    if(s.isEmpty) {
+      return false;
+    }
+
+    return double.tryParse(s) != null ||
+        int.tryParse(s) != null;
+  }
+
   bool isBetween(num low, num high) => (this >= low && this < high);
 
   String convertMoney(
@@ -17,11 +28,26 @@ extension NumExt on num {
   }
 
   String get formatNumber {
-    return NumberFormat.compactCurrency(
+    String number = NumberFormat.compactCurrency(
       decimalDigits: 1,
       symbol:
-          '', // if you want to add currency symbol then pass that in this else leave it empty.
+      '', // if you want to add currency symbol then pass that in this else leave it empty.
     ).format(this);
+    var split = number.split(".");
+    if(split.length>1){
+      if(split[1].length>1){
+        if(split[1].length>1){
+          var sub = split[1].substring(0,2);
+          if(sub.length>1){
+            if(isNumeric(sub[1])){
+              number = number.replaceRange(split.first.length+2, split.first.length+3, "");
+            }
+          }
+
+        }
+      }
+    }
+    return number;
   }
 
   String formatNumberWithDecimal([int digits = 0]) {
