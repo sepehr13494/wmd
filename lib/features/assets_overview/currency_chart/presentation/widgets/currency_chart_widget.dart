@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,7 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/base_tree_chart_widget.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 import 'package:wmd/features/assets_overview/currency_chart/domain/entities/get_currency_entity.dart';
 import 'package:wmd/features/assets_overview/currency_chart/presentation/manager/currency_chart_cubit.dart';
 import 'package:wmd/injection_container.dart';
@@ -45,7 +47,7 @@ class CurrencyChartWidget extends AppStatelessWidget {
                     itemBuilder: (item) {
                       return Container(
                         margin: const EdgeInsets.all(0.5),
-                        color: Colors.red,
+                        color: AssetsOverviewChartsColors.colors[Random().nextInt(7)],
                         child: Text(
                           item.currencyEntity.totalAmount.toString(),
                         ),
