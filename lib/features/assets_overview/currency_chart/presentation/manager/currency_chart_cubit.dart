@@ -24,7 +24,6 @@ class CurrencyChartCubit extends Cubit<CurrencyChartState> {
     final result = await getCurrencyUseCase(NoParams());
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (entities) {
-      
       emit(GetCurrencyLoaded(getCurrencyEntities: entities));
     });
   }

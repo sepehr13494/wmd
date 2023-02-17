@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
@@ -41,10 +43,10 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
       body: BlocConsumer<UserStatusCubit, UserStatusState>(
         listener: BlocHelper.defaultBlocListener(listener: (context, state) {
           if (state is UserStatusLoaded) {
-            /*if (!(state.userStatus.emailVerified ?? true)) {
+            if (!(state.userStatus.emailVerified ?? true)) {
               context.goNamed(AppRoutes.verifyEmail,
                   queryParams: {"email": state.userStatus.email ?? ""});
-            }*/
+            }
           }
         }),
         builder: (context, state) {
