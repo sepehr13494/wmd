@@ -4,6 +4,7 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 
 class CenterModalWidget extends StatelessWidget {
   final Widget body;
+  final Widget? actions;
   final String? confirmBtn;
   final String? cancelBtn;
   final EdgeInsets contentPadding;
@@ -11,6 +12,7 @@ class CenterModalWidget extends StatelessWidget {
   const CenterModalWidget({
     super.key,
     required this.body,
+    this.actions,
     this.confirmBtn,
     this.cancelBtn,
     this.contentPadding = const EdgeInsets.all(24.0),
@@ -43,7 +45,8 @@ class CenterModalWidget extends StatelessWidget {
                   padding: contentPadding,
                   child: body,
                 ),
-                buildActionContainer(context),
+                if (actions == null) buildActionContainer(context),
+                if (actions != null) SizedBox(child: actions),
               ],
             ),
           ),
