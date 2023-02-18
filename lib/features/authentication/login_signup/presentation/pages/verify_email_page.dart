@@ -40,7 +40,7 @@ class VerifyEmailPage extends AppStatelessWidget {
             child: BlocConsumer<LoginSignUpCubit, LoginSignUpState>(
           listener: BlocHelper.defaultBlocListener(listener: (context, state) {
             if (state is SuccessState) {
-              GlobalFunctions.showSnackBar(context, 'Email verification sent',
+              GlobalFunctions.showSnackBar(context, 'Email sent',
                   type: "success");
             }
           }),
@@ -117,7 +117,7 @@ class VerifyEmailPage extends AppStatelessWidget {
                     sendCodeAgain: () {
                       context.read<LoginSignUpCubit>().resendEmail();
                     },
-                    timerTime: _isForgotPasswordPage() ? 300 : 10,
+                    timerTime: _isForgotPasswordPage() ? 5 : 10,
                     isForgotPasswordPage: _isForgotPasswordPage()),
                 const Spacer(),
                 const Divider(),
