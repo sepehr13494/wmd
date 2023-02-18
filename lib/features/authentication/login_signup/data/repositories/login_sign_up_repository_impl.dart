@@ -51,7 +51,10 @@ class LoginSignUpRepositoryImpl implements LoginSignUpRepository {
       localStorage.setRefreshToken(result.refreshToken);
       return const Right(AppSuccess(message: 'Register successful'));
     } on ServerException catch (error) {
-      return Left(ServerFailure.fromServerException(error));
+      return const Left(ServerFailure(
+          message:
+              "An error occurred while processing your request. Try again or login if you already have an account."));
+      // return Left(ServerFailure.fromServerException(error));
     } on CacheException catch (cacheError) {
       return Left(CacheFailure(message: cacheError.message));
     }

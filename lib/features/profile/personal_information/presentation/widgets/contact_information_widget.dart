@@ -138,6 +138,7 @@ class _ContactInformationWidgetState
                                           },
                                           (val) {
                                             return (val != null &&
+                                                    val != "" &&
                                                     (val.length > 8 ||
                                                         val.length < 8))
                                                 ? "${appLocalizations.profile_tabs_personal_fields_label_lastName} must be of 8 digits"

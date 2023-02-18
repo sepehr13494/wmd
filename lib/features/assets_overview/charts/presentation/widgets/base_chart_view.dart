@@ -26,8 +26,7 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
           return state is GetChartLoaded
               ? state.getChartEntities.isEmpty
                   ? const EmptyChart()
-                  : Builder(
-                    builder: (context) {
+                  : Builder(builder: (context) {
                       Set<String> titles = {};
                       for (var element in state.getChartEntities) {
                         if (element.bankAccount != 0) {
@@ -56,81 +55,85 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                         }
                       }
                       return Column(
-                          children: [
-                            const ChartChooserWidget(),
-                            const SizedBox(height: 16),
-                            Expanded(
-                              child:
-                                  BlocBuilder<ChartChooserManager, AllChartType?>(
-                                builder: (context, chooseChartState) {
-                                  if (chooseChartState == null) {
-                                    return const SizedBox();
-                                  } else {
-                                    switch (chooseChartState.barType) {
-                                      case BarType.barChart:
-                                        return AssetsOverviewBarCharts(
-                                            getChartEntities:
-                                                state.getChartEntities);
-                                      case BarType.areaChart:
-                                        return AssetsOverviewAreaChart(
-                                            getChartEntities:
-                                                state.getChartEntities,titles:titles.toList());
-                                      case BarType.treeChart:
-                                        return AssetsOverviewTreeChart(
-                                            getChartEntities:
-                                                state.getChartEntities);
-                                    }
+                        children: [
+                          const ChartChooserWidget(),
+                          const SizedBox(height: 16),
+                          Expanded(
+                            child:
+                                BlocBuilder<ChartChooserManager, AllChartType?>(
+                              builder: (context, chooseChartState) {
+                                if (chooseChartState == null) {
+                                  return const SizedBox();
+                                } else {
+                                  switch (chooseChartState.barType) {
+                                    case BarType.barChart:
+                                      return AssetsOverviewBarCharts(
+                                          getChartEntities:
+                                              state.getChartEntities);
+                                    case BarType.areaChart:
+                                      return AssetsOverviewAreaChart(
+                                          getChartEntities:
+                                              state.getChartEntities,
+                                          titles: titles.toList());
+                                    case BarType.treeChart:
+                                      return AssetsOverviewTreeChart(
+                                          getChartEntities:
+                                              state.getChartEntities);
                                   }
-                                },
-                              ),
+                                }
+                              },
                             ),
-                            LayoutBuilder(
-                              builder: (context,snap) {
-                                int count = ResponsiveHelper(context: context).isDesktop? 3 : 2;
-                                return Wrap(
-                                  children: List.generate(titles.length, (index) {
-                                    final item = titles.elementAt(index);
-                                    return SizedBox(
-                                      width: snap.maxWidth/count,
-                                      child: Padding(
-                                        padding:
+                          ),
+                          LayoutBuilder(builder: (context, snap) {
+                            int count =
+                                ResponsiveHelper(context: context).isDesktop
+                                    ? 3
+                                    : 2;
+                            return Wrap(
+                              children: List.generate(titles.length, (index) {
+                                final item = titles.elementAt(index);
+                                return SizedBox(
+                                  width: snap.maxWidth / count,
+                                  child: Padding(
+                                    padding:
                                         const EdgeInsets.fromLTRB(20, 4, 20, 4),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Container(
-                                              width: 10,
-                                              height: 10,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: AssetsOverviewChartsColors
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          width: 10,
+                                          height: 10,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: AssetsOverviewChartsColors
                                                     .colorsMap[item] ??
-                                                    Colors.brown,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 8),
-                                            Expanded(
-                                              child: Align(
-                                                alignment: AlignmentDirectional.centerStart,
-                                                child: Text(
-                                                  AssetsOverviewChartsColors.getAssetType(
-                                                      appLocalizations, item),
-                                                  style: const TextStyle(fontSize: 10),
-                                                ),
-                                              ),
-                                            )
-                                          ],
+                                                Colors.brown,
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  }),
+                                        const SizedBox(width: 8),
+                                        Expanded(
+                                          child: Align(
+                                            alignment: AlignmentDirectional
+                                                .centerStart,
+                                            child: Text(
+                                              AssetsOverviewChartsColors
+                                                  .getAssetType(
+                                                      appLocalizations, item),
+                                              style:
+                                                  const TextStyle(fontSize: 10),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                 );
-                              }
-                            ),
-                          ],
-                        );
-                    }
-                  )
+                              }),
+                            );
+                          }),
+                        ],
+                      );
+                    })
               : const LoadingWidget();
         },
       ),
