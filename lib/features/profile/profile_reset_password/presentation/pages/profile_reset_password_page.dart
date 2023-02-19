@@ -29,6 +29,7 @@ class ProfileRestPasswordPage extends StatefulWidget {
 class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
   final passwordFieldKey = GlobalKey<FormBuilderFieldState>();
   final formKey = GlobalKey<FormBuilderState>();
+  String? passwordValue;
   bool buttonPressed = false;
 
   bool lowercase = false,
@@ -58,7 +59,10 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
   }
 
   void onPasswordChange(String? e) {
-    validatePassword(passwordFieldKey.currentState?.value);
+    setState(() {
+      passwordValue = e;
+    });
+    validatePassword(e);
   }
 
   bool checkPasswordValidity() {
@@ -152,8 +156,7 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
                         showEye: false,
                       ),
                     ),
-                    ((passwordFieldKey.currentState?.value != null ||
-                                buttonPressed) &&
+                    ((passwordValue != null || buttonPressed) &&
                             !checkPasswordValidity())
                         ? PasswordValidation(
                             lowercase: lowercase,
