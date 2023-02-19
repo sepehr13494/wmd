@@ -99,7 +99,8 @@ class VerifyEmailPage extends AppStatelessWidget {
                           ])
                         : TextSpan(children: [
                             TextSpan(
-                              text: appLocalizations.auth_verify_description
+                              text: appLocalizations
+                                  .auth_verify_description_mobile
                                   .replaceFirst("%s", ""),
                               style: textTheme.bodyMedium!
                                   .copyWith(height: 1.6, fontSize: 14),
