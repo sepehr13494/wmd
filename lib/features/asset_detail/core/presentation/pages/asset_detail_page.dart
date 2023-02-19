@@ -4,6 +4,7 @@ import 'package:wmd/core/models/time_filer_obj.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/presentation/widgets/base_app_bar.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
@@ -52,7 +53,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
         ],
         child: Builder(builder: (context) {
           return Scaffold(
-            appBar: AppBar(),
+            appBar: const BaseAppBar(),
             body: BlocConsumer<PerformanceChartCubit, PerformanceChartState>(
                 listener: BlocHelper.defaultBlocListener(
                   listener: (context, state) {},
