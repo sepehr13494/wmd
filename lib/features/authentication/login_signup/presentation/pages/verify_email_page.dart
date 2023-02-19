@@ -77,7 +77,7 @@ class VerifyEmailPage extends AppStatelessWidget {
                         ? TextSpan(children: [
                             TextSpan(
                               text: appLocalizations
-                                  .auth_forgot_emailSentSuccess_subheading
+                                  .auth_forgot_emailSentSuccess_subheading_mobile
                                   .split('%s')
                                   .first,
                               style: textTheme.bodyMedium!
@@ -91,7 +91,7 @@ class VerifyEmailPage extends AppStatelessWidget {
                             ),
                             TextSpan(
                               text: appLocalizations
-                                  .auth_forgot_emailSentSuccess_subheading
+                                  .auth_forgot_emailSentSuccess_subheading_mobile
                                   .split('%s')[1],
                               style: textTheme.bodyMedium!
                                   .copyWith(height: 1.3, fontSize: 14),
@@ -99,7 +99,8 @@ class VerifyEmailPage extends AppStatelessWidget {
                           ])
                         : TextSpan(children: [
                             TextSpan(
-                              text: appLocalizations.auth_verify_description
+                              text: appLocalizations
+                                  .auth_verify_description_mobile
                                   .replaceFirst("%s", ""),
                               style: textTheme.bodyMedium!
                                   .copyWith(height: 1.6, fontSize: 14),
