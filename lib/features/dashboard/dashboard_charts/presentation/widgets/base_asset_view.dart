@@ -126,12 +126,11 @@ class BaseAssetView extends AppStatelessWidget {
                             Expanded(
                               child: Align(
                                 alignment: AlignmentDirectional.centerStart,
-                                child: FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    child: Text(asset.name,
-                                        style: textTheme.bodySmall)),
+                                child: Text(asset.name,
+                                    style: textTheme.bodySmall),
                               ),
                             ),
+                            const SizedBox(width: 12),
                             Text(asset.price, style: textTheme.bodySmall),
                             Container(
                               width: 0.5,
