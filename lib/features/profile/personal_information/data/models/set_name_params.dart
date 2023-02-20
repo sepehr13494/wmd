@@ -3,11 +3,11 @@ import 'package:equatable/equatable.dart';
 class SetNameParams extends Equatable{
     const SetNameParams({
         required this.firstName,
-        required this.lastName,
+        this.lastName,
     });
 
     final String firstName;
-    final String lastName;
+    final String? lastName;
 
     factory SetNameParams.fromJson(Map<String, dynamic> json) => SetNameParams(
         firstName: json["firstName"],
