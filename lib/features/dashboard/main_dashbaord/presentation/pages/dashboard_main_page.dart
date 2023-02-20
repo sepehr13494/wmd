@@ -74,81 +74,90 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                   ),
                                   iconTheme: appTheme.iconTheme
                                       .copyWith(color: appTheme.primaryColor)),
-                              child: BlocConsumer<MainDashboardCubit,
-                                  MainDashboardState>(
-                                listener: BlocHelper.defaultBlocListener(
-                                    listener: (context, state) {}),
-                                builder: (context, state) {
-                                  final isCustodianNotEmpty = context
-                                      .read<CustodianStatusListCubit>()
-                                      .statutes
-                                      .isNotEmpty;
+                              child: BlocConsumer<CustodianStatusListCubit,
+                                      CustodianStatusListState>(
+                                  listener: BlocHelper.defaultBlocListener(
+                                      listener: (context, custodianState) {}),
+                                  builder: (context, state) {
+                                    return BlocConsumer<MainDashboardCubit,
+                                        MainDashboardState>(
+                                      listener: BlocHelper.defaultBlocListener(
+                                          listener: (context, state) {}),
+                                      builder: (context, state) {
+                                        final isCustodianNotEmpty = context
+                                            .read<CustodianStatusListCubit>()
+                                            .statutes
+                                            .isNotEmpty;
+                                        if (state
+                                            is MainDashboardNetWorthLoaded) {
+                                          final isAssetsNotEmpty = state
+                                                  .netWorthObj
+                                                  .assets
+                                                  .currentValue !=
+                                              0;
+                                          final isLiabilityNotEmpty = state
+                                                  .netWorthObj
+                                                  .liabilities
+                                                  .currentValue !=
+                                              0;
 
-                                  if (state is MainDashboardNetWorthLoaded) {
-                                    final isAssetsNotEmpty =
-                                        state.netWorthObj.assets.currentValue !=
-                                            0;
-                                    final isLiabilityNotEmpty = state
-                                            .netWorthObj
-                                            .liabilities
-                                            .currentValue !=
-                                        0;
-
-                                    if (isAssetsNotEmpty ||
-                                        isCustodianNotEmpty ||
-                                        isLiabilityNotEmpty) {
-                                      return Column(
-                                        children: [
-                                          const FilterAddPart(),
-                                          const SizedBox(height: 12),
-                                          BanksAuthorizationProcess(
-                                              initiallyExpanded:
-                                                  widget.expandCustodian ||
-                                                      !(isAssetsNotEmpty ||
-                                                          isLiabilityNotEmpty)),
                                           if (isAssetsNotEmpty ||
-                                              isLiabilityNotEmpty)
-                                            SummeryWidget(
-                                                netWorthEntity:
-                                                    state.netWorthObj),
-                                          const NetWorthBaseChart(),
-                                          const SizedBox(height: 8),
-                                          Row(children: [
-                                            Text(
-                                                appLocalizations
-                                                    .home_label_yourAssets,
-                                                style: textTheme.titleLarge),
-                                          ]),
-                                          RowOrColumn(
-                                            rowCrossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            showRow: !isMobile,
-                                            children: [
-                                              ExpandedIf(
-                                                  expanded: !isMobile,
-                                                  child:
-                                                      const PieChartSample2()),
-                                              ExpandedIf(
-                                                  expanded: !isMobile,
-                                                  child:
-                                                      const RandomWorldMapGenrator()),
-                                            ],
-                                          ),
-                                        ]
-                                            .map((e) => Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 8,
-                                                        horizontal: 16),
-                                                child: e))
-                                            .toList(),
-                                      );
-                                    }
-                                    return const DashboardPage();
-                                  }
-                                  return const LoadingWidget();
-                                },
-                              )),
+                                              isCustodianNotEmpty ||
+                                              isLiabilityNotEmpty) {
+                                            return Column(
+                                              children: [
+                                                const FilterAddPart(),
+                                                const SizedBox(height: 12),
+                                                BanksAuthorizationProcess(
+                                                    initiallyExpanded: widget
+                                                            .expandCustodian ||
+                                                        !(isAssetsNotEmpty ||
+                                                            isLiabilityNotEmpty)),
+                                                if (isAssetsNotEmpty ||
+                                                    isLiabilityNotEmpty)
+                                                  SummeryWidget(
+                                                      netWorthEntity:
+                                                          state.netWorthObj),
+                                                const NetWorthBaseChart(),
+                                                const SizedBox(height: 8),
+                                                Row(children: [
+                                                  Text(
+                                                      appLocalizations
+                                                          .home_label_yourAssets,
+                                                      style:
+                                                          textTheme.titleLarge),
+                                                ]),
+                                                RowOrColumn(
+                                                  rowCrossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  showRow: !isMobile,
+                                                  children: [
+                                                    ExpandedIf(
+                                                        expanded: !isMobile,
+                                                        child:
+                                                            const PieChartSample2()),
+                                                    ExpandedIf(
+                                                        expanded: !isMobile,
+                                                        child:
+                                                            const RandomWorldMapGenrator()),
+                                                  ],
+                                                ),
+                                              ]
+                                                  .map((e) => Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 8,
+                                                          horizontal: 16),
+                                                      child: e))
+                                                  .toList(),
+                                            );
+                                          }
+                                          return const DashboardPage();
+                                        }
+                                        return const LoadingWidget();
+                                      },
+                                    );
+                                  })),
                         ),
                       ),
                     )
