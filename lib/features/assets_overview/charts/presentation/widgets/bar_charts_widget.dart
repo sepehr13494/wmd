@@ -80,7 +80,7 @@ class AssetsOverviewBarCharts extends StatelessWidget {
               return BarTooltipItem(
                 "${CustomizableDateTime.miniDateWithYear(getChartEntity.date)}\n",
                 textTheme.titleSmall!,
-                textAlign: TextAlign.end,
+                textAlign: TextAlign.justify,
                 children: [
                   getChartEntity.bankAccount != 0
                       ? TextSpan(style: textTheme.bodyMedium, children: [
@@ -213,6 +213,16 @@ class AssetsOverviewBarCharts extends StatelessWidget {
                                   const TextStyle(color: AppColors.chartColor))
                         ])
                       : const TextSpan(),
+                  TextSpan(style: textTheme.bodyMedium, children: [
+                    TextSpan(
+                        text:
+                            "\nTotal\t",),
+                    TextSpan(
+                        text: sum
+                            .formatNumberWithDecimal(),
+                        style:
+                        const TextStyle(color: AppColors.chartColor))
+                  ])
                 ],
               );
             },

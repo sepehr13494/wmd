@@ -158,8 +158,12 @@ class _RegisterPageState extends AppState<RegisterPage> {
                                                 "${appLocalizations.auth_signup_checkbox_label} ",
                                             style: textTheme.bodySmall),
                                         TextSpan(
+                                            text:
+                                            "${appLocalizations.auth_signup_checkbox_termsService_mobile_second} ",
+                                            style: textTheme.bodySmall),
+                                        TextSpan(
                                           text: appLocalizations
-                                              .auth_signup_checkbox_termsService,
+                                              .auth_signup_checkbox_termsService_mobile,
                                           style: textTheme.bodySmall!
                                               .toLinkStyle(context),
                                           recognizer: TapGestureRecognizer()

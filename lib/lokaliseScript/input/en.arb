@@ -1,6 +1,4 @@
 {
-    "@@locale": "en",
-    "@@last_modified": "2023-02-19T10:34:32+01:00",
     "auth:signup.page.title": "Join our Platform",
     "auth:signup.page.description": "Create myWMD account",
     "auth:signup.heading": "Create an account",
@@ -969,7 +967,7 @@
     "linkAccount:automaticLink.button.connect": "Connect",
     "linkAccount:automaticLink.button.exit": "Exit",
     "linkAccount:automaticLink.title": "Link your bank accounts",
-    "linkAccount:automaticLink.label.search": "Search for your bank name or select an option from the below list",
+    "linkAccount:automaticLink.label.search": "Select an option from the below list",
     "linkAccount:automaticLink.label.popularBank": "Most popular banks",
     "linkAccount:automaticLink.text.notFound": "No bank found",
     "linkAccount:automaticLink.input.bank.placeholder": "Your Bank Name",
@@ -1388,5 +1386,7 @@
     "common:submitEnquiryModal.reasons.discuss.label": "I want to discuss my aggregated portfolio",
     "common:submitEnquiryModal.reasons.discuss.value": "I want to discuss my aggregated portfolio",
     "common:submitEnquiryModal.reasons.custodianBank.label": "I want to you to add a new custodian bank",
-    "common:submitEnquiryModal.reasons.custodianBank.value": "I want to you to add a new custodian bank"
+    "common:submitEnquiryModal.reasons.custodianBank.value": "I want to you to add a new custodian bank",
+    "auth:signup.checkbox.termsService.mobile": "Terms of Service",
+    "auth:signup.checkbox.termsService.mobile.second": ""
 }

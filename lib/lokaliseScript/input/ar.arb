@@ -1,6 +1,4 @@
 {
-    "@@locale": "ar",
-    "@@last_modified": "2023-02-19T10:34:32+01:00",
     "auth:signup.page.title": "انضمّ إلى منصتنا",
     "auth:signup.page.description": "إنشاء حساب myWMD",
     "auth:signup.heading": "أنشئ حساباً",
@@ -1388,5 +1386,7 @@
     "common:submitEnquiryModal.reasons.discuss.label": "",
     "common:submitEnquiryModal.reasons.discuss.value": "",
     "common:submitEnquiryModal.reasons.custodianBank.label": "",
-    "common:submitEnquiryModal.reasons.custodianBank.value": ""
+    "common:submitEnquiryModal.reasons.custodianBank.value": "",
+    "auth:signup.checkbox.termsService.mobile": "شروط الخدمة من",
+    "auth:signup.checkbox.termsService.mobile.second": "Petiole Asset Management AG"
 }
