@@ -55,6 +55,11 @@ import 'package:wmd/features/asset_detail/core/data/repositories/asset_summary_r
 import 'package:wmd/features/asset_detail/core/presentation/manager/asset_summary_cubit.dart';
 import 'package:wmd/features/asset_see_more/core/domain/repositories/asset_see_more_repository.dart';
 import 'package:wmd/features/asset_see_more/core/presentation/manager/asset_see_more_cubit.dart';
+import 'package:wmd/features/assets_overview/assets_geography_chart/data/data_sources/assets_geography_chart_remote_datasource.dart';
+import 'package:wmd/features/assets_overview/assets_geography_chart/data/repositories/assets_geography_chart_repository_impl.dart';
+import 'package:wmd/features/assets_overview/assets_geography_chart/domain/repositories/assets_geography_chart_repository.dart';
+import 'package:wmd/features/assets_overview/assets_geography_chart/domain/use_cases/get_assets_geography_usecase.dart';
+import 'package:wmd/features/assets_overview/assets_geography_chart/presentation/manager/assets_geography_chart_cubit.dart';
 import 'package:wmd/features/assets_overview/assets_overview/data/data_sources/asset_overview_remote_datasource.dart';
 import 'package:wmd/features/assets_overview/assets_overview/data/repositories/assets_overview_repository_impl.dart';
 import 'package:wmd/features/assets_overview/assets_overview/domain/repositories/assets_overview_repository.dart';
@@ -284,6 +289,16 @@ Future<void> init() async {
           () => CurrencyChartRepositoryImpl(sl()));
   sl.registerLazySingleton<CurrencyChartRemoteDataSource>(
           () => CurrencyChartRemoteDataSourceImpl(sl()));
+
+  //AssetsGeographyChart
+  sl.registerFactory(() => AssetsGeographyChartCubit(sl()));
+  sl.registerLazySingleton(() => GetAssetsGeographyUseCase(sl()));
+
+  sl.registerLazySingleton<AssetsGeographyChartRepository>(
+          () => AssetsGeographyChartRepositoryImpl(sl()));
+  sl.registerLazySingleton<AssetsGeographyChartRemoteDataSource>(
+          () => AssetsGeographyChartRemoteDataSourceImpl(sl()));
+
 
   // Dashboard - user status dependencies
   sl.registerFactory(() => UserStatusCubit(sl(), sl()));

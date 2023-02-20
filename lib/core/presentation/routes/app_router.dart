@@ -15,11 +15,13 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager
 import 'package:wmd/features/add_assets/view_assets_list/presentation/pages/assets_list_view_page.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/pages/auto_manual_page.dart';
 import 'package:wmd/features/asset_detail/core/presentation/pages/asset_detail_page.dart';
+import 'package:wmd/features/assets_overview/assets_geography_chart/presentation/manager/assets_geography_chart_cubit.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/chart_chooser_manager.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_manager.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/chart_chooser.dart';
+import 'package:wmd/features/assets_overview/currency_chart/presentation/manager/currency_chart_cubit.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/forget_password_page.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/reset_password_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/login_page.dart';
@@ -58,6 +60,8 @@ class AppRouter {
   MainDashboardCubit _mainDashboardCubit = sl<MainDashboardCubit>();
   AssetsOverviewCubit _assetsOverviewCubit = sl<AssetsOverviewCubit>();
   ChartsCubit _chartsCubit = sl<ChartsCubit>();
+  CurrencyChartCubit _currencyChartCubit = sl<CurrencyChartCubit>();
+  AssetsGeographyChartCubit _assetsGeographyChartCubit = sl<AssetsGeographyChartCubit>();
   DashboardAllocationCubit _dashboardAllocationCubit =
       sl<DashboardAllocationCubit>();
   DashboardPieCubit _dashboardPieCubit = sl<DashboardPieCubit>();
@@ -161,6 +165,18 @@ class AppRouter {
                     create: (context) {
                       _chartsCubit = sl<ChartsCubit>();
                       return _chartsCubit..getChart();
+                    },
+                  ),
+                  BlocProvider(
+                    create: (context) {
+                      _currencyChartCubit = sl<CurrencyChartCubit>();
+                      return _currencyChartCubit..getCurrency();
+                    },
+                  ),
+                  BlocProvider(
+                    create: (context) {
+                      _assetsGeographyChartCubit = sl<AssetsGeographyChartCubit>();
+                      return _assetsGeographyChartCubit..getAssetsGeography();
                     },
                   ),
                   BlocProvider(
@@ -349,6 +365,12 @@ class AppRouter {
       ),
       BlocProvider.value(
         value: _chartsCubit,
+      ),
+      BlocProvider.value(
+        value: _currencyChartCubit,
+      ),
+      BlocProvider.value(
+        value: _assetsGeographyChartCubit,
       ),
       BlocProvider.value(
         value: _dashboardAllocationCubit,

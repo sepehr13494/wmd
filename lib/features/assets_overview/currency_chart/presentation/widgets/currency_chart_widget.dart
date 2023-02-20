@@ -35,58 +35,53 @@ class CurrencyChartWidget extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    return BlocProvider(
-      create: (context) => sl<CurrencyChartCubit>()..getCurrency(),
-      child: Builder(builder: (context) {
-        return BlocConsumer<CurrencyChartCubit, CurrencyChartState>(
-          listener: BlocHelper.defaultBlocListener(
-            listener: (context, state) {},
-          ),
-          builder: (context, state) {
-            return state is GetCurrencyLoaded
-                ? Builder(
-                  builder: (context) {
-                    double sum = 0;
-                    for (var element in state.getCurrencyEntities) {
-                      sum += element.totalAmount;
-                    }
-                    return Column(
-                      children: [
-                        Expanded(
-                          child: BaseTreeChartWidget<CurrencyTreeObj>(
-                              treeChartObjs: state.getCurrencyEntities
-                                  .map((e) => CurrencyTreeObj(currencyEntity: e))
-                                  .toList(),
-                              itemBuilder: (item,itemIndex) {
-                                return Tooltip(
-                                  message: "${item.currencyEntity.currencyCode}: ${((item.value*100)/sum).toStringAsFixed(1)} %",
-                                  child: Container(
-                                    margin: const EdgeInsets.all(0.5),
-                                    color: AssetsOverviewChartsColors.colors[itemIndex],
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(2),
-                                      child: Text(
-                                        item.currencyEntity.currencyCode,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
+    return BlocConsumer<CurrencyChartCubit, CurrencyChartState>(
+      listener: BlocHelper.defaultBlocListener(
+        listener: (context, state) {},
+      ),
+      builder: (context, state) {
+        return state is GetCurrencyLoaded
+            ? Builder(
+            builder: (context) {
+              double sum = 0;
+              for (var element in state.getCurrencyEntities) {
+                sum += element.totalAmount;
+              }
+              return Column(
+                children: [
+                  Expanded(
+                    child: BaseTreeChartWidget<CurrencyTreeObj>(
+                      treeChartObjs: state.getCurrencyEntities
+                          .map((e) => CurrencyTreeObj(currencyEntity: e))
+                          .toList(),
+                      itemBuilder: (item,itemIndex) {
+                        return Tooltip(
+                          message: "${item.currencyEntity.currencyCode}: ${((item.value*100)/sum).toStringAsFixed(1)} %",
+                          child: Container(
+                            margin: const EdgeInsets.all(0.5),
+                            color: AssetsOverviewChartsColors.colors[itemIndex],
+                            child: Padding(
+                              padding: const EdgeInsets.all(2),
+                              child: Text(
+                                item.currencyEntity.currencyCode,
+                              ),
                             ),
-                        ),
-                          const SizedBox(height: 16),
-                          ColorsWithTitlesWidget(colorTitles: List.generate(state.getCurrencyEntities.length, (index) {
-                            final item = state.getCurrencyEntities[index];
-                            return ColorTitleObj(title: item.currencyCode,color: AssetsOverviewChartsColors.colors[index]);
-                          }),axisColumnCount: ResponsiveHelper(context: context).isDesktop ? 5 : 3,)
-                      ],
-                    );
-                  }
-                )
-                : const LoadingWidget();
-          },
-        );
-      }),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ColorsWithTitlesWidget(colorTitles: List.generate(state.getCurrencyEntities.length, (index) {
+                    final item = state.getCurrencyEntities[index];
+                    return ColorTitleObj(title: item.currencyCode,color: AssetsOverviewChartsColors.colors[index]);
+                  }),axisColumnCount: ResponsiveHelper(context: context).isDesktop ? 5 : 3,)
+                ],
+              );
+            }
+        )
+            : const LoadingWidget();
+      },
     );
   }
 }

@@ -34,6 +34,7 @@ abstract class BaseState extends Equatable
         ProfileResetPasswordState,
         AssetSeeMoreState,
         CurrencyChartState,
+        AssetsGeographyChartState,
         PerformanceChartState {}
 
 class BaseInitialState extends BaseState {
