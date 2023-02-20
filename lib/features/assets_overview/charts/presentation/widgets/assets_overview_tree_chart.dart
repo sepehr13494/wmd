@@ -126,7 +126,7 @@ class AssetsOverviewTreeChart extends AppStatelessWidget {
     return Column(
       children: [
         Expanded(
-          child: BaseTreeChartWidget(treeChartObjs: realItems, itemBuilder: (AssetTreeChartObj flexItem){
+          child: BaseTreeChartWidget(treeChartObjs: realItems, itemBuilder: (AssetTreeChartObj flexItem,itemIndex){
             return Container(
               color: flexItem.color,
               child: RowOrColumn(
@@ -152,18 +152,22 @@ class AssetsOverviewTreeChart extends AppStatelessWidget {
                                   alignment:
                                   AlignmentDirectional
                                       .topStart,
-                                  child: SizedBox(
-                                    width: 50,
-                                    child: FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: Align(
-                                        alignment:
-                                        AlignmentDirectional
-                                            .topStart,
-                                        child: Text(
-                                            item.date /*\n${AssetsOverviewChartsColors.getAssetType(appLocalizations, flexItem.type)}*/),
-                                      ),
-                                    ),
+                                  child: LayoutBuilder(
+                                    builder: (context,snap) {
+                                      return SizedBox(
+                                        width: snap.maxWidth > 50 ? 50 : snap.maxWidth,
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Align(
+                                            alignment:
+                                            AlignmentDirectional
+                                                .topStart,
+                                            child: Text(
+                                                item.date /*\n${AssetsOverviewChartsColors.getAssetType(appLocalizations, flexItem.type)}*/),
+                                          ),
+                                        ),
+                                      );
+                                    }
                                   ),
                                 ),
                               ),

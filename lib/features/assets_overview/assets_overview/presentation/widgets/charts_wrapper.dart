@@ -4,17 +4,40 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_manager.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/assets_overview_geo_chart.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/base_chart_view.dart';
 import 'package:wmd/features/assets_overview/currency_chart/presentation/widgets/currency_chart_widget.dart';
-import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/inside_world_map_widget.dart';
-import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/random_map.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 
-class ChartsWrapper extends AppStatelessWidget {
+class ChartsWrapper extends StatefulWidget {
   const ChartsWrapper({
     Key? key,
   }) : super(key: key);
+
+  @override
+  AppState<ChartsWrapper> createState() => _ChartsWrapperState();
+}
+
+class _ChartsWrapperState extends AppState<ChartsWrapper>
+    with SingleTickerProviderStateMixin {
+  late TabController _controller;
+
+  @override
+  void initState() {
+    _controller = TabController(
+        length: AppConstants.publicMvp2Items ? 3 : 1, vsync: this);
+    _controller.addListener(() {
+      context.read<TabManager>().changeTab(_controller.index);
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
@@ -38,73 +61,79 @@ class ChartsWrapper extends AppStatelessWidget {
             ],
           ),
           const SizedBox(height: 24),
-          DefaultTabController(
-            length: AppConstants.publicMvp2Items ? 3 : 1,
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 300,
-                      child: TabBar(
-                        tabs: AppConstants.publicMvp2Items
-                            ? [
-                                Tab(
-                                    text: appLocalizations
-                                        .assets_charts_tabs_assetClass),
-                                Tab(text: appLocalizations.assets_charts_tabs_geography),
-                                Tab(text: appLocalizations.assets_charts_tabs_currency),
-                              ]
-                            : [
-                                Tab(
-                                    text: appLocalizations
-                                        .assets_charts_tabs_assetClass),
-                                // Tab(text: "Geography"),
-                                // Tab(text: "Currency"),
-                              ],
-                        isScrollable: true,
-                      ),
+          Column(
+            children: [
+              Row(
+                children: [
+                  SizedBox(
+                    width: 300,
+                    child: TabBar(
+                      controller: _controller,
+                      tabs: AppConstants.publicMvp2Items
+                          ? [
+                              Tab(
+                                  text: appLocalizations
+                                      .assets_charts_tabs_assetClass),
+                              Tab(
+                                  text: appLocalizations
+                                      .assets_charts_tabs_geography),
+                              Tab(
+                                  text: appLocalizations
+                                      .assets_charts_tabs_currency),
+                            ]
+                          : [
+                              Tab(
+                                  text: appLocalizations
+                                      .assets_charts_tabs_assetClass),
+                            ],
+                      isScrollable: true,
                     ),
-                    const Spacer(),
-                  ],
-                ),
-                const Divider(
-                  height: 0.5,
-                  thickness: 0.5,
-                ),
-                AspectRatio(
-                  aspectRatio:
-                      ResponsiveHelper(context: context).isMobile ? 1 : 1.6,
-                  child: Builder(
-                    builder: (context) {
-                      List<Widget> children = [
-                        const BaseAssetsOverviewChartsWidget(),
-                      ];
-                      if(AppConstants.publicMvp2Items){
-                        children.addAll([
-                          const AssetsOverviewGeoChart(),
-                          const CurrencyChartWidget(),
-                        ]);
-                      }
-                      return TabBarView(children: children.map((e) => Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical:
-                            ResponsiveHelper(context: context).biggerGap),
-                        child: Card(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? AppColors.darkCardColorForDarkTheme
-                              : AppColors.darkCardColorForLightTheme,
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: e,
-                          ),
-                        ),
-                      ),).toList());
-                    }
                   ),
-                )
-              ],
-            ),
+                  const Spacer(),
+                ],
+              ),
+              const Divider(
+                height: 0.5,
+                thickness: 0.5,
+              ),
+              AspectRatio(
+                aspectRatio:
+                    ResponsiveHelper(context: context).isMobile ? 1 : 1.6,
+                child: Builder(builder: (context) {
+                  List<Widget> children = [
+                    const BaseAssetsOverviewChartsWidget(),
+                  ];
+                  if (AppConstants.publicMvp2Items) {
+                    children.addAll([
+                      const AssetsOverviewGeoChart(),
+                      const CurrencyChartWidget(),
+                    ]);
+                  }
+                  return TabBarView(
+                    controller: _controller,
+                    children: children
+                        .map(
+                          (e) => Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: ResponsiveHelper(context: context)
+                                    .biggerGap),
+                            child: Card(
+                              color: Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? AppColors.darkCardColorForDarkTheme
+                                  : AppColors.darkCardColorForLightTheme,
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: e,
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  );
+                }),
+              )
+            ],
           ),
         ],
       );
