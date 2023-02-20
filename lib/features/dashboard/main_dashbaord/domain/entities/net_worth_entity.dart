@@ -36,16 +36,18 @@ class NetWorthEntity extends Equatable{
 
 class AssetsEntity extends Equatable{
   const AssetsEntity({
-    required this.newAsset,
+    required this.newAssetCount,
     required this.currentValue,
+    required this.newAssetValue,
     required this.change,
     required this.changePercentage,
     required this.ytd,
     required this.itd,
   });
 
-  final int newAsset;
+  final double newAssetCount;
   final double currentValue;
+  final double newAssetValue;
   final double change;
   final double changePercentage;
   final double ytd;
@@ -53,8 +55,9 @@ class AssetsEntity extends Equatable{
 
   @override
   List<Object?> get props => [
-    newAsset,
+    newAssetCount,
     currentValue,
+    newAssetValue,
     change,
     changePercentage,
     ytd,
@@ -63,8 +66,9 @@ class AssetsEntity extends Equatable{
 
   Map<String, dynamic> toJson() =>
       {
-        "newAsset": newAsset,
+        "newAssetCount": newAssetCount,
         "currentValue": currentValue,
+        "newAssetValue": newAssetValue,
         "change": change,
         "changePercentage": changePercentage,
         "ytd": ytd,
@@ -74,23 +78,26 @@ class AssetsEntity extends Equatable{
 
 class LiabilitiesEntity extends Equatable{
   const LiabilitiesEntity({
-    required this.newLiability,
+    required this.newLiabilityCount,
     required this.currentValue,
+    required this.newLiabilityValue,
     required this.change,
     required this.ytd,
     required this.itd,
   });
 
-  final int newLiability;
+  final double newLiabilityCount;
   final double currentValue;
+  final double newLiabilityValue;
   final double change;
   final double ytd;
   final double itd;
 
   @override
   List<Object?> get props => [
-    newLiability,
+    newLiabilityCount,
     currentValue,
+    newLiabilityValue,
     change,
     ytd,
     itd,
@@ -98,8 +105,9 @@ class LiabilitiesEntity extends Equatable{
 
   Map<String, dynamic> toJson() =>
       {
-        "newLiability": newLiability,
+        "newLiabilityCount": newLiabilityCount,
         "currentValue": currentValue,
+        "newLiabilityValue": newLiabilityValue,
         "change": change,
         "ytd": ytd,
         "itd": itd,
