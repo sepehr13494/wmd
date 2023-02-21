@@ -4,8 +4,8 @@ import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/firebase_analytics.dart';
-import 'package:wmd/features/assets_overview/assets_overview/domain/entities/assets_overview_entity.dart';
 
+import '../../../../core/domain/entities/assets_list_entity.dart';
 import 'inside_asset_card_mobile.dart';
 import 'inside_asset_card_tablet.dart';
 

@@ -4,8 +4,8 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/features/assets_overview/assets_overview/domain/entities/assets_overview_entity.dart';
 
+import '../../../../core/domain/entities/assets_list_entity.dart';
 import '../assets_overview_inherit.dart';
 
 class InsideAssetCardTablet extends AppStatelessWidget {

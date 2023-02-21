@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wmd/features/assets_overview/assets_overview/domain/entities/assets_overview_entity.dart';
 
+import '../../../core/domain/entities/assets_list_entity.dart';
+
 class AssetsOverviewInherit extends InheritedWidget {
   const AssetsOverviewInherit({
     super.key,
