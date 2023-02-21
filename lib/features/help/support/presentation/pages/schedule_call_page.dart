@@ -309,7 +309,10 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                 hasInfo: false,
                 showRequired: true,
                 title: "Select your time zone",
-                child: AppTextFields.dropDownTextField(
+                child: FormBuilderSearchableDropdown<TimeZones>(
+                  name: "timeZone",
+                  hint: "Select",
+                  items: TimeZones.timezonesList,
                   onChanged: (val) async {
                     // setState(() {
                     //   bottomFormKey =
@@ -329,15 +332,49 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                     await Future.delayed(const Duration(milliseconds: 200));
                     checkFinalValid(val);
                   },
-                  name: "timeZone",
-                  hint: "Select",
-                  items: TimeZones.timezonesList
-                      .map((e) => DropdownMenuItem(
-                            value: e.value,
-                            child: Text(e.name),
-                          ))
-                      .toList(),
+                  itemAsString: (TimeZones val) => val.name,
+                  filterFn: (currency, string) {
+                    return (currency.name
+                        .toLowerCase()
+                        .contains(string.toLowerCase()));
+                  },
+                  itemBuilder: (context, currency, _) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(currency.name),
+                    );
+                  },
                 ),
+
+                // AppTextFields.dropDownTextField(
+                //   onChanged: (val) async {
+                //     // setState(() {
+                //     //   bottomFormKey =
+                //     //       GlobalKey<FormBuilderState>();
+                //     //   accountType = val;
+                //     // });
+                //     if (val != null) {
+                //       setState(() {
+                //         hasTimeLineSelected = true;
+                //       });
+                //     } else {
+                //       setState(() {
+                //         hasTimeLineSelected = false;
+                //       });
+                //     }
+
+                //     await Future.delayed(const Duration(milliseconds: 200));
+                //     checkFinalValid(val);
+                //   },
+                //   name: "timeZone",
+                //   hint: "Select",
+                //   items: TimeZones.timezonesList
+                //       .map((e) => DropdownMenuItem(
+                //             value: e.value,
+                //             child: Text(e.name),
+                //           ))
+                //       .toList(),
+                // ),
               ),
               EachTextField(
                 hasInfo: false,
