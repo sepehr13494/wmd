@@ -9,7 +9,7 @@ import 'package:wmd/features/assets_overview/assets_overview/data/data_sources/a
 import 'package:wmd/features/assets_overview/assets_overview/data/models/assets_overview_params.dart';
 import 'package:wmd/features/assets_overview/assets_overview/data/models/assets_overview_response.dart';
 
-import '../../../../core/data/network/error_handler_middleware_test.mocks.dart';
+import '../../../../../core/data/network/error_handler_middleware_test.mocks.dart';
 
 
 Future<void> main() async {

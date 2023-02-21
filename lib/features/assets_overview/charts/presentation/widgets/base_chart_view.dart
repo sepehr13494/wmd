@@ -10,9 +10,11 @@ import 'package:wmd/features/assets_overview/charts/presentation/widgets/chart_c
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 
 import '../manager/chart_chooser_manager.dart';
+import '../models/color_title_obj.dart';
 import 'assets_overview_area_chart.dart';
 import 'assets_overview_tree_chart.dart';
 import 'bar_charts_widget.dart';
+import 'color_with_title_widget.dart';
 
 class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
   const BaseAssetsOverviewChartsWidget({Key? key}) : super(key: key);
@@ -25,115 +27,80 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
         builder: (context, state) {
           return state is GetChartLoaded
               ? state.getChartEntities.isEmpty
-                  ? const EmptyChart()
-                  : Builder(builder: (context) {
-                      Set<String> titles = {};
-                      for (var element in state.getChartEntities) {
-                        if (element.bankAccount != 0) {
-                          titles.add(AssetTypes.bankAccount);
-                        }
-                        if (element.realEstate != 0) {
-                          titles.add(AssetTypes.realEstate);
-                        }
-                        if (element.listedAssetEquity != 0) {
-                          titles.add(AssetTypes.listedAssetEquity);
-                        }
-                        if (element.listedAssetFixedIncome != 0) {
-                          titles.add(AssetTypes.listedAssetFixedIncome);
-                        }
-                        if (element.listedAssetOther != 0) {
-                          titles.add(AssetTypes.listedAssetOther);
-                        }
-                        if (element.others != 0) {
-                          titles.add(AssetTypes.otherAsset);
-                        }
-                        if (element.privateDebt != 0) {
-                          titles.add(AssetTypes.privateDebt);
-                        }
-                        if (element.privateEquity != 0) {
-                          titles.add(AssetTypes.privateEquity);
-                        }
-                      }
-                      return Column(
-                        children: [
-                          const ChartChooserWidget(),
-                          const SizedBox(height: 16),
-                          Expanded(
-                            child:
-                                BlocBuilder<ChartChooserManager, AllChartType?>(
-                              builder: (context, chooseChartState) {
-                                if (chooseChartState == null) {
-                                  return const SizedBox();
-                                } else {
-                                  switch (chooseChartState.barType) {
-                                    case BarType.barChart:
-                                      return AssetsOverviewBarCharts(
-                                          getChartEntities:
-                                              state.getChartEntities);
-                                    case BarType.areaChart:
-                                      return AssetsOverviewAreaChart(
-                                          getChartEntities:
-                                              state.getChartEntities,
-                                          titles: titles.toList());
-                                    case BarType.treeChart:
-                                      return AssetsOverviewTreeChart(
-                                          getChartEntities:
-                                              state.getChartEntities);
-                                  }
-                                }
-                              },
-                            ),
-                          ),
-                          LayoutBuilder(builder: (context, snap) {
-                            int count =
-                                ResponsiveHelper(context: context).isDesktop
-                                    ? 3
-                                    : 2;
-                            return Wrap(
-                              children: List.generate(titles.length, (index) {
-                                final item = titles.elementAt(index);
-                                return SizedBox(
-                                  width: snap.maxWidth / count,
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(20, 4, 20, 4),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Container(
-                                          width: 10,
-                                          height: 10,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: AssetsOverviewChartsColors
-                                                    .colorsMap[item] ??
-                                                Colors.brown,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 8),
-                                        Expanded(
-                                          child: Align(
-                                            alignment: AlignmentDirectional
-                                                .centerStart,
-                                            child: Text(
-                                              AssetsOverviewChartsColors
-                                                  .getAssetType(
-                                                      appLocalizations, item),
-                                              style:
-                                                  const TextStyle(fontSize: 10),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }),
-                            );
-                          }),
-                        ],
-                      );
-                    })
+              ? const EmptyChart()
+              : Builder(
+              builder: (context) {
+                Set<String> titles = {};
+                for (var element in state.getChartEntities) {
+                  if (element.bankAccount != 0) {
+                    titles.add(AssetTypes.bankAccount);
+                  }
+                  if (element.realEstate != 0) {
+                    titles.add(AssetTypes.realEstate);
+                  }
+                  if (element.listedAssetEquity != 0) {
+                    titles.add(AssetTypes.listedAssetEquity);
+                  }
+                  if (element.listedAssetFixedIncome != 0) {
+                    titles.add(AssetTypes.listedAssetFixedIncome);
+                  }
+                  if (element.listedAssetOther != 0) {
+                    titles.add(AssetTypes.listedAssetOther);
+                  }
+                  if (element.others != 0) {
+                    titles.add(AssetTypes.otherAsset);
+                  }
+                  if (element.privateDebt != 0) {
+                    titles.add(AssetTypes.privateDebt);
+                  }
+                  if (element.privateEquity != 0) {
+                    titles.add(AssetTypes.privateEquity);
+                  }
+                }
+                return Column(
+                  children: [
+                    const ChartChooserWidget(),
+                    const SizedBox(height: 16),
+                    Expanded(
+                      child:
+                      BlocBuilder<ChartChooserManager, AllChartType?>(
+                        builder: (context, chooseChartState) {
+                          if (chooseChartState == null) {
+                            return const SizedBox();
+                          } else {
+                            switch (chooseChartState.barType) {
+                              case BarType.barChart:
+                                return AssetsOverviewBarCharts(
+                                    getChartEntities:
+                                    state.getChartEntities);
+                              case BarType.areaChart:
+                                return AssetsOverviewAreaChart(
+                                    getChartEntities:
+                                    state.getChartEntities,
+                                    titles: titles.toList());
+                              case BarType.treeChart:
+                                return AssetsOverviewTreeChart(
+                                    getChartEntities:
+                                    state.getChartEntities);
+                            }
+                          }
+                        },
+                      ),
+                    ),
+                    ColorsWithTitlesWidget(
+                      colorTitles: titles.map((e) =>
+                          ColorTitleObj(
+                              title: AssetsOverviewChartsColors.getAssetType(
+                                  appLocalizations, e),
+                              color: (AssetsOverviewChartsColors
+                                  .colorsMap[e] ??
+                                  Colors.brown))).toList(),
+                      axisColumnCount: ResponsiveHelper(context: context).isDesktop ? 3 : 2,
+                    ),
+                  ],
+                );
+              }
+          )
               : const LoadingWidget();
         },
       ),
