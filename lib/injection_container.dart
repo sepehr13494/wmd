@@ -47,6 +47,7 @@ import 'package:wmd/features/add_assets/add_private_equity/presentation/manager/
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/data_sources/custodian_bank_auth_remote_datasource.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/repositories/custodian_bank_auth_repository_impl.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/repositories/custodian_bank_auth_repository.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/domain/use_cases/delete_custodian_bank_status_usecase.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_bank_list_usecase.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_auth_cubit.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
@@ -375,10 +376,11 @@ Future<void> init() async {
 //CustodianBankAuth
   sl.registerFactory(() => CustodianStatusListCubit(sl()));
   sl.registerFactory(() => CustodianBankListCubit(sl()));
-  sl.registerFactory(() => CustodianBankAuthCubit(sl(), sl()));
+  sl.registerFactory(() => CustodianBankAuthCubit(sl(), sl(), sl()));
   sl.registerLazySingleton(() => GetCustodianStatusListUseCase(sl()));
   sl.registerLazySingleton(() => GetCustodianBankListUseCase(sl()));
   sl.registerLazySingleton(() => PostCustodianBankStatusUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteCustodianBankStatusUseCase(sl()));
   sl.registerLazySingleton(() => GetCustodianBankStatusUseCase(sl()));
   sl.registerLazySingleton<CustodianBankAuthRepository>(
       () => CustodianBankAuthRepositoryImpl(sl()));

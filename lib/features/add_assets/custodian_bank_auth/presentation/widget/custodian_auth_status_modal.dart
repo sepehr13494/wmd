@@ -11,23 +11,26 @@ import 'package:wmd/core/presentation/widgets/bottom_modal_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/core/util/firebase_analytics.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/delete_custodian_bank_status_params.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/get_custodian_bank_status_params.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/post_custodian_bank_status_params.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/get_custodian_bank_status_entity.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
+import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 import '../manager/custodian_bank_auth_cubit.dart';
 import 'status_step_widget.dart';
 import 'dart:io' show Platform;
 
-showCustodianBankStatus({
+Future<bool> showCustodianBankStatus({
   required BuildContext context,
   required String bankId,
   required String? id,
   void Function()? onOk,
+  Future<dynamic> Function()? onDelete,
 }) async {
   final appLocalization = AppLocalizations.of(context);
-  await showDialog(
+  return await showDialog(
     context: context,
     builder: (context) {
       return BlocProvider(
@@ -47,6 +50,11 @@ showCustodianBankStatus({
         onOk();
       }
     }
+    if (isConfirm != null && isConfirm == "delete") {
+      return true;
+    }
+
+    return false;
   });
 }
 
@@ -198,54 +206,70 @@ class ActionContainer extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     return BlocConsumer<CustodianBankAuthCubit, CustodianBankAuthState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          if (state is CustodianBankStateLoaded) {
-            final status = state.custodianBankStatusEntity;
+        listener: (context, state) {
+      if (state is SuccessState) {
+        Navigator.pop(context, "delete");
+      }
+    }, builder: (context, state) {
+      if (state is CustodianBankStateLoaded) {
+        final status = state.custodianBankStatusEntity;
 
-            return Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                // mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (status.shareWithBank && AppConstants.publicMvp2Items)
-                    TextButton(
-                        onPressed: () {
-                          // context.pushNamed(AppRoutes.forgetPassword);
-                        },
-                        child: Text(
-                          appLocalizations.common_button_delete,
-                          style: textTheme.bodySmall!.toLinkStyle(context),
-                        )),
-                  const SizedBox(width: 16),
-                  ElevatedButton(
-                    onPressed: () => Navigator.pop(context, true),
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(100, 50)),
-                    child: Text(appLocalizations.common_button_ok),
-                  ),
-                ],
+        return Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // mainAxisSize: MainAxisSize.min,
+            children: [
+              if (status.shareWithBank)
+                TextButton(
+                    onPressed: () async {
+                      final result = await GlobalFunctions.confirmProcess(
+                          context: context,
+                          title: appLocalizations
+                              .linkAccount_deleteCustodianBankModal_description,
+                          body: "");
+
+                      if (result) {
+                        context
+                            .read<CustodianBankAuthCubit>()
+                            .deleteCustodianBankStatus(
+                                DeleteCustodianBankStatusParams(id: status.id));
+                      }
+
+                      // context.pushNamed(AppRoutes.forgetPassword);
+                    },
+                    child: Text(
+                      appLocalizations.common_button_delete,
+                      style: textTheme.bodySmall!.toLinkStyle(context),
+                    )),
+              const SizedBox(width: 16),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, true),
+                style:
+                    ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
+                child: Text(appLocalizations.common_button_ok),
               ),
-            );
-          } else {
-            return Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                // mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(width: 16),
-                  ElevatedButton(
-                    onPressed: () => Navigator.pop(context, true),
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(100, 50)),
-                    child: Text(appLocalizations.common_button_ok),
-                  ),
-                ],
+            ],
+          ),
+        );
+      } else {
+        return Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            // mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(width: 16),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, true),
+                style:
+                    ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
+                child: Text(appLocalizations.common_button_ok),
               ),
-            );
-          }
-        });
+            ],
+          ),
+        );
+      }
+    });
   }
 }

@@ -1,7 +1,9 @@
 import 'package:wmd/core/data/network/server_request_manager.dart';
 import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/data/repository/app_data_source.dart';
+import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:wmd/core/models/app_request_options.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/delete_custodian_bank_status_params.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/status_response.dart';
 
 import '../models/get_custodian_bank_list_params.dart';
@@ -18,6 +20,8 @@ abstract class CustodianBankAuthRemoteDataSource {
       PostCustodianBankStatusParams params);
   Future<GetCustodianBankStatusResponse> getCustodianBankStatus(
       GetCustodianBankStatusParams params);
+  Future<void> deleteCustodianBankStatus(
+      DeleteCustodianBankStatusParams params);
   Future<List<StatusResponse>> getStatusList(GetCustodianBankListParams params);
 }
 
@@ -57,6 +61,17 @@ class CustodianBankAuthRemoteDataSourceImpl extends AppServerDataSource
         await errorHandlerMiddleware.sendRequest(appRequestOptions);
     final result = GetCustodianBankStatusResponse.fromJson(response);
     return result;
+  }
+
+  @override
+  Future<void> deleteCustodianBankStatus(
+      DeleteCustodianBankStatusParams params) async {
+    final appRequestOptions = AppRequestOptions(
+        RequestTypes.del, AppUrls.custodianBank, params.toJson());
+    final response =
+        await errorHandlerMiddleware.sendRequest(appRequestOptions);
+    // final result = GetCustodianBankStatusResponse.fromJson(response);
+    return;
   }
 
   @override
