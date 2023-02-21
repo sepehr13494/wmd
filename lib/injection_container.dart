@@ -277,11 +277,11 @@ Future<void> init() async {
 
 //CurrencyChart
   sl.registerFactory(() => CurrencyChartCubit(sl()));
-  sl.registerLazySingleton(() => GetCurrencyUseCase(sl(),sl()));
+  sl.registerLazySingleton(() => GetCurrencyUseCase(sl(), sl()));
   sl.registerLazySingleton<CurrencyChartRepository>(
-          () => CurrencyChartRepositoryImpl(sl()));
+      () => CurrencyChartRepositoryImpl(sl()));
   sl.registerLazySingleton<CurrencyChartRemoteDataSource>(
-          () => CurrencyChartRemoteDataSourceImpl(sl()));
+      () => CurrencyChartRemoteDataSourceImpl(sl()));
 
   // Dashboard - user status dependencies
   sl.registerFactory(() => UserStatusCubit(sl(), sl()));
@@ -373,7 +373,7 @@ Future<void> init() async {
       () => AssetSummaryRemoteDataSourceImpl(sl()));
 
 //CustodianBankAuth
-  sl.registerLazySingleton(() => CustodianStatusListCubit(sl()));
+  sl.registerFactory(() => CustodianStatusListCubit(sl()));
   sl.registerFactory(() => CustodianBankListCubit(sl()));
   sl.registerFactory(() => CustodianBankAuthCubit(sl(), sl()));
   sl.registerLazySingleton(() => GetCustodianStatusListUseCase(sl()));
@@ -448,13 +448,13 @@ Future<void> init() async {
   await initUtils();
 }
 
-Future<void> initUtils() async{
+Future<void> initUtils() async {
   //local_storage
   sl.registerLazySingleton<LocalStorage>(() => LocalStorage(sl()));
   sl.registerLazySingleton<ServerRequestManager>(
-          () => ServerRequestManager(sl()));
+      () => ServerRequestManager(sl()));
   sl.registerLazySingleton<ErrorHandlerMiddleware>(
-          () => ErrorHandlerMiddleware(sl()));
+      () => ErrorHandlerMiddleware(sl()));
   //device_info
   sl.registerLazySingleton<AppDeviceInfo>(() => AppDeviceInfo(sl()));
   //theme_manager
@@ -463,7 +463,6 @@ Future<void> initUtils() async{
   sl.registerFactory(() => LocalizationManager(sl()));
   //local_auth_manager
   sl.registerFactory(() => LocalAuthManager(sl()));
-
 }
 
 Future<void> initExternal() async {
