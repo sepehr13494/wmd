@@ -9,6 +9,7 @@ class YtdItdWidget extends StatelessWidget {
   final double ytd;
   final double itd;
   final bool showToolTip;
+
   const YtdItdWidget(
       {Key? key,
       this.expand = false,
@@ -22,8 +23,18 @@ class YtdItdWidget extends StatelessWidget {
     return Row(
       children: List.generate(2, (index) {
         final List items = [
-          [AppLocalizations.of(context).assets_label_ytd, ytd, "${ytd.toStringAsFixed(1)}%"],
-          [AppLocalizations.of(context).assets_label_itd, itd, "${itd.toStringAsFixed(1)}%"],
+          [
+            AppLocalizations.of(context).assets_label_ytd,
+            ytd,
+            "${ytd.toStringAsFixed(1)}%",
+            "Year-to-date:the period from the first of\nthe calendar year to date of the\ncommunication."
+          ],
+          [
+            AppLocalizations.of(context).assets_label_itd,
+            itd,
+            "${itd.toStringAsFixed(1)}%",
+            "Incenption-to-date:the period from the\nestablishment of the portfolio/investment to\nthe date of the communication."
+          ],
         ];
         final item = items[index];
         return ExpandedIf(
@@ -41,7 +52,14 @@ class YtdItdWidget extends StatelessWidget {
                           item[0],
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
-                        if (showToolTip) const InfoIcon(),
+                        const SizedBox(width: 4),
+                        if (showToolTip)
+                          Tooltip(
+                            triggerMode: TooltipTriggerMode.tap,
+                            textAlign: TextAlign.center,
+                            message: item[3],
+                            child: const InfoIcon(),
+                          ),
                       ],
                     ),
                     ChangeWidget(number: item[1], text: item[2]),

@@ -33,6 +33,7 @@ class _ContactInformationWidgetState
   void checkFinalValid(value) async {
     await Future.delayed(const Duration(milliseconds: 100));
     bool finalValid = formKey.currentState!.isValid;
+    print(finalValid);
     Map<String, dynamic> instantValue = formKey.currentState!.instantValue;
     if (finalValid && lastValue.toString() != instantValue.toString()) {
       if (!enableSubmitButton) {
@@ -119,28 +120,30 @@ class _ContactInformationWidgetState
                               title: appLocalizations
                                   .profile_tabs_personal_fields_label_primaryPhoneNumber,
                               child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CountryCodePicker(onChange: checkFinalValid),
                                   const SizedBox(width: 8),
                                   Expanded(
                                     child: AppTextFields.simpleTextField(
                                         name: "phoneNumber",
-                                        hint: appLocalizations
-                                            .profile_tabs_personal_fields_label_primaryPhoneNumber,
+                                        hint:
+                                            '${appLocalizations.profile_tabs_personal_fields_label_primaryPhoneNumber.substring(0, 18)}..',
                                         type: TextFieldType.number,
                                         keyboardType: TextInputType.number,
                                         extraValidators: [
                                           (val) {
                                             return (!val!.contains(
                                                     RegExp(r'^[0-9]*$')))
-                                                ? "${appLocalizations.profile_tabs_personal_fields_label_lastName} can only contain numbers"
+                                                ? "Phone number can only contain numbers"
                                                 : null;
                                           },
                                           (val) {
                                             return (val != null &&
+                                                    val != "" &&
                                                     (val.length > 8 ||
                                                         val.length < 8))
-                                                ? "${appLocalizations.profile_tabs_personal_fields_label_lastName} must be of 8 digits"
+                                                ? "Phone number must be of 8 digits"
                                                 : null;
                                           },
                                         ],

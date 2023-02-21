@@ -16,9 +16,9 @@ class LocalAuthManager extends Cubit<bool> {
   LocalAuthManager(this.auth) : super(sl<LocalStorage>().getLocalAuth());
 
   Future<bool> authenticate(BuildContext context) async {
-    if(AppConstants.developMode){
+    if (AppConstants.developMode) {
       return true;
-    }else{
+    } else {
       try {
         if (lastTime != null &&
             DateTime.now().difference(lastTime!).inSeconds < 5) {
@@ -38,7 +38,6 @@ class LocalAuthManager extends Cubit<bool> {
         return false;
       }
     }
-
   }
 
   setLocalAuth(val, context) async {
