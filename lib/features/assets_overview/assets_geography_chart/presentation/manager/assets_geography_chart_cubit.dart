@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 
+import '../../../core/presentataion/manager/base_assets_overview_state.dart';
 import '../../data/models/get_assets_geography_params.dart';
 import '../../domain/use_cases/get_assets_geography_usecase.dart';
 import '../../domain/entities/get_assets_geography_entity.dart';

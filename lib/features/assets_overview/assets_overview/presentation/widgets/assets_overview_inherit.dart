@@ -9,14 +9,12 @@ class AssetsOverviewInherit extends InheritedWidget {
     this.flexList = const [6, 4, 0, 0, 3],
     this.nonExpandedWidth = 80,
     required this.assetList,
-    required this.type,
     required super.child,
   });
 
   final List<int> flexList;
   final double nonExpandedWidth;
   final List<AssetList> assetList;
-  final String type;
 
   static AssetsOverviewInherit of(BuildContext context) {
     final AssetsOverviewInherit? result =

@@ -24,7 +24,6 @@ class AssetTypeBaseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<AssetList> assetList = AssetsOverviewInherit.of(context).assetList;
-    String type = AssetsOverviewInherit.of(context).type;
     final bool minimum = assetList.length <= 2;
     return Column(
       children: [
@@ -33,7 +32,7 @@ class AssetTypeBaseCard extends StatelessWidget {
           return InkWell(
             onTap: () {
               context.goNamed(AppRoutes.assetDetailPage,
-                  queryParams: {'assetId': item.assetId, 'type': type});
+                  queryParams: {'assetId': item.assetId, 'type': item.type});
             },
             child: Card(
               color: index % 2 == 0

@@ -11,11 +11,9 @@ import 'inside_asset_card_tablet.dart';
 
 class AssetListWidget extends StatefulWidget {
   final List<AssetList> assetList;
-  final String type;
   const AssetListWidget({
     Key? key,
     required this.assetList,
-    required this.type,
   }) : super(key: key);
 
   @override
@@ -113,7 +111,7 @@ class _AssetListWidgetState extends State<AssetListWidget> {
             params: AnalyticsUtils.viewIndividualAssetEvent(item.assetName));
 
         context.goNamed(AppRoutes.assetDetailPage,
-            queryParams: {'assetId': item.assetId, 'type': widget.type});
+            queryParams: {'assetId': item.assetId, 'type': item.type});
       },
       child: Card(
         color: index % 2 == 0

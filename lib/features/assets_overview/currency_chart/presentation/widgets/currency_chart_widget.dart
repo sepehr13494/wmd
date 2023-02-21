@@ -44,14 +44,14 @@ class CurrencyChartWidget extends AppStatelessWidget {
             ? Builder(
             builder: (context) {
               double sum = 0;
-              for (var element in state.getCurrencyEntities) {
+              for (var element in state.assetsOverviewBaseModels) {
                 sum += element.totalAmount;
               }
               return Column(
                 children: [
                   Expanded(
                     child: BaseTreeChartWidget<CurrencyTreeObj>(
-                      treeChartObjs: state.getCurrencyEntities
+                      treeChartObjs: state.assetsOverviewBaseModels
                           .map((e) => CurrencyTreeObj(currencyEntity: e))
                           .toList(),
                       itemBuilder: (item,itemIndex) {
@@ -72,8 +72,8 @@ class CurrencyChartWidget extends AppStatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  ColorsWithTitlesWidget(colorTitles: List.generate(state.getCurrencyEntities.length, (index) {
-                    final item = state.getCurrencyEntities[index];
+                  ColorsWithTitlesWidget(colorTitles: List.generate(state.assetsOverviewBaseModels.length, (index) {
+                    GetCurrencyEntity item = state.assetsOverviewBaseModels[index];
                     return ColorTitleObj(title: item.currencyCode,color: AssetsOverviewChartsColors.colors[index]);
                   }),axisColumnCount: ResponsiveHelper(context: context).isDesktop ? 5 : 3,)
                 ],

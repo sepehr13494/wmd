@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:wmd/features/assets_overview/core/domain/entities/assets_overview_base_model.dart';
 
 import '../../../core/domain/entities/assets_list_entity.dart';
