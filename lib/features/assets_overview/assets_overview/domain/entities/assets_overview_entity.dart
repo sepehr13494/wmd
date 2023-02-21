@@ -1,21 +1,25 @@
 import 'package:equatable/equatable.dart';
+import 'package:wmd/features/assets_overview/core/domain/entities/assets_overview_base_model.dart';
 
-class AssetsOverviewEntity extends Equatable{
+import '../../../core/domain/entities/assets_list_entity.dart';
+
+class AssetsOverviewEntity extends AssetsOverviewBaseModel{
   const AssetsOverviewEntity({
     required this.type,
     required this.subType,
-    required this.totalAmount,
-    required this.assetList,
-    required this.yearToDate,
-    required this.inceptionToDate,
-  });
+    required double totalAmount,
+    required List<AssetList> assetList,
+    required double yearToDate,
+    required double inceptionToDate,
+  }) : super(
+    totalAmount: totalAmount,
+    assetList: assetList,
+    yearToDate: yearToDate,
+    inceptionToDate: inceptionToDate,
+  );
 
   final String type;
   final String? subType;
-  final double totalAmount;
-  final List<AssetList> assetList;
-  final double yearToDate;
-  final double inceptionToDate;
 
   Map<String, dynamic> toJson() => {
     "type": type,
@@ -34,37 +38,5 @@ class AssetsOverviewEntity extends Equatable{
     assetList,
     yearToDate,
     inceptionToDate,
-  ];
-}
-
-class AssetList extends Equatable{
-  const AssetList({
-    required this.assetId,
-    required this.assetName,
-    required this.currentValue,
-    required this.inceptionToDate,
-    required this.yearToDate,
-    required this.geography,
-  });
-
-  final String assetId;
-  final String assetName;
-  final double currentValue;
-  final double inceptionToDate;
-  final double yearToDate;
-  final String geography;
-
-  Map<String, dynamic> toJson() => {
-    "assetId": assetId,
-    "assetName": assetName,
-    "currentValue": currentValue,
-    "inceptionToDate": inceptionToDate,
-    "yearToDate": yearToDate,
-    "geography": geography,
-  };
-
-  @override
-  List<Object?> get props => [
-    assetId,
   ];
 }

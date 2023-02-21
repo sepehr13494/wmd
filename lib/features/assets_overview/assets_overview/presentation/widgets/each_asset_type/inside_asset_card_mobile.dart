@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 
+import '../../../../core/domain/entities/assets_list_entity.dart';
 import '../../../domain/entities/assets_overview_entity.dart';
 
 class InsideAssetCardMobile extends AppStatelessWidget {

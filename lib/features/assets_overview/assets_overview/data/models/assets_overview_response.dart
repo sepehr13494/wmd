@@ -1,5 +1,7 @@
 import 'package:wmd/features/assets_overview/assets_overview/domain/entities/assets_overview_entity.dart';
 
+import '../../../core/data/models/assets_list_model.dart';
+
 class AssetsOverviewResponse extends AssetsOverviewEntity {
   const AssetsOverviewResponse({
     required String type,
@@ -40,7 +42,7 @@ class AssetsOverviewResponse extends AssetsOverviewEntity {
         currentValue: 1000000,
         inceptionToDate: 10,
         yearToDate: 10,
-        geography: "Asia",
+        geography: "Asia", currency: '',type: ""
       )
     ],
     yearToDate: 10,
@@ -52,31 +54,3 @@ class AssetsOverviewResponse extends AssetsOverviewEntity {
   ];
 }
 
-class AssetListResponse extends AssetList {
-  const AssetListResponse({
-    required String assetId,
-    required String assetName,
-    required double currentValue,
-    required double inceptionToDate,
-    required double yearToDate,
-    required String geography,
-  }) : super(
-          assetId: assetId,
-          assetName: assetName,
-          currentValue: currentValue,
-          inceptionToDate: inceptionToDate,
-          yearToDate: yearToDate,
-          geography: geography,
-        );
-
-  factory AssetListResponse.fromJson(Map<String, dynamic> json) =>
-      AssetListResponse(
-        assetId: json["assetId"] ?? ".",
-        assetName: json["assetName"] ?? ".",
-        currentValue: double.tryParse(json["currentValue"].toString()) ?? 0,
-        inceptionToDate:
-            double.tryParse(json["inceptionToDate"].toString()) ?? 0,
-        yearToDate: double.tryParse(json["yearToDate"].toString()) ?? 0,
-        geography: json["geography"] ?? ".",
-      );
-}

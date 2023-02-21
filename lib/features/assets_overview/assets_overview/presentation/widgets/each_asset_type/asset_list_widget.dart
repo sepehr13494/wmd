@@ -4,18 +4,16 @@ import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/firebase_analytics.dart';
-import 'package:wmd/features/assets_overview/assets_overview/domain/entities/assets_overview_entity.dart';
 
+import '../../../../core/domain/entities/assets_list_entity.dart';
 import 'inside_asset_card_mobile.dart';
 import 'inside_asset_card_tablet.dart';
 
 class AssetListWidget extends StatefulWidget {
   final List<AssetList> assetList;
-  final String type;
   const AssetListWidget({
     Key? key,
     required this.assetList,
-    required this.type,
   }) : super(key: key);
 
   @override
@@ -113,7 +111,7 @@ class _AssetListWidgetState extends State<AssetListWidget> {
             params: AnalyticsUtils.viewIndividualAssetEvent(item.assetName));
 
         context.goNamed(AppRoutes.assetDetailPage,
-            queryParams: {'assetId': item.assetId, 'type': widget.type});
+            queryParams: {'assetId': item.assetId, 'type': item.type});
       },
       child: Card(
         color: index % 2 == 0

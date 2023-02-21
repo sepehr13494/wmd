@@ -9,9 +9,20 @@ import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/util/firebase_analytics.dart';
+import 'package:wmd/features/assets_overview/assets_geography_chart/domain/entities/get_assets_geography_entity.dart';
+import 'package:wmd/features/assets_overview/assets_geography_chart/presentation/manager/assets_geography_chart_cubit.dart';
+import 'package:wmd/features/assets_overview/assets_overview/domain/entities/assets_overview_entity.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_manager.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_manager.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
+import 'package:wmd/features/assets_overview/core/presentataion/models/assets_overview_base_widget_model.dart';
+import 'package:wmd/features/assets_overview/currency_chart/domain/entities/get_currency_entity.dart';
+import 'package:wmd/features/assets_overview/currency_chart/presentation/manager/currency_chart_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/dashboard_app_bar.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/summart_time_filter.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
+import '../../../core/domain/entities/assets_overview_base_model.dart';
+import '../../../core/presentataion/manager/base_assets_overview_state.dart';
 import '../manager/assets_overview_cubit.dart';
 import '../widgets/add_button.dart';
 import '../widgets/charts_wrapper.dart';
@@ -70,7 +81,7 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                             children: [
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     appLocalizations.assets_page_title,
@@ -95,39 +106,71 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                               const OverViewCard(),
                               const SizedBox(height: 16),
                               const ChartsWrapper(),
-                              BlocConsumer<AssetsOverviewCubit,
-                                  AssetsOverviewState>(
-                                listener: BlocHelper.defaultBlocListener(
-                                  listener: (context, state) {},
-                                ),
-                                builder: BlocHelper.defaultBlocBuilder(
-                                    builder: (context, state) {
-                                  if (state is AssetsOverviewLoaded) {
-                                    return ListView.builder(
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemCount: state.assetsOverviews.length,
-                                      itemBuilder: (context, index) => state
-                                              .assetsOverviews[index]
-                                              .assetList
-                                              .isEmpty
-                                          ? const SizedBox()
-                                          : EachAssetType(
-                                              assetsOverview:
-                                                  state.assetsOverviews[index]),
-                                    );
-                                  } else {
-                                    return const LoadingWidget();
+                              BlocBuilder<TabManager, int>(
+                                builder: (context, state) {
+                                  late Cubit bloc;
+                                  switch (state){
+                                    case 0:
+                                      bloc = context.read<AssetsOverviewCubit>();
+                                      break;
+                                    case 1:
+                                      bloc = context.read<AssetsGeographyChartCubit>();
+                                      break;
+                                    case 2:
+                                      bloc = context.read<CurrencyChartCubit>();
+                                      break;
+                                    default:
+                                      bloc = context.read<AssetsOverviewCubit>();
                                   }
-                                }),
+                                  return BlocConsumer(
+                                    bloc: bloc,
+                                    listener: BlocHelper.defaultBlocListener(
+                                      listener: (context, state) {},
+                                    ),
+                                    builder: (context, state) {
+                                      if (state is BaseAssetsOverviewLoaded) {
+                                        return ListView.builder(
+                                          physics:
+                                          const NeverScrollableScrollPhysics(),
+                                          shrinkWrap: true,
+                                          itemCount: state
+                                              .assetsOverviewBaseModels.length,
+                                          itemBuilder: (context, index) {
+                                            final item = state
+                                                .assetsOverviewBaseModels[
+                                            index];
+                                            return state
+                                                .assetsOverviewBaseModels[index]
+                                                .assetList
+                                                .isEmpty
+                                                ? const SizedBox()
+                                                : EachAssetType(
+                                              assetsOverviewBaseWidgetModel:
+                                              AssetsOverviewBaseWidgetModel(
+                                                title: _getTitle(
+                                                    item, appLocalizations),
+                                                color: _getColor(item, index),
+                                                assetsOverviewType:
+                                                _getType(item),
+                                                assetsOverviewBaseModel: item,
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      } else {
+                                        return const LoadingWidget();
+                                      }
+                                    },
+                                  );
+                                },
                               )
                             ]
-                                .map((e) => Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8),
-                                      child: e,
-                                    ))
+                                .map((e) =>
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8),
+                                  child: e,
+                                ))
                                 .toList(),
                           ),
                         ),
@@ -139,5 +182,43 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
             ));
       });
     });
+  }
+
+  String _getTitle(AssetsOverviewBaseModel item,
+      AppLocalizations appLocalizations,) {
+    if (item is AssetsOverviewEntity) {
+      return AssetsOverviewChartsColors.getAssetType(
+          appLocalizations, item.type,
+          category: item.subType);
+    } else if (item is GetAssetsGeographyEntity) {
+      return item.geography;
+    } else if (item is GetCurrencyEntity) {
+      return item.currencyCode;
+    } else {
+      return "";
+    }
+  }
+
+  Color _getColor(AssetsOverviewBaseModel item, int index) {
+    if (item is AssetsOverviewEntity) {
+      return AssetsOverviewChartsColors.colorsMap[
+      (item.type +
+          (item.subType ?? ""))] ??
+          Colors.brown;
+    } else {
+      return AssetsOverviewChartsColors.colors[index];
+    }
+  }
+
+  _getType(AssetsOverviewBaseModel item) {
+    if (item is AssetsOverviewEntity) {
+      return AssetsOverviewBaseType.assetType;
+    } else if (item is GetAssetsGeographyEntity) {
+      return AssetsOverviewBaseType.geography;
+    } else if (item is GetCurrencyEntity) {
+      return AssetsOverviewBaseType.currency;
+    } else {
+      return AssetsOverviewBaseType.assetType;
+    }
   }
 }

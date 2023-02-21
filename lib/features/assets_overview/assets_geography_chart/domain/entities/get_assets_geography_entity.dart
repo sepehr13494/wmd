@@ -1,19 +1,23 @@
 import 'package:equatable/equatable.dart';
 
-class GetAssetsGeographyEntity  extends Equatable{
+import '../../../core/domain/entities/assets_list_entity.dart';
+import '../../../core/domain/entities/assets_overview_base_model.dart';
+
+class GetAssetsGeographyEntity  extends AssetsOverviewBaseModel{
     const GetAssetsGeographyEntity({
         required this.geography,
-        required this.totalAmount,
-        required this.assetList,
-        required this.yearToDate,
-        required this.inceptionToDate,
-    });
+        required double totalAmount,
+        required List<AssetList> assetList,
+        required double yearToDate,
+        required double inceptionToDate,
+    }) : super(
+        totalAmount: totalAmount,
+        assetList: assetList,
+        yearToDate: yearToDate,
+        inceptionToDate: inceptionToDate,
+    );
 
     final String geography;
-    final double totalAmount;
-    final List<AssetList> assetList;
-    final double yearToDate;
-    final double inceptionToDate;
 
     Map<String, dynamic> toJson() => {
         "geography": geography,
@@ -30,50 +34,4 @@ class GetAssetsGeographyEntity  extends Equatable{
         yearToDate,
         inceptionToDate,
     ];
-}
-
-class AssetList extends Equatable{
-    const AssetList({
-        required this.assetId,
-        required this.assetName,
-        required this.currentValue,
-        required this.inceptionToDate,
-        required this.yearToDate,
-        required this.type,
-    });
-
-    final String assetId;
-    final String assetName;
-    final double currentValue;
-    final double inceptionToDate;
-    final double yearToDate;
-    final String type;
-
-    factory AssetList.fromJson(Map<String, dynamic> json) => AssetList(
-        assetId: json["assetId"],
-        assetName: json["assetName"],
-        currentValue: json["currentValue"],
-        inceptionToDate: json["inceptionToDate"],
-        yearToDate: json["yearToDate"],
-        type: json["type"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "assetId": assetId,
-        "assetName": assetName,
-        "currentValue": currentValue,
-        "inceptionToDate": inceptionToDate,
-        "yearToDate": yearToDate,
-        "type": type,
-    };
-
-  @override
-  List<Object?> get props => [
-      assetId,
-      assetName,
-      currentValue,
-      inceptionToDate,
-      yearToDate,
-      type,
-  ];
 }
