@@ -4,8 +4,10 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 
 import '../../../../core/domain/entities/assets_list_entity.dart';
+import '../../../../core/presentataion/models/assets_overview_base_widget_model.dart';
 import '../assets_overview_inherit.dart';
 
 class InsideAssetCardTablet extends AppStatelessWidget {
@@ -62,7 +64,22 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                           alignment: AlignmentDirectional.centerEnd,
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
-                            child: Text(asset.geography),
+                            child: Builder(
+                              builder: (context) {
+                                final assetOverviewType = AssetsOverviewInherit.of(context).assetOverviewBaseType;
+                                String finalText = "";
+                                switch (assetOverviewType){
+                                  case AssetsOverviewBaseType.assetType:
+                                    finalText = asset.geography;
+                                    break;
+                                  case AssetsOverviewBaseType.currency:
+                                  case AssetsOverviewBaseType.geography:
+                                    finalText = AssetsOverviewChartsColors.getAssetType(appLocalizations, asset.type);
+                                    break;
+                                }
+                                return Text(finalText);
+                              }
+                            ),
                           ),
                         );
                       default:

@@ -82,6 +82,7 @@ class EachAssetType extends AppStatelessWidget {
           if (assetsOverviewBaseWidgetModel.assetsOverviewBaseModel.assetList.isNotEmpty)
             AssetsOverviewInherit(
               assetList: assetsOverviewBaseWidgetModel.assetsOverviewBaseModel.assetList,
+              assetOverviewBaseType: assetsOverviewBaseWidgetModel.assetsOverviewType,
               child: Column(
                 children: [
                   const Padding(

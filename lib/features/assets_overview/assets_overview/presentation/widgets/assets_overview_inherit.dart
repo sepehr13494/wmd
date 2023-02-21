@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wmd/features/assets_overview/assets_overview/domain/entities/assets_overview_entity.dart';
+import 'package:wmd/features/assets_overview/core/presentataion/models/assets_overview_base_widget_model.dart';
 
 import '../../../core/domain/entities/assets_list_entity.dart';
 
@@ -9,11 +10,13 @@ class AssetsOverviewInherit extends InheritedWidget {
     this.flexList = const [6, 4, 0, 0, 3],
     this.nonExpandedWidth = 80,
     required this.assetList,
+    required this.assetOverviewBaseType,
     required super.child,
   });
 
   final List<int> flexList;
   final double nonExpandedWidth;
+  final AssetsOverviewBaseType assetOverviewBaseType;
   final List<AssetList> assetList;
 
   static AssetsOverviewInherit of(BuildContext context) {
