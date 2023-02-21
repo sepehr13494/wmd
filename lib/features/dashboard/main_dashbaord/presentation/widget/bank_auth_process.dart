@@ -140,11 +140,17 @@ class _BanksAuthorizationProcessState
             alignment: Alignment.centerRight,
             child: InkWell(
               onTap: () async {
-                await showCustodianBankStatus(
+                final resPopup = await showCustodianBankStatus(
                   context: context,
                   bankId: e.bankId,
                   id: e.id,
                 );
+
+                if (resPopup) {
+                  context
+                      .read<CustodianStatusListCubit>()
+                      .getCustodianStatusList();
+                }
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,

@@ -23,7 +23,7 @@ class GetCurrencyResponse extends GetCurrencyEntity{
         inceptionToDate: double.tryParse(json["inceptionToDate"].toString()) ?? 0,
     );
 
-    static final tResponse = [GetCurrencyResponse.fromJson({
+    static final tResponse = [GetCurrencyResponse.fromJson(const {
         "currencyCode": "USD",
         "totalAmount": 5626422.86641549,
         "assetList": [

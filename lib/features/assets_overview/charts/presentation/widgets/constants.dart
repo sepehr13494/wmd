@@ -28,6 +28,7 @@ class AssetsOverviewChartsColors {
     AssetTypes.otherAssets: Color(0xffFFFFFF),
   };
 
+
   static const Map<String, Color> colorsMapPie = {
     AssetTypes.bankAccount: Color(0xff69544B),
     AssetTypes.listedAsset: Color(0xff41765D),

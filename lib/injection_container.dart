@@ -47,6 +47,7 @@ import 'package:wmd/features/add_assets/add_private_equity/presentation/manager/
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/data_sources/custodian_bank_auth_remote_datasource.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/repositories/custodian_bank_auth_repository_impl.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/repositories/custodian_bank_auth_repository.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/domain/use_cases/delete_custodian_bank_status_usecase.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_bank_list_usecase.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_auth_cubit.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
@@ -55,6 +56,11 @@ import 'package:wmd/features/asset_detail/core/data/repositories/asset_summary_r
 import 'package:wmd/features/asset_detail/core/presentation/manager/asset_summary_cubit.dart';
 import 'package:wmd/features/asset_see_more/core/domain/repositories/asset_see_more_repository.dart';
 import 'package:wmd/features/asset_see_more/core/presentation/manager/asset_see_more_cubit.dart';
+import 'package:wmd/features/assets_overview/assets_geography_chart/data/data_sources/assets_geography_chart_remote_datasource.dart';
+import 'package:wmd/features/assets_overview/assets_geography_chart/data/repositories/assets_geography_chart_repository_impl.dart';
+import 'package:wmd/features/assets_overview/assets_geography_chart/domain/repositories/assets_geography_chart_repository.dart';
+import 'package:wmd/features/assets_overview/assets_geography_chart/domain/use_cases/get_assets_geography_usecase.dart';
+import 'package:wmd/features/assets_overview/assets_geography_chart/presentation/manager/assets_geography_chart_cubit.dart';
 import 'package:wmd/features/assets_overview/assets_overview/data/data_sources/asset_overview_remote_datasource.dart';
 import 'package:wmd/features/assets_overview/assets_overview/data/repositories/assets_overview_repository_impl.dart';
 import 'package:wmd/features/assets_overview/assets_overview/domain/repositories/assets_overview_repository.dart';
@@ -71,6 +77,7 @@ import 'package:wmd/features/assets_overview/charts/domain/repositories/charts_r
 import 'package:wmd/features/assets_overview/charts/domain/use_cases/get_chart_usecase.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/chart_chooser_manager.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_manager.dart';
 import 'package:wmd/features/assets_overview/currency_chart/data/data_sources/currency_chart_remote_datasource.dart';
 import 'package:wmd/features/assets_overview/currency_chart/data/repositories/currency_chart_repository_impl.dart';
 import 'package:wmd/features/assets_overview/currency_chart/domain/repositories/currency_chart_repository.dart';
@@ -270,6 +277,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetChartUseCase(sl(), sl()));
   //chart_chooser_manager
   sl.registerFactory(() => ChartChooserManager());
+  sl.registerFactory(() => TabManager());
 
   sl.registerLazySingleton<ChartsRepository>(() => ChartsRepositoryImpl(sl()));
   sl.registerLazySingleton<ChartsRemoteDataSource>(
@@ -277,11 +285,21 @@ Future<void> init() async {
 
 //CurrencyChart
   sl.registerFactory(() => CurrencyChartCubit(sl()));
-  sl.registerLazySingleton(() => GetCurrencyUseCase(sl(),sl()));
+  sl.registerLazySingleton(() => GetCurrencyUseCase(sl(), sl()));
   sl.registerLazySingleton<CurrencyChartRepository>(
-          () => CurrencyChartRepositoryImpl(sl()));
+      () => CurrencyChartRepositoryImpl(sl()));
   sl.registerLazySingleton<CurrencyChartRemoteDataSource>(
-          () => CurrencyChartRemoteDataSourceImpl(sl()));
+      () => CurrencyChartRemoteDataSourceImpl(sl()));
+
+  //AssetsGeographyChart
+  sl.registerFactory(() => AssetsGeographyChartCubit(sl()));
+  sl.registerLazySingleton(() => GetAssetsGeographyUseCase(sl()));
+
+  sl.registerLazySingleton<AssetsGeographyChartRepository>(
+          () => AssetsGeographyChartRepositoryImpl(sl()));
+  sl.registerLazySingleton<AssetsGeographyChartRemoteDataSource>(
+          () => AssetsGeographyChartRemoteDataSourceImpl(sl()));
+
 
   // Dashboard - user status dependencies
   sl.registerFactory(() => UserStatusCubit(sl(), sl()));
@@ -373,12 +391,13 @@ Future<void> init() async {
       () => AssetSummaryRemoteDataSourceImpl(sl()));
 
 //CustodianBankAuth
-  sl.registerLazySingleton(() => CustodianStatusListCubit(sl()));
+  sl.registerFactory(() => CustodianStatusListCubit(sl()));
   sl.registerFactory(() => CustodianBankListCubit(sl()));
-  sl.registerFactory(() => CustodianBankAuthCubit(sl(), sl()));
+  sl.registerFactory(() => CustodianBankAuthCubit(sl(), sl(), sl()));
   sl.registerLazySingleton(() => GetCustodianStatusListUseCase(sl()));
   sl.registerLazySingleton(() => GetCustodianBankListUseCase(sl()));
   sl.registerLazySingleton(() => PostCustodianBankStatusUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteCustodianBankStatusUseCase(sl()));
   sl.registerLazySingleton(() => GetCustodianBankStatusUseCase(sl()));
   sl.registerLazySingleton<CustodianBankAuthRepository>(
       () => CustodianBankAuthRepositoryImpl(sl()));
@@ -448,13 +467,13 @@ Future<void> init() async {
   await initUtils();
 }
 
-Future<void> initUtils() async{
+Future<void> initUtils() async {
   //local_storage
   sl.registerLazySingleton<LocalStorage>(() => LocalStorage(sl()));
   sl.registerLazySingleton<ServerRequestManager>(
-          () => ServerRequestManager(sl()));
+      () => ServerRequestManager(sl()));
   sl.registerLazySingleton<ErrorHandlerMiddleware>(
-          () => ErrorHandlerMiddleware(sl()));
+      () => ErrorHandlerMiddleware(sl()));
   //device_info
   sl.registerLazySingleton<AppDeviceInfo>(() => AppDeviceInfo(sl()));
   //theme_manager
@@ -463,7 +482,6 @@ Future<void> initUtils() async{
   sl.registerFactory(() => LocalizationManager(sl()));
   //local_auth_manager
   sl.registerFactory(() => LocalAuthManager(sl()));
-
 }
 
 Future<void> initExternal() async {

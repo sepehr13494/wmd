@@ -14,25 +14,28 @@ class FirstFlexObj<T extends TreeChartObj> {
   });
 }
 
-abstract class TreeChartObj with EquatableMixin{
+abstract class TreeChartObj with EquatableMixin {
   final double value;
 
   const TreeChartObj({
     required this.value,
   });
-
 }
 
 class BaseTreeChartWidget<T extends TreeChartObj> extends AppStatelessWidget {
   final List<T> treeChartObjs;
-  final Widget Function(T) itemBuilder;
-  const BaseTreeChartWidget({Key? key,required this.treeChartObjs,required this.itemBuilder}) : super(key: key);
+  final Widget Function(T, int) itemBuilder;
+
+  const BaseTreeChartWidget(
+      {Key? key, required this.treeChartObjs, required this.itemBuilder})
+      : super(key: key);
 
   @override
-  Widget buildWidget(BuildContext context,TextTheme textTheme, AppLocalizations appLocalizations) {
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
     List<T> realItems = treeChartObjs;
     realItems.sort(
-          (a, b) => (b.value - a.value).toInt(),
+      (a, b) => (b.value - a.value).toInt(),
     );
     final List<double> items = realItems.map((e) => e.value).toList();
     double sum = items.reduce((a, b) => a + b);
@@ -40,13 +43,13 @@ class BaseTreeChartWidget<T extends TreeChartObj> extends AppStatelessWidget {
     List<FirstFlexObj<T>> firstFlexes = [];
     List<double> secondFlexes = [];
     items.sort(
-          (a, b) => (b - a).toInt(),
+      (a, b) => (b - a).toInt(),
     );
     print(items);
     for (int i = 0; i < items.length; i++) {
       if (((items[i]) * 2 < leftover - items[i]) && i != items.length - 1) {
         if (((items[i] + items[i + 1]) * 2 <
-            leftover - (items[i] + items[i + 1])) &&
+                leftover - (items[i] + items[i + 1])) &&
             i != items.length - 2) {
           firstFlexes.add(FirstFlexObj(
               flex: (items[i] + items[i + 1] + items[i + 2]) / leftover,
@@ -72,11 +75,13 @@ class BaseTreeChartWidget<T extends TreeChartObj> extends AppStatelessWidget {
     }
     firstFlexes = firstFlexes.reversed.toList();
     secondFlexes = secondFlexes.reversed.toList();
-    generateWidget(
-        {required Widget child,
-          required FirstFlexObj<T> firstFlex,
-          required double secondFlex,
-          required TreeChartObj treeChartObj}) {
+    generateWidget({
+      required Widget child,
+      required FirstFlexObj<T> firstFlex,
+      required double secondFlex,
+      required TreeChartObj treeChartObj,
+      required int itemIndex,
+    }) {
       return LayoutBuilder(
         builder: (context, snap) {
           return RowOrColumn(
@@ -85,29 +90,31 @@ class BaseTreeChartWidget<T extends TreeChartObj> extends AppStatelessWidget {
               firstFlex.flex == 0
                   ? const SizedBox()
                   : Expanded(
-                flex: (firstFlex.flex * sum).ceil(),
-                child: RowOrColumn(
-                  showRow: !(snap.maxWidth > snap.maxHeight),
-                  children:
-                  List.generate(firstFlex.items.length, (index) {
-                    final flexItem = firstFlex.items[index];
-                    return Expanded(
-                      flex: (flexItem.value * 100).toInt(),
-                      child: SizedBox(
-                          width: double.maxFinite,
-                          height: double.maxFinite,
-                          child: itemBuilder(flexItem),
+                      flex: (firstFlex.flex * sum).ceil(),
+                      child: RowOrColumn(
+                        showRow: !(snap.maxWidth > snap.maxHeight),
+                        children: List.generate(
+                          firstFlex.items.length,
+                          (index) {
+                            final flexItem = firstFlex.items[index];
+                            return Expanded(
+                              flex: (flexItem.value * 100).toInt(),
+                              child: SizedBox(
+                                width: double.maxFinite,
+                                height: double.maxFinite,
+                                child: itemBuilder(flexItem,itemIndex),
+                              ),
+                            );
+                          },
+                        ),
                       ),
-                    );
-                  }),
-                ),
-              ),
+                    ),
               (secondFlex == 0 || firstFlex.flex == 0)
                   ? const SizedBox()
                   : Expanded(
-                flex: (secondFlex * sum).ceil(),
-                child: child,
-              )
+                      flex: (secondFlex * sum).ceil(),
+                      child: child,
+                    )
             ],
           );
         },
@@ -120,7 +127,8 @@ class BaseTreeChartWidget<T extends TreeChartObj> extends AppStatelessWidget {
           child: finalWidget,
           firstFlex: firstFlexes[i],
           secondFlex: secondFlexes[i],
-          treeChartObj: realItems[realItems.length - 1 - i]);
+          treeChartObj: realItems[realItems.length - 1 - i],
+          itemIndex: realItems.length - 1 - i);
     }
     return finalWidget;
   }
