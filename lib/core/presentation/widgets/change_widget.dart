@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:wmd/core/util/colors.dart';
 
@@ -25,7 +27,7 @@ class ChangeWidget extends StatelessWidget {
                   ),
           ),
           TextSpan(
-            text: text,
+            text: isZero ? '0%' : text,
             style: TextStyle(color: color),
           ),
         ],
