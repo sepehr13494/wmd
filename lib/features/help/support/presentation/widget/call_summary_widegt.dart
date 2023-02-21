@@ -35,7 +35,7 @@ class CallSummaryWidget extends AppStatelessWidget {
                               .firstWhere(
                                   (element) =>
                                       element.value ==
-                                      formState!.value["timeZone"],
+                                      formState!.value["timeZone"]?.value,
                                   orElse: () => TimeZones(
                                       name: "null",
                                       value: "null",
