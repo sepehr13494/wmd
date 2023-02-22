@@ -5,6 +5,8 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/delete_c
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/get_custodian_bank_status_entity.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/post_custodian_bank_status_entity.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/use_cases/delete_custodian_bank_status_usecase.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/domain/use_cases/put_custodian_bank_status_usecase.dart';
+import '../../data/models/put_custodian_bank_status_params.dart';
 import '../../domain/entities/custodian_bank_entity.dart';
 import '../../data/models/post_custodian_bank_status_params.dart';
 import '../../domain/use_cases/post_custodian_bank_status_usecase.dart';
@@ -15,11 +17,13 @@ part 'custodian_bank_auth_state.dart';
 
 class CustodianBankAuthCubit extends Cubit<CustodianBankAuthState> {
   final PostCustodianBankStatusUseCase postCustodianBankStatusUseCase;
+  final PutCustodianBankStatusUseCase putCustodianBankStatusUseCase;
   final GetCustodianBankStatusUseCase getCustodianBankStatusUseCase;
   final DeleteCustodianBankStatusUseCase deleteCustodianBankStatusUseCase;
 
   CustodianBankAuthCubit(
     this.postCustodianBankStatusUseCase,
+    this.putCustodianBankStatusUseCase,
     this.getCustodianBankStatusUseCase,
     this.deleteCustodianBankStatusUseCase,
   ) : super(LoadingState());
@@ -28,6 +32,15 @@ class CustodianBankAuthCubit extends Cubit<CustodianBankAuthState> {
     emit(LoadingState());
 
     final result = await postCustodianBankStatusUseCase(params);
+    result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
+      emit(CustodianBankStateUpdated(postCustodianBankStatusEntity: entity));
+    });
+  }
+
+  putCustodianBankStatus(PutCustodianBankStatusParams params) async {
+    emit(LoadingState());
+
+    final result = await putCustodianBankStatusUseCase(params);
     result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
       emit(CustodianBankStateUpdated(postCustodianBankStatusEntity: entity));
     });
