@@ -8,6 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/features/assets_overview/assets_geography_chart/domain/entities/get_assets_geography_entity.dart';
 import 'package:wmd/features/assets_overview/assets_geography_chart/presentation/manager/assets_geography_chart_cubit.dart';
@@ -56,7 +57,10 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
             },
             child: SafeArea(
               child: Scaffold(
-                appBar: const DashboardAppBar(),
+                appBar: DashboardAppBar(
+                    showBack: true,
+                    handleGoBack: () =>
+                        context.read<MainPageCubit>().onItemTapped(0)),
                 body: Stack(
                   children: [
                     const LeafBackground(),
@@ -81,25 +85,26 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                             children: [
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     appLocalizations.assets_page_title,
                                     style: textTheme.titleLarge,
                                   ),
-                                  AddButton(
-                                    addAsset: false,
-                                    onTap: () {
-                                      AnalyticsUtils.triggerEvent(
-                                          action: AnalyticsUtils
-                                              .assetAdditionAction,
-                                          params: AnalyticsUtils
-                                              .addAssetOverviewEvent);
+                                  if (AppConstants.publicMvp2Items)
+                                    AddButton(
+                                      addAsset: false,
+                                      onTap: () {
+                                        AnalyticsUtils.triggerEvent(
+                                            action: AnalyticsUtils
+                                                .assetAdditionAction,
+                                            params: AnalyticsUtils
+                                                .addAssetOverviewEvent);
 
-                                      context
-                                          .pushNamed(AppRoutes.addAssetsView);
-                                    },
-                                  ),
+                                        context
+                                            .pushNamed(AppRoutes.addAssetsView);
+                                      },
+                                    ),
                                 ],
                               ),
                               const SummaryTimeFilter(key: Key('OverviewPage')),
@@ -109,18 +114,21 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                               BlocBuilder<TabManager, int>(
                                 builder: (context, state) {
                                   late Cubit bloc;
-                                  switch (state){
+                                  switch (state) {
                                     case 0:
-                                      bloc = context.read<AssetsOverviewCubit>();
+                                      bloc =
+                                          context.read<AssetsOverviewCubit>();
                                       break;
                                     case 1:
-                                      bloc = context.read<AssetsGeographyChartCubit>();
+                                      bloc = context
+                                          .read<AssetsGeographyChartCubit>();
                                       break;
                                     case 2:
                                       bloc = context.read<CurrencyChartCubit>();
                                       break;
                                     default:
-                                      bloc = context.read<AssetsOverviewCubit>();
+                                      bloc =
+                                          context.read<AssetsOverviewCubit>();
                                   }
                                   return BlocConsumer(
                                     bloc: bloc,
@@ -131,30 +139,33 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                       if (state is BaseAssetsOverviewLoaded) {
                                         return ListView.builder(
                                           physics:
-                                          const NeverScrollableScrollPhysics(),
+                                              const NeverScrollableScrollPhysics(),
                                           shrinkWrap: true,
                                           itemCount: state
                                               .assetsOverviewBaseModels.length,
                                           itemBuilder: (context, index) {
-                                            final item = state
-                                                .assetsOverviewBaseModels[
-                                            index];
+                                            final item =
+                                                state.assetsOverviewBaseModels[
+                                                    index];
                                             return state
-                                                .assetsOverviewBaseModels[index]
-                                                .assetList
-                                                .isEmpty
+                                                    .assetsOverviewBaseModels[
+                                                        index]
+                                                    .assetList
+                                                    .isEmpty
                                                 ? const SizedBox()
                                                 : EachAssetType(
-                                              assetsOverviewBaseWidgetModel:
-                                              AssetsOverviewBaseWidgetModel(
-                                                title: _getTitle(
-                                                    item, appLocalizations),
-                                                color: _getColor(item, index),
-                                                assetsOverviewType:
-                                                _getType(item),
-                                                assetsOverviewBaseModel: item,
-                                              ),
-                                            );
+                                                    assetsOverviewBaseWidgetModel:
+                                                        AssetsOverviewBaseWidgetModel(
+                                                      title: _getTitle(item,
+                                                          appLocalizations),
+                                                      color: _getColor(
+                                                          item, index),
+                                                      assetsOverviewType:
+                                                          _getType(item),
+                                                      assetsOverviewBaseModel:
+                                                          item,
+                                                    ),
+                                                  );
                                           },
                                         );
                                       } else {
@@ -165,12 +176,11 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                 },
                               )
                             ]
-                                .map((e) =>
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 8),
-                                  child: e,
-                                ))
+                                .map((e) => Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8),
+                                      child: e,
+                                    ))
                                 .toList(),
                           ),
                         ),
@@ -184,8 +194,10 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
     });
   }
 
-  String _getTitle(AssetsOverviewBaseModel item,
-      AppLocalizations appLocalizations,) {
+  String _getTitle(
+    AssetsOverviewBaseModel item,
+    AppLocalizations appLocalizations,
+  ) {
     if (item is AssetsOverviewEntity) {
       return AssetsOverviewChartsColors.getAssetType(
           appLocalizations, item.type,
@@ -201,9 +213,8 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
 
   Color _getColor(AssetsOverviewBaseModel item, int index) {
     if (item is AssetsOverviewEntity) {
-      return AssetsOverviewChartsColors.colorsMap[
-      (item.type +
-          (item.subType ?? ""))] ??
+      return AssetsOverviewChartsColors
+              .colorsMap[(item.type + (item.subType ?? ""))] ??
           Colors.brown;
     } else {
       return AssetsOverviewChartsColors.colors[index];
