@@ -340,7 +340,10 @@ class _CustomExpansionTileState extends State<CustomExpansionTile>
   Widget? _buildIcon(BuildContext context) {
     return RotationTransition(
       turns: _iconTurns,
-      child: const Icon(Icons.expand_more),
+      child: Icon(
+        Icons.expand_more,
+        color: widget.iconColor,
+      ),
     );
   }
 

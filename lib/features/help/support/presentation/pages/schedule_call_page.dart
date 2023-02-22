@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
@@ -138,10 +140,11 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                             height: 40,
                           ),
                           ElevatedButton(
-                            onPressed: () => Navigator.pop(context, true),
+                            onPressed: () => context.goNamed(AppRoutes.support),
                             style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(100, 50)),
-                            child: Text("Close"),
+                            child: Text(
+                                appLocalizations.scheduleMeeting_button_close),
                           ),
                         ]))
                   ]))));
@@ -475,7 +478,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                   },
                   name: "subject",
                   hint: "Select",
-                  items: CallReason.callReasonList
+                  items: CallReason.callReasonList(context)
                       .map((e) => DropdownMenuItem(
                             value: e.value,
                             child: Text(e.name),
