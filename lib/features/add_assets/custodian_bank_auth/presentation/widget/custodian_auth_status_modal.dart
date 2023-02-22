@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,13 +8,12 @@ import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/bottom_modal_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/delete_custodian_bank_status_params.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/get_custodian_bank_status_params.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/post_custodian_bank_status_params.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/put_custodian_bank_status_params.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/get_custodian_bank_status_entity.dart';
-import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 import '../manager/custodian_bank_auth_cubit.dart';
@@ -90,7 +88,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
         context.read<CustodianBankAuthCubit>().getCustodianBankStatus(
             GetCustodianBankStatusParams(
                 bankId: widget.bankId, custodianBankStatusId: id));
-        sl<CustodianStatusListCubit>().getCustodianStatusList();
+        // sl<CustodianStatusListCubit>().getCustodianStatusList();
       }
     }, builder: (context, state) {
       if (state is ErrorState) {
@@ -159,8 +157,8 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                   : null,
               isDone: status.shareWithBank,
               onDone: (val) async {
-                context.read<CustodianBankAuthCubit>().postCustodianBankStatus(
-                    PostCustodianBankStatusParams(
+                context.read<CustodianBankAuthCubit>().putCustodianBankStatus(
+                    PutCustodianBankStatusParams(
                         bankId: widget.bankId,
                         id: id,
                         accountId: val,

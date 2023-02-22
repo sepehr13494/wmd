@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
+import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/firebase_analytics.dart';
@@ -17,10 +18,10 @@ class AssetListWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<AssetListWidget> createState() => _AssetListWidgetState();
+  AppState<AssetListWidget> createState() => _AssetListWidgetState();
 }
 
-class _AssetListWidgetState extends State<AssetListWidget> {
+class _AssetListWidgetState extends AppState<AssetListWidget> {
   int count = 0;
   final int initial = 2;
   final int add = 5;
@@ -50,7 +51,7 @@ class _AssetListWidgetState extends State<AssetListWidget> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context, textTheme, appLocalization) {
     return Column(
       children: [
         ...List.generate(count, (index) {
@@ -71,7 +72,7 @@ class _AssetListWidgetState extends State<AssetListWidget> {
                   child: Padding(
                     padding: const EdgeInsets.all(12),
                     child: Text(
-                      "Show less",
+                      appLocalization.common_button_viewLess,
                       style: TextStyle(color: Theme.of(context).primaryColor),
                     ),
                   ),
@@ -91,7 +92,7 @@ class _AssetListWidgetState extends State<AssetListWidget> {
                   child: Padding(
                     padding: const EdgeInsets.all(12),
                     child: Text(
-                      "Show more",
+                      appLocalization.common_button_viewMore,
                       style: TextStyle(color: Theme.of(context).primaryColor),
                     ),
                   ),

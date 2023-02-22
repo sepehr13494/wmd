@@ -3,6 +3,7 @@ import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/delete_custodian_bank_status_params.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/put_custodian_bank_status_params.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/status_entity.dart';
 
 import '../models/get_custodian_bank_list_params.dart';
@@ -36,6 +37,17 @@ class CustodianBankAuthRepositoryImpl implements CustodianBankAuthRepository {
       postCustodianBankStatus(PostCustodianBankStatusParams params) async {
     try {
       final result = await remoteDataSource.postCustodianBankStatus(params);
+      return Right(result);
+    } on ServerException catch (error) {
+      return Left(ServerFailure.fromServerException(error));
+    }
+  }
+
+  @override
+  Future<Either<Failure, PostCustodianBankStatusEntity>> putCustodianBankStatus(
+      PutCustodianBankStatusParams params) async {
+    try {
+      final result = await remoteDataSource.putCustodianBankStatus(params);
       return Right(result);
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
