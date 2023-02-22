@@ -58,7 +58,7 @@ class GlobalFunctions {
                       color: AppColors.primary,
                     ),
                     onTap: () {
-                      Navigator.pop(context);
+                      Navigator.pop(context, false);
                     },
                   ),
                 ),
@@ -118,7 +118,7 @@ class GlobalFunctions {
         );
       },
     ).then((isConfirm) {
-      if (isConfirm != null) {
+      if (isConfirm != null && isConfirm == true) {
         return true;
       } else {
         return false;
