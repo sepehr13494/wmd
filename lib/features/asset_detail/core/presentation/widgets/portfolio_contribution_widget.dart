@@ -14,6 +14,9 @@ class PortfolioContributionWidget extends AppStatelessWidget {
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
+    final value = portfolioContribution == 0
+        ? '0'
+        : portfolioContribution.toStringAsFixed(1);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -24,7 +27,7 @@ class PortfolioContributionWidget extends AppStatelessWidget {
         Builder(builder: (context) {
           // final double portfolioPercentage = portfolioContribution * 100;
           return Text(
-            "${portfolioContribution.toStringAsFixed(1)}% of ${netWorth.convertMoney(addDollar: true)}",
+            "$value% of ${netWorth.convertMoney(addDollar: true)}",
             style: textTheme.bodyLarge,
           );
         }),
