@@ -45,59 +45,70 @@ class GlobalFunctions {
           child: SimpleDialog(
             // backgroundColor: Colors.white,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.circular(3.0),
             ),
-            title: Center(
-              child: Text(
-                title,
-                style: appTextTheme.bodyText1,
-              ),
-            ),
-            children: <Widget>[
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        body,
-                        textAlign: TextAlign.center,
-                        style: appTextTheme.bodySmall,
-                      ),
+            title: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  alignment: FractionalOffset.topRight,
+                  child: GestureDetector(
+                    child: const Icon(
+                      Icons.clear,
+                      color: AppColors.primary,
                     ),
-                  ],
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                child: Center(
+                  child: Text(
+                    title,
+                    style: appTextTheme.bodyText1,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ]),
+            children: <Widget>[
+              if ((body != ""))
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          body,
+                          textAlign: TextAlign.center,
+                          style: appTextTheme.bodySmall,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               const SizedBox(height: 15.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextButton(
+                  ElevatedButton(
                     onPressed: () => Navigator.pop(context, true),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                        AppColors.primary,
-                      ),
-                    ),
-                    child: const Text(
-                      "Yes",
-                      style: TextStyle(color: Colors.white),
-                    ),
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(100, 40)),
+                    child: const Text("Yes"),
                   ),
                   const SizedBox(width: 20.0),
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    style: ButtonStyle(
-                      elevation: MaterialStateProperty.all(0.0),
-                      backgroundColor: MaterialStateProperty.all(
-                        Colors.transparent,
-                      ),
-                    ),
+                  OutlinedButton(
+                    onPressed: () => Navigator.pop(context, false),
+                    style: OutlinedButton.styleFrom(
+                        minimumSize: const Size(100, 40)),
                     child: const Text(
                       "No",
-                      style: TextStyle(color: Colors.grey),
                     ),
                   ),
                 ],

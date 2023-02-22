@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 
+import '../../../../core/domain/entities/assets_list_entity.dart';
 import '../../../domain/entities/assets_overview_entity.dart';
 
 class InsideAssetCardMobile extends AppStatelessWidget {
@@ -72,10 +73,12 @@ class InsideAssetCardMobile extends AppStatelessWidget {
                 children: [
                   ChangeWidget(
                       number: asset.inceptionToDate,
-                      text: "${asset.inceptionToDate.toStringAsFixed(1)}%"),
+                      text: "${asset.inceptionToDate.toStringAsFixed(1)}%",
+                    tooltipMessage: (asset.inceptionToDate > 99900 || asset.inceptionToDate < -100) ? "The performance computation maybe incorrect and the incoming data for the custodian bank needs to be checked" : null,
+                  ),
                   const SizedBox(width: 8),
                   ChangeWidget(
-                      number: asset.yearToDate, text: "${asset.yearToDate} %"),
+                      number: asset.yearToDate, text: "${asset.yearToDate.toStringAsFixed(1)} %"),
                 ],
               )
             ],

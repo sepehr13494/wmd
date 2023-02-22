@@ -6,6 +6,7 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/assets_overview/assets_overview/domain/entities/assets_overview_entity.dart';
 
+import '../../../../core/domain/entities/assets_list_entity.dart';
 import '../assets_overview_inherit.dart';
 import 'inside_asset_card_mobile.dart';
 import 'inside_asset_card_tablet.dart';
@@ -23,7 +24,6 @@ class AssetTypeBaseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<AssetList> assetList = AssetsOverviewInherit.of(context).assetList;
-    String type = AssetsOverviewInherit.of(context).type;
     final bool minimum = assetList.length <= 2;
     return Column(
       children: [
@@ -32,7 +32,7 @@ class AssetTypeBaseCard extends StatelessWidget {
           return InkWell(
             onTap: () {
               context.goNamed(AppRoutes.assetDetailPage,
-                  queryParams: {'assetId': item.assetId, 'type': type});
+                  queryParams: {'assetId': item.assetId, 'type': item.type});
             },
             child: Card(
               color: index % 2 == 0

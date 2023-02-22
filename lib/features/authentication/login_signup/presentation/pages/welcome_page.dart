@@ -61,8 +61,8 @@ class WelcomePage extends AppStatelessWidget {
                     blendMode: BlendMode.srcATop,
                     child: Image.asset(
                       responsiveHelper.isMobile
-                          ? "assets/images/welcome_bg.png"
-                          : "assets/images/welcome_bg_tab.png",
+                          ? "assets/images/welcome_bg.jpg"
+                          : "assets/images/welcome_bg_tab.jpg",
                       width: double.maxFinite,
                       fit: BoxFit.fitWidth,
                     ),
@@ -73,7 +73,8 @@ class WelcomePage extends AppStatelessWidget {
                           const SizedBox(height: 44),
                           const Expanded(
                             flex: 6,
-                            child: WelcomeVideoPlayerWidget(),
+                            /*child: WelcomeVideoPlayerWidget(),*/
+                            child: SizedBox(),
                           ),
                           Container(
                             color: Theme.of(context)
