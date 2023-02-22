@@ -146,11 +146,10 @@ class _BanksAuthorizationProcessState
                   id: e.id,
                 );
 
-                if (resPopup) {
-                  context
-                      .read<CustodianStatusListCubit>()
-                      .getCustodianStatusList();
-                }
+                // ignore: use_build_context_synchronously
+                context
+                    .read<CustodianStatusListCubit>()
+                    .getCustodianStatusList();
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
