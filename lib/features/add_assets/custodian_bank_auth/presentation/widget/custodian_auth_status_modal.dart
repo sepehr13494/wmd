@@ -120,7 +120,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                   appLocalizations.linkAccount_stepper_stepOne_action_completed,
               isDone: status.signLetter,
               onDone: (val) async {
-                downloadPdf(status);
+                final isDone = downloadPdf(status);
                 context.read<CustodianBankAuthCubit>().postCustodianBankStatus(
                     PostCustodianBankStatusParams(
                         bankId: widget.bankId,
@@ -131,6 +131,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                 await AnalyticsUtils.triggerEvent(
                     action: AnalyticsUtils.linkBankStep2Action(status.bankName),
                     params: AnalyticsUtils.linkBankStep2Event(status.bankName));
+                await isDone;
 
                 context.goNamed(AppRoutes.main,
                     queryParams: {'expandCustodian': "true"});
