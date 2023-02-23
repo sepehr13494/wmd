@@ -148,29 +148,35 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                 //         bankConfirmation: false));
               },
             ),
-            StatusStepWidget(
+            CifStatusWidget(
               stepNumber: '2',
               title: appLocalizations.linkAccount_stepper_stepTwo_title,
               trailing: '2 ${appLocalizations.assets_charts_days}',
-              showInput: true,
-              subtitle: (status.signLetter && !status.shareWithBank)
-                  ? appLocalizations.linkAccount_stepper_stepTwo_action_active
-                  : null,
-              isDone: status.shareWithBank,
-              onDone: (val) async {
-                context.read<CustodianBankAuthCubit>().putCustodianBankStatus(
-                    PutCustodianBankStatusParams(
-                        bankId: widget.bankId,
-                        id: id,
-                        accountId: val,
-                        signLetter: true,
-                        shareWithBank: true,
-                        bankConfirmation: false));
+              // showInput: true,
+              subtitle:
+                  appLocalizations.linkAccount_stepper_stepTwo_action_active,
+              accountId: status.accountId,
+              // isDone: status.shareWithBank,
+              ready: status.signLetter,
+              onDone: status.accountId != null
+                  ? null
+                  : (val) async {
+                      context
+                          .read<CustodianBankAuthCubit>()
+                          .putCustodianBankStatus(PutCustodianBankStatusParams(
+                              bankId: widget.bankId,
+                              id: id,
+                              accountId: val,
+                              signLetter: true,
+                              shareWithBank: true,
+                              bankConfirmation: false));
 
-                await AnalyticsUtils.triggerEvent(
-                    action: AnalyticsUtils.linkBankStep3Action(status.bankName),
-                    params: AnalyticsUtils.linkBankStep3Event(status.bankName));
-              },
+                      await AnalyticsUtils.triggerEvent(
+                          action: AnalyticsUtils.linkBankStep3Action(
+                              status.bankName),
+                          params: AnalyticsUtils.linkBankStep3Event(
+                              status.bankName));
+                    },
             ),
             StatusStepWidget(
               stepNumber: '3',
