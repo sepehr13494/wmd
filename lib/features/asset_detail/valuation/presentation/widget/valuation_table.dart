@@ -68,6 +68,7 @@ class ValuationTableWidget extends StatefulWidget {
 
 class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
   bool isSummary = true;
+  final limit = 5;
   static const columnWidths = {
     0: IntrinsicColumnWidth(),
     1: FlexColumnWidth(0.3),
@@ -88,7 +89,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             columnWidths: columnWidths,
             children: [
               buildTableHeader(context, appLocalizations),
-              ...List.generate(length > 3 ? 3 : length, (index) {
+              ...List.generate(length > limit ? limit : length, (index) {
                 final e = widget.getAllValuationEntities[index];
                 return buildTableRow(context,
                     date: CustomizableDateTime.ddMmYyyy(e.valuatedAt),
@@ -98,7 +99,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
               }),
             ],
           ),
-          if (length > 3)
+          if (length > limit)
             InkWell(
               onTap: () {
                 setState(() {
@@ -140,7 +141,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
           }),
         ],
       ),
-      if (length > 3)
+      if (length > limit)
         InkWell(
           onTap: () {
             setState(() {
