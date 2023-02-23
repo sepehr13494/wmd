@@ -227,7 +227,7 @@ class AssetsOverviewBarCharts extends StatelessWidget {
               );
             },
             maxContentWidth:
-                double.maxFinite > 350 ? 350 : double.maxFinite - 32,
+                double.maxFinite > 350 ? 350 : double.maxFinite - 62,
             tooltipBgColor: const Color.fromARGB(255, 38, 49, 52),
           ),
         ),

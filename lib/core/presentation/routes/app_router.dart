@@ -57,6 +57,7 @@ class AppRouter {
 
   UserStatusCubit _userStatusCubit = sl<UserStatusCubit>();
   MainDashboardCubit _mainDashboardCubit = sl<MainDashboardCubit>();
+  SummeryWidgetCubit _summeryWidgetCubit = sl<SummeryWidgetCubit>();
   AssetsOverviewCubit _assetsOverviewCubit = sl<AssetsOverviewCubit>();
   ChartsCubit _chartsCubit = sl<ChartsCubit>();
   CurrencyChartCubit _currencyChartCubit = sl<CurrencyChartCubit>();
@@ -156,6 +157,10 @@ class AppRouter {
                   BlocProvider(create: (context) {
                     _mainDashboardCubit = sl<MainDashboardCubit>();
                     return _mainDashboardCubit..initPage();
+                  }),
+                  BlocProvider(create: (context) {
+                    _summeryWidgetCubit = sl<SummeryWidgetCubit>();
+                    return _summeryWidgetCubit..initPage();
                   }),
                   BlocProvider(create: (context) {
                     _assetsOverviewCubit = sl<AssetsOverviewCubit>();
@@ -367,6 +372,9 @@ class AppRouter {
     return MultiBlocProvider(providers: [
       BlocProvider.value(
         value: _mainDashboardCubit,
+      ),
+      BlocProvider.value(
+        value: _summeryWidgetCubit,
       ),
       BlocProvider.value(
         value: _assetsOverviewCubit,

@@ -101,7 +101,7 @@ class LoginPage extends AppStatelessWidget {
                                                     // ignore: use_build_context_synchronously
                                                     GlobalFunctions.showSnackBar(
                                                         context,
-                                                        "local auth failed");
+                                                        "please enable biometrics on your device");
                                                   }
                                                 },
                                                 child: Row(

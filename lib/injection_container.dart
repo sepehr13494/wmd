@@ -246,6 +246,7 @@ Future<void> init() async {
 
   //MainDashboard
   sl.registerFactory(() => MainDashboardCubit(sl()));
+  sl.registerFactory(() => SummeryWidgetCubit(sl()));
   sl.registerLazySingleton(() => UserNetWorthUseCase(sl()));
   sl.registerLazySingleton<MainDashboardRepository>(
       () => MainDashboardRepositoryImpl(sl()));
