@@ -18,9 +18,11 @@ import 'package:wmd/features/assets_overview/charts/presentation/widgets/constan
 import 'package:wmd/features/assets_overview/core/presentataion/models/assets_overview_base_widget_model.dart';
 import 'package:wmd/features/assets_overview/currency_chart/domain/entities/get_currency_entity.dart';
 import 'package:wmd/features/assets_overview/currency_chart/presentation/manager/currency_chart_cubit.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/dashboard_app_bar.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/summart_time_filter.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
+import '../../../charts/presentation/manager/charts_cubit.dart';
 import '../../../core/domain/entities/assets_overview_base_model.dart';
 import '../../../core/presentataion/manager/base_assets_overview_state.dart';
 import '../manager/assets_overview_cubit.dart';
@@ -102,7 +104,9 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                   ),
                                 ],
                               ),
-                              const SummaryTimeFilter(key: Key('OverviewPage')),
+                              SummaryTimeFilter(key: const Key('OverviewPage'), bloc: context.read<SummeryWidgetCubit>(),onChange: (value){
+                                context.read<ChartsCubit>().getChart(dateTime: value);
+                              },),
                               const OverViewCard(),
                               const SizedBox(height: 16),
                               const ChartsWrapper(),
@@ -129,6 +133,10 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                     ),
                                     builder: (context, state) {
                                       if (state is BaseAssetsOverviewLoaded) {
+                                        double sum = 0;
+                                        for (var element in state.assetsOverviewBaseModels) {
+                                          sum += element.totalAmount;
+                                        }
                                         return ListView.builder(
                                           physics:
                                           const NeverScrollableScrollPhysics(),
@@ -147,6 +155,7 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                                 : EachAssetType(
                                               assetsOverviewBaseWidgetModel:
                                               AssetsOverviewBaseWidgetModel(
+                                                allocation: (item.totalAmount*100)/sum,
                                                 title: _getTitle(
                                                     item, appLocalizations),
                                                 color: _getColor(item, index),

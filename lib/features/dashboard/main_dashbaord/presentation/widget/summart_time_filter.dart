@@ -11,13 +11,16 @@ import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/das
 import '../manager/main_dashboard_cubit.dart';
 
 class SummaryTimeFilter extends AppStatelessWidget {
+  final MainDashboardCubit bloc;
+  final Function(TimeFilterObj value) onChange;
   const SummaryTimeFilter({
-    Key? key,
+    Key? key,required this.bloc,required this.onChange
   }) : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
-    return BlocConsumer<MainDashboardCubit, MainDashboardState>(
+    return BlocConsumer(
+        bloc: bloc,
         listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
         builder: (context, state) {
           return Row(
@@ -45,21 +48,15 @@ class SummaryTimeFilter extends AppStatelessWidget {
                       .toList(),
                   onChanged: ((value) {
                     if (value != null) {
-                      context
-                          .read<MainDashboardCubit>()
-                          .getNetWorth(dateTimeRange: value);
-                      context
-                          .read<DashboardAllocationCubit>()
-                          .getAllocation(dateTime: value);
-                      context.read<ChartsCubit>().getChart(dateTime: value);
-
+                      bloc.getNetWorth(dateTimeRange: value);
+                      onChange(value);
                       AnalyticsUtils.triggerEvent(
                           action: AnalyticsUtils.changeDashboardFilterAction,
                           params:
                               AnalyticsUtils.changeDashboardFilterEvent(value));
                     }
                   }),
-                  value: context.read<MainDashboardCubit>().dateTimeRange ??
+                  value: bloc.dateTimeRange ??
                       AppConstants.timeFilter(context).first,
                   icon: Icon(
                     Icons.keyboard_arrow_down,

@@ -28,7 +28,7 @@ class LocalizationManager extends Cubit<Locale> {
       case "en":
         return "English";
       case "ar":
-        return "Arabic";
+        return "عربی";
       default:
         return "English";
     }

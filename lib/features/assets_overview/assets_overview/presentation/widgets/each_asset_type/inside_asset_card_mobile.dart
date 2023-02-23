@@ -74,7 +74,7 @@ class InsideAssetCardMobile extends AppStatelessWidget {
                   ChangeWidget(
                       number: asset.inceptionToDate,
                       text: "${asset.inceptionToDate.toStringAsFixed(1)}%",
-                    tooltipMessage: (asset.inceptionToDate > 99900 || asset.inceptionToDate < -100) ? "The performance computation maybe incorrect and the incoming data for the custodian bank needs to be checked" : null,
+                    tooltipMessage: (asset.inceptionToDate >= 99900 || asset.inceptionToDate <= -100) ? "The performance computation maybe incorrect and the incoming data for the custodian bank needs to be checked" : null,
                   ),
                   const SizedBox(width: 8),
                   ChangeWidget(

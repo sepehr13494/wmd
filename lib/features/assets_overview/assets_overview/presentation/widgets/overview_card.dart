@@ -20,7 +20,7 @@ class OverViewCard extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
     bool isMobile = responsiveHelper.isMobile;
-    return BlocBuilder<MainDashboardCubit, MainDashboardState>(
+    return BlocBuilder<SummeryWidgetCubit, MainDashboardState>(
       builder: (context, state) {
         return Stack(
           alignment: AlignmentDirectional.bottomEnd,
@@ -106,8 +106,7 @@ class OverViewCard extends AppStatelessWidget {
                                         children: [
                                           Text(
                                             (context
-                                                        .read<
-                                                            MainDashboardCubit>()
+                                                        .read<SummeryWidgetCubit>()
                                                         .dateTimeRange ??
                                                     AppConstants.timeFilter(
                                                             context)
