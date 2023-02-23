@@ -117,6 +117,7 @@ flutter:
     - assets/images/add_assets/
     - assets/env/.env
     - assets/env/qa.env
+    - assets/env/prod.env
     - assets/env/uat.env
 
   # An image asset can refer to one or more resolution-specific "variants", see

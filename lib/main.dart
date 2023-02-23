@@ -55,6 +55,8 @@ envInitConfig(env) {
       return "assets/env/uat.env";
     case "qa":
       return "assets/env/qa.env";
+    case "prod":
+      return "assets/env/prod.env";
     case "dev":
       return "assets/env/.env";
     default:

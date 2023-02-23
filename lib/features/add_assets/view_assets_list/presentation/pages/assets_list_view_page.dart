@@ -15,6 +15,7 @@ import 'package:wmd/features/add_assets/view_assets_list/presentation/manager/as
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/each_asset_widget.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/support_widget.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/dashboard_app_bar.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/add_asset_onboarding_view.dart';
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
@@ -319,7 +320,17 @@ class AddAssetTopWidget extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     final primaryColor = Theme.of(context).primaryColor;
 
-    if (sl<GetUserStatusUseCase>().showOnboarding) {
+    final isAssetsNotEmpty =
+        context.read<MainDashboardCubit>().netWorthObj?.assets.currentValue ==
+            0;
+    final isLiabilityNotEmpty = context
+            .read<MainDashboardCubit>()
+            .netWorthObj
+            ?.liabilities
+            .currentValue ==
+        0;
+
+    if (isAssetsNotEmpty || isLiabilityNotEmpty) {
       return const AddAssetOnBoarding();
     } else {
       return Column(
