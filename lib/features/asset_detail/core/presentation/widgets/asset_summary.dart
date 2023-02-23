@@ -9,6 +9,7 @@ import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/core/domain/entities/asset_summary_entity.dart';
 import 'package:wmd/features/asset_see_more/core/presentation/page/see_more_page.dart';
 import 'package:wmd/features/asset_see_more/core/presentation/widget/see_more_popup.dart';
+import 'package:wmd/features/assets_overview/assets_overview/presentation/widgets/ytd_itd_widget.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'as_of_date_widget.dart';
 import 'net_change_widget.dart';
@@ -237,45 +238,50 @@ class SummaryCardWidget extends AppStatelessWidget {
         days: days,
         change: summary.netChange,
       ),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "YTD",
-                style: textTheme.bodySmall,
-              ),
-              const SizedBox(width: 8),
-              const InfoIcon(),
-            ],
-          ),
-          ChangeWidget(
-              number: summary.ytdPerformance,
-              text: "${summary.ytdPerformance.toStringAsFixed(1)}%"),
-        ],
+      YtdItdWidget(
+        expand: false,
+        ytd: summary.ytdPerformance,
+        itd: summary.itdPerformance,
       ),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "ITD",
-                style: textTheme.bodySmall,
-              ),
-              const SizedBox(width: 8),
-              const InfoIcon(),
-            ],
-          ),
-          ChangeWidget(
-              number: summary.itdPerformance,
-              text: "${summary.itdPerformance.toStringAsFixed(1)}%"),
-        ],
-      ),
+      // Column(
+      //   crossAxisAlignment: CrossAxisAlignment.start,
+      //   mainAxisAlignment: MainAxisAlignment.end,
+      //   children: [
+      //     Row(
+      //       crossAxisAlignment: CrossAxisAlignment.center,
+      //       children: [
+      //         Text(
+      //           "YTD",
+      //           style: textTheme.bodySmall,
+      //         ),
+      //         const SizedBox(width: 8),
+      //         const InfoIcon(),
+      //       ],
+      //     ),
+      //     ChangeWidget(
+      //         number: summary.ytdPerformance,
+      //         text: "${summary.ytdPerformance.toStringAsFixed(1)}%"),
+      //   ],
+      // ),
+      // Column(
+      //   crossAxisAlignment: CrossAxisAlignment.start,
+      //   children: [
+      //     Row(
+      //       crossAxisAlignment: CrossAxisAlignment.start,
+      //       children: [
+      //         Text(
+      //           "ITD",
+      //           style: textTheme.bodySmall,
+      //         ),
+      //         const SizedBox(width: 8),
+      //         const InfoIcon(),
+      //       ],
+      //     ),
+      //     ChangeWidget(
+      //         number: summary.itdPerformance,
+      //         text: "${summary.itdPerformance.toStringAsFixed(1)}%"),
+      //   ],
+      // ),
     ];
   }
 }
