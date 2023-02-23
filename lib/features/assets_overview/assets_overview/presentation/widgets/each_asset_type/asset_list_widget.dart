@@ -51,7 +51,7 @@ class _AssetListWidgetState extends State<AssetListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return widget.assetList.isEmpty ? Text("no items") : Column(
       children: [
         ...List.generate(count, (index) {
           final item = widget.assetList[index];
