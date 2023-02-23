@@ -10,3 +10,5 @@ class GeneralInquirySaved extends Equatable with GeneralInquiryState {
   @override
   List<Object?> get props => [status];
 }
+
+class GeneralInquiryLoadingState extends LoadingState {}

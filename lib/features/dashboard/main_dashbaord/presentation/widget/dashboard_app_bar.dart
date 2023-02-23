@@ -4,18 +4,39 @@ import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/change_language_button.dart';
 import 'package:wmd/core/util/app_restart.dart';
+import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/injection_container.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
   final bool? showHelp;
+  final bool? showBack;
+  final VoidCallback? handleGoBack;
 
-  const DashboardAppBar({Key? key, this.showHelp = true}) : super(key: key);
+  const DashboardAppBar(
+      {Key? key,
+      this.showHelp = true,
+      this.showBack = false,
+      this.handleGoBack})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      leading: showBack == true
+          ? IconButton(
+              icon: const Icon(
+                Icons.arrow_back,
+                color: AppColors.primary,
+              ),
+              onPressed: () {
+                if (handleGoBack != null) {
+                  handleGoBack!();
+                }
+              },
+            )
+          : null,
       centerTitle: false,
       actions: [
         const ChangeLanguageButton(),

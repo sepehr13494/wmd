@@ -75,7 +75,7 @@ class BlocHelper {
           }
         } else {
           debugPrint(state.failure.data.toString());
-          debugPrint(state.failure.stackTrace.toString()??"");
+          debugPrint(state.failure.stackTrace.toString());
           GlobalFunctions.showSnackBar(context, state.failure.message,
               color: Colors.red[800], type: "error");
         }

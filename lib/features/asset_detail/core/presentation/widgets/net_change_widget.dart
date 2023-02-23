@@ -53,9 +53,9 @@ class NetChangeWidget extends AppStatelessWidget {
         Builder(builder: (context) {
           late final String symbol;
           if (change == 0) {
-            symbol = '';
+            symbol = '+';
           } else if (change < 0) {
-            symbol = '-';
+            symbol = '';
           } else {
             symbol = '+';
           }

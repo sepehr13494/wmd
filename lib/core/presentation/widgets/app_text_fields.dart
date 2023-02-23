@@ -42,6 +42,7 @@ class AppTextFields {
   static FormBuilderDropdown dropDownTextField({
     required final String name,
     required final String hint,
+    final double fontSize = 15,
     final ValueChanged? onChanged,
     required final List<DropdownMenuItem> items,
     bool enabled = true,
@@ -54,7 +55,7 @@ class AppTextFields {
       decoration: InputDecoration(
         hintText: hint,
       ),
-      style: TextStyle(fontSize: 15),
+      style: TextStyle(fontSize: fontSize),
       dropdownColor: AppColors.backgroundColorPageDark,
       items: items,
       validator: FormBuilderValidators.required(),
@@ -348,6 +349,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
   final ValueChanged<T?>? onChanged;
   final bool required;
   final bool enabled;
+  final Widget? prefixIcon;
   final List<String? Function(T?)>? extraValidators;
 
   const FormBuilderSearchableDropdown(
@@ -362,6 +364,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
       this.required = true,
       this.enabled = true,
       required this.items,
+      this.prefixIcon,
       this.onChanged})
       : super(key: key);
 
@@ -398,6 +401,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
                   dropdownDecoratorProps: DropDownDecoratorProps(
                     dropdownSearchDecoration: InputDecoration(
                       hintText: hint,
+                      prefixIcon: prefixIcon,
                       enabledBorder: field.hasError
                           ? const OutlineInputBorder(
                               borderRadius:

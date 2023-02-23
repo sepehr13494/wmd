@@ -167,6 +167,7 @@ import 'features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_popu
 import 'features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_bank_status_usecase.dart';
 import 'features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_status_list_usecase.dart';
 import 'features/add_assets/custodian_bank_auth/domain/use_cases/post_custodian_bank_status_usecase.dart';
+import 'features/add_assets/custodian_bank_auth/domain/use_cases/put_custodian_bank_status_usecase.dart';
 import 'features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_list_cubit.dart';
 import 'features/asset_detail/core/data/data_sources/asset_summary_datasource.dart';
 import 'features/asset_detail/core/domain/repositories/asset_summary_repository.dart';
@@ -297,10 +298,9 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetAssetsGeographyUseCase(sl()));
 
   sl.registerLazySingleton<AssetsGeographyChartRepository>(
-          () => AssetsGeographyChartRepositoryImpl(sl()));
+      () => AssetsGeographyChartRepositoryImpl(sl()));
   sl.registerLazySingleton<AssetsGeographyChartRemoteDataSource>(
-          () => AssetsGeographyChartRemoteDataSourceImpl(sl()));
-
+      () => AssetsGeographyChartRemoteDataSourceImpl(sl()));
 
   // Dashboard - user status dependencies
   sl.registerFactory(() => UserStatusCubit(sl(), sl()));
@@ -394,10 +394,11 @@ Future<void> init() async {
 //CustodianBankAuth
   sl.registerFactory(() => CustodianStatusListCubit(sl()));
   sl.registerFactory(() => CustodianBankListCubit(sl()));
-  sl.registerFactory(() => CustodianBankAuthCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => CustodianBankAuthCubit(sl(), sl(), sl(), sl()));
   sl.registerLazySingleton(() => GetCustodianStatusListUseCase(sl()));
   sl.registerLazySingleton(() => GetCustodianBankListUseCase(sl()));
   sl.registerLazySingleton(() => PostCustodianBankStatusUseCase(sl()));
+  sl.registerLazySingleton(() => PutCustodianBankStatusUseCase(sl()));
   sl.registerLazySingleton(() => DeleteCustodianBankStatusUseCase(sl()));
   sl.registerLazySingleton(() => GetCustodianBankStatusUseCase(sl()));
   sl.registerLazySingleton<CustodianBankAuthRepository>(

@@ -24,16 +24,16 @@ class YtdItdWidget extends StatelessWidget {
       children: List.generate(2, (index) {
         final List items = [
           [
-            AppLocalizations.of(context).assets_label_ytd,
-            ytd,
-            "${ytd.toStringAsFixed(1)}%",
-            "Year-to-date:the period from the first of\nthe calendar year to date of the\ncommunication."
-          ],
-          [
             AppLocalizations.of(context).assets_label_itd,
             itd,
             "${itd.toStringAsFixed(1)}%",
             "Incenption-to-date:the period from the\nestablishment of the portfolio/investment to\nthe date of the communication."
+          ],
+          [
+            AppLocalizations.of(context).assets_label_ytd,
+            ytd,
+            "${ytd.toStringAsFixed(1)}%",
+            "Year-to-date:the period from the first of\nthe calendar year to date of the\ncommunication."
           ],
         ];
         final item = items[index];

@@ -221,7 +221,7 @@ class PerformanceLineChart extends AppStatelessWidget {
                       style: textTheme.bodyMedium),
                   TextSpan(
                       // ignore: prefer_interpolation_to_compose_strings
-                      text: '\n' +
+                      text: ' ' +
                           values[touchedSpots.first.x.toInt()]
                               .value
                               .formatNumberWithDecimal(),

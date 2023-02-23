@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,13 +8,12 @@ import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/bottom_modal_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/delete_custodian_bank_status_params.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/get_custodian_bank_status_params.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/post_custodian_bank_status_params.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/put_custodian_bank_status_params.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/get_custodian_bank_status_entity.dart';
-import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 import '../manager/custodian_bank_auth_cubit.dart';
@@ -90,7 +88,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
         context.read<CustodianBankAuthCubit>().getCustodianBankStatus(
             GetCustodianBankStatusParams(
                 bankId: widget.bankId, custodianBankStatusId: id));
-        sl<CustodianStatusListCubit>().getCustodianStatusList();
+        // sl<CustodianStatusListCubit>().getCustodianStatusList();
       }
     }, builder: (context, state) {
       if (state is ErrorState) {
@@ -122,7 +120,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                   appLocalizations.linkAccount_stepper_stepOne_action_completed,
               isDone: status.signLetter,
               onDone: (val) async {
-                downloadPdf(status);
+                final isDone = downloadPdf(status);
                 context.read<CustodianBankAuthCubit>().postCustodianBankStatus(
                     PostCustodianBankStatusParams(
                         bankId: widget.bankId,
@@ -133,6 +131,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                 await AnalyticsUtils.triggerEvent(
                     action: AnalyticsUtils.linkBankStep2Action(status.bankName),
                     params: AnalyticsUtils.linkBankStep2Event(status.bankName));
+                await isDone;
 
                 context.goNamed(AppRoutes.main,
                     queryParams: {'expandCustodian': "true"});
@@ -149,29 +148,35 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                 //         bankConfirmation: false));
               },
             ),
-            StatusStepWidget(
+            CifStatusWidget(
               stepNumber: '2',
               title: appLocalizations.linkAccount_stepper_stepTwo_title,
               trailing: '2 ${appLocalizations.assets_charts_days}',
-              showInput: true,
-              subtitle: (status.signLetter && !status.shareWithBank)
-                  ? appLocalizations.linkAccount_stepper_stepTwo_action_active
-                  : null,
-              isDone: status.shareWithBank,
-              onDone: (val) async {
-                context.read<CustodianBankAuthCubit>().postCustodianBankStatus(
-                    PostCustodianBankStatusParams(
-                        bankId: widget.bankId,
-                        id: id,
-                        accountId: val,
-                        signLetter: true,
-                        shareWithBank: true,
-                        bankConfirmation: false));
+              // showInput: true,
+              subtitle:
+                  appLocalizations.linkAccount_stepper_stepTwo_action_active,
+              accountId: status.accountId,
+              // isDone: status.shareWithBank,
+              ready: status.signLetter,
+              onDone: status.accountId != null
+                  ? null
+                  : (val) async {
+                      context
+                          .read<CustodianBankAuthCubit>()
+                          .putCustodianBankStatus(PutCustodianBankStatusParams(
+                              bankId: widget.bankId,
+                              id: id,
+                              accountId: val,
+                              signLetter: true,
+                              shareWithBank: true,
+                              bankConfirmation: false));
 
-                await AnalyticsUtils.triggerEvent(
-                    action: AnalyticsUtils.linkBankStep3Action(status.bankName),
-                    params: AnalyticsUtils.linkBankStep3Event(status.bankName));
-              },
+                      await AnalyticsUtils.triggerEvent(
+                          action: AnalyticsUtils.linkBankStep3Action(
+                              status.bankName),
+                          params: AnalyticsUtils.linkBankStep3Event(
+                              status.bankName));
+                    },
             ),
             StatusStepWidget(
               stepNumber: '3',

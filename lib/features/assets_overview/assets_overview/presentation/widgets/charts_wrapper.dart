@@ -25,8 +25,7 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
 
   @override
   void initState() {
-    _controller = TabController(
-        length: AppConstants.publicMvp2Items ? 3 : 1, vsync: this);
+    _controller = TabController(length: 3, vsync: this);
     _controller.addListener(() {
       context.read<TabManager>().changeTab(_controller.index);
     });
@@ -69,23 +68,15 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
                     width: 300,
                     child: TabBar(
                       controller: _controller,
-                      tabs: AppConstants.publicMvp2Items
-                          ? [
-                              Tab(
-                                  text: appLocalizations
-                                      .assets_charts_tabs_assetClass),
-                              Tab(
-                                  text: appLocalizations
-                                      .assets_charts_tabs_geography),
-                              Tab(
-                                  text: appLocalizations
-                                      .assets_charts_tabs_currency),
-                            ]
-                          : [
-                              Tab(
-                                  text: appLocalizations
-                                      .assets_charts_tabs_assetClass),
-                            ],
+                      tabs: [
+                        Tab(
+                            text:
+                                appLocalizations.assets_charts_tabs_assetClass),
+                        Tab(
+                            text:
+                                appLocalizations.assets_charts_tabs_geography),
+                        Tab(text: appLocalizations.assets_charts_tabs_currency),
+                      ],
                       isScrollable: true,
                     ),
                   ),
@@ -102,13 +93,10 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
                 child: Builder(builder: (context) {
                   List<Widget> children = [
                     const BaseAssetsOverviewChartsWidget(),
+                    const AssetsOverviewGeoChart(),
+                    const CurrencyChartWidget(),
                   ];
-                  if (AppConstants.publicMvp2Items) {
-                    children.addAll([
-                      const AssetsOverviewGeoChart(),
-                      const CurrencyChartWidget(),
-                    ]);
-                  }
+
                   return TabBarView(
                     controller: _controller,
                     children: children

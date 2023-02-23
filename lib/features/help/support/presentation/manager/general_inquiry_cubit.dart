@@ -17,7 +17,7 @@ class GeneralInquiryCubit extends Cubit<GeneralInquiryState> {
       : super(LoadingState());
 
   postGeneralInquiry({required Map<String, dynamic> map}) async {
-    emit(LoadingState());
+    emit(GeneralInquiryLoadingState());
 
     await AnalyticsUtils.triggerEvent(
         action: AnalyticsUtils.helpSupportAction,

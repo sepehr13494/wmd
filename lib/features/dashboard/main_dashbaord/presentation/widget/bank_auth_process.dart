@@ -4,6 +4,7 @@ import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/custom_expansion_tile.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/status_entity.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
@@ -49,6 +50,7 @@ class _BanksAuthorizationProcessState
           }
           return Card(
             child: CustomExpansionTile(
+              iconColor: AppColors.primary,
               initiallyExpanded: isExpanded,
               onExpansionChanged: (value) => isExpanded = value,
               title: Text(
@@ -146,11 +148,10 @@ class _BanksAuthorizationProcessState
                   id: e.id,
                 );
 
-                if (resPopup) {
-                  context
-                      .read<CustodianStatusListCubit>()
-                      .getCustodianStatusList();
-                }
+                // ignore: use_build_context_synchronously
+                context
+                    .read<CustodianStatusListCubit>()
+                    .getCustodianStatusList();
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,

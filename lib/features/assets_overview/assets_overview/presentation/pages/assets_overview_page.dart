@@ -8,6 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/features/assets_overview/assets_geography_chart/domain/entities/get_assets_geography_entity.dart';
 import 'package:wmd/features/assets_overview/assets_geography_chart/presentation/manager/assets_geography_chart_cubit.dart';
@@ -58,7 +59,10 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
             },
             child: SafeArea(
               child: Scaffold(
-                appBar: const DashboardAppBar(),
+                appBar: DashboardAppBar(
+                    showBack: true,
+                    handleGoBack: () =>
+                        context.read<MainPageCubit>().onItemTapped(0)),
                 body: Stack(
                   children: [
                     const LeafBackground(),
@@ -83,25 +87,26 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                             children: [
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     appLocalizations.assets_page_title,
                                     style: textTheme.titleLarge,
                                   ),
-                                  AddButton(
-                                    addAsset: false,
-                                    onTap: () {
-                                      AnalyticsUtils.triggerEvent(
-                                          action: AnalyticsUtils
-                                              .assetAdditionAction,
-                                          params: AnalyticsUtils
-                                              .addAssetOverviewEvent);
+                                  if (AppConstants.publicMvp2Items)
+                                    AddButton(
+                                      addAsset: false,
+                                      onTap: () {
+                                        AnalyticsUtils.triggerEvent(
+                                            action: AnalyticsUtils
+                                                .assetAdditionAction,
+                                            params: AnalyticsUtils
+                                                .addAssetOverviewEvent);
 
-                                      context
-                                          .pushNamed(AppRoutes.addAssetsView);
-                                    },
-                                  ),
+                                        context
+                                            .pushNamed(AppRoutes.addAssetsView);
+                                      },
+                                    ),
                                 ],
                               ),
                               SummaryTimeFilter(key: const Key('OverviewPage'), bloc: context.read<SummeryWidgetCubit>(),onChange: (value){
