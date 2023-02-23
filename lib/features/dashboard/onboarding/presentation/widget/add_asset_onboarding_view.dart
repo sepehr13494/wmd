@@ -12,16 +12,16 @@ class AddAssetOnBoarding extends AppStatelessWidget {
       [
         {
           "count": 1,
-          "title": appLocalizations
-              .common_guidedOnBoardingModalStepper_selectAsset_title,
+          "title":
+              appLocalizations.manage_guidedOnBoarding_steps_selectAsset_title,
           "body": appLocalizations
               .manage_guidedOnBoarding_steps_selectAsset_description
           // "Help us with the type of assets and liabilities you own. This is to get your started. You can always add more.",
         },
         {
           "count": 2,
-          "title": appLocalizations
-              .common_guidedOnBoardingModalStepper_firstAsset_title,
+          "title":
+              appLocalizations.manage_guidedOnBoarding_steps_firstAsset_title,
           "body": appLocalizations
               .manage_guidedOnBoarding_steps_firstAsset_description,
           // "Take a minute to add one of your assets. You can simillarly add your assets.",
@@ -29,7 +29,7 @@ class AddAssetOnBoarding extends AppStatelessWidget {
         {
           "count": 3,
           "title": appLocalizations
-              .common_guidedOnBoardingModalStepper_viewDashboard_title,
+              .manage_guidedOnBoarding_steps_viewDashboard_title,
           "body": appLocalizations
               .manage_guidedOnBoarding_steps_viewDashboard_description,
           // "A guided walkthrough of your wealth overview based on the asset added. Add all your assets here and visualize your wealth.",

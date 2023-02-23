@@ -60,7 +60,8 @@ class AppRouter {
   AssetsOverviewCubit _assetsOverviewCubit = sl<AssetsOverviewCubit>();
   ChartsCubit _chartsCubit = sl<ChartsCubit>();
   CurrencyChartCubit _currencyChartCubit = sl<CurrencyChartCubit>();
-  AssetsGeographyChartCubit _assetsGeographyChartCubit = sl<AssetsGeographyChartCubit>();
+  AssetsGeographyChartCubit _assetsGeographyChartCubit =
+      sl<AssetsGeographyChartCubit>();
   DashboardAllocationCubit _dashboardAllocationCubit =
       sl<DashboardAllocationCubit>();
   DashboardPieCubit _dashboardPieCubit = sl<DashboardPieCubit>();
@@ -174,7 +175,8 @@ class AppRouter {
                   ),
                   BlocProvider(
                     create: (context) {
-                      _assetsGeographyChartCubit = sl<AssetsGeographyChartCubit>();
+                      _assetsGeographyChartCubit =
+                          sl<AssetsGeographyChartCubit>();
                       return _assetsGeographyChartCubit..getAssetsGeography();
                     },
                   ),
@@ -275,8 +277,15 @@ class AppRouter {
                 name: AppRoutes.addAssetsView,
                 path: "add_assets_view",
                 builder: (BuildContext context, GoRouterState state) {
-                  return BlocProvider.value(
-                    value: _personalInformationCubit,
+                  return MultiBlocProvider(
+                    providers: [
+                      BlocProvider.value(
+                        value: _personalInformationCubit,
+                      ),
+                      BlocProvider.value(
+                        value: _mainDashboardCubit,
+                      ),
+                    ],
                     child: const AssetsListViewPage(),
                   );
                 },
