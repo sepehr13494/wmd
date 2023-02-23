@@ -32,3 +32,7 @@ class MainDashboardCubit extends Cubit<MainDashboardState> {
     });
   }
 }
+
+class SummeryWidgetCubit extends MainDashboardCubit{
+  SummeryWidgetCubit(super.userNetWorthUseCase);
+}

@@ -38,21 +38,28 @@ class EachAssetType extends AppStatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 16),
-                      child: Row(
-                        children: [
-                          DotWidget(
-                              color: assetsOverviewBaseWidgetModel.color),
-                          const SizedBox(width: 8),
-                          Text(
-                              assetsOverviewBaseWidgetModel.title,
-                              style: textTheme.titleSmall)
-                        ],
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Card(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 16),
+                          child: Row(
+                            children: [
+                              DotWidget(
+                                  color: assetsOverviewBaseWidgetModel.color),
+                              const SizedBox(width: 8),
+                              Text(
+                                  assetsOverviewBaseWidgetModel.title,
+                                  style: textTheme.titleSmall)
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                      const SizedBox(width: 24),
+                      assetsOverviewBaseWidgetModel.assetsOverviewType == AssetsOverviewBaseType.assetType ? const SizedBox(): Text("${appLocalizations.home_widget_geography_label_allocation} ${assetsOverviewBaseWidgetModel.allocation.toStringAsFixed(1)}%")
+                    ],
                   ),
                   RowOrColumn(
                     columnCrossAxisAlignment: CrossAxisAlignment.start,
@@ -68,6 +75,7 @@ class EachAssetType extends AppStatelessWidget {
                         ),
                       ),
                       SizedBox(width: responsiveHelper.bigger16Gap, height: 16),
+                      if(assetsOverviewBaseWidgetModel.assetsOverviewType == AssetsOverviewBaseType.assetType)
                       YtdItdWidget(
                         ytd: assetsOverviewBaseWidgetModel.assetsOverviewBaseModel.yearToDate,
                         itd: assetsOverviewBaseWidgetModel.assetsOverviewBaseModel.inceptionToDate,

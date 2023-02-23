@@ -155,17 +155,17 @@ class RowOrColumn extends StatelessWidget {
         ? _intrinsicHeightWrap(
             intrinsicRow,
             child: Row(
-              children: children,
               mainAxisAlignment: rowMainAxisAlignment,
               crossAxisAlignment: rowCrossAxisAlignment,
               mainAxisSize: rowMainAxisSize,
+              children: children,
             ),
           )
         : Column(
-            children: children,
             mainAxisAlignment: columnMainAxisAlignment,
             crossAxisAlignment: columnCrossAxisAlignment,
             mainAxisSize: columnMainAxisSize,
+            children: children,
           );
   }
 
