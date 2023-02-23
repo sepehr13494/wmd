@@ -7,6 +7,7 @@ class CustodianBankStatusEntity extends Equatable {
     required this.bankName,
     required this.signLetter,
     required this.signLetterLink,
+    required this.accountId,
     required this.shareWithBank,
     required this.bankConfirmation,
   });
@@ -16,6 +17,7 @@ class CustodianBankStatusEntity extends Equatable {
   final String bankName;
   final bool signLetter;
   final String signLetterLink;
+  final String? accountId;
   final bool shareWithBank;
   final bool bankConfirmation;
 
@@ -26,6 +28,7 @@ class CustodianBankStatusEntity extends Equatable {
         "signLetter": signLetter,
         "signLetterLink": signLetterLink,
         "shareWithBank": shareWithBank,
+        "accountId": accountId,
         "bankConfirmation": bankConfirmation,
       };
 
@@ -35,6 +38,7 @@ class CustodianBankStatusEntity extends Equatable {
         bankId,
         signLetter,
         signLetterLink,
+        accountId,
         shareWithBank,
         bankConfirmation,
       ];
@@ -43,6 +47,7 @@ class CustodianBankStatusEntity extends Equatable {
     "id": "844cc294-7cbf-41a6-9bdd-b6c839444364",
     "bankId": "hsbc",
     "bankName": "hsbc",
+    "accountId": "hsbc",
     "signLetter": true,
     "signLetterLink":
         "https://a.storyblok.com/f/187108/x/169d159c71/creditsuisse.pdf",

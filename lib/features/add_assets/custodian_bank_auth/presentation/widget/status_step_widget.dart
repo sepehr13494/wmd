@@ -127,3 +127,110 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
     );
   }
 }
+
+class CifStatusWidget extends StatefulWidget {
+  final String stepNumber;
+  final String title;
+  final String? accountId;
+  final String? subtitle;
+  final bool ready;
+  final String trailing;
+  final void Function(String? val)? onDone;
+  final void Function()? onDoneAgain;
+  const CifStatusWidget({
+    required this.title,
+    required this.stepNumber,
+    required this.trailing,
+    this.ready = true,
+    this.accountId,
+    this.subtitle,
+    this.onDone,
+    this.onDoneAgain,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  AppState<CifStatusWidget> createState() => _StatusSecondStatusWidget();
+}
+
+class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
+  late final TextField input;
+  var isButtonDisable = false;
+
+  @override
+  void initState() {
+    super.initState();
+    input = TextField(
+      controller: TextEditingController(text: widget.accountId)
+        ..addListener(() {
+          setState(() {});
+        }),
+      enabled: widget.accountId == null,
+    );
+  }
+
+  @override
+  Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
+    isButtonDisable = widget.accountId != null &&
+        input.controller!.text.isEmpty &&
+        widget.onDone != null;
+    return ListTile(
+      leading: widget.accountId != null
+          ? const Icon(Icons.check_circle_outline_rounded)
+          : Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Theme.of(context).primaryColor,
+              ),
+              height: 18,
+              width: 18,
+              child: Center(
+                  child: Text(
+                widget.stepNumber,
+                style: textTheme.bodySmall!
+                    .apply(color: Theme.of(context).backgroundColor),
+                textAlign: TextAlign.center,
+              )),
+            ),
+      title: Text(widget.title, style: textTheme.bodyLarge),
+      subtitle: Builder(builder: (context) {
+        var isButtonDisable =
+            input.controller!.text.isEmpty || widget.onDone == null;
+        if (!widget.ready) {
+          return const SizedBox();
+        }
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(
+                  appLocalizations.linkAccount_stepper_cif_label_creditsuisse,
+                  style: textTheme.bodyMedium,
+                ),
+                const InfoIcon(),
+              ],
+            ),
+            const SizedBox(height: 4),
+            input,
+            const SizedBox(height: 4),
+            InkWell(
+              onTap: isButtonDisable
+                  ? null
+                  : () => widget.onDone!(input.controller!.text),
+              child: Text(
+                widget.subtitle ?? '',
+                style: textTheme.bodySmall!.apply(
+                    color: isButtonDisable
+                        ? Theme.of(context).cardColor
+                        : Theme.of(context).primaryColor,
+                    decoration: TextDecoration.underline),
+              ),
+            ),
+          ],
+        );
+      }),
+      trailing: Text(widget.trailing),
+    );
+  }
+}

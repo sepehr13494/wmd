@@ -38,6 +38,9 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
       AppLocalizations appLocalizations) {
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
     final appTheme = Theme.of(context);
+    if (widget.expandCustodian) {
+      context.read<CustodianStatusListCubit>().getCustodianStatusList();
+    }
     return Scaffold(
       appBar: const DashboardAppBar(),
       body: BlocConsumer<UserStatusCubit, UserStatusState>(
