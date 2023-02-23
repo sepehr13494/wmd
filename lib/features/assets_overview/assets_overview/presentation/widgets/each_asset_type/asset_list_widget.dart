@@ -23,7 +23,7 @@ class AssetListWidget extends StatefulWidget {
 
 class _AssetListWidgetState extends AppState<AssetListWidget> {
   int count = 0;
-  final int initial = 2;
+  final int initial = 5;
   final int add = 5;
 
   @override

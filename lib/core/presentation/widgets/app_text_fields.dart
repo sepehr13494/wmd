@@ -348,6 +348,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
   final ValueChanged<T?>? onChanged;
   final bool required;
   final bool enabled;
+  final Widget? suffixIcon;
   final List<String? Function(T?)>? extraValidators;
 
   const FormBuilderSearchableDropdown(
@@ -362,6 +363,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
       this.required = true,
       this.enabled = true,
       required this.items,
+      this.suffixIcon,
       this.onChanged})
       : super(key: key);
 
@@ -398,6 +400,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
                   dropdownDecoratorProps: DropDownDecoratorProps(
                     dropdownSearchDecoration: InputDecoration(
                       hintText: hint,
+                      suffixIcon: suffixIcon,
                       enabledBorder: field.hasError
                           ? const OutlineInputBorder(
                               borderRadius:
