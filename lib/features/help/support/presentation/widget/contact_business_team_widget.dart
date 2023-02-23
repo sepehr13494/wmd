@@ -57,7 +57,9 @@ class ContactBusinessWidget extends ModalWidget {
             Navigator.pop(context, false);
           }
         }, builder: (context, state) {
-          if (state is SuccessState) {
+          if (state is GeneralInquiryLoadingState) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is SuccessState) {
             return SingleChildScrollView(
                 child: Container(
                     decoration:
@@ -178,10 +180,14 @@ class ContactBusinessWidget extends ModalWidget {
                                               name: "reason",
                                               hint: appLocalizations
                                                   .common_submitEnquiryModal_placeholder,
+                                              fontSize: 13.5,
                                               items: contactReasonList
                                                   .map((e) => DropdownMenuItem(
                                                         value: e.value,
-                                                        child: Text(e.name),
+                                                        child: Text(e.name,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis),
                                                       ))
                                                   .toList()
                                               // as List<

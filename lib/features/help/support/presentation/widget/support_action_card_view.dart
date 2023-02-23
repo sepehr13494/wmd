@@ -33,7 +33,7 @@ class SupportActionCard extends AppStatelessWidget {
           : AppColors.anotherCardColorForLightTheme,
       elevation: 5,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16),
+        padding: EdgeInsets.symmetric(vertical: 16),
         child: ListTile(
           minVerticalPadding: 10,
           onTap: () {

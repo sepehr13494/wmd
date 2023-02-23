@@ -315,7 +315,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                 child: FormBuilderSearchableDropdown<TimeZones>(
                   name: "timeZone",
                   hint: "Select",
-                  suffixIcon: const Icon(
+                  prefixIcon: const Icon(
                     Icons.search,
                   ),
                   items: TimeZones.timezonesList,

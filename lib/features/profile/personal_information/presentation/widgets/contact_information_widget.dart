@@ -28,6 +28,7 @@ class _ContactInformationWidgetState
     extends AppState<ContactInformationWidget> {
   TextEditingController emailController = TextEditingController();
   bool enableSubmitButton = false;
+  String selectedCountryCode = "BH";
   final formKey = GlobalKey<FormBuilderState>();
   late Map<String, dynamic> lastValue;
   void checkFinalValid(value) async {
@@ -122,7 +123,14 @@ class _ContactInformationWidgetState
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  CountryCodePicker(onChange: checkFinalValid),
+                                  CountryCodePicker(onChange: (val) {
+                                    setState(() {
+                                      selectedCountryCode =
+                                          val?.countryCode ?? "";
+                                    });
+
+                                    checkFinalValid(val);
+                                  }),
                                   const SizedBox(width: 8),
                                   Expanded(
                                     child: AppTextFields.simpleTextField(
@@ -141,6 +149,8 @@ class _ContactInformationWidgetState
                                           (val) {
                                             return (val != null &&
                                                     val != "" &&
+                                                    selectedCountryCode ==
+                                                        "BH" &&
                                                     (val.length > 8 ||
                                                         val.length < 8))
                                                 ? "Phone number must be of 8 digits"

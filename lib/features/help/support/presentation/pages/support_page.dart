@@ -25,7 +25,7 @@ class SupportPage extends StatefulWidget {
 
 class _SupportPageState extends AppState<SupportPage> {
   void openEmailApp() async {
-    String email = Uri.encodeComponent("business.support@tfoco.com");
+    String email = Uri.encodeComponent("support@allinoneplus.com");
     String subject = Uri.encodeComponent("");
     String body = Uri.encodeComponent("");
     print(subject); //output: Hello%20Flutter
@@ -197,7 +197,7 @@ class _SupportPageState extends AppState<SupportPage> {
                                   openEmailApp();
                                 },
                                 child: Text(
-                                  "business.support@tfoco.com",
+                                  "support@allinoneplus.com",
                                   style: textTheme.bodyMedium!
                                       .toLinkStyle(context),
                                 ),
