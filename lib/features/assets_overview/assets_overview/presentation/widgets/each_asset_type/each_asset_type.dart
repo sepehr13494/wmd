@@ -44,11 +44,9 @@ class EachAssetType extends AppStatelessWidget {
                           vertical: 8, horizontal: 16),
                       child: Row(
                         children: [
-                          DotWidget(
-                              color: assetsOverviewBaseWidgetModel.color),
+                          DotWidget(color: assetsOverviewBaseWidgetModel.color),
                           const SizedBox(width: 8),
-                          Text(
-                              assetsOverviewBaseWidgetModel.title,
+                          Text(assetsOverviewBaseWidgetModel.title,
                               style: textTheme.titleSmall)
                         ],
                       ),
@@ -61,7 +59,8 @@ class EachAssetType extends AppStatelessWidget {
                       SizedBox(
                         width: !isMobile ? 200 : null,
                         child: Text(
-                          assetsOverviewBaseWidgetModel.assetsOverviewBaseModel.totalAmount
+                          assetsOverviewBaseWidgetModel
+                              .assetsOverviewBaseModel.totalAmount
                               .convertMoney(addDollar: true),
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(fontSize: 28),
@@ -69,9 +68,12 @@ class EachAssetType extends AppStatelessWidget {
                       ),
                       SizedBox(width: responsiveHelper.bigger16Gap, height: 16),
                       YtdItdWidget(
-                        ytd: assetsOverviewBaseWidgetModel.assetsOverviewBaseModel.yearToDate,
-                        itd: assetsOverviewBaseWidgetModel.assetsOverviewBaseModel.inceptionToDate,
+                        ytd: assetsOverviewBaseWidgetModel
+                            .assetsOverviewBaseModel.yearToDate,
+                        itd: assetsOverviewBaseWidgetModel
+                            .assetsOverviewBaseModel.inceptionToDate,
                         showToolTip: false,
+                        reversed: true,
                       ),
                     ],
                   )
@@ -79,10 +81,13 @@ class EachAssetType extends AppStatelessWidget {
               ),
             ],
           ),
-          if (assetsOverviewBaseWidgetModel.assetsOverviewBaseModel.assetList.isNotEmpty)
+          if (assetsOverviewBaseWidgetModel
+              .assetsOverviewBaseModel.assetList.isNotEmpty)
             AssetsOverviewInherit(
-              assetList: assetsOverviewBaseWidgetModel.assetsOverviewBaseModel.assetList,
-              assetOverviewBaseType: assetsOverviewBaseWidgetModel.assetsOverviewType,
+              assetList: assetsOverviewBaseWidgetModel
+                  .assetsOverviewBaseModel.assetList,
+              assetOverviewBaseType:
+                  assetsOverviewBaseWidgetModel.assetsOverviewType,
               child: Column(
                 children: [
                   const Padding(
@@ -95,7 +100,8 @@ class EachAssetType extends AppStatelessWidget {
                     ),
                   ),
                   AssetListWidget(
-                    assetList: assetsOverviewBaseWidgetModel.assetsOverviewBaseModel.assetList,
+                    assetList: assetsOverviewBaseWidgetModel
+                        .assetsOverviewBaseModel.assetList,
                   ),
                 ],
               ),
