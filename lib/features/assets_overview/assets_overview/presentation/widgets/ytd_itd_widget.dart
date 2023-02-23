@@ -9,10 +9,12 @@ class YtdItdWidget extends StatelessWidget {
   final double ytd;
   final double itd;
   final bool showToolTip;
+  final bool reversed;
 
   const YtdItdWidget(
       {Key? key,
       this.expand = false,
+      this.reversed = false,
       required this.ytd,
       required this.itd,
       this.showToolTip = true})
@@ -22,20 +24,24 @@ class YtdItdWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: List.generate(2, (index) {
-        final List items = [
-          [
-            AppLocalizations.of(context).assets_label_itd,
-            itd,
-            "${itd.toStringAsFixed(1)}%",
-            "Incenption-to-date:the period from the\nestablishment of the portfolio/investment to\nthe date of the communication."
-          ],
+        List items = [
           [
             AppLocalizations.of(context).assets_label_ytd,
             ytd,
             "${ytd.toStringAsFixed(1)}%",
             "Year-to-date:the period from the first of\nthe calendar year to date of the\ncommunication."
           ],
+          [
+            AppLocalizations.of(context).assets_label_itd,
+            itd,
+            "${itd.toStringAsFixed(1)}%",
+            "Incenption-to-date:the period from the\nestablishment of the portfolio/investment to\nthe date of the communication."
+          ],
         ];
+        if (reversed) {
+          items = items.reversed.toList();
+        }
+
         final item = items[index];
         return ExpandedIf(
           expanded: expand,
