@@ -8,9 +8,11 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/core/presentation/widgets/text_with_info.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/domain/entities/net_worth_entity.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/summart_time_filter.dart';
+import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 
 class SummeryWidget extends StatefulWidget {
   final NetWorthEntity netWorthEntity;
@@ -28,8 +30,6 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
     final String date = (context.watch<MainDashboardCubit>().dateTimeRange ??
             AppConstants.timeFilter(context).first)
         .key;
-    print("widget.netWorthEntity.assets");
-    print(widget.netWorthEntity.assets);
     final assetText = appLocalizations.home_widget_summaryCard_tooltip_assets
         .replaceAll(
             "{{count}}", widget.netWorthEntity.assets.newAssetCount.toInt().toString())
@@ -73,7 +73,11 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
     return Column(
       children: [
-        const SummaryTimeFilter(key: Key('SummaryWidget')),
+        SummaryTimeFilter(key: const Key('SummaryWidget'), bloc: context.read<MainDashboardCubit>(),onChange: (value){
+          context
+              .read<DashboardAllocationCubit>()
+              .getAllocation(dateTime: value);
+        },),
         const SizedBox(height: 12),
         RowOrColumn(
           showRow: !isMobile,
