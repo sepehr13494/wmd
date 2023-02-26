@@ -21,6 +21,12 @@ class CustomAuthAppBar extends StatelessWidget with PreferredSizeWidget {
       backgroundColor: backgroundColor,
       centerTitle: false,
       automaticallyImplyLeading: automaticallyImplyLeading,
+      title: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+          child: SvgPicture.asset(
+            "assets/images/app_logo.svg",
+            height: 50,
+          )),
       actions: [
         if (!hideLocalise!) const ChangeLanguageButton(),
         // Switch(

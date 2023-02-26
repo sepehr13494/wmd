@@ -20,43 +20,42 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sl<SplashCubit>()..initSplash(),
-      child: Builder(
-        builder: (context) {
-          return Scaffold(
-            body: BlocListener<SplashCubit, SplashState>(
-              listener: (context, state) async {
-                if (state is SplashLoaded) {
-                  if (state.isLogin) {
-                    if(sl<LocalStorage>().getLocalAuth()){
-                      final bool didAuth = await context.read<LocalAuthManager>()
-                          .authenticate(context);
-                      if (didAuth) {
-                        // ignore: use_build_context_synchronously
-                        context.goNamed(AppRoutes.main);
-                      } else {
-                        // ignore: use_build_context_synchronously
-                        context.goNamed(AppRoutes.login);
-                      }
-                    }else{
+      child: Builder(builder: (context) {
+        return Scaffold(
+          body: BlocListener<SplashCubit, SplashState>(
+            listener: (context, state) async {
+              if (state is SplashLoaded) {
+                if (state.isLogin) {
+                  if (sl<LocalStorage>().getLocalAuth()) {
+                    final bool didAuth = await context
+                        .read<LocalAuthManager>()
+                        .authenticate(context);
+                    if (didAuth) {
+                      // ignore: use_build_context_synchronously
+                      context.goNamed(AppRoutes.main);
+                    } else {
+                      // ignore: use_build_context_synchronously
                       context.goNamed(AppRoutes.login);
                     }
-                  }else{
-                    context.goNamed(AppRoutes.welcome);
+                  } else {
+                    context.goNamed(AppRoutes.login);
                   }
+                } else {
+                  context.goNamed(AppRoutes.welcome);
                 }
-              },
-              child: LayoutBuilder(builder: (context, snapShot) {
-                return Center(
-                  child: SvgPicture.asset(
-                    "assets/images/logo.svg",
-                    width: snapShot.maxWidth * 0.7,
-                  ),
-                );
-              }),
-            ),
-          );
-        }
-      ),
+              }
+            },
+            child: LayoutBuilder(builder: (context, snapShot) {
+              return Center(
+                child: SvgPicture.asset(
+                  "assets/images/logo_splash.svg",
+                  width: snapShot.maxWidth * 0.7,
+                ),
+              );
+            }),
+          ),
+        );
+      }),
     );
   }
 }
