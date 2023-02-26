@@ -14,6 +14,7 @@ import 'package:wmd/features/asset_detail/core/presentation/widgets/asset_summar
 import 'package:wmd/features/asset_detail/valuation/data/models/get_valuation_performance_params.dart';
 import 'package:wmd/features/asset_detail/valuation/presentation/manager/performance_chart_cubit.dart';
 import 'package:wmd/features/asset_detail/valuation/presentation/widget/performance_chart.dart';
+import 'package:wmd/features/asset_detail/valuation/presentation/widget/performance_chart_v2.dart';
 import 'package:wmd/injection_container.dart';
 import '../manager/asset_summary_cubit.dart';
 import '../../../valuation/presentation/widget/valuation_table.dart';
@@ -97,6 +98,18 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                                 padding:
                                     EdgeInsets.all(responsiveHelper.biggerGap),
                                 child: PerformanceLineChart(
+                                  values: state
+                                      .performanceEntity.valuationHistory
+                                      .map((e) => MapEntry(e.date, e.value))
+                                      .toList(),
+                                  days: selectedTimeFilter.value,
+                                ),
+                              ),
+                            if (state is PerformanceLoaded)
+                              Padding(
+                                padding:
+                                    EdgeInsets.all(responsiveHelper.biggerGap),
+                                child: PerformanceLineChartV2(
                                   values: state
                                       .performanceEntity.valuationHistory
                                       .map((e) => MapEntry(e.date, e.value))
