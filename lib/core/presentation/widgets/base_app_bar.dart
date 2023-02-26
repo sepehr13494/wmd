@@ -16,6 +16,12 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: false,
+      title: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+          child: SvgPicture.asset(
+            "assets/images/app_logo.svg",
+            height: 50,
+          )),
       leading: IconButton(
         onPressed: () {
           // context.goNamed(AppRoutes.main);
