@@ -4,7 +4,9 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/features/assets_overview/assets_overview/presentation/widgets/assets_overview_inherit.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
+import 'package:wmd/features/assets_overview/core/presentataion/models/assets_overview_base_widget_model.dart';
 
 import '../../../../core/domain/entities/assets_list_entity.dart';
 import '../../../domain/entities/assets_overview_entity.dart';
@@ -48,7 +50,7 @@ class InsideAssetCardMobile extends AppStatelessWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                           Text(
-                            asset.geography,
+                            AssetsOverviewInherit.of(context).assetOverviewBaseType == AssetsOverviewBaseType.assetType ? asset.geography : AssetsOverviewChartsColors.getAssetType(appLocalizations, asset.type),
                           ),
                         ],
                       ),
@@ -74,11 +76,13 @@ class InsideAssetCardMobile extends AppStatelessWidget {
                   ChangeWidget(
                       number: asset.inceptionToDate,
                       text: "${asset.inceptionToDate.toStringAsFixed(1)}%",
-                    tooltipMessage: (asset.inceptionToDate >= 99900 || asset.inceptionToDate <= -100) ? "The performance computation maybe incorrect and the incoming data for the custodian bank needs to be checked" : null,
+                    tooltipMessage: (asset.inceptionToDate >= 99900 || asset.inceptionToDate <= -100) ? "" : null,
                   ),
                   const SizedBox(width: 8),
                   ChangeWidget(
-                      number: asset.yearToDate, text: "${asset.yearToDate.toStringAsFixed(1)} %"),
+                      number: asset.yearToDate, text: "${asset.yearToDate.toStringAsFixed(1)} %",
+                    tooltipMessage: (asset.yearToDate >= 99900 || asset.yearToDate <= -100) ? "" : null,
+                  ),
                 ],
               )
             ],

@@ -71,12 +71,17 @@ class _PerformanceBarChartState extends AppState<PerformanceBarChart> {
     if (hideValues) {
       child = const SizedBox.shrink();
     } else {
-      child = FittedBox(
-        fit: BoxFit.scaleDown,
-        child: Text(
-            CustomizableDateTime.localizedDdMm(values[(value).toInt()].key),
+      int x = (widget.allocations.length / 7).ceil();
+      var dateString = widget.allocations[value.toInt()].name.split(" ")[0].split("/");
+      DateTime dateTime = DateTime(int.parse(dateString[2]),
+          int.parse(dateString[0]), int.parse(dateString[1]));
+      child = value.toInt() % x == 0
+          ? SideTitleWidget(
+        axisSide: meta.axisSide,
+        child: Text(CustomizableDateTime.miniDate(widget.allocations[value.toInt()].name),
             style: const TextStyle(fontSize: 8)),
-      );
+      )
+          : const SizedBox();
     }
     return SideTitleWidget(
       axisSide: meta.axisSide,

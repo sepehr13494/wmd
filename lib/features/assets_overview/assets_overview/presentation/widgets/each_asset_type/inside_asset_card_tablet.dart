@@ -52,13 +52,23 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                           ),
                         );
                       case 2:
-                        return ChangeWidget(
-                            number: asset.yearToDate,
-                            text: "${asset.yearToDate.toStringAsFixed(1)}%");
+                        return FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: ChangeWidget(
+                              number: asset.yearToDate,
+                              text: "${asset.yearToDate.toStringAsFixed(1)}%",
+                            tooltipMessage: (asset.yearToDate >= 99900 || asset.yearToDate <= -100) ? "" : null,
+                          ),
+                        );
                       case 3:
-                        return ChangeWidget(
-                            number: asset.inceptionToDate,
-                            text: "${asset.inceptionToDate.toStringAsFixed(1)}%");
+                        return FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: ChangeWidget(
+                              number: asset.inceptionToDate,
+                              text: "${asset.inceptionToDate.toStringAsFixed(1)}%",
+                            tooltipMessage: (asset.inceptionToDate >= 99900 || asset.inceptionToDate <= -100) ? "" : null,
+                          ),
+                        );
                       case 4:
                         return Align(
                           alignment: AlignmentDirectional.centerEnd,

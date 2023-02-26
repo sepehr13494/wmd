@@ -8,3 +8,5 @@ class ChartChooserManager extends Cubit<AllChartType?>{
     emit(allChartType);
   }
 }
+
+class GetChartChooserManager extends ChartChooserManager{}

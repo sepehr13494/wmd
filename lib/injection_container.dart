@@ -279,6 +279,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetChartUseCase(sl(), sl()));
   //chart_chooser_manager
   sl.registerFactory(() => ChartChooserManager());
+  sl.registerFactory(() => GetChartChooserManager());
   sl.registerFactory(() => TabManager());
 
   sl.registerLazySingleton<ChartsRepository>(() => ChartsRepositoryImpl(sl()));
