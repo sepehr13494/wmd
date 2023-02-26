@@ -321,18 +321,16 @@ class AddAssetTopWidget extends AppStatelessWidget {
     final primaryColor = Theme.of(context).primaryColor;
 
     final isAssetsNotEmpty =
-        context.read<MainDashboardCubit>().netWorthObj?.assets.currentValue ==
+        context.read<MainDashboardCubit>().netWorthObj?.assets.currentValue !=
             0;
     final isLiabilityNotEmpty = context
             .read<MainDashboardCubit>()
             .netWorthObj
             ?.liabilities
-            .currentValue ==
+            .currentValue !=
         0;
 
     if (isAssetsNotEmpty || isLiabilityNotEmpty) {
-      return const AddAssetOnBoarding();
-    } else {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -397,6 +395,8 @@ class AddAssetTopWidget extends AppStatelessWidget {
           )
         ],
       );
+    } else {
+      return const AddAssetOnBoarding();
     }
   }
 }

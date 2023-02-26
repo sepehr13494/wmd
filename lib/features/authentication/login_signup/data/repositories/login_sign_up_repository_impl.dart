@@ -31,12 +31,15 @@ class LoginSignUpRepositoryImpl implements LoginSignUpRepository {
       return const Right(AppSuccess(message: 'Login successful'));
     } on ServerException catch (error) {
       debugPrint(error.message);
-      // if (error.message == "Wrong email or password.") {
-      return const Left(ServerFailure(
-          message: "Invalid email or password, Please try again."));
-      // } else {
-      //   return Left(ServerFailure.fromServerException(error));
-      // }
+      if (error.message == "Wrong email or password." ||
+          error.message == "wrong token") {
+        return const Left(ServerFailure(
+            message: "Invalid email or password, Please try again."));
+      } else {
+        return const Left(ServerFailure(
+            message:
+                "Please try again shortly, we are experiencing difficulties"));
+      }
     } on CacheException catch (cacheError) {
       return Left(CacheFailure(message: cacheError.message));
     }
