@@ -6,10 +6,16 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/chart_chooser_manager.dart';
 
-enum BarType {
+abstract class BarType{}
+enum AssetsBarType implements BarType{
   barChart,
   areaChart,
   treeChart,
+}
+
+enum GeoBarType implements BarType{
+  map,
+  tree,
 }
 
 class AllChartType extends Equatable {
@@ -21,17 +27,26 @@ class AllChartType extends Equatable {
     required this.barType,
   });
 
-  static List<AllChartType> getAllTypes(BuildContext context) {
+  static List<AllChartType> getAllTypes(BuildContext context, {bool isGeo = false}) {
     final appLocalizations = AppLocalizations.of(context);
-    return [
-      AllChartType(
-          name: appLocalizations.assets_charts_allocationCharts_barChartLabel,
-          barType: BarType.barChart),
-      AllChartType(
-          name: appLocalizations.assets_charts_allocationCharts_areaChartLabel,
-          barType: BarType.areaChart),
-      AllChartType(name: "tree chart", barType: BarType.treeChart),
-    ];
+    if(isGeo){
+      return [
+        AllChartType(
+            name: appLocalizations.assets_charts_tabs_geography,
+            barType: GeoBarType.map),
+        AllChartType(name: "tree chart", barType: GeoBarType.tree),
+      ];
+    }else{
+      return [
+        AllChartType(
+            name: appLocalizations.assets_charts_allocationCharts_barChartLabel,
+            barType: AssetsBarType.barChart),
+        AllChartType(
+            name: appLocalizations.assets_charts_allocationCharts_areaChartLabel,
+            barType: AssetsBarType.areaChart),
+        AllChartType(name: "tree chart", barType: AssetsBarType.treeChart),
+      ];
+    }
   }
 
   @override
@@ -41,18 +56,24 @@ class AllChartType extends Equatable {
 }
 
 class ChartChooserWidget extends StatefulWidget {
-  const ChartChooserWidget({Key? key}) : super(key: key);
+  final bool isGeo;
+  const ChartChooserWidget({Key? key, required this.isGeo}) : super(key: key);
 
   @override
   AppState<ChartChooserWidget> createState() => _ChartChooserWidgetState();
 }
 
 class _ChartChooserWidgetState extends AppState<ChartChooserWidget> {
+  late ChartChooserManager provider;
   @override
   void didChangeDependencies() {
-    final provider = context.read<ChartChooserManager>();
+    if(widget.isGeo){
+      provider = context.read<GetChartChooserManager>();
+    }else{
+      provider = context.read<ChartChooserManager>();
+    }
     if (provider.state == null) {
-      provider.changeChart(AllChartType.getAllTypes(context).first);
+      provider.changeChart(AllChartType.getAllTypes(context,isGeo: widget.isGeo).first);
     }
     super.didChangeDependencies();
   }
@@ -72,7 +93,7 @@ class _ChartChooserWidgetState extends AppState<ChartChooserWidget> {
           ),
           const SizedBox(width: 8),
           Builder(builder: (context) {
-            final items = AllChartType.getAllTypes(context);
+            final items = AllChartType.getAllTypes(context,isGeo: widget.isGeo);
             return DropdownButtonHideUnderline(
               child: DropdownButton<AllChartType>(
                   isDense: true,
@@ -88,7 +109,7 @@ class _ChartChooserWidgetState extends AppState<ChartChooserWidget> {
                   }),
                   onChanged: ((value) {
                     if (value != null) {
-                      context.read<ChartChooserManager>().changeChart(value);
+                      provider.changeChart(value);
                     }
                   }),
                   icon: Icon(
@@ -96,7 +117,7 @@ class _ChartChooserWidgetState extends AppState<ChartChooserWidget> {
                     size: 15,
                     color: Theme.of(context).primaryColor,
                   ),
-                  value: context.watch<ChartChooserManager>().state),
+                  value: provider.state),
             );
           })
         ],

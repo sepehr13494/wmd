@@ -148,6 +148,7 @@ class AppRouter {
               return MultiBlocProvider(
                 providers: [
                   BlocProvider(create: (context) => sl<ChartChooserManager>()),
+                  BlocProvider(create: (context) => sl<GetChartChooserManager>()),
                   BlocProvider(create: (context) => sl<TabManager>()),
                   BlocProvider(create: (context) => sl<MainPageCubit>()),
                   BlocProvider(create: (context) {

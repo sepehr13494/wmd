@@ -53,7 +53,7 @@ class EachAssetType extends AppStatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 24),
+                      const SizedBox(width: 12),
                       assetsOverviewBaseWidgetModel.assetsOverviewType ==
                               AssetsOverviewBaseType.assetType
                           ? const SizedBox()

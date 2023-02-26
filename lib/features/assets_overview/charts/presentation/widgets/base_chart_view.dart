@@ -59,7 +59,7 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                 }
                 return Column(
                   children: [
-                    const ChartChooserWidget(),
+                    const ChartChooserWidget(isGeo: false),
                     const SizedBox(height: 16),
                     Expanded(
                       child:
@@ -69,19 +69,21 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                             return const SizedBox();
                           } else {
                             switch (chooseChartState.barType) {
-                              case BarType.barChart:
+                              case AssetsBarType.barChart:
                                 return AssetsOverviewBarCharts(
                                     getChartEntities:
                                     state.getChartEntities);
-                              case BarType.areaChart:
+                              case AssetsBarType.areaChart:
                                 return AssetsOverviewAreaChart(
                                     getChartEntities:
                                     state.getChartEntities,
                                     titles: titles.toList());
-                              case BarType.treeChart:
+                              case AssetsBarType.treeChart:
                                 return AssetsOverviewTreeChart(
                                     getChartEntities:
                                     state.getChartEntities);
+                              default:
+                                return const SizedBox();
                             }
                           }
                         },
