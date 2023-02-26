@@ -30,6 +30,7 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
   final passwordFieldKey = GlobalKey<FormBuilderFieldState>();
   final formKey = GlobalKey<FormBuilderState>();
   String? passwordValue;
+  String? oldPasswordValue;
   bool buttonPressed = false;
 
   bool lowercase = false,
@@ -139,6 +140,11 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
                       child: PasswordTextField(
                         name: "oldPassword",
                         showEye: false,
+                        onChange: (val) {
+                          setState(() {
+                            oldPasswordValue = val;
+                          });
+                        },
                         hint: appLocalizations
                             .profile_changePassword_placeholder_oldPassword,
                       ),
@@ -177,6 +183,14 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
                         hint: appLocalizations
                             .auth_change_input_confirmPassword_placeholder,
                         showEye: false,
+                        extraValidators: [
+                          (val) {
+                            return (val != null && val == oldPasswordValue)
+                                ? appLocalizations
+                                    .profile_changePassword_validation_samePasswordsErr
+                                : null;
+                          }
+                        ],
                       ),
                     ),
                     const SizedBox(),

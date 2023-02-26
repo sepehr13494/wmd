@@ -184,10 +184,15 @@ class ContactBusinessWidget extends ModalWidget {
                                               items: contactReasonList
                                                   .map((e) => DropdownMenuItem(
                                                         value: e.value,
-                                                        child: Text(e.name,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis),
+                                                        child: SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.86,
+                                                            child: Text(
+                                                              e.name,
+                                                            )),
                                                       ))
                                                   .toList()
                                               // as List<
