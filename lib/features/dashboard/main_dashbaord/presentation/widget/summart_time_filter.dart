@@ -13,9 +13,9 @@ import '../manager/main_dashboard_cubit.dart';
 class SummaryTimeFilter extends AppStatelessWidget {
   final MainDashboardCubit bloc;
   final Function(TimeFilterObj value) onChange;
-  const SummaryTimeFilter({
-    Key? key,required this.bloc,required this.onChange
-  }) : super(key: key);
+  const SummaryTimeFilter(
+      {Key? key, required this.bloc, required this.onChange})
+      : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
@@ -51,7 +51,8 @@ class SummaryTimeFilter extends AppStatelessWidget {
                       bloc.getNetWorth(dateTimeRange: value);
                       onChange(value);
                       AnalyticsUtils.triggerEvent(
-                          action: AnalyticsUtils.changeDashboardFilterAction,
+                          action: AnalyticsUtils.changeDateDashboardAssetAction(
+                              value),
                           params:
                               AnalyticsUtils.changeDashboardFilterEvent(value));
                     }

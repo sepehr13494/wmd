@@ -11,17 +11,23 @@ class AnalyticsUtils {
   static const String geographyWidgetMoreAction = "More_CTA";
   static const String assetExposureArrowAction = "Arrow_CTA";
   static const String changePasswordAction = "Profile_CTA";
-  static const String helpSupportAction = "Help_CTA";
+  static const String helpSupportAction =
+      "Entered_help_page_from_top_navigation";
   static const String changeDashboardFilterAction = "Dashboard_Filter_CTA";
 
 // dynamic
-  static String viewIndividualAssetAction(asset) => "View_$asset";
-  static String changeDateIndividualAssetAction(asset, date) =>
-      "${date}_chosen_to_be_viewed_for_$asset";
-  static String linkBankAction(bankName) => "${bankName}_Connect_CTA";
-  static String linkBankStep2Action(bankName) => "${bankName}_Form_viewed";
-  static String linkBankStep3Action(bankName) =>
-      "${bankName}_Form_shared_with_the_bank";
+  static String viewIndividualAssetAction(String asset) =>
+      "View_${asset.replaceAll(" ", "_")}";
+  static String changeDateIndividualAssetAction(String asset, date) =>
+      "${date}_chosen_to_be_viewed_for_${asset.replaceAll(" ", "_")}";
+  static String changeDateDashboardAssetAction(date) =>
+      "${date}_chosen_to_be_viewed";
+  static String linkBankAction(String bankName) =>
+      "${bankName.replaceAll(" ", "_")}_Connect_CTA";
+  static String linkBankStep2Action(String bankName) =>
+      "${bankName.replaceAll(" ", "_")}_Form_viewed";
+  static String linkBankStep3Action(String bankName) =>
+      "${bankName.replaceAll(" ", "_")}_Form_shared_with_the_bank";
 
   static linkBankEvent(bankName) => {
         "action": "$bankName Connect CTA",

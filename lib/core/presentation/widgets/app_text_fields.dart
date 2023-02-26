@@ -44,6 +44,7 @@ class AppTextFields {
     required final String hint,
     final double fontSize = 15,
     final ValueChanged? onChanged,
+    final ValueChanged? selectedItemBuilder,
     required final List<DropdownMenuItem> items,
     bool enabled = true,
   }) {
@@ -396,12 +397,15 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
                   filterFn: filterFn,
                   enabled: enabled,
                   popupProps: PopupProps.menu(
-                      showSearchBox: true, itemBuilder: itemBuilder),
+                      showSearchBox: true,
+                      itemBuilder: itemBuilder,
+                      searchFieldProps: TextFieldProps(
+                          decoration: InputDecoration(prefixIcon: prefixIcon))),
                   items: items,
                   dropdownDecoratorProps: DropDownDecoratorProps(
                     dropdownSearchDecoration: InputDecoration(
                       hintText: hint,
-                      prefixIcon: prefixIcon,
+                      // prefixIcon: prefixIcon,
                       enabledBorder: field.hasError
                           ? const OutlineInputBorder(
                               borderRadius:
@@ -750,6 +754,7 @@ class PasswordTextField extends StatefulWidget {
   final String? name;
   final bool showEye;
   final GlobalKey<FormBuilderFieldState>? passwordKey;
+  final List<String? Function(String?)>? extraValidators;
   ValueChanged<String?>? onChange;
 
   PasswordTextField(
@@ -757,6 +762,7 @@ class PasswordTextField extends StatefulWidget {
       this.hint,
       this.onChange,
       this.passwordKey,
+      this.extraValidators,
       this.name,
       this.showEye = true})
       : super(key: key);
@@ -767,6 +773,7 @@ class PasswordTextField extends StatefulWidget {
 
 class _PasswordTextFieldState extends AppState<PasswordTextField> {
   bool visible = false;
+  final validators = <String? Function(String?)>[];
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -796,6 +803,7 @@ class _PasswordTextFieldState extends AppState<PasswordTextField> {
                     ),
                   )
                 : null,
+            extraValidators: widget.extraValidators,
             onChanged: widget.onChange),
       ],
     );
