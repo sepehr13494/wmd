@@ -68,7 +68,7 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
                     // title: ChartTitle(text: 'title'),
                     primaryXAxis: CategoryAxis(
                       labelPlacement: LabelPlacement.onTicks,
-                      majorGridLines: const MajorGridLines(width: 0),
+                      majorGridLines: const MajorGridLines(width: 1),
                       labelStyle: textTheme.bodySmall,
                       edgeLabelPlacement: true
                           ? EdgeLabelPlacement.shift
