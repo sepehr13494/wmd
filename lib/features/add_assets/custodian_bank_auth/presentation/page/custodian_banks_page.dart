@@ -34,7 +34,7 @@ class _AddCustodianBanksPageState extends AppState<AddCustodianBanksPage> {
               Text(appLocalizations.linkAccount_automaticLink_title,
                   style: textTheme.headlineSmall),
               const SizedBox(height: 8),
-              Text(appLocalizations.linkAccount_automaticLink_description,
+              Text(appLocalizations.linkAccount_automaticLink_label_search,
                   style: textTheme.titleMedium),
               const SizedBox(height: 8),
               Builder(builder: (context) {
