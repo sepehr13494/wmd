@@ -180,7 +180,7 @@ class ContactBusinessWidget extends ModalWidget {
                                               name: "reason",
                                               hint: appLocalizations
                                                   .common_submitEnquiryModal_placeholder,
-                                              fontSize: 13.5,
+                                              fontSize: 12,
                                               items: contactReasonList
                                                   .map((e) => DropdownMenuItem(
                                                         value: e.value,

@@ -90,7 +90,6 @@ class PieChart2State extends AppState {
                             touchCallback:
                                 (FlTouchEvent event, pieTouchResponse) {
                               setState(() {
-                                print(event.localPosition);
                                 if (!event.isInterestedForInteractions ||
                                     pieTouchResponse == null ||
                                     pieTouchResponse.touchedSection == null) {
@@ -126,7 +125,7 @@ class PieChart2State extends AppState {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text(pieEntity.name,
+                                    Text(AssetsOverviewChartsColors.getAssetType(appLocalizations, pieEntity.name),
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium),

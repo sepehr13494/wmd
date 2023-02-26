@@ -191,14 +191,14 @@ class ChooseAssetWidget extends AppStatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            appLocalizations.manage_assetAndLiability_title,
+            appLocalizations.manage_assetAndLiability_custodianBankTitle,
             style: textTheme.titleLarge,
           ),
           const SizedBox(height: 8),
-          Text(
-            appLocalizations.manage_assetAndLiability_description,
-            style: textTheme.bodySmall,
-          ),
+          // Text(
+          //   appLocalizations.manage_assetAndLiability_description,
+          //   style: textTheme.bodySmall,
+          // ),
         ],
       ),
     );
@@ -342,8 +342,7 @@ class AddAssetTopWidget extends AppStatelessWidget {
                 name = state.getNameEntity.firstName;
               }
               return Text(
-                  appLocalizations.manage_heading
-                      .replaceFirst("{{name}}", name),
+                  appLocalizations.manage_heading.replaceFirst("{{name}}", ""),
                   style: textTheme.headlineSmall);
             },
           ),

@@ -225,7 +225,7 @@ class ActionContainer extends AppStatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             // mainAxisSize: MainAxisSize.min,
             children: [
-              if (status.shareWithBank)
+              if (status.signLetter)
                 TextButton(
                     onPressed: () async {
                       final result = await GlobalFunctions.confirmProcess(
