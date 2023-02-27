@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -19,6 +21,32 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
   Widget buildWidget(
       BuildContext context, textTheme, AppLocalizations appLocalizations) {
     const int divider = 6;
+    TooltipBehavior _tooltipBehavior = TooltipBehavior(
+        enable: true,
+        // borderColor: Colors.red,
+        // borderWidth: 5,
+        builder: (data, point, series, pointIndex, seriesIndex) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text.rich(TextSpan(
+              text:
+                  CustomizableDateTime.localizedDdMmYyyy(data.key as DateTime),
+              style: textTheme.titleSmall!,
+              children: [
+                TextSpan(
+                    text: '\n${appLocalizations.assets_label_currentBalance}',
+                    style: textTheme.bodyMedium),
+                TextSpan(
+                    // ignore: prefer_interpolation_to_compose_strings
+                    text:
+                        ' ${(data.value as double).formatNumberWithDecimal()}',
+                    style: textTheme.titleSmall!
+                        .apply(color: AppColors.chartColor)),
+              ],
+            )),
+          );
+        },
+        color: const Color.fromARGB(255, 38, 49, 52));
     double minY = 0;
     if (values.isNotEmpty) {
       minY = values[0].value;
@@ -37,7 +65,17 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
         }
       }
     }
-    final x = maxY - minY / divider;
+    late final double x;
+    if (maxY - minY == 0) {
+      if (maxY > 0) {
+        x = maxY;
+      } else {
+        x = -maxY;
+      }
+    } else {
+      x = maxY - minY / divider;
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -63,37 +101,43 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
               ? const EmptyChartWidget()
               : Builder(builder: (context) {
                   return SfCartesianChart(
-                    margin: const EdgeInsets.fromLTRB(10, 10, 15, 10),
+                    // margin: const EdgeInsets.fromLTRB(10, 10, 15, 10),
                     plotAreaBorderWidth: 0,
-                    // title: ChartTitle(text: 'title'),
                     primaryXAxis: CategoryAxis(
                       labelPlacement: LabelPlacement.onTicks,
                       majorGridLines: const MajorGridLines(width: 1),
                       labelStyle: textTheme.bodySmall,
-                      edgeLabelPlacement: true
-                          ? EdgeLabelPlacement.shift
-                          : EdgeLabelPlacement.none,
-                      labelIntersectAction: false
-                          ? AxisLabelIntersectAction.rotate45
-                          : AxisLabelIntersectAction.wrap,
-                      crossesAt: 0,
-                      placeLabelsNearAxisLine: false,
+                      edgeLabelPlacement: EdgeLabelPlacement.none,
+                      labelIntersectAction: AxisLabelIntersectAction.wrap,
+                      crossesAt: maxY > 0 ? 0 : null,
+                      // placeLabelsNearAxisLine: false,
                     ),
-
-                    primaryYAxis: CategoryAxis(
-                        axisLine: const AxisLine(width: 0),
-                        minimum: minY - x,
-                        axisLabelFormatter: (axisLabelRenderArgs) =>
-                            ChartAxisLabel(
-                                axisLabelRenderArgs.value
-                                    .formatNumberWithDecimal(),
-                                textTheme.bodySmall),
-                        maximum: maxY + x,
-                        majorTickLines: const MajorTickLines(size: 1)),
+                    primaryYAxis: NumericAxis(
+                      minimum: minY == 0 ? 0 : minY - x,
+                      maximum: maxY + x,
+                      majorGridLines: const MajorGridLines(width: 1),
+                    ),
+                    // primaryYAxis: CategoryAxis(
+                    //   labelStyle: textTheme.bodySmall,
+                    //   axisLine: const AxisLine(width: 0),
+                    //   axisLabelFormatter: (axisLabelRenderArgs) {
+                    //     log('Mertlog:  ${axisLabelRenderArgs.value}');
+                    //     return ChartAxisLabel(
+                    //         axisLabelRenderArgs.value.formatNumberWithDecimal(),
+                    //         textTheme.bodySmall);
+                    //   },
+                    //   minimum: minY - x,
+                    //   maximum: maxY + x,
+                    //   // majorTickLines: const MajorTickLines(size: 1),
+                    //   majorGridLines: const MajorGridLines(width: 1),
+                    // ),
                     series: _getSeries(),
-
-                    tooltipBehavior: TooltipBehavior(
-                        enable: true, header: '', canShowMarker: true),
+                    tooltipBehavior: _tooltipBehavior,
+                    // tooltipBehavior: TooltipBehavior(
+                    //   enable: true,
+                    //   header: 'bksjdhfgkljshdfgljkshd',
+                    //   canShowMarker: true,
+                    // ),
                   );
                 }),
         ),
@@ -104,13 +148,17 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
   _getSeries() {
     return [
       AreaSeries<MapEntry<DateTime, double>, String>(
-          color: AppColors.chartColor.withOpacity(0.3),
-          borderColor: AppColors.chartColor,
-          borderWidth: 2,
-          dataSource: values,
-          xValueMapper: (vs, _) => CustomizableDateTime.localizedDdMm(vs.key),
-          yValueMapper: (vs, _) => vs.value,
-          markerSettings: MarkerSettings(isVisible: values.length == 1)),
+        color: AppColors.chartColor.withOpacity(0.3),
+        borderColor: AppColors.chartColor,
+        borderWidth: 2,
+        dataSource: values,
+        animationDuration: 2500,
+        enableTooltip: true,
+        xValueMapper: (vs, _) => CustomizableDateTime.localizedDdMm(vs.key),
+        yValueMapper: (vs, _) => vs.value,
+        markerSettings: MarkerSettings(
+            isVisible: values.length == 1, color: AppColors.chartColor),
+      ),
     ];
   }
 }

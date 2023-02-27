@@ -97,7 +97,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                               Padding(
                                 padding:
                                     EdgeInsets.all(responsiveHelper.biggerGap),
-                                child: PerformanceLineChart(
+                                child: PerformanceLineChartV2(
                                   values: state
                                       .performanceEntity.valuationHistory
                                       .map((e) => MapEntry(e.date, e.value))
@@ -109,7 +109,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                               Padding(
                                 padding:
                                     EdgeInsets.all(responsiveHelper.biggerGap),
-                                child: PerformanceLineChartV2(
+                                child: PerformanceLineChart(
                                   values: state
                                       .performanceEntity.valuationHistory
                                       .map((e) => MapEntry(e.date, e.value))
