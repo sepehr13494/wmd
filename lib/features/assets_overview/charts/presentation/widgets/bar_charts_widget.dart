@@ -73,7 +73,6 @@ class AssetsOverviewBarCharts extends StatelessWidget {
                   getChartEntity.privateDebt +
                   getChartEntity.others +
                   getChartEntity.bankAccount +
-                  getChartEntity.listedAssetEquity +
                   getChartEntity.listedAssetFixedIncome +
                   getChartEntity.listedAssetEquity;
               final appLocalizations = AppLocalizations.of(context);
