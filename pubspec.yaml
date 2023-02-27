@@ -79,6 +79,7 @@ dependencies:
   datadog_flutter_plugin: ^1.2.1
   firebase_core: ^2.4.1
   firebase_analytics: ^10.1.1
+  syncfusion_flutter_charts: ^20.4.51
 
 dev_dependencies:
   flutter_test:
