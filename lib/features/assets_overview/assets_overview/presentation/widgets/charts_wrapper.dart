@@ -98,6 +98,7 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
                   ];
 
                   return TabBarView(
+                    physics: const NeverScrollableScrollPhysics(),
                     controller: _controller,
                     children: children
                         .map(
