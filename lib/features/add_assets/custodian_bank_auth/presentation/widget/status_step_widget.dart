@@ -131,6 +131,7 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
 class CifStatusWidget extends StatefulWidget {
   final String stepNumber;
   final String title;
+  final String bankId;
   final String? accountId;
   final String? subtitle;
   final bool ready;
@@ -141,6 +142,7 @@ class CifStatusWidget extends StatefulWidget {
     required this.title,
     required this.stepNumber,
     required this.trailing,
+    required this.bankId,
     this.ready = true,
     this.accountId,
     this.subtitle,
@@ -199,16 +201,50 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
         if (!widget.ready) {
           return const SizedBox();
         }
+        String message =
+            appLocalizations.linkAccount_stepper_cif_label_creditsuisse;
+        String tooltip =
+            appLocalizations.linkAccount_stepper_cif_tooltip_creditsuisse;
+
+        switch (widget.bankId) {
+          case 'hsbc':
+            message = appLocalizations.linkAccount_stepper_cif_label_hsbc;
+            tooltip = appLocalizations.linkAccount_stepper_cif_tooltip_hsbc;
+            break;
+          case 'juliusbar':
+            message = appLocalizations.linkAccount_stepper_cif_label_juliusbar;
+            tooltip =
+                appLocalizations.linkAccount_stepper_cif_tooltip_juliusbar;
+            break;
+          case 'lombardodier':
+            message =
+                appLocalizations.linkAccount_stepper_cif_label_lombardodier;
+            tooltip =
+                appLocalizations.linkAccount_stepper_cif_tooltip_lombardodier;
+            break;
+          case 'ubs':
+            message = appLocalizations.linkAccount_stepper_cif_label_ubs;
+            tooltip = appLocalizations.linkAccount_stepper_cif_tooltip_ubs;
+            break;
+          default:
+        }
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 Text(
-                  appLocalizations.linkAccount_stepper_cif_label_creditsuisse,
+                  message,
                   style: textTheme.bodyMedium,
                 ),
-                const InfoIcon(),
+                // const InfoIcon(),
+                Tooltip(
+                  triggerMode: TooltipTriggerMode.tap,
+                  textAlign: TextAlign.center,
+                  message: tooltip,
+                  child: const InfoIcon(),
+                ),
               ],
             ),
             const SizedBox(height: 4),

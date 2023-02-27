@@ -150,6 +150,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
             ),
             CifStatusWidget(
               stepNumber: '2',
+              bankId: widget.bankId,
               title: appLocalizations.linkAccount_stepper_stepTwo_title,
               trailing: '2 ${appLocalizations.assets_charts_days}',
               // showInput: true,
