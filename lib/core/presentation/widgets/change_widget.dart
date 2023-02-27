@@ -31,14 +31,15 @@ class ChangeWidget extends StatelessWidget {
                   ),
           ),
           TextSpan(
-            text: isZero ? '0%' : text,
+            text: isZero ? '\$0' : text,
             style: TextStyle(color: color),
           ),
           if (tooltipMessage != null)
             const WidgetSpan(
               child: Tooltip(
                 triggerMode: TooltipTriggerMode.tap,
-                message: "The performance computation maybe incorrect and the incoming data for the custodian bank needs to be checked",
+                message:
+                    "The performance computation maybe incorrect and the incoming data for the custodian bank needs to be checked",
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 4.0),
                   child: InfoIcon(),
