@@ -47,37 +47,40 @@ class BaseAssetView extends AppStatelessWidget {
                     style: textTheme.titleMedium,
                   ),
                   const Spacer(),
-                  InkWell(
-                    onTap: assets.isEmpty
-                        ? null
-                        : () {
-                            if (title ==
-                                appLocalizations
-                                    .home_widget_assetClassAllocation_title) {
-                              AnalyticsUtils.triggerEvent(
-                                  action:
-                                      AnalyticsUtils.geographyWidgetMoreAction,
-                                  params: AnalyticsUtils
-                                      .assetClassMoreRedirectionEvent);
-                            } else {
-                              AnalyticsUtils.triggerEvent(
-                                  action:
-                                      AnalyticsUtils.geographyWidgetMoreAction,
-                                  params: AnalyticsUtils
-                                      .geographyMoreRedirectionEvent);
-                            }
+                  if (assets.isEmpty == false)
+                    InkWell(
+                      onTap: assets.isEmpty
+                          ? null
+                          : () {
+                              if (title ==
+                                  appLocalizations
+                                      .home_widget_assetClassAllocation_title) {
+                                AnalyticsUtils.triggerEvent(
+                                    action: AnalyticsUtils
+                                        .geographyWidgetMoreAction,
+                                    params: AnalyticsUtils
+                                        .assetClassMoreRedirectionEvent);
+                              } else {
+                                AnalyticsUtils.triggerEvent(
+                                    action: AnalyticsUtils
+                                        .geographyWidgetMoreAction,
+                                    params: AnalyticsUtils
+                                        .geographyMoreRedirectionEvent);
+                              }
 
-                            context.read<MainPageCubit>().onItemTapped(1);
-                          },
-                    child: Row(
-                      children: [
-                        Text(appLocalizations.home_widget_geography_button_more,
-                            style: textTheme.bodySmall!.toLinkStyle(context)),
-                        const SizedBox(width: 8),
-                        const Icon(Icons.arrow_forward_ios_rounded, size: 12),
-                      ],
-                    ),
-                  )
+                              context.read<MainPageCubit>().onItemTapped(1);
+                            },
+                      child: Row(
+                        children: [
+                          Text(
+                              appLocalizations
+                                  .home_widget_geography_button_more,
+                              style: textTheme.bodySmall!.toLinkStyle(context)),
+                          const SizedBox(width: 8),
+                          const Icon(Icons.arrow_forward_ios_rounded, size: 12),
+                        ],
+                      ),
+                    )
                 ],
               ),
               child,
