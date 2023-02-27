@@ -52,7 +52,7 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
           children: [
             Text(
               // ignore: prefer_interpolation_to_compose_strings
-              appLocalizations.assets_label_performanceChart + ' V2',
+              appLocalizations.assets_label_performanceChart,
               style: textTheme.bodyLarge,
             ),
             const SizedBox(width: 8),
