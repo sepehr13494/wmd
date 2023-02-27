@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 extension NumExt on num {
-
   bool isNumeric(String s) {
-    if(s.isEmpty) {
+    if (s.isEmpty) {
       return false;
     }
 
-    return double.tryParse(s) != null ||
-        int.tryParse(s) != null;
+    return double.tryParse(s) != null || int.tryParse(s) != null;
   }
 
   bool isBetween(num low, num high) => (this >= low && this < high);
@@ -31,19 +29,19 @@ extension NumExt on num {
     String number = NumberFormat.compactCurrency(
       decimalDigits: 1,
       symbol:
-      '', // if you want to add currency symbol then pass that in this else leave it empty.
+          '', // if you want to add currency symbol then pass that in this else leave it empty.
     ).format(this);
     var split = number.split(".");
-    if(split.length>1){
-      if(split[1].length>1){
-        if(split[1].length>1){
-          var sub = split[1].substring(0,2);
-          if(sub.length>1){
-            if(isNumeric(sub[1])){
-              number = number.replaceRange(split.first.length+2, split.first.length+3, "");
+    if (split.length > 1) {
+      if (split[1].length > 1) {
+        if (split[1].length > 1) {
+          var sub = split[1].substring(0, 2);
+          if (sub.length > 1) {
+            if (isNumeric(sub[1])) {
+              number = number.replaceRange(
+                  split.first.length + 2, split.first.length + 3, "");
             }
           }
-
         }
       }
     }
@@ -57,6 +55,14 @@ extension NumExt on num {
           '\$', // if you want to add currency symbol then pass that in this else leave it empty.
     );
     val.significantDigits = 2;
+    return val.format(this);
+  }
+
+  String formatCurrencyCompact([int digits = 0]) {
+    final val = NumberFormat.compactSimpleCurrency(
+      decimalDigits: digits,
+    );
+
     return val.format(this);
   }
 }

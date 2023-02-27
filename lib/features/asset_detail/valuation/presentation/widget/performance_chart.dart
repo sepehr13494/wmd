@@ -7,6 +7,7 @@ import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+@Deprecated('Use V2')
 class PerformanceLineChart extends AppStatelessWidget {
   final List<MapEntry<DateTime, double>> values;
   final int days;
