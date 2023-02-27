@@ -125,7 +125,9 @@ class PieChart2State extends AppState {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text(AssetsOverviewChartsColors.getAssetType(appLocalizations, pieEntity.name),
+                                    Text(
+                                        AssetsOverviewChartsColors.getAssetType(
+                                            appLocalizations, pieEntity.name),
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium),

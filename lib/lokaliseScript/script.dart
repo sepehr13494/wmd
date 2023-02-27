@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 void main() async {
-  await readFileAndConvert("C:/Users/DearUser/StudioProjects/wmd/lib/lokaliseScript/input/en.arb", 'C:/Users/DearUser/StudioProjects/wmd/lib/lokaliseScript/output/app_en.arb');
-  await readFileAndConvert("C:/Users/DearUser/StudioProjects/wmd/lib/lokaliseScript/input/ar.arb", 'C:/Users/DearUser/StudioProjects/wmd/lib/lokaliseScript/output/app_ar.arb');
+  await readFileAndConvert("input/en.arb", 'output/app_en.arb');
+  await readFileAndConvert("input/ar.arb", 'output/app_ar.arb');
+  // await readFileAndConvert("C:/Users/DearUser/StudioProjects/wmd/lib/lokaliseScript/input/en.arb", 'C:/Users/DearUser/StudioProjects/wmd/lib/lokaliseScript/output/app_en.arb');
+  // await readFileAndConvert("C:/Users/DearUser/StudioProjects/wmd/lib/lokaliseScript/input/ar.arb", 'C:/Users/DearUser/StudioProjects/wmd/lib/lokaliseScript/output/app_ar.arb');
 }
 
 Future<void> readFileAndConvert(String filePath, String outPath) async {

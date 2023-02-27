@@ -6,8 +6,8 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:app-wmd-qa-01.azurewebsites.net</string>
 		<string>applinks:allinoneplus.com</string>
+		<string>applinks:app-wmd-qa-01.azurewebsites.net</string>
 	</array>
 </dict>
 </plist>
