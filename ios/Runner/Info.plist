@@ -36,6 +36,8 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>FlutterDeepLinkingEnabled</key>
+	<true/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>App requires your location to increase the app security by attaching location with your actions</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
