@@ -105,18 +105,6 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                                   days: selectedTimeFilter.value,
                                 ),
                               ),
-                            if (state is PerformanceLoaded)
-                              Padding(
-                                padding:
-                                    EdgeInsets.all(responsiveHelper.biggerGap),
-                                child: PerformanceLineChart(
-                                  values: state
-                                      .performanceEntity.valuationHistory
-                                      .map((e) => MapEntry(e.date, e.value))
-                                      .toList(),
-                                  days: selectedTimeFilter.value,
-                                ),
-                              ),
                             SizedBox(height: responsiveHelper.biggerGap),
                             ValuationWidget(assetId: widget.assetId),
                             SizedBox(height: responsiveHelper.biggerGap),

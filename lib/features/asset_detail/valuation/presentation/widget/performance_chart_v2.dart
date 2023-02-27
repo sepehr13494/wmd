@@ -98,9 +98,8 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
   _getSeries() {
     return [
       AreaSeries<MapEntry<DateTime, double>, String>(
-        // color: AppColors.chartColor.withOpacity(0.3),
+        color: AppColors.chartColor.withOpacity(0.3),
         borderColor: AppColors.chartColor,
-
         borderWidth: 2,
         dataSource: values,
         animationDuration: 2500,
@@ -111,16 +110,6 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
           if (datum.value > 0) return AppColors.chartColor;
           return AppColors.redChartColor;
         },
-        gradient: LinearGradient(
-          colors: <Color>[
-            AppColors.chartColor.withOpacity(0.3),
-            AppColors.redChartColor.withOpacity(0.3),
-          ],
-          stops: <double>[0.1, 0.3, 0.5, 0.7, 0.9],
-          // Setting alignment for the series gradient
-          begin: Alignment.bottomLeft,
-          end: Alignment.topRight,
-        ),
         // onCreateRenderer: (series) {
         //   return _CustomAreaSeriesRenderer(series);
         // },
@@ -131,30 +120,30 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
   }
 }
 
-// class _CustomAreaSeriesRenderer extends AreaSeriesRenderer {
-//   _CustomAreaSeriesRenderer(this.series);
+class _CustomAreaSeriesRenderer extends AreaSeriesRenderer {
+  _CustomAreaSeriesRenderer(this.series);
 
-//   final ChartSeries<MapEntry<DateTime, double>, String> series;
+  final ChartSeries<MapEntry<DateTime, double>, String> series;
 
-//   @override
-//   AreaSegment createSegment() => _AreaCustomPainter(series);
-// }
+  @override
+  AreaSegment createSegment() => _AreaCustomPainter(series);
+}
 
-// class _AreaCustomPainter extends AreaSegment {
-//   _AreaCustomPainter(this.series);
+class _AreaCustomPainter extends AreaSegment {
+  _AreaCustomPainter(this.series);
 
-//   final ChartSeries<MapEntry<DateTime, double>, String> series;
-//   @override
-//   int get currentSegmentIndex => super.currentSegmentIndex!;
+  final ChartSeries<MapEntry<DateTime, double>, String> series;
+  @override
+  int get currentSegmentIndex => super.currentSegmentIndex!;
 
-//   @override
-//   Paint getFillPaint() {
-//     final Paint customerFillPaint = Paint();
-//     log('Mert log:   $currentSegmentIndex');
-//     customerFillPaint.color = series.dataSource![currentSegmentIndex].value > 0
-//         ? AppColors.chartColor.withOpacity(0.3)
-//         : AppColors.redChartColor.withOpacity(0.3);
-//     customerFillPaint.style = PaintingStyle.fill;
-//     return customerFillPaint;
-//   }
-// }
+  @override
+  Paint getFillPaint() {
+    final Paint customerFillPaint = Paint();
+    log('Mert log:   $currentSegmentIndex');
+    customerFillPaint.color = series.dataSource![currentSegmentIndex].value > 0
+        ? AppColors.chartColor.withOpacity(0.3)
+        : AppColors.redChartColor.withOpacity(0.3);
+    customerFillPaint.style = PaintingStyle.fill;
+    return customerFillPaint;
+  }
+}
