@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
@@ -21,7 +22,7 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
   Widget buildWidget(
       BuildContext context, textTheme, AppLocalizations appLocalizations) {
     const int divider = 6;
-    TooltipBehavior _tooltipBehavior = TooltipBehavior(
+    TooltipBehavior tooltipBehavior = TooltipBehavior(
         enable: true,
         // borderColor: Colors.red,
         // borderWidth: 5,
@@ -101,20 +102,20 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
               ? const EmptyChartWidget()
               : Builder(builder: (context) {
                   return SfCartesianChart(
-                    // margin: const EdgeInsets.fromLTRB(10, 10, 15, 10),
+                    margin: const EdgeInsets.all(0),
                     plotAreaBorderWidth: 0,
                     primaryXAxis: CategoryAxis(
                       labelPlacement: LabelPlacement.onTicks,
                       majorGridLines: const MajorGridLines(width: 1),
-                      labelStyle: textTheme.bodySmall,
-                      edgeLabelPlacement: EdgeLabelPlacement.none,
+                      labelStyle: textTheme.bodySmall!.apply(fontSizeDelta: -3),
+                      edgeLabelPlacement: EdgeLabelPlacement.shift,
                       labelIntersectAction: AxisLabelIntersectAction.wrap,
                       crossesAt: maxY > 0 ? 0 : null,
-                      // placeLabelsNearAxisLine: false,
+                      placeLabelsNearAxisLine: false,
                     ),
                     primaryYAxis: NumericAxis(
-                      minimum: minY == 0 ? 0 : minY - x,
-                      maximum: maxY + x,
+                      numberFormat: NumberFormat.compactCurrency(symbol: '\$'),
+                      labelStyle: textTheme.bodySmall!.apply(fontSizeDelta: -3),
                       majorGridLines: const MajorGridLines(width: 1),
                     ),
                     // primaryYAxis: CategoryAxis(
@@ -132,7 +133,7 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
                     //   majorGridLines: const MajorGridLines(width: 1),
                     // ),
                     series: _getSeries(),
-                    tooltipBehavior: _tooltipBehavior,
+                    tooltipBehavior: tooltipBehavior,
                     // tooltipBehavior: TooltipBehavior(
                     //   enable: true,
                     //   header: 'bksjdhfgkljshdfgljkshd',
