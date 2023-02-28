@@ -63,7 +63,7 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                     const SizedBox(height: 16),
                     Expanded(
                       child:
-                      BlocBuilder<ChartChooserManager, AllChartType?>(
+                      BlocBuilder<AssetChartChooserManager, AllChartType?>(
                         builder: (context, chooseChartState) {
                           if (chooseChartState == null) {
                             return const SizedBox();

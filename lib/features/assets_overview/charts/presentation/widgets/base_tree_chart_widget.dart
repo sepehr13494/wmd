@@ -1,3 +1,4 @@
+/*
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
@@ -79,7 +80,6 @@ class BaseTreeChartWidget<T extends TreeChartObj> extends AppStatelessWidget {
       required Widget child,
       required FirstFlexObj<T> firstFlex,
       required double secondFlex,
-      required TreeChartObj treeChartObj,
       required int itemIndex,
     }) {
       return LayoutBuilder(
@@ -102,7 +102,7 @@ class BaseTreeChartWidget<T extends TreeChartObj> extends AppStatelessWidget {
                               child: SizedBox(
                                 width: double.maxFinite,
                                 height: double.maxFinite,
-                                child: itemBuilder(flexItem,itemIndex),
+                                child: itemBuilder(flexItem,itemIndex-((firstFlex.items.length - 1) - index)),
                               ),
                             );
                           },
@@ -122,14 +122,19 @@ class BaseTreeChartWidget<T extends TreeChartObj> extends AppStatelessWidget {
     }
 
     Widget finalWidget = const SizedBox();
+    int realItemIndex = realItems.length - 1;
     for (int i = 0; i < firstFlexes.length; i++) {
+      print("i : $i");
       finalWidget = generateWidget(
           child: finalWidget,
           firstFlex: firstFlexes[i],
           secondFlex: secondFlexes[i],
-          treeChartObj: realItems[realItems.length - 1 - i],
-          itemIndex: realItems.length - 1 - i);
+          itemIndex: realItemIndex);
+      realItemIndex -= firstFlexes[i].items.length;
+      print("length  : ${firstFlexes[i].items.length}");
+      print("realIndex : $realItemIndex");
     }
     return finalWidget;
   }
 }
+*/
