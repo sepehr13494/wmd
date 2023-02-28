@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
@@ -21,9 +23,15 @@ class NetWorthBaseChart extends StatefulWidget {
 class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
   bool barChart = false;
 
+  // final charts = ['bar', 'area'];
+
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    final charts = {
+      'bar': appLocalizations.assets_charts_allocationCharts_barChartLabel,
+      'area': appLocalizations.assets_charts_allocationCharts_areaChartLabel
+    };
     return Builder(builder: (context) {
       return BlocBuilder<DashboardAllocationCubit, DashboardChartsState>(
         builder: (context, state) {
@@ -45,19 +53,17 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
                             ),
                             const SizedBox(width: 8),
                             Builder(builder: (context) {
-                              final items = [
-                                appLocalizations
-                                    .assets_charts_allocationCharts_barChartLabel,
-                                appLocalizations
-                                    .assets_charts_allocationCharts_areaChartLabel
-                              ];
                               return DropdownButtonHideUnderline(
-                                child: DropdownButton<String>(
-                                    items: List.generate(2, (index) {
-                                      return DropdownMenuItem<String>(
-                                        value: items[index],
+                                child: DropdownButton<int>(
+                                    items:
+                                        List.generate(charts.length, (index) {
+                                      log('Mert log:  ${charts.values.elementAt(index)}');
+                                      log(appLocalizations
+                                          .assets_charts_allocationCharts_areaChartLabel);
+                                      return DropdownMenuItem<int>(
+                                        value: index,
                                         child: Text(
-                                          items[index],
+                                          charts.values.elementAt(index),
                                           style: textTheme.bodyMedium!.apply(
                                               color: Theme.of(context)
                                                   .primaryColor),
@@ -65,9 +71,7 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
                                       );
                                     }),
                                     onChanged: ((value) {
-                                      if (value ==
-                                          appLocalizations
-                                              .assets_charts_allocationCharts_barChartLabel) {
+                                      if (value == 0) {
                                         setState(() {
                                           barChart = true;
                                         });
@@ -82,11 +86,7 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
                                       size: 15,
                                       color: Theme.of(context).primaryColor,
                                     ),
-                                    value: barChart
-                                        ? appLocalizations
-                                            .assets_charts_allocationCharts_barChartLabel
-                                        : appLocalizations
-                                            .assets_charts_allocationCharts_areaChartLabel),
+                                    value: barChart ? 0 : 1),
                               );
                             })
                           ],
