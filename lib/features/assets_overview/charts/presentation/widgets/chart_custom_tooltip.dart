@@ -8,14 +8,13 @@ import 'package:wmd/features/assets_overview/charts/presentation/widgets/constan
 
 import '../../domain/entities/get_chart_entity.dart';
 
-
 class ChartCustomTooltip extends StatelessWidget {
   final GetChartEntity? selected;
+
   const ChartCustomTooltip({Key? key, this.selected}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     Widget eachTooltipItem(String title, String value) {
       final textTheme = Theme.of(context).textTheme;
       return Row(
@@ -53,6 +52,75 @@ class ChartCustomTooltip extends StatelessWidget {
                 getChartEntity.listedAssetFixedIncome +
                 getChartEntity.listedAssetEquity;
             final appLocalizations = AppLocalizations.of(context);
+            final items = [
+              [
+                getChartEntity.bankAccount,
+                AssetsOverviewChartsColors.getAssetType(
+                  appLocalizations,
+                  "Bank Account".replaceAll(" ", ""),
+                ),
+                getChartEntity.bankAccount,
+              ],
+              [
+                getChartEntity.privateEquity,
+                AssetsOverviewChartsColors.getAssetType(
+                  appLocalizations,
+                  "Private Equity".replaceAll(" ", ""),
+                ),
+                getChartEntity.privateEquity,
+              ],
+              [
+                getChartEntity.privateDebt,
+                AssetsOverviewChartsColors.getAssetType(
+                  appLocalizations,
+                  "Private Debt".replaceAll(" ", ""),
+                ),
+                getChartEntity.privateDebt,
+              ],
+              [
+                getChartEntity.realEstate,
+                AssetsOverviewChartsColors.getAssetType(
+                  appLocalizations,
+                  "Real Estate".replaceAll(" ", ""),
+                ),
+                getChartEntity.realEstate,
+              ],
+              [
+                getChartEntity.listedAssetEquity,
+                AssetsOverviewChartsColors.getAssetType(
+                  appLocalizations,
+                  AssetTypes.listedAssetEquity.replaceAll(" ", ""),
+                ),
+                getChartEntity.listedAssetEquity,
+              ],
+              [
+                getChartEntity.listedAssetFixedIncome,
+                AssetsOverviewChartsColors.getAssetType(
+                  appLocalizations,
+                  AssetTypes.listedAssetFixedIncome.replaceAll(" ", ""),
+                ),
+                getChartEntity.listedAssetFixedIncome,
+              ],
+              [
+                getChartEntity.listedAssetOther,
+                AssetsOverviewChartsColors.getAssetType(
+                  appLocalizations,
+                  AssetTypes.listedAssetOther.replaceAll(" ", ""),
+                ),
+                getChartEntity.listedAssetOther,
+              ],
+              [
+                getChartEntity.others,
+                AssetsOverviewChartsColors.getAssetType(
+                  appLocalizations,
+                  "Other Assets".replaceAll(" ", ""),
+                ),
+                getChartEntity.others,
+              ],
+            ];
+            items.sort((a, b) {
+              return ((b[2] as double )-(a[2] as double)).toInt();
+            },);
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -61,71 +129,15 @@ class ChartCustomTooltip extends StatelessWidget {
                   style: textTheme.titleSmall,
                 ),
                 const SizedBox(height: 8),
-                getChartEntity.bankAccount != 0
-                    ? eachTooltipItem(
-                  AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    "Bank Account".replaceAll(" ", ""),
-                  ),
-                  getChartEntity.bankAccount.formatNumberWithDecimal(),
-                )
-                    : const SizedBox(),
-                getChartEntity.privateEquity != 0
-                    ?eachTooltipItem(
-                  AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    "Private Equity".replaceAll(" ", ""),
-                  ),
-                  getChartEntity.privateEquity.formatNumberWithDecimal(),
-                ): const SizedBox(),
-                getChartEntity.privateDebt != 0
-                    ? eachTooltipItem(
-                  AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    "Private Debt".replaceAll(" ", ""),
-                  ),
-                  getChartEntity.privateDebt.formatNumberWithDecimal(),
-                ): const SizedBox(),
-                getChartEntity.realEstate != 0
-                    ? eachTooltipItem(
-                  AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    "Real Estate".replaceAll(" ", ""),
-                  ),
-                  getChartEntity.realEstate.formatNumberWithDecimal(),
-                ): const SizedBox(),
-                getChartEntity.listedAssetEquity != 0
-                    ? eachTooltipItem(
-                  AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    AssetTypes.listedAssetEquity.replaceAll(" ", ""),
-                  ),
-                  getChartEntity.listedAssetEquity.formatNumberWithDecimal(),
-                ): const SizedBox(),
-                getChartEntity.listedAssetFixedIncome != 0
-                    ? eachTooltipItem(
-                  AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    AssetTypes.listedAssetFixedIncome.replaceAll(" ", ""),
-                  ),
-                  getChartEntity.listedAssetFixedIncome.formatNumberWithDecimal(),
-                ): const SizedBox(),
-                getChartEntity.listedAssetOther != 0
-                    ? eachTooltipItem(
-                  AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    AssetTypes.listedAssetOther.replaceAll(" ", ""),
-                  ),
-                  getChartEntity.listedAssetOther.formatNumberWithDecimal(),
-                ): const SizedBox(),
-                getChartEntity.others != 0
-                    ? eachTooltipItem(
-                  AssetsOverviewChartsColors.getAssetType(
-                    appLocalizations,
-                    "Other Assets".replaceAll(" ", ""),
-                  ),
-                  getChartEntity.others.formatNumberWithDecimal(),
-                ): const SizedBox(),
+                ...List.generate(items.length, (index) {
+                  final item = items[index];
+                  return item[0] != 0
+                      ? eachTooltipItem(
+                    item[1].toString(),
+                    (item[2] as double).formatNumberWithDecimal(),
+                  )
+                      : const SizedBox();
+                }),
                 eachTooltipItem(
                   "Total",
                   sum.formatNumberWithDecimal(),

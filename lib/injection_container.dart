@@ -278,8 +278,8 @@ Future<void> init() async {
   sl.registerFactory(() => ChartsCubit(sl()));
   sl.registerLazySingleton(() => GetChartUseCase(sl(), sl()));
   //chart_chooser_manager
-  sl.registerFactory(() => ChartChooserManager());
-  sl.registerFactory(() => GetChartChooserManager());
+  sl.registerFactory(() => AssetChartChooserManager());
+  sl.registerFactory(() => GeoChartChooserManager());
   sl.registerFactory(() => TabManager());
 
   sl.registerLazySingleton<ChartsRepository>(() => ChartsRepositoryImpl(sl()));

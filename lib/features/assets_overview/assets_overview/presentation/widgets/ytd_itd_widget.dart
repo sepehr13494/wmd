@@ -22,26 +22,25 @@ class YtdItdWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List items = [
+      [
+        AppLocalizations.of(context).assets_label_ytd,
+        ytd,
+        "${ytd.toStringAsFixed(1)}%",
+        "Year-to-date:the period from the first of\nthe calendar year to date of the\ncommunication."
+      ],
+      [
+        AppLocalizations.of(context).assets_label_itd,
+        itd,
+        "${itd.toStringAsFixed(1)}%",
+        "Incenption-to-date:the period from the\nestablishment of the portfolio/investment to\nthe date of the communication."
+      ],
+    ];
+    if (reversed) {
+      items = items.reversed.toList();
+    }
     return Row(
       children: List.generate(2, (index) {
-        List items = [
-          [
-            AppLocalizations.of(context).assets_label_ytd,
-            ytd,
-            "${ytd.toStringAsFixed(1)}%",
-            "Year-to-date:the period from the first of\nthe calendar year to date of the\ncommunication."
-          ],
-          [
-            AppLocalizations.of(context).assets_label_itd,
-            itd,
-            "${itd.toStringAsFixed(1)}%",
-            "Incenption-to-date:the period from the\nestablishment of the portfolio/investment to\nthe date of the communication."
-          ],
-        ];
-        if (reversed) {
-          items = items.reversed.toList();
-        }
-
         final item = items[index];
         return ExpandedIf(
           expanded: expand,
@@ -68,7 +67,7 @@ class YtdItdWidget extends StatelessWidget {
                           ),
                       ],
                     ),
-                    ChangeWidget(number: item[1], text: item[2]),
+                    ChangeWidget(number: item[1], text: item[2],tooltipMessage: (item[1] >= 99900 || item[1] <= -100) ? "" : null),
                   ],
                 ),
               ],

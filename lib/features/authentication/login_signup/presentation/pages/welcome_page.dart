@@ -16,13 +16,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
-import 'package:wmd/core/util/local_auth_manager.dart';
-import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
-import 'package:wmd/features/authentication/login_signup/presentation/widgets/video_player_widget/video_player_widget.dart';
-import 'package:wmd/features/splash/presentation/manager/splash_cubit.dart';
-import 'package:wmd/global_functions.dart';
-import 'package:wmd/injection_container.dart';
+
 
 class WelcomePage extends AppStatelessWidget {
   const WelcomePage({Key? key}) : super(key: key);
