@@ -29,6 +29,8 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>FlutterDeepLinkingEnabled</key>
+	<true/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>https</string>
@@ -36,8 +38,8 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>FlutterDeepLinkingEnabled</key>
-	<true/>
+	<key>NSFaceIDUsageDescription</key>
+	<string>For security of app while logging</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>App requires your location to increase the app security by attaching location with your actions</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -65,7 +67,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSFaceIDUsageDescription</key>
-	<string>For security of app while logging</string>
 </dict>
 </plist>
