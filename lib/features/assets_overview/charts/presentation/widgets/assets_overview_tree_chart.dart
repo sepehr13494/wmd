@@ -8,6 +8,7 @@ import 'package:wmd/features/assets_overview/charts/presentation/widgets/base_tr
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 
 import '../../domain/entities/get_chart_entity.dart';
+import 'base_tree_chart_widget2.dart';
 
 class AssetTreeChartObj extends TreeChartObj{
   final Color color;
@@ -122,11 +123,11 @@ class AssetsOverviewTreeChart extends AppStatelessWidget {
         return InsideWidget(date: e.date, value: e.others);
       }).toList(),
     ));
-
+    realItems.removeWhere((element) => element.value==0);
     return Column(
       children: [
         Expanded(
-          child: BaseTreeChartWidget(treeChartObjs: realItems, itemBuilder: (AssetTreeChartObj flexItem,itemIndex){
+          child: BaseTreeChartWidget2(treeChartObjs: realItems, itemBuilder: (AssetTreeChartObj flexItem,itemIndex){
             return Container(
               color: flexItem.color,
               child: RowOrColumn(

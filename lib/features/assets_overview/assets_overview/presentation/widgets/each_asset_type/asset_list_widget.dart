@@ -28,8 +28,8 @@ class _AssetListWidgetState extends AppState<AssetListWidget> {
 
   @override
   void initState() {
-    super.initState();
     init();
+    super.initState();
   }
 
   void init() {
@@ -52,7 +52,7 @@ class _AssetListWidgetState extends AppState<AssetListWidget> {
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalization) {
-    return widget.assetList.isEmpty ? Text("no items") : Column(
+    return Column(
       children: [
         ...List.generate(count, (index) {
           final item = widget.assetList[index];

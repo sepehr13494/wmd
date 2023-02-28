@@ -31,10 +31,10 @@ class AllChartType extends Equatable {
     final appLocalizations = AppLocalizations.of(context);
     if(isGeo){
       return [
+        AllChartType(name: appLocalizations.assets_charts_allocationCharts_treemapLabel, barType: GeoBarType.tree),
         AllChartType(
-            name: appLocalizations.assets_charts_tabs_geography,
+            name: appLocalizations.assets_charts_allocationCharts_worldmapLabel,
             barType: GeoBarType.map),
-        AllChartType(name: "tree chart", barType: GeoBarType.tree),
       ];
     }else{
       return [
@@ -44,7 +44,7 @@ class AllChartType extends Equatable {
         AllChartType(
             name: appLocalizations.assets_charts_allocationCharts_areaChartLabel,
             barType: AssetsBarType.areaChart),
-        AllChartType(name: "tree chart", barType: AssetsBarType.treeChart),
+        AllChartType(name: appLocalizations.assets_charts_allocationCharts_treemapLabel, barType: AssetsBarType.treeChart),
       ];
     }
   }
@@ -68,9 +68,9 @@ class _ChartChooserWidgetState extends AppState<ChartChooserWidget> {
   @override
   void didChangeDependencies() {
     if(widget.isGeo){
-      provider = context.read<GetChartChooserManager>();
+      provider = context.watch<GeoChartChooserManager>();
     }else{
-      provider = context.read<ChartChooserManager>();
+      provider = context.watch<AssetChartChooserManager>();
     }
     if (provider.state == null) {
       provider.changeChart(AllChartType.getAllTypes(context,isGeo: widget.isGeo).first);

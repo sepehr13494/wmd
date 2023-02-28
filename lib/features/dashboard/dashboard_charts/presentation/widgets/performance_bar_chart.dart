@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
@@ -7,6 +9,8 @@ import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_allocation_entity.dart';
+
+import 'custom_dashboard_chart_tooltip.dart';
 
 class PerformanceBarChart extends StatefulWidget {
   final List<GetAllocationEntity> allocations;
@@ -25,6 +29,11 @@ class _PerformanceBarChartState extends AppState<PerformanceBarChart> {
   late final List<MapEntry<DateTime, double>> values;
   final double minDate = 6;
 
+  Timer? _timer;
+  bool showTooltip = false;
+  GetAllocationEntity? selected;
+  double position = 0;
+
   @override
   void initState() {
     super.initState();
@@ -34,6 +43,14 @@ class _PerformanceBarChartState extends AppState<PerformanceBarChart> {
           int.parse(dateString[0]), int.parse(dateString[1]));
       return MapEntry(dateTime, e.asset);
     }).toList();
+  }
+
+  @override
+  void dispose() {
+    if (_timer != null) {
+      _timer!.cancel();
+    }
+    super.dispose();
   }
 
   @override
@@ -52,15 +69,38 @@ class _PerformanceBarChartState extends AppState<PerformanceBarChart> {
                       ),
                     ),
                     Expanded(
-                      child: LineChart(
-                        mainData(context, appLocalizations, showLeft: false),
+                      child: Stack(
+                        alignment: const Alignment(-1, 0),
+                        children: [
+                          LineChart(
+                            mainData(context, appLocalizations, showLeft: false),
+                          ),
+                        ],
                       ),
                     )
                   ],
                 );
               }
-              return LineChart(
-                mainData(context, appLocalizations),
+              return LayoutBuilder(
+                  builder: (context,snap) {
+                    final width = (snap.maxWidth-100);
+                    final x = (position - width / 2) / (width/2);
+                    var pos = x;
+                    if(x<-1){
+                      pos = -1;
+                    }else if(x>1){
+                      pos = 1;
+                    }
+                    return Stack(
+                      alignment: Alignment(pos, -1),
+                      children: [
+                        LineChart(
+                          mainData(context, appLocalizations),
+                        ),
+                        showTooltip ? CustomDashboardChartTooltip(selected: selected) : const SizedBox(),
+                      ],
+                    );
+                  }
               );
             }),
     );
@@ -200,67 +240,28 @@ class _PerformanceBarChartState extends AppState<PerformanceBarChart> {
       minY: 0,
       maxY: divider,
       lineTouchData: LineTouchData(
-        touchTooltipData: LineTouchTooltipData(
-          fitInsideVertically: true,
-          fitInsideHorizontally: true,
-          getTooltipItems: (touchedSpots) {
-            final textTheme = Theme.of(context).textTheme;
-            return [
-              LineTooltipItem(
-                CustomizableDateTime.localizedDdMmYyyy(
-                    values[touchedSpots.first.x.toInt()].key),
-                textTheme.titleSmall!,
-                textAlign: TextAlign.start,
-                children: [
-                  TextSpan(
-                      // ignore: prefer_interpolation_to_compose_strings
-                      text: '\n\n' +
-                          AppLocalizations.of(context)
-                              .home_dashboardCharts_legendLabel_netWorth +
-                          "    ",
-                      style: textTheme.titleSmall),
-                  TextSpan(
-                      // ignore: prefer_interpolation_to_compose_strings
-                      text: widget
-                          .allocations[touchedSpots.first.x.toInt()].netWorth
-                          .formatNumberWithDecimal(),
-                      style: textTheme.titleSmall!
-                          .apply(color: AppColors.chartColor)),
-                  TextSpan(
-                      // ignore: prefer_interpolation_to_compose_strings
-                      text: '\n' +
-                          AppLocalizations.of(context)
-                              .home_dashboardCharts_legendLabel_assets +
-                          "         ",
-                      style: textTheme.titleSmall),
-                  TextSpan(
-                      // ignore: prefer_interpolation_to_compose_strings
-                      text: widget
-                          .allocations[touchedSpots.first.x.toInt()].asset
-                          .formatNumberWithDecimal(),
-                      style: textTheme.titleSmall!
-                          .apply(color: AppColors.chartColor)),
-                  TextSpan(
-                      // ignore: prefer_interpolation_to_compose_strings
-                      text: '\n' +
-                          AppLocalizations.of(context)
-                              .home_dashboardCharts_legendLabel_liability +
-                          "      ",
-                      style: textTheme.titleSmall),
-                  TextSpan(
-                      // ignore: prefer_interpolation_to_compose_strings
-                      text: widget
-                          .allocations[touchedSpots.first.x.toInt()].liability
-                          .formatNumberWithDecimal(),
-                      style: textTheme.titleSmall!
-                          .apply(color: AppColors.chartColor)),
-                ],
-              )
-            ];
+          touchCallback: (p0, p1) {
+            if(p1 != null){
+              if(p1.lineBarSpots != null){
+                setState(() {
+                  selected = widget.allocations[p1.lineBarSpots!.first.spotIndex];
+                  position = p0.localPosition!.dx;
+                  showTooltip = true;
+                  if(_timer != null){
+                    _timer!.cancel();
+                  }
+                  _timer=Timer(const Duration(seconds: 2), () {
+                    setState(() {
+                      showTooltip = false;
+                    });
+                  });
+                });
+              }
+            }
           },
-          maxContentWidth: 200,
-          tooltipBgColor: const Color.fromARGB(255, 38, 49, 52),
-        ),
+          touchTooltipData: LineTouchTooltipData(getTooltipItems: (touchedSpots) {
+            return [LineTooltipItem("", const TextStyle())];
+          },tooltipPadding: const EdgeInsets.all(0.5))
       ),
       lineBarsData: [
         LineChartBarData(
@@ -290,7 +291,7 @@ class _PerformanceBarChartState extends AppState<PerformanceBarChart> {
             spotsLine: BarAreaSpotsLine(
                 show: true,
                 flLineStyle:
-                    FlLine(color: AppColors.chartColor, strokeWidth: 15)),
+                    FlLine(color: AppColors.chartColor, strokeWidth: widget.allocations.length>10 ? 5 : 15)),
             color: Colors.transparent,
           ),
         ),

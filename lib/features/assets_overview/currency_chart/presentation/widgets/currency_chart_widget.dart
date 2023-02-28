@@ -16,6 +16,7 @@ import 'package:wmd/features/assets_overview/currency_chart/presentation/manager
 import 'package:wmd/injection_container.dart';
 
 import '../../../charts/presentation/models/color_title_obj.dart';
+import '../../../charts/presentation/widgets/base_tree_chart_widget2.dart';
 
 class CurrencyTreeObj extends TreeChartObj {
   final GetCurrencyEntity currencyEntity;
@@ -50,7 +51,7 @@ class CurrencyChartWidget extends AppStatelessWidget {
               return Column(
                 children: [
                   Expanded(
-                    child: BaseTreeChartWidget<CurrencyTreeObj>(
+                    child: BaseTreeChartWidget2<CurrencyTreeObj>(
                       treeChartObjs: state.assetsOverviewBaseModels
                           .map((e) => CurrencyTreeObj(currencyEntity: e))
                           .toList(),
@@ -58,7 +59,6 @@ class CurrencyChartWidget extends AppStatelessWidget {
                         return Tooltip(
                           message: "${item.currencyEntity.currencyCode}: ${((item.value*100)/sum).toStringAsFixed(1)} %",
                           child: Container(
-                            margin: const EdgeInsets.all(0.5),
                             color: AssetsOverviewChartsColors.colors[itemIndex],
                             child: Padding(
                               padding: const EdgeInsets.all(2),
