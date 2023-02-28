@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -8,23 +9,62 @@ import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/assets_overview/charts/domain/entities/get_chart_entity.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'chart_custom_tooltip.dart';
 import 'constants.dart';
 
-class AssetsOverviewAreaChart extends StatelessWidget {
+class AssetsOverviewAreaChart extends StatefulWidget {
   final List<GetChartEntity> getChartEntities;
   final List<String> titles;
   const AssetsOverviewAreaChart({super.key, required this.getChartEntities, required this.titles});
 
   @override
+  State<AssetsOverviewAreaChart> createState() => _AssetsOverviewAreaChartState();
+}
+
+class _AssetsOverviewAreaChartState extends State<AssetsOverviewAreaChart> {
+
+  Timer? _timer;
+  bool showTooltip = false;
+  GetChartEntity? selected;
+  double position = 0;
+
+
+  @override
   Widget build(BuildContext context) {
-    return LineChart(
-      mainData(context),
+    return LayoutBuilder(
+        builder: (context,snap) {
+          final width = (snap.maxWidth-100);
+          final x = (position - width / 2) / (width/2);
+          var pos = x;
+          if(x<-1){
+            pos = -1;
+          }else if(x>1){
+            pos = 1;
+          }
+          return Stack(
+            alignment: Alignment(pos, -1),
+            children: [
+              LineChart(
+                mainData(context),
+              ),
+              showTooltip ? ChartCustomTooltip(selected: selected) : const SizedBox(),
+            ],
+          );
+        }
     );
   }
 
+  @override
+  void dispose() {
+    if (_timer != null) {
+      _timer!.cancel();
+    }
+    super.dispose();
+  }
+
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    int x = (getChartEntities.length/7).ceil();
-    var dateString = getChartEntities[value.toInt()].date.split("/");
+    int x = (widget.getChartEntities.length/7).ceil();
+    var dateString = widget.getChartEntities[value.toInt()].date.split("/");
     DateTime dateTime = DateTime(int.parse(dateString[2]),int.parse(dateString[0]),int.parse(dateString[1]));
     return value.toInt() % x == 0 ? SideTitleWidget(
       axisSide: meta.axisSide,
@@ -38,8 +78,8 @@ class AssetsOverviewAreaChart extends StatelessWidget {
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-    double minY = calculateMinMax(getChartEntities)[0];
-    double maxY = calculateMinMax(getChartEntities)[1];
+    double minY = calculateMinMax(widget.getChartEntities)[0];
+    double maxY = calculateMinMax(widget.getChartEntities)[1];
     double x = max(maxY.abs() , minY.abs()) / 5;
     return FittedBox(
       fit: BoxFit.scaleDown,
@@ -52,69 +92,39 @@ class AssetsOverviewAreaChart extends StatelessWidget {
   }
 
   LineChartData mainData(context) {
-    double minY = calculateMinMax(getChartEntities)[0];
-    double maxY = calculateMinMax(getChartEntities)[1];
+    double minY = calculateMinMax(widget.getChartEntities)[0];
+    double maxY = calculateMinMax(widget.getChartEntities)[1];
     double x = max(maxY.abs() , minY.abs()) / 5;
     minY = (minY/x);
     maxY = (maxY/x);
     double maxTotal = max(minY.abs(), maxY.abs());
     return LineChartData(
         lineTouchData: LineTouchData(
+          touchCallback: (p0, p1) {
+            if(p1 != null){
+              if(p1.lineBarSpots != null){
+                setState(() {
+                  selected = widget.getChartEntities[p1.lineBarSpots!.first.spotIndex];
+                  position = p0.localPosition!.dx;
+                  showTooltip = true;
+                  if(_timer != null){
+                    _timer!.cancel();
+                  }
+                  _timer=Timer(const Duration(seconds: 2), () {
+                    setState(() {
+                      showTooltip = false;
+                    });
+                  });
+                });
+              }
+            }
+          },
           touchTooltipData: LineTouchTooltipData(
             fitInsideVertically: true,
             fitInsideHorizontally: true,
             getTooltipItems: (touchedSpots) {
-              final textTheme = Theme.of(context).textTheme;
-              final getChartEntity = getChartEntities[touchedSpots.first.x.toInt()];
-              final appLocalizations = AppLocalizations.of(context);
               return List.generate(touchedSpots.length, (index) {
-                return index == 0 ? LineTooltipItem(
-                  "${CustomizableDateTime.miniDateWithYear(getChartEntity.date)}\n",
-                  textTheme.titleSmall!,
-                  textAlign: TextAlign.start,
-                  children: [
-                    getChartEntity.bankAccount != 0 ? TextSpan(
-                        style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                      appLocalizations,
-                      "Bank Account".replaceAll(" ", ""),
-                    ) + "\t\t"),TextSpan(text: getChartEntity.bankAccount.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                    getChartEntity.privateEquity != 0 ? TextSpan(
-                        style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                      appLocalizations,
-                      "Private Equity".replaceAll(" ", ""),
-                    ) + "\t\t"),TextSpan(text: getChartEntity.privateEquity.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                    getChartEntity.privateDebt != 0 ? TextSpan(
-                        style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                      appLocalizations,
-                      "Private Debt".replaceAll(" ", ""),
-                    ) + "\t\t"),TextSpan(text: getChartEntity.privateDebt.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                    getChartEntity.realEstate != 0 ? TextSpan(
-                        style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                      appLocalizations,
-                      "Real Estate".replaceAll(" ", ""),
-                    ) + "\t\t"),TextSpan(text: getChartEntity.realEstate.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                    getChartEntity.listedAssetEquity != 0 ? TextSpan(
-                        style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                      appLocalizations,
-                      AssetTypes.listedAssetEquity.replaceAll(" ", ""),
-                    ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetEquity.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                    getChartEntity.listedAssetFixedIncome != 0 ? TextSpan(
-                        style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                      appLocalizations,
-                      AssetTypes.listedAssetFixedIncome.replaceAll(" ", ""),
-                    ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetFixedIncome.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                    getChartEntity.listedAssetOther != 0 ? TextSpan(
-                        style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                      appLocalizations,
-                      AssetTypes.listedAssetOther.replaceAll(" ", ""),
-                    ) + "\t\t"),TextSpan(text: getChartEntity.listedAssetOther.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                    getChartEntity.others != 0 ? TextSpan(
-                        style: textTheme.bodyMedium,children: [TextSpan(text: "\n" + AssetsOverviewChartsColors.getAssetType(
-                      appLocalizations,
-                      "Other Assets".replaceAll(" ", ""),
-                    ) + "\t"),TextSpan(text: getChartEntity.others.formatNumberWithDecimal(),style: const TextStyle(color: AppColors.chartColor))]) : const TextSpan(),
-                  ],
-                ) : null;
+                return null;
               });
             },
             maxContentWidth: 300,
@@ -177,9 +187,9 @@ class AssetsOverviewAreaChart extends StatelessWidget {
   }
 
   List<LineChartBarData> getData(double x) {
-    return List.generate(titles.length, (mainIndex) {
+    return List.generate(widget.titles.length, (mainIndex) {
       Color color = Colors.transparent;
-      switch (titles[mainIndex]){
+      switch (widget.titles[mainIndex]){
         case AssetTypes.bankAccount:
           color = AssetsOverviewChartsColors.colorsMap[AssetTypes.bankAccount]??Colors.brown;
           break;
@@ -211,10 +221,10 @@ class AssetsOverviewAreaChart extends StatelessWidget {
         barWidth: 2,
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
-        spots: List.generate(getChartEntities.length, (index) {
-          GetChartEntity getChartEntity = getChartEntities[index];
+        spots: List.generate(widget.getChartEntities.length, (index) {
+          GetChartEntity getChartEntity = widget.getChartEntities[index];
           double y = 0;
-          switch (titles[mainIndex]){
+          switch (widget.titles[mainIndex]){
             case AssetTypes.bankAccount:
               y = getChartEntity.bankAccount/x;
               break;

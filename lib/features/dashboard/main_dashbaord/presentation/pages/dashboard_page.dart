@@ -24,7 +24,8 @@ class DashboardPage extends AppStatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Link all your assets with ease',
+            appLocalizations.home_guidedOnBoarding_addAndLinkAsset_title,
+            // 'Link all your assets with ease',
             style: textTheme.headlineSmall!.apply(fontWeightDelta: 4).copyWith(
                 fontSize: responsiveHelper.getFontSize(30),
                 height: responsiveHelper.getLineHeight(1.2)),
@@ -32,7 +33,8 @@ class DashboardPage extends AppStatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'Connect with your institutions to see updates for your assets and liabilities',
+            appLocalizations.home_guidedOnBoarding_addAndLinkAsset_subTitle,
+            // 'Connect with your institutions to see updates for your assets and liabilities',
             style: textTheme.titleMedium!.copyWith(
                 fontSize: responsiveHelper.getFontSize(20),
                 height: responsiveHelper.getLineHeight(1.2)),
@@ -50,7 +52,7 @@ class DashboardPage extends AppStatelessWidget {
               onPressed: () {
                 context.goNamed(AppRoutes.addAssetsView);
               },
-              child: const Text('Get Started'),
+              child: Text(appLocalizations.common_button_getStarted),
             ),
           ),
         ],
