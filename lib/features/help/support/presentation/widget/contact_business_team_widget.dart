@@ -176,30 +176,54 @@ class ContactBusinessWidget extends ModalWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          AppTextFields.dropDownTextField(
-                                              name: "reason",
-                                              hint: appLocalizations
-                                                  .common_submitEnquiryModal_placeholder,
-                                              fontSize: 11,
-                                              items: contactReasonList
-                                                  .map((e) => DropdownMenuItem(
-                                                        value: e.value,
-                                                        child: SizedBox(
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width *
-                                                                0.86,
-                                                            child: Text(
-                                                              e.name,
-                                                            )),
-                                                      ))
-                                                  .toList()
-                                              // as List<
-                                              //     DropdownMenuItem<
-                                              //         dynamic>>
-                                              ,
-                                              onChanged: checkFinalValid),
+                                          FormBuilderSearchableDropdown<
+                                              ContactReason>(
+                                            name: "reason",
+                                            hint: "Select",
+                                            showSearchBox: false,
+                                            items: contactReasonList,
+                                            // onChanged: (val) async {
+
+                                            //   await Future.delayed(
+                                            //       const Duration(
+                                            //           milliseconds: 200));
+                                            //   checkFinalValid(val);
+                                            // },
+                                            itemAsString: (ContactReason val) =>
+                                                val.name,
+                                            itemBuilder:
+                                                (context, currency, _) {
+                                              return Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(currency.name),
+                                              );
+                                            },
+                                          ),
+                                          // AppTextFields.dropDownTextField(
+                                          //     name: "reason",
+                                          //     hint: appLocalizations
+                                          //         .common_submitEnquiryModal_placeholder,
+                                          //     fontSize: 11,
+                                          //     items: contactReasonList
+                                          //         .map((e) => DropdownMenuItem(
+                                          //               value: e.value,
+                                          //               child: SizedBox(
+                                          //                   width: MediaQuery.of(
+                                          //                               context)
+                                          //                           .size
+                                          //                           .width *
+                                          //                       0.86,
+                                          //                   child: Text(
+                                          //                     e.name,
+                                          //                   )),
+                                          //             ))
+                                          //         .toList()
+                                          //     // as List<
+                                          //     //     DropdownMenuItem<
+                                          //     //         dynamic>>
+                                          //     ,
+                                          //     onChanged: checkFinalValid),
                                           const SizedBox(
                                             height: 16,
                                           ),

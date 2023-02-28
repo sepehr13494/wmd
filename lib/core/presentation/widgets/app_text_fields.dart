@@ -351,6 +351,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
   final bool required;
   final bool enabled;
   final Widget? prefixIcon;
+  final bool showSearchBox;
   final List<String? Function(T?)>? extraValidators;
 
   const FormBuilderSearchableDropdown(
@@ -364,6 +365,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
       this.extraValidators,
       this.required = true,
       this.enabled = true,
+      this.showSearchBox = true,
       required this.items,
       this.prefixIcon,
       this.onChanged})
@@ -397,7 +399,9 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
                   filterFn: filterFn,
                   enabled: enabled,
                   popupProps: PopupProps.menu(
-                      showSearchBox: true,
+                      menuProps: const MenuProps(
+                          backgroundColor: AppColors.backgroundColorPageDark),
+                      showSearchBox: showSearchBox,
                       itemBuilder: itemBuilder,
                       searchFieldProps: TextFieldProps(
                           decoration: InputDecoration(prefixIcon: prefixIcon))),
