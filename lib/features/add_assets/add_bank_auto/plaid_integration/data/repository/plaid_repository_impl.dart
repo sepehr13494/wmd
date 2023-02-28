@@ -32,8 +32,9 @@ class PlaidRepositoryImpl implements PlaidRepository {
       final converted = respStream.map<Either<Failure, String>>((e) {
         log('Plaid output: ${e.toJson()}');
         if (e is LinkExit) {
-          return Left(
-              ServerFailure(message: e.error?.message ?? e.metadata.status));
+          return Left(ServerFailure(
+              message:
+                  e.error?.message == null ? e.metadata.status ?? "" : ""));
         } else if (e is LinkSuccess) {
           return Right((e).publicToken);
         } else {
