@@ -25,6 +25,11 @@ extension CustomizableDateTime on DateTime {
         .format(input);
   }
 
+  static String dateLocalizedV2(DateTime input) {
+    return DateFormat("d${getDayOfMonthSuffix(input.day)} MMMM yyyy", "en")
+        .format(input);
+  }
+
   static String localizedDdMm(dynamic input) {
     return DateFormat("d MMM", "en").format(input);
   }
