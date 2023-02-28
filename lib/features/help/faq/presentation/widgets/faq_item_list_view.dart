@@ -1,6 +1,11 @@
+import 'dart:io';
+
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
@@ -17,6 +22,17 @@ class FaqItemList extends StatefulWidget {
 
 class _FaqItemListState extends AppState<FaqItemList> {
   List<bool> expanded = [false, false];
+
+  Future<bool> launchUrl(String url) {
+    if (Platform.isAndroid) {
+      return launchUrlString(
+        url,
+        mode: LaunchMode.externalApplication,
+      );
+    } else {
+      return launchUrlString(url);
+    }
+  }
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -69,14 +85,40 @@ class _FaqItemListState extends AppState<FaqItemList> {
                               currentFaq.title ?? ".",
                             ));
                       },
-                      body: Container(
-                        padding: const EdgeInsets.all(20),
-                        width: double.infinity,
-                        child: Text(
-                          currentFaq.description ?? ".",
-                          style: textTheme.bodySmall,
-                        ),
-                      ),
+                      body: currentFaq.title ==
+                              "How Can I Start  Investing with The  Family Office?"
+                          ? Container(
+                              padding: const EdgeInsets.all(20),
+                              width: double.infinity,
+                              child: RichText(
+                                  text: TextSpan(children: [
+                                TextSpan(
+                                  text: currentFaq.description != null
+                                      ? currentFaq.description
+                                              ?.split('[here]')
+                                              .first ??
+                                          ""
+                                      : ".",
+                                  style: textTheme.bodySmall,
+                                ),
+                                TextSpan(
+                                  text: "here",
+                                  style:
+                                      textTheme.bodyLarge!.toLinkStyle(context),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      launchUrl("https://my.tfoco.com/");
+                                    },
+                                ),
+                              ])))
+                          : Container(
+                              padding: const EdgeInsets.all(20),
+                              width: double.infinity,
+                              child: Text(
+                                currentFaq.description ?? ".",
+                                style: textTheme.bodySmall,
+                              ),
+                            ),
                       isExpanded: expanded[idx]);
                 }).toList());
           } else {
