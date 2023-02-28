@@ -64,8 +64,8 @@ dependencies:
   network_info_plus: ^2.3.1
   flutter_html: ^3.0.0-alpha.6
   flutter_dotenv: ^5.0.2
-  dropdown_search: 5.0.5
-  flutter_typeahead: ^4.3.1
+  dropdown_search: ^5.0.3
+  flutter_typeahead: ^4.1.1
   countries_world_map: ^0.0.7
   fl_chart: ^0.55.2
   carousel_slider: ^4.1.1
