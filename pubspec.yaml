@@ -20,7 +20,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.56+1
 
 environment:
-  sdk: ">=2.19.0 <3.0.0"
+  sdk: ">=2.18.0 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -65,7 +65,7 @@ dependencies:
   flutter_html: ^3.0.0-alpha.6
   flutter_dotenv: ^5.0.2
   dropdown_search: 5.0.5
-  flutter_typeahead: 4.3.7
+  flutter_typeahead: ^4.3.1
   countries_world_map: ^0.0.7
   fl_chart: ^0.55.2
   carousel_slider: ^4.1.1
