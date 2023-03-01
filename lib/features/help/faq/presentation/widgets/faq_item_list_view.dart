@@ -107,7 +107,8 @@ class _FaqItemListState extends AppState<FaqItemList> {
                                       textTheme.bodyLarge!.toLinkStyle(context),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
-                                      launchUrl("https://my.tfoco.com/");
+                                      launchUrl(
+                                          "https://my.tfoco.com/signup?returnTo=%2f");
                                     },
                                 ),
                               ])))
