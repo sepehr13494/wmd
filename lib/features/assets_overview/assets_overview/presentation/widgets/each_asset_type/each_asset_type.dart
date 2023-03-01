@@ -111,6 +111,7 @@ class EachAssetType extends AppStatelessWidget {
                     ),
                   ),
                   AssetListWidget(
+                    key: Key(assetsOverviewBaseWidgetModel.title),
                     assetList: assetsOverviewBaseWidgetModel
                         .assetsOverviewBaseModel.assetList,
                   ),

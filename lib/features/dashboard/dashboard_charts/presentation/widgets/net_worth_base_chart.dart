@@ -57,7 +57,6 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
                                 child: DropdownButton<int>(
                                     items:
                                         List.generate(charts.length, (index) {
-                                      log('Mert log:  ${charts.values.elementAt(index)}');
                                       log(appLocalizations
                                           .assets_charts_allocationCharts_areaChartLabel);
                                       return DropdownMenuItem<int>(
