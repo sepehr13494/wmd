@@ -81,7 +81,7 @@ class _ChartChooserWidgetState extends AppState<ChartChooserWidget> {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    if (AppConstants.publicMvp2Items) {
+    if (AppConstants.publicMvp2Items && !widget.isGeo) {
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -123,7 +123,6 @@ class _ChartChooserWidgetState extends AppState<ChartChooserWidget> {
         ],
       );
     }
-
     return const SizedBox();
   }
 }
