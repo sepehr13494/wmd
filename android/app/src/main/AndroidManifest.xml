@@ -30,7 +30,7 @@
             
     <application
         android:label="wmd"
-        android:name="${applicationName}"
+        android:name="All In One Plus"
         android:icon="@mipmap/launcher_icon">        
         <activity
             android:name=".MainActivity"

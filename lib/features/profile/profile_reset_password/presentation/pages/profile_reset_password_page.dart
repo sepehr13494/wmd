@@ -208,7 +208,9 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
                             }
                           } else {
                             GlobalFunctions.showSnackBar(
-                                context, "Confirm password is wrong",
+                                context,
+                                appLocalizations
+                                    .profile_changePassword_validation_confirmPasswordErr,
                                 color: AppColors.errorColor);
                           }
                         },
