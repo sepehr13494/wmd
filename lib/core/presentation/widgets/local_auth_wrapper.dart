@@ -66,7 +66,7 @@ class _LocalAuthWrapperState extends AppState<LocalAuthWrapper>
       body: LayoutBuilder(builder: (context, snapShot) {
         return Center(
           child: SvgPicture.asset(
-            "assets/images/logo.svg",
+            "assets/images/app_logo.svg",
             width: snapShot.maxWidth * 0.7,
           ),
         );
