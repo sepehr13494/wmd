@@ -55,18 +55,27 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                         return FittedBox(
                           fit: BoxFit.scaleDown,
                           child: ChangeWidget(
-                              number: asset.yearToDate,
-                              text: "${asset.yearToDate.toStringAsFixed(1)}%",
-                            tooltipMessage: (asset.yearToDate >= 99900 || asset.yearToDate <= -100) ? "" : null,
+                            number: asset.yearToDate,
+                            text: "${asset.yearToDate.toStringAsFixed(1)}%",
+                            tooltipMessage: (asset.yearToDate >= 99900 ||
+                                    asset.yearToDate <= -100)
+                                ? appLocalizations
+                                    .assets_tooltips_percentageAbsurd
+                                : null,
                           ),
                         );
                       case 3:
                         return FittedBox(
                           fit: BoxFit.scaleDown,
                           child: ChangeWidget(
-                              number: asset.inceptionToDate,
-                              text: "${asset.inceptionToDate.toStringAsFixed(1)}%",
-                            tooltipMessage: (asset.inceptionToDate >= 99900 || asset.inceptionToDate <= -100) ? "" : null,
+                            number: asset.inceptionToDate,
+                            text:
+                                "${asset.inceptionToDate.toStringAsFixed(1)}%",
+                            tooltipMessage: (asset.inceptionToDate >= 99900 ||
+                                    asset.inceptionToDate <= -100)
+                                ? appLocalizations
+                                    .assets_tooltips_percentageAbsurd
+                                : null,
                           ),
                         );
                       case 4:
@@ -74,22 +83,24 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                           alignment: AlignmentDirectional.centerEnd,
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
-                            child: Builder(
-                              builder: (context) {
-                                final assetOverviewType = AssetsOverviewInherit.of(context).assetOverviewBaseType;
-                                String finalText = "";
-                                switch (assetOverviewType){
-                                  case AssetsOverviewBaseType.assetType:
-                                    finalText = asset.geography;
-                                    break;
-                                  case AssetsOverviewBaseType.currency:
-                                  case AssetsOverviewBaseType.geography:
-                                    finalText = AssetsOverviewChartsColors.getAssetType(appLocalizations, asset.type);
-                                    break;
-                                }
-                                return Text(finalText);
+                            child: Builder(builder: (context) {
+                              final assetOverviewType =
+                                  AssetsOverviewInherit.of(context)
+                                      .assetOverviewBaseType;
+                              String finalText = "";
+                              switch (assetOverviewType) {
+                                case AssetsOverviewBaseType.assetType:
+                                  finalText = asset.geography;
+                                  break;
+                                case AssetsOverviewBaseType.currency:
+                                case AssetsOverviewBaseType.geography:
+                                  finalText =
+                                      AssetsOverviewChartsColors.getAssetType(
+                                          appLocalizations, asset.type);
+                                  break;
                               }
-                            ),
+                              return Text(finalText);
+                            }),
                           ),
                         );
                       default:

@@ -28,7 +28,6 @@ class AssetsOverviewChartsColors {
     AssetTypes.otherAssets: Color(0xffFFFFFF),
   };
 
-
   static const Map<String, Color> colorsMapPie = {
     AssetTypes.bankAccount: Color(0xff69544B),
     AssetTypes.listedAsset: Color(0xff41765D),
@@ -42,22 +41,26 @@ class AssetsOverviewChartsColors {
     AssetTypes.otherAssets: Color(0xff769EA7),
   };
 
-  static String getAssetType(AppLocalizations appLocalizations, String type,{String? category}) {
+  static String getAssetType(AppLocalizations appLocalizations, String type,
+      {String? category}) {
     switch (type) {
       case AssetTypes.bankAccount:
-        return appLocalizations.assetLiabilityForms_assets_bankAccount;
+        return appLocalizations.assets_assets_BankAccount;
       case AssetTypes.listedAsset:
         String after = " - ";
-        if(category != null){
-          switch (category.toLowerCase().replaceAll(" ", "")){
+        if (category != null) {
+          switch (category.toLowerCase().replaceAll(" ", "")) {
             case "equity":
-              after += appLocalizations.assetLiabilityForms_forms_listedAssets_inputFields_assetType_options_equity;
+              after += appLocalizations
+                  .assetLiabilityForms_forms_listedAssets_inputFields_assetType_options_equity;
               break;
             case "fixedincome":
-              after += appLocalizations.assetLiabilityForms_forms_listedAssets_inputFields_assetType_options_fixedIncome;
+              after += appLocalizations
+                  .assetLiabilityForms_forms_listedAssets_inputFields_assetType_options_fixedIncome;
               break;
             default:
-              after += appLocalizations.assetLiabilityForms_forms_others_inputFields_assetType_options_other;
+              after += appLocalizations
+                  .assetLiabilityForms_forms_others_inputFields_assetType_options_other;
               break;
           }
         }
@@ -69,7 +72,7 @@ class AssetsOverviewChartsColors {
       case AssetTypes.listedAssetOther:
         return "${appLocalizations.assetLiabilityForms_assets_listedAssets} - ${appLocalizations.assetLiabilityForms_forms_others_inputFields_assetType_options_other}";
       case AssetTypes.privateEquity:
-        return appLocalizations.assetLiabilityForms_assets_privateEquity;
+        return appLocalizations.assets_assets_PrivateEquity;
       case AssetTypes.privateDebt:
         return appLocalizations.assetLiabilityForms_assets_privateDebt;
       case AssetTypes.realEstate:
@@ -87,8 +90,9 @@ class AssetsOverviewChartsColors {
     }
   }
 
-  static String getContinentsNames(AppLocalizations appLocalizations,String name){
-    switch (name.toLowerCase().replaceAll(" ", "")){
+  static String getContinentsNames(
+      AppLocalizations appLocalizations, String name) {
+    switch (name.toLowerCase().replaceAll(" ", "")) {
       case "asia":
         return appLocalizations.assets_geography_Asia;
       case "europe":
