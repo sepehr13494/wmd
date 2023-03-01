@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
+import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 
 import 'package:wmd/features/assets_overview/assets_overview/presentation/pages/assets_overview_page.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/pages/dashboard_main_page.dart';
@@ -19,15 +20,10 @@ class MainPage extends StatefulWidget {
   const MainPage({Key? key, this.expandCustodian = false}) : super(key: key);
 
   @override
-  State<MainPage> createState() => _MainPageState();
+  AppState<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
-  static final List<List> items = [
-    [Icons.home, 'Home'],
-    [Icons.bar_chart, 'Assets'],
-  ];
-
+class _MainPageState extends AppState<MainPage> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
@@ -35,7 +31,12 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
+    final List<List> items = [
+      [Icons.home, appLocalizations.common_nav_links_home],
+      [Icons.bar_chart, appLocalizations.common_nav_links_assets],
+    ];
+
     final List<Widget> widgetOptions = <Widget>[
       DashboardMainPage(expandCustodian: widget.expandCustodian),
       const AssetsOverView(),
