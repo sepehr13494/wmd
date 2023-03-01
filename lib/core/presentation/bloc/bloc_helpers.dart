@@ -12,6 +12,25 @@ import '../../util/loading/loading_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BlocHelper {
+  static convertErrorMsg(BuildContext context, String msg) {
+    var errorMsg = msg;
+    switch (msg) {
+      case "Invalid email or password, Please try again.":
+        errorMsg = AppLocalizations.of(context).auth_login_toast_error_title;
+        break;
+      case "Please try again shortly, we are experiencing difficulties":
+        errorMsg =
+            AppLocalizations.of(context).auth_login_toast_error_unexpected;
+        break;
+
+      default:
+        errorMsg = msg;
+        break;
+    }
+
+    return errorMsg;
+  }
+
   static BlocWidgetListener defaultBlocListener({
     required BlocWidgetListener listener,
   }) {
@@ -62,7 +81,7 @@ class BlocHelper {
                     state.failure.type == ExceptionType.unExpected
                         ? AppLocalizations.of(context)
                             .common_errors_somethingWentWrong
-                        : state.failure.message,
+                        : convertErrorMsg(context, state.failure.message),
                     color: Colors.red[800],
                     type: "error");
               }
