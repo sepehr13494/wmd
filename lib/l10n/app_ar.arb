@@ -1395,7 +1395,7 @@
   "assets_label_allocation": "",
   "assets_charts_allocationCharts_treemapLabel": "",
   "assets_charts_allocationCharts_worldmapLabel": "",
-  "assets_tooltips_percentageAbsurd": "",
+  "assets_tooltips_percentageAbsurd": "قد تكون هذه القيمة غير صحيحة. ننصحك بالتأكد من البيانات الصادرة عن بنكك الوصي.",
   "common_errors_maxChar": "",
   "home_emptyText_mapDescription": ""
 }
