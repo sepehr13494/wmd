@@ -31,11 +31,12 @@ class GlobalFunctions {
     ));
   }
 
-  static Future<bool> confirmProcess({
-    required BuildContext context,
-    required String title,
-    required String body,
-  }) async {
+  static Future<bool> confirmProcess(
+      {required BuildContext context,
+      required String title,
+      required String body,
+      String yes = 'Yes',
+      String no = 'No'}) async {
     bool isConfirm = await showDialog(
       context: context,
       builder: (context) {
@@ -68,7 +69,7 @@ class GlobalFunctions {
                 child: Center(
                   child: Text(
                     title,
-                    style: appTextTheme.bodyText1,
+                    style: appTextTheme.bodyMedium,
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -100,15 +101,15 @@ class GlobalFunctions {
                     onPressed: () => Navigator.pop(context, true),
                     style: ElevatedButton.styleFrom(
                         minimumSize: const Size(100, 40)),
-                    child: const Text("Yes"),
+                    child: Text(yes),
                   ),
                   const SizedBox(width: 20.0),
                   OutlinedButton(
                     onPressed: () => Navigator.pop(context, false),
                     style: OutlinedButton.styleFrom(
                         minimumSize: const Size(100, 40)),
-                    child: const Text(
-                      "No",
+                    child: Text(
+                      no,
                     ),
                   ),
                 ],

@@ -233,6 +233,10 @@ class ActionContainer extends AppStatelessWidget {
                           context: context,
                           title: appLocalizations
                               .linkAccount_deleteCustodianBankModal_description,
+                          yes: appLocalizations
+                              .linkAccount_deleteCustodianBankModal_yes,
+                          no: appLocalizations
+                              .linkAccount_deleteCustodianBankModal_no,
                           body: "");
 
                       if (result) {

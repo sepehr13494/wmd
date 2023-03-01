@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/info_icon.dart';
 import 'package:wmd/core/util/colors.dart';
 
-class ChangeWidget extends StatelessWidget {
+import 'app_stateless_widget.dart';
+
+class ChangeWidget extends AppStatelessWidget {
   final double number;
   final String text;
   final String? tooltipMessage;
@@ -14,7 +16,7 @@ class ChangeWidget extends StatelessWidget {
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context, textTheme, appLocalization) {
     final bool isPositive = number > 0;
     final bool isZero = number == 0;
     final color = isZero ? null : (isPositive ? AppColors.green : Colors.red);
@@ -35,12 +37,11 @@ class ChangeWidget extends StatelessWidget {
             style: TextStyle(color: color),
           ),
           if (tooltipMessage != null)
-            const WidgetSpan(
+            WidgetSpan(
               child: Tooltip(
                 triggerMode: TooltipTriggerMode.tap,
-                message:
-                    "The performance computation maybe incorrect and the incoming data for the custodian bank needs to be checked",
-                child: Padding(
+                message: tooltipMessage,
+                child: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 4.0),
                   child: InfoIcon(),
                 ),
