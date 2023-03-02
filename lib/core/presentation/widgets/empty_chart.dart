@@ -17,7 +17,7 @@ class EmptyChart extends AppStatelessWidget {
           style: textTheme.bodyLarge,
         ),
         Text(
-          appLocalizations.common_emptyText_assetClassDescription,
+          appLocalizations.common_emptyText_description,
           textAlign: TextAlign.center,
           style: textTheme.bodySmall,
         ),

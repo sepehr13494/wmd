@@ -402,6 +402,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
                       menuProps: const MenuProps(
                           backgroundColor: AppColors.backgroundColorPageDark),
                       showSearchBox: showSearchBox,
+                      fit: FlexFit.loose,
                       itemBuilder: itemBuilder,
                       searchFieldProps: TextFieldProps(
                           decoration: InputDecoration(prefixIcon: prefixIcon))),
