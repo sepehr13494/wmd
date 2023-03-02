@@ -59,7 +59,7 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                 }
                 return Column(
                   children: [
-                    const ChartChooserWidget(isGeo: false),
+                    ChartChooserWidget(isGeo: false,show: AppConstants.publicMvp2Items,),
                     const SizedBox(height: 16),
                     Expanded(
                       child:

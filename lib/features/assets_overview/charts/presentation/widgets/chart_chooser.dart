@@ -57,7 +57,8 @@ class AllChartType extends Equatable {
 
 class ChartChooserWidget extends StatefulWidget {
   final bool isGeo;
-  const ChartChooserWidget({Key? key, required this.isGeo}) : super(key: key);
+  final bool show;
+  const ChartChooserWidget({Key? key, required this.isGeo,this.show=true}) : super(key: key);
 
   @override
   AppState<ChartChooserWidget> createState() => _ChartChooserWidgetState();
@@ -81,7 +82,7 @@ class _ChartChooserWidgetState extends AppState<ChartChooserWidget> {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    if (AppConstants.publicMvp2Items && !widget.isGeo) {
+    if (widget.show) {
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
