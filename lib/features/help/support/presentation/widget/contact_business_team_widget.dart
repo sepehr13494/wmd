@@ -182,13 +182,6 @@ class ContactBusinessWidget extends ModalWidget {
                                             hint: "Select",
                                             showSearchBox: false,
                                             items: contactReasonList,
-                                            // onChanged: (val) async {
-
-                                            //   await Future.delayed(
-                                            //       const Duration(
-                                            //           milliseconds: 200));
-                                            //   checkFinalValid(val);
-                                            // },
                                             itemAsString: (ContactReason val) =>
                                                 val.name,
                                             itemBuilder:
