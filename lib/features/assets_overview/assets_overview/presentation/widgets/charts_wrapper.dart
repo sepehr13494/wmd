@@ -62,26 +62,31 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
           const SizedBox(height: 24),
           Column(
             children: [
-              Row(
-                children: [
-                  SizedBox(
-                    width: 300,
-                    child: TabBar(
-                      controller: _controller,
-                      tabs: [
-                        Tab(
-                            text:
-                                appLocalizations.assets_charts_tabs_assetClass),
-                        Tab(
-                            text:
-                                appLocalizations.assets_charts_tabs_geography),
-                        Tab(text: appLocalizations.assets_charts_tabs_currency),
-                      ],
-                      isScrollable: true,
-                    ),
-                  ),
-                  const Spacer(),
-                ],
+              Builder(
+                builder: (context) {
+                  final isMobile = ResponsiveHelper(context: context).isMobile;
+                  return Row(
+                    children: [
+                      SizedBox(
+                        width: isMobile ? null : 400,
+                        child: TabBar(
+                          controller: _controller,
+                          tabs: [
+                            Tab(
+                                text:
+                                    appLocalizations.assets_charts_tabs_assetClass),
+                            Tab(
+                                text:
+                                    appLocalizations.assets_charts_tabs_geography),
+                            Tab(text: appLocalizations.assets_charts_tabs_currency),
+                          ],
+                          isScrollable: true,
+                        ),
+                      ),
+                      isMobile ? const SizedBox() : const Spacer(),
+                    ],
+                  );
+                }
               ),
               const Divider(
                 height: 0.5,

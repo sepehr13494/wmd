@@ -31,6 +31,28 @@ extension NumExt on num {
       symbol:
           '', // if you want to add currency symbol then pass that in this else leave it empty.
     ).format(this);
+    return _removeExtraDecimal(number);
+  }
+
+  String formatNumberWithDecimal([int digits = 0]) {
+    final val = NumberFormat.compactCurrency(
+      decimalDigits: digits,
+      symbol:
+          '\$', // if you want to add currency symbol then pass that in this else leave it empty.
+    );
+    val.significantDigits = 3;
+    return _removeExtraDecimal(val.format(this));
+  }
+
+  String formatCurrencyCompact([int digits = 0]) {
+    final val = NumberFormat.compactSimpleCurrency(
+      decimalDigits: digits,
+    );
+
+    return val.format(this);
+  }
+
+  String _removeExtraDecimal(String number) {
     var split = number.split(".");
     if (split.length > 1) {
       if (split[1].length > 1) {
@@ -46,23 +68,5 @@ extension NumExt on num {
       }
     }
     return number;
-  }
-
-  String formatNumberWithDecimal([int digits = 0]) {
-    final val = NumberFormat.compactCurrency(
-      decimalDigits: digits,
-      symbol:
-          '\$', // if you want to add currency symbol then pass that in this else leave it empty.
-    );
-    val.significantDigits = 2;
-    return val.format(this);
-  }
-
-  String formatCurrencyCompact([int digits = 0]) {
-    final val = NumberFormat.compactSimpleCurrency(
-      decimalDigits: digits,
-    );
-
-    return val.format(this);
   }
 }
