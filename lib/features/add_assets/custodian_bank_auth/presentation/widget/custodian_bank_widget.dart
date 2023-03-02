@@ -58,6 +58,7 @@ class CustodianBankWidgetV2 extends AppStatelessWidget {
                           id: null,
                           onOk: () {
                             if (sl<GetUserStatusUseCase>().showOnboarding) {
+                              sl<GetUserStatusUseCase>().showOnboarding = false;
                               Map<String, dynamic> map = {
                                 "email":
                                     sl<GetUserStatusUseCase>().userEmail ?? ".",
