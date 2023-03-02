@@ -29,8 +29,8 @@
 
             
     <application
-        android:label="wmd"
-        android:name="All In One Plus"
+        android:label="All In One Plus"
+        android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">        
         <activity
             android:name=".MainActivity"

@@ -24,32 +24,34 @@ class SupportActionCard extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     return Card(
-      semanticContainer: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(6),
-      ),
-      color: Theme.of(context).brightness == Brightness.dark
-          ? AppColors.anotherCardColorForDarkTheme
-          : AppColors.anotherCardColorForLightTheme,
-      elevation: 5,
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 16),
-        child: ListTile(
-          minVerticalPadding: 10,
-          onTap: () {
-            action();
-          },
-          title: Text(title),
-          leading: Icon(
-            icon,
-            color: AppColors.primary,
-          ),
-          subtitle: Text(
-            desc,
-            style: textTheme.bodySmall,
-          ),
+        semanticContainer: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(6),
         ),
-      ),
-    );
+        color: Theme.of(context).brightness == Brightness.dark
+            ? AppColors.anotherCardColorForDarkTheme
+            : AppColors.anotherCardColorForLightTheme,
+        elevation: 5,
+        child: SizedBox(
+          height: 125,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: ListTile(
+              minVerticalPadding: 10,
+              onTap: () {
+                action();
+              },
+              title: Text(title),
+              leading: Icon(
+                icon,
+                color: AppColors.primary,
+              ),
+              subtitle: Text(
+                desc,
+                style: textTheme.bodySmall,
+              ),
+            ),
+          ),
+        ));
   }
 }
