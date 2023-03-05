@@ -53,11 +53,9 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
                 if (state is UserStatusLoaded) {
                   if (state.userStatus.loginAt != null) {
                     context.goNamed(AppRoutes.main);
-                  } else if (!(state.userStatus.emailVerified ?? true)) {
-                    if(!AppConstants.developMode){
-                      context.goNamed(AppRoutes.verifyEmail,
-                          queryParams: {"email": state.userStatus.email ?? ""});
-                    }
+                  } else if (!(state.userStatus.emailVerified ?? false)) {
+                    context.goNamed(AppRoutes.verifyEmail,
+                        queryParams: {"email": state.userStatus.email ?? ""});
                   }
                 }
               }),

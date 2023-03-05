@@ -50,20 +50,23 @@ class NetChangeWidget extends AppStatelessWidget {
               .replaceFirstMapped('{{duration}}', (match) => days.toString()),
           style: textTheme.bodySmall,
         ),
-        Builder(builder: (context) {
-          late final String symbol;
-          if (change == 0) {
-            symbol = '+';
-          } else if (change < 0) {
-            symbol = '';
-          } else {
-            symbol = '+';
-          }
-          return Text(
-            '$symbol ${change.convertMoney(addDollar: true)}',
-            style: textTheme.bodyLarge,
-          );
-        }),
+        Directionality(
+          textDirection: TextDirection.ltr,
+          child: Builder(builder: (context) {
+            late final String symbol;
+            if (change == 0) {
+              symbol = '+';
+            } else if (change < 0) {
+              symbol = '';
+            } else {
+              symbol = '+';
+            }
+            return Text(
+              '$symbol ${change.convertMoney(addDollar: true)}',
+              style: textTheme.bodyLarge,
+            );
+          }),
+        ),
         // Row(
         //   children: [
         //     Text(
