@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/info_icon.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class YtdItdWidget extends StatelessWidget {
+class YtdItdWidget extends AppStatelessWidget {
   final bool expand;
   final double ytd;
   final double itd;
@@ -21,19 +22,21 @@ class YtdItdWidget extends StatelessWidget {
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
     List items = [
       [
         AppLocalizations.of(context).assets_label_ytd,
         ytd,
         "${ytd.toStringAsFixed(1)}%",
-        "Year-to-date:the period from the first of\nthe calendar year to date of the\ncommunication."
+        appLocalizations.assets_tooltips_ytd
+        // "Year-to-date:the period from the first of\nthe calendar year to date of the\ncommunication."
       ],
       [
         AppLocalizations.of(context).assets_label_itd,
         itd,
         "${itd.toStringAsFixed(1)}%",
-        "Incenption-to-date:the period from the\nestablishment of the portfolio/investment to\nthe date of the communication."
+        appLocalizations.assets_tooltips_itd
+        // "Incenption-to-date:the period from the\nestablishment of the portfolio/investment to\nthe date of the communication."
       ],
     ];
     if (reversed) {
@@ -67,7 +70,11 @@ class YtdItdWidget extends StatelessWidget {
                           ),
                       ],
                     ),
-                    ChangeWidget(number: item[1], text: item[2],tooltipMessage: (item[1] >= 99900 || item[1] <= -100) ? "" : null),
+                    ChangeWidget(
+                        number: item[1],
+                        text: item[2],
+                        tooltipMessage:
+                            (item[1] >= 99900 || item[1] <= -100) ? "" : null),
                   ],
                 ),
               ],
