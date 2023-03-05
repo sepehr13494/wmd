@@ -59,37 +59,37 @@
                 <data android:scheme="https" android:host="wmd.com" android:path="/twitter" />            
             </intent-filter>            
             <meta-data android:name="flutter_deeplinking_enabled" android:value="true" />            
-            <intent-filter>                
+            <intent-filter android:autoVerify="true">                
                 <action android:name="android.intent.action.VIEW" />                
                 <category android:name="android.intent.category.DEFAULT" />                
                 <category android:name="android.intent.category.BROWSABLE" />                
                 <data android:scheme="https" android:host="app-wmd-dev-01.azurewebsites.net" android:path="/verify-response"/>
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https" android:host="app-wmd-dev-01.azurewebsites.net" android:path="/password/update"/>
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https" android:host="app-wmd-qa-01.azurewebsites.net" android:path="/verify-response"/>
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https" android:host="app-wmd-qa-01.azurewebsites.net" android:path="/password/update"/>
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https" android:host="allinoneplus.com" android:path="/verify-response"/>
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />

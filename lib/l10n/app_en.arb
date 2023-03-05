@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2023-02-28T21:24:27+01:00",
+  "@@last_modified": "2023-03-02T12:51:36+01:00",
   "auth_signup_page_title": "Join our Platform",
   "auth_signup_page_description": "Create myWMD account",
   "auth_signup_heading": "Create an account",
@@ -71,7 +71,7 @@
   "auth_login_subheading": "Login to continue.",
   "auth_login_text_noAccount": "Don't have an account?",
   "auth_login_text_social": "or login with",
-  "auth_login_input_email_placeholder": "Email/Username",
+  "auth_login_input_email_placeholder": "Email",
   "auth_login_input_password_placeholder": "Password",
   "auth_login_button_login": "Login",
   "auth_login_link_signup": "Sign up",
@@ -1400,5 +1400,6 @@
   "home_emptyText_mapDescription": "",
   "support_text_here": "here",
   "linkAccount_stepper_cif_label_jpmorgan": "Account Number",
-  "linkAccount_stepper_cif_tooltip_jpmorgan": "You can access your account number in the top right side of the first page"
+  "linkAccount_stepper_cif_tooltip_jpmorgan": "You can access your account number in the top right side of the first page",
+  "assets_label_emptyState": "No transactions to display"
 }
