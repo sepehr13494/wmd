@@ -253,8 +253,9 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                                                                           map:
                                                                               finalMap);
                                                                 },
-                                                                child: const Text(
-                                                                    "Schedule a call"))
+                                                                child: Text(
+                                                                    appLocalizations
+                                                                        .scheduleMeeting_button_call))
                                                           ],
                                                         ),
                                                       )),
@@ -262,7 +263,8 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                                                     height: 40,
                                                   ),
                                                   Text(
-                                                    "* Indicates a required field",
+                                                    appLocalizations
+                                                        .scheduleMeeting_text_required,
                                                     style:
                                                         textTheme.titleMedium,
                                                   )
@@ -311,7 +313,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
               EachTextField(
                 hasInfo: false,
                 showRequired: true,
-                title: "Select your time zone",
+                title: appLocalizations.scheduleMeeting_timeZone_label,
                 child: FormBuilderSearchableDropdown<TimeZones>(
                   name: "timeZone",
                   hint: "Select",
@@ -351,41 +353,12 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                     );
                   },
                 ),
-
-                // AppTextFields.dropDownTextField(
-                //   onChanged: (val) async {
-                //     // setState(() {
-                //     //   bottomFormKey =
-                //     //       GlobalKey<FormBuilderState>();
-                //     //   accountType = val;
-                //     // });
-                //     if (val != null) {
-                //       setState(() {
-                //         hasTimeLineSelected = true;
-                //       });
-                //     } else {
-                //       setState(() {
-                //         hasTimeLineSelected = false;
-                //       });
-                //     }
-
-                //     await Future.delayed(const Duration(milliseconds: 200));
-                //     checkFinalValid(val);
-                //   },
-                //   name: "timeZone",
-                //   hint: "Select",
-                //   items: TimeZones.timezonesList
-                //       .map((e) => DropdownMenuItem(
-                //             value: e.value,
-                //             child: Text(e.name),
-                //           ))
-                //       .toList(),
-                // ),
               ),
               EachTextField(
                 hasInfo: false,
                 showRequired: true,
-                title: "Select an available date",
+                title:
+                    appLocalizations.scheduleMeeting_availableTimeSlots_label,
                 child: FormBuilderDateTimePicker(
                   onChanged: (selectedDate) {
                     checkFinalValid(selectedDate);
@@ -414,21 +387,22 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                         Icons.calendar_today_outlined,
                         color: Theme.of(context).primaryColor,
                       ),
-                      hintText: "DD/MM/YYYY"),
+                      hintText: appLocalizations
+                          .scheduleMeeting_availableDate_placeholder),
                 ),
               ),
               if (availableDateValue != null)
-                const EachTextField(
+                EachTextField(
                     hasInfo: false,
                     showRequired: true,
-                    title: "Select an available date",
-                    child: TimeslotsSelector<String>(
+                    title: appLocalizations.scheduleMeeting_availableDate_label,
+                    child: const TimeslotsSelector<String>(
                       name: "time",
                       // onChanged: (val) => checkFinalValid(val),
                     )),
               EachTextField(
                 hasInfo: false,
-                title: "Meeting type",
+                title: appLocalizations.scheduleMeeting_meetingType_label,
                 child: AppTextFields.dropDownTextField(
                   onChanged: (val) async {
                     await Future.delayed(const Duration(milliseconds: 200));
@@ -448,7 +422,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
               EachTextField(
                 hasInfo: false,
                 showRequired: true,
-                title: "Email",
+                title: appLocalizations.auth_forgot_input_email_label,
                 child: TextField(
                   enabled: false,
                   style: TextStyle(color: Colors.grey[500]),
@@ -468,7 +442,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
               EachTextField(
                 hasInfo: false,
                 showRequired: true,
-                title: "Call reason",
+                title: appLocalizations.scheduleMeeting_callReason_label,
                 child: AppTextFields.dropDownTextField(
                   onChanged: (val) async {
                     // setState(() {
@@ -491,7 +465,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
               ),
               EachTextField(
                 hasInfo: false,
-                title: "Additional Info",
+                title: appLocalizations.scheduleMeeting_additionalInfo_label,
                 child: AppTextFields.simpleTextField(
                     required: false,
                     title: "info",
