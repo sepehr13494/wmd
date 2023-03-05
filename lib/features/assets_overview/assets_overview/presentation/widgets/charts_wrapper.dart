@@ -4,6 +4,7 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/asset_detail/core/presentation/widgets/as_of_date_widget.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_manager.dart';
 import 'package:wmd/features/assets_overview/assets_geography_chart/presentation/widgets/assets_overview_geo_chart.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/base_chart_view.dart';
@@ -40,93 +41,114 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
-    return BlocBuilder<MainDashboardCubit, MainDashboardState>(
+    return BlocBuilder<SummeryWidgetCubit, MainDashboardState>(
         builder: (context, state) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Row(
+          return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-                appLocalizations.assets_charts_title,
-                style: textTheme.bodyLarge,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                '(${(context.read<MainDashboardCubit>().dateTimeRange ?? AppConstants.timeFilter(context).first).key})',
-                style: textTheme.bodySmall,
-              ),
-            ],
-          ),
-          const SizedBox(height: 24),
-          Column(
-            children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    width: 300,
-                    child: TabBar(
-                      controller: _controller,
-                      tabs: [
-                        Tab(
-                            text:
-                                appLocalizations.assets_charts_tabs_assetClass),
-                        Tab(
-                            text:
-                                appLocalizations.assets_charts_tabs_geography),
-                        Tab(text: appLocalizations.assets_charts_tabs_currency),
-                      ],
-                      isScrollable: true,
-                    ),
+                  Text(
+                    appLocalizations.assets_charts_title,
+                    style: textTheme.bodyLarge,
                   ),
-                  const Spacer(),
+                  const SizedBox(width: 8),
+                  BlocBuilder<TabManager, int>(
+                    builder: (context, state) {
+                      return state == 0 ? Text(
+                        '(${(context
+                            .read<SummeryWidgetCubit>()
+                            .dateTimeRange ?? AppConstants
+                            .timeFilter(context)
+                            .first).key})',
+                        style: textTheme.bodySmall,
+                      ) : BlocBuilder<SummeryWidgetCubit, MainDashboardState>(
+                        builder: (context, state) {
+                          return state is MainDashboardNetWorthLoaded ? AsOfDateWidget(shownDate: DateTime.parse(state.netWorthObj.lastUpdated)) : const SizedBox();
+                        },
+                      );
+                    },
+                  ),
                 ],
               ),
-              const Divider(
-                height: 0.5,
-                thickness: 0.5,
-              ),
-              AspectRatio(
-                aspectRatio:
-                    ResponsiveHelper(context: context).isMobile ? 1 : 1.6,
-                child: Builder(builder: (context) {
-                  List<Widget> children = [
-                    const BaseAssetsOverviewChartsWidget(),
-                    const AssetsOverviewGeoChart(),
-                    const CurrencyChartWidget(),
-                  ];
-
-                  return TabBarView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    controller: _controller,
-                    children: children
-                        .map(
-                          (e) => Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: ResponsiveHelper(context: context)
-                                    .biggerGap),
-                            child: Card(
-                              color: Theme.of(context).brightness ==
-                                      Brightness.dark
-                                  ? AppColors.darkCardColorForDarkTheme
-                                  : AppColors.darkCardColorForLightTheme,
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: e,
-                              ),
-                            ),
+              const SizedBox(height: 24),
+              Column(
+                children: [
+                  Builder(builder: (context) {
+                    final isMobile = ResponsiveHelper(context: context)
+                        .isMobile;
+                    return Row(
+                      children: [
+                        SizedBox(
+                          width: isMobile ? null : 400,
+                          child: TabBar(
+                            controller: _controller,
+                            tabs: [
+                              Tab(
+                                  text: appLocalizations
+                                      .assets_charts_tabs_assetClass),
+                              Tab(
+                                  text: appLocalizations
+                                      .assets_charts_tabs_geography),
+                              Tab(
+                                  text:
+                                  appLocalizations.assets_charts_tabs_currency),
+                            ],
+                            isScrollable: true,
                           ),
+                        ),
+                        isMobile ? const SizedBox() : const Spacer(),
+                      ],
+                    );
+                  }),
+                  const Divider(
+                    height: 0.5,
+                    thickness: 0.5,
+                  ),
+                  AspectRatio(
+                    aspectRatio:
+                    ResponsiveHelper(context: context).isMobile ? 1 : 1.6,
+                    child: Builder(builder: (context) {
+                      List<Widget> children = [
+                        const BaseAssetsOverviewChartsWidget(),
+                        const AssetsOverviewGeoChart(),
+                        const CurrencyChartWidget(),
+                      ];
+
+                      return TabBarView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        controller: _controller,
+                        children: children
+                            .map(
+                              (e) =>
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: ResponsiveHelper(context: context)
+                                        .biggerGap),
+                                child: Card(
+                                  color: Theme
+                                      .of(context)
+                                      .brightness ==
+                                      Brightness.dark
+                                      ? AppColors.darkCardColorForDarkTheme
+                                      : AppColors.darkCardColorForLightTheme,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: e,
+                                  ),
+                                ),
+                              ),
                         )
-                        .toList(),
-                  );
-                }),
-              )
+                            .toList(),
+                      );
+                    }),
+                  )
+                ],
+              ),
             ],
-          ),
-        ],
-      );
-    });
+          );
+        });
   }
 }
 
@@ -151,12 +173,16 @@ class ChartPicker extends AppStatelessWidget {
                 children: [
                   Icon(
                     Icons.bar_chart,
-                    color: Theme.of(context).primaryColor,
+                    color: Theme
+                        .of(context)
+                        .primaryColor,
                   ),
                   Text(
                     'Bar Chart',
                     style: textTheme.bodyMedium!
-                        .apply(color: Theme.of(context).primaryColor),
+                        .apply(color: Theme
+                        .of(context)
+                        .primaryColor),
                     // textTheme.bodyMedium!.toLinkStyle(context),
                   ),
                 ],
@@ -167,7 +193,9 @@ class ChartPicker extends AppStatelessWidget {
         icon: Icon(
           Icons.keyboard_arrow_down,
           size: 15,
-          color: Theme.of(context).primaryColor,
+          color: Theme
+              .of(context)
+              .primaryColor,
         ),
         // style: textTheme.labelLarge,
       ),

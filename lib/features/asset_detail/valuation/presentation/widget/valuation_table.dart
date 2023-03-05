@@ -243,9 +243,12 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
           alignment: Alignment.centerLeft,
           child: Padding(
             padding: padding,
-            child: Text(
-              value,
-              style: textTheme.labelMedium,
+            child: Directionality(
+              textDirection: TextDirection.ltr,
+              child: Text(
+                value,
+                style: textTheme.labelMedium,
+              ),
             ),
           ),
         ),

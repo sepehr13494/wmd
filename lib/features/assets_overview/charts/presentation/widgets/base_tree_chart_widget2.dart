@@ -33,21 +33,24 @@ class BaseTreeChartWidget2<T extends TreeChartObj> extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    return TreeMapLayout(
-      duration: const Duration(milliseconds: 500),
-      tile: Binary(),
-      children: [
-        TreeNode.node(
-          options: TreeNodeOptions(color: Colors.white),
-          children: List.generate(treeChartObjs.length, (index) {
-            T treeChartObj = treeChartObjs[index];
-            return TreeNode.leaf(
-              value: treeChartObj.value,
-              options: TreeNodeOptions(child: itemBuilder(treeChartObj,index)),
-            );
-          }),
-        ),
-      ],
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: TreeMapLayout(
+        duration: const Duration(milliseconds: 500),
+        tile: Binary(),
+        children: [
+          TreeNode.node(
+            options: TreeNodeOptions(color: Colors.white),
+            children: List.generate(treeChartObjs.length, (index) {
+              T treeChartObj = treeChartObjs[index];
+              return TreeNode.leaf(
+                value: treeChartObj.value,
+                options: TreeNodeOptions(child: itemBuilder(treeChartObj,index)),
+              );
+            }),
+          ),
+        ],
+      ),
     );
   }
 }
