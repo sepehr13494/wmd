@@ -22,19 +22,21 @@ class YtdItdWidget extends AppStatelessWidget {
       : super(key: key);
 
   @override
-  Widget buildWidget(BuildContext context, TextTheme textTheme, AppLocalizations appLocalizations) {
+  Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
     List items = [
       [
         AppLocalizations.of(context).assets_label_ytd,
         ytd,
         "${ytd.toStringAsFixed(1)}%",
-        "Year-to-date:the period from the first of\nthe calendar year to date of the\ncommunication."
+        appLocalizations.assets_tooltips_ytd
+        // "Year-to-date:the period from the first of\nthe calendar year to date of the\ncommunication."
       ],
       [
         AppLocalizations.of(context).assets_label_itd,
         itd,
         "${itd.toStringAsFixed(1)}%",
-        "Incenption-to-date:the period from the\nestablishment of the portfolio/investment to\nthe date of the communication."
+        appLocalizations.assets_tooltips_itd
+        // "Incenption-to-date:the period from the\nestablishment of the portfolio/investment to\nthe date of the communication."
       ],
     ];
     if (reversed) {

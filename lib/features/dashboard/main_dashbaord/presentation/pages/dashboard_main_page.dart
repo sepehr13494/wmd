@@ -48,10 +48,8 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
         listener: BlocHelper.defaultBlocListener(listener: (context, state) {
           if (state is UserStatusLoaded) {
             if (!(state.userStatus.emailVerified ?? true)) {
-              if(!AppConstants.developMode){
-                context.goNamed(AppRoutes.verifyEmail,
-                    queryParams: {"email": state.userStatus.email ?? ""});
-              }
+              context.goNamed(AppRoutes.verifyEmail,
+                  queryParams: {"email": state.userStatus.email ?? ""});
             }
           }
         }),
