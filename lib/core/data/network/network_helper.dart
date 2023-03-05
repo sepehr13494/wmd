@@ -30,7 +30,7 @@ class NetworkHelper {
         onRequest: (request, handler) async {
           final String token = localStorage.getToken();
           request.headers['Authorization'] = token;
-          request.headers['accept-language'] =
+          request.headers['Accept-Language'] =
               localStorage.getLocale().toLanguageTag();
           return handler.next(request);
         },
