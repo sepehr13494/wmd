@@ -43,9 +43,17 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
                       children: [
                         Row(
                           children: [
-                            Text(appLocalizations.home_label_totalNetWorth,
-                                style: const TextStyle(fontSize: 18)),
-                            const Spacer(),
+                            Expanded(
+                              child: Align(
+                                alignment: AlignmentDirectional.centerStart,
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(appLocalizations.home_label_totalNetWorth,
+                                      style: const TextStyle(fontSize: 18)),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
                             Icon(
                               Icons.bar_chart,
                               size: 15,

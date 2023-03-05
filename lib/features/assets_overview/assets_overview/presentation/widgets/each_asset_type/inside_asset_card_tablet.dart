@@ -48,17 +48,17 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(asset.currentValue.convertMoney(
-                                addDollar: true, textDollar: true)),
+                                addDollar: true)),
                           ),
                         );
                       case 2:
                         return FittedBox(
                           fit: BoxFit.scaleDown,
                           child: ChangeWidget(
-                            number: asset.yearToDate,
-                            text: "${asset.yearToDate.toStringAsFixed(1)}%",
-                            tooltipMessage: (asset.yearToDate >= 99900 ||
-                                    asset.yearToDate <= -100)
+                            number: asset.inceptionToDate,
+                            text: "${asset.inceptionToDate.toStringAsFixed(1)}%",
+                            tooltipMessage: (asset.inceptionToDate >= 99900 ||
+                                    asset.inceptionToDate <= -100)
                                 ? appLocalizations
                                     .assets_tooltips_percentageAbsurd
                                 : null,
@@ -68,11 +68,11 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                         return FittedBox(
                           fit: BoxFit.scaleDown,
                           child: ChangeWidget(
-                            number: asset.inceptionToDate,
+                            number: asset.yearToDate,
                             text:
-                                "${asset.inceptionToDate.toStringAsFixed(1)}%",
-                            tooltipMessage: (asset.inceptionToDate >= 99900 ||
-                                    asset.inceptionToDate <= -100)
+                                "${asset.yearToDate.toStringAsFixed(1)}%",
+                            tooltipMessage: (asset.yearToDate >= 99900 ||
+                                    asset.yearToDate <= -100)
                                 ? appLocalizations
                                     .assets_tooltips_percentageAbsurd
                                 : null,

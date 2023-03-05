@@ -5,7 +5,6 @@ class TabManager extends Cubit<int>{
 
   changeTab(index){
     if(state != index){
-      print(index);
       emit(index);
     }
   }

@@ -98,6 +98,7 @@ class OverViewCard extends AppStatelessWidget {
                               showRow: !isMobile,
                               children: [
                                 ExpandedIf(
+                                  flex: 4,
                                   expanded: !isMobile,
                                   child: Column(
                                     crossAxisAlignment:
@@ -132,6 +133,7 @@ class OverViewCard extends AppStatelessWidget {
                                 ),
                                 const SizedBox(height: 24, width: 4),
                                 ExpandedIf(
+                                  flex: 5,
                                   expanded: !isMobile,
                                   child: YtdItdWidget(
                                     expand: !isMobile,

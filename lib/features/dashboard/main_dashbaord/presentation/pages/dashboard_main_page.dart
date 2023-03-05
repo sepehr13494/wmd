@@ -10,6 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/dashboard_app_bar.dart';
@@ -47,8 +48,10 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
         listener: BlocHelper.defaultBlocListener(listener: (context, state) {
           if (state is UserStatusLoaded) {
             if (!(state.userStatus.emailVerified ?? true)) {
-              context.goNamed(AppRoutes.verifyEmail,
-                  queryParams: {"email": state.userStatus.email ?? ""});
+              if(!AppConstants.developMode){
+                context.goNamed(AppRoutes.verifyEmail,
+                    queryParams: {"email": state.userStatus.email ?? ""});
+              }
             }
           }
         }),

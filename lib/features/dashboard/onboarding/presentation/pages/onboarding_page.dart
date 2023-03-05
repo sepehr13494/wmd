@@ -8,6 +8,7 @@ import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/onboarding_appbar.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/onboarding_asset_view.dart';
@@ -53,8 +54,10 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
                   if (state.userStatus.loginAt != null) {
                     context.goNamed(AppRoutes.main);
                   } else if (!(state.userStatus.emailVerified ?? true)) {
-                    context.goNamed(AppRoutes.verifyEmail,
-                        queryParams: {"email": state.userStatus.email ?? ""});
+                    if(!AppConstants.developMode){
+                      context.goNamed(AppRoutes.verifyEmail,
+                          queryParams: {"email": state.userStatus.email ?? ""});
+                    }
                   }
                 }
               }),

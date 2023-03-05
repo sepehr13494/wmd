@@ -4,6 +4,7 @@ import 'package:wmd/core/presentation/widgets/info_icon.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+
 class YtdItdWidget extends StatelessWidget {
   final bool expand;
   final double ytd;
@@ -67,7 +68,11 @@ class YtdItdWidget extends StatelessWidget {
                           ),
                       ],
                     ),
-                    ChangeWidget(number: item[1], text: item[2],tooltipMessage: (item[1] >= 99900 || item[1] <= -100) ? "" : null),
+                    ChangeWidget(number: item[1], text: item[2],tooltipMessage: (item[1] >= 99900 ||
+                        item[1] <= -100)
+                        ? AppLocalizations.of(context)
+                        .assets_tooltips_percentageAbsurd
+                        : null,),
                   ],
                 ),
               ],

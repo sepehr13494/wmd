@@ -9,6 +9,7 @@ import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_manager.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_geographic_entity.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
@@ -78,7 +79,9 @@ class _RandomWorldMapGenratorState extends AppState<RandomWorldMapGenrator> {
                       );
                     },
                   ),
-                  onMoreTap: () {},
+                  onMoreTap: () {
+                    context.read<TabManager>().changeTab(1);
+                  },
                   child: InsideWorldMapWidget(getGeographicEntity: state.getGeographicEntity),
                 )
               : const LoadingWidget();

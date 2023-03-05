@@ -26,7 +26,7 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
 
   @override
   void initState() {
-    _controller = TabController(length: 3, vsync: this);
+    _controller = TabController(length: 3, vsync: this,initialIndex: context.read<TabManager>().state);
     _controller.addListener(() {
       context.read<TabManager>().changeTab(_controller.index);
     });
