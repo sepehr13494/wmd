@@ -22,7 +22,7 @@ class YtdItdWidget extends AppStatelessWidget {
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context, TextTheme textTheme, AppLocalizations appLocalizations) {
     List items = [
       [
         AppLocalizations.of(context).assets_label_ytd,
@@ -78,4 +78,5 @@ class YtdItdWidget extends AppStatelessWidget {
       }),
     );
   }
+
 }
