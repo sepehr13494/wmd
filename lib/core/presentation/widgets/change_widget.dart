@@ -20,34 +20,37 @@ class ChangeWidget extends AppStatelessWidget {
     final bool isPositive = number > 0;
     final bool isZero = number == 0;
     final color = isZero ? null : (isPositive ? AppColors.green : Colors.red);
-    return RichText(
-      text: TextSpan(
-        children: [
-          WidgetSpan(
-            child: isZero
-                ? const SizedBox()
-                : Icon(
-                    isPositive ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-                    color: color,
-                    size: 20,
-                  ),
-          ),
-          TextSpan(
-            text: isZero ? '\$0' : text,
-            style: TextStyle(color: color),
-          ),
-          if (tooltipMessage != null)
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: RichText(
+        text: TextSpan(
+          children: [
             WidgetSpan(
-              child: Tooltip(
-                triggerMode: TooltipTriggerMode.tap,
-                message: tooltipMessage,
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4.0),
-                  child: InfoIcon(),
+              child: isZero
+                  ? const SizedBox()
+                  : Icon(
+                      isPositive ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                      color: color,
+                      size: 20,
+                    ),
+            ),
+            TextSpan(
+              text: isZero ? '\$0' : text,
+              style: TextStyle(color: color),
+            ),
+            if (tooltipMessage != null)
+              WidgetSpan(
+                child: Tooltip(
+                  triggerMode: TooltipTriggerMode.tap,
+                  message: tooltipMessage,
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 4.0),
+                    child: InfoIcon(),
+                  ),
                 ),
-              ),
-            )
-        ],
+              )
+          ],
+        ),
       ),
     );
   }
