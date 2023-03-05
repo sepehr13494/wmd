@@ -330,14 +330,6 @@ class AddAssetTopWidget extends AppStatelessWidget {
             .currentValue !=
         0;
 
-    debugPrint("context");
-    debugPrint(context
-        .read<MainDashboardCubit>()
-        .netWorthObj
-        ?.liabilities
-        .currentValue
-        .toString());
-
     if (isAssetsNotEmpty || isLiabilityNotEmpty) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,

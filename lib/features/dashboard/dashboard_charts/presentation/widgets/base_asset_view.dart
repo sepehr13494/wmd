@@ -67,8 +67,8 @@ class BaseAssetView extends AppStatelessWidget {
                                     params: AnalyticsUtils
                                         .geographyMoreRedirectionEvent);
                               }
-
                               context.read<MainPageCubit>().onItemTapped(1);
+                              onMoreTap();
                             },
                       child: Row(
                         children: [

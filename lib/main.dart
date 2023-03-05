@@ -59,6 +59,8 @@ envInitConfig(env) {
       return "assets/env/prod.env";
     case "dev":
       return "assets/env/.env";
+    case "developer":
+      return "assets/env/developer.env";
     default:
       return "assets/env/.env";
   }

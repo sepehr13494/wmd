@@ -4,6 +4,7 @@ import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 
@@ -33,8 +34,8 @@ class _MainPageState extends AppState<MainPage> with WidgetsBindingObserver {
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
     final List<List> items = [
-      [Icons.home, appLocalizations.common_nav_links_home],
-      [Icons.bar_chart, appLocalizations.common_nav_links_assets],
+      ["assets/images/home_icon.svg", appLocalizations.common_nav_links_home,"assets/images/home_icon_filled.svg"],
+      ["assets/images/assets_icon.svg", appLocalizations.common_nav_links_assets,"assets/images/assets_icon_filled.svg"],
     ];
 
     final List<Widget> widgetOptions = <Widget>[
@@ -77,7 +78,8 @@ class _MainPageState extends AppState<MainPage> with WidgetsBindingObserver {
                                   elevation: 0,
                                   items: List.generate(items.length, (index) {
                                     return BottomNavigationBarItem(
-                                      icon: Icon(items[index][0]),
+                                      icon: SvgPicture.asset(items[index][0] as String),
+                                      activeIcon: SvgPicture.asset(items[index][2] as String),
                                       label: items[index][1],
                                     );
                                   }),

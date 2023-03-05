@@ -149,7 +149,7 @@ class AppRouter {
                 providers: [
                   BlocProvider(create: (context) => sl<AssetChartChooserManager>()),
                   BlocProvider(create: (context) => sl<GeoChartChooserManager>()),
-                  BlocProvider(create: (context) => sl<TabManager>()),
+                  BlocProvider(create: (context) => sl<TabManager>(),lazy: false,),
                   BlocProvider(create: (context) => sl<MainPageCubit>()),
                   BlocProvider(create: (context) {
                     _userStatusCubit = sl<UserStatusCubit>();

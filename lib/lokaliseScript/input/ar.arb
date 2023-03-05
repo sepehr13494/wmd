@@ -1,6 +1,6 @@
 {
     "@@locale": "ar",
-    "@@last_modified": "2023-03-02T12:51:36+01:00",
+    "@@last_modified": "2023-02-28T21:24:27+01:00",
     "auth:signup.page.title": "انضمّ إلى منصتنا",
     "auth:signup.page.description": "إنشاء حساب myWMD",
     "auth:signup.heading": "أنشئ حساباً",
@@ -1400,6 +1400,5 @@
     "home:emptyText.mapDescription": "",
     "support:text.here": "هنا",
     "linkAccount:stepper.cif.label.jpmorgan": "رقم الحساب",
-    "linkAccount:stepper.cif.tooltip.jpmorgan": "يمكنك الوصول إلى رقم حسابك عند الجانب العلوي الأيمن من الصفحة الأولى",
-    "assets:label.emptyState": "لا معاملات متاحة للعرض"
+    "linkAccount:stepper.cif.tooltip.jpmorgan": "يمكنك الوصول إلى رقم حسابك عند الجانب العلوي الأيمن من الصفحة الأولى"
 }

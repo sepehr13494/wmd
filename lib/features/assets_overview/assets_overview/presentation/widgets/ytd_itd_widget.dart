@@ -70,11 +70,7 @@ class YtdItdWidget extends AppStatelessWidget {
                           ),
                       ],
                     ),
-                    ChangeWidget(
-                        number: item[1],
-                        text: item[2],
-                        tooltipMessage:
-                            (item[1] >= 99900 || item[1] <= -100) ? "" : null),
+                    ChangeWidget(number: item[1], text: item[2],tooltipMessage: (item[1] >= 99900 || item[1] <= -100) ? "" : null),
                   ],
                 ),
               ],
@@ -84,4 +80,5 @@ class YtdItdWidget extends AppStatelessWidget {
       }),
     );
   }
+
 }

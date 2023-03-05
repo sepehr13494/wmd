@@ -66,11 +66,11 @@ class AssetsOverviewChartsColors {
         }
         return appLocalizations.assetLiabilityForms_assets_listedAssets + after;
       case AssetTypes.listedAssetEquity:
-        return "${appLocalizations.assetLiabilityForms_assets_listedAssets} - ${appLocalizations.assetLiabilityForms_forms_listedAssets_inputFields_assetType_options_equity}";
+        return appLocalizations.assets_charts_allocationCharts_legendLabel_listedAssetEquity;
       case AssetTypes.listedAssetFixedIncome:
-        return "${appLocalizations.assetLiabilityForms_assets_listedAssets} - ${appLocalizations.assetLiabilityForms_forms_listedAssets_inputFields_assetType_options_fixedIncome}";
+        return appLocalizations.assets_charts_allocationCharts_legendLabel_listedAssetFixedIncome;
       case AssetTypes.listedAssetOther:
-        return "${appLocalizations.assetLiabilityForms_assets_listedAssets} - ${appLocalizations.assetLiabilityForms_forms_others_inputFields_assetType_options_other}";
+        return appLocalizations.assets_charts_allocationCharts_legendLabel_listedAssetOther;
       case AssetTypes.privateEquity:
         return appLocalizations.assets_assets_PrivateEquity;
       case AssetTypes.privateDebt:
