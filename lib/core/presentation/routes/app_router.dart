@@ -147,9 +147,14 @@ class AppRouter {
             builder: (BuildContext context, GoRouterState state) {
               return MultiBlocProvider(
                 providers: [
-                  BlocProvider(create: (context) => sl<AssetChartChooserManager>()),
-                  BlocProvider(create: (context) => sl<GeoChartChooserManager>()),
-                  BlocProvider(create: (context) => sl<TabManager>(),lazy: false,),
+                  BlocProvider(
+                      create: (context) => sl<AssetChartChooserManager>()),
+                  BlocProvider(
+                      create: (context) => sl<GeoChartChooserManager>()),
+                  BlocProvider(
+                    create: (context) => sl<TabManager>(),
+                    lazy: false,
+                  ),
                   BlocProvider(create: (context) => sl<MainPageCubit>()),
                   BlocProvider(create: (context) {
                     _userStatusCubit = sl<UserStatusCubit>();
@@ -290,6 +295,9 @@ class AppRouter {
                       ),
                       BlocProvider.value(
                         value: _mainDashboardCubit,
+                      ),
+                      BlocProvider.value(
+                        value: _custodianStatusListCubit,
                       ),
                     ],
                     child: const AssetsListViewPage(),

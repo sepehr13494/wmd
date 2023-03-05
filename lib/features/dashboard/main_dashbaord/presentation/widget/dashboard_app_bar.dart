@@ -38,14 +38,12 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
             )
           : null,
       centerTitle: false,
-      title: showBack == false
-          ? Padding(
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-              child: SvgPicture.asset(
-                "assets/images/app_logo.svg",
-                height: 50,
-              ))
-          : null,
+      title: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+          child: SvgPicture.asset(
+            "assets/images/app_logo.svg",
+            height: 50,
+          )),
       actions: [
         const ChangeLanguageButton(),
         // Switch(

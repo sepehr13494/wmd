@@ -408,6 +408,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                     await Future.delayed(const Duration(milliseconds: 200));
                     checkFinalValid(val);
                   },
+                  fontSize: 13.5,
                   name: "type",
                   enabled: false,
                   hint: "Select",
