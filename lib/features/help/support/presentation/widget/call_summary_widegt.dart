@@ -148,7 +148,7 @@ class CallSummaryRow extends AppStatelessWidget {
             ),
             if (value != "null" && label == "Reason")
               SizedBox(
-                  width: responsiveHelper.optimalDeviceWidth * 0.65,
+                  width: responsiveHelper.optimalDeviceWidth * 0.3,
                   child: Text(
                     value,
                     style: textTheme.titleSmall,

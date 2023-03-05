@@ -10,6 +10,7 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/page/custodian_banks_page.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/manager/asset_view_cubit.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
@@ -330,7 +331,10 @@ class AddAssetTopWidget extends AppStatelessWidget {
             .currentValue !=
         0;
 
-    if (isAssetsNotEmpty || isLiabilityNotEmpty) {
+    final isCustodianNotEmpty =
+        context.read<CustodianStatusListCubit>().statutes.isNotEmpty;
+
+    if (isAssetsNotEmpty || isLiabilityNotEmpty || isCustodianNotEmpty) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
