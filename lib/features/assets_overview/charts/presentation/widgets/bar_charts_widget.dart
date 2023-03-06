@@ -30,27 +30,27 @@ class _AssetsOverviewBarChartsState extends State<AssetsOverviewBarCharts> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context,snap) {
-        final width = (snap.maxWidth-100);
-        final x = (position - width / 2) / (width/2);
-        var pos = x;
-        if(x<-1){
-          pos = -1;
-        }else if(x>1){
-          pos = 1;
-        }
-        return Stack(
-          alignment: Alignment(pos, -1),
-          children: [
-            BarChart(
-              mainData(context),
-            ),
-            showTooltip ? ChartCustomTooltip(selected: selected) : const SizedBox(),
-          ],
-        );
+    return LayoutBuilder(builder: (context, snap) {
+      final width = (snap.maxWidth - 100);
+      final x = (position - width / 2) / (width / 2);
+      var pos = x;
+      if (x < -1) {
+        pos = -1;
+      } else if (x > 1) {
+        pos = 1;
       }
-    );
+      return Stack(
+        alignment: Alignment(pos, -1),
+        children: [
+          BarChart(
+            mainData(context),
+          ),
+          showTooltip
+              ? ChartCustomTooltip(selected: selected)
+              : const SizedBox(),
+        ],
+      );
+    });
   }
 
   @override
@@ -82,12 +82,15 @@ class _AssetsOverviewBarChartsState extends State<AssetsOverviewBarCharts> {
     double minY = calculateMinMax(widget.getChartEntities)[0];
     double maxY = calculateMinMax(widget.getChartEntities)[1];
     double x = max(maxY.abs(), minY.abs()) / 5;
-    return FittedBox(
-      fit: BoxFit.scaleDown,
-      child: Text(
-        "\$ ${(value * x).formatNumber}",
-        textAlign: TextAlign.left,
-        style: const TextStyle(fontSize: 10),
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text(
+          "\$ ${(value * x).formatNumber}",
+          textAlign: TextAlign.left,
+          style: const TextStyle(fontSize: 10),
+        ),
       ),
     );
   }
@@ -101,29 +104,31 @@ class _AssetsOverviewBarChartsState extends State<AssetsOverviewBarCharts> {
     double maxTotal = max(minY.abs(), maxY.abs());
     return BarChartData(
         barTouchData: BarTouchData(
-          touchCallback: (p0, p1) {
-            if(p1 != null){
-              if(p1.spot != null){
-                setState(() {
-                  selected = widget.getChartEntities[p1.spot!.touchedBarGroupIndex];
-                  position = p0.localPosition!.dx;
-                  showTooltip = true;
-                  if(_timer != null){
-                    _timer!.cancel();
-                  }
-                  _timer=Timer(const Duration(seconds: 2), () {
-                    setState(() {
-                      showTooltip = false;
+            touchCallback: (p0, p1) {
+              if (p1 != null) {
+                if (p1.spot != null) {
+                  setState(() {
+                    selected =
+                        widget.getChartEntities[p1.spot!.touchedBarGroupIndex];
+                    position = p0.localPosition!.dx;
+                    showTooltip = true;
+                    if (_timer != null) {
+                      _timer!.cancel();
+                    }
+                    _timer = Timer(const Duration(seconds: 2), () {
+                      setState(() {
+                        showTooltip = false;
+                      });
                     });
                   });
-                });
+                }
               }
-            }
-          },
-          touchTooltipData: BarTouchTooltipData(getTooltipItem: (group, groupIndex, rod, rodIndex) {
-            return BarTooltipItem("", const TextStyle());
-          },tooltipPadding: EdgeInsets.all(0.5))
-        ),
+            },
+            touchTooltipData: BarTouchTooltipData(
+                getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                  return BarTooltipItem("", const TextStyle());
+                },
+                tooltipPadding: EdgeInsets.all(0.5))),
         gridData: FlGridData(
           show: true,
           drawVerticalLine: true,
