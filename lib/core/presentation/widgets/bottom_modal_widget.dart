@@ -34,7 +34,7 @@ class CenterModalWidget extends StatelessWidget {
         clipBehavior: Clip.antiAliasWithSaveLayer,
         alignment: Alignment.center,
         child: SizedBox(
-          width: double.infinity,
+          width: isMobile ? double.infinity : WIDTH_MOBILE,
           child: Container(
             color: Theme.of(context).scaffoldBackgroundColor,
             child: Column(
