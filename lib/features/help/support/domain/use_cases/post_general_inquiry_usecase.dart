@@ -15,7 +15,8 @@ class PostGeneralInquiryUseCase
   @override
   Future<Either<Failure, AppSuccess>> call(Map<String, dynamic> params) async {
     try {
-      final postParams = GeneralInquiryParams.fromJson(params);
+      final postParams = GeneralInquiryParams.fromJson(
+          {...params, "reason": params["reason"].value});
 
       return await generalInquiryRepository.postGeneralInquiry(postParams);
     } catch (e) {

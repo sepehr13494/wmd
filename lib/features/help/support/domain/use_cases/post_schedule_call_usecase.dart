@@ -33,7 +33,8 @@ class PostScheduleCallUseCase
                 .dateTime
             : params["date"],
         "location": params["email"] ?? "",
-        "timeZone": params["timeZone"]?.value
+        "timeZone": params["timeZone"]?.value,
+        "subject": params["subject"]?.value
       };
 
       debugPrint(map.toString());
