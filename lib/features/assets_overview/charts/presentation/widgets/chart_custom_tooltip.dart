@@ -118,9 +118,11 @@ class ChartCustomTooltip extends StatelessWidget {
                 getChartEntity.others,
               ],
             ];
-            items.sort((a, b) {
-              return ((b[2] as double )-(a[2] as double)).toInt();
-            },);
+            items.sort(
+              (a, b) {
+                return ((b[2] as double) - (a[2] as double)).toInt();
+              },
+            );
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -133,13 +135,14 @@ class ChartCustomTooltip extends StatelessWidget {
                   final item = items[index];
                   return item[0] != 0
                       ? eachTooltipItem(
-                    item[1].toString(),
-                    (item[2] as double).formatNumberWithDecimal(),
-                  )
+                          item[1].toString(),
+                          (item[2] as double).formatNumberWithDecimal(),
+                        )
                       : const SizedBox();
                 }),
                 eachTooltipItem(
-                  "Total",
+                  appLocalizations
+                      .assets_charts_allocationCharts_legendLabel_total,
                   sum.formatNumberWithDecimal(),
                 )
               ],

@@ -35,7 +35,7 @@ class ChangeWidget extends AppStatelessWidget {
                     ),
             ),
             TextSpan(
-              text: isZero ? '\$0' : text,
+              text: text,
               style: TextStyle(color: color),
             ),
             if (tooltipMessage != null)
