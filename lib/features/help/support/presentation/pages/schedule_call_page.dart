@@ -444,24 +444,19 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                 hasInfo: false,
                 showRequired: true,
                 title: appLocalizations.scheduleMeeting_callReason_label,
-                child: AppTextFields.dropDownTextField(
-                  onChanged: (val) async {
-                    // setState(() {
-                    //   bottomFormKey =
-                    //       GlobalKey<FormBuilderState>();
-                    //   accountType = val;
-                    // });
-                    await Future.delayed(const Duration(milliseconds: 200));
-                    checkFinalValid(val);
-                  },
+                child: FormBuilderSearchableDropdown<CallReason>(
                   name: "subject",
                   hint: "Select",
-                  items: CallReason.callReasonList(context)
-                      .map((e) => DropdownMenuItem(
-                            value: e.value,
-                            child: Text(e.name),
-                          ))
-                      .toList(),
+                  showSearchBox: false,
+                  onChanged: checkFinalValid,
+                  items: CallReason.callReasonList(context),
+                  itemAsString: (CallReason val) => val.name,
+                  itemBuilder: (context, currency, _) {
+                    return Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(currency.name),
+                    );
+                  },
                 ),
               ),
               EachTextField(
