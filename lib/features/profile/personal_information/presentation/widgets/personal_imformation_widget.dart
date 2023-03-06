@@ -99,7 +99,9 @@ class _PersonalInformationWidgetState
                                 (val) {
                                   return (!val!
                                           .contains(RegExp(r'^[A-Za-z\s]*$')))
-                                      ? "${appLocalizations.profile_tabs_personal_fields_label_firstName} can only contain letters"
+                                      ? appLocalizations
+                                          .common_errors_onlyCharactersAllowed
+                                      // ? "${appLocalizations.profile_tabs_personal_fields_label_firstName} can only contain letters"
                                       : null;
                                 }
                               ],
@@ -124,9 +126,11 @@ class _PersonalInformationWidgetState
                               onChanged: checkFinalValid,
                               extraValidators: [
                                 (val) {
-                                  return (!(val??"")
+                                  return (!(val ?? "")
                                           .contains(RegExp(r'^[A-Za-z\s]*$')))
-                                      ? "${appLocalizations.profile_tabs_personal_fields_label_lastName} can only contain letters"
+                                      ? appLocalizations
+                                          .common_errors_onlyCharactersAllowed
+                                      // ? "${appLocalizations.profile_tabs_personal_fields_label_lastName} can only contain letters"
                                       : null;
                                 }
                               ],
