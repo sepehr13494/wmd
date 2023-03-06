@@ -216,6 +216,10 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
             tooltip =
                 appLocalizations.linkAccount_stepper_cif_tooltip_juliusbar;
             break;
+          case 'jpmorgan':
+            message = appLocalizations.linkAccount_stepper_cif_label_jpmorgan;
+            tooltip = appLocalizations.linkAccount_stepper_cif_tooltip_jpmorgan;
+            break;
           case 'lombardodier':
             message =
                 appLocalizations.linkAccount_stepper_cif_label_lombardodier;
@@ -232,20 +236,23 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Text(
-                  message,
-                  style: textTheme.bodyMedium,
-                ),
-                // const InfoIcon(),
-                Tooltip(
-                  triggerMode: TooltipTriggerMode.tap,
-                  textAlign: TextAlign.center,
-                  message: tooltip,
-                  child: const InfoIcon(),
-                ),
-              ],
+            FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Row(
+                children: [
+                  Text(
+                    message,
+                    style: textTheme.bodyMedium,
+                  ),
+                  // const InfoIcon(),
+                  Tooltip(
+                    triggerMode: TooltipTriggerMode.tap,
+                    textAlign: TextAlign.center,
+                    message: tooltip,
+                    child: const InfoIcon(),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 4),
             input,
