@@ -21,12 +21,10 @@ class LineChartSample2 extends StatefulWidget {
 }
 
 class _LineChartSample2State extends AppState<LineChartSample2> {
-
   Timer? _timer;
   bool showTooltip = false;
   GetAllocationEntity? selected;
   double position = 0;
-
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
@@ -54,27 +52,27 @@ class _LineChartSample2State extends AppState<LineChartSample2> {
         ),
       );
     }
-    return LayoutBuilder(
-        builder: (context,snap) {
-          final width = (snap.maxWidth-100);
-          final x = (position - width / 2) / (width/2);
-          var pos = x;
-          if(x<-1){
-            pos = -1;
-          }else if(x>1){
-            pos = 1;
-          }
-          return Stack(
-            alignment: Alignment(pos, -1),
-            children: [
-              LineChart(
-                mainData(context, appLocalizations),
-              ),
-              showTooltip ? CustomDashboardChartTooltip(selected: selected) : const SizedBox(),
-            ],
-          );
-        }
-    );
+    return LayoutBuilder(builder: (context, snap) {
+      final width = (snap.maxWidth - 100);
+      final x = (position - width / 2) / (width / 2);
+      var pos = x;
+      if (x < -1) {
+        pos = -1;
+      } else if (x > 1) {
+        pos = 1;
+      }
+      return Stack(
+        alignment: Alignment(pos, -1),
+        children: [
+          LineChart(
+            mainData(context, appLocalizations),
+          ),
+          showTooltip
+              ? CustomDashboardChartTooltip(selected: selected)
+              : const SizedBox(),
+        ],
+      );
+    });
   }
 
   @override
@@ -87,7 +85,8 @@ class _LineChartSample2State extends AppState<LineChartSample2> {
 
   Widget bottomTitleWidgets(double value, TitleMeta meta, bool hideValues) {
     int x = (widget.allocations.length / 7).ceil();
-    var dateString = widget.allocations[value.toInt()].name.split(" ")[0].split("/");
+    var dateString =
+        widget.allocations[value.toInt()].name.split(" ")[0].split("/");
     DateTime dateTime = DateTime(int.parse(dateString[2]),
         int.parse(dateString[0]), int.parse(dateString[1]));
     if (hideValues) {
@@ -96,7 +95,9 @@ class _LineChartSample2State extends AppState<LineChartSample2> {
       return value.toInt() % x == 0
           ? SideTitleWidget(
               axisSide: meta.axisSide,
-              child: Text(CustomizableDateTime.miniDate(widget.allocations[value.toInt()].name),
+              child: Text(
+                  CustomizableDateTime.miniDate(
+                      widget.allocations[value.toInt()].name),
                   style: const TextStyle(fontSize: 8)),
             )
           : const SizedBox();
@@ -104,23 +105,28 @@ class _LineChartSample2State extends AppState<LineChartSample2> {
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-    List<double> minMax = MinMaxCalculator.calculateMinyMaxY(widget.allocations);
+    List<double> minMax =
+        MinMaxCalculator.calculateMinyMaxY(widget.allocations);
     final double minY = minMax[0];
     final double maxY = minMax[1];
     double x = max(maxY.abs(), minY.abs()) / 5;
-    return FittedBox(
-      fit: BoxFit.scaleDown,
-      child: Text(
-        "\$ ${(value * x).formatNumber}",
-        textAlign: TextAlign.left,
-        style: const TextStyle(fontSize: 10),
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text(
+          "\$ ${(value * x).formatNumber}",
+          textAlign: TextAlign.left,
+          style: const TextStyle(fontSize: 10),
+        ),
       ),
     );
   }
 
   LineChartData mainData(context, AppLocalizations appLocalizations,
       {bool showLeft = true, bool hideValues = false}) {
-    List<double> minMax = MinMaxCalculator.calculateMinyMaxY(widget.allocations);
+    List<double> minMax =
+        MinMaxCalculator.calculateMinyMaxY(widget.allocations);
     double minY = minMax[0];
     double maxY = minMax[1];
     double x = max(maxY.abs(), minY.abs()) / 5;
@@ -135,29 +141,31 @@ class _LineChartSample2State extends AppState<LineChartSample2> {
     }
     return LineChartData(
       lineTouchData: LineTouchData(
-        touchCallback: (p0, p1) {
-          if(p1 != null){
-            if(p1.lineBarSpots != null){
-              setState(() {
-                selected = widget.allocations[p1.lineBarSpots!.first.spotIndex];
-                position = p0.localPosition!.dx;
-                showTooltip = true;
-                if(_timer != null){
-                  _timer!.cancel();
-                }
-                _timer=Timer(const Duration(seconds: 2), () {
-                  setState(() {
-                    showTooltip = false;
+          touchCallback: (p0, p1) {
+            if (p1 != null) {
+              if (p1.lineBarSpots != null) {
+                setState(() {
+                  selected =
+                      widget.allocations[p1.lineBarSpots!.first.spotIndex];
+                  position = p0.localPosition!.dx;
+                  showTooltip = true;
+                  if (_timer != null) {
+                    _timer!.cancel();
+                  }
+                  _timer = Timer(const Duration(seconds: 2), () {
+                    setState(() {
+                      showTooltip = false;
+                    });
                   });
                 });
-              });
+              }
             }
-          }
-        },
-        touchTooltipData: LineTouchTooltipData(getTooltipItems: (touchedSpots) {
-          return [LineTooltipItem("", const TextStyle())];
-        },tooltipPadding: const EdgeInsets.all(0.5))
-      ),
+          },
+          touchTooltipData: LineTouchTooltipData(
+              getTooltipItems: (touchedSpots) {
+                return [LineTooltipItem("", const TextStyle())];
+              },
+              tooltipPadding: const EdgeInsets.all(0.5))),
       gridData: FlGridData(
         show: true,
         drawVerticalLine: true,
@@ -282,7 +290,8 @@ class _LineChartSample2State extends AppState<LineChartSample2> {
     return [
       showDate
           ? TextSpan(
-              text: CustomizableDateTime.miniDateOneLine(widget.allocations[x].name),
+              text: CustomizableDateTime.miniDateOneLine(
+                  widget.allocations[x].name),
             )
           : const TextSpan(),
       TextSpan(
@@ -317,5 +326,4 @@ class _LineChartSample2State extends AppState<LineChartSample2> {
           style: textTheme.titleSmall!.apply(color: AppColors.chartColor)),
     ];
   }
-
 }
