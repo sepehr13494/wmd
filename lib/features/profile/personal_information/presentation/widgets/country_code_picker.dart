@@ -35,6 +35,7 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
         }
         return SizedBox(
           width: 125,
+          height: 60,
           child: TextField(
             controller: controller,
             style: Theme.of(context).textTheme.bodySmall,
@@ -42,13 +43,32 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
             onTap: () {
               showCountryPicker(
                 context: context,
+
                 showPhoneCode:
                     true, // optional. Shows phone code before the country name.
                 onSelect: (Country country) {
                   print('Select country: ${country.displayName}');
+
+                  String code = country.phoneCode;
+
+                  if (code == "44") {
+                    switch (country.countryCode) {
+                      case "GG":
+                        code = "441481";
+                        break;
+                      case "IM":
+                        code = "441624";
+                        break;
+                      case "JE":
+                        code = "441534";
+                        break;
+                    }
+                  }
+
                   controller.text =
-                      "${field.value!.flagEmoji} ${field.value!.countryCode} +${field.value!.phoneCode}";
-                  field.didChange(country);
+                      "${country.flagEmoji} ${country.countryCode} +$code";
+                  field.didChange(Country.from(
+                      json: {...country.toJson(), "e164_cc": code}));
                 },
               );
             },

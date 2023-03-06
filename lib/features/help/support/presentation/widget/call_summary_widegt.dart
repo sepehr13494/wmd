@@ -81,7 +81,9 @@ class CallSummaryWidget extends AppStatelessWidget {
             child: CallSummaryRow(
               label: "Reason",
               value: formState != null
-                  ? formState!.value["subject"] ?? "Not specified"
+                  ? formState!.value["subject"] != null
+                      ? formState!.value["subject"]?.name ?? "Not specified"
+                      : "Not specified"
                   : "Not specified",
             ),
           ),
@@ -148,7 +150,9 @@ class CallSummaryRow extends AppStatelessWidget {
             ),
             if (value != "null" && label == "Reason")
               SizedBox(
-                  width: responsiveHelper.optimalDeviceWidth * 0.3,
+                  width: responsiveHelper.isMobile
+                      ? responsiveHelper.optimalDeviceWidth * 0.65
+                      : responsiveHelper.optimalDeviceWidth * 0.3,
                   child: Text(
                     value,
                     style: textTheme.titleSmall,
