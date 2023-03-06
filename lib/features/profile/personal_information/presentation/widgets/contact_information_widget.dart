@@ -143,7 +143,8 @@ class _ContactInformationWidgetState
                                           (val) {
                                             return (!val!.contains(
                                                     RegExp(r'^[0-9]*$')))
-                                                ? "Phone number can only contain numbers"
+                                                ? appLocalizations
+                                                    .scheduleMeeting_phoneNumber_errors_inValid
                                                 : null;
                                           },
                                           (val) {
@@ -153,7 +154,10 @@ class _ContactInformationWidgetState
                                                         "BH" &&
                                                     (val.length > 8 ||
                                                         val.length < 8))
-                                                ? "Phone number must be of 8 digits"
+                                                ? appLocalizations
+                                                    .common_errors_phoneNumberLength
+                                                    .replaceAll("{{digit}}",
+                                                        8.toString())
                                                 : null;
                                           },
                                         ],
