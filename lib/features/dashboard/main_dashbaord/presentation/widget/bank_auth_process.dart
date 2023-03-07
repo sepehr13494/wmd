@@ -139,7 +139,7 @@ class _BanksAuthorizationProcessState
         Padding(
           padding: padding,
           child: Align(
-            alignment: Alignment.centerRight,
+            alignment: Alignment.center,
             child: InkWell(
               onTap: () async {
                 final resPopup = await showCustodianBankStatus(
