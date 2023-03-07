@@ -34,6 +34,7 @@ import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/das
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
+import 'package:wmd/features/force_update/presentation/pages/force_update_page.dart';
 import 'package:wmd/features/help/support/presentation/pages/schedule_call_page.dart';
 import 'package:wmd/features/help/support/presentation/pages/support_page.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
@@ -83,6 +84,13 @@ class AppRouter {
           path: "/",
           builder: (BuildContext context, GoRouterState state) {
             return const SplashPage();
+          },
+        ),
+        GoRoute(
+          name: AppRoutes.forceUpdate,
+          path: "/force_update",
+          builder: (BuildContext context, GoRouterState state) {
+            return const ForceUpdatePage();
           },
         ),
         GoRoute(
