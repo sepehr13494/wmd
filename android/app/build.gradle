@@ -53,13 +53,32 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.tfo.wmd"
+        applicationId "com.tfo"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
         minSdkVersion 21
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+    }
+
+    flavorDimensions "default"
+    productFlavors { 
+        prod {
+            dimension "default"
+            applicationIdSuffix ".aio"
+            resValue "string", "app_name", "All In One+"
+        }
+        qa {
+            dimension "default"
+            applicationIdSuffix ".wmd"
+            resValue "string", "app_name", "[QA] All In One+"
+        }        
+        dev {
+            dimension "default"
+            applicationIdSuffix ".wmd"
+            resValue "string", "app_name", "[DEV] All In One+"
+        }
     }
 
     signingConfigs {
