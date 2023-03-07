@@ -139,7 +139,7 @@ class _BanksAuthorizationProcessState
         Padding(
           padding: padding,
           child: Align(
-            alignment: Alignment.centerRight,
+            alignment: Alignment.center,
             child: InkWell(
               onTap: () async {
                 final resPopup = await showCustodianBankStatus(
@@ -155,13 +155,11 @@ class _BanksAuthorizationProcessState
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
                     appLocalizations.home_custodianBankList_button_view,
-                    style: textTheme.bodyLarge!.apply(
-                        color: Theme.of(context).primaryColor,
-                        decoration: TextDecoration.underline),
+                    style: textTheme.bodyLarge!
+                        .apply(color: Theme.of(context).primaryColor),
                   ),
                   const SizedBox(width: 4),
                   const Icon(
