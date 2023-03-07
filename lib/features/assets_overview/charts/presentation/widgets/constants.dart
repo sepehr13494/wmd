@@ -66,11 +66,14 @@ class AssetsOverviewChartsColors {
         }
         return appLocalizations.assetLiabilityForms_assets_listedAssets + after;
       case AssetTypes.listedAssetEquity:
-        return appLocalizations.assets_charts_allocationCharts_legendLabel_listedAssetEquity;
+        return appLocalizations
+            .assets_charts_allocationCharts_legendLabel_listedAssetEquity;
       case AssetTypes.listedAssetFixedIncome:
-        return appLocalizations.assets_charts_allocationCharts_legendLabel_listedAssetFixedIncome;
+        return appLocalizations
+            .assets_charts_allocationCharts_legendLabel_listedAssetFixedIncome;
       case AssetTypes.listedAssetOther:
-        return appLocalizations.assets_charts_allocationCharts_legendLabel_listedAssetOther;
+        return appLocalizations
+            .assets_charts_allocationCharts_legendLabel_listedAssetOther;
       case AssetTypes.privateEquity:
         return appLocalizations.assets_assets_PrivateEquity;
       case AssetTypes.privateDebt:
@@ -112,4 +115,9 @@ class AssetsOverviewChartsColors {
         return appLocalizations.assets_label_other;
     }
   }
+}
+
+class CustomIcons {
+  static const logout =
+      IconData(0xe3b3, fontFamily: 'MaterialIcons', matchTextDirection: true);
 }

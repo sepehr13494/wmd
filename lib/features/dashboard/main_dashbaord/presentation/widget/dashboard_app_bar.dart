@@ -5,8 +5,7 @@ import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/change_language_button.dart';
 import 'package:wmd/core/util/app_restart.dart';
 import 'package:wmd/core/util/colors.dart';
-import 'package:wmd/core/util/local_storage.dart';
-import 'package:wmd/injection_container.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
@@ -68,7 +67,7 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
               [
                 AppLocalizations.of(context)
                     .profile_changePassword_button_logout,
-                Icons.logout
+                CustomIcons.logout
               ],
             ];
             return List.generate(
