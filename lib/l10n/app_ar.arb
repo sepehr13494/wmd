@@ -1401,5 +1401,6 @@
   "support_text_here": "هنا",
   "linkAccount_stepper_cif_label_jpmorgan": "رقم الحساب",
   "linkAccount_stepper_cif_tooltip_jpmorgan": "يمكنك الوصول إلى رقم حسابك عند الجانب العلوي الأيمن من الصفحة الأولى",
-  "assets_label_emptyState": "لا معاملات متاحة للعرض"
+  "assets_label_emptyState": "لا معاملات متاحة للعرض",
+  "profile_preferences_language": "لغة"
 }

@@ -28,7 +28,7 @@ class LanguageBottomSheet extends AppStatelessWidget {
               children: [
                 Center(
                     child: Text(
-                  "Language",
+                  appLocalizations.profile_preferences_language,
                   style: textTheme.titleSmall,
                 )),
                 Container(
