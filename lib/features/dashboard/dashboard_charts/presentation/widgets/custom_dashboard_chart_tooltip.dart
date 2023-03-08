@@ -48,8 +48,9 @@ class CustomDashboardChartTooltip extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  CustomizableDateTime.miniDateWithYear(
-                      getAllocationEntity.name),
+                  CustomizableDateTime.ddMmYyyyWithSlash(
+                      CustomizableDateTime.stringToDate(
+                          getAllocationEntity.name)),
                   style: textTheme.titleSmall,
                 ),
                 const SizedBox(height: 8),
