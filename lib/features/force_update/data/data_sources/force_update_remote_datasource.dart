@@ -22,7 +22,7 @@ class ForceUpdateRemoteDataSourceImpl extends AppServerDataSource
   Future<GetForceUpdateResponse> getForceUpdate(GetForceUpdateParams params) async {
     try{
       final appRequestOptions =
-          AppRequestOptions(RequestTypes.get, AppUrls.getForceUpdate, params.toJson());
+          AppRequestOptions(RequestTypes.post, AppUrls.getForceUpdate, params.toJson());
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = GetForceUpdateResponse.fromJson(response);
       return result;
