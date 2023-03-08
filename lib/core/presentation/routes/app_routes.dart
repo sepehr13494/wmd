@@ -3,6 +3,7 @@ class AppRoutes {
 
   //authentication
   static const String splash = "splash";
+  static const String forceUpdate = "force_update";
   static const String welcome = "welcome";
   static const String login = "login";
   static const String register = "register";
