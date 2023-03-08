@@ -1,5 +1,10 @@
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:wmd/core/util/app_localization.dart';
 
 extension CustomizableDateTime on DateTime {
   static DateTime? _customTime;
@@ -25,9 +30,26 @@ extension CustomizableDateTime on DateTime {
         .format(input);
   }
 
-  static String dateLocalizedV2(DateTime input) {
-    return DateFormat("d${getDayOfMonthSuffix(input.day)} MMMM yyyy", "en")
-        .format(input);
+  static String dmyV2(DateTime input, BuildContext context) {
+    final ln = context.read<LocalizationManager>().state.languageCode;
+
+    final mmmm = DateFormat.MMMM(ln).format(input);
+
+    final d = DateFormat.d().format(input);
+    final y = DateFormat.y().format(input);
+
+    return "$d $mmmm $y";
+  }
+
+  static String graphDate(DateTime input, BuildContext context) {
+    final ln = context.read<LocalizationManager>().state.languageCode;
+
+    final mmmm = DateFormat.MMMM(ln).format(input);
+
+    final d = DateFormat.d().format(input);
+    final y = DateFormat.y().format(input);
+
+    return ln == 'ar' ? "$mmmm $y $d" : "$d $mmmm $y";
   }
 
   static String localizedDdMm(dynamic input) {
@@ -52,6 +74,10 @@ extension CustomizableDateTime on DateTime {
     return DateFormat("dd.MM.yyyy", "en").format(dateTime);
   }
 
+  static String ddMmYyyyWithSlash(DateTime dateTime) {
+    return DateFormat("dd/MM/yyyy", "en").format(dateTime);
+  }
+
   static String yyyyMmDd(DateTime dateTime) {
     return DateFormat("yyyy.MM.dd", "en").format(dateTime);
   }
@@ -61,6 +87,12 @@ extension CustomizableDateTime on DateTime {
     DateTime dateTime = DateTime(int.parse(dateString[2]),
         int.parse(dateString[0]), int.parse(dateString[1]));
     return CustomizableDateTime.localizedDdMm(dateTime);
+  }
+
+  static DateTime stringToDate(String dateTimeString) {
+    var dateString = dateTimeString.split(" ")[0].split("/");
+    return DateTime(int.parse(dateString[2]), int.parse(dateString[0]),
+        int.parse(dateString[1]));
   }
 
   static String miniDateWithYear(String dateTimeString) {

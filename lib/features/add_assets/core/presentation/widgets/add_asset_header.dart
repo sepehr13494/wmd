@@ -13,10 +13,13 @@ class AddAssetHeader extends StatelessWidget with PreferredSizeWidget {
   final String title;
   final bool considerFirstTime;
   final bool showExitModal;
+  final String? goToRoute;
+
   const AddAssetHeader(
       {Key? key,
       required this.title,
       this.considerFirstTime = true,
+      this.goToRoute,
       this.showExitModal = false})
       : super(key: key);
 
@@ -54,7 +57,11 @@ class AddAssetHeader extends StatelessWidget with PreferredSizeWidget {
                 context.goNamed(AppRoutes.main);
               }
             } else {
-              Navigator.of(context).pop();
+              if (goToRoute != null) {
+                context.goNamed(goToRoute ?? "");
+              } else {
+                Navigator.of(context).pop();
+              }
             }
           },
           child: Padding(

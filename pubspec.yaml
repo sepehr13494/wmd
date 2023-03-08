@@ -81,6 +81,7 @@ dependencies:
   firebase_analytics: ^10.1.1
   syncfusion_flutter_charts: ^20.4.51
   treemap: ^0.4.0
+  package_info_plus: ^1.0.6
 
 dev_dependencies:
   flutter_test:

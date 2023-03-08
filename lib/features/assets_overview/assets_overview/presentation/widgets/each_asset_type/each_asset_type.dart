@@ -27,69 +27,61 @@ class EachAssetType extends AppStatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            crossAxisAlignment:
-                isMobile ? CrossAxisAlignment.start : CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Card(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 16),
-                          child: Row(
-                            children: [
-                              DotWidget(
-                                  color: assetsOverviewBaseWidgetModel.color),
-                              const SizedBox(width: 8),
-                              Text(assetsOverviewBaseWidgetModel.title,
-                                  style: textTheme.titleSmall)
-                            ],
-                          ),
-                        ),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 16),
+                      child: Row(
+                        children: [
+                          DotWidget(color: assetsOverviewBaseWidgetModel.color),
+                          const SizedBox(width: 8),
+                          Text(assetsOverviewBaseWidgetModel.title,
+                              style: textTheme.titleSmall)
+                        ],
                       ),
-                      const SizedBox(width: 12),
-                      assetsOverviewBaseWidgetModel.assetsOverviewType ==
-                              AssetsOverviewBaseType.assetType
-                          ? const SizedBox()
-                          : Text(
-                              "${appLocalizations.home_widget_geography_label_allocation} ${assetsOverviewBaseWidgetModel.allocation.toStringAsFixed(1)}%")
-                    ],
+                    ),
                   ),
-                  RowOrColumn(
-                    columnCrossAxisAlignment: CrossAxisAlignment.start,
-                    showRow: !isMobile,
-                    children: [
-                      SizedBox(
-                        width: !isMobile ? 200 : null,
-                        child: Text(
-                          assetsOverviewBaseWidgetModel
-                              .assetsOverviewBaseModel.totalAmount
-                              .convertMoney(addDollar: true),
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontSize: 28),
-                        ),
-                      ),
-                      SizedBox(width: responsiveHelper.bigger16Gap, height: 16),
-                      if (assetsOverviewBaseWidgetModel.assetsOverviewType ==
-                          AssetsOverviewBaseType.assetType)
-                        YtdItdWidget(
-                          ytd: assetsOverviewBaseWidgetModel
-                              .assetsOverviewBaseModel.yearToDate,
-                          itd: assetsOverviewBaseWidgetModel
-                              .assetsOverviewBaseModel.inceptionToDate,
-                          showToolTip: false,
-                          reversed: true,
-                        ),
-                    ],
-                  )
+                  const SizedBox(width: 12),
+                  assetsOverviewBaseWidgetModel.assetsOverviewType ==
+                          AssetsOverviewBaseType.assetType
+                      ? const SizedBox()
+                      : Text(
+                          "${appLocalizations.home_widget_geography_label_allocation} ${assetsOverviewBaseWidgetModel.allocation.toStringAsFixed(1)}%")
                 ],
               ),
+              RowOrColumn(
+                columnCrossAxisAlignment: CrossAxisAlignment.start,
+                showRow: !isMobile,
+                children: [
+                  SizedBox(
+                    width: !isMobile ? 200 : null,
+                    child: Text(
+                      assetsOverviewBaseWidgetModel
+                          .assetsOverviewBaseModel.totalAmount
+                          .convertMoney(addDollar: true),
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontSize: 28),
+                    ),
+                  ),
+                  SizedBox(width: responsiveHelper.bigger16Gap, height: 16),
+                  if (assetsOverviewBaseWidgetModel.assetsOverviewType ==
+                      AssetsOverviewBaseType.assetType)
+                    YtdItdWidget(
+                      ytd: assetsOverviewBaseWidgetModel
+                          .assetsOverviewBaseModel.yearToDate,
+                      itd: assetsOverviewBaseWidgetModel
+                          .assetsOverviewBaseModel.inceptionToDate,
+                      showToolTip: false,
+                      reversed: true,
+                    ),
+                ],
+              )
             ],
           ),
           if (assetsOverviewBaseWidgetModel

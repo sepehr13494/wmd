@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:wmd/core/data/network/error_handler_middleware.dart';
 import 'package:wmd/core/util/local_auth_manager.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/data/data_sources/plaid_data_source.dart';
@@ -122,6 +123,11 @@ import 'package:wmd/features/dashboard/user_status/domain/repositories/user_stat
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/put_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
+import 'package:wmd/features/force_update/data/data_sources/force_update_remote_datasource.dart';
+import 'package:wmd/features/force_update/data/repositories/force_update_repository_impl.dart';
+import 'package:wmd/features/force_update/domain/repositories/force_update_repository.dart';
+import 'package:wmd/features/force_update/domain/use_cases/get_force_update_usecase.dart';
+import 'package:wmd/features/force_update/presentation/manager/force_update_cubit.dart';
 import 'package:wmd/features/help/faq/data/data_sources/faq_remote_data_source.dart';
 import 'package:wmd/features/help/faq/data/repositories/faq_respository_impl.dart';
 import 'package:wmd/features/help/faq/domain/repositories/faq_repository.dart';
@@ -466,6 +472,16 @@ Future<void> init() async {
   sl.registerLazySingleton<AssetSeeMoreRemoteDataSource>(
       () => AssetSeeMoreRemoteDataSourceImpl(sl()));
 
+  //ForceUpdate
+  sl.registerFactory(() => ForceUpdateCubit(sl()));
+  sl.registerLazySingleton(() => GetForceUpdateUseCase(sl(),sl()));
+
+  sl.registerLazySingleton<ForceUpdateRepository>(
+          () => ForceUpdateRepositoryImpl(sl()));
+  sl.registerLazySingleton<ForceUpdateRemoteDataSource>(
+          () => ForceUpdateRemoteDataSourceImpl(sl()));
+
+
   await initExternal();
   await initUtils();
 }
@@ -496,4 +512,7 @@ Future<void> initExternal() async {
   sl.registerLazySingleton<Box>(() => authBox);
 
   sl.registerLazySingleton<LocalAuthentication>(() => LocalAuthentication());
+
+  final packageInfo = await PackageInfo.fromPlatform();
+  sl.registerLazySingleton<PackageInfo>(() => packageInfo);
 }
