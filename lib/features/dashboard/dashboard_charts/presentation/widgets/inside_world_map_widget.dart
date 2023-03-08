@@ -348,14 +348,17 @@ class InsideWorldMapWidgetState extends AppState<InsideWorldMapWidget> {
                                       .bodyMedium!,
                                 ),
                                 const SizedBox(width: 24),
-                                Text(
-                                  percentage,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .apply(
-                                      color: AppColors
-                                          .chartColor),
+                                Directionality(
+                                  textDirection: TextDirection.ltr,
+                                  child: Text(
+                                    percentage,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .apply(
+                                        color: AppColors
+                                            .chartColor),
+                                  ),
                                 )
                               ],
                             ),

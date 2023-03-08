@@ -57,6 +57,7 @@ class AssetsOverviewGeoChart extends AppStatelessWidget {
                                                 .toList(),
                                             itemBuilder: (item, index) {
                                               return Tooltip(
+                                                triggerMode: TooltipTriggerMode.tap,
                                                 message:
                                                     "${item.getGeographicEntity.continent} : ${item.getGeographicEntity.percentage.toStringAsFixed(1)}%",
                                                 child: Container(
