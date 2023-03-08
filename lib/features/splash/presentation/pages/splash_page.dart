@@ -63,7 +63,7 @@ class _SplashPageState extends State<SplashPage> {
               BlocListener<ForceUpdateCubit, ForceUpdateState>(
                 listener: BlocHelper.defaultBlocListener(listener: (context, state) {
                   if(state is GetForceUpdateLoaded){
-                    if(state.getForceUpdateEntity.apiVersion != "1.0.3"){
+                    if(state.getForceUpdateEntity.isForceUpdate){
                       context.replaceNamed(AppRoutes.forceUpdate);
                     }else{
                       context.read<SplashCubit>().initSplashFromSplash();

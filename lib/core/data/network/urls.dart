@@ -76,5 +76,5 @@ class AppUrls {
   static String getValuationPerformance(String id) =>
       "${wealthBase}Valuation/$id/performance";
 
-  static String getForceUpdate = "version";
+  static String getForceUpdate = "wmo/version";
 }
