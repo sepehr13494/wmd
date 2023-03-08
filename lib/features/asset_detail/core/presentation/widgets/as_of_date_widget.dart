@@ -18,7 +18,7 @@ class AsOfDateWidget extends AppStatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(responsiveHelper.biggerGap),
         child: Text(
-          "${appLocalizations.assets_label_lastUpdatedOn} ${CustomizableDateTime.dateLocalizedV2(shownDate)}",
+          "${appLocalizations.assets_label_lastUpdatedOn} ${CustomizableDateTime.dmyV2(shownDate, context)}",
           style: textTheme.bodySmall,
           textDirection: TextDirection.ltr,
         ),
