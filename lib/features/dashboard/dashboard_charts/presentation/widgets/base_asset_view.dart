@@ -158,8 +158,8 @@ class BaseAssetView extends AppStatelessWidget {
                                       params: AnalyticsUtils
                                           .geographyOverviewInsideMoreEvent);
                                 }
-
                                 context.read<MainPageCubit>().onItemTapped(1);
+                                onMoreTap();
                               },
                               child: const Icon(Icons.arrow_forward_ios_rounded,
                                   size: 15),

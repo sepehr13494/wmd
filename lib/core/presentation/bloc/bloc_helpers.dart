@@ -40,7 +40,7 @@ class BlocHelper {
       } else if (state is ErrorState) {
         LoadingOverlay().hide();
         if (state.failure is ServerFailure) {
-          debugPrint(state.failure.data);
+          debugPrint(state.failure.data.toString());
           switch ((state.failure as ServerFailure).type) {
             case ExceptionType.normal:
             case ExceptionType.format:

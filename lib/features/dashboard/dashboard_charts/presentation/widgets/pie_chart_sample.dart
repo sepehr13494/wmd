@@ -8,6 +8,7 @@ import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_manager.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_pie_entity.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
@@ -26,7 +27,15 @@ class PieChartSample2 extends StatefulWidget {
 class PieChart2State extends AppState {
   int touchedIndex = -1;
 
-  late Timer timer;
+  Timer? timer;
+
+  @override
+  void dispose() {
+    if(timer != null){
+      timer!.cancel();
+    }
+    super.dispose();
+  }
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -62,7 +71,9 @@ class PieChart2State extends AppState {
                         );
                       },
                     ),
-              onMoreTap: () {},
+              onMoreTap: () {
+                context.read<TabManager>().changeTab(0);
+              },
               emptyChild: _buildEmptyChart(appLocalizations, textTheme),
               child: LayoutBuilder(builder: (context, snap) {
                 final double height = snap.maxWidth * 0.65;
@@ -93,11 +104,18 @@ class PieChart2State extends AppState {
                                 if (!event.isInterestedForInteractions ||
                                     pieTouchResponse == null ||
                                     pieTouchResponse.touchedSection == null) {
-                                  touchedIndex = -1;
                                   return;
                                 }
                                 touchedIndex = pieTouchResponse
                                     .touchedSection!.touchedSectionIndex;
+                                if(timer != null){
+                                  timer!.cancel();
+                                }
+                                timer = Timer(const Duration(seconds: 2), () {
+                                  setState(() {
+                                    touchedIndex = -1;
+                                  });
+                                });
                               });
                             },
                           ),

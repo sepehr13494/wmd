@@ -57,6 +57,7 @@ class CurrencyChartWidget extends AppStatelessWidget {
                           .toList(),
                       itemBuilder: (item,itemIndex) {
                         return Tooltip(
+                          triggerMode: TooltipTriggerMode.tap,
                           message: "${item.currencyEntity.currencyCode}: ${((item.value*100)/sum).toStringAsFixed(1)} %",
                           child: Container(
                             color: AssetsOverviewChartsColors.colors[itemIndex],
