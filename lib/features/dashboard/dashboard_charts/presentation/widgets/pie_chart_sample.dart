@@ -27,7 +27,15 @@ class PieChartSample2 extends StatefulWidget {
 class PieChart2State extends AppState {
   int touchedIndex = -1;
 
-  late Timer timer;
+  Timer? timer;
+
+  @override
+  void dispose() {
+    if(timer != null){
+      timer!.cancel();
+    }
+    super.dispose();
+  }
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -96,11 +104,18 @@ class PieChart2State extends AppState {
                                 if (!event.isInterestedForInteractions ||
                                     pieTouchResponse == null ||
                                     pieTouchResponse.touchedSection == null) {
-                                  touchedIndex = -1;
                                   return;
                                 }
                                 touchedIndex = pieTouchResponse
                                     .touchedSection!.touchedSectionIndex;
+                                if(timer != null){
+                                  timer!.cancel();
+                                }
+                                timer = Timer(const Duration(seconds: 2), () {
+                                  setState(() {
+                                    touchedIndex = -1;
+                                  });
+                                });
                               });
                             },
                           ),
