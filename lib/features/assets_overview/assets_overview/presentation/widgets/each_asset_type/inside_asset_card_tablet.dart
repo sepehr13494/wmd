@@ -4,6 +4,7 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 
 import '../../../../core/domain/entities/assets_list_entity.dart';
@@ -47,8 +48,13 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                           alignment: AlignmentDirectional.centerStart,
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
-                            child: Text(asset.currentValue.convertMoney(
-                                addDollar: true)),
+                            child: Text(
+                              asset.currentValue.convertMoney(addDollar: true),
+                              style: textTheme.bodyMedium!.apply(
+                                  color: asset.currentValue < 0
+                                      ? Colors.red
+                                      : null),
+                            ),
                           ),
                         );
                       case 2:
@@ -56,7 +62,8 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                           fit: BoxFit.scaleDown,
                           child: ChangeWidget(
                             number: asset.inceptionToDate,
-                            text: "${asset.inceptionToDate.toStringAsFixed(1)}%",
+                            text:
+                                "${asset.inceptionToDate.toStringAsFixed(1)}%",
                             tooltipMessage: (asset.inceptionToDate >= 99900 ||
                                     asset.inceptionToDate <= -100)
                                 ? appLocalizations
@@ -69,8 +76,7 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                           fit: BoxFit.scaleDown,
                           child: ChangeWidget(
                             number: asset.yearToDate,
-                            text:
-                                "${asset.yearToDate.toStringAsFixed(1)}%",
+                            text: "${asset.yearToDate.toStringAsFixed(1)}%",
                             tooltipMessage: (asset.yearToDate >= 99900 ||
                                     asset.yearToDate <= -100)
                                 ? appLocalizations
