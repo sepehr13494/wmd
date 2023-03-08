@@ -27,7 +27,7 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text.rich(TextSpan(
-            text: CustomizableDateTime.localizedDdMmYyyy(data.key as DateTime),
+            text: CustomizableDateTime.graphDate(data.key as DateTime, context),
             style: textTheme.titleSmall!,
             children: [
               TextSpan(
