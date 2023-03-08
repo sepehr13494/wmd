@@ -151,8 +151,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
         } else {
           return Scaffold(
             appBar: const AddAssetHeader(
-              title: "",
-            ),
+                title: "", goToRoute: AppRoutes.support, showExitModal: false),
             bottomSheet: !responsiveHelper.isMobile
                 ? null
                 : ScheduleCallFooter(
@@ -312,7 +311,6 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
               ),
               EachTextField(
                 hasInfo: false,
-                showRequired: true,
                 title: appLocalizations.scheduleMeeting_timeZone_label,
                 child: FormBuilderSearchableDropdown<TimeZones>(
                   name: "timeZone",
@@ -356,9 +354,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
               ),
               EachTextField(
                 hasInfo: false,
-                showRequired: true,
-                title:
-                    appLocalizations.scheduleMeeting_availableTimeSlots_label,
+                title: appLocalizations.scheduleMeeting_availableDate_label,
                 child: FormBuilderDateTimePicker(
                   onChanged: (selectedDate) {
                     checkFinalValid(selectedDate);
@@ -394,11 +390,11 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
               if (availableDateValue != null)
                 EachTextField(
                     hasInfo: false,
-                    showRequired: true,
-                    title: appLocalizations.scheduleMeeting_availableDate_label,
-                    child: const TimeslotsSelector<String>(
+                    title: appLocalizations
+                        .scheduleMeeting_availableTimeSlots_label,
+                    child: TimeslotsSelector<String>(
                       name: "time",
-                      // onChanged: (val) => checkFinalValid(val),
+                      onChanged: (val) => checkFinalValid(val),
                     )),
               EachTextField(
                 hasInfo: false,
@@ -422,7 +418,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
               ),
               EachTextField(
                 hasInfo: false,
-                showRequired: true,
+
                 title: appLocalizations.auth_forgot_input_email_label,
                 child: TextField(
                   enabled: false,
@@ -442,7 +438,6 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
               ),
               EachTextField(
                 hasInfo: false,
-                showRequired: true,
                 title: appLocalizations.scheduleMeeting_callReason_label,
                 child: FormBuilderSearchableDropdown<CallReason>(
                   name: "subject",

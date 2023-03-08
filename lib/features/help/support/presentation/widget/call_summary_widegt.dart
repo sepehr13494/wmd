@@ -25,11 +25,11 @@ class CallSummaryWidget extends AppStatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CallSummarySection(
-              title: "Call details",
+              title: appLocalizations.scheduleMeeting_labels_callDetails,
               child: Column(
                 children: [
                   CallSummaryRow(
-                      label: "Time Zone*",
+                      label: appLocalizations.scheduleMeeting_labels_timeZone,
                       value: formState != null
                           ? TimeZones.timezonesList
                               .firstWhere(
@@ -44,7 +44,7 @@ class CallSummaryWidget extends AppStatelessWidget {
                           // formState!.value["timeZoneOffset"].toString()
                           : "null"),
                   CallSummaryRow(
-                    label: "Date*",
+                    label: appLocalizations.scheduleMeeting_labels_date,
                     value: formState != null
                         ? formState!.instantValue["date"] != null
                             ? DateFormat('dd/MM/yyyy')
@@ -53,20 +53,20 @@ class CallSummaryWidget extends AppStatelessWidget {
                         : "null",
                   ),
                   CallSummaryRow(
-                      label: "Time*",
+                      label: appLocalizations.scheduleMeeting_labels_time,
                       value: formState != null
                           ? formState!.instantValue["time"]
                               .toString()
                               .split(" ")[0]
                           : "null"),
                   CallSummaryRow(
-                    label: "Meeting type",
+                    label: appLocalizations.scheduleMeeting_labels_meetingType,
                     value: formState != null
                         ? formState!.instantValue["type"]
                         : "Virtual Meeting",
                   ),
                   CallSummaryRow(
-                    label: "Email*",
+                    label: appLocalizations.scheduleMeeting_labels_email,
                     value: (personalState is PersonalInformationLoaded)
                         ? personalState.getNameEntity.email
                         : "null",
@@ -82,9 +82,10 @@ class CallSummaryWidget extends AppStatelessWidget {
               label: "Reason",
               value: formState != null
                   ? formState!.value["subject"] != null
-                      ? formState!.value["subject"]?.name ?? "Not specified"
-                      : "Not specified"
-                  : "Not specified",
+                      ? formState!.value["subject"]?.name ??
+                          appLocalizations.scheduleMeeting_text_notSpecified
+                      : appLocalizations.scheduleMeeting_text_notSpecified
+                  : appLocalizations.scheduleMeeting_text_notSpecified,
             ),
           ),
           const SizedBox(
@@ -164,7 +165,8 @@ class CallSummaryRow extends AppStatelessWidget {
                 style: textTheme.titleSmall,
                 textAlign: TextAlign.end,
               ),
-            if (value == "null") const Text("Missing"),
+            if (value == "null")
+              Text(appLocalizations.scheduleMeeting_text_missing),
           ],
         ),
         const SizedBox(
