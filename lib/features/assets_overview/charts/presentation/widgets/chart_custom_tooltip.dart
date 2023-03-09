@@ -127,7 +127,7 @@ class ChartCustomTooltip extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  CustomizableDateTime.graphDate(
+                  CustomizableDateTime.graphDateV2(
                       CustomizableDateTime.stringToDate(getChartEntity.date),
                       context),
                   style: textTheme.titleSmall,
