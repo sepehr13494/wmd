@@ -78,6 +78,16 @@ extension CustomizableDateTime on DateTime {
     return DateFormat("dd/MM/yyyy", "en").format(dateTime);
   }
 
+  static String graphDateV2(DateTime input, BuildContext context) {
+    final ln = context.read<LocalizationManager>().state.languageCode;
+
+    final mmmm = DateFormat.MMMM(ln).format(input);
+
+    final d = DateFormat.d().format(input);
+    final y = DateFormat.y().format(input);
+    return "$d/$mmmm/$y";
+  }
+
   static String yyyyMmDd(DateTime dateTime) {
     return DateFormat("yyyy.MM.dd", "en").format(dateTime);
   }
