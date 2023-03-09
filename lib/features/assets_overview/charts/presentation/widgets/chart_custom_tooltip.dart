@@ -50,6 +50,7 @@ class ChartCustomTooltip extends StatelessWidget {
                 getChartEntity.others +
                 getChartEntity.bankAccount +
                 getChartEntity.listedAssetFixedIncome +
+                getChartEntity.listedAssetOther +
                 getChartEntity.listedAssetEquity;
             final appLocalizations = AppLocalizations.of(context);
             final items = [
