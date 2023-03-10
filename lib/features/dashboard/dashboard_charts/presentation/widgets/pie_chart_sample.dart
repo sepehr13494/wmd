@@ -161,13 +161,16 @@ class PieChart2State extends AppState {
                                               .bodyMedium!,
                                         ),
                                         const SizedBox(width: 24),
-                                        Text(
-                                          "${pieEntity.percentage.toStringAsFixed(1)} %",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall!
-                                              .apply(
-                                                  color: AppColors.chartColor),
+                                        Directionality(
+                                          textDirection: TextDirection.ltr,
+                                          child: Text(
+                                            "${pieEntity.percentage.toStringAsFixed(1)} %",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall!
+                                                .apply(
+                                                    color: AppColors.chartColor),
+                                          ),
                                         )
                                       ],
                                     ),

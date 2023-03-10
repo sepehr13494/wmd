@@ -60,7 +60,7 @@ class CurrencyChartWidget extends AppStatelessWidget {
                           triggerMode: TooltipTriggerMode.tap,
                           message: "${item.currencyEntity.currencyCode}: ${((item.value*100)/sum).toStringAsFixed(1)} %",
                           child: Container(
-                            color: AssetsOverviewChartsColors.colors[itemIndex],
+                            color: AssetsOverviewChartsColors.treeMapColors[itemIndex],
                             child: Padding(
                               padding: const EdgeInsets.all(2),
                               child: Text(
@@ -75,7 +75,7 @@ class CurrencyChartWidget extends AppStatelessWidget {
                   const SizedBox(height: 16),
                   ColorsWithTitlesWidget(colorTitles: List.generate(state.assetsOverviewBaseModels.length, (index) {
                     GetCurrencyEntity item = state.assetsOverviewBaseModels[index];
-                    return ColorTitleObj(title: item.currencyCode,color: AssetsOverviewChartsColors.colors[index]);
+                    return ColorTitleObj(title: item.currencyCode,color: AssetsOverviewChartsColors.treeMapColors[index]);
                   }),axisColumnCount: ResponsiveHelper(context: context).isDesktop ? 5 : 3,)
                 ],
               );

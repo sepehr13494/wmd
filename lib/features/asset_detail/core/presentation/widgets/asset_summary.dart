@@ -243,45 +243,6 @@ class SummaryCardWidget extends AppStatelessWidget {
         ytd: summary.ytdPerformance,
         itd: summary.itdPerformance,
       ),
-      // Column(
-      //   crossAxisAlignment: CrossAxisAlignment.start,
-      //   mainAxisAlignment: MainAxisAlignment.end,
-      //   children: [
-      //     Row(
-      //       crossAxisAlignment: CrossAxisAlignment.center,
-      //       children: [
-      //         Text(
-      //           "YTD",
-      //           style: textTheme.bodySmall,
-      //         ),
-      //         const SizedBox(width: 8),
-      //         const InfoIcon(),
-      //       ],
-      //     ),
-      //     ChangeWidget(
-      //         number: summary.ytdPerformance,
-      //         text: "${summary.ytdPerformance.toStringAsFixed(1)}%"),
-      //   ],
-      // ),
-      // Column(
-      //   crossAxisAlignment: CrossAxisAlignment.start,
-      //   children: [
-      //     Row(
-      //       crossAxisAlignment: CrossAxisAlignment.start,
-      //       children: [
-      //         Text(
-      //           "ITD",
-      //           style: textTheme.bodySmall,
-      //         ),
-      //         const SizedBox(width: 8),
-      //         const InfoIcon(),
-      //       ],
-      //     ),
-      //     ChangeWidget(
-      //         number: summary.itdPerformance,
-      //         text: "${summary.itdPerformance.toStringAsFixed(1)}%"),
-      //   ],
-      // ),
     ];
   }
 }
