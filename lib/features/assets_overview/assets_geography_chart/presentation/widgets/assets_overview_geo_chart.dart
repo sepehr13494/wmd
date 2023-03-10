@@ -63,7 +63,7 @@ class AssetsOverviewGeoChart extends AppStatelessWidget {
                                                 child: Container(
                                                   color:
                                                       AssetsOverviewChartsColors
-                                                          .colors[index],
+                                                          .treeMapColors[index],
                                                   child: Padding(
                                                     padding:
                                                         const EdgeInsets.all(2),
@@ -118,7 +118,7 @@ class AssetsOverviewGeoChart extends AppStatelessWidget {
                                                           .continent,
                                                       state
                                                           .getGeographicEntity),
-                                            ) : AssetsOverviewChartsColors.colors[index],
+                                            ) : AssetsOverviewChartsColors.treeMapColors[index],
                                           ),
                                         ),
                                         const SizedBox(width: 4),
