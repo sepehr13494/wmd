@@ -83,9 +83,10 @@ extension CustomizableDateTime on DateTime {
 
     final mmmm = DateFormat.MMMM(ln).format(input);
 
-    final d = DateFormat.d().format(input);
+    final d = DateFormat("dd").format(input);
     final y = DateFormat.y().format(input);
-    return "$d/$mmmm/$y";
+    // return ln == 'ar' ? "$y $mmmm $d" : "$d $mmmm $y";
+    return "$d $mmmm $y";
   }
 
   static String yyyyMmDd(DateTime dateTime) {
