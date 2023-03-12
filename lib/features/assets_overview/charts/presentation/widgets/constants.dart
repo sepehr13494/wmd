@@ -16,18 +16,6 @@ class AssetsOverviewChartsColors {
   ];
 
   static const List<Color> treeMapColors = [
-      Color(0xff6C5379),
-      Color(0xff5DA683),
-      Color(0xff967A6F),
-      Color(0xff80825E),
-      Color(0xff647981),
-      Color(0xff4353D6),
-      Color(0xff50747C),
-      Color(0xffB99855),
-      Color(0xffFFFFFF),
-  ];
-
-  static const List<Color> treeMapColors2 = [
     Color(0xff6C5379),
     Color(0xffB99855),
     Color(0xff4353D6),
