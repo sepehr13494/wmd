@@ -30,6 +30,7 @@ abstract class BaseState extends Equatable
         BankListState,
         ChartsState,
         ValuationState,
+        AssetValuationState,
         VerifyPhoneState,
         ProfileResetPasswordState,
         AssetSeeMoreState,
