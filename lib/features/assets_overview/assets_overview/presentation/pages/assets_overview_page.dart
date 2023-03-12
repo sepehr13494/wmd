@@ -220,7 +220,7 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
           (item.subType ?? ""))] ??
           Colors.brown;
     } else {
-      return AssetsOverviewChartsColors.colors[index];
+      return AssetsOverviewChartsColors.treeMapColors[index];
     }
   }
 
