@@ -952,9 +952,11 @@ class _RadioButtontate<T> extends AppState<RadioButton> {
 
 class TimeslotsSelector<T> extends StatelessWidget {
   final String name;
+  final bool? isToday;
   final ValueChanged<T?>? onChanged;
 
-  const TimeslotsSelector({Key? key, required this.name, this.onChanged})
+  const TimeslotsSelector(
+      {Key? key, required this.name, this.onChanged, this.isToday = false})
       : super(key: key);
 
   @override
@@ -977,9 +979,14 @@ class TimeslotsSelector<T> extends StatelessWidget {
                             )
                           : Expanded(
                               child: OutlinedButton(
-                              onPressed: () {
-                                field.didChange(time);
-                              },
+                              onPressed: int.parse(DateFormat('HH')
+                                              .format(DateTime.now())) >
+                                          int.parse(time.split(".")[0]) &&
+                                      isToday!
+                                  ? null
+                                  : () {
+                                      field.didChange(time);
+                                    },
                               style: ButtonStyle(
                                   shape: MaterialStateProperty.all(
                                     RoundedRectangleBorder(
@@ -1013,9 +1020,14 @@ class TimeslotsSelector<T> extends StatelessWidget {
                             )
                           : Expanded(
                               child: OutlinedButton(
-                              onPressed: () {
-                                field.didChange(time);
-                              },
+                              onPressed: int.parse(DateFormat('HH')
+                                              .format(DateTime.now())) >
+                                          int.parse(time.split(".")[0]) &&
+                                      isToday!
+                                  ? null
+                                  : () {
+                                      field.didChange(time);
+                                    },
                               style: ButtonStyle(
                                   shape: MaterialStateProperty.all(
                                     RoundedRectangleBorder(
