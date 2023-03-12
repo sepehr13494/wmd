@@ -83,9 +83,10 @@ extension CustomizableDateTime on DateTime {
 
     final mmmm = DateFormat.MMMM(ln).format(input);
 
-    final d = DateFormat.d().format(input);
+    final d = DateFormat("dd").format(input);
     final y = DateFormat.y().format(input);
-    return "$d/$mmmm/$y";
+    // return ln == 'ar' ? "$y $mmmm $d" : "$d $mmmm $y";
+    return "$d $mmmm $y";
   }
 
   static String yyyyMmDd(DateTime dateTime) {
@@ -121,5 +122,17 @@ extension CustomizableDateTime on DateTime {
 
   static String getDayOfMonthSuffix(int dayNum) {
     return "";
+  }
+
+  bool isToday() {
+    final now = DateTime.now();
+    return now.day == day && now.month == month && now.year == year;
+  }
+
+  bool isYesterday() {
+    final yesterday = DateTime.now().subtract(const Duration(days: 1));
+    return yesterday.day == day &&
+        yesterday.month == month &&
+        yesterday.year == year;
   }
 }
