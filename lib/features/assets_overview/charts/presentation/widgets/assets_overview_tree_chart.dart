@@ -144,6 +144,7 @@ class AssetsOverviewTreeChart extends AppStatelessWidget {
                         children: [
                           Expanded(
                             child: Tooltip(
+                              triggerMode: TooltipTriggerMode.tap,
                               message:
                               "${item.date}\n${AssetsOverviewChartsColors.getAssetType(appLocalizations, flexItem.type)}",
                               child: Padding(

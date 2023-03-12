@@ -1402,5 +1402,6 @@
   "linkAccount_stepper_cif_label_jpmorgan": "Account Number",
   "linkAccount_stepper_cif_tooltip_jpmorgan": "You can access your account number in the top right side of the first page",
   "assets_label_emptyState": "No transactions to display",
-  "profile_preferences_language": "Language"
+  "profile_preferences_language": "Language",
+  "assetsOverview_asOf": "As of"
 }

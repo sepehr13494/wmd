@@ -65,7 +65,7 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
                         style: textTheme.bodySmall,
                       ) : BlocBuilder<SummeryWidgetCubit, MainDashboardState>(
                         builder: (context, state) {
-                          return state is MainDashboardNetWorthLoaded ? AsOfDateWidget(shownDate: DateTime.parse(state.netWorthObj.lastUpdated)) : const SizedBox();
+                          return state is MainDashboardNetWorthLoaded ? AsOfDateWidget(shownDate: DateTime.parse(state.netWorthObj.lastUpdated),asOf: true,) : const SizedBox();
                         },
                       );
                     },
@@ -83,6 +83,7 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
                         SizedBox(
                           width: isMobile ? null : 400,
                           child: TabBar(
+                            labelStyle: textTheme.titleSmall,
                             controller: _controller,
                             tabs: [
                               Tab(
