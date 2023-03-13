@@ -23,6 +23,7 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
     const int divider = 6;
     TooltipBehavior tooltipBehavior = TooltipBehavior(
       enable: true,
+      activationMode: ActivationMode.singleTap,
       builder: (data, point, series, pointIndex, seriesIndex) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
@@ -45,6 +46,37 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
       },
       color: const Color.fromARGB(255, 38, 49, 52),
     );
+    // TrackballBehavior trackBall = TrackballBehavior(
+    //     enable: true,
+    //     // activationMode: ActivationMode.singleTap,
+    //     builder: (context, TrackballDetails details) {
+    //       final index = details.seriesIndex;
+    //       if (index == null) {
+    //         return SizedBox();
+    //       }
+    //       final data = values.elementAt(index);
+
+    //       return Padding(
+    //         padding: const EdgeInsets.all(8.0),
+    //         child: Text.rich(TextSpan(
+    //           text: CustomizableDateTime.graphDateV2(data.key, context),
+    //           style: textTheme.titleSmall!,
+    //           children: [
+    //             TextSpan(
+    //                 text: '\n${appLocalizations.assets_label_currentBalance}',
+    //                 style: textTheme.bodyMedium),
+    //             TextSpan(
+    //                 // ignore: prefer_interpolation_to_compose_strings
+    //                 text: ' ${(data.value).formatCurrencyCompact()}',
+    //                 style: textTheme.titleSmall!
+    //                     .apply(color: AppColors.chartColor)),
+    //           ],
+    //         )),
+    //       );
+    //     },
+    //     lineColor: const Color.fromARGB(255, 38, 49, 52)
+    //     // color: const Color.fromARGB(255, 38, 49, 52),
+    //     );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,6 +121,7 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
                     ),
                     series: _getSeries(),
                     tooltipBehavior: tooltipBehavior,
+                    // trackballBehavior: trackBall,
                   );
                 }),
         ),
@@ -97,6 +130,7 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
   }
 
   _getSeries() {
+    final stops = calculateStops(values);
     return [
       AreaSeries<MapEntry<DateTime, double>, String>(
         color: AppColors.chartColor.withOpacity(0.3),
@@ -107,10 +141,28 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
         enableTooltip: true,
         xValueMapper: (vs, _) => CustomizableDateTime.localizedDdMm(vs.key),
         yValueMapper: (vs, _) => vs.value,
-        pointColorMapper: (datum, index) {
-          if (datum.value > 0) return AppColors.chartColor;
-          return AppColors.redChartColor;
-        },
+        // pointColorMapper: (datum, index) {
+        //   if (datum.value > 0) return AppColors.chartColor;
+        //   return AppColors.redChartColor;
+        // },
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          stops: [
+            0,
+            stops,
+            stops,
+            1,
+          ],
+          colors: [
+            // AppColors.chartColor.withOpacity(0.3),
+            AppColors.chartColor.withOpacity(0.5),
+            AppColors.chartColor.withOpacity(0.3),
+            AppColors.redChartColor.withOpacity(0.3),
+            AppColors.redChartColor.withOpacity(0.5),
+            // AppColors.redChartColor.withOpacity(0.3),
+          ],
+        ),
         // onCreateRenderer: (series) {
         //   return _CustomAreaSeriesRenderer(series);
         // },
@@ -118,6 +170,22 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
             isVisible: values.length == 1, color: AppColors.chartColor),
       ),
     ];
+  }
+
+  double calculateStops(List<MapEntry<DateTime, double>> values) {
+    double minX = values.first.value;
+    for (var element in values) {
+      if (element.value < minX) {
+        minX = element.value;
+      }
+    }
+    double maxX = values.first.value;
+    for (var element in values) {
+      if (element.value > maxX) {
+        minX = element.value;
+      }
+    }
+    return maxX / (maxX - minX);
   }
 }
 
