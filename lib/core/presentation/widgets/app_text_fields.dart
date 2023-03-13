@@ -980,7 +980,7 @@ class TimeslotsSelector<T> extends StatelessWidget {
                           : Expanded(
                               child: OutlinedButton(
                               onPressed: int.parse(DateFormat('HH')
-                                              .format(DateTime.now())) >
+                                              .format(DateTime.now())) >=
                                           int.parse(time.split(".")[0]) &&
                                       isToday!
                                   ? null
@@ -1021,7 +1021,7 @@ class TimeslotsSelector<T> extends StatelessWidget {
                           : Expanded(
                               child: OutlinedButton(
                               onPressed: int.parse(DateFormat('HH')
-                                              .format(DateTime.now())) >
+                                              .format(DateTime.now())) >=
                                           int.parse(time.split(".")[0]) &&
                                       isToday!
                                   ? null

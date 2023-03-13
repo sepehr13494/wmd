@@ -8,18 +8,36 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../routes/app_routes.dart';
 
 class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
-  const BaseAppBar({Key? key}) : super(key: key);
+  final bool? enableLogoAction;
+  final VoidCallback? onLogoPress;
+
+  const BaseAppBar({Key? key, this.enableLogoAction = false, this.onLogoPress})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: false,
-      title: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-          child: SvgPicture.asset(
-            "assets/images/app_logo.svg",
-            height: 50,
-          )),
+      title: enableLogoAction == true
+          ? Padding(
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+              child: IconButton(
+                iconSize: 150,
+                icon: SvgPicture.asset(
+                  "assets/images/app_logo.svg",
+                  // height: 50,
+                ),
+                onPressed: () {
+                  if (onLogoPress != null) onLogoPress!();
+                  context.goNamed(AppRoutes.main);
+                },
+              ))
+          : Padding(
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+              child: SvgPicture.asset(
+                "assets/images/app_logo.svg",
+                height: 50,
+              )),
       leading: IconButton(
         onPressed: () {
           // context.goNamed(AppRoutes.main);
