@@ -58,6 +58,7 @@ class AppRouter {
 
   UserStatusCubit _userStatusCubit = sl<UserStatusCubit>();
   MainDashboardCubit _mainDashboardCubit = sl<MainDashboardCubit>();
+  MainPageCubit _mainPageCubit = sl<MainPageCubit>();
   SummeryWidgetCubit _summeryWidgetCubit = sl<SummeryWidgetCubit>();
   AssetsOverviewCubit _assetsOverviewCubit = sl<AssetsOverviewCubit>();
   ChartsCubit _chartsCubit = sl<ChartsCubit>();
@@ -163,7 +164,10 @@ class AppRouter {
                     create: (context) => sl<TabManager>(),
                     lazy: false,
                   ),
-                  BlocProvider(create: (context) => sl<MainPageCubit>()),
+                  BlocProvider(create: (context) {
+                    _mainPageCubit = sl<MainPageCubit>();
+                    return _mainPageCubit;
+                  }),
                   BlocProvider(create: (context) {
                     _userStatusCubit = sl<UserStatusCubit>();
                     return _userStatusCubit;
@@ -248,13 +252,19 @@ class AppRouter {
                 name: AppRoutes.assetDetailPage,
                 path: "asset_detail",
                 builder: (BuildContext context, GoRouterState state) {
-                  return BlocProvider.value(
-                    value: _mainDashboardCubit,
-                    child: AssetDetailPage(
-                      assetId: state.queryParams['assetId'] as String,
-                      type: state.queryParams['type'] as String,
-                    ),
-                  );
+                  return MultiBlocProvider(
+                      providers: [
+                        BlocProvider.value(
+                          value: _mainDashboardCubit,
+                        ),
+                        BlocProvider.value(
+                          value: _mainPageCubit,
+                        )
+                      ],
+                      child: AssetDetailPage(
+                        assetId: state.queryParams['assetId'] as String,
+                        type: state.queryParams['type'] as String,
+                      ));
                 },
               ),
               GoRoute(
