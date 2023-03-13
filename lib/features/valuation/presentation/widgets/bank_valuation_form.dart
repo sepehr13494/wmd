@@ -10,13 +10,14 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/valuation/data/models/valuation_action_type.dart';
 
-class ValuationFormWidget extends StatefulWidget {
-  const ValuationFormWidget({Key? key}) : super(key: key);
+class BankValuationFormWidget extends StatefulWidget {
+  const BankValuationFormWidget({Key? key}) : super(key: key);
   @override
-  AppState<ValuationFormWidget> createState() => _ValuationFormWidgetState();
+  AppState<BankValuationFormWidget> createState() =>
+      _BankValuationFormWidgetState();
 }
 
-class _ValuationFormWidgetState extends AppState<ValuationFormWidget> {
+class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
   final formKey = GlobalKey<FormBuilderState>();
   bool enableAddAssetButton = false;
   bool hasTimeLineSelected = false;
@@ -24,7 +25,7 @@ class _ValuationFormWidgetState extends AppState<ValuationFormWidget> {
   FormBuilderState? formState;
 
   @override
-  void didUpdateWidget(covariant ValuationFormWidget oldWidget) {
+  void didUpdateWidget(covariant BankValuationFormWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
   }
 
@@ -105,12 +106,6 @@ class _ValuationFormWidgetState extends AppState<ValuationFormWidget> {
                         .scheduleMeeting_availableDate_placeholder),
               ),
             ),
-            const EachTextField(
-                hasInfo: false,
-                title: "Action",
-                child: RadioButton<String>(
-                    items: ValuationActionType.valuationActionTypeList,
-                    name: "action")),
             EachTextField(
               hasInfo: false,
               title: appLocalizations
@@ -122,7 +117,7 @@ class _ValuationFormWidgetState extends AppState<ValuationFormWidget> {
             ),
             EachTextField(
               hasInfo: false,
-              title: "Value",
+              title: "Market valuation",
               child: AppTextFields.simpleTextField(
                   onChanged: checkFinalValid,
                   type: TextFieldType.money,

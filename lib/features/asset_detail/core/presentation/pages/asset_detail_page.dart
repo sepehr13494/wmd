@@ -40,6 +40,11 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
     final responsiveHelper = ResponsiveHelper(context: context);
     final primaryColor = Theme.of(context).primaryColor;
 
+    debugPrint("type--type-type+-- type");
+    debugPrint(widget.type);
+    debugPrint("type--type-type+-- type");
+    debugPrint("type--type-type+-- type");
+
     return MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -110,7 +115,9 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                                 ),
                               ),
                             SizedBox(height: responsiveHelper.biggerGap),
-                            ValuationWidget(assetId: widget.assetId),
+                            ValuationWidget(
+                                assetId: widget.assetId,
+                                assetType: widget.type),
                             SizedBox(height: responsiveHelper.biggerGap),
                           ],
                         ),

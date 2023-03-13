@@ -10,13 +10,15 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/valuation/data/models/valuation_action_type.dart';
 
-class ValuationFormWidget extends StatefulWidget {
-  const ValuationFormWidget({Key? key}) : super(key: key);
+class RealEstateValuationFormWidget extends StatefulWidget {
+  const RealEstateValuationFormWidget({Key? key}) : super(key: key);
   @override
-  AppState<ValuationFormWidget> createState() => _ValuationFormWidgetState();
+  AppState<RealEstateValuationFormWidget> createState() =>
+      _RealEstateValuationFormWidgetState();
 }
 
-class _ValuationFormWidgetState extends AppState<ValuationFormWidget> {
+class _RealEstateValuationFormWidgetState
+    extends AppState<RealEstateValuationFormWidget> {
   final formKey = GlobalKey<FormBuilderState>();
   bool enableAddAssetButton = false;
   bool hasTimeLineSelected = false;
@@ -24,7 +26,7 @@ class _ValuationFormWidgetState extends AppState<ValuationFormWidget> {
   FormBuilderState? formState;
 
   @override
-  void didUpdateWidget(covariant ValuationFormWidget oldWidget) {
+  void didUpdateWidget(covariant RealEstateValuationFormWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
   }
 
@@ -122,13 +124,52 @@ class _ValuationFormWidgetState extends AppState<ValuationFormWidget> {
             ),
             EachTextField(
               hasInfo: false,
-              title: "Value",
+              title: appLocalizations
+                  .assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_label,
               child: AppTextFields.simpleTextField(
+                  type: TextFieldType.number,
+                  keyboardType: TextInputType.number,
                   onChanged: checkFinalValid,
-                  type: TextFieldType.money,
-                  name: "value",
+                  name: "noOfUnits",
+                  extraValidators: [
+                    (val) {
+                      return ((int.tryParse(val ?? "0") ?? 0) <= 100)
+                          ? null
+                          : "${appLocalizations.assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_label} can't be greater then 100";
+                    }
+                  ],
                   hint: appLocalizations
-                      .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_placeholder),
+                      .assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_placeholder),
+            ),
+            EachTextField(
+              title: appLocalizations
+                  .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_label,
+              child: AppTextFields.simpleTextField(
+                  required: false,
+                  type: TextFieldType.money,
+                  keyboardType: TextInputType.number,
+                  name: "marketValue",
+                  hint: appLocalizations
+                      .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_placeholder),
+            ),
+            EachTextField(
+              hasInfo: false,
+              title: appLocalizations
+                  .assetLiabilityForms_forms_realEstate_inputFields_yourOwnership_label,
+              child: AppTextFields.simpleTextField(
+                  extraValidators: [
+                    (val) {
+                      return ((int.tryParse(val ?? "0") ?? 0) <= 100)
+                          ? null
+                          : "Ownership can't be greater then 100";
+                    }
+                  ],
+                  type: TextFieldType.number,
+                  keyboardType: TextInputType.number,
+                  onChanged: checkFinalValid,
+                  name: "ownershipPercentage",
+                  hint: appLocalizations
+                      .assetLiabilityForms_forms_realEstate_inputFields_yourOwnership_placeholder),
             ),
             EachTextField(
               hasInfo: false,

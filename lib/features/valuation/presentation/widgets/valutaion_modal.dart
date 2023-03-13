@@ -10,11 +10,15 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/valuation/presentation/widgets/bank_valuation_form.dart';
+import 'package:wmd/features/valuation/presentation/widgets/equity_debt_valuation_form.dart';
+import 'package:wmd/features/valuation/presentation/widgets/listed_equity_valuation_form.dart';
+import 'package:wmd/features/valuation/presentation/widgets/real_estate_valuation_form.dart';
+import 'package:wmd/features/valuation/presentation/widgets/valuation_form_widget.dart';
 
-class SuccessModalWidget extends ModalWidget {
-  final AssetTypes assetType;
-
-  const SuccessModalWidget({
+class ValuationModalWidget extends ModalWidget {
+  final String assetType;
+  const ValuationModalWidget({
     super.key,
     required super.title,
     super.body,
@@ -32,6 +36,39 @@ class SuccessModalWidget extends ModalWidget {
     final formKey = GlobalKey<FormBuilderState>();
     bool enableAddAssetButton = false;
 
+    Widget renderForm(String type) {
+      Widget entity;
+
+      switch (type) {
+        case AssetTypes.bankAccount:
+          entity = const BankValuationFormWidget();
+          break;
+        case AssetTypes.realEstate:
+          entity = const RealEstateValuationFormWidget();
+          break;
+        case AssetTypes.listedAsset:
+          entity = const ListedEquityValuationFormWidget();
+          break;
+        case AssetTypes.listedAssetEquity:
+          entity = const ListedEquityValuationFormWidget();
+          break;
+        case AssetTypes.listedAssetFixedIncome:
+          entity = const ListedEquityValuationFormWidget();
+          break;
+        case AssetTypes.privateEquity:
+          entity = const EquityDebtValuationFormWidget();
+          break;
+        case AssetTypes.privateDebt:
+          entity = const EquityDebtValuationFormWidget();
+          break;
+        default:
+          entity = const EquityDebtValuationFormWidget();
+          break;
+      }
+
+      return entity;
+    }
+
     return SizedBox(
       width: double.infinity,
       height: isMobile
@@ -42,15 +79,36 @@ class SuccessModalWidget extends ModalWidget {
           buildModalHeader(context),
           Expanded(
               flex: 2,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+              child: SingleChildScrollView(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                    renderForm(assetType),
                     buildActions(context, formKey, enableAddAssetButton),
-                  ]))
+                    SizedBox(height: responsiveHelper.bigger16Gap),
+                  ])))
         ],
       ),
     );
   }
+
+  // @override
+  // Widget buildModalHeader(BuildContext context, {Function? onClose}) {
+  //   return Row(
+  //     mainAxisAlignment: MainAxisAlignment.end,
+  //     children: [
+  //       IconButton(
+  //           onPressed: () {
+  //             Navigator.pop(context, false);
+  //             // GoRouter.of(context).goNamed(AppRoutes.dashboard);
+  //           },
+  //           icon: Icon(
+  //             Icons.close,
+  //             color: Theme.of(context).primaryColor,
+  //           )),
+  //     ],
+  //   );
+  // }
 
   ///  Action Buttons Container of Modal
   Widget buildActions(BuildContext context, GlobalKey<FormBuilderState> formKey,
@@ -61,47 +119,37 @@ class SuccessModalWidget extends ModalWidget {
     return Padding(
         padding:
             EdgeInsets.symmetric(horizontal: responsiveHelper.bigger16Gap * 5),
-        child: RowOrColumn(
-          showRow: !isMobile,
+        child: Row(
           children: [
-            ExpandedIf(
-              expanded: !isMobile,
-              child: OutlinedButton(
-                onPressed: () {
-                  // View Asset detail button
-                  context.goNamed(AppRoutes.addAssetsView);
-                },
-                style:
-                    OutlinedButton.styleFrom(minimumSize: const Size(100, 50)),
-                child: Text(
-                  cancelBtn,
-                ),
+            OutlinedButton(
+              onPressed: () {
+                // View Asset detail button
+                context.goNamed(AppRoutes.addAssetsView);
+              },
+              style: OutlinedButton.styleFrom(minimumSize: const Size(100, 50)),
+              child: Text(
+                cancelBtn,
               ),
             ),
-            !isMobile
-                ? SizedBox(width: responsiveHelper.bigger16Gap)
-                : SizedBox(height: responsiveHelper.bigger16Gap),
-            ExpandedIf(
-                expanded: !isMobile,
-                child: ElevatedButton(
-                  onPressed: () {
-                    formKey.currentState?.validate();
-                    if (enableAddAssetButton) {
-                      Map<String, dynamic> finalMap = {
-                        ...formKey.currentState!.instantValue,
-                      };
+            SizedBox(width: responsiveHelper.bigger16Gap),
+            ElevatedButton(
+              onPressed: () {
+                formKey.currentState?.validate();
+                if (enableAddAssetButton) {
+                  Map<String, dynamic> finalMap = {
+                    ...formKey.currentState!.instantValue,
+                  };
 
-                      print(finalMap);
+                  print(finalMap);
 
-                      // context
-                      //     .read<GeneralInquiryCubit>()
-                      //     .postScheduleCall(map: finalMap);
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(100, 50)),
-                  child: Text(confirmBtn),
-                ))
+                  // context
+                  //     .read<GeneralInquiryCubit>()
+                  //     .postScheduleCall(map: finalMap);
+                }
+              },
+              style: ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
+              child: Text(confirmBtn),
+            )
           ],
         ));
   }

@@ -10,13 +10,15 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/valuation/data/models/valuation_action_type.dart';
 
-class ValuationFormWidget extends StatefulWidget {
-  const ValuationFormWidget({Key? key}) : super(key: key);
+class ListedEquityValuationFormWidget extends StatefulWidget {
+  const ListedEquityValuationFormWidget({Key? key}) : super(key: key);
   @override
-  AppState<ValuationFormWidget> createState() => _ValuationFormWidgetState();
+  AppState<ListedEquityValuationFormWidget> createState() =>
+      _ListedEquityValuationFormWidgettState();
 }
 
-class _ValuationFormWidgetState extends AppState<ValuationFormWidget> {
+class _ListedEquityValuationFormWidgettState
+    extends AppState<ListedEquityValuationFormWidget> {
   final formKey = GlobalKey<FormBuilderState>();
   bool enableAddAssetButton = false;
   bool hasTimeLineSelected = false;
@@ -24,7 +26,7 @@ class _ValuationFormWidgetState extends AppState<ValuationFormWidget> {
   FormBuilderState? formState;
 
   @override
-  void didUpdateWidget(covariant ValuationFormWidget oldWidget) {
+  void didUpdateWidget(covariant ListedEquityValuationFormWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
   }
 
@@ -122,13 +124,32 @@ class _ValuationFormWidgetState extends AppState<ValuationFormWidget> {
             ),
             EachTextField(
               hasInfo: false,
-              title: "Value",
+              title: appLocalizations
+                  .assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_label,
               child: AppTextFields.simpleTextField(
+                  type: TextFieldType.number,
+                  keyboardType: TextInputType.number,
                   onChanged: checkFinalValid,
-                  type: TextFieldType.money,
-                  name: "value",
+                  name: "noOfUnits",
+                  extraValidators: [
+                    (val) {
+                      return ((int.tryParse(val ?? "0") ?? 0) <= 100)
+                          ? null
+                          : "${appLocalizations.assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_label} can't be greater then 100";
+                    }
+                  ],
                   hint: appLocalizations
-                      .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_placeholder),
+                      .assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_placeholder),
+            ),
+            EachTextField(
+              title: "Cost per unit",
+              child: AppTextFields.simpleTextField(
+                  required: false,
+                  type: TextFieldType.money,
+                  keyboardType: TextInputType.number,
+                  name: "marketValue",
+                  hint: appLocalizations
+                      .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_placeholder),
             ),
             EachTextField(
               hasInfo: false,

@@ -10,13 +10,15 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/valuation/data/models/valuation_action_type.dart';
 
-class ValuationFormWidget extends StatefulWidget {
-  const ValuationFormWidget({Key? key}) : super(key: key);
+class EquityDebtValuationFormWidget extends StatefulWidget {
+  const EquityDebtValuationFormWidget({Key? key}) : super(key: key);
   @override
-  AppState<ValuationFormWidget> createState() => _ValuationFormWidgetState();
+  AppState<EquityDebtValuationFormWidget> createState() =>
+      _EquityDebtValuationFormWidgetState();
 }
 
-class _ValuationFormWidgetState extends AppState<ValuationFormWidget> {
+class _EquityDebtValuationFormWidgetState
+    extends AppState<EquityDebtValuationFormWidget> {
   final formKey = GlobalKey<FormBuilderState>();
   bool enableAddAssetButton = false;
   bool hasTimeLineSelected = false;
@@ -24,7 +26,7 @@ class _ValuationFormWidgetState extends AppState<ValuationFormWidget> {
   FormBuilderState? formState;
 
   @override
-  void didUpdateWidget(covariant ValuationFormWidget oldWidget) {
+  void didUpdateWidget(covariant EquityDebtValuationFormWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
   }
 

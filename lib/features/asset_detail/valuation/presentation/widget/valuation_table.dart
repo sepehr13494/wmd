@@ -2,18 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/valuation/data/models/get_all_valuation_params.dart';
 import 'package:wmd/features/asset_detail/valuation/domain/entities/get_all_valuation_entity.dart';
+import 'package:wmd/features/valuation/presentation/widgets/valutaion_modal.dart';
 import 'package:wmd/injection_container.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../manager/valuation_cubit.dart';
 
 class ValuationWidget extends AppStatelessWidget {
   final String assetId;
-  const ValuationWidget({Key? key, required this.assetId}) : super(key: key);
+  final String assetType;
+  const ValuationWidget(
+      {Key? key, required this.assetId, required this.assetType})
+      : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
@@ -23,9 +29,34 @@ class ValuationWidget extends AppStatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            appLocalizations.assets_label_valuation,
-            style: textTheme.bodyLarge,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                appLocalizations.assets_label_valuation,
+                style: textTheme.bodyLarge,
+              ),
+              if (AppConstants.publicMvp2Items)
+                TextButton(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (buildContext) {
+                            return ValuationModalWidget(
+                                title: '',
+                                confirmBtn: appLocalizations.common_button_save,
+                                cancelBtn:
+                                    appLocalizations.common_button_cancel,
+                                assetType: assetType);
+                          });
+
+                      // context.pushNamed(AppRoutes.forgetPassword);
+                    },
+                    child: Text(
+                      "Add valuation",
+                      style: textTheme.bodySmall!.toLinkStyle(context),
+                    ))
+            ],
           ),
           Text(
             appLocalizations.assets_label_keepNetWorth,
