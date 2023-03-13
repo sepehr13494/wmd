@@ -24,13 +24,10 @@ class _SplashPageState extends State<SplashPage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) =>
-          sl<SplashCubit>()..startTimer(),
+          create: (context) => sl<SplashCubit>()..startTimer(),
         ),
         BlocProvider(
-          create: (context) =>
-          sl<ForceUpdateCubit>()
-            ..getForceUpdate(),
+          create: (context) => sl<ForceUpdateCubit>()..getForceUpdate(),
         ),
       ],
       child: Builder(builder: (context) {
