@@ -24,6 +24,7 @@ import 'package:wmd/features/help/support/presentation/widget/call_summary_wideg
 import 'package:wmd/features/help/support/presentation/widget/schedule_call_footer.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 import 'package:wmd/global_functions.dart';
+import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/injection_container.dart';
 
 class ScheduleCallPage extends StatefulWidget {
@@ -394,6 +395,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                         .scheduleMeeting_availableTimeSlots_label,
                     child: TimeslotsSelector<String>(
                       name: "time",
+                      isToday: availableDateValue?.isToday(),
                       onChanged: (val) => checkFinalValid(val),
                     )),
               EachTextField(

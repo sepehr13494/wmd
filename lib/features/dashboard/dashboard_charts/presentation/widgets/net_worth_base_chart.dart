@@ -104,7 +104,7 @@ class _NetWorthBaseChartState extends AppState<NetWorthBaseChart> {
                             [
                               appLocalizations
                                   .home_dashboardCharts_legendLabel_netWorth,
-                              AppColors.chartColor
+                              barChart ? Theme.of(context).primaryColor : AppColors.chartColor
                             ],
                           ];
                           if (barChart) {
