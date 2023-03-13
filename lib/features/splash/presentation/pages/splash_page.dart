@@ -61,10 +61,19 @@ class _SplashPageState extends State<SplashPage> {
               BlocListener<ForceUpdateCubit, ForceUpdateState>(
                 listener: BlocHelper.defaultBlocListener(listener: (context, state) {
                   if(state is GetForceUpdateLoaded){
-                    final appVersion = int.tryParse(sl<PackageInfo>().version.replaceAll(".", ""))??0;
-                    print("app version : $appVersion");
-                    final versionFromServer = int.tryParse(state.getForceUpdateEntity.appVersion.replaceAll(".", ""))??0;
-                    if(versionFromServer > appVersion && state.getForceUpdateEntity.isForceUpdate){
+                    bool isVersionGreaterThan(String newVersion, String currentVersion){
+                      List<String> currentV = currentVersion.split(".");
+                      List<String> newV = newVersion.split(".");
+                      bool a = false;
+                      for (var i = 0 ; i <= 2; i++){
+                        a = int.parse(newV[i]) > int.parse(currentV[i]);
+                        if(int.parse(newV[i]) != int.parse(currentV[i])) break;
+                      }
+                      return a;
+                    }
+                    final appVersion = sl<PackageInfo>().version;
+                    final versionFromServer = state.getForceUpdateEntity.appVersion;
+                    if(!isVersionGreaterThan(appVersion, versionFromServer) && state.getForceUpdateEntity.isForceUpdate){
                       //show force update page
                       context.replaceNamed(AppRoutes.forceUpdate);
                     }else{
