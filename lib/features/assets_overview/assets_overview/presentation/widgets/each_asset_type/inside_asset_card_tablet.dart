@@ -59,6 +59,7 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                         );
                       case 2:
                         return FittedBox(
+                          alignment: Alignment.center,
                           fit: BoxFit.scaleDown,
                           child: ChangeWidget(
                             number: asset.inceptionToDate,
@@ -73,6 +74,7 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                         );
                       case 3:
                         return FittedBox(
+                          alignment: Alignment.center,
                           fit: BoxFit.scaleDown,
                           child: ChangeWidget(
                             number: asset.yearToDate,

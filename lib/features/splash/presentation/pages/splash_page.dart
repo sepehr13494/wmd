@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/util/local_auth_manager.dart';
@@ -23,13 +24,10 @@ class _SplashPageState extends State<SplashPage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) =>
-          sl<SplashCubit>()..startTimer(),
+          create: (context) => sl<SplashCubit>()..startTimer(),
         ),
         BlocProvider(
-          create: (context) =>
-          sl<ForceUpdateCubit>()
-            ..getForceUpdate(),
+          create: (context) => sl<ForceUpdateCubit>()..getForceUpdate(),
         ),
       ],
       child: Builder(builder: (context) {
@@ -63,9 +61,14 @@ class _SplashPageState extends State<SplashPage> {
               BlocListener<ForceUpdateCubit, ForceUpdateState>(
                 listener: BlocHelper.defaultBlocListener(listener: (context, state) {
                   if(state is GetForceUpdateLoaded){
-                    if(state.getForceUpdateEntity.isForceUpdate){
+                    final appVersion = int.tryParse(sl<PackageInfo>().version.replaceAll(".", ""))??0;
+                    print("app version : $appVersion");
+                    final versionFromServer = int.tryParse(state.getForceUpdateEntity.appVersion.replaceAll(".", ""))??0;
+                    if(versionFromServer > appVersion && state.getForceUpdateEntity.isForceUpdate){
+                      //show force update page
                       context.replaceNamed(AppRoutes.forceUpdate);
                     }else{
+                      //move on with app
                       context.read<SplashCubit>().initSplashFromSplash();
                     }
                   }
