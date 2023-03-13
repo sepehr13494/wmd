@@ -23,13 +23,10 @@ class _SplashPageState extends State<SplashPage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) =>
-          sl<SplashCubit>()..startTimer(),
+          create: (context) => sl<SplashCubit>()..startTimer(),
         ),
         BlocProvider(
-          create: (context) =>
-          sl<ForceUpdateCubit>()
-            ..getForceUpdate(),
+          create: (context) => sl<ForceUpdateCubit>()..getForceUpdate(),
         ),
       ],
       child: Builder(builder: (context) {
@@ -61,13 +58,15 @@ class _SplashPageState extends State<SplashPage> {
                 },
               ),
               BlocListener<ForceUpdateCubit, ForceUpdateState>(
-                listener: BlocHelper.defaultBlocListener(listener: (context, state) {
-                  if(state is GetForceUpdateLoaded){
-                    if(state.getForceUpdateEntity.isForceUpdate){
-                      context.replaceNamed(AppRoutes.forceUpdate);
-                    }else{
-                      context.read<SplashCubit>().initSplashFromSplash();
-                    }
+                listener:
+                    BlocHelper.defaultBlocListener(listener: (context, state) {
+                  if (state is GetForceUpdateLoaded) {
+                    // if(state.getForceUpdateEntity.isForceUpdate){
+                    //   context.replaceNamed(AppRoutes.forceUpdate);
+                    // }else{
+                    //   context.read<SplashCubit>().initSplashFromSplash();
+                    // }
+                    context.read<SplashCubit>().initSplashFromSplash();
                   }
                 }),
               ),
