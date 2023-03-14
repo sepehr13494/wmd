@@ -14,7 +14,6 @@ import 'package:wmd/features/valuation/presentation/widgets/bank_valuation_form.
 import 'package:wmd/features/valuation/presentation/widgets/equity_debt_valuation_form.dart';
 import 'package:wmd/features/valuation/presentation/widgets/listed_equity_valuation_form.dart';
 import 'package:wmd/features/valuation/presentation/widgets/real_estate_valuation_form.dart';
-import 'package:wmd/features/valuation/presentation/widgets/valuation_form_widget.dart';
 
 class ValuationModalWidget extends ModalWidget {
   final String assetType;
@@ -83,6 +82,19 @@ class ValuationModalWidget extends ModalWidget {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                    Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12, horizontal: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Add valuation",
+                              style: appTextTheme.headlineSmall,
+                              textAlign: TextAlign.center,
+                            )
+                          ],
+                        )),
                     renderForm(assetType),
                     buildActions(context, formKey, enableAddAssetButton),
                     SizedBox(height: responsiveHelper.bigger16Gap),

@@ -228,6 +228,15 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             style: textTheme.bodySmall,
           ),
         ),
+        if (AppConstants.publicMvp2Items) const SizedBox.shrink(),
+        if (AppConstants.publicMvp2Items)
+          Padding(
+            padding: padding,
+            child: Text(
+              "",
+              style: textTheme.bodySmall,
+            ),
+          ),
         // const SizedBox.shrink(),
       ],
     );
@@ -283,7 +292,17 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             ),
           ),
         ),
-        // const SizedBox.shrink(),
+        if (AppConstants.publicMvp2Items) const SizedBox.shrink(),
+        if (AppConstants.publicMvp2Items)
+          IconButton(
+              onPressed: () {
+                // Navigator.pop(context, false);
+                // GoRouter.of(context).goNamed(AppRoutes.dashboard);
+              },
+              icon: Icon(
+                Icons.more_horiz,
+                color: Theme.of(context).primaryColor,
+              )),
       ],
     );
   }

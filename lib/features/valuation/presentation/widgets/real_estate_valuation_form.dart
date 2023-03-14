@@ -71,16 +71,6 @@ class _RealEstateValuationFormWidgetState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Add valuation",
-                  style: textTheme.headlineSmall,
-                  textAlign: TextAlign.center,
-                )
-              ],
-            ),
             EachTextField(
               hasInfo: false,
               title: "Date",
