@@ -12,7 +12,7 @@ class AppRequestOptions extends Equatable {
   final bool fullUrl;
   final Map<String, String>? additionalHeaders;
 
-  AppRequestOptions(
+  const AppRequestOptions(
     this.type,
     this.url,
     this.body, {
