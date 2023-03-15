@@ -13,11 +13,11 @@ class GetAssetClassEntity extends Equatable {
     });
 
     final String assetName;
-    final int marketValue;
-    final int forexValue;
-    final int income;
-    final int commision;
-    final int total;
+    final double marketValue;
+    final double forexValue;
+    final double income;
+    final double commision;
+    final double total;
     final double changePercentage;
 
     Map<String, dynamic> toJson() => {

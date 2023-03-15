@@ -13,8 +13,8 @@ class GetCustodianPerformanceEntity extends Equatable {
     final String serialNumber;
     final String custodianName;
     final double performance;
-    final int amount;
-    final int riskPa;
+    final double amount;
+    final double riskPa;
     final double sharpeRatio;
 
 

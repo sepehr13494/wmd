@@ -1,11 +1,11 @@
 import '../../domain/entities/get_benchmark_entity.dart';
 
 class GetBenchmarkResponse extends GetBenchmarkEntity {
-  GetBenchmarkResponse({
+  const GetBenchmarkResponse({
     required String index,
     required double performance,
-    required int performancePa,
-    required int riskPa,
+    required double performancePa,
+    required double riskPa,
     required double sharpeRatio,
   }) : super(
           index: index,
@@ -17,11 +17,11 @@ class GetBenchmarkResponse extends GetBenchmarkEntity {
 
   factory GetBenchmarkResponse.fromJson(Map<String, dynamic> json) =>
       GetBenchmarkResponse(
-        index: json["index"],
-        performance: json["performance"].toDouble(),
-        performancePa: json["performancePA"],
-        riskPa: json["riskPA"],
-        sharpeRatio: json["sharpeRatio"].toDouble(),
+        index: json["index"]??"",
+        performance: double.tryParse((json["performance"]??"0").toString())??0,
+        performancePa: double.tryParse((json["performancePa"]??"0").toString())??0,
+        riskPa: double.tryParse((json["riskPa"]??"0").toString())??0,
+        sharpeRatio: double.tryParse((json["sharpeRatio"]??"0").toString())??0,
       );
 
   static final tResponse = [GetBenchmarkResponse.fromJson(const {

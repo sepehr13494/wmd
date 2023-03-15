@@ -3,11 +3,11 @@ import '../../domain/entities/get_asset_class_entity.dart';
 class GetAssetClassResponse extends GetAssetClassEntity {
   const GetAssetClassResponse({
     required String assetName,
-    required int marketValue,
-    required int forexValue,
-    required int income,
-    required int commision,
-    required int total,
+    required double marketValue,
+    required double forexValue,
+    required double income,
+    required double commision,
+    required double total,
     required double changePercentage,
   }) : super(
           assetName: assetName,
@@ -21,13 +21,13 @@ class GetAssetClassResponse extends GetAssetClassEntity {
 
   factory GetAssetClassResponse.fromJson(Map<String, dynamic> json) =>
       GetAssetClassResponse(
-        assetName: json["assetName"],
-        marketValue: json["marketValue"],
-        forexValue: json["forexValue"],
-        income: json["income"],
-        commision: json["commision"],
-        total: json["total"],
-        changePercentage: json["changePercentage"].toDouble(),
+        assetName: json["assetName"]??"",
+        marketValue: double.tryParse((json["marketValue"]??"0").toString())??0,
+        forexValue: double.tryParse((json["forexValue"]??"0").toString())??0,
+        income: double.tryParse((json["income"]??"0").toString())??0,
+        commision: double.tryParse((json["commision"]??"0").toString())??0,
+        total: double.tryParse((json["total"]??"0").toString())??0,
+        changePercentage: double.tryParse((json["changePercentage"]??"0").toString())??0,
       );
 
   static final tResponse = [

@@ -11,8 +11,8 @@ class GetBenchmarkEntity extends Equatable {
 
     final String index;
     final double performance;
-    final int performancePa;
-    final int riskPa;
+    final double performancePa;
+    final double riskPa;
     final double sharpeRatio;
 
     Map<String, dynamic> toJson() => {

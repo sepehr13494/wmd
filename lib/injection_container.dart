@@ -490,6 +490,9 @@ Future<void> init() async {
 
   //PerformanceTable
   sl.registerFactory(() => PerformanceTableCubit(sl(),sl(),sl()));
+  sl.registerFactory(() => PerformanceAssetClassCubit(sl(),sl(),sl()));
+  sl.registerFactory(() => PerformanceBenchmarkCubit(sl(),sl(),sl()));
+  sl.registerFactory(() => PerformanceCustodianCubit(sl(),sl(),sl()));
   sl.registerLazySingleton(() => GetAssetClassUseCase(sl()));
   sl.registerLazySingleton(() => GetBenchmarkUseCase(sl()));
   sl.registerLazySingleton(() => GetCustodianPerformanceUseCase(sl()));

@@ -5,8 +5,8 @@ class GetCustodianPerformanceResponse extends GetCustodianPerformanceEntity {
     required String serialNumber,
     required String custodianName,
     required double performance,
-    required int amount,
-    required int riskPa,
+    required double amount,
+    required double riskPa,
     required double sharpeRatio,
   }) : super(
           serialNumber: serialNumber,
@@ -19,12 +19,12 @@ class GetCustodianPerformanceResponse extends GetCustodianPerformanceEntity {
 
   factory GetCustodianPerformanceResponse.fromJson(Map<String, dynamic> json) =>
       GetCustodianPerformanceResponse(
-        serialNumber: json["serialNumber"],
-        custodianName: json["custodianName"],
-        performance: json["performance"].toDouble(),
-        amount: json["amount"],
-        riskPa: json["riskPA"],
-        sharpeRatio: json["sharpeRatio"].toDouble(),
+        serialNumber: json["serialNumber"]??"",
+        custodianName: json["custodianName"]??"",
+        performance: double.tryParse((json["performance"]??"0").toString())??0,
+        amount: double.tryParse((json["amount"]??"0").toString())??0,
+        riskPa: double.tryParse((json["riskPa"]??"0").toString())??0,
+        sharpeRatio: double.tryParse((json["sharpeRatio"]??"0").toString())??0,
       );
 
   static final tResponse = [
