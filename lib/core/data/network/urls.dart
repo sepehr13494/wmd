@@ -77,4 +77,9 @@ class AppUrls {
       "${wealthBase}Valuation/$id/performance";
 
   static String getForceUpdate = "wmo/version";
+
+  //performance table
+  static String getAssetClass = "${wealthBase}assetclass";
+  static String getBenchmark = "${wealthBase}benchmark";
+  static String getCustodianPerformance = "${wealthBase}custodian";
 }

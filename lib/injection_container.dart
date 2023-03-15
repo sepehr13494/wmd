@@ -117,6 +117,13 @@ import 'package:wmd/features/dashboard/main_dashbaord/data/repositories/main_das
 import 'package:wmd/features/dashboard/main_dashbaord/domain/repositories/main_dashboard_repository.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/domain/use_cases/user_net_worth_usecase.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
+import 'package:wmd/features/dashboard/performance_table/data/data_sources/performance_table_remote_datasource.dart';
+import 'package:wmd/features/dashboard/performance_table/data/repositories/performance_table_repository_impl.dart';
+import 'package:wmd/features/dashboard/performance_table/domain/repositories/performance_table_repository.dart';
+import 'package:wmd/features/dashboard/performance_table/domain/use_cases/get_asset_class_usecase.dart';
+import 'package:wmd/features/dashboard/performance_table/domain/use_cases/get_benchmark_usecase.dart';
+import 'package:wmd/features/dashboard/performance_table/domain/use_cases/get_custodian_performance_usecase.dart';
+import 'package:wmd/features/dashboard/performance_table/presentation/manager/performance_table_cubit.dart';
 import 'package:wmd/features/dashboard/user_status/data/data_sources/user_status_remote_data_source.dart';
 import 'package:wmd/features/dashboard/user_status/data/repositories/user_status_respository_impl.dart';
 import 'package:wmd/features/dashboard/user_status/domain/repositories/user_status_repository.dart';
@@ -480,6 +487,18 @@ Future<void> init() async {
           () => ForceUpdateRepositoryImpl(sl()));
   sl.registerLazySingleton<ForceUpdateRemoteDataSource>(
           () => ForceUpdateRemoteDataSourceImpl(sl()));
+
+  //PerformanceTable
+  sl.registerFactory(() => PerformanceTableCubit(sl(),sl(),sl()));
+  sl.registerLazySingleton(() => GetAssetClassUseCase(sl()));
+  sl.registerLazySingleton(() => GetBenchmarkUseCase(sl()));
+  sl.registerLazySingleton(() => GetCustodianPerformanceUseCase(sl()));
+
+  sl.registerLazySingleton<PerformanceTableRepository>(
+          () => PerformanceTableRepositoryImpl(sl()));
+  sl.registerLazySingleton<PerformanceTableRemoteDataSource>(
+          () => PerformanceTableRemoteDataSourceImpl(sl()));
+
 
 
   await initExternal();
