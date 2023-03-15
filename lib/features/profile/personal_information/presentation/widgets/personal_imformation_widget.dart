@@ -50,7 +50,7 @@ class _PersonalInformationWidgetState
       listener: (context, state) {
         if (state is PersonalInformationLoaded) {
           var json = state.getNameEntity.toJson();
-          json.removeWhere((key, value) => value == "");
+          json.removeWhere((key, value) => value == "" || value == ' ');
           formKey.currentState!.patchValue(json);
           lastValue = formKey.currentState!.instantValue;
         }
