@@ -15,6 +15,18 @@ import '../../domain/entities/get_custodian_performance_entity.dart';
 
 part 'performance_table_state.dart';
 
+class PerformanceAssetClassCubit extends PerformanceTableCubit{
+  PerformanceAssetClassCubit(super.getAssetClassUseCase, super.getBenchmarkUseCase, super.getCustodianPerformanceUseCase);
+}
+
+class PerformanceBenchmarkCubit extends PerformanceTableCubit{
+  PerformanceBenchmarkCubit(super.getAssetClassUseCase, super.getBenchmarkUseCase, super.getCustodianPerformanceUseCase);
+}
+
+class PerformanceCustodianCubit extends PerformanceTableCubit{
+  PerformanceCustodianCubit(super.getAssetClassUseCase, super.getBenchmarkUseCase, super.getCustodianPerformanceUseCase);
+}
+
 class PerformanceTableCubit extends Cubit<PerformanceTableState> {
 
   final GetAssetClassUseCase getAssetClassUseCase;
@@ -33,7 +45,6 @@ class PerformanceTableCubit extends Cubit<PerformanceTableState> {
     final result = await getAssetClassUseCase(GetAssetClassParams());
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (entities) {
-      
       emit(GetAssetClassLoaded(getAssetClassEntities: entities));
     });
   }
