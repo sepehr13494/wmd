@@ -78,29 +78,36 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
                   Builder(builder: (context) {
                     final isMobile = ResponsiveHelper(context: context)
                         .isMobile;
-                    return Row(
-                      children: [
-                        SizedBox(
-                          width: isMobile ? null : 400,
-                          child: TabBar(
-                            labelStyle: textTheme.titleSmall,
-                            controller: _controller,
-                            tabs: [
-                              Tab(
-                                  text: appLocalizations
-                                      .assets_charts_tabs_assetClass),
-                              Tab(
-                                  text: appLocalizations
-                                      .assets_charts_tabs_geography),
-                              Tab(
-                                  text:
-                                  appLocalizations.assets_charts_tabs_currency),
-                            ],
-                            isScrollable: true,
-                          ),
-                        ),
-                        isMobile ? const SizedBox() : const Spacer(),
-                      ],
+                    return LayoutBuilder(
+                      builder: (context,snap) {
+                        return Row(
+                          children: [
+                            SizedBox(
+                              width: isMobile ? snap.maxWidth : 400,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: TabBar(
+                                  labelStyle: textTheme.titleSmall,
+                                  controller: _controller,
+                                  tabs: [
+                                    Tab(
+                                        text: appLocalizations
+                                            .assets_charts_tabs_assetClass),
+                                    Tab(
+                                        text: appLocalizations
+                                            .assets_charts_tabs_geography),
+                                    Tab(
+                                        text:
+                                        appLocalizations.assets_charts_tabs_currency),
+                                  ],
+                                  isScrollable: true,
+                                ),
+                              ),
+                            ),
+                            isMobile ? const SizedBox() : const Spacer(),
+                          ],
+                        );
+                      }
                     );
                   }),
                   const Divider(

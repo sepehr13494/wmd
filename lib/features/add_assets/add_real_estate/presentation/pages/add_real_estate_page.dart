@@ -61,7 +61,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
           appBar: const AddAssetHeader(title: "", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Add asset",
-              onTap: !enableAddAssetButton ? null : () {
+              onTap: () {
                 privateDebtFormKey.currentState?.validate();
                 if (enableAddAssetButton) {
                   Map<String, dynamic> finalMap = {
@@ -265,6 +265,8 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                           type: TextFieldType.number,
                                           keyboardType: TextInputType.number,
                                           onChanged: checkFinalValid,
+                                          suffixIcon:
+                                              AppTextFields.rateSuffixIcon(),
                                           name: "ownershipPercentage",
                                           hint: appLocalizations
                                               .assetLiabilityForms_forms_realEstate_inputFields_yourOwnership_placeholder),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/util/local_auth_manager.dart';
@@ -58,15 +59,27 @@ class _SplashPageState extends State<SplashPage> {
                 },
               ),
               BlocListener<ForceUpdateCubit, ForceUpdateState>(
-                listener:
-                    BlocHelper.defaultBlocListener(listener: (context, state) {
-                  if (state is GetForceUpdateLoaded) {
-                    // if(state.getForceUpdateEntity.isForceUpdate){
-                    //   context.replaceNamed(AppRoutes.forceUpdate);
-                    // }else{
-                    //   context.read<SplashCubit>().initSplashFromSplash();
-                    // }
-                    context.read<SplashCubit>().initSplashFromSplash();
+                listener: BlocHelper.defaultBlocListener(listener: (context, state) {
+                  if(state is GetForceUpdateLoaded){
+                    bool isVersionGreaterThan(String newVersion, String currentVersion){
+                      List<String> currentV = currentVersion.split(".");
+                      List<String> newV = newVersion.split(".");
+                      bool a = false;
+                      for (var i = 0 ; i <= 2; i++){
+                        a = int.parse(newV[i]) > int.parse(currentV[i]);
+                        if(int.parse(newV[i]) != int.parse(currentV[i])) break;
+                      }
+                      return a;
+                    }
+                    final appVersion = sl<PackageInfo>().version;
+                    final versionFromServer = state.getForceUpdateEntity.appVersion;
+                    if(!isVersionGreaterThan(appVersion, versionFromServer) && state.getForceUpdateEntity.isForceUpdate){
+                      //show force update page
+                      context.replaceNamed(AppRoutes.forceUpdate);
+                    }else{
+                      //move on with app
+                      context.read<SplashCubit>().initSplashFromSplash();
+                    }
                   }
                 }),
               ),
