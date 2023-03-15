@@ -90,7 +90,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
           appBar: const AddAssetHeader(title: "", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: appLocalizations.common_button_addAsset,
-              onTap: !enableAddAssetButton ? null : () {
+              onTap: () {
                 formKey.currentState?.validate();
                 if (enableAddAssetButton) {
                   Map<String, dynamic> finalMap = {
