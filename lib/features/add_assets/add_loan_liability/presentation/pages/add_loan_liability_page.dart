@@ -83,7 +83,7 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
           appBar: const AddAssetHeader(title: "", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Add liability",
-              onTap: !enableAddAssetButton ? null : () {
+              onTap: () {
                 privateDebtFormKey.currentState?.validate();
                 if (enableAddAssetButton) {
                   Map<String, dynamic> finalMap = {

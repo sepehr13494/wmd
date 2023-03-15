@@ -61,22 +61,18 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
           appBar: const AddAssetHeader(title: "", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Add asset",
-              onTap: !enableAddAssetButton
-                  ? null
-                  : () {
-                      privateDebtFormKey.currentState?.validate();
-                      if (enableAddAssetButton) {
-                        Map<String, dynamic> finalMap = {
-                          ...privateDebtFormKey.currentState!.instantValue,
-                        };
+              onTap: () {
+                privateDebtFormKey.currentState?.validate();
+                if (enableAddAssetButton) {
+                  Map<String, dynamic> finalMap = {
+                    ...privateDebtFormKey.currentState!.instantValue,
+                  };
 
-                        print(finalMap);
+                  print(finalMap);
 
-                        context
-                            .read<RealEstateCubit>()
-                            .postRealEstate(map: finalMap);
-                      }
-                    }),
+                  context.read<RealEstateCubit>().postRealEstate(map: finalMap);
+                }
+              }),
           body: Theme(
             data: Theme.of(context).copyWith(),
             child: Stack(

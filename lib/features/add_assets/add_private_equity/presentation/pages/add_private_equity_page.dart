@@ -60,7 +60,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
           appBar: const AddAssetHeader(title: "", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Save asset",
-              onTap: !enableAddAssetButton ? null : () {
+              onTap: () {
                 privateEquityFormKey.currentState?.validate();
                 if (enableAddAssetButton) {
                   Map<String, dynamic> finalMap = {
