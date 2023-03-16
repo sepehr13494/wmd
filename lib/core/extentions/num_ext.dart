@@ -78,7 +78,7 @@ extension NumExt on num {
       symbol:
           '\$', // if you want to add currency symbol then pass that in this else leave it empty.
     );
-    val.significantDigits = 3;
+    // val.significantDigits = 3;
     return val;
   }
 }
