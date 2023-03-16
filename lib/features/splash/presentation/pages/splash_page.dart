@@ -21,6 +21,7 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
+    print("hi");
     return MultiBlocProvider(
       providers: [
         BlocProvider(

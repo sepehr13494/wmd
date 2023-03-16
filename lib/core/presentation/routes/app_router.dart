@@ -33,6 +33,7 @@ import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/das
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/pages/onboarding_page.dart';
+import 'package:wmd/features/dashboard/performance_table/presentation/manager/performance_table_cubit.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/features/force_update/presentation/pages/force_update_page.dart';
 import 'package:wmd/features/help/support/presentation/pages/schedule_call_page.dart';
@@ -73,6 +74,12 @@ class AppRouter {
       sl<CustodianStatusListCubit>();
   PersonalInformationCubit _personalInformationCubit =
       sl<PersonalInformationCubit>();
+  PerformanceAssetClassCubit _performanceAssetClassCubit =
+  sl<PerformanceAssetClassCubit>();
+  PerformanceBenchmarkCubit _performanceBenchmarkCubit =
+  sl<PerformanceBenchmarkCubit>();
+  PerformanceCustodianCubit _performanceCustodianCubit =
+  sl<PerformanceCustodianCubit>();
 
   GoRouter router() {
     return GoRouter(
@@ -183,6 +190,18 @@ class AppRouter {
                   BlocProvider(create: (context) {
                     _assetsOverviewCubit = sl<AssetsOverviewCubit>();
                     return _assetsOverviewCubit..getAssetsOverview();
+                  }),
+                  BlocProvider(create: (context) {
+                    _performanceAssetClassCubit = sl<PerformanceAssetClassCubit>();
+                    return _performanceAssetClassCubit..getAssetClass();
+                  }),
+                  BlocProvider(create: (context) {
+                    _performanceBenchmarkCubit = sl<PerformanceBenchmarkCubit>();
+                    return _performanceBenchmarkCubit..getBenchmark();
+                  }),
+                  BlocProvider(create: (context) {
+                    _performanceCustodianCubit = sl<PerformanceCustodianCubit>();
+                    return _performanceCustodianCubit..getCustodianPerformance();
                   }),
                   BlocProvider(
                     create: (context) {
