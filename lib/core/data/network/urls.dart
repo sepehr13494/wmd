@@ -79,7 +79,7 @@ class AppUrls {
   static String getForceUpdate = "wmo/version";
 
   //performance table
-  static String getAssetClass = "${wealthBase}assetclass";
-  static String getBenchmark = "${wealthBase}benchmark";
-  static String getCustodianPerformance = "${wealthBase}custodian";
+  static String getAssetClass = "${wealthBase}Performance/assetclass";
+  static String getBenchmark = "${wealthBase}Performance/benchmark";
+  static String getCustodianPerformance = "${wealthBase}Performance/custodian";
 }

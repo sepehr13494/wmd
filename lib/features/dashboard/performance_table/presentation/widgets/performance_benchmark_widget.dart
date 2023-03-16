@@ -18,9 +18,13 @@ class PerformanceBenchmarkWidget extends AppStatelessWidget {
       listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
       builder: (context, state) {
         return state is GetBenchmarkLoaded ? Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(appLocalizations.home_wealthPerformanceComparision_title,
-              style: textTheme.headlineSmall,),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text(appLocalizations.home_wealthPerformanceComparision_title,
+                style: textTheme.headlineSmall,),
+            ),
             PerformanceBaseTable(titles: [
               appLocalizations.home_wealthPerformanceComparision_table_header_indexes,
               appLocalizations.home_wealthPerformanceComparision_table_header_performance,

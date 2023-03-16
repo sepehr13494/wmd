@@ -17,6 +17,9 @@ import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/dashbo
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/filter_add_widget.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/net_worth_base_chart.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/summery_widget.dart';
+import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_asset_class_widget.dart';
+import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_benchmark_widget.dart';
+import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_custodian_widget.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import '../../../dashboard_charts/presentation/widgets/pie_chart_sample.dart';
 import '../../../dashboard_charts/presentation/widgets/random_map.dart';
@@ -108,6 +111,7 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                           if (isAssetsNotEmpty ||
                                               isCustodianNotEmpty ||
                                               isLiabilityNotEmpty) {
+                                            const Key tableKey = Key("tableKey");
                                             return Column(
                                               children: [
                                                 const FilterAddPart(),
@@ -146,8 +150,17 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                                             const RandomWorldMapGenrator()),
                                                   ],
                                                 ),
+                                                Column(
+                                                  key: tableKey,
+                                                  children: [
+                                                    const PerformanceAssetClassWidget(),
+                                                    const PerformanceBenchmarkWidget(),
+                                                    const PerformanceCustodianWidget(),
+                                                  ].map((e) => Padding(padding: const EdgeInsets.symmetric(vertical: 8),child: e,)).toList(),
+                                                ),
+                                                const SizedBox(height: 8),
                                               ]
-                                                  .map((e) => Padding(
+                                                  .map((e) => e.key == tableKey ? e : Padding(
                                                       padding: const EdgeInsets
                                                               .symmetric(
                                                           vertical: 8,

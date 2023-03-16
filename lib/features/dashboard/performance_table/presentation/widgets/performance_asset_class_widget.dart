@@ -19,10 +19,14 @@ class PerformanceAssetClassWidget extends AppStatelessWidget {
       builder: (context, state) {
         return state is GetAssetClassLoaded
             ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    appLocalizations.home_wealthPerformance_title,
-                    style: textTheme.headlineSmall,
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      appLocalizations.home_wealthPerformance_title,
+                      style: textTheme.headlineSmall,
+                    ),
                   ),
                   PerformanceBaseTable(
                       titles: [
@@ -37,15 +41,17 @@ class PerformanceAssetClassWidget extends AppStatelessWidget {
                         appLocalizations
                             .home_wealthPerformance_table_header_commissionAndExpense,
                         appLocalizations
+                            .home_wealthPerformance_table_header_total,
+                        appLocalizations
                             .home_wealthPerformance_table_header_changePercentage,
                       ],
                       widths: const [
                         140,
-                        100,
-                        100,
-                        80,
+                        130,
                         120,
                         100,
+                        100,
+                        130,
                         80
                       ],
                       values: state.getAssetClassEntities
