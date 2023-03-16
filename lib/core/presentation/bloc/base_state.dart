@@ -36,6 +36,7 @@ abstract class BaseState extends Equatable
         CurrencyChartState,
         AssetsGeographyChartState,
         ForceUpdateState,
+        BlurredPrivacyState,
         PerformanceChartState {}
 
 class BaseInitialState extends BaseState {
