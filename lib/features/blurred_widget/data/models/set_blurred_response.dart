@@ -1,4 +1,4 @@
-import 'package:wmd/features/blurred_widget/domain/entities/get_is_blurred_entity.dart';
+import 'package:wmd/features/blurred_widget/domain/entities/is_blurred_entity.dart';
 
 class SetBlurredResponse extends IsBlurredEntity {
   const SetBlurredResponse();

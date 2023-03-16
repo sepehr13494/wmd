@@ -1,4 +1,4 @@
-import '../../domain/entities/get_is_blurred_entity.dart';
+import '../../domain/entities/is_blurred_entity.dart';
 
 class GetIsBlurredResponse extends IsBlurredEntity {
   GetIsBlurredResponse();

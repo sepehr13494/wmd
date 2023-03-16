@@ -4,7 +4,7 @@ import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:dartz/dartz.dart';
 
 import '../models/get_is_blurred_params.dart';
-import '../../domain/entities/get_is_blurred_entity.dart';
+import '../../domain/entities/is_blurred_entity.dart';
 import '../models/set_blurred_params.dart';
 
 import '../../domain/repositories/blurred_privacy_repository.dart';
