@@ -20,63 +20,39 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
   @override
   Widget buildWidget(
       BuildContext context, textTheme, AppLocalizations appLocalizations) {
-    const int divider = 6;
-    TooltipBehavior tooltipBehavior = TooltipBehavior(
-      enable: true,
-      activationMode: ActivationMode.singleTap,
-      builder: (data, point, series, pointIndex, seriesIndex) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text.rich(TextSpan(
-            text:
-                CustomizableDateTime.graphDateV2(data.key as DateTime, context),
-            style: textTheme.titleSmall!,
-            children: [
-              TextSpan(
-                  text: '\n${appLocalizations.assets_label_currentBalance}',
-                  style: textTheme.bodyMedium),
-              TextSpan(
-                  // ignore: prefer_interpolation_to_compose_strings
-                  text: ' ${(data.value as double).formatCurrencyCompact()}',
-                  style:
-                      textTheme.titleSmall!.apply(color: AppColors.chartColor)),
-            ],
-          )),
-        );
-      },
-      color: const Color.fromARGB(255, 38, 49, 52),
-    );
-    // TrackballBehavior trackBall = TrackballBehavior(
-    //     enable: true,
-    //     // activationMode: ActivationMode.singleTap,
-    //     builder: (context, TrackballDetails details) {
-    //       final index = details.seriesIndex;
-    //       if (index == null) {
-    //         return SizedBox();
-    //       }
-    //       final data = values.elementAt(index);
+    TrackballBehavior trackBall = TrackballBehavior(
+        enable: true,
+        lineType: TrackballLineType.none,
+        activationMode: ActivationMode.singleTap,
+        builder: (context, TrackballDetails details) {
+          final index = details.seriesIndex;
+          if (index == null) {
+            return SizedBox();
+          }
+          final data = values.elementAt(index);
 
-    //       return Padding(
-    //         padding: const EdgeInsets.all(8.0),
-    //         child: Text.rich(TextSpan(
-    //           text: CustomizableDateTime.graphDateV2(data.key, context),
-    //           style: textTheme.titleSmall!,
-    //           children: [
-    //             TextSpan(
-    //                 text: '\n${appLocalizations.assets_label_currentBalance}',
-    //                 style: textTheme.bodyMedium),
-    //             TextSpan(
-    //                 // ignore: prefer_interpolation_to_compose_strings
-    //                 text: ' ${(data.value).formatCurrencyCompact()}',
-    //                 style: textTheme.titleSmall!
-    //                     .apply(color: AppColors.chartColor)),
-    //           ],
-    //         )),
-    //       );
-    //     },
-    //     lineColor: const Color.fromARGB(255, 38, 49, 52)
-    //     // color: const Color.fromARGB(255, 38, 49, 52),
-    //     );
+          return Card(
+            color: const Color.fromARGB(255, 38, 49, 52),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text.rich(TextSpan(
+                text: CustomizableDateTime.graphDateV2(data.key, context),
+                style: textTheme.titleSmall!,
+                children: [
+                  TextSpan(
+                      text: '\n${appLocalizations.assets_label_currentBalance}',
+                      style: textTheme.bodyMedium),
+                  TextSpan(
+                      // ignore: prefer_interpolation_to_compose_strings
+                      text: ' ${(data.value).formatCurrencyCompact()}',
+                      style: textTheme.titleSmall!
+                          .apply(color: AppColors.chartColor)),
+                ],
+              )),
+            ),
+          );
+        },
+        lineColor: AppColors.anotherCardColorForLightTheme);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,8 +96,8 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
                       majorGridLines: const MajorGridLines(width: 1),
                     ),
                     series: _getSeries(),
-                    tooltipBehavior: tooltipBehavior,
-                    // trackballBehavior: trackBall,
+                    // tooltipBehavior: tooltipBehavior,
+                    trackballBehavior: trackBall,
                   );
                 }),
         ),
@@ -163,9 +139,7 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
             // AppColors.redChartColor.withOpacity(0.3),
           ],
         ),
-        // onCreateRenderer: (series) {
-        //   return _CustomAreaSeriesRenderer(series);
-        // },
+
         markerSettings: MarkerSettings(
             isVisible: values.length == 1, color: AppColors.chartColor),
       ),
@@ -179,40 +153,24 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
         minX = element.value;
       }
     }
+    if (minX > 0) {
+      return 1;
+    }
     double maxX = values.first.value;
     for (var element in values) {
       if (element.value > maxX) {
         minX = element.value;
       }
     }
-    return maxX / (maxX - minX);
-  }
-}
-
-class _CustomAreaSeriesRenderer extends AreaSeriesRenderer {
-  _CustomAreaSeriesRenderer(this.series);
-
-  final ChartSeries<MapEntry<DateTime, double>, String> series;
-
-  @override
-  AreaSegment createSegment() => _AreaCustomPainter(series);
-}
-
-class _AreaCustomPainter extends AreaSegment {
-  _AreaCustomPainter(this.series);
-
-  final ChartSeries<MapEntry<DateTime, double>, String> series;
-  @override
-  int get currentSegmentIndex => super.currentSegmentIndex!;
-
-  @override
-  Paint getFillPaint() {
-    final Paint customerFillPaint = Paint();
-    log('Mert log:   $currentSegmentIndex');
-    customerFillPaint.color = series.dataSource![currentSegmentIndex].value > 0
-        ? AppColors.chartColor.withOpacity(0.3)
-        : AppColors.redChartColor.withOpacity(0.3);
-    customerFillPaint.style = PaintingStyle.fill;
-    return customerFillPaint;
+    if (maxX < 0) {
+      return 0;
+    }
+    double gradientStop = maxX / (maxX - minX);
+    if (gradientStop > 1) {
+      gradientStop = 1;
+    } else if (gradientStop < 0) {
+      gradientStop = 0;
+    }
+    return gradientStop;
   }
 }
