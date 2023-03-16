@@ -115,7 +115,7 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
                       placeLabelsNearAxisLine: false,
                     ),
                     primaryYAxis: NumericAxis(
-                      numberFormat: NumberFormat.compactCurrency(symbol: '\$'),
+                      numberFormat: NumExt.getCompactNumberFormat(),
                       labelStyle: textTheme.bodySmall!.apply(fontSizeDelta: -3),
                       majorGridLines: const MajorGridLines(width: 1),
                     ),
