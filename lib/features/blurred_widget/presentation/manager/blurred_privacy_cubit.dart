@@ -7,16 +7,12 @@ import '../../domain/use_cases/get_is_blurred_usecase.dart';
 import '../../domain/entities/get_is_blurred_entity.dart';
 import '../../data/models/set_blurred_params.dart';
 import '../../domain/use_cases/set_blurred_usecase.dart';
-import '../../domain/entities/set_blurred_entity.dart';
-
 
 part 'blurred_privacy_state.dart';
 
 class BlurredPrivacyCubit extends Cubit<BlurredPrivacyState> {
-
   final GetIsBlurredUseCase getIsBlurredUseCase;
   final SetBlurredUseCase setBlurredUseCase;
-
 
   BlurredPrivacyCubit(
     this.getIsBlurredUseCase,
@@ -25,25 +21,17 @@ class BlurredPrivacyCubit extends Cubit<BlurredPrivacyState> {
 
   getIsBlurred() async {
     emit(LoadingState());
-    final result = await getIsBlurredUseCase(GetIsBlurredParams());
-    result.fold((failure) => emit(ErrorState(failure: failure)),
-        (entity) {
-      
-      emit(GetIsBlurredLoaded(getIsBlurredEntity: entity));
+    final result = await getIsBlurredUseCase(const GetIsBlurredParams());
+    result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
+      emit(IsBlurredLoaded(isBlurredEntity: entity));
     });
   }
-  
+
   setBlurred() async {
     emit(LoadingState());
     final result = await setBlurredUseCase(SetBlurredParams());
-    result.fold((failure) => emit(ErrorState(failure: failure)),
-        (entity) {
-      
-      emit(SetBlurredLoaded(setBlurredEntity: entity));
+    result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
+      emit(IsBlurredLoaded(isBlurredEntity: entity));
     });
   }
-  
-
 }
-
-    

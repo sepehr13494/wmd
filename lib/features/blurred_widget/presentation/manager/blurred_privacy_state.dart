@@ -2,35 +2,15 @@ part of 'blurred_privacy_cubit.dart';
 
 abstract class BlurredPrivacyState {}
 
-class GetIsBlurredLoaded extends Equatable with BlurredPrivacyState{
-  
-  final GetIsBlurredEntity getIsBlurredEntity;
+class IsBlurredLoaded extends Equatable with BlurredPrivacyState {
+  final IsBlurredEntity isBlurredEntity;
 
-  GetIsBlurredLoaded({
-    
-    required this.getIsBlurredEntity,
+  IsBlurredLoaded({
+    required this.isBlurredEntity,
   });
 
   @override
   List<Object?> get props => [
-    
-    getIsBlurredEntity,
-  ];
+        isBlurredEntity,
+      ];
 }
-class SetBlurredLoaded extends Equatable with BlurredPrivacyState{
-  
-  final SetBlurredEntity setBlurredEntity;
-
-  SetBlurredLoaded({
-    
-    required this.setBlurredEntity,
-  });
-
-  @override
-  List<Object?> get props => [
-    
-    setBlurredEntity,
-  ];
-}
-
-    
