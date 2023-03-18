@@ -8,6 +8,8 @@ import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/manager/performance_table_cubit.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_base_table.dart';
 
+import 'performance_table_shimmer.dart';
+
 class PerformanceAssetClassWidget extends AppStatelessWidget {
   const PerformanceAssetClassWidget({Key? key}) : super(key: key);
 
@@ -67,7 +69,7 @@ class PerformanceAssetClassWidget extends AppStatelessWidget {
                           .toList())
                 ],
               )
-            : const LoadingWidget();
+            : const PerformanceTableShimmer();
       },
     );
   }

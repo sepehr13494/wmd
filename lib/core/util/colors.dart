@@ -24,6 +24,8 @@ class AppColors {
   static const Color continentMiddleColor = Color(0x4db48d80);
   static const Color continentHighColor = Color(0x80b48d80);
   static const Color continentFullColor = Color(0xffb48d80);
+  static const Color shimmerColor = Color(0xff3a3a3a);
+  static const Color shimmerSecondColor = Color(0xff535353);
 }
 
 class HexColor extends Color {

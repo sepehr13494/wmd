@@ -8,6 +8,7 @@ import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_base_table.dart';
 
 import '../manager/performance_table_cubit.dart';
+import 'performance_table_shimmer.dart';
 
 class PerformanceBenchmarkWidget extends AppStatelessWidget {
   const PerformanceBenchmarkWidget({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class PerformanceBenchmarkWidget extends AppStatelessWidget {
               e.index,"${e.performance.toStringAsFixed(1)} %","${e.performancePa.toStringAsFixed(1)} %","${e.riskPa.toStringAsFixed(1)} %",e.performance.toStringAsFixed(2)
             ]).toList())
           ],
-        ) : const LoadingWidget();
+        ) : const PerformanceTableShimmer();
       },
     );
   }
