@@ -7,6 +7,8 @@ import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/manager/performance_table_cubit.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_base_table.dart';
 
+import 'performance_table_shimmer.dart';
+
 class PerformanceCustodianWidget extends AppStatelessWidget {
   const PerformanceCustodianWidget({Key? key}) : super(key: key);
 
@@ -36,7 +38,7 @@ class PerformanceCustodianWidget extends AppStatelessWidget {
               e.serialNumber,e.custodianName,"${e.performance.toStringAsFixed(1)} %","${e.amount.toStringAsFixed(1)} %","${e.riskPa.toStringAsFixed(1)} %",e.sharpeRatio.toStringAsFixed(2),
             ]).toList())
           ],
-        ) : const LoadingWidget();
+        ) : const PerformanceTableShimmer();
       },
     );
   }
