@@ -13,6 +13,7 @@ import 'package:wmd/features/assets_overview/charts/presentation/widgets/constan
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_pie_entity.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/base_asset_view.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/shimmer/pie_chart_shimmer.dart';
 
 import '../manager/dashboard_pie_cubit.dart';
 import '../models/each_asset_model.dart';
@@ -185,7 +186,7 @@ class PieChart2State extends AppState {
               }),
             );
           } else {
-            return const LoadingWidget();
+            return const PieChartShimmer();
           }
         },
       );

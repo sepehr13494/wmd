@@ -15,6 +15,7 @@ import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_geog
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/base_asset_view.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/inside_world_map_widget.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/shimmer/map_chart_shimmer.dart';
 
 import '../../data/models/get_geographic_response.dart';
 import '../manager/dashboard_goe_cubit.dart';
@@ -84,7 +85,7 @@ class _RandomWorldMapGenratorState extends AppState<RandomWorldMapGenrator> {
                   },
                   child: InsideWorldMapWidget(getGeographicEntity: state.getGeographicEntity),
                 )
-              : const LoadingWidget();
+              : const MapChartShimmer();
         },
       );
     });
