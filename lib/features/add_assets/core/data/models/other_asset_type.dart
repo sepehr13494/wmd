@@ -10,7 +10,7 @@ class OtherAssetType {
     {"value": "Private Jet", "name": "Private Jet"},
     {"value": "Watch", "name": "Watch"},
     {"value": "Painting", "name": "Painting"},
-    {"value": "Jewelary", "name": "Jewelary"},
+    {"value": "Jewelry", "name": "Jewelry"},
     {"value": "Other", "name": "Other"},
   ];
 
