@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
+import 'package:blur/blur.dart';
 
 class PrivacyText extends StatefulWidget {
   const PrivacyText(
@@ -23,11 +24,16 @@ class PrivacyTextState extends State<PrivacyText> {
   @override
   Widget build(BuildContext context) {
     bool isBlurred = PrivacyInherited.of(context).isBlurred;
-    return Text(
-      isBlurred ? '****' : widget.data,
-      textAlign: widget.textAlign,
-      strutStyle: widget.strutStyle,
-      style: widget.style,
+
+    return Blur(
+      blur: isBlurred ? 5 : 0,
+      colorOpacity: 0,
+      child: Text(
+        widget.data,
+        textAlign: widget.textAlign,
+        strutStyle: widget.strutStyle,
+        style: widget.style,
+      ),
     );
   }
 }

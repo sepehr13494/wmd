@@ -2,8 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wmd/injection_container.dart';
-
 import '../../../../core/presentation/bloc/bloc_helpers.dart';
 import '../manager/blurred_privacy_cubit.dart';
 

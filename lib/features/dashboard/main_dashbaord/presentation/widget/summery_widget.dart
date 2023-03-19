@@ -115,7 +115,7 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
                           fit: BoxFit.scaleDown,
                           child: Row(
                             children: [
-                              PrivacyText(
+                              Text(
                                 item[2],
                                 style: textTheme.bodySmall!.apply(
                                     color: AppColors.dashBoardGreyTextColor),
