@@ -242,6 +242,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                           extraValidators: [
                                             (val) {
                                               return (val != null &&
+                                                      val != "" &&
                                                       val.convertMoneyToInt() ==
                                                           0)
                                                   ? appLocalizations
