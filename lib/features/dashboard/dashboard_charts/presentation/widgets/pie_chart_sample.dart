@@ -10,6 +10,7 @@ import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_manager.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_pie_entity.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/base_asset_view.dart';
@@ -31,7 +32,7 @@ class PieChart2State extends AppState {
 
   @override
   void dispose() {
-    if(timer != null){
+    if (timer != null) {
       timer!.cancel();
     }
     super.dispose();
@@ -108,7 +109,7 @@ class PieChart2State extends AppState {
                                 }
                                 touchedIndex = pieTouchResponse
                                     .touchedSection!.touchedSectionIndex;
-                                if(timer != null){
+                                if (timer != null) {
                                   timer!.cancel();
                                 }
                                 timer = Timer(const Duration(seconds: 2), () {
@@ -153,12 +154,14 @@ class PieChart2State extends AppState {
                                     Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Text(
-                                          pieEntity.value
-                                              .convertMoney(addDollar: true),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium!,
+                                        PrivacyBlurWidget(
+                                          child: Text(
+                                            pieEntity.value
+                                                .convertMoney(addDollar: true),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!,
+                                          ),
                                         ),
                                         const SizedBox(width: 24),
                                         Directionality(
@@ -169,7 +172,8 @@ class PieChart2State extends AppState {
                                                 .textTheme
                                                 .bodySmall!
                                                 .apply(
-                                                    color: AppColors.chartColor),
+                                                    color:
+                                                        AppColors.chartColor),
                                           ),
                                         )
                                       ],

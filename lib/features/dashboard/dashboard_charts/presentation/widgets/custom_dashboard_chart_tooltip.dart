@@ -3,6 +3,7 @@ import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 
 import '../../domain/entities/get_allocation_entity.dart';
 
@@ -26,9 +27,11 @@ class CustomDashboardChartTooltip extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          Text(
-            value,
-            style: textTheme.bodyMedium!.apply(color: AppColors.chartColor),
+          PrivacyBlurWidget(
+            child: Text(
+              value,
+              style: textTheme.bodyMedium!.apply(color: AppColors.chartColor),
+            ),
           ),
         ],
       );

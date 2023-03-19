@@ -8,6 +8,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_allocation_entity.dart';
 
 import 'custom_dashboard_chart_tooltip.dart';
@@ -73,7 +74,8 @@ class _PerformanceBarChartState extends AppState<PerformanceBarChart> {
                         alignment: const Alignment(-1, 0),
                         children: [
                           LineChart(
-                            mainData(context, appLocalizations, showLeft: false),
+                            mainData(context, appLocalizations,
+                                showLeft: false),
                           ),
                         ],
                       ),
@@ -81,27 +83,27 @@ class _PerformanceBarChartState extends AppState<PerformanceBarChart> {
                   ],
                 );
               }
-              return LayoutBuilder(
-                  builder: (context,snap) {
-                    final width = (snap.maxWidth-100);
-                    final x = (position - width / 2) / (width/2);
-                    var pos = x;
-                    if(x<-1){
-                      pos = -1;
-                    }else if(x>1){
-                      pos = 1;
-                    }
-                    return Stack(
-                      alignment: Alignment(pos, -1),
-                      children: [
-                        LineChart(
-                          mainData(context, appLocalizations),
-                        ),
-                        showTooltip ? CustomDashboardChartTooltip(selected: selected) : const SizedBox(),
-                      ],
-                    );
-                  }
-              );
+              return LayoutBuilder(builder: (context, snap) {
+                final width = (snap.maxWidth - 100);
+                final x = (position - width / 2) / (width / 2);
+                var pos = x;
+                if (x < -1) {
+                  pos = -1;
+                } else if (x > 1) {
+                  pos = 1;
+                }
+                return Stack(
+                  alignment: Alignment(pos, -1),
+                  children: [
+                    LineChart(
+                      mainData(context, appLocalizations),
+                    ),
+                    showTooltip
+                        ? CustomDashboardChartTooltip(selected: selected)
+                        : const SizedBox(),
+                  ],
+                );
+              });
             }),
     );
   }
@@ -112,15 +114,18 @@ class _PerformanceBarChartState extends AppState<PerformanceBarChart> {
       child = const SizedBox.shrink();
     } else {
       int x = (widget.allocations.length / 7).ceil();
-      var dateString = widget.allocations[value.toInt()].name.split(" ")[0].split("/");
+      var dateString =
+          widget.allocations[value.toInt()].name.split(" ")[0].split("/");
       DateTime dateTime = DateTime(int.parse(dateString[2]),
           int.parse(dateString[0]), int.parse(dateString[1]));
       child = value.toInt() % x == 0
           ? SideTitleWidget(
-        axisSide: meta.axisSide,
-        child: Text(CustomizableDateTime.miniDate(widget.allocations[value.toInt()].name),
-            style: const TextStyle(fontSize: 8)),
-      )
+              axisSide: meta.axisSide,
+              child: Text(
+                  CustomizableDateTime.miniDate(
+                      widget.allocations[value.toInt()].name),
+                  style: const TextStyle(fontSize: 8)),
+            )
           : const SizedBox();
     }
     return SideTitleWidget(
@@ -156,10 +161,12 @@ class _PerformanceBarChartState extends AppState<PerformanceBarChart> {
       padding: const EdgeInsets.only(right: 10),
       child: FittedBox(
         fit: BoxFit.scaleDown,
-        child: Text(
-          shown,
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 10),
+        child: PrivacyBlurWidget(
+          child: Text(
+            shown,
+            textAlign: TextAlign.left,
+            style: const TextStyle(fontSize: 10),
+          ),
         ),
       ),
     );
@@ -241,16 +248,17 @@ class _PerformanceBarChartState extends AppState<PerformanceBarChart> {
       maxY: divider,
       lineTouchData: LineTouchData(
           touchCallback: (p0, p1) {
-            if(p1 != null){
-              if(p1.lineBarSpots != null){
+            if (p1 != null) {
+              if (p1.lineBarSpots != null) {
                 setState(() {
-                  selected = widget.allocations[p1.lineBarSpots!.first.spotIndex];
+                  selected =
+                      widget.allocations[p1.lineBarSpots!.first.spotIndex];
                   position = p0.localPosition!.dx;
                   showTooltip = true;
-                  if(_timer != null){
+                  if (_timer != null) {
                     _timer!.cancel();
                   }
-                  _timer=Timer(const Duration(seconds: 2), () {
+                  _timer = Timer(const Duration(seconds: 2), () {
                     setState(() {
                       showTooltip = false;
                     });
@@ -259,10 +267,11 @@ class _PerformanceBarChartState extends AppState<PerformanceBarChart> {
               }
             }
           },
-          touchTooltipData: LineTouchTooltipData(getTooltipItems: (touchedSpots) {
-            return [LineTooltipItem("", const TextStyle())];
-          },tooltipPadding: const EdgeInsets.all(0.5))
-      ),
+          touchTooltipData: LineTouchTooltipData(
+              getTooltipItems: (touchedSpots) {
+                return [LineTooltipItem("", const TextStyle())];
+              },
+              tooltipPadding: const EdgeInsets.all(0.5))),
       lineBarsData: [
         LineChartBarData(
           spots: hideValues
@@ -290,8 +299,9 @@ class _PerformanceBarChartState extends AppState<PerformanceBarChart> {
             applyCutOffY: true,
             spotsLine: BarAreaSpotsLine(
                 show: true,
-                flLineStyle:
-                    FlLine(color: AppColors.chartColor, strokeWidth: widget.allocations.length>10 ? 5 : 15)),
+                flLineStyle: FlLine(
+                    color: AppColors.chartColor,
+                    strokeWidth: widget.allocations.length > 10 ? 5 : 15)),
             color: Colors.transparent,
           ),
         ),

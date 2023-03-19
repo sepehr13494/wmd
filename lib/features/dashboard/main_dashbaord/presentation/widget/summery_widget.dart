@@ -106,9 +106,11 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
                         icon: Icons.info,
                       ),
                       const SizedBox(height: 8),
-                      PrivacyText(
-                          (item[1] as double).convertMoney(addDollar: true),
-                          style: textTheme.headlineSmall),
+                      PrivacyBlurWidget(
+                        child: Text(
+                            (item[1] as double).convertMoney(addDollar: true),
+                            style: textTheme.headlineSmall),
+                      ),
                       const SizedBox(height: 8),
                       Builder(builder: (context) {
                         return FittedBox(
@@ -121,11 +123,13 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
                                     color: AppColors.dashBoardGreyTextColor),
                               ),
                               const SizedBox(width: 8),
-                              ChangeWidget(
-                                  number: item[3],
-                                  text: (item[3] as double)
-                                      .abs()
-                                      .convertMoney(addDollar: true))
+                              PrivacyBlurWidget(
+                                child: ChangeWidget(
+                                    number: item[3],
+                                    text: (item[3] as double)
+                                        .abs()
+                                        .convertMoney(addDollar: true)),
+                              )
                             ],
                           ),
                         );

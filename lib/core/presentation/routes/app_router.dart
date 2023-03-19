@@ -246,7 +246,7 @@ class AppRouter {
                     },
                   ),
                 ],
-                child: PrivacyWrapper(
+                child: PrivacyBlurWrapper(
                   child: LocalAuthWrapper(
                       child: MainPage(
                           expandCustodian:
