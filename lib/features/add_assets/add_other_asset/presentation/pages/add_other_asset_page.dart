@@ -310,6 +310,8 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                           type: TextFieldType.number,
                                           keyboardType: TextInputType.number,
                                           onChanged: checkFinalValid,
+                                          suffixIcon:
+                                              AppTextFields.rateSuffixIcon(),
                                           name: "ownerShip",
                                           hint: appLocalizations
                                               .assetLiabilityForms_forms_others_inputFields_ownerShip_placeholder),
