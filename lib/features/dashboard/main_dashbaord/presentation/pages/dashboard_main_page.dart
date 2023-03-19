@@ -208,7 +208,7 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                       iconTheme: appTheme.iconTheme.copyWith(
                                           color: appTheme.primaryColor)),
                                   child: const DashboardPage()))))
-              : const LoadingWidget();
+              : const SingleChildScrollView(child: MainDashboardShimmer());
         },
       ),
     );
