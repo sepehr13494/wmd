@@ -17,11 +17,10 @@ abstract class BlurredPrivacyRemoteDataSource {
 class BlurredPrivacyRemoteDataSourceImpl extends AppServerDataSource
     implements BlurredPrivacyRemoteDataSource {
   BlurredPrivacyRemoteDataSourceImpl(super.errorHandlerMiddleware);
-  bool isBlurred = false;
 
   @override
   Future<GetIsBlurredResponse> getIsBlurred(GetIsBlurredParams params) async {
-    return GetIsBlurredResponse(isBlurred: isBlurred);
+    return GetIsBlurredResponse(isBlurred: false);
     // try {
     //   final appRequestOptions = AppRequestOptions(
     //       RequestTypes.get, AppUrls.isBlurred, params.toJson());
@@ -42,8 +41,7 @@ class BlurredPrivacyRemoteDataSourceImpl extends AppServerDataSource
 
   @override
   Future<SetBlurredResponse> setBlurred(SetBlurredParams params) async {
-    isBlurred = params.isBlurred;
-    return SetBlurredResponse(isBlurred: isBlurred);
+    return SetBlurredResponse(isBlurred: params.isBlurred);
     // try {
     //   final appRequestOptions = AppRequestOptions(
     //       RequestTypes.get, AppUrls.isBlurred, params.toJson());

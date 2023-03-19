@@ -13,24 +13,21 @@ class PrivacyWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-        create: (context) => sl<BlurredPrivacyCubit>()..getIsBlurred(),
-        child: BlocConsumer<BlurredPrivacyCubit, BlurredPrivacyState>(
-          listener:
-              BlocHelper.defaultBlocListener(listener: (context, state) {}),
-          builder: (context, state) {
-            bool? isBlurred;
-            log("Mert log: $state");
-            if (state is IsBlurredLoaded) {
-              isBlurred = state.isBlurredEntity.isBlurred;
-            }
-            log("Mert log: $isBlurred");
-            return PrivacyInherited(
-              isBlurred: isBlurred ?? false,
-              child: child,
-            );
-          },
-        ));
+    return BlocConsumer<BlurredPrivacyCubit, BlurredPrivacyState>(
+      listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
+      builder: (context, state) {
+        bool? isBlurred;
+
+        if (state is IsBlurredLoaded) {
+          isBlurred = state.isBlurred;
+        }
+
+        return PrivacyInherited(
+          isBlurred: isBlurred ?? false,
+          child: child,
+        );
+      },
+    );
   }
 }
 
@@ -52,7 +49,6 @@ class PrivacyInherited extends InheritedWidget {
 
   @override
   bool updateShouldNotify(PrivacyInherited oldWidget) {
-    log("Mert log: $isBlurred");
     return (isBlurred != oldWidget.isBlurred);
   }
 }

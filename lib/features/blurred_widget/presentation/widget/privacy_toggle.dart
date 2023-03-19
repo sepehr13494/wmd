@@ -5,18 +5,29 @@ import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.
 
 import '../manager/blurred_privacy_cubit.dart';
 
-class PrivacyToggle extends StatelessWidget {
+class PrivacyToggle extends StatefulWidget {
   const PrivacyToggle({super.key});
+
+  @override
+  State<PrivacyToggle> createState() => _PrivacyToggleState();
+}
+
+class _PrivacyToggleState extends State<PrivacyToggle> {
+  late final BlurredPrivacyCubit bloc;
+  @override
+  void initState() {
+    super.initState();
+    bloc = context.read<BlurredPrivacyCubit>();
+  }
 
   @override
   Widget build(BuildContext context) {
     bool isBlurred = PrivacyInherited.of(context).isBlurred;
     return IconButton(
         onPressed: () {
-          context
-              .read<BlurredPrivacyCubit>()
-              .setBlurred(SetBlurredParams(isBlurred: !isBlurred));
+          bloc.setBlurred(SetBlurredParams(isBlurred: !isBlurred));
         },
-        icon: const Icon(Icons.privacy_tip));
+        icon: Icon(
+            isBlurred ? Icons.remove_red_eye_outlined : Icons.privacy_tip));
   }
 }

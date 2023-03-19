@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
@@ -12,6 +14,7 @@ class SetBlurredUseCase extends UseCase<IsBlurredEntity, SetBlurredParams> {
   SetBlurredUseCase(this.repository);
 
   @override
-  Future<Either<Failure, IsBlurredEntity>> call(SetBlurredParams params) =>
-      repository.setBlurred(params);
+  Future<Either<Failure, IsBlurredEntity>> call(SetBlurredParams params) {
+    return repository.setBlurred(params);
+  }
 }

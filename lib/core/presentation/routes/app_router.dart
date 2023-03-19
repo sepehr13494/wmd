@@ -28,6 +28,8 @@ import 'package:wmd/features/authentication/login_signup/presentation/pages/regi
 import 'package:wmd/features/authentication/login_signup/presentation/pages/verify_email_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/welcome_page.dart';
 import 'package:wmd/features/authentication/verify_email/presentation/pages/verify_response_page.dart';
+import 'package:wmd/features/blurred_widget/presentation/manager/blurred_privacy_cubit.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_goe_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
@@ -57,6 +59,7 @@ class AppRouter {
   }
 
   UserStatusCubit _userStatusCubit = sl<UserStatusCubit>();
+  BlurredPrivacyCubit _blurredPrivacyCubit = sl<BlurredPrivacyCubit>();
   MainDashboardCubit _mainDashboardCubit = sl<MainDashboardCubit>();
   MainPageCubit _mainPageCubit = sl<MainPageCubit>();
   SummeryWidgetCubit _summeryWidgetCubit = sl<SummeryWidgetCubit>();
@@ -177,6 +180,10 @@ class AppRouter {
                     return _mainDashboardCubit..initPage();
                   }),
                   BlocProvider(create: (context) {
+                    _blurredPrivacyCubit = sl<BlurredPrivacyCubit>();
+                    return _blurredPrivacyCubit..getIsBlurred();
+                  }),
+                  BlocProvider(create: (context) {
                     _summeryWidgetCubit = sl<SummeryWidgetCubit>();
                     return _summeryWidgetCubit..initPage();
                   }),
@@ -239,12 +246,15 @@ class AppRouter {
                     },
                   ),
                 ],
-                child: LocalAuthWrapper(
-                    child: MainPage(
-                        expandCustodian:
-                            state.queryParams['expandCustodian'] != null
-                                ? state.queryParams['expandCustodian'] == 'true'
-                                : false)),
+                child: PrivacyWrapper(
+                  child: LocalAuthWrapper(
+                      child: MainPage(
+                          expandCustodian:
+                              state.queryParams['expandCustodian'] != null
+                                  ? state.queryParams['expandCustodian'] ==
+                                      'true'
+                                  : false)),
+                ),
               );
             },
             routes: [
