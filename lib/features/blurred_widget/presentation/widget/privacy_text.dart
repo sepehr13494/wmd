@@ -1,26 +1,5 @@
 import 'package:flutter/material.dart';
-
-class PrivacyInherited extends InheritedWidget {
-  const PrivacyInherited({
-    super.key,
-    this.isBlurred = false,
-    required super.child,
-  });
-
-  final bool isBlurred;
-
-  static PrivacyInherited of(BuildContext context) {
-    final PrivacyInherited? result =
-        context.dependOnInheritedWidgetOfExactType<PrivacyInherited>();
-    assert(result != null, 'No PrivacyInherited found in context');
-    return result!;
-  }
-
-  @override
-  bool updateShouldNotify(PrivacyInherited oldWidget) {
-    return (isBlurred != oldWidget.isBlurred);
-  }
-}
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
 
 class PrivacyText extends StatefulWidget {
   const PrivacyText(

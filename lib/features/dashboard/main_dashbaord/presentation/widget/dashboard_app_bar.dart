@@ -7,6 +7,7 @@ import 'package:wmd/core/util/app_restart.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_toggle.dart';
 
 class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
   final bool? showHelp;
@@ -59,6 +60,7 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
                 height: 50,
               )),
       actions: [
+        const PrivacyToggle(),
         const ChangeLanguageButton(),
         // Switch(
         //     value: context.watch<ThemeManager>().state == ThemeMode.light,

@@ -17,44 +17,48 @@ abstract class BlurredPrivacyRemoteDataSource {
 class BlurredPrivacyRemoteDataSourceImpl extends AppServerDataSource
     implements BlurredPrivacyRemoteDataSource {
   BlurredPrivacyRemoteDataSourceImpl(super.errorHandlerMiddleware);
+  bool isBlurred = false;
 
   @override
   Future<GetIsBlurredResponse> getIsBlurred(GetIsBlurredParams params) async {
-    try {
-      final appRequestOptions = AppRequestOptions(
-          RequestTypes.get, AppUrls.isBlurred, params.toJson());
-      final response =
-          await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = GetIsBlurredResponse.fromJson(response);
-      return result;
-    } on ServerException {
-      rethrow;
-    } catch (e) {
-      throw AppException(
-          message: "format Exception",
-          type: ExceptionType.format,
-          data: e.toString(),
-          stackTrace: e is TypeError ? e.stackTrace.toString() : null);
-    }
+    return GetIsBlurredResponse(isBlurred: isBlurred);
+    // try {
+    //   final appRequestOptions = AppRequestOptions(
+    //       RequestTypes.get, AppUrls.isBlurred, params.toJson());
+    //   final response =
+    //       await errorHandlerMiddleware.sendRequest(appRequestOptions);
+    //   final result = GetIsBlurredResponse.fromJson(response);
+    //   return result;
+    // } on ServerException {
+    //   rethrow;
+    // } catch (e) {
+    //   throw AppException(
+    //       message: "format Exception",
+    //       type: ExceptionType.format,
+    //       data: e.toString(),
+    //       stackTrace: e is TypeError ? e.stackTrace.toString() : null);
+    // }
   }
 
   @override
   Future<SetBlurredResponse> setBlurred(SetBlurredParams params) async {
-    try {
-      final appRequestOptions = AppRequestOptions(
-          RequestTypes.get, AppUrls.isBlurred, params.toJson());
-      final response =
-          await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = SetBlurredResponse.fromJson(response);
-      return result;
-    } on ServerException {
-      rethrow;
-    } catch (e) {
-      throw AppException(
-          message: "format Exception",
-          type: ExceptionType.format,
-          data: e.toString(),
-          stackTrace: e is TypeError ? e.stackTrace.toString() : null);
-    }
+    isBlurred = params.isBlurred;
+    return SetBlurredResponse(isBlurred: isBlurred);
+    // try {
+    //   final appRequestOptions = AppRequestOptions(
+    //       RequestTypes.get, AppUrls.isBlurred, params.toJson());
+    //   final response =
+    //       await errorHandlerMiddleware.sendRequest(appRequestOptions);
+    //   final result = SetBlurredResponse.fromJson(response);
+    //   return result;
+    // } on ServerException {
+    //   rethrow;
+    // } catch (e) {
+    //   throw AppException(
+    //       message: "format Exception",
+    //       type: ExceptionType.format,
+    //       data: e.toString(),
+    //       stackTrace: e is TypeError ? e.stackTrace.toString() : null);
+    // }
   }
 }

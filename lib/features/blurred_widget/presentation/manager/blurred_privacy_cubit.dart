@@ -20,16 +20,16 @@ class BlurredPrivacyCubit extends Cubit<BlurredPrivacyState> {
   ) : super(LoadingState());
 
   getIsBlurred() async {
-    emit(LoadingState());
+    // emit(LoadingState());
     final result = await getIsBlurredUseCase(const GetIsBlurredParams());
     result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
       emit(IsBlurredLoaded(isBlurredEntity: entity));
     });
   }
 
-  setBlurred() async {
-    emit(LoadingState());
-    final result = await setBlurredUseCase(SetBlurredParams());
+  setBlurred(SetBlurredParams params) async {
+    // emit(LoadingState());
+    final result = await setBlurredUseCase(params);
     result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
       emit(IsBlurredLoaded(isBlurredEntity: entity));
     });

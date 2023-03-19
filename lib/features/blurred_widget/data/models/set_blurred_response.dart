@@ -1,10 +1,10 @@
 import 'package:wmd/features/blurred_widget/domain/entities/is_blurred_entity.dart';
 
 class SetBlurredResponse extends IsBlurredEntity {
-  const SetBlurredResponse();
+  const SetBlurredResponse({required super.isBlurred});
 
   factory SetBlurredResponse.fromJson(Map<String, dynamic> json) =>
-      SetBlurredResponse();
+      SetBlurredResponse(isBlurred: json['isBlurred']);
 
-  static final tResponse = SetBlurredResponse();
+  static const tResponse = SetBlurredResponse(isBlurred: true);
 }

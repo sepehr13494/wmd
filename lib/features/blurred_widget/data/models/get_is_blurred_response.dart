@@ -1,10 +1,10 @@
 import '../../domain/entities/is_blurred_entity.dart';
 
 class GetIsBlurredResponse extends IsBlurredEntity {
-  GetIsBlurredResponse();
+  const GetIsBlurredResponse({required super.isBlurred});
 
   factory GetIsBlurredResponse.fromJson(Map<String, dynamic> json) =>
-      GetIsBlurredResponse();
+      GetIsBlurredResponse(isBlurred: json["isBlurred"]);
 
-  static final tResponse = GetIsBlurredResponse();
+  static const tResponse = GetIsBlurredResponse(isBlurred: false);
 }

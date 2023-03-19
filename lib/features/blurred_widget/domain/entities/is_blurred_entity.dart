@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
 
 class IsBlurredEntity extends Equatable {
-  const IsBlurredEntity();
+  final bool isBlurred;
+  const IsBlurredEntity({required this.isBlurred});
 
   Map<String, dynamic> toJson() => {};
 

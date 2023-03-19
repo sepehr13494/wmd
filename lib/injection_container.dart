@@ -189,6 +189,12 @@ import 'features/asset_detail/valuation/presentation/manager/valuation_cubit.dar
 import 'features/asset_see_more/core/data/data_sources/asset_see_more_remote_datasource.dart';
 import 'features/asset_see_more/core/data/repositories/asset_see_more_repository_impl.dart';
 import 'features/asset_see_more/core/domain/use_cases/get_asset_see_more_usecase.dart';
+import 'features/blurred_widget/data/data_sources/blurred_privacy_remote_datasource.dart';
+import 'features/blurred_widget/data/repositories/blurred_privacy_repository_impl.dart';
+import 'features/blurred_widget/domain/repositories/blurred_privacy_repository.dart';
+import 'features/blurred_widget/domain/use_cases/get_is_blurred_usecase.dart';
+import 'features/blurred_widget/domain/use_cases/set_blurred_usecase.dart';
+import 'features/blurred_widget/presentation/manager/blurred_privacy_cubit.dart';
 import 'features/splash/data/repositories/splash_repository_impl.dart';
 import 'features/splash/domain/repositories/splash_repository.dart';
 import 'features/splash/domain/use_cases/check_login_usecase.dart';
@@ -474,13 +480,22 @@ Future<void> init() async {
 
   //ForceUpdate
   sl.registerFactory(() => ForceUpdateCubit(sl()));
-  sl.registerLazySingleton(() => GetForceUpdateUseCase(sl(),sl()));
+  sl.registerLazySingleton(() => GetForceUpdateUseCase(sl(), sl()));
 
   sl.registerLazySingleton<ForceUpdateRepository>(
-          () => ForceUpdateRepositoryImpl(sl()));
+      () => ForceUpdateRepositoryImpl(sl()));
   sl.registerLazySingleton<ForceUpdateRemoteDataSource>(
-          () => ForceUpdateRemoteDataSourceImpl(sl()));
+      () => ForceUpdateRemoteDataSourceImpl(sl()));
 
+  //BlurredPrivacy
+  sl.registerFactory(() => BlurredPrivacyCubit(sl(), sl()));
+  sl.registerLazySingleton(() => GetIsBlurredUseCase(sl()));
+  sl.registerLazySingleton(() => SetBlurredUseCase(sl()));
+
+  sl.registerLazySingleton<BlurredPrivacyRepository>(
+      () => BlurredPrivacyRepositoryImpl(sl()));
+  sl.registerLazySingleton<BlurredPrivacyRemoteDataSource>(
+      () => BlurredPrivacyRemoteDataSourceImpl(sl()));
 
   await initExternal();
   await initUtils();
