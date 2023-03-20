@@ -4,7 +4,6 @@ import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/manager/performance_table_cubit.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_base_table.dart';
 
@@ -27,7 +26,7 @@ class PerformanceAssetClassWidget extends AppStatelessWidget {
                     padding: const EdgeInsets.all(16),
                     child: Text(
                       appLocalizations.home_wealthPerformance_title,
-                      style: textTheme.headlineSmall,
+                      style: textTheme.titleLarge,
                     ),
                   ),
                   PerformanceBaseTable(
@@ -48,13 +47,13 @@ class PerformanceAssetClassWidget extends AppStatelessWidget {
                             .home_wealthPerformance_table_header_changePercentage,
                       ],
                       widths: const [
-                        140,
                         130,
-                        120,
-                        100,
-                        100,
-                        130,
-                        80
+                        124,
+                        114,
+                        94,
+                        94,
+                        124,
+                        74
                       ],
                       values: state.getAssetClassEntities
                           .map((e) => <String>[

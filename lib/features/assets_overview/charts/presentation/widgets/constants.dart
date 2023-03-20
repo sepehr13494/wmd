@@ -101,7 +101,7 @@ class AssetsOverviewChartsColors {
         return appLocalizations
             .manage_assetAndLiability_assetAndLiabilityList_others_title;
       default:
-        print("wrong type : $type");
+        debugPrint("wrong type : $type");
         return "Wrong asset type";
     }
   }
@@ -124,7 +124,7 @@ class AssetsOverviewChartsColors {
       case "southamerica":
         return appLocalizations.assets_geography_SouthAmerica;
       default:
-        print("wrong continent : $name");
+        debugPrint("wrong continent : $name");
         return appLocalizations.assets_label_other;
     }
   }

@@ -115,7 +115,9 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
                               ChangeWidget(
                                   number: item[3],
                                   text: (item[3] as double).abs()
-                                      .convertMoney(addDollar: true))
+                                      .convertMoney(addDollar: true),
+                                isLiabilities: index == 2 ? true : false,
+                              )
                             ],
                           ),
                         );
