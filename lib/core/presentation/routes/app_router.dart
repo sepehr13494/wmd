@@ -310,9 +310,18 @@ class AppRouter {
                   name: AppRoutes.settings,
                   path: "settings",
                   builder: (BuildContext context, GoRouterState state) {
-                    return BlocProvider.value(
-                      value: _personalInformationCubit,
-                      child: const SettingsPage(),
+                    return MultiBlocProvider(
+                      providers: [
+                        BlocProvider.value(
+                          value: _blurredPrivacyCubit,
+                        ),
+                        BlocProvider.value(
+                          value: _personalInformationCubit,
+                        ),
+                      ],
+                      child: const PrivacyBlurWrapper(
+                        child: SettingsPage(),
+                      ),
                     );
                   },
                   routes: [

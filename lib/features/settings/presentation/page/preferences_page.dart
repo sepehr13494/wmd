@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/util/app_localization.dart';
 import 'package:wmd/core/util/local_auth_manager.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_switch.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
 import 'package:wmd/features/profile/core/presentation/widgets/language_bottom_sheet.dart';
 import 'package:wmd/features/profile/profile_reset_password/presentation/pages/profile_reset_password_page.dart';
 
@@ -95,7 +97,8 @@ class PreferencesPage extends AppStatelessWidget {
               context.read<LocalAuthManager>().setLocalAuth(val, context);
             },
             title: Text(appLocalizations.profile_localAuth_enableFaceId),
-          )
+          ),
+          const PrivacySwitch(),
         ],
       ),
     );
