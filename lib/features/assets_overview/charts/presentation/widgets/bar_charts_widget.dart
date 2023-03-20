@@ -9,6 +9,7 @@ import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/assets_overview/charts/domain/entities/get_chart_entity.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/chart_custom_tooltip.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 
 import 'constants.dart';
 
@@ -86,10 +87,12 @@ class _AssetsOverviewBarChartsState extends State<AssetsOverviewBarCharts> {
       textDirection: TextDirection.ltr,
       child: FittedBox(
         fit: BoxFit.scaleDown,
-        child: Text(
-          "\$ ${(value * x).formatNumber}",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 10),
+        child: PrivacyBlurWidget(
+          child: Text(
+            "\$ ${(value * x).formatNumber}",
+            textAlign: TextAlign.left,
+            style: const TextStyle(fontSize: 10),
+          ),
         ),
       ),
     );

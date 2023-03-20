@@ -15,6 +15,7 @@ import 'package:wmd/features/asset_detail/valuation/data/models/get_valuation_pe
 import 'package:wmd/features/asset_detail/valuation/presentation/manager/performance_chart_cubit.dart';
 import 'package:wmd/features/asset_detail/valuation/presentation/widget/performance_chart.dart';
 import 'package:wmd/features/asset_detail/valuation/presentation/widget/performance_chart_v2.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_blur_warning.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/injection_container.dart';
 import '../manager/asset_summary_cubit.dart';

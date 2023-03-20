@@ -28,6 +28,8 @@ import 'package:wmd/features/authentication/login_signup/presentation/pages/regi
 import 'package:wmd/features/authentication/login_signup/presentation/pages/verify_email_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/welcome_page.dart';
 import 'package:wmd/features/authentication/verify_email/presentation/pages/verify_response_page.dart';
+import 'package:wmd/features/blurred_widget/presentation/manager/blurred_privacy_cubit.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_goe_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
@@ -42,6 +44,7 @@ import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart
 import 'package:wmd/features/main_page/presentation/pages/main_page.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/pages/verify_phone_number_page.dart';
+import 'package:wmd/features/settings/presentation/page/settings_page.dart';
 import 'package:wmd/features/splash/presentation/pages/splash_page.dart';
 import 'package:wmd/features/profile/core/presentation/pages/profile_page.dart';
 import 'package:wmd/injection_container.dart';
@@ -58,6 +61,7 @@ class AppRouter {
   }
 
   UserStatusCubit _userStatusCubit = sl<UserStatusCubit>();
+  BlurredPrivacyCubit _blurredPrivacyCubit = sl<BlurredPrivacyCubit>();
   MainDashboardCubit _mainDashboardCubit = sl<MainDashboardCubit>();
   MainPageCubit _mainPageCubit = sl<MainPageCubit>();
   SummeryWidgetCubit _summeryWidgetCubit = sl<SummeryWidgetCubit>();
@@ -75,11 +79,11 @@ class AppRouter {
   PersonalInformationCubit _personalInformationCubit =
       sl<PersonalInformationCubit>();
   PerformanceAssetClassCubit _performanceAssetClassCubit =
-  sl<PerformanceAssetClassCubit>();
+      sl<PerformanceAssetClassCubit>();
   PerformanceBenchmarkCubit _performanceBenchmarkCubit =
-  sl<PerformanceBenchmarkCubit>();
+      sl<PerformanceBenchmarkCubit>();
   PerformanceCustodianCubit _performanceCustodianCubit =
-  sl<PerformanceCustodianCubit>();
+      sl<PerformanceCustodianCubit>();
 
   GoRouter router() {
     return GoRouter(
@@ -184,6 +188,10 @@ class AppRouter {
                     return _mainDashboardCubit..initPage();
                   }),
                   BlocProvider(create: (context) {
+                    // _blurredPrivacyCubit = sl<BlurredPrivacyCubit>();
+                    return _blurredPrivacyCubit..getIsBlurred();
+                  }),
+                  BlocProvider(create: (context) {
                     _summeryWidgetCubit = sl<SummeryWidgetCubit>();
                     return _summeryWidgetCubit..initPage();
                   }),
@@ -192,16 +200,20 @@ class AppRouter {
                     return _assetsOverviewCubit..getAssetsOverview();
                   }),
                   BlocProvider(create: (context) {
-                    _performanceAssetClassCubit = sl<PerformanceAssetClassCubit>();
+                    _performanceAssetClassCubit =
+                        sl<PerformanceAssetClassCubit>();
                     return _performanceAssetClassCubit..getAssetClass();
                   }),
                   BlocProvider(create: (context) {
-                    _performanceBenchmarkCubit = sl<PerformanceBenchmarkCubit>();
+                    _performanceBenchmarkCubit =
+                        sl<PerformanceBenchmarkCubit>();
                     return _performanceBenchmarkCubit..getBenchmark();
                   }),
                   BlocProvider(create: (context) {
-                    _performanceCustodianCubit = sl<PerformanceCustodianCubit>();
-                    return _performanceCustodianCubit..getCustodianPerformance();
+                    _performanceCustodianCubit =
+                        sl<PerformanceCustodianCubit>();
+                    return _performanceCustodianCubit
+                      ..getCustodianPerformance();
                   }),
                   BlocProvider(
                     create: (context) {
@@ -258,12 +270,15 @@ class AppRouter {
                     },
                   ),
                 ],
-                child: LocalAuthWrapper(
-                    child: MainPage(
-                        expandCustodian:
-                            state.queryParams['expandCustodian'] != null
-                                ? state.queryParams['expandCustodian'] == 'true'
-                                : false)),
+                child: PrivacyBlurWrapper(
+                  child: LocalAuthWrapper(
+                      child: MainPage(
+                          expandCustodian:
+                              state.queryParams['expandCustodian'] != null
+                                  ? state.queryParams['expandCustodian'] ==
+                                      'true'
+                                  : false)),
+                ),
               );
             },
             routes: [
@@ -274,15 +289,20 @@ class AppRouter {
                   return MultiBlocProvider(
                       providers: [
                         BlocProvider.value(
+                          value: _blurredPrivacyCubit,
+                        ),
+                        BlocProvider.value(
                           value: _mainDashboardCubit,
                         ),
                         BlocProvider.value(
                           value: _mainPageCubit,
                         )
                       ],
-                      child: AssetDetailPage(
-                        assetId: state.queryParams['assetId'] as String,
-                        type: state.queryParams['type'] as String,
+                      child: PrivacyBlurWrapper(
+                        child: AssetDetailPage(
+                          assetId: state.queryParams['assetId'] as String,
+                          type: state.queryParams['type'] as String,
+                        ),
                       ));
                 },
               ),
@@ -290,9 +310,18 @@ class AppRouter {
                   name: AppRoutes.settings,
                   path: "settings",
                   builder: (BuildContext context, GoRouterState state) {
-                    return BlocProvider.value(
-                      value: _personalInformationCubit..getName(),
-                      child: const ProfilePage(),
+                    return MultiBlocProvider(
+                      providers: [
+                        BlocProvider.value(
+                          value: _blurredPrivacyCubit,
+                        ),
+                        BlocProvider.value(
+                          value: _personalInformationCubit,
+                        ),
+                      ],
+                      child: const PrivacyBlurWrapper(
+                        child: SettingsPage(),
+                      ),
                     );
                   },
                   routes: [

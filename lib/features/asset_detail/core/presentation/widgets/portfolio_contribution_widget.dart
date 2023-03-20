@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 
 class PortfolioContributionWidget extends AppStatelessWidget {
   final double portfolioContribution;
@@ -24,13 +25,12 @@ class PortfolioContributionWidget extends AppStatelessWidget {
           appLocalizations.assets_label_portfolioContribution,
           style: textTheme.bodySmall,
         ),
-        Builder(builder: (context) {
-          // final double portfolioPercentage = portfolioContribution * 100;
-          return Text(
+        PrivacyBlurWidget(
+          child: Text(
             "$value% of ${netWorth.convertMoney(addDollar: true)}",
             style: textTheme.bodyLarge,
-          );
-        }),
+          ),
+        ),
       ],
     );
   }

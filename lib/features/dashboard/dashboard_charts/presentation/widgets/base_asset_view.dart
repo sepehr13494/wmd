@@ -5,6 +5,7 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/firebase_analytics.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 
 import '../models/each_asset_model.dart';
@@ -129,12 +130,16 @@ class BaseAssetView extends AppStatelessWidget {
                             Expanded(
                               child: Align(
                                 alignment: AlignmentDirectional.centerStart,
-                                child: Text(asset.name,
-                                    style: textTheme.bodySmall),
+                                child: PrivacyBlurWidget(
+                                  child: Text(asset.name,
+                                      style: textTheme.bodySmall),
+                                ),
                               ),
                             ),
                             const SizedBox(width: 12),
-                            Text(asset.price, style: textTheme.bodySmall),
+                            PrivacyBlurWidget(
+                                child: Text(asset.price,
+                                    style: textTheme.bodySmall)),
                             Container(
                               width: 0.5,
                               height: 10,

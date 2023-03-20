@@ -7,6 +7,7 @@ import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 
 import '../../data/models/get_geographic_response.dart';
 import '../../domain/entities/get_geographic_entity.dart';
@@ -14,7 +15,6 @@ import 'countries_json.dart';
 
 class InsideWorldMapWidget extends StatefulWidget {
   final List<GetGeographicEntity> getGeographicEntity;
-
   const InsideWorldMapWidget({Key? key, required this.getGeographicEntity})
       : super(key: key);
 
@@ -341,11 +341,13 @@ class InsideWorldMapWidgetState extends AppState<InsideWorldMapWidget> {
                                   Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Text(
-                                        amount,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!,
+                                      PrivacyBlurWidget(
+                                        child: Text(
+                                          amount,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!,
+                                        ),
                                       ),
                                       const SizedBox(width: 24),
                                       Directionality(

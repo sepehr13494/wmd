@@ -8,6 +8,7 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/core/presentation/widgets/text_with_info.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/domain/entities/net_worth_entity.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
@@ -31,8 +32,8 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
             AppConstants.timeFilter(context).first)
         .key;
     final assetText = appLocalizations.home_widget_summaryCard_tooltip_assets
-        .replaceAll(
-            "{{count}}", widget.netWorthEntity.assets.newAssetCount.toInt().toString())
+        .replaceAll("{{count}}",
+            widget.netWorthEntity.assets.newAssetCount.toInt().toString())
         .replaceAll(
             "{{change}}",
             widget.netWorthEntity.assets.newAssetValue
@@ -40,8 +41,11 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
                 .toString());
     final liabilitiesText = appLocalizations
         .home_widget_summaryCard_tooltip_liabilities
-        .replaceAll("{{count}}",
-            widget.netWorthEntity.liabilities.newLiabilityCount.toInt().toString())
+        .replaceAll(
+            "{{count}}",
+            widget.netWorthEntity.liabilities.newLiabilityCount
+                .toInt()
+                .toString())
         .replaceAll(
             "{{change}}",
             widget.netWorthEntity.liabilities.newLiabilityValue
@@ -73,11 +77,15 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
     return Column(
       children: [
-        SummaryTimeFilter(key: const Key('SummaryWidget'), bloc: context.read<MainDashboardCubit>(),onChange: (value){
-          context
-              .read<DashboardAllocationCubit>()
-              .getAllocation(dateTime: value);
-        },),
+        SummaryTimeFilter(
+          key: const Key('SummaryWidget'),
+          bloc: context.read<MainDashboardCubit>(),
+          onChange: (value) {
+            context
+                .read<DashboardAllocationCubit>()
+                .getAllocation(dateTime: value);
+          },
+        ),
         const SizedBox(height: 12),
         RowOrColumn(
           showRow: !isMobile,
@@ -98,8 +106,11 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
                         icon: Icons.info,
                       ),
                       const SizedBox(height: 8),
-                      Text((item[1] as double).convertMoney(addDollar: true),
-                          style: textTheme.headlineSmall),
+                      PrivacyBlurWidget(
+                        child: Text(
+                            (item[1] as double).convertMoney(addDollar: true),
+                            style: textTheme.headlineSmall),
+                      ),
                       const SizedBox(height: 8),
                       Builder(builder: (context) {
                         return FittedBox(
@@ -112,11 +123,14 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
                                     color: AppColors.dashBoardGreyTextColor),
                               ),
                               const SizedBox(width: 8),
-                              ChangeWidget(
+                              PrivacyBlurWidget(
+                                child: ChangeWidget(
                                   number: item[3],
-                                  text: (item[3] as double).abs()
+                                  text: (item[3] as double)
+                                      .abs()
                                       .convertMoney(addDollar: true),
-                                isLiabilities: index == 2 ? true : false,
+                                  isLiabilities: index == 2 ? true : false,
+                                ),
                               )
                             ],
                           ),
