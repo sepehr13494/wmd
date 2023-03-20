@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
-
-import '../../data/models/set_blurred_params.dart';
-import '../manager/blurred_privacy_cubit.dart';
 
 class PrivacyBlurWarning extends AppStatelessWidget {
   final bool showCloseButton;
@@ -24,6 +20,7 @@ class PrivacyBlurWarning extends AppStatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(4.0),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Padding(
@@ -33,31 +30,9 @@ class PrivacyBlurWarning extends AppStatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Balances hidden for privacy purposes.',
-                      style: textTheme.bodyLarge,
-                    ),
-                    if (showCloseButton)
-                      InkWell(
-                          onTap: () {
-                            context.read<BlurredPrivacyCubit>().setBlurred(
-                                SetBlurredParams(isBlurred: !isBlurred));
-                          },
-                          child: Text(
-                            "Turn off privacy mode",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .apply(color: Theme.of(context).primaryColor),
-                          )),
-                  ],
-                ),
+              Text(
+                'Balances hidden for privacy purposes.',
+                style: textTheme.bodyLarge,
               ),
             ],
           ),

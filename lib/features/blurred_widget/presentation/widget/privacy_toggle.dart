@@ -22,10 +22,11 @@ class _PrivacyToggleState extends State<PrivacyToggle> {
 
   @override
   Widget build(BuildContext context) {
+    return const SizedBox();
     bool isBlurred = PrivacyInherited.of(context).isBlurred;
-    if (isBlurred) {
-      return const SizedBox();
-    }
+    // if (isBlurred) {
+    //   return const SizedBox();
+    // }
     return IconButton(
         onPressed: () {
           bloc.setBlurred(SetBlurredParams(isBlurred: !isBlurred));
