@@ -7,6 +7,7 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
 import 'performance_chart.dart';
 
 class PerformanceLineChartV2 extends AppStatelessWidget {
@@ -68,14 +69,12 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
         Row(
           children: [
             Text(
-              // ignore: prefer_interpolation_to_compose_strings
               appLocalizations.assets_label_performanceChart,
               style: textTheme.bodyLarge,
             ),
             const SizedBox(width: 8),
             Text(
               '(${appLocalizations.assets_label_lastDurationDays.replaceFirstMapped('{{duration}}', (match) => days.toString())})',
-              // '(Last $days days)',
               style: textTheme.bodySmall,
             ),
           ],
@@ -99,10 +98,11 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
                       placeLabelsNearAxisLine: false,
                     ),
                     primaryYAxis: NumericAxis(
-                      numberFormat: NumExt.getCompactNumberFormat(),
-                      labelStyle: textTheme.bodySmall!.apply(fontSizeDelta: -3),
-                      majorGridLines: const MajorGridLines(width: 1),
-                    ),
+                        numberFormat: NumExt.getCompactNumberFormat(),
+                        labelStyle:
+                            textTheme.bodySmall!.apply(fontSizeDelta: -3),
+                        majorGridLines: const MajorGridLines(width: 1),
+                        labelFormat: _getBlurredString(context)),
                     series: _getSeries(),
                     // tooltipBehavior: tooltipBehavior,
                     trackballBehavior: trackBall,
@@ -111,6 +111,11 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
         ),
       ],
     );
+  }
+
+  _getBlurredString(context) {
+    bool isBlurred = PrivacyInherited.of(context).isBlurred;
+    return isBlurred ? "**" : '{value}';
   }
 
   _getSeries() {
