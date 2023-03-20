@@ -31,7 +31,7 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
         final data = values.elementAt(index);
 
         return Card(
-          color: const Color.fromARGB(255, 38, 49, 52),
+          color: AppColors.blueCardColor,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(

@@ -8,6 +8,7 @@ import 'package:wmd/features/asset_detail/core/domain/entities/asset_summary_ent
 import 'package:wmd/features/asset_see_more/core/presentation/page/see_more_page.dart';
 import 'package:wmd/features/asset_see_more/core/presentation/widget/see_more_popup.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/widgets/ytd_itd_widget.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_blur_warning.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'as_of_date_widget.dart';
@@ -39,6 +40,7 @@ class AsssetSummary extends AppStatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const PrivacyBlurWarning(showCloseButton: false),
           PrivacyBlurWidget(
               child: Text(summary.assetName, style: textTheme.headlineSmall)),
           const SizedBox(height: 12),

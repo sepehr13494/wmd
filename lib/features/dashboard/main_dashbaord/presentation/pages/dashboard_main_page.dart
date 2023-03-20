@@ -5,10 +5,10 @@ import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_blur_warning.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/pages/main_dashboard_shimmer.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/dashboard_app_bar.dart';
@@ -114,6 +114,7 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                             const Key tableKey = Key("tableKey");
                                             return Column(
                                               children: [
+                                                const PrivacyBlurWarning(),
                                                 const FilterAddPart(),
                                                 const SizedBox(height: 12),
                                                 BanksAuthorizationProcess(
