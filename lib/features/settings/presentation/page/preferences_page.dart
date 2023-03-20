@@ -96,11 +96,9 @@ class PreferencesPage extends AppStatelessWidget {
             onChanged: (val) {
               context.read<LocalAuthManager>().setLocalAuth(val, context);
             },
-            title: Text(
-                appLocalizations.profile_tabs_preferences_privacyMode_label),
-            subtitle: Text(
-                appLocalizations.profile_tabs_preferences_privacyMode_desc),
+            title: Text(appLocalizations.profile_localAuth_enableFaceId),
           ),
+          const Divider(height: 48),
           const PrivacySwitch(),
         ],
       ),
