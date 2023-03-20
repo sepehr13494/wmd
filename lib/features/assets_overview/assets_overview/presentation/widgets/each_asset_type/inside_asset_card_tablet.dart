@@ -6,6 +6,7 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 
 import '../../../../core/domain/entities/assets_list_entity.dart';
 import '../../../../core/presentataion/models/assets_overview_base_widget_model.dart';
@@ -37,23 +38,28 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                   builder: (context) {
                     switch (index) {
                       case 0:
-                        return Text(
-                          asset.assetName,
-                          overflow: TextOverflow.ellipsis,
-                          style:
-                              TextStyle(color: Theme.of(context).primaryColor),
+                        return PrivacyBlurWidget(
+                          child: Text(
+                            asset.assetName,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor),
+                          ),
                         );
                       case 1:
                         return Align(
                           alignment: AlignmentDirectional.centerStart,
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
-                            child: Text(
-                              asset.currentValue.convertMoney(addDollar: true),
-                              style: textTheme.bodyMedium!.apply(
-                                  color: asset.currentValue < 0
-                                      ? Colors.red
-                                      : null),
+                            child: PrivacyBlurWidget(
+                              child: Text(
+                                asset.currentValue
+                                    .convertMoney(addDollar: true),
+                                style: textTheme.bodyMedium!.apply(
+                                    color: asset.currentValue < 0
+                                        ? Colors.red
+                                        : null),
+                              ),
                             ),
                           ),
                         );

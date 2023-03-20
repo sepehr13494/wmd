@@ -7,6 +7,7 @@ import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/custom_dashboard_chart_tooltip.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/min_max_calculator.dart';
 import '../../domain/entities/get_allocation_entity.dart';
@@ -114,10 +115,12 @@ class _LineChartSample2State extends AppState<LineChartSample2> {
       textDirection: TextDirection.ltr,
       child: FittedBox(
         fit: BoxFit.scaleDown,
-        child: Text(
-          "\$ ${(value * x).formatNumber}",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 10),
+        child: PrivacyBlurWidget(
+          child: Text(
+            "\$ ${(value * x).formatNumber}",
+            textAlign: TextAlign.left,
+            style: const TextStyle(fontSize: 10),
+          ),
         ),
       ),
     );

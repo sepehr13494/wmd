@@ -6,6 +6,7 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/widgets/each_asset_type/asset_list_widget.dart';
 import 'package:wmd/features/assets_overview/core/presentataion/models/assets_overview_base_widget_model.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 import '../assets_overview_inherit.dart';
 import '../ytd_itd_widget.dart';
 import 'asset_type_mobile_title.dart';
@@ -52,13 +53,16 @@ class EachAssetType extends AppStatelessWidget {
                           AssetsOverviewBaseType.assetType
                       ? const SizedBox()
                       : Row(
-                        children: [
-                          Text(
-                              appLocalizations.home_widget_geography_label_allocation),
-                          const SizedBox(width: 4),
-                          Text("${assetsOverviewBaseWidgetModel.allocation.toStringAsFixed(1)} %",textDirection: TextDirection.ltr,)
-                        ],
-                      )
+                          children: [
+                            Text(appLocalizations
+                                .home_widget_geography_label_allocation),
+                            const SizedBox(width: 4),
+                            Text(
+                              "${assetsOverviewBaseWidgetModel.allocation.toStringAsFixed(1)} %",
+                              textDirection: TextDirection.ltr,
+                            )
+                          ],
+                        )
                 ],
               ),
               RowOrColumn(
@@ -67,12 +71,14 @@ class EachAssetType extends AppStatelessWidget {
                 children: [
                   SizedBox(
                     width: !isMobile ? 200 : null,
-                    child: Text(
-                      assetsOverviewBaseWidgetModel
-                          .assetsOverviewBaseModel.totalAmount
-                          .convertMoney(addDollar: true),
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 28),
+                    child: PrivacyBlurWidget(
+                      child: Text(
+                        assetsOverviewBaseWidgetModel
+                            .assetsOverviewBaseModel.totalAmount
+                            .convertMoney(addDollar: true),
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontSize: 28),
+                      ),
                     ),
                   ),
                   SizedBox(width: responsiveHelper.bigger16Gap, height: 16),
