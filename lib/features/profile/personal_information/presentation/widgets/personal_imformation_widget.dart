@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 import 'package:wmd/global_functions.dart';
 
@@ -90,21 +91,23 @@ class _PersonalInformationWidgetState
                             hasInfo: false,
                             title: appLocalizations
                                 .profile_tabs_personal_fields_label_firstName,
-                            child: AppTextFields.simpleTextField(
-                              name: "firstName",
-                              hint: appLocalizations
-                                  .profile_tabs_personal_placeholders_firstName,
-                              onChanged: checkFinalValid,
-                              extraValidators: [
-                                (val) {
-                                  return (!val!
-                                          .contains(RegExp(r'^[A-Za-z\s]*$')))
-                                      ? appLocalizations
-                                          .common_errors_onlyCharactersAllowed
-                                      // ? "${appLocalizations.profile_tabs_personal_fields_label_firstName} can only contain letters"
-                                      : null;
-                                }
-                              ],
+                            child: PrivacyBlurWidget(
+                              child: AppTextFields.simpleTextField(
+                                name: "firstName",
+                                hint: appLocalizations
+                                    .profile_tabs_personal_placeholders_firstName,
+                                onChanged: checkFinalValid,
+                                extraValidators: [
+                                  (val) {
+                                    return (!val!
+                                            .contains(RegExp(r'^[A-Za-z\s]*$')))
+                                        ? appLocalizations
+                                            .common_errors_onlyCharactersAllowed
+                                        // ? "${appLocalizations.profile_tabs_personal_fields_label_firstName} can only contain letters"
+                                        : null;
+                                  }
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -118,22 +121,24 @@ class _PersonalInformationWidgetState
                             hasInfo: false,
                             title: appLocalizations
                                 .profile_tabs_personal_fields_label_lastName,
-                            child: AppTextFields.simpleTextField(
-                              name: "lastName",
-                              required: false,
-                              hint: appLocalizations
-                                  .profile_tabs_personal_placeholders_lastName,
-                              onChanged: checkFinalValid,
-                              extraValidators: [
-                                (val) {
-                                  return (!(val ?? "")
-                                          .contains(RegExp(r'^[A-Za-z\s]*$')))
-                                      ? appLocalizations
-                                          .common_errors_onlyCharactersAllowed
-                                      // ? "${appLocalizations.profile_tabs_personal_fields_label_lastName} can only contain letters"
-                                      : null;
-                                }
-                              ],
+                            child: PrivacyBlurWidget(
+                              child: AppTextFields.simpleTextField(
+                                name: "lastName",
+                                required: false,
+                                hint: appLocalizations
+                                    .profile_tabs_personal_placeholders_lastName,
+                                onChanged: checkFinalValid,
+                                extraValidators: [
+                                  (val) {
+                                    return (!(val ?? "")
+                                            .contains(RegExp(r'^[A-Za-z\s]*$')))
+                                        ? appLocalizations
+                                            .common_errors_onlyCharactersAllowed
+                                        // ? "${appLocalizations.profile_tabs_personal_fields_label_lastName} can only contain letters"
+                                        : null;
+                                  }
+                                ],
+                              ),
                             ),
                           ),
                         ),

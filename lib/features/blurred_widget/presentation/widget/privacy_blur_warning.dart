@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/core/util/custom_icons.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
 
 class PrivacyBlurWarning extends AppStatelessWidget {
@@ -18,21 +19,22 @@ class PrivacyBlurWarning extends AppStatelessWidget {
       child: Card(
         color: AppColors.blueCardColor,
         child: Padding(
-          padding: const EdgeInsets.all(4.0),
+          padding: const EdgeInsets.only(top: 8, bottom: 6),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                child: Icon(
-                  Icons.remove_red_eye_outlined,
-                  color: Colors.white,
-                ),
+              const Icon(
+                CustomIcons.privacy_blur_icon,
+                color: Colors.white,
               ),
+              const SizedBox(width: 8),
               Text(
-                'Balances hidden for privacy purposes.',
+                appLocalizations.profile_tabs_preferences_privacyMode_warning,
                 style: textTheme.bodyLarge,
+                textHeightBehavior: const TextHeightBehavior(
+                  applyHeightToFirstAscent: false,
+                ),
               ),
             ],
           ),

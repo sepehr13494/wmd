@@ -44,6 +44,7 @@ import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart
 import 'package:wmd/features/main_page/presentation/pages/main_page.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/pages/verify_phone_number_page.dart';
+import 'package:wmd/features/settings/presentation/page/settings_page.dart';
 import 'package:wmd/features/splash/presentation/pages/splash_page.dart';
 import 'package:wmd/features/profile/core/presentation/pages/profile_page.dart';
 import 'package:wmd/injection_container.dart';
@@ -309,9 +310,18 @@ class AppRouter {
                   name: AppRoutes.settings,
                   path: "settings",
                   builder: (BuildContext context, GoRouterState state) {
-                    return BlocProvider.value(
-                      value: _personalInformationCubit..getName(),
-                      child: const ProfilePage(),
+                    return MultiBlocProvider(
+                      providers: [
+                        BlocProvider.value(
+                          value: _blurredPrivacyCubit,
+                        ),
+                        BlocProvider.value(
+                          value: _personalInformationCubit,
+                        ),
+                      ],
+                      child: const PrivacyBlurWrapper(
+                        child: SettingsPage(),
+                      ),
                     );
                   },
                   routes: [
