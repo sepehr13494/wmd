@@ -78,11 +78,11 @@ class AppRouter {
   PersonalInformationCubit _personalInformationCubit =
       sl<PersonalInformationCubit>();
   PerformanceAssetClassCubit _performanceAssetClassCubit =
-  sl<PerformanceAssetClassCubit>();
+      sl<PerformanceAssetClassCubit>();
   PerformanceBenchmarkCubit _performanceBenchmarkCubit =
-  sl<PerformanceBenchmarkCubit>();
+      sl<PerformanceBenchmarkCubit>();
   PerformanceCustodianCubit _performanceCustodianCubit =
-  sl<PerformanceCustodianCubit>();
+      sl<PerformanceCustodianCubit>();
 
   GoRouter router() {
     return GoRouter(
@@ -187,7 +187,7 @@ class AppRouter {
                     return _mainDashboardCubit..initPage();
                   }),
                   BlocProvider(create: (context) {
-                    _blurredPrivacyCubit = sl<BlurredPrivacyCubit>();
+                    // _blurredPrivacyCubit = sl<BlurredPrivacyCubit>();
                     return _blurredPrivacyCubit..getIsBlurred();
                   }),
                   BlocProvider(create: (context) {
@@ -199,16 +199,20 @@ class AppRouter {
                     return _assetsOverviewCubit..getAssetsOverview();
                   }),
                   BlocProvider(create: (context) {
-                    _performanceAssetClassCubit = sl<PerformanceAssetClassCubit>();
+                    _performanceAssetClassCubit =
+                        sl<PerformanceAssetClassCubit>();
                     return _performanceAssetClassCubit..getAssetClass();
                   }),
                   BlocProvider(create: (context) {
-                    _performanceBenchmarkCubit = sl<PerformanceBenchmarkCubit>();
+                    _performanceBenchmarkCubit =
+                        sl<PerformanceBenchmarkCubit>();
                     return _performanceBenchmarkCubit..getBenchmark();
                   }),
                   BlocProvider(create: (context) {
-                    _performanceCustodianCubit = sl<PerformanceCustodianCubit>();
-                    return _performanceCustodianCubit..getCustodianPerformance();
+                    _performanceCustodianCubit =
+                        sl<PerformanceCustodianCubit>();
+                    return _performanceCustodianCubit
+                      ..getCustodianPerformance();
                   }),
                   BlocProvider(
                     create: (context) {
@@ -284,15 +288,20 @@ class AppRouter {
                   return MultiBlocProvider(
                       providers: [
                         BlocProvider.value(
+                          value: _blurredPrivacyCubit,
+                        ),
+                        BlocProvider.value(
                           value: _mainDashboardCubit,
                         ),
                         BlocProvider.value(
                           value: _mainPageCubit,
                         )
                       ],
-                      child: AssetDetailPage(
-                        assetId: state.queryParams['assetId'] as String,
-                        type: state.queryParams['type'] as String,
+                      child: PrivacyBlurWrapper(
+                        child: AssetDetailPage(
+                          assetId: state.queryParams['assetId'] as String,
+                          type: state.queryParams['type'] as String,
+                        ),
                       ));
                 },
               ),

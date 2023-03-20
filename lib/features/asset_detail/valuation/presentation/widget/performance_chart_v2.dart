@@ -1,14 +1,12 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
-import 'dart:ui' as ui;
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 import 'performance_chart.dart';
 
 class PerformanceLineChartV2 extends AppStatelessWidget {
@@ -21,38 +19,48 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
   Widget buildWidget(
       BuildContext context, textTheme, AppLocalizations appLocalizations) {
     TrackballBehavior trackBall = TrackballBehavior(
-        enable: true,
-        lineType: TrackballLineType.none,
-        activationMode: ActivationMode.singleTap,
-        builder: (context, TrackballDetails details) {
-          final index = details.seriesIndex;
-          if (index == null) {
-            return SizedBox();
-          }
-          final data = values.elementAt(index);
+      enable: true,
+      lineType: TrackballLineType.none,
+      activationMode: ActivationMode.singleTap,
+      builder: (context, TrackballDetails details) {
+        final index = details.seriesIndex;
+        if (index == null) {
+          return const SizedBox();
+        }
+        final data = values.elementAt(index);
 
-          return Card(
-            color: const Color.fromARGB(255, 38, 49, 52),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text.rich(TextSpan(
-                text: CustomizableDateTime.graphDateV2(data.key, context),
-                style: textTheme.titleSmall!,
-                children: [
-                  TextSpan(
-                      text: '\n${appLocalizations.assets_label_currentBalance}',
-                      style: textTheme.bodyMedium),
-                  TextSpan(
-                      // ignore: prefer_interpolation_to_compose_strings
-                      text: ' ${(data.value).formatCurrencyCompact()}',
-                      style: textTheme.titleSmall!
-                          .apply(color: AppColors.chartColor)),
-                ],
-              )),
+        return Card(
+          color: const Color.fromARGB(255, 38, 49, 52),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  CustomizableDateTime.graphDateV2(data.key, context),
+                  style: textTheme.titleSmall!,
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(appLocalizations.assets_label_currentBalance,
+                        style: textTheme.bodyMedium),
+                    const SizedBox(width: 6),
+                    PrivacyBlurWidget(
+                      child: Text((data.value).formatCurrencyCompact(),
+                          style: textTheme.titleSmall!
+                              .apply(color: AppColors.chartColor)),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          );
-        },
-        lineColor: AppColors.anotherCardColorForLightTheme);
+          ),
+        );
+      },
+      lineColor: AppColors.anotherCardColorForLightTheme,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

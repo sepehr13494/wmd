@@ -60,7 +60,7 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
                 height: 50,
               )),
       actions: [
-        // const PrivacyToggle(),
+        const PrivacyToggle(),
         const ChangeLanguageButton(),
         // Switch(
         //     value: context.watch<ThemeManager>().state == ThemeMode.light,
