@@ -26,6 +26,7 @@ class AppColors {
   static const Color continentFullColor = Color(0xffb48d80);
   static const Color shimmerColor = Color(0xff3a3a3a);
   static const Color shimmerSecondColor = Color(0xff535353);
+  static const Color blueCardColor = Color.fromARGB(255, 38, 49, 52);
 }
 
 class HexColor extends Color {

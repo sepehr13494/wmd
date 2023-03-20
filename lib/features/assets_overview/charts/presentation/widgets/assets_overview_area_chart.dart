@@ -134,7 +134,7 @@ class _AssetsOverviewAreaChartState extends State<AssetsOverviewAreaChart> {
               });
             },
             maxContentWidth: 300,
-            tooltipBgColor: const Color.fromARGB(255, 38, 49, 52),
+            tooltipBgColor: AppColors.blueCardColor,
           ),
         ),
         gridData: FlGridData(

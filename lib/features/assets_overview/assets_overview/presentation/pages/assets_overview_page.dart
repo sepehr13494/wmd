@@ -21,6 +21,7 @@ import 'package:wmd/features/assets_overview/charts/presentation/widgets/constan
 import 'package:wmd/features/assets_overview/core/presentataion/models/assets_overview_base_widget_model.dart';
 import 'package:wmd/features/assets_overview/currency_chart/domain/entities/get_currency_entity.dart';
 import 'package:wmd/features/assets_overview/currency_chart/presentation/manager/currency_chart_cubit.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_blur_warning.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_geographic_entity.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/inside_world_map_widget.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
@@ -89,6 +90,7 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                           padding: const EdgeInsets.all(16),
                           child: Column(
                             children: [
+                              const PrivacyBlurWarning(),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -151,14 +153,32 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                     ),
                                     builder: (context, state) {
                                       if (state is BaseAssetsOverviewLoaded) {
-                                        List<GetGeographicEntity> otherList = [];
-                                        final bool isMapGeo = (state is GetAssetsGeographyLoaded && (context.watch<GeoChartChooserManager>().state?.barType ?? GeoBarType.map) == GeoBarType.map);
-                                        if(isMapGeo){
+                                        List<GetGeographicEntity> otherList =
+                                            [];
+                                        final bool isMapGeo = (state
+                                                is GetAssetsGeographyLoaded &&
+                                            (context
+                                                        .watch<
+                                                            GeoChartChooserManager>()
+                                                        .state
+                                                        ?.barType ??
+                                                    GeoBarType.map) ==
+                                                GeoBarType.map);
+                                        if (isMapGeo) {
                                           double sum = 0;
-                                          for (var element in state.assetsOverviewBaseModels) {
+                                          for (var element in state
+                                              .assetsOverviewBaseModels) {
                                             sum += element.totalAmount;
                                           }
-                                          otherList = state.assetsOverviewBaseModels.map((e) => GetGeographicEntity(continent: e.geography, amount: e.totalAmount, percentage: (e.totalAmount/sum)*100)).toList();
+                                          otherList = state
+                                              .assetsOverviewBaseModels
+                                              .map((e) => GetGeographicEntity(
+                                                  continent: e.geography,
+                                                  amount: e.totalAmount,
+                                                  percentage:
+                                                      (e.totalAmount / sum) *
+                                                          100))
+                                              .toList();
                                         }
                                         double sum = 0;
                                         for (var element
@@ -182,19 +202,31 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                                     .isEmpty
                                                 ? const SizedBox()
                                                 : EachAssetType(
-                                              assetsOverviewBaseWidgetModel:
-                                              AssetsOverviewBaseWidgetModel(
-                                                allocation: (item.totalAmount*100)/sum,
-                                                title: _getTitle(
-                                                    item, appLocalizations),
-                                                color: isMapGeo ? InsideWorldMapWidgetState.getColorByList((item as GetAssetsGeographyEntity).geography, otherList) : _getColor(item, index,state
-                                                    .assetsOverviewBaseModels[
-                                                index]),
-                                                assetsOverviewType:
-                                                _getType(item),
-                                                assetsOverviewBaseModel: item,
-                                              ),
-                                            );
+                                                    assetsOverviewBaseWidgetModel:
+                                                        AssetsOverviewBaseWidgetModel(
+                                                      allocation:
+                                                          (item.totalAmount *
+                                                                  100) /
+                                                              sum,
+                                                      title: _getTitle(item,
+                                                          appLocalizations),
+                                                      color: isMapGeo
+                                                          ? InsideWorldMapWidgetState
+                                                              .getColorByList(
+                                                                  (item as GetAssetsGeographyEntity)
+                                                                      .geography,
+                                                                  otherList)
+                                                          : _getColor(
+                                                              item,
+                                                              index,
+                                                              state.assetsOverviewBaseModels[
+                                                                  index]),
+                                                      assetsOverviewType:
+                                                          _getType(item),
+                                                      assetsOverviewBaseModel:
+                                                          item,
+                                                    ),
+                                                  );
                                           },
                                         );
                                       } else {
@@ -240,7 +272,8 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
     }
   }
 
-  Color _getColor(AssetsOverviewBaseModel item, int index, AssetsOverviewBaseModel assetsOverviewBaseModel) {
+  Color _getColor(AssetsOverviewBaseModel item, int index,
+      AssetsOverviewBaseModel assetsOverviewBaseModel) {
     if (item is AssetsOverviewEntity) {
       return AssetsOverviewChartsColors
               .colorsMap[(item.type + (item.subType ?? ""))] ??
