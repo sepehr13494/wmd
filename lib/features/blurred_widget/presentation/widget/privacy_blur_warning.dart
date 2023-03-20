@@ -30,11 +30,10 @@ class PrivacyBlurWarning extends AppStatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                "appLocalizations.privacy",
+                appLocalizations.profile_tabs_preferences_privacyMode_warning,
                 style: textTheme.bodyLarge,
-                textHeightBehavior: TextHeightBehavior(
+                textHeightBehavior: const TextHeightBehavior(
                   applyHeightToFirstAscent: false,
-                  // applyHeightToLastDescent: true,
                 ),
               ),
             ],
