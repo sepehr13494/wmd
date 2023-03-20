@@ -10,16 +10,17 @@ class ChangeWidget extends AppStatelessWidget {
   final double number;
   final String text;
   final String? tooltipMessage;
+  final bool isLiabilities;
 
   const ChangeWidget(
-      {Key? key, required this.number, required this.text, this.tooltipMessage})
+      {Key? key, required this.number, required this.text, this.tooltipMessage, this.isLiabilities = false})
       : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalization) {
     final bool isPositive = number > 0;
     final bool isZero = number == 0;
-    final color = isZero ? null : (isPositive ? AppColors.green : Colors.red);
+    final color = isZero ? null : ((isPositive ^ isLiabilities) ? AppColors.green : Colors.red);
     return Directionality(
       textDirection: TextDirection.ltr,
       child: RichText(

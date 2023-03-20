@@ -23,7 +23,7 @@ class PerformanceCustodianWidget extends AppStatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16),
               child: Text("Performance comparison of custodians",
-                style: textTheme.headlineSmall,),
+                style: textTheme.titleLarge,),
             ),
             PerformanceBaseTable(titles: const [
               "Serial Number",

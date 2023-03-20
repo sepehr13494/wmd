@@ -24,7 +24,7 @@ class PerformanceBenchmarkWidget extends AppStatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16),
               child: Text(appLocalizations.home_wealthPerformanceComparision_title,
-                style: textTheme.headlineSmall,),
+                style: textTheme.titleLarge,),
             ),
             PerformanceBaseTable(titles: [
               appLocalizations.home_wealthPerformanceComparision_table_header_indexes,

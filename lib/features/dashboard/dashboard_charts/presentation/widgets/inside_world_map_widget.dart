@@ -14,14 +14,15 @@ import 'countries_json.dart';
 
 class InsideWorldMapWidget extends StatefulWidget {
   final List<GetGeographicEntity> getGeographicEntity;
-  const InsideWorldMapWidget({Key? key, required this.getGeographicEntity}) : super(key: key);
+
+  const InsideWorldMapWidget({Key? key, required this.getGeographicEntity})
+      : super(key: key);
 
   @override
   AppState<InsideWorldMapWidget> createState() => InsideWorldMapWidgetState();
 }
 
 class InsideWorldMapWidgetState extends AppState<InsideWorldMapWidget> {
-
   late String country = "";
   late String amount = "";
   late String percentage = "";
@@ -30,7 +31,8 @@ class InsideWorldMapWidgetState extends AppState<InsideWorldMapWidget> {
   late Timer _timer;
 
   @override
-  Widget buildWidget(BuildContext context,TextTheme textTheme, AppLocalizations appLocalizations) {
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
     return LayoutBuilder(builder: (context, snap) {
       return SizedBox(
         height: snap.maxWidth * 0.65,
@@ -41,28 +43,30 @@ class InsideWorldMapWidgetState extends AppState<InsideWorldMapWidget> {
                 width: snap.maxWidth * 0.92,
                 // Actual widget from the Countries_world_map package.
                 child: Builder(builder: (context) {
-                  final asiaPercentage = getPercentage("Asia",widget.getGeographicEntity);
-                  final euroPercentage = getPercentage("Europe",widget.getGeographicEntity);
-                  final australiaPercentage = getPercentage("Oceania",widget.getGeographicEntity);
-                  final africaPercentage = getPercentage("Africa",widget.getGeographicEntity);
-                  final northAmericaPercentage = getPercentage("North America",widget.getGeographicEntity);
-                  final southAmericaPercentage = getPercentage("South America",widget.getGeographicEntity);
+                  final asiaPercentage =
+                      getPercentage("Asia", widget.getGeographicEntity);
+                  final euroPercentage =
+                      getPercentage("Europe", widget.getGeographicEntity);
+                  final australiaPercentage =
+                      getPercentage("Oceania", widget.getGeographicEntity);
+                  final africaPercentage =
+                      getPercentage("Africa", widget.getGeographicEntity);
+                  final northAmericaPercentage = getPercentage(
+                      "North America", widget.getGeographicEntity);
+                  final southAmericaPercentage = getPercentage(
+                      "South America", widget.getGeographicEntity);
                   final asiaColor = getColor(asiaPercentage);
                   final euroColor = getColor(euroPercentage);
-                  final australiaColor =
-                  getColor(australiaPercentage);
+                  final australiaColor = getColor(australiaPercentage);
                   final africaColor = getColor(africaPercentage);
-                  final northAmericaColor =
-                  getColor(northAmericaPercentage);
-                  final southAmericaColor =
-                  getColor(southAmericaPercentage);
+                  final northAmericaColor = getColor(northAmericaPercentage);
+                  final southAmericaColor = getColor(southAmericaPercentage);
                   return Stack(
                     alignment: Alignment(offset.dx, offset.dy),
                     children: [
                       SimpleWorldMap(
                         callback: (p0, p1) {
-                          showTooltipFunc(
-                              p0, p1, widget.getGeographicEntity);
+                          showTooltipFunc(p0, p1, widget.getGeographicEntity);
                         },
                         countryColors: SimpleWorldCountryColors(
                           iR: asiaColor,
@@ -320,51 +324,46 @@ class InsideWorldMapWidgetState extends AppState<InsideWorldMapWidget> {
                       ),
                       showTooltip
                           ? Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: AppColors
-                              .anotherCardColorForDarkTheme,
-                          borderRadius:
-                          BorderRadius.circular(8),
-                        ),
-                        child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(country,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium),
-                            const SizedBox(height: 8),
-                            Row(
-                              mainAxisSize:
-                              MainAxisSize.min,
-                              children: [
-                                Text(
-                                  amount,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!,
-                                ),
-                                const SizedBox(width: 24),
-                                Directionality(
-                                  textDirection: TextDirection.ltr,
-                                  child: Text(
-                                    percentage,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall!
-                                        .apply(
-                                        color: AppColors
-                                            .chartColor),
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: AppColors.anotherCardColorForDarkTheme,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(country,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium),
+                                  const SizedBox(height: 8),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        amount,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!,
+                                      ),
+                                      const SizedBox(width: 24),
+                                      Directionality(
+                                        textDirection: TextDirection.ltr,
+                                        child: Text(
+                                          percentage,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall!
+                                              .apply(
+                                                  color: AppColors.chartColor),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      )
+                                ],
+                              ),
+                            )
                           : const SizedBox()
                     ],
                   );
@@ -393,17 +392,18 @@ class InsideWorldMapWidgetState extends AppState<InsideWorldMapWidget> {
     }
   }
 
-  static double getPercentage(String name, List<GetGeographicEntity> getGeographicEntity){
+  static Color getColorByList(
+      String continent, List<GetGeographicEntity> list) {
+    return getColor(getPercentage(continent, list));
+  }
+
+  static double getPercentage(
+      String name, List<GetGeographicEntity> getGeographicEntity) {
     return getGeographicEntity
-        .firstWhere(
-            (element) =>
-        element.continent == name,
-        orElse: () =>
-        GetGeographicResponse(
-            percentage: 0,
-            amount: 0,
-            continent: name))
-        .percentage /
+            .firstWhere((element) => element.continent == name,
+                orElse: () => GetGeographicResponse(
+                    percentage: 0, amount: 0, continent: name))
+            .percentage /
         100;
   }
 

@@ -41,6 +41,7 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
     final appTheme = Theme.of(context);
     if (widget.expandCustodian) {
