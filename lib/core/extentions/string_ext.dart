@@ -16,6 +16,11 @@ extension StringExt on String {
         .replaceAll("]", "");
   }
 
+  num convertMoneyToInt() {
+    String str = this;
+    return num.parse(str.replaceAll(',', ''));
+  }
+
   bool isDate() {
     try {
       DateTime.parse(this);

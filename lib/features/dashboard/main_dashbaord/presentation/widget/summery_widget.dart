@@ -125,10 +125,12 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
                               const SizedBox(width: 8),
                               PrivacyBlurWidget(
                                 child: ChangeWidget(
-                                    number: item[3],
-                                    text: (item[3] as double)
-                                        .abs()
-                                        .convertMoney(addDollar: true)),
+                                  number: item[3],
+                                  text: (item[3] as double)
+                                      .abs()
+                                      .convertMoney(addDollar: true),
+                                  isLiabilities: index == 2 ? true : false,
+                                ),
                               )
                             ],
                           ),

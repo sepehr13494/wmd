@@ -284,7 +284,7 @@ class _CurrenciesDropdownState extends State<CurrenciesDropdown> {
             });
           },
           itemAsString: (Currency currency) =>
-              "${currency.name} (${currency.symbol})",
+              currency.name,
           filterFn: (currency, string) {
             return (currency.name
                     .toLowerCase()
@@ -294,7 +294,7 @@ class _CurrenciesDropdownState extends State<CurrenciesDropdown> {
           itemBuilder: (context, currency, _) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("${currency.name} (${currency.symbol})"),
+              child: Text(currency.name),
             );
           },
         ),

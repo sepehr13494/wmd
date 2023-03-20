@@ -394,6 +394,11 @@ class InsideWorldMapWidgetState extends AppState<InsideWorldMapWidget> {
     }
   }
 
+  static Color getColorByList(
+      String continent, List<GetGeographicEntity> list) {
+    return getColor(getPercentage(continent, list));
+  }
+
   static double getPercentage(
       String name, List<GetGeographicEntity> getGeographicEntity) {
     return getGeographicEntity

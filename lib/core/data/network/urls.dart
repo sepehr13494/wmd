@@ -79,4 +79,9 @@ class AppUrls {
   static String isBlurred = "${wealthBase}IsBlurred";
 
   static String getForceUpdate = "wmo/version";
+
+  //performance table
+  static String getAssetClass = "${wealthBase}Performance/assetclass";
+  static String getBenchmark = "${wealthBase}Performance/benchmark";
+  static String getCustodianPerformance = "${wealthBase}Performance/custodian";
 }

@@ -16,6 +16,7 @@ import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_head
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
 import 'package:wmd/injection_container.dart';
+import 'package:wmd/core/extentions/string_ext.dart';
 
 class AddPrivateEquityPage extends StatefulWidget {
   const AddPrivateEquityPage({Key? key}) : super(key: key);
@@ -134,6 +135,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_privateEquity_inputFields_custodian_label,
                                       child: FormBuilderTypeAhead(
+                                          required: false,
                                           onChange: checkFinalValid,
                                           name: "custodian",
                                           hint: appLocalizations
@@ -215,7 +217,9 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                         firstDate: acquisitionDateValue,
                                         lastDate: DateTime.now(),
                                         name: "valuationDate",
-                                        onChanged: checkFinalValid,
+                                        onChanged: (selectedDate) {
+                                          checkFinalValid(selectedDate);
+                                        },
                                         decoration: InputDecoration(
                                             suffixIcon: Icon(
                                               Icons.calendar_today_outlined,
@@ -235,6 +239,17 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                           title: "Current value",
                                           type: TextFieldType.money,
                                           name: "marketValue",
+                                          extraValidators: [
+                                            (val) {
+                                              return (val != null &&
+                                                      val != "" &&
+                                                      val.convertMoneyToInt() ==
+                                                          0)
+                                                  ? appLocalizations
+                                                      .common_errors_required
+                                                  : null;
+                                            }
+                                          ],
                                           hint: appLocalizations
                                               .assetLiabilityForms_forms_privateEquity_inputFields_currentValue_placeholder),
                                     ),

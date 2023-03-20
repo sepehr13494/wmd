@@ -10,10 +10,14 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/pages/main_dashboard_shimmer.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/dashboard_app_bar.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/filter_add_widget.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/net_worth_base_chart.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/summery_widget.dart';
+import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_asset_class_widget.dart';
+import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_benchmark_widget.dart';
+import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_custodian_widget.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import '../../../dashboard_charts/presentation/widgets/pie_chart_sample.dart';
 import '../../../dashboard_charts/presentation/widgets/random_map.dart';
@@ -34,6 +38,7 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
     final appTheme = Theme.of(context);
     if (widget.expandCustodian) {
@@ -55,7 +60,8 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
               ? (state.userStatus.loginAt != null)
                   ? WidthLimiterWidget(
                       width: 700,
-                      child: Center(
+                      child: Align(
+                        alignment: Alignment.topCenter,
                         child: SingleChildScrollView(
                           child: Theme(
                               data: appTheme.copyWith(
@@ -105,6 +111,7 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                           if (isAssetsNotEmpty ||
                                               isCustodianNotEmpty ||
                                               isLiabilityNotEmpty) {
+                                            const Key tableKey = Key("tableKey");
                                             return Column(
                                               children: [
                                                 const FilterAddPart(),
@@ -121,13 +128,14 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                                           state.netWorthObj),
                                                 const NetWorthBaseChart(),
                                                 const SizedBox(height: 8),
-                                                Row(children: [
-                                                  Text(
+                                                Align(
+                                                  alignment: AlignmentDirectional.centerStart,
+                                                  child: Text(
                                                       appLocalizations
                                                           .home_label_yourAssets,
                                                       style:
-                                                          textTheme.titleLarge),
-                                                ]),
+                                                      textTheme.titleLarge),
+                                                ),
                                                 RowOrColumn(
                                                   rowCrossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -143,8 +151,17 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                                             const RandomWorldMapGenrator()),
                                                   ],
                                                 ),
+                                                Column(
+                                                  key: tableKey,
+                                                  children: [
+                                                    const PerformanceAssetClassWidget(),
+                                                    const PerformanceBenchmarkWidget(),
+                                                    const PerformanceCustodianWidget(),
+                                                  ].map((e) => Padding(padding: const EdgeInsets.symmetric(vertical: 8),child: e,)).toList(),
+                                                ),
+                                                const SizedBox(height: 8),
                                               ]
-                                                  .map((e) => Padding(
+                                                  .map((e) => e.key == tableKey ? e : Padding(
                                                       padding: const EdgeInsets
                                                               .symmetric(
                                                           vertical: 8,
@@ -155,7 +172,7 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                           }
                                           return const DashboardPage();
                                         }
-                                        return const LoadingWidget();
+                                        return const MainDashboardShimmer();
                                       },
                                     );
                                   })),
@@ -189,7 +206,7 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                       iconTheme: appTheme.iconTheme.copyWith(
                                           color: appTheme.primaryColor)),
                                   child: const DashboardPage()))))
-              : const LoadingWidget();
+              : const SingleChildScrollView(child: MainDashboardShimmer());
         },
       ),
     );
