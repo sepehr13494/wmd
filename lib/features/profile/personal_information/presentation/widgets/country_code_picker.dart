@@ -35,7 +35,7 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
         }
         return SizedBox(
           width: 125,
-          height: 60,
+          height: 80,
           child: TextField(
             controller: controller,
             style: Theme.of(context).textTheme.bodySmall,
