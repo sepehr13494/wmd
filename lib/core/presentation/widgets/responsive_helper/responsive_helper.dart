@@ -21,6 +21,7 @@ class ResponsiveHelper {
   bool get isDesktop => deviceSize.width >= WIDTH_DESKTOP;
 
   double get optimalDeviceWidth => min(deviceSize.width, WIDTH_MAX_APP_WIDTH);
+  double get optimalDeviceHeight => deviceSize.height;
 
   bool isTablet({includeMobile: false}) =>
       deviceSize.width < WIDTH_DESKTOP &&
@@ -72,8 +73,8 @@ class ResponsiveHelper {
   double get bigger24Gap => isDesktop
       ? 44
       : isMobile
-      ? 24
-      : 32;
+          ? 24
+          : 32;
 
   double get smallFontSize => isDesktop
       ? 14

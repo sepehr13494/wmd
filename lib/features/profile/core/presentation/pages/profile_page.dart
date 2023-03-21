@@ -4,6 +4,7 @@ import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/profile/personal_information/presentation/widgets/personal_imformation_widget.dart';
+import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/two_factor_settings_widget.dart';
 
 import '../../../personal_information/presentation/manager/personal_information_cubit.dart';
 import '../../../personal_information/presentation/widgets/contact_information_widget.dart';
@@ -34,6 +35,8 @@ class _ProfilePageState extends AppStateAlive<ProfilePage> {
             const PersonalInformationWidget(),
             const Divider(height: 48),
             const ContactInformationWidget(),
+            const Divider(height: 48),
+            const TwoFactorSetting(),
             const Divider(height: 48),
           ],
         ),
