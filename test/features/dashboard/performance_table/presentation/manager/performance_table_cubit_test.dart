@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
+import 'package:wmd/core/models/time_filer_obj.dart';
 
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/features/dashboard/performance_table/data/models/get_asset_class_params.dart';
@@ -55,7 +56,7 @@ void main() {
       build: () => performanceTableCubit,
       setUp: () => when(mockGetAssetClassUseCase(any))
           .thenAnswer((realInvocation) async => Right(GetAssetClassResponse.tResponse)),
-      act: (bloc) async => await bloc.getAssetClass(),
+      act: (bloc) async => await bloc.getAssetClass(period: TimeFilterObj.tTimeFilterObj),
       expect: () =>
       [isA<LoadingState>(), GetAssetClassLoaded(getAssetClassEntities : GetAssetClassResponse.tResponse)],
       verify: (_) {
@@ -68,7 +69,7 @@ void main() {
       build: () => performanceTableCubit,
       setUp: () => when(mockGetAssetClassUseCase(any))
           .thenAnswer((realInvocation) async => const Left(ServerFailure.tServerFailure)),
-      act: (bloc) async => await bloc.getAssetClass(),
+      act: (bloc) async => await bloc.getAssetClass(period: TimeFilterObj.tTimeFilterObj),
       expect: () =>
       [isA<LoadingState>(), ErrorState(failure: ServerFailure.tServerFailure)],
       verify: (_) {
