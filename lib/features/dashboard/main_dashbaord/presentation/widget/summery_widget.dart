@@ -9,6 +9,7 @@ import 'package:wmd/core/presentation/widgets/text_with_info.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/domain/entities/net_worth_entity.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
@@ -28,29 +29,39 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    bool isBlurred = PrivacyInherited.of(context).isBlurred;
     final String date = (context.watch<MainDashboardCubit>().dateTimeRange ??
             AppConstants.timeFilter(context).first)
         .key;
     final assetText = appLocalizations.home_widget_summaryCard_tooltip_assets
-        .replaceAll("{{count}}",
-            widget.netWorthEntity.assets.newAssetCount.toInt().toString())
+        .replaceAll(
+            "{{count}}",
+            isBlurred
+                ? "***"
+                : widget.netWorthEntity.assets.newAssetCount.toInt().toString())
         .replaceAll(
             "{{change}}",
-            widget.netWorthEntity.assets.newAssetValue
-                .convertMoney()
-                .toString());
+            isBlurred
+                ? "***"
+                : widget.netWorthEntity.assets.newAssetValue
+                    .convertMoney()
+                    .toString());
     final liabilitiesText = appLocalizations
         .home_widget_summaryCard_tooltip_liabilities
         .replaceAll(
             "{{count}}",
-            widget.netWorthEntity.liabilities.newLiabilityCount
-                .toInt()
-                .toString())
+            isBlurred
+                ? "***"
+                : widget.netWorthEntity.liabilities.newLiabilityCount
+                    .toInt()
+                    .toString())
         .replaceAll(
             "{{change}}",
-            widget.netWorthEntity.liabilities.newLiabilityValue
-                .convertMoney()
-                .toString());
+            isBlurred
+                ? "***"
+                : widget.netWorthEntity.liabilities.newLiabilityValue
+                    .convertMoney()
+                    .toString());
     final List items = [
       [
         appLocalizations.home_label_totalNetWorth,

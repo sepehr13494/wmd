@@ -17,6 +17,8 @@ class PreferencesPage extends AppStatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 32),
       child: Column(
         children: [
+          const PrivacySwitch(),
+          const Divider(height: 48),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -98,8 +100,6 @@ class PreferencesPage extends AppStatelessWidget {
             },
             title: Text(appLocalizations.profile_localAuth_enableFaceId),
           ),
-          const Divider(height: 48),
-          const PrivacySwitch(),
         ],
       ),
     );

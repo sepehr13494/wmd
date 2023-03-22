@@ -11,6 +11,7 @@ class SettingsPage extends AppStatelessWidget {
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
+    const double padding = 16;
     final appTheme = Theme.of(context);
     return Theme(
       data: Theme.of(context).copyWith(
@@ -31,7 +32,7 @@ class SettingsPage extends AppStatelessWidget {
             DefaultTabController(
               length: 3,
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(padding),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -45,19 +46,23 @@ class SettingsPage extends AppStatelessWidget {
                     ),
                     Row(
                       children: [
-                        TabBar(
-                          tabs: [
-                            Tab(
-                                text: appLocalizations
-                                    .profile_tabs_personal_name),
-                            Tab(
-                                text: appLocalizations
-                                    .profile_tabs_preferences_name),
-                            Tab(
-                                text: appLocalizations
-                                    .profile_tabs_linkedAccounts_name),
-                          ],
-                          isScrollable: true,
+                        SizedBox(
+                          width:
+                              MediaQuery.of(context).size.width - padding * 2,
+                          child: TabBar(
+                            tabs: [
+                              Tab(
+                                  text: appLocalizations
+                                      .profile_tabs_personal_name),
+                              Tab(
+                                  text: appLocalizations
+                                      .profile_tabs_preferences_name),
+                              Tab(
+                                  text: appLocalizations
+                                      .profile_tabs_linkedAccounts_name),
+                            ],
+                            isScrollable: true,
+                          ),
                         ),
                         const Spacer(),
                       ],
