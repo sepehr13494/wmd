@@ -78,10 +78,11 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                                     getChartEntities:
                                     state.getChartEntities,
                                     titles: titles.toList());
-                              case AssetsBarType.treeChart:
-                                return AssetsOverviewTreeChart(
+                              case AssetsBarType.areaPercentage:
+                                return AssetsOverviewAreaChart(
                                     getChartEntities:
-                                    state.getChartEntities);
+                                    state.getChartEntities,
+                                    titles: titles.toList(),showPercentage: true,);
                               default:
                                 return const SizedBox();
                             }
