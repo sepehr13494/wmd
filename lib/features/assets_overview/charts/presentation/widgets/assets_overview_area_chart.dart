@@ -16,8 +16,9 @@ import 'constants.dart';
 class AssetsOverviewAreaChart extends StatefulWidget {
   final List<GetChartEntity> getChartEntities;
   final List<String> titles;
+  final bool showPercentage;
   const AssetsOverviewAreaChart(
-      {super.key, required this.getChartEntities, required this.titles});
+      {super.key, required this.getChartEntities, required this.titles,this.showPercentage = false});
 
   @override
   State<AssetsOverviewAreaChart> createState() =>
@@ -87,10 +88,20 @@ class _AssetsOverviewAreaChartState extends State<AssetsOverviewAreaChart> {
     return FittedBox(
       fit: BoxFit.scaleDown,
       child: PrivacyBlurWidget(
-        child: Text(
-          "\$ ${(value * x).formatNumber}",
-          textAlign: TextAlign.left,
-          style: const TextStyle(fontSize: 10),
+        child: Builder(
+          builder: (context) {
+            late String text;
+            if(widget.showPercentage){
+              text = "${(((value * x)/maxY)*100).toStringAsFixed(1)} %";
+            }else{
+              text = "\$ ${(value * x).formatNumberWithDecimal()}";
+            }
+            return Text(
+              text,
+              textAlign: TextAlign.left,
+              style: const TextStyle(fontSize: 10),
+            );
+          }
         ),
       ),
     );
@@ -283,7 +294,15 @@ class _AssetsOverviewAreaChartState extends State<AssetsOverviewAreaChart> {
             show: true,
             cutOffY: 0,
             applyCutOffY: true,
-            color: color.withOpacity(0.4)),
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                color.withOpacity(0.4),
+                color.withOpacity(0.0),
+              ]
+            ),
+        ),
       );
     });
   }
@@ -294,28 +313,28 @@ class _AssetsOverviewAreaChartState extends State<AssetsOverviewAreaChart> {
     if (getChartEntities.isNotEmpty) {
       for (var element in getChartEntities) {
         if (element.bankAccount > maxY) {
-          maxY += element.bankAccount;
+          maxY = element.bankAccount;
         }
         if (element.listedAssetEquity > maxY) {
-          maxY += element.listedAssetEquity;
+          maxY = element.listedAssetEquity;
         }
         if (element.listedAssetFixedIncome > maxY) {
-          maxY += element.listedAssetFixedIncome;
+          maxY = element.listedAssetFixedIncome;
         }
         if (element.listedAssetOther > maxY) {
-          maxY += element.listedAssetOther;
+          maxY = element.listedAssetOther;
         }
         if (element.others > maxY) {
-          maxY += element.others;
+          maxY = element.others;
         }
         if (element.privateDebt > maxY) {
-          maxY += element.privateDebt;
+          maxY = element.privateDebt;
         }
         if (element.realEstate > maxY) {
-          maxY += element.realEstate;
+          maxY = element.realEstate;
         }
         if (element.privateEquity > maxY) {
-          maxY += element.privateEquity;
+          maxY = element.privateEquity;
         }
       }
     }
