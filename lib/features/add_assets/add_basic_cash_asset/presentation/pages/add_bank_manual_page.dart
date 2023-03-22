@@ -114,6 +114,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                               initialValue:
                                   AddAssetConstants.initialJsonForAddAsset,
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     appLocalizations
@@ -122,8 +123,13 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                   ),
                                   Text(
                                     appLocalizations
+                                        .assetLiabilityForms_subHeading_bankAccount,
+                                    style: textTheme.bodySmall,
+                                  ),
+                                  Text(
+                                    appLocalizations
                                         .assetLiabilityForms_forms_bankAccount_title,
-                                    style: textTheme.titleMedium,
+                                    style: textTheme.titleSmall,
                                   ),
                                   BlocSelector<BankListCubit, BankListState,
                                       List<String>>(
@@ -244,6 +250,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                     Column(
                                       children: [
                                         EachTextField(
+                                          hasInfo: false,
                                           title: appLocalizations
                                               .assetLiabilityForms_forms_bankAccount_inputFields_balance_label,
                                           child: AppTextFields.simpleTextField(
