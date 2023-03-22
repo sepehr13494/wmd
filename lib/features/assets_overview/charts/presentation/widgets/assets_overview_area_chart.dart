@@ -94,7 +94,7 @@ class _AssetsOverviewAreaChartState extends State<AssetsOverviewAreaChart> {
             if(widget.showPercentage){
               text = "${(((value * x)/maxY)*100).toStringAsFixed(1)} %";
             }else{
-              text = "\$ ${(value * x).formatNumber}";
+              text = "\$ ${(value * x).formatNumberWithDecimal()}";
             }
             return Text(
               text,

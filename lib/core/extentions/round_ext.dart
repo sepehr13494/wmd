@@ -25,20 +25,21 @@ extension ExString on String {
 extension Ex on double {
   String cR() {
     return roundV3(decimals: 1).toString().removeZero(); //when desc
-    return this.round().toString(); //this works great when increasing
+    //return this.toString(); //when desc
+    //return this.round().toString(); //this works great when increasing
   }
 
   String getCompact({String? sign = "\$"}) {
     final numb = this;
     late String result;
     if (numb > 1000000000000) {
-      result = "${(numb / 1000000000000.1).cR()}T";
+      result = "${(numb / 1000000000000).cR()}T";
     } else if (numb > 1000000000) {
-      result = "${(numb / 1000000000.1).cR()}B";
+      result = "${(numb / 1000000000).cR()}B";
     } else if (numb > 1000000) {
-      result = "${(numb / 1000000.1).cR()}M";
+      result = "${(numb / 1000000).cR()}M";
     } else if (numb > 1000) {
-      result = "${(numb / 1000.1).cR()}K";
+      result = "${(numb / 1000).cR()}K";
     } else {
       result = (numb).cR().toString();
     }
@@ -57,9 +58,6 @@ extension Ex on double {
     num nMod = pow(10.0, decimals);
     String sNTR = toString();
     int iLastDigitNTR = 0, i2ndLastDigitNTR = 0;
-    debugPrint(
-        "Round => $this to $decimals Decimal ${(decimals == 1) ? "Place" : "Places"} !!"); // Deactivate this 'print()' line in production code !!
-
     // Step 2 - Calculate Decimal Cut Index (i.e. string cut length) ...
     int iDeciPlaces = (decimals + 2);
     if (sNTR.contains('.')) {
@@ -116,8 +114,6 @@ extension Ex on double {
     double dResFin = double.parse(dAccuRound.toStringAsFixed(decimals));
 
     // Step 7 - Return result to function call ...
-    debugPrint(
-        "Result (AccuRound) => $dResFin !!"); // Deactivate this 'print()' line in production code !!
     return dResFin;
   }
 }

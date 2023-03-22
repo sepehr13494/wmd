@@ -117,7 +117,7 @@ class _LineChartSample2State extends AppState<LineChartSample2> {
         fit: BoxFit.scaleDown,
         child: PrivacyBlurWidget(
           child: Text(
-            "\$ ${(value * x).formatNumber}",
+            "\$ ${(value * x).formatNumberWithDecimal()}",
             textAlign: TextAlign.left,
             style: const TextStyle(fontSize: 10),
           ),
