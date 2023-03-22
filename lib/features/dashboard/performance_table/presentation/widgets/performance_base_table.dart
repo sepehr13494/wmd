@@ -28,94 +28,61 @@ class _PerformanceBaseTableState extends AppState<PerformanceBaseTable> {
       AppLocalizations appLocalizations) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Column(
-                children: [
-                  SizedBox(
-                    height: 64,
-                    width: widget.widths[0],
-                    child: Align(
-                      alignment: AlignmentDirectional.centerStart,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Text(
-                          widget.titles[0],
-                          style: textTheme.titleSmall,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Card(
-                    margin: EdgeInsets.zero,
-                    child: Builder(builder: (context) {
-                      final visibleValues = widget.values.sublist(
-                          0,
-                          ((page * perPage) < widget.values.length
-                              ? page * perPage
-                              : widget.values.length));
-                      return Column(
-                        children: List.generate(visibleValues.length, (index) {
-                          final List<String> value = visibleValues[index];
-                          return Container(
-                            color: index.isEven
-                                ? Theme.of(context).cardColor
-                                : (Theme.of(context).brightness == Brightness.dark
-                                ? AppColors.darkCardColorForDarkTheme
-                                : AppColors.darkCardColorForLightTheme),
-                            child: Builder(
-                              builder: (context) {
-                                final String insideValue = value[0];
-                                return SizedBox(
-                                  height: 64,
-                                  width: widget.widths[0],
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                                    child: Align(
-                                      alignment: AlignmentDirectional.centerStart,
-                                      child: Text(
-                                        insideValue,
-                                        style: textTheme.bodySmall,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }
+      child: widget.values.isEmpty
+          ? Column(
+              children: [
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: List.generate(widget.titles.length, (index) {
+                      return SizedBox(
+                        height: 64,
+                        width: widget.widths[index],
+                        child: Align(
+                          alignment: AlignmentDirectional.centerStart,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Text(
+                              widget.titles[index],
+                              style: textTheme.titleSmall,
                             ),
-                          );
-                        }),
+                          ),
+                        ),
                       );
                     }),
                   ),
-                ],
-              ),
-              Expanded(
-                child: Scrollbar(
-                  thumbVisibility: true,
-                  trackVisibility: true,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Column(
+                ),
+                const Card(
+                  child: SizedBox(
+                    width: double.maxFinite,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                          "You are up to date, there are no transactions to view",textAlign: TextAlign.center,),
+                    ),
+                  ),
+                )
+              ],
+            )
+          : Column(
+              children: [
+                Row(
+                  children: [
+                    Column(
                       children: [
-                        Row(
-                          children: List.generate(widget.titles.length - 1, (index) {
-                            return SizedBox(
-                              height: 64,
-                              width: widget.widths[index+1],
-                              child: Align(
-                                alignment: AlignmentDirectional.centerStart,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: Text(
-                                    widget.titles[index+1],
-                                    style: textTheme.titleSmall,
-                                  ),
-                                ),
+                        SizedBox(
+                          height: 64,
+                          width: widget.widths[0],
+                          child: Align(
+                            alignment: AlignmentDirectional.centerStart,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Text(
+                                widget.titles[0],
+                                style: textTheme.titleSmall,
                               ),
-                            );
-                          }),
+                            ),
+                          ),
                         ),
                         Card(
                           margin: EdgeInsets.zero,
@@ -126,33 +93,36 @@ class _PerformanceBaseTableState extends AppState<PerformanceBaseTable> {
                                     ? page * perPage
                                     : widget.values.length));
                             return Column(
-                              children: List.generate(visibleValues.length, (index) {
+                              children:
+                                  List.generate(visibleValues.length, (index) {
                                 final List<String> value = visibleValues[index];
                                 return Container(
                                   color: index.isEven
                                       ? Theme.of(context).cardColor
-                                      : (Theme.of(context).brightness == Brightness.dark
+                                      : (Theme.of(context).brightness ==
+                                              Brightness.dark
                                           ? AppColors.darkCardColorForDarkTheme
-                                          : AppColors.darkCardColorForLightTheme),
-                                  child: Row(
-                                    children: List.generate(value.length - 1, (index) {
-                                      final String insideValue = value[index + 1];
-                                      return SizedBox(
-                                        height: 64,
-                                        width: widget.widths[index+1],
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                                          child: Align(
-                                            alignment: AlignmentDirectional.centerStart,
-                                            child: Text(
-                                              insideValue,
-                                              style: textTheme.bodySmall,
-                                            ),
+                                          : AppColors
+                                              .darkCardColorForLightTheme),
+                                  child: Builder(builder: (context) {
+                                    final String insideValue = value[0];
+                                    return SizedBox(
+                                      height: 64,
+                                      width: widget.widths[0],
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12),
+                                        child: Align(
+                                          alignment:
+                                              AlignmentDirectional.centerStart,
+                                          child: Text(
+                                            insideValue,
+                                            style: textTheme.bodySmall,
                                           ),
                                         ),
-                                      );
-                                    }),
-                                  ),
+                                      ),
+                                    );
+                                  }),
                                 );
                               }),
                             );
@@ -160,36 +130,121 @@ class _PerformanceBaseTableState extends AppState<PerformanceBaseTable> {
                         ),
                       ],
                     ),
-                  ),
+                    Expanded(
+                      child: Scrollbar(
+                        trackVisibility: true,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Column(
+                            children: [
+                              Row(
+                                children: List.generate(
+                                    widget.titles.length - 1, (index) {
+                                  return SizedBox(
+                                    height: 64,
+                                    width: widget.widths[index + 1],
+                                    child: Align(
+                                      alignment:
+                                          AlignmentDirectional.centerStart,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: Text(
+                                          widget.titles[index + 1],
+                                          style: textTheme.titleSmall,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                              ),
+                              Card(
+                                margin: EdgeInsets.zero,
+                                child: Builder(builder: (context) {
+                                  final visibleValues = widget.values.sublist(
+                                      0,
+                                      ((page * perPage) < widget.values.length
+                                          ? page * perPage
+                                          : widget.values.length));
+                                  return Column(
+                                    children: List.generate(
+                                        visibleValues.length, (index) {
+                                      final List<String> value =
+                                          visibleValues[index];
+                                      return Container(
+                                        color: index.isEven
+                                            ? Theme.of(context).cardColor
+                                            : (Theme.of(context).brightness ==
+                                                    Brightness.dark
+                                                ? AppColors
+                                                    .darkCardColorForDarkTheme
+                                                : AppColors
+                                                    .darkCardColorForLightTheme),
+                                        child: Row(
+                                          children: List.generate(
+                                              value.length - 1, (index) {
+                                            final String insideValue =
+                                                value[index + 1];
+                                            return SizedBox(
+                                              height: 64,
+                                              width: widget.widths[index + 1],
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 12),
+                                                child: Align(
+                                                  alignment:
+                                                      AlignmentDirectional
+                                                          .centerStart,
+                                                  child: Text(
+                                                    insideValue,
+                                                    style: textTheme.bodySmall,
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          }),
+                                        ),
+                                      );
+                                    }),
+                                  );
+                                }),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-          widget.values.length < perPage ? const SizedBox() : ElevatedButton(
-            onPressed: () {
-              setState(() {
-                if (page * perPage >= widget.values.length) {
-                  page = 1;
-                } else {
-                  page++;
-                }
-              });
-            },
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(AppColors.cardColor),
-              minimumSize:
-              MaterialStateProperty.all(const Size(double.maxFinite, 48)),
-              side: MaterialStateProperty.all(BorderSide.none),
+                widget.values.length < perPage
+                    ? const SizedBox()
+                    : ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            if (page * perPage >= widget.values.length) {
+                              page = 1;
+                            } else {
+                              page++;
+                            }
+                          });
+                        },
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(AppColors.cardColor),
+                          minimumSize: MaterialStateProperty.all(
+                              const Size(double.maxFinite, 48)),
+                          side: MaterialStateProperty.all(BorderSide.none),
+                        ),
+                        child: Text(
+                          page * perPage >= widget.values.length
+                              ? appLocalizations.common_button_viewLess
+                              : appLocalizations.common_button_viewMore,
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
+                        ),
+                      )
+              ],
             ),
-            child: Text(
-              page * perPage >= widget.values.length
-                  ? appLocalizations.common_button_viewLess
-                  : appLocalizations.common_button_viewMore,
-              style: TextStyle(color: Theme.of(context).primaryColor),
-            ),
-          )
-        ],
-      ),
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class TimeFilterObj extends Equatable {
   final String key;
-  final int value;
+  final dynamic value;
 
   const TimeFilterObj({
     required this.key,
@@ -11,4 +11,6 @@ class TimeFilterObj extends Equatable {
 
   @override
   List<Object?> get props => [value];
+
+  static const tTimeFilterObj = TimeFilterObj(key: "Last7Days", value: "Last7Days");
 }

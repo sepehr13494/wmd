@@ -16,7 +16,7 @@ class BasicTimerWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  AppState<BasicTimerWidget> createState() => _BasicTimerWidgetState(timerTime);
+  AppState<BasicTimerWidget> createState() => _BasicTimerWidgetState();
 }
 
 class _BasicTimerWidgetState extends AppState<BasicTimerWidget> {
@@ -33,7 +33,6 @@ class _BasicTimerWidgetState extends AppState<BasicTimerWidget> {
   String get timerText =>
       '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
 
-  _BasicTimerWidgetState(this.timerMaxSeconds);
 
   @override
   void initState() {
