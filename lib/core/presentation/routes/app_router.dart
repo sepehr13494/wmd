@@ -192,7 +192,7 @@ class AppRouter {
                     return _mainDashboardCubit..initPage();
                   }),
                   BlocProvider(create: (context) {
-                    // _blurredPrivacyCubit = sl<BlurredPrivacyCubit>();
+                    _blurredPrivacyCubit = sl<BlurredPrivacyCubit>();
                     return _blurredPrivacyCubit..getIsBlurred();
                   }),
                   BlocProvider(create: (context) {
