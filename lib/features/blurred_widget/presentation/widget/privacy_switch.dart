@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
+import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/blurred_widget/data/models/set_blurred_params.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
 
@@ -15,6 +16,7 @@ class PrivacySwitch extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
     return SwitchListTile.adaptive(
       value: PrivacyInherited.of(context).isBlurred,
+      activeColor: AppColors.primary,
       onChanged: (val) {
         context
             .read<BlurredPrivacyCubit>()

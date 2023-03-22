@@ -91,7 +91,7 @@ class _PersonalInformationWidgetState
                             hasInfo: false,
                             title: appLocalizations
                                 .profile_tabs_personal_fields_label_firstName,
-                            child: PrivacyBlurWidget(
+                            child: PrivacyBlurWidgetClickable(
                               child: AppTextFields.simpleTextField(
                                 name: "firstName",
                                 hint: appLocalizations
@@ -121,7 +121,7 @@ class _PersonalInformationWidgetState
                             hasInfo: false,
                             title: appLocalizations
                                 .profile_tabs_personal_fields_label_lastName,
-                            child: PrivacyBlurWidget(
+                            child: PrivacyBlurWidgetClickable(
                               child: AppTextFields.simpleTextField(
                                 name: "lastName",
                                 required: false,

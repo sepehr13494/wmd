@@ -104,7 +104,7 @@ class _ContactInformationWidgetState
                               title: appLocalizations
                                   .profile_tabs_personal_fields_label_email,
                               child: Builder(builder: (context) {
-                                return PrivacyBlurWidget(
+                                return PrivacyBlurWidgetClickable(
                                   child: TextField(
                                     enabled: false,
                                     style: TextStyle(color: Colors.grey[500]),
@@ -123,54 +123,58 @@ class _ContactInformationWidgetState
                               hasInfo: false,
                               title: appLocalizations
                                   .profile_tabs_personal_fields_label_primaryPhoneNumber,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  PrivacyBlurWidget(
-                                    child: CountryCodePicker(onChange: (val) {
-                                      setState(() {
-                                        selectedCountryCode =
-                                            val?.countryCode ?? "";
-                                      });
+                              child: SizedBox(
+                                height: 70,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    PrivacyBlurWidgetClickable(
+                                      child: CountryCodePicker(onChange: (val) {
+                                        setState(() {
+                                          selectedCountryCode =
+                                              val?.countryCode ?? "";
+                                        });
 
-                                      checkFinalValid(val);
-                                    }),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Expanded(
-                                    child: PrivacyBlurWidget(
-                                      child: AppTextFields.simpleTextField(
-                                          name: "phoneNumber",
-                                          hint:
-                                              '${appLocalizations.profile_tabs_personal_fields_label_primaryPhoneNumber.substring(0, 18)}..',
-                                          type: TextFieldType.number,
-                                          keyboardType: TextInputType.number,
-                                          extraValidators: [
-                                            (val) {
-                                              return (!val!.contains(
-                                                      RegExp(r'^[0-9]*$')))
-                                                  ? appLocalizations
-                                                      .scheduleMeeting_phoneNumber_errors_inValid
-                                                  : null;
-                                            },
-                                            (val) {
-                                              return (val != null &&
-                                                      val != "" &&
-                                                      selectedCountryCode ==
-                                                          "BH" &&
-                                                      (val.length > 8 ||
-                                                          val.length < 8))
-                                                  ? appLocalizations
-                                                      .common_errors_phoneNumberLength
-                                                      .replaceAll("{{digit}}",
-                                                          8.toString())
-                                                  : null;
-                                            },
-                                          ],
-                                          onChanged: checkFinalValid),
+                                        checkFinalValid(val);
+                                      }),
                                     ),
-                                  ),
-                                ],
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: PrivacyBlurWidgetClickable(
+                                        child: AppTextFields.simpleTextField(
+                                            name: "phoneNumber",
+                                            hint:
+                                                '${appLocalizations.profile_tabs_personal_fields_label_primaryPhoneNumber.substring(0, 15)}..',
+                                            type: TextFieldType.number,
+                                            keyboardType: TextInputType.number,
+                                            minLines: 1,
+                                            extraValidators: [
+                                              (val) {
+                                                return (!val!.contains(
+                                                        RegExp(r'^[0-9]*$')))
+                                                    ? appLocalizations
+                                                        .scheduleMeeting_phoneNumber_errors_inValid
+                                                    : null;
+                                              },
+                                              (val) {
+                                                return (val != null &&
+                                                        val != "" &&
+                                                        selectedCountryCode ==
+                                                            "BH" &&
+                                                        (val.length > 8 ||
+                                                            val.length < 8))
+                                                    ? appLocalizations
+                                                        .common_errors_phoneNumberLength
+                                                        .replaceAll("{{digit}}",
+                                                            8.toString())
+                                                    : null;
+                                              },
+                                            ],
+                                            onChanged: checkFinalValid),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                             /* RichText(
