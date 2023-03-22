@@ -7,12 +7,14 @@ class EachTextField extends StatelessWidget {
   final void Function()? onInfoTap;
   final Widget child;
   final bool showRequired;
+  final String? tooltipText;
 
   const EachTextField(
       {Key? key,
       required this.title,
       this.hasInfo = true,
       this.onInfoTap,
+      this.tooltipText,
       this.showRequired = false,
       required this.child})
       : super(key: key);
@@ -23,7 +25,10 @@ class EachTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextWithInfo(
-            title: title, hasInfo: hasInfo, showRequired: showRequired),
+            title: title,
+            hasInfo: hasInfo,
+            showRequired: showRequired,
+            tooltipText: tooltipText ?? ""),
         const SizedBox(height: 8),
         child,
       ],
