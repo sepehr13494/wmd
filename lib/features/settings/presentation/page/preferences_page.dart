@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/util/app_localization.dart';
+import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/local_auth_manager.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_switch.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
@@ -17,6 +18,8 @@ class PreferencesPage extends AppStatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 32),
       child: Column(
         children: [
+          const PrivacySwitch(),
+          const Divider(height: 48),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -93,13 +96,12 @@ class PreferencesPage extends AppStatelessWidget {
           const Divider(height: 48),
           SwitchListTile.adaptive(
             value: context.watch<LocalAuthManager>().state,
+            activeColor: AppColors.primary,
             onChanged: (val) {
               context.read<LocalAuthManager>().setLocalAuth(val, context);
             },
             title: Text(appLocalizations.profile_localAuth_enableFaceId),
           ),
-          const Divider(height: 48),
-          const PrivacySwitch(),
         ],
       ),
     );
