@@ -10,7 +10,7 @@ abstract class BarType{}
 enum AssetsBarType implements BarType{
   barChart,
   areaChart,
-  treeChart,
+  areaPercentage,
 }
 
 enum GeoBarType implements BarType{
@@ -44,7 +44,7 @@ class AllChartType extends Equatable {
         AllChartType(
             name: appLocalizations.assets_charts_allocationCharts_areaChartLabel,
             barType: AssetsBarType.areaChart),
-        AllChartType(name: appLocalizations.assets_charts_allocationCharts_treemapLabel, barType: AssetsBarType.treeChart),
+        AllChartType(name: appLocalizations.assets_charts_allocationCharts_areaChartLabel+"%", barType: AssetsBarType.areaPercentage),
       ];
     }
   }

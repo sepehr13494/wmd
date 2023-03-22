@@ -35,13 +35,6 @@ extension NumExt on num {
 
   String formatNumberWithDecimal([int digits = 0]) {
     return toDouble().getCompact();
-    // final val = NumberFormat.compactCurrency(
-    //   decimalDigits: digits,
-    //   symbol:
-    //       '\$', // if you want to add currency symbol then pass that in this else leave it empty.
-    // );
-    // val.significantDigits = 3;
-    // return _removeExtraDecimal(val.format(this));
   }
 
   String formatCurrencyCompact([int digits = 0]) {

@@ -64,7 +64,7 @@ class _SplashPageState extends State<SplashPage> {
 
                     bool isVersionGreaterThan(String newVersion, String currentVersion){
                       if(newVersion == currentVersion){
-                        return false;
+                        return true;
                       }
                       List<String> currentV = currentVersion.split(".");
                       List<String> newV = newVersion.split(".");
