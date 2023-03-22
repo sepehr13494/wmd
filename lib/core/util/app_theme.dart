@@ -44,7 +44,8 @@ class AppThemes {
             color: primaryColor,
           ),
         ),
-        bottomSheetTheme: BottomSheetThemeData(backgroundColor: appTheme.scaffoldBackgroundColor),
+        bottomSheetTheme: BottomSheetThemeData(
+            backgroundColor: appTheme.scaffoldBackgroundColor),
         scaffoldBackgroundColor: brightness == Brightness.dark
             ? AppColors.backgroundColorPageDark
             : Colors.white,
@@ -58,23 +59,31 @@ class AppThemes {
           ),
         ),
         tooltipTheme: TooltipThemeData(
-          decoration: BoxDecoration(
-            color: brightness == Brightness.dark
-                ? AppColors.anotherCardColorForDarkTheme
-                : AppColors.anotherCardColorForLightTheme
-          ),
-          textStyle: textTheme.bodySmall
-        ),
+            decoration: BoxDecoration(
+                color: brightness == Brightness.dark
+                    ? AppColors.anotherCardColorForDarkTheme
+                    : AppColors.anotherCardColorForLightTheme),
+            textStyle: textTheme.bodySmall),
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
-                minimumSize:
-                    MaterialStateProperty.all(const Size(double.maxFinite, 48)),
-                backgroundColor: MaterialStateProperty.resolveWith((states) {
-                  if (states.contains(MaterialState.disabled)) {
-                    return primaryColor.withOpacity(0.5);
-                  }
-                  return primaryColor;
-                }))),
+          minimumSize:
+              MaterialStateProperty.all(const Size(double.maxFinite, 48)),
+          backgroundColor: MaterialStateProperty.resolveWith((states) {
+            if (states.contains(MaterialState.disabled)) {
+              return primaryColor.withOpacity(0.5);
+            }
+            return primaryColor;
+          }),
+          foregroundColor: MaterialStateProperty.resolveWith((states) {
+            if (states.contains(MaterialState.disabled)) {
+              return HexColor(
+                  "#222222"); // Set the text color to grey for disabled state
+            }
+            return HexColor("#222222");
+
+            /// Set the text color to white for enabled state
+          }),
+        )),
         inputDecorationTheme: const InputDecorationTheme(
           contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           border: OutlineInputBorder(),

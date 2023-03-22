@@ -33,7 +33,7 @@ class _BasicTimerWidgetState extends AppState<BasicTimerWidget> {
   String get timerText =>
       '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
 
-  _TimerWidgetState(this.timerMaxSeconds);
+  _BasicTimerWidgetState(this.timerMaxSeconds);
 
   @override
   void initState() {

@@ -134,6 +134,8 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_realEstate_inputFields_typeOfRealEstate_label,
                                       child: AppTextFields.dropDownTextField(
+                                        errorMsg: appLocalizations
+                                            .assetLiabilityForms_forms_realEstate_inputFields_typeOfRealEstate_errorMessage,
                                         onChanged: (val) async {
                                           // setState(() {
                                           //   bottomFormKey =
@@ -207,9 +209,13 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                               .assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_placeholder),
                                     ),
                                     EachTextField(
+                                      tooltipText: appLocalizations
+                                          .assetLiabilityForms_forms_realEstate_inputFields_acquisitionCostPerUnit_tooltip,
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_realEstate_inputFields_acquisitionCostPerUnit_label,
                                       child: AppTextFields.simpleTextField(
+                                          errorMsg: appLocalizations
+                                              .assetLiabilityForms_forms_realEstate_inputFields_acquisitionCostPerUnit_errorMessage,
                                           onChanged: checkFinalValid,
                                           type: TextFieldType.money,
                                           keyboardType: TextInputType.number,
@@ -218,6 +224,8 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                               .assetLiabilityForms_forms_realEstate_inputFields_acquisitionCostPerUnit_placeholder),
                                     ),
                                     EachTextField(
+                                      tooltipText: appLocalizations
+                                          .assetLiabilityForms_forms_realEstate_inputFields_acquisitionDate_tooltip,
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_realEstate_inputFields_acquisitionDate_label,
                                       child: FormBuilderDateTimePicker(
@@ -235,7 +243,9 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                             AutovalidateMode.onUserInteraction,
                                         validator:
                                             FormBuilderValidators.compose([
-                                          FormBuilderValidators.required()
+                                          FormBuilderValidators.required(
+                                              errorText: appLocalizations
+                                                  .assetLiabilityForms_forms_realEstate_inputFields_acquisitionDate_errorMessage)
                                         ]),
                                         decoration: InputDecoration(
                                             suffixIcon: Icon(
@@ -272,6 +282,8 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                               .assetLiabilityForms_forms_realEstate_inputFields_yourOwnership_placeholder),
                                     ),
                                     EachTextField(
+                                      tooltipText: appLocalizations
+                                          .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_tooltip,
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_label,
                                       child: AppTextFields.simpleTextField(
@@ -283,6 +295,8 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                               .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_placeholder),
                                     ),
                                     EachTextField(
+                                      tooltipText: appLocalizations
+                                          .assetLiabilityForms_forms_realEstate_inputFields_valuationDate_tooltip,
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_realEstate_inputFields_valuationDate_label,
                                       child: FormBuilderDateTimePicker(
