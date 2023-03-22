@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/core/models/time_filer_obj.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/manager/performance_table_cubit.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_base_table.dart';
 
@@ -24,9 +26,51 @@ class PerformanceAssetClassWidget extends AppStatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(16),
-                    child: Text(
-                      appLocalizations.home_wealthPerformance_title,
-                      style: textTheme.titleLarge,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Align(
+                            alignment: AlignmentDirectional.centerStart,
+                            child: Text(
+                              appLocalizations.home_wealthPerformance_title,
+                              style: textTheme.titleLarge,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Icon(
+                          Icons.calendar_month,
+                          size: 15,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        const SizedBox(width: 8),
+                        DropdownButtonHideUnderline(
+                          child: DropdownButton<TimeFilterObj>(
+                            items: AppConstants.timeFilterForAssetPerformance(context)
+                                .map((e) => DropdownMenuItem<TimeFilterObj>(
+                                value: e,
+                                child: Text(
+                                  e.key,
+                                  style: textTheme.bodyMedium!
+                                      .apply(color: Theme.of(context).primaryColor),
+                                  // textTheme.bodyMedium!.toLinkStyle(context),
+                                )))
+                                .toList(),
+                            onChanged: ((value) {
+                              if (value != null) {
+                                context.read<PerformanceAssetClassCubit>().getAssetClass(period: value);
+                              }
+                            }),
+                            value: context.read<PerformanceAssetClassCubit>().period ?? AppConstants.timeFilterForAssetPerformance(context).first,
+                            icon: Icon(
+                              Icons.keyboard_arrow_down,
+                              size: 15,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            // style: textTheme.labelLarge,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   PerformanceBaseTable(

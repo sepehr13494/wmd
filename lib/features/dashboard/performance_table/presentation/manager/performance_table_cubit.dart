@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:wmd/core/models/time_filer_obj.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 
 import '../../data/models/get_asset_class_params.dart';
@@ -40,9 +41,12 @@ class PerformanceTableCubit extends Cubit<PerformanceTableState> {
     this.getCustodianPerformanceUseCase,
   ) : super(LoadingState());
 
-  getAssetClass() async {
+  TimeFilterObj? period;
+
+  getAssetClass({TimeFilterObj? period}) async {
+    this.period = period;
     emit(LoadingState());
-    final result = await getAssetClassUseCase(GetAssetClassParams());
+    final result = await getAssetClassUseCase(GetAssetClassParams(period: period?.value ?? "Last7Days"));
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (entities) {
       emit(GetAssetClassLoaded(getAssetClassEntities: entities));
