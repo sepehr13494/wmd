@@ -1412,5 +1412,21 @@
     "profile.tabs.preferences.privacyMode.toast.active.title": "",
     "profile.tabs.preferences.privacyMode.toast.active.desc": "",
     "profile.tabs.preferences.privacyMode.toast.disabled.title": "",
-    "profile.tabs.preferences.privacyMode.toast.disabled.decs": ""
+    "profile.tabs.preferences.privacyMode.toast.disabled.decs": "",
+    "scheduleMeeting:meetingType.options.videoConference": "",
+    "scheduleMeeting:meetingType.options.call": "",
+    "common:glossary.subheading": "",
+    "common:glossary.heading": "",
+    "common:glossary.placeholder": "",
+    "common:glossary.close": "",
+    "common:glossary.noDataFoundHeading": "",
+    "common:glossary.noDataFoundSubHeading": "",
+    "common:glossary.title": "",
+    "common:glossary.description": "",
+    "assets:charts.allocationCharts.percentAreaLabel": "",
+    "common:privacy.message": "",
+    "common:privacy.on": "",
+    "common:privacy.off": "",
+    "common:privacy.onSubheading": "",
+    "common:privacy.offSubheading": ""
 }
