@@ -76,7 +76,7 @@ class AppUrls {
   static String getValuationPerformance(String id) =>
       "${wealthBase}Valuation/$id/performance";
 
-  static String isBlurred = "${wealthBase}IsBlurred";
+  static String settings = "${userBase}Setting";
 
   static String getForceUpdate = "wmo/version";
 
