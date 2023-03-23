@@ -263,22 +263,23 @@ class ActionContainer extends AppStatelessWidget {
           ),
         );
       } else {
-        return Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            // mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(width: 16),
-              ElevatedButton(
-                onPressed: () => Navigator.pop(context, true),
-                style:
-                    ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
-                child: Text(appLocalizations.common_button_ok),
-              ),
-            ],
-          ),
-        );
+        return const SizedBox();
+        // return Padding(
+        //   padding: const EdgeInsets.all(24.0),
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.end,
+        //     // mainAxisSize: MainAxisSize.min,
+        //     children: [
+        //       const SizedBox(width: 16),
+        //       ElevatedButton(
+        //         onPressed: () => Navigator.pop(context, true),
+        //         style:
+        //             ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
+        //         child: Text(appLocalizations.common_button_ok),
+        //       ),
+        //     ],
+        //   ),
+        // );
       }
     });
   }

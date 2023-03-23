@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
@@ -111,79 +112,84 @@ class BaseAssetView extends AppStatelessWidget {
                   ],
                 );
               }),
-              Builder(builder: (context) {
-                final List<EachAssetViewModel> nonZeroList =
-                    assets.where((element) => element.value != 0).toList();
-                return ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      EachAssetViewModel asset = nonZeroList[index];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Row(
-                          children: [
-                            asset.color == null
-                                ? const SizedBox()
-                                : Container(
-                                    width: 6, height: 6, color: asset.color),
-                            Expanded(
-                              child: Align(
-                                alignment: AlignmentDirectional.centerStart,
-                                child: PrivacyBlurWidget(
-                                  child: Text(asset.name,
-                                      style: textTheme.bodySmall),
+              AspectRatio(
+                aspectRatio: 1,
+                child: Builder(builder: (context) {
+                  final List<EachAssetViewModel> nonZeroList =
+                      assets.where((element) => element.value != 0).toList();
+                  return ListView.separated(
+                      // physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        EachAssetViewModel asset = nonZeroList[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Row(
+                            children: [
+                              asset.color == null
+                                  ? const SizedBox()
+                                  : Container(
+                                      width: 6, height: 6, color: asset.color),
+                              Expanded(
+                                child: Align(
+                                  alignment: AlignmentDirectional.centerStart,
+                                  child: PrivacyBlurWidget(
+                                    child: Text(asset.name,
+                                        style: textTheme.bodySmall),
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(width: 12),
-                            PrivacyBlurWidget(
-                                child: Text(asset.price,
-                                    style: textTheme.bodySmall)),
-                            Container(
-                              width: 0.5,
-                              height: 10,
-                              color: textTheme.bodySmall!.color!,
-                            ),
-                            Text(asset.percentage, style: textTheme.bodySmall),
-                            InkWell(
-                              onTap: () {
-                                if (title ==
-                                    appLocalizations
-                                        .home_widget_assetClassAllocation_title) {
-                                  AnalyticsUtils.triggerEvent(
-                                      action: AnalyticsUtils
-                                          .assetExposureArrowAction,
-                                      params: AnalyticsUtils
-                                          .assetOverviewInsideMoreEvent);
-                                } else {
-                                  AnalyticsUtils.triggerEvent(
-                                      action: AnalyticsUtils
-                                          .assetExposureArrowAction,
-                                      params: AnalyticsUtils
-                                          .geographyOverviewInsideMoreEvent);
-                                }
-                                context.read<MainPageCubit>().onItemTapped(1);
-                                onMoreTap();
-                              },
-                              child: const Icon(Icons.arrow_forward_ios_rounded,
-                                  size: 15),
-                            )
-                          ]
-                              .map((e) => e is Expanded
-                                  ? e
-                                  : Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 3),
-                                      child: e,
-                                    ))
-                              .toList(),
-                        ),
-                      );
-                    },
-                    separatorBuilder: (context, _) => const Divider(),
-                    itemCount: nonZeroList.length);
-              })
+                              const SizedBox(width: 12),
+                              PrivacyBlurWidget(
+                                  child: Text(asset.price,
+                                      style: textTheme.bodySmall)),
+                              Container(
+                                width: 0.5,
+                                height: 10,
+                                color: textTheme.bodySmall!.color!,
+                              ),
+                              Text(asset.percentage,
+                                  style: textTheme.bodySmall),
+                              InkWell(
+                                onTap: () {
+                                  if (title ==
+                                      appLocalizations
+                                          .home_widget_assetClassAllocation_title) {
+                                    AnalyticsUtils.triggerEvent(
+                                        action: AnalyticsUtils
+                                            .assetExposureArrowAction,
+                                        params: AnalyticsUtils
+                                            .assetOverviewInsideMoreEvent);
+                                  } else {
+                                    AnalyticsUtils.triggerEvent(
+                                        action: AnalyticsUtils
+                                            .assetExposureArrowAction,
+                                        params: AnalyticsUtils
+                                            .geographyOverviewInsideMoreEvent);
+                                  }
+                                  context.read<MainPageCubit>().onItemTapped(1);
+                                  onMoreTap();
+                                },
+                                child: const Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    size: 15),
+                              )
+                            ]
+                                .map((e) => e is Expanded
+                                    ? e
+                                    : Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 3),
+                                        child: e,
+                                      ))
+                                .toList(),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, _) => const Divider(),
+                      itemCount: nonZeroList.length);
+                }),
+              )
             ],
           ),
         ),

@@ -24,7 +24,7 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
       lineType: TrackballLineType.none,
       activationMode: ActivationMode.singleTap,
       builder: (context, TrackballDetails details) {
-        final index = details.seriesIndex;
+        final index = details.pointIndex;
         if (index == null) {
           return const SizedBox();
         }
