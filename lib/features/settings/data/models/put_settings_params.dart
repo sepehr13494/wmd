@@ -18,11 +18,14 @@ class PutSettingsParams extends Equatable {
       );
 
   Map<String, dynamic> toJson() => {
-        if (isPrivacyMode != null) "isPrivacyMode": isPrivacyMode,
-        if (emailTwoFactorEnabled != null)
-          "emailTwoFactorEnabled": emailTwoFactorEnabled,
-        if (smsTwoFactorEnabled != null)
-          "smsTwoFactorEnabled": smsTwoFactorEnabled,
+        // if (isPrivacyMode != null) "isPrivacyMode": isPrivacyMode,
+        // if (emailTwoFactorEnabled != null)
+        //   "emailTwoFactorEnabled": emailTwoFactorEnabled,
+        // if (smsTwoFactorEnabled != null)
+        //   "smsTwoFactorEnabled": smsTwoFactorEnabled,
+        "isPrivacyMode": isPrivacyMode,
+        "emailTwoFactorEnabled": emailTwoFactorEnabled,
+        "smsTwoFactorEnabled": smsTwoFactorEnabled,
       };
 
   @override

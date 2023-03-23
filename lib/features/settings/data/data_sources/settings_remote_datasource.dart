@@ -45,8 +45,8 @@ class SettingsRemoteDataSourceImpl extends AppServerDataSource
           RequestTypes.put, AppUrls.settings, params.toJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = PutSettingsResponse.fromJson(response);
-      return result;
+      // final result = PutSettingsResponse.fromJson(response);
+      return const PutSettingsResponse();
     } on ServerException {
       rethrow;
     } catch (e) {
