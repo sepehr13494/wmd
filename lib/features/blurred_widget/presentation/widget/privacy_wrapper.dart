@@ -1,16 +1,15 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import '../../../../core/presentation/bloc/bloc_helpers.dart';
 import '../manager/blurred_privacy_cubit.dart';
 
-class PrivacyBlurWrapper extends StatelessWidget {
+class PrivacyBlurWrapper extends AppStatelessWidget {
   final Widget child;
   const PrivacyBlurWrapper({super.key, required this.child});
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
     return BlocConsumer<BlurredPrivacyCubit, BlurredPrivacyState>(
       listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
       builder: (context, state) {

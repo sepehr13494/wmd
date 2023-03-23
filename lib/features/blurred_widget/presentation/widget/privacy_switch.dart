@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/blurred_widget/data/models/set_blurred_params.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_toast.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
 
 import '../manager/blurred_privacy_cubit.dart';
@@ -18,6 +19,7 @@ class PrivacySwitch extends AppStatelessWidget {
       value: PrivacyInherited.of(context).isBlurred,
       activeColor: AppColors.primary,
       onChanged: (val) {
+        PrivacyToast.showPrivacyModeToast(context, val);
         context
             .read<BlurredPrivacyCubit>()
             .setBlurred(SetBlurredParams(isBlurred: val));
