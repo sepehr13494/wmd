@@ -81,7 +81,10 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
           ),
           Expanded(
             flex: 0,
-            child: Text(widget.trailing),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 4),
+              child: Text(widget.trailing),
+            ),
           )
         ],
       ),
@@ -208,7 +211,10 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
           ),
           Expanded(
             flex: 0,
-            child: Text(widget.trailing),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 4),
+              child: Text(widget.trailing),
+            ),
           )
         ],
       ),
