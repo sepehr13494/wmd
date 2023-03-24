@@ -67,7 +67,24 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
                 textAlign: TextAlign.center,
               )),
             ),
-      title: Text(widget.title, style: textTheme.bodyLarge),
+      title: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 1,
+            child: Text(
+              widget.title,
+              style: textTheme.bodyLarge,
+            ),
+          ),
+          Expanded(
+            flex: 0,
+            child: Text(widget.trailing),
+          )
+        ],
+      ),
       subtitle: Builder(
         builder: (context) {
           if (widget.isDone) {
@@ -84,29 +101,13 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
             }
           } else {
             if (widget.subtitle != null) {
-              var isButtonDisable = widget.showInput &&
-                  input.controller!.text.isEmpty &&
-                  widget.onDone != null;
+              var isButtonDisable =
+                  input.controller!.text.isEmpty && widget.onDone != null;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (widget.showInput) ...[
-                    Row(
-                      children: [
-                        Text(
-                          'Confirm CIF number',
-                          style: textTheme.bodyMedium,
-                        ),
-                        const InfoIcon(),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    input,
-                    const SizedBox(height: 4),
-                  ],
                   InkWell(
-                    onTap:
-                        isButtonDisable ? null : () => widget.onDone!('sadf'),
+                    onTap: isButtonDisable ? null : () => widget.onDone!(null),
                     child: Text(
                       widget.subtitle!,
                       style: textTheme.bodySmall!.apply(
@@ -123,7 +124,7 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
           return const SizedBox.shrink();
         },
       ),
-      trailing: Text(widget.trailing),
+      // trailing: Text(widget.trailing),
     );
   }
 }
@@ -194,7 +195,23 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
                 textAlign: TextAlign.center,
               )),
             ),
-      title: Text(widget.title, style: textTheme.bodyLarge),
+      title: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            flex: 1,
+            child: Text(
+              widget.title,
+              style: textTheme.bodyLarge,
+            ),
+          ),
+          Expanded(
+            flex: 0,
+            child: Text(widget.trailing),
+          )
+        ],
+      ),
       subtitle: Builder(builder: (context) {
         var isButtonDisable =
             input.controller!.text.isEmpty || widget.onDone == null;
@@ -273,7 +290,7 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
           ],
         );
       }),
-      trailing: Text(widget.trailing),
+      // trailing: Text(widget.trailing),
     );
   }
 }
