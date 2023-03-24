@@ -89,7 +89,7 @@ class _AssetsOverviewBarChartsState extends State<AssetsOverviewBarCharts> {
         fit: BoxFit.scaleDown,
         child: PrivacyBlurWidget(
           child: Text(
-            "\$ ${(value * x).formatNumberWithDecimal()}",
+            (value * x).formatNumberWithDecimal(),
             textAlign: TextAlign.left,
             style: const TextStyle(fontSize: 10),
           ),

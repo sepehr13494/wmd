@@ -6,6 +6,7 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/support_widget.dart';
 
 class AutoManualPage extends AppStatelessWidget {
@@ -15,63 +16,66 @@ class AutoManualPage extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Asset Detail")),
+      appBar: const AddAssetHeader(title: "", showExitModal: true),
       body: Stack(
         children: [
           const LeafBackground(),
           WidthLimiterWidget(
             width: 700,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Text(
-                    "Wealth Overview uses TFO to connect your account",
-                    style: textTheme.headlineSmall,
-                  ),
-                  AutoManualCard(
-                    icon: Icons.remove_red_eye_outlined,
-                    title: "Automatically link your accounts",
-                    description:
-                        "Connect your financial account in seconds to securely and automatically synchronize your balances.",
-                    onTap: () {
-                      context.pushNamed(AppRoutes.addBankAutoPage);
-                    },
-                    buttonText: "Automatically connect",
-                  ),
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      const Divider(),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 4, horizontal: 8),
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                        child: Text(
-                          "OR",
-                          style: textTheme.titleMedium,
-                        ),
+            child: ListView(
+              children: [
+                const SizedBox(height: 16),
+                Text(
+                  appLocalizations.linkAccount_linkAccount_heading,
+                  style: textTheme.headlineSmall,
+                ),
+                AutoManualCard(
+                  icon: Icons.remove_red_eye_outlined,
+                  title: appLocalizations
+                      .linkAccount_linkAccount_card_automatic_title,
+                  description: appLocalizations
+                      .linkAccount_linkAccount_card_automatic_description,
+                  onTap: () {
+                    context.pushNamed(AppRoutes.addBankAutoPage);
+                  },
+                  buttonText:
+                      appLocalizations.linkAccount_linkAccount_button_automatic,
+                ),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    const Divider(),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 8),
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      child: Text(
+                        appLocalizations.linkAccount_linkAccount_text_or,
+                        style: textTheme.titleMedium,
                       ),
-                    ],
-                  ),
-                  AutoManualCard(
-                    icon: Icons.link,
-                    title: "Enter manually",
-                    description:
-                        "Quickly add your checking or savings account. TFO will never sell your personal date and only use it with your permission.",
-                    onTap: () {
-                      context.pushNamed(AppRoutes.addBankManualPage);
-                    },
-                    buttonText: "Enter manually",
-                  ),
-                  const SupportWidget(),
-                ]
-                    .map((e) => Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 16),
-                          child: e,
-                        ))
-                    .toList(),
-              ),
+                    ),
+                  ],
+                ),
+                AutoManualCard(
+                  icon: Icons.link,
+                  title: appLocalizations
+                      .linkAccount_linkAccount_card_manual_title,
+                  description: appLocalizations
+                      .linkAccount_linkAccount_card_manual_description,
+                  onTap: () {
+                    context.pushNamed(AppRoutes.addBankManualPage);
+                  },
+                  buttonText:
+                      appLocalizations.linkAccount_linkAccount_button_manual,
+                ),
+                const SupportWidget(),
+              ]
+                  .map((e) => Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 16),
+                        child: e,
+                      ))
+                  .toList(),
             ),
           ),
         ],

@@ -42,7 +42,7 @@ class BarChartMainDashboard extends StatelessWidget {
     return FittedBox(
       fit: BoxFit.scaleDown,
       child: Text(
-        "\$ ${(value * x).formatNumberWithDecimal()}",
+        (value * x).formatNumberWithDecimal(),
         textAlign: TextAlign.left,
         style: const TextStyle(fontSize: 10),
       ),

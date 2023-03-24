@@ -36,7 +36,7 @@ class SettingsPage extends AppStatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const PrivacyBlurWarning(),
+                    // const PrivacyBlurWarning(),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 24.0),
                       child: Text(
