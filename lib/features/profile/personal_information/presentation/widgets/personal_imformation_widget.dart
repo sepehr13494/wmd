@@ -91,23 +91,21 @@ class _PersonalInformationWidgetState
                             hasInfo: false,
                             title: appLocalizations
                                 .profile_tabs_personal_fields_label_firstName,
-                            child: PrivacyBlurWidgetClickable(
-                              child: AppTextFields.simpleTextField(
-                                name: "firstName",
-                                hint: appLocalizations
-                                    .profile_tabs_personal_placeholders_firstName,
-                                onChanged: checkFinalValid,
-                                extraValidators: [
-                                  (val) {
-                                    return (!val!
-                                            .contains(RegExp(r'^[A-Za-z\s]*$')))
-                                        ? appLocalizations
-                                            .common_errors_onlyCharactersAllowed
-                                        // ? "${appLocalizations.profile_tabs_personal_fields_label_firstName} can only contain letters"
-                                        : null;
-                                  }
-                                ],
-                              ),
+                            child: AppTextFields.simpleTextField(
+                              name: "firstName",
+                              hint: appLocalizations
+                                  .profile_tabs_personal_placeholders_firstName,
+                              onChanged: checkFinalValid,
+                              extraValidators: [
+                                (val) {
+                                  return (!val!
+                                          .contains(RegExp(r'^[A-Za-z\s]*$')))
+                                      ? appLocalizations
+                                          .common_errors_onlyCharactersAllowed
+                                      // ? "${appLocalizations.profile_tabs_personal_fields_label_firstName} can only contain letters"
+                                      : null;
+                                }
+                              ],
                             ),
                           ),
                         ),
@@ -121,24 +119,22 @@ class _PersonalInformationWidgetState
                             hasInfo: false,
                             title: appLocalizations
                                 .profile_tabs_personal_fields_label_lastName,
-                            child: PrivacyBlurWidgetClickable(
-                              child: AppTextFields.simpleTextField(
-                                name: "lastName",
-                                required: false,
-                                hint: appLocalizations
-                                    .profile_tabs_personal_placeholders_lastName,
-                                onChanged: checkFinalValid,
-                                extraValidators: [
-                                  (val) {
-                                    return (!(val ?? "")
-                                            .contains(RegExp(r'^[A-Za-z\s]*$')))
-                                        ? appLocalizations
-                                            .common_errors_onlyCharactersAllowed
-                                        // ? "${appLocalizations.profile_tabs_personal_fields_label_lastName} can only contain letters"
-                                        : null;
-                                  }
-                                ],
-                              ),
+                            child: AppTextFields.simpleTextField(
+                              name: "lastName",
+                              required: false,
+                              hint: appLocalizations
+                                  .profile_tabs_personal_placeholders_lastName,
+                              onChanged: checkFinalValid,
+                              extraValidators: [
+                                (val) {
+                                  return (!(val ?? "")
+                                          .contains(RegExp(r'^[A-Za-z\s]*$')))
+                                      ? appLocalizations
+                                          .common_errors_onlyCharactersAllowed
+                                      // ? "${appLocalizations.profile_tabs_personal_fields_label_lastName} can only contain letters"
+                                      : null;
+                                }
+                              ],
                             ),
                           ),
                         ),
