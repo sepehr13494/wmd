@@ -36,7 +36,7 @@ class SettingsPage extends AppStatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const PrivacyBlurWarning(),
+                    // const PrivacyBlurWarning(),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 24.0),
                       child: Text(
@@ -46,24 +46,29 @@ class SettingsPage extends AppStatelessWidget {
                     ),
                     Row(
                       children: [
-                        SizedBox(
-                          width:
-                              MediaQuery.of(context).size.width - padding * 2,
-                          child: TabBar(
-                            tabs: [
-                              Tab(
-                                  text: appLocalizations
-                                      .profile_tabs_personal_name),
-                              Tab(
-                                  text: appLocalizations
-                                      .profile_tabs_preferences_name),
-                              Tab(
-                                  text: appLocalizations
-                                      .profile_tabs_linkedAccounts_name),
-                            ],
-                            isScrollable: true,
-                          ),
-                        ),
+                        Builder(builder: (context) {
+                          final width =
+                              MediaQuery.of(context).size.width - padding * 2;
+                          return SizedBox(
+                            width: width,
+                            child: TabBar(
+                              tabs: [
+                                Tab(
+                                    text: appLocalizations
+                                        .profile_tabs_personal_name),
+                                Tab(
+                                    text: appLocalizations
+                                        .profile_tabs_preferences_name),
+                                Tab(
+                                    text: appLocalizations
+                                        .profile_tabs_linkedAccounts_name),
+                              ],
+                              isScrollable: true,
+                              labelStyle: textTheme.bodySmall,
+                              padding: const EdgeInsets.all(0),
+                            ),
+                          );
+                        }),
                         const Spacer(),
                       ],
                     ),

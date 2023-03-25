@@ -18,7 +18,10 @@ class AssetsOverviewAreaChart extends StatefulWidget {
   final List<String> titles;
   final bool showPercentage;
   const AssetsOverviewAreaChart(
-      {super.key, required this.getChartEntities, required this.titles,this.showPercentage = false});
+      {super.key,
+      required this.getChartEntities,
+      required this.titles,
+      this.showPercentage = false});
 
   @override
   State<AssetsOverviewAreaChart> createState() =>
@@ -88,21 +91,19 @@ class _AssetsOverviewAreaChartState extends State<AssetsOverviewAreaChart> {
     return FittedBox(
       fit: BoxFit.scaleDown,
       child: PrivacyBlurWidget(
-        child: Builder(
-          builder: (context) {
-            late String text;
-            if(widget.showPercentage){
-              text = "${(((value * x)/maxY)*100).toStringAsFixed(1)} %";
-            }else{
-              text = "\$ ${(value * x).formatNumberWithDecimal()}";
-            }
-            return Text(
-              text,
-              textAlign: TextAlign.left,
-              style: const TextStyle(fontSize: 10),
-            );
+        child: Builder(builder: (context) {
+          late String text;
+          if (widget.showPercentage) {
+            text = "${(((value * x) / maxY) * 100).toStringAsFixed(1)} %";
+          } else {
+            text = (value * x).formatNumberWithDecimal();
           }
-        ),
+          return Text(
+            text,
+            textAlign: TextAlign.left,
+            style: const TextStyle(fontSize: 10),
+          );
+        }),
       ),
     );
   }
@@ -291,17 +292,16 @@ class _AssetsOverviewAreaChartState extends State<AssetsOverviewAreaChart> {
           return FlSpot(index.toDouble(), y);
         }),
         belowBarData: BarAreaData(
-            show: true,
-            cutOffY: 0,
-            applyCutOffY: true,
-            gradient: LinearGradient(
+          show: true,
+          cutOffY: 0,
+          applyCutOffY: true,
+          gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
                 color.withOpacity(0.4),
                 color.withOpacity(0.0),
-              ]
-            ),
+              ]),
         ),
       );
     });

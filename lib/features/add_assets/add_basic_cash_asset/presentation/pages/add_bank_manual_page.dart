@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
@@ -177,9 +179,13 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                       .assetLiabilityForms_forms_bankAccount_inputFields_bankName_placeholder,
                                                   items: state),
                                               TextButton(
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  context.goNamed(
+                                                      AppRoutes.autoManualPage);
+                                                },
                                                 child: Text(
-                                                  "Link your bank account",
+                                                  appLocalizations
+                                                      .linkAccount_automaticLink_title,
                                                   style: textTheme.titleSmall!
                                                       .apply(
                                                           color: Theme.of(

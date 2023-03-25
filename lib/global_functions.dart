@@ -31,6 +31,26 @@ class GlobalFunctions {
     ));
   }
 
+  static showSnackTile(
+    context, {
+    Widget? leading,
+    Widget? title,
+    Widget? subtitle,
+    Widget? trailing,
+    Color color = const Color.fromARGB(179, 67, 160, 72),
+  }) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: ListTile(
+        leading: leading,
+        title: title,
+        subtitle: subtitle,
+        trailing: trailing,
+      ),
+      backgroundColor: color,
+    ));
+  }
+
   static Future<bool> confirmProcess(
       {required BuildContext context,
       required String title,

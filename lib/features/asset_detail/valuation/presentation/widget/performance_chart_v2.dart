@@ -24,7 +24,7 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
       lineType: TrackballLineType.none,
       activationMode: ActivationMode.singleTap,
       builder: (context, TrackballDetails details) {
-        final index = details.seriesIndex;
+        final index = details.pointIndex;
         if (index == null) {
           return const SizedBox();
         }
@@ -147,8 +147,8 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
             // AppColors.chartColor.withOpacity(0.3),
             AppColors.chartColor.withOpacity(0.5),
             AppColors.chartColor.withOpacity(0.3),
-            AppColors.redChartColor.withOpacity(0.3),
-            AppColors.redChartColor.withOpacity(0.5),
+            Colors.red.withOpacity(0.3),
+            Colors.red.withOpacity(0.5),
             // AppColors.redChartColor.withOpacity(0.3),
           ],
         ),

@@ -109,7 +109,6 @@ import 'package:wmd/features/dashboard/dashboard_charts/domain/use_cases/get_all
 import 'package:wmd/features/dashboard/dashboard_charts/domain/use_cases/get_geographic_usecase.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/use_cases/get_pie_usecase.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
-import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_goe_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/data/data_sources/main_dashboard_remote_data_source.dart';
@@ -173,6 +172,7 @@ import 'package:wmd/features/profile/verify_phone/domain/repositories/verify_pho
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_resend_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
+import 'package:wmd/features/settings/data/data_sources/settings_remote_datasource.dart';
 import 'core/data/network/network_helper.dart';
 import 'core/data/network/server_request_manager.dart';
 import 'core/util/app_localization.dart';
@@ -201,12 +201,16 @@ import 'features/asset_detail/valuation/presentation/manager/valuation_cubit.dar
 import 'features/asset_see_more/core/data/data_sources/asset_see_more_remote_datasource.dart';
 import 'features/asset_see_more/core/data/repositories/asset_see_more_repository_impl.dart';
 import 'features/asset_see_more/core/domain/use_cases/get_asset_see_more_usecase.dart';
-import 'features/blurred_widget/data/data_sources/blurred_privacy_remote_datasource.dart';
+
 import 'features/blurred_widget/data/repositories/blurred_privacy_repository_impl.dart';
 import 'features/blurred_widget/domain/repositories/blurred_privacy_repository.dart';
 import 'features/blurred_widget/domain/use_cases/get_is_blurred_usecase.dart';
 import 'features/blurred_widget/domain/use_cases/set_blurred_usecase.dart';
 import 'features/blurred_widget/presentation/manager/blurred_privacy_cubit.dart';
+import 'features/settings/data/repositories/settings_repository_impl.dart';
+import 'features/settings/domain/repositories/settings_repository.dart';
+import 'features/settings/domain/use_cases/get_settings_usecase.dart';
+import 'features/settings/domain/use_cases/put_settings_usecase.dart';
 import 'features/splash/data/repositories/splash_repository_impl.dart';
 import 'features/splash/domain/repositories/splash_repository.dart';
 import 'features/splash/domain/use_cases/check_login_usecase.dart';
@@ -503,11 +507,11 @@ Future<void> init() async {
   sl.registerFactory(() => BlurredPrivacyCubit(sl(), sl()));
   sl.registerLazySingleton(() => GetIsBlurredUseCase(sl()));
   sl.registerLazySingleton(() => SetBlurredUseCase(sl()));
-
   sl.registerLazySingleton<BlurredPrivacyRepository>(
       () => BlurredPrivacyRepositoryImpl(sl()));
-  sl.registerLazySingleton<BlurredPrivacyRemoteDataSource>(
-      () => BlurredPrivacyRemoteDataSourceImpl(sl()));
+  // sl.registerLazySingleton<BlurredPrivacyRemoteDataSource>(
+  //     () => BlurredPrivacyRemoteDataSourceImpl(sl()));
+
   //PerformanceTable
   sl.registerFactory(() => PerformanceTableCubit(sl(), sl(), sl()));
   sl.registerFactory(() => PerformanceAssetClassCubit(sl(), sl(), sl()));
@@ -530,6 +534,16 @@ Future<void> init() async {
           () => GlossaryRepositoryImpl(sl()));
   sl.registerLazySingleton<GlossaryRemoteDataSource>(
           () => GlossaryRemoteDataSourceImpl(sl()));
+
+  //Settings
+
+  sl.registerLazySingleton(() => GetSettingsUseCase(sl()));
+  sl.registerLazySingleton(() => PutSettingsUseCase(sl()));
+
+  sl.registerLazySingleton<SettingsRepository>(
+      () => SettingsRepositoryImpl(sl()));
+  sl.registerLazySingleton<SettingsRemoteDataSource>(
+      () => SettingsRemoteDataSourceImpl(sl()));
 
   await initExternal();
   await initUtils();
