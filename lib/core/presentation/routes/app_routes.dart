@@ -39,4 +39,7 @@ class AppRoutes {
   static const String addPrivateDebt = "add_private_debt";
   static const String addOther = "add_other";
   static const String addLiability = "add_liability";
+
+  //glossary
+  static const String glossary = "glossary";
 }

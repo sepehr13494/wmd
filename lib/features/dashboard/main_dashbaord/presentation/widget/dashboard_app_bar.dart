@@ -62,6 +62,9 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
       actions: [
         const PrivacyToggle(),
         const ChangeLanguageButton(),
+        IconButton(onPressed: (){
+          context.pushNamed(AppRoutes.glossary);
+        }, icon: const Icon(Icons.sort_by_alpha)),
         // Switch(
         //     value: context.watch<ThemeManager>().state == ThemeMode.light,
         //     onChanged: (val) {
