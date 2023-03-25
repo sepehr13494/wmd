@@ -86,5 +86,5 @@ class AppUrls {
   static String getCustodianPerformance = "${wealthBase}Performance/custodian";
 
   //glossary
-  static String getGlossaries = "api/content/glossaries?term=all";
+  static String getGlossaries = "${contentBase}glossaries?term=all";
 }
