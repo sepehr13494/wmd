@@ -5,6 +5,7 @@ import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/change_language_button.dart';
 import 'package:wmd/core/util/app_restart.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/core/util/support_button.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_toggle.dart';
@@ -62,9 +63,7 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
       actions: [
         const PrivacyToggle(),
         const ChangeLanguageButton(),
-        IconButton(onPressed: (){
-          context.pushNamed(AppRoutes.glossary);
-        }, icon: const Icon(Icons.sort_by_alpha)),
+        const GlassaryButton(),
         // Switch(
         //     value: context.watch<ThemeManager>().state == ThemeMode.light,
         //     onChanged: (val) {
@@ -72,11 +71,7 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
         //           .read<ThemeManager>()
         //           .changeTheme(val ? ThemeMode.light : ThemeMode.dark);
         //     }),
-        if (showHelp == true)
-          IconButton(
-            onPressed: () => context.pushNamed(AppRoutes.support),
-            icon: SvgPicture.asset("assets/images/add_assets/question.svg"),
-          ),
+        if (showHelp == true) const SupportButton(),
         PopupMenuButton(
           itemBuilder: (BuildContext context) {
             final List items = [
@@ -126,4 +121,22 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(60);
+}
+
+class GlassaryButton extends StatelessWidget {
+  const GlassaryButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+        onTap: () {
+          context.pushNamed(AppRoutes.glossary);
+        },
+        child: const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Icon(Icons.sort_by_alpha),
+        ));
+  }
 }

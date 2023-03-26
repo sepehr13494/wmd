@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/widgets/change_language_button.dart';
 import 'package:wmd/core/util/app_restart.dart';
+import 'package:wmd/core/util/support_button.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_toggle.dart';
@@ -79,10 +80,7 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
           : [
               const PrivacyToggle(),
               const ChangeLanguageButton(),
-              IconButton(
-                onPressed: () => context.pushNamed(AppRoutes.support),
-                icon: SvgPicture.asset("assets/images/add_assets/question.svg"),
-              ),
+              const SupportButton(),
               PopupMenuButton(
                 itemBuilder: (BuildContext context) {
                   final List items = [
