@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
+import 'package:wmd/features/profile/verify_phone/domain/entities/otp_sent_entity.dart';
 
 import '../../data/models/post_verify_phone_params.dart';
 import '../../domain/use_cases/post_verify_phone_usecase.dart';
@@ -19,20 +20,21 @@ class VerifyPhoneCubit extends Cubit<VerifyPhoneState> {
     this.postResendVerifyPhoneUseCase,
   ) : super(LoadingState());
 
-  postVerifyPhone() async {
+  postVerifyPhone({required Map<String, dynamic> map}) async {
     emit(LoadingState());
-    final result = await postVerifyPhoneUseCase(const PostVerifyPhoneParams());
+    final result =
+        await postVerifyPhoneUseCase(PostVerifyPhoneParams.fromJson(map));
     result.fold((failure) => emit(ErrorState(failure: failure)), (appSuccess) {
       emit(SuccessState(appSuccess: appSuccess));
     });
   }
 
-  postResendVerifyPhone() async {
+  postResendVerifyPhone({required Map<String, dynamic> map}) async {
     emit(LoadingState());
-    final result =
-        await postResendVerifyPhoneUseCase(PostResendVerifyPhoneParams());
+    final result = await postResendVerifyPhoneUseCase(
+        PostResendVerifyPhoneParams.fromJson(map));
     result.fold((failure) => emit(ErrorState(failure: failure)), (appSuccess) {
-      emit(SuccessState(appSuccess: appSuccess));
+      emit(VerifyOtpLoaded(entity: appSuccess));
     });
   }
 }

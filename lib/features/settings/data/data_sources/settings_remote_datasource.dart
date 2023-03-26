@@ -11,7 +11,7 @@ import '../models/put_settings_response.dart';
 
 abstract class SettingsRemoteDataSource {
   Future<GetSettingsResponse> getSettings(GetSettingsParams params);
-  Future<PutSettingsResponse> putSettings(PutSettingsParams params);
+  Future<void> putSettings(PutSettingsParams params);
 }
 
 class SettingsRemoteDataSourceImpl extends AppServerDataSource
@@ -39,14 +39,14 @@ class SettingsRemoteDataSourceImpl extends AppServerDataSource
   }
 
   @override
-  Future<PutSettingsResponse> putSettings(PutSettingsParams params) async {
+  Future<void> putSettings(PutSettingsParams params) async {
     try {
       final appRequestOptions = AppRequestOptions(
           RequestTypes.put, AppUrls.settings, params.toJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
       // final result = PutSettingsResponse.fromJson(response);
-      return const PutSettingsResponse();
+      return;
     } on ServerException {
       rethrow;
     } catch (e) {

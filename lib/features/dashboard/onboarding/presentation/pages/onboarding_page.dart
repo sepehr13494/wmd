@@ -50,7 +50,9 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
               listener:
                   BlocHelper.defaultBlocListener(listener: (context, state) {
                 if (state is UserStatusLoaded) {
-                  if (state.userStatus.loginAt != null) {
+                  if (state.userStatus.mobileNumberVerified == true) {
+                    context.goNamed(AppRoutes.verifyOtp);
+                  } else if (state.userStatus.loginAt != null) {
                     context.goNamed(AppRoutes.main);
                   } else if (!(state.userStatus.emailVerified ?? false)) {
                     context.goNamed(AppRoutes.verifyEmail,

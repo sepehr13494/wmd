@@ -19,6 +19,7 @@ class UserStatus extends Equatable {
     this.externalId,
     this.userId,
     this.emailVerified,
+    this.mobileNumberVerified,
   });
 
   final String? email;
@@ -26,6 +27,7 @@ class UserStatus extends Equatable {
   final String? externalId;
   final String? userId;
   final bool? emailVerified;
+  final bool? mobileNumberVerified;
 
   factory UserStatus.fromJson(Map<String, dynamic> json) => UserStatus(
         email: json["email"],
@@ -33,6 +35,7 @@ class UserStatus extends Equatable {
         emailVerified: json["emailVerified"],
         userId: json["userId"],
         externalId: json["externalId"],
+        mobileNumberVerified: json["mobileNumberVerified"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -40,7 +43,8 @@ class UserStatus extends Equatable {
         "loginAt": loginAt,
         "externalId": externalId,
         "userId": userId,
-        "emailVerified": emailVerified
+        "emailVerified": emailVerified,
+        "mobileNumberVerified": mobileNumberVerified
       };
 
   @override
@@ -54,7 +58,8 @@ class UserStatus extends Equatable {
     "loginAt": CustomizableDateTime.currentDate,
     "externalId": "externalId",
     "userId": "userId",
-    "emailVerified": false
+    "emailVerified": false,
+    "mobileNumberVerified": false,
   };
 
   static final tUserStatus = UserStatus(
