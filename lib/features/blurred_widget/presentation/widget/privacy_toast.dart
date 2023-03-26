@@ -10,19 +10,19 @@ class PrivacyToast {
       GlobalFunctions.showSnackTile(
         context,
         color: Colors.green,
-        title: Text(appLocalizations
-            .profile_tabs_preferences_privacyMode_toast_active_title),
-        subtitle: Text(appLocalizations
-            .profile_tabs_preferences_privacyMode_toast_active_desc),
+        title: appLocalizations
+            .profile_tabs_preferences_privacyMode_toast_active_title,
+        subtitle: appLocalizations
+            .profile_tabs_preferences_privacyMode_toast_active_desc,
       );
     } else {
       GlobalFunctions.showSnackTile(
         context,
         color: Colors.green,
-        title: Text(appLocalizations
-            .profile_tabs_preferences_privacyMode_toast_disabled_title),
-        subtitle: Text(appLocalizations
-            .profile_tabs_preferences_privacyMode_toast_disabled_decs),
+        title: appLocalizations
+            .profile_tabs_preferences_privacyMode_toast_disabled_title,
+        subtitle: appLocalizations
+            .profile_tabs_preferences_privacyMode_toast_disabled_decs,
       );
     }
   }
