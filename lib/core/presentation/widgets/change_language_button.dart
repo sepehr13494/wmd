@@ -9,16 +9,21 @@ class ChangeLanguageButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LocalizationManager, Locale>(
       builder: (context, state) {
-        return TextButton(
-          onPressed: () {
+        return InkWell(
+          onTap: () {
             context.read<LocalizationManager>().switchLanguage();
           },
-          child: Text(
-            context.read<LocalizationManager>().getOtherName(),
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium!
-                .apply(color: Theme.of(context).primaryColor),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: Text(
+                context.read<LocalizationManager>().getOtherName(),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .apply(color: Theme.of(context).primaryColor),
+              ),
+            ),
           ),
         );
       },
