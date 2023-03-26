@@ -351,7 +351,11 @@ class AppRouter {
                       name: AppRoutes.twoFactorAuth,
                       path: "two-factor-auth",
                       builder: (BuildContext context, GoRouterState state) {
-                        return const TwoFactorSetupPage();
+                        return BlocProvider.value(
+                            value: _blurredPrivacyCubit,
+                            child: const PrivacyBlurWrapper(
+                              child: TwoFactorSetupPage(),
+                            ));
                       },
                     ),
                     GoRoute(

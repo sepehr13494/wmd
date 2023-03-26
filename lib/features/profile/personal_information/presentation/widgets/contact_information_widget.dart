@@ -282,7 +282,7 @@ class _ContactInformationWidgetState
                                                         ..onTap = () {
                                                           context.pushNamed(
                                                               AppRoutes
-                                                                  .verifyOtp,
+                                                                  .verifyPhone,
                                                               queryParams: {
                                                                 "phoneNumber":
                                                                     "+${(formKey.currentState!.instantValue["country"] as Country).phoneCode} ${formKey.currentState!.instantValue["phoneNumber"]}"
