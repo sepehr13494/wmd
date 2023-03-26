@@ -1,4 +1,6 @@
 {
+    "@@locale": "ar",
+    "@@last_modified": "2023-03-23T13:33:05+01:00",
     "auth:signup.page.title": "انضمّ إلى منصتنا",
     "auth:signup.page.description": "إنشاء حساب myWMD",
     "auth:signup.heading": "أنشئ حساباً",
@@ -1428,5 +1430,17 @@
     "common:privacy.on": "",
     "common:privacy.off": "",
     "common:privacy.onSubheading": "",
-    "common:privacy.offSubheading": ""
+    "common:privacy.offSubheading": "",
+    "home:twoFactorRecommendation.title": "",
+    "home:twoFactorRecommendation.description": "",
+    "profile:twoFactor.header": "",
+    "profile:twoFactor.page.title": "",
+    "profile:twoFactor.page.subTitle": "",
+    "profile:twoFactor.page.email.title": "",
+    "profile:twoFactor.page.email.subTitle": "",
+    "profile:twoFactor.page.phone.subTitle": "",
+    "profile:twoFactor.page.phone.title": "",
+    "home:twoFactorRecommendation.btn": "",
+    "auth:verifyOtp.title": "",
+    "auth:verifyOtp.subTitle": ""
 }

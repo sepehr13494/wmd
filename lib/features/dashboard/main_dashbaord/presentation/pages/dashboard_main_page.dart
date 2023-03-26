@@ -19,6 +19,7 @@ import 'package:wmd/features/dashboard/performance_table/presentation/widgets/pe
 import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_benchmark_widget.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_custodian_widget.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
+import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/two_factor_recommendation_widget.dart';
 import '../../../dashboard_charts/presentation/widgets/pie_chart_sample.dart';
 import '../../../dashboard_charts/presentation/widgets/random_map.dart';
 import '../widget/bank_auth_process.dart';
@@ -38,7 +39,6 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
     final appTheme = Theme.of(context);
     if (widget.expandCustodian) {
@@ -85,33 +85,35 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                       CustodianStatusListState>(
                                   listener: BlocHelper.defaultBlocListener(
                                       listener: (context, custodianState) {}),
-                                  builder: (context, state) {
+                                  builder: (context, custodianState) {
                                     return BlocConsumer<MainDashboardCubit,
                                         MainDashboardState>(
                                       listener: BlocHelper.defaultBlocListener(
-                                          listener: (context, state) {}),
-                                      builder: (context, state) {
+                                          listener:
+                                              (context, dashboardState) {}),
+                                      builder: (context, dashboardState) {
                                         final isCustodianNotEmpty = context
                                             .read<CustodianStatusListCubit>()
                                             .statutes
                                             .isNotEmpty;
-                                        if (state
+                                        if (dashboardState
                                             is MainDashboardNetWorthLoaded) {
-                                          final isAssetsNotEmpty = state
-                                                  .netWorthObj
-                                                  .assets
-                                                  .currentValue !=
-                                              0;
-                                          final isLiabilityNotEmpty = state
-                                                  .netWorthObj
-                                                  .liabilities
-                                                  .currentValue !=
-                                              0;
+                                          final isAssetsNotEmpty =
+                                              dashboardState.netWorthObj.assets
+                                                      .currentValue !=
+                                                  0;
+                                          final isLiabilityNotEmpty =
+                                              dashboardState
+                                                      .netWorthObj
+                                                      .liabilities
+                                                      .currentValue !=
+                                                  0;
 
                                           if (isAssetsNotEmpty ||
                                               isCustodianNotEmpty ||
                                               isLiabilityNotEmpty) {
-                                            const Key tableKey = Key("tableKey");
+                                            const Key tableKey =
+                                                Key("tableKey");
                                             return Column(
                                               children: [
                                                 const PrivacyBlurWarning(),
@@ -126,16 +128,24 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                                     isLiabilityNotEmpty)
                                                   SummeryWidget(
                                                       netWorthEntity:
-                                                          state.netWorthObj),
+                                                          dashboardState
+                                                              .netWorthObj),
                                                 const NetWorthBaseChart(),
                                                 const SizedBox(height: 8),
+                                                if (state.userStatus
+                                                        .mobileNumberVerified !=
+                                                    true)
+                                                  const TwoFactorRecommendationWidget(),
+                                                const SizedBox(height: 8),
                                                 Align(
-                                                  alignment: AlignmentDirectional.centerStart,
+                                                  alignment:
+                                                      AlignmentDirectional
+                                                          .centerStart,
                                                   child: Text(
                                                       appLocalizations
                                                           .home_label_yourAssets,
                                                       style:
-                                                      textTheme.titleLarge),
+                                                          textTheme.titleLarge),
                                                 ),
                                                 RowOrColumn(
                                                   rowCrossAxisAlignment:
@@ -158,16 +168,29 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                                     const PerformanceAssetClassWidget(),
                                                     const PerformanceBenchmarkWidget(),
                                                     const PerformanceCustodianWidget(),
-                                                  ].map((e) => Padding(padding: const EdgeInsets.symmetric(vertical: 8),child: e,)).toList(),
+                                                  ]
+                                                      .map((e) => Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical:
+                                                                        8),
+                                                            child: e,
+                                                          ))
+                                                      .toList(),
                                                 ),
                                                 const SizedBox(height: 8),
                                               ]
-                                                  .map((e) => e.key == tableKey ? e : Padding(
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          vertical: 8,
-                                                          horizontal: 16),
-                                                      child: e))
+                                                  .map((e) => e.key == tableKey
+                                                      ? e
+                                                      : Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical: 8,
+                                                                  horizontal:
+                                                                      16),
+                                                          child: e))
                                                   .toList(),
                                             );
                                           }

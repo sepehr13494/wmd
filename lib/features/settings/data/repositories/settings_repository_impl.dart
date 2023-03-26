@@ -2,6 +2,7 @@ import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 
 import 'package:dartz/dartz.dart';
+import 'package:wmd/core/error_and_success/succeses.dart';
 
 import '../models/get_settings_params.dart';
 import '../../domain/entities/get_settings_entity.dart';
@@ -30,11 +31,11 @@ class SettingsRepositoryImpl implements SettingsRepository {
   }
 
   @override
-  Future<Either<Failure, PutSettingsEntity>> putSettings(
+  Future<Either<Failure, AppSuccess>> putSettings(
       PutSettingsParams params) async {
     try {
       final result = await remoteDataSource.putSettings(params);
-      return Right(result);
+      return const Right(AppSuccess(message: 'updated Succssfully'));
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error) {

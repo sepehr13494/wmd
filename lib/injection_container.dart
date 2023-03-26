@@ -166,6 +166,7 @@ import 'package:wmd/features/profile/profile_reset_password/data/repositories/pr
 import 'package:wmd/features/profile/profile_reset_password/domain/repositories/profile_reset_password_repository.dart';
 import 'package:wmd/features/profile/profile_reset_password/domain/use_cases/reset_usecase.dart';
 import 'package:wmd/features/profile/profile_reset_password/presentation/manager/profile_reset_password_cubit.dart';
+import 'package:wmd/features/profile/two_factor_auth/manager/two_factor_cubit.dart';
 import 'package:wmd/features/profile/verify_phone/data/data_sources/verify_phone_remote_datasource.dart';
 import 'package:wmd/features/profile/verify_phone/data/repositories/verify_phone_repository_impl.dart';
 import 'package:wmd/features/profile/verify_phone/domain/repositories/verify_phone_repository.dart';
@@ -537,6 +538,7 @@ Future<void> init() async {
 
   //Settings
 
+  sl.registerFactory(() => TwoFactorCubit(sl(), sl()));
   sl.registerLazySingleton(() => GetSettingsUseCase(sl()));
   sl.registerLazySingleton(() => PutSettingsUseCase(sl()));
 

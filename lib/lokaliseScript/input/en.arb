@@ -1,4 +1,6 @@
 {
+    "@@locale": "en",
+    "@@last_modified": "2023-03-23T13:33:05+01:00",
     "auth:signup.page.title": "Join our Platform",
     "auth:signup.page.description": "Create myWMD account",
     "auth:signup.heading": "Create an account",
@@ -1428,5 +1430,17 @@
     "common:privacy.on": "Privacy mode has been turned on",
     "common:privacy.off": "Privacy mode has been turned off",
     "common:privacy.onSubheading": "Sensitive data is now being hidden",
-    "common:privacy.offSubheading": "Sensitive data is now being shown"
+    "common:privacy.offSubheading": "Sensitive data is now being shown",
+    "home:twoFactorRecommendation.title": "Add your mobile number to two-factor authenticator",
+    "home:twoFactorRecommendation.description": "Recommended for the simplest authentication process possible.",
+    "profile:twoFactor.header": "Two-factor authentication",
+    "profile:twoFactor.page.title": "2FA feature is turned on",
+    "profile:twoFactor.page.subTitle": "Each time you log in, you'll receive a unique, single-use code via text and\/or through an email address.",
+    "profile:twoFactor.page.email.title": "Email address",
+    "profile:twoFactor.page.email.subTitle": "We will send you a one-time passcode to the email address we have registered from you at email@email.com",
+    "profile:twoFactor.page.phone.subTitle": "Recommended for the simplest authentication process possible. We will need you to provide us your mobile phone number to enable SMS first then we will send you a one-time passcode.",
+    "profile:twoFactor.page.phone.title": "Text message (recommended)",
+    "home:twoFactorRecommendation.btn": "Add mobile number",
+    "auth:verifyOtp.title": "Two-factor authentication",
+    "auth:verifyOtp.subTitle": "Please enter the one time password to verify your account. A code has been sent to the email address we have registered."
 }
