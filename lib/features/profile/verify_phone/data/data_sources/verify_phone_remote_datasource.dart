@@ -24,7 +24,7 @@ class VerifyPhoneRemoteDataSourceImpl extends AppServerDataSource
       PostVerifyPhoneParams params) async {
     try {
       final appRequestOptions = AppRequestOptions(
-          RequestTypes.get, AppUrls.postVerifyPhone, params.toJson());
+          RequestTypes.post, AppUrls.postVerifyPhone, params.toJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = PostVerifyPhoneResponse.fromJson(response);
@@ -42,7 +42,7 @@ class VerifyPhoneRemoteDataSourceImpl extends AppServerDataSource
       PostResendVerifyPhoneParams params) async {
     try {
       final appRequestOptions = AppRequestOptions(
-          RequestTypes.get, AppUrls.postResendVerifyPhone, params.toJson());
+          RequestTypes.post, AppUrls.postResendVerifyPhone, params.toJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = PostResendVerifyPhoneResponse.fromJson(response);
