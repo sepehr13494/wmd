@@ -322,6 +322,9 @@ class AppRouter {
                         BlocProvider.value(
                           value: _personalInformationCubit,
                         ),
+                        BlocProvider.value(
+                          value: _userStatusCubit,
+                        ),
                       ],
                       child: const PrivacyBlurWrapper(
                         child: SettingsPage(),
@@ -333,7 +336,8 @@ class AppRouter {
                       name: AppRoutes.verifyPhone,
                       path: "verify-phone",
                       builder: (BuildContext context, GoRouterState state) {
-                        return const VerifyPhoneNumberPage();
+                        return VerifyPhoneNumberPage(
+                            verifyMap: state.queryParams);
                       },
                     ),
                     GoRoute(
@@ -347,7 +351,7 @@ class AppRouter {
                       name: AppRoutes.verifyOtp,
                       path: "verify-otp",
                       builder: (BuildContext context, GoRouterState state) {
-                        return const VerifyOtpPage();
+                        return VerifyOtpPage(verifyMap: state.queryParams);
                       },
                     ),
                   ]),

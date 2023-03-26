@@ -1,19 +1,24 @@
+import 'package:flutter/gestures.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
+import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import 'package:wmd/core/presentation/widgets/text_with_info.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
+import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/features/profile/personal_information/presentation/widgets/country_code_picker.dart';
 import 'package:wmd/global_functions.dart';
+import 'package:country_picker/country_picker.dart';
 
 import '../manager/personal_information_cubit.dart';
 
@@ -32,6 +37,7 @@ class _ContactInformationWidgetState
   String selectedCountryCode = "BH";
   final formKey = GlobalKey<FormBuilderState>();
   late Map<String, dynamic> lastValue;
+
   void checkFinalValid(value) async {
     await Future.delayed(const Duration(milliseconds: 100));
     bool finalValid = formKey.currentState!.isValid;
@@ -119,64 +125,181 @@ class _ContactInformationWidgetState
                         expanded: isTablet,
                         child: Column(
                           children: [
-                            EachTextField(
-                              hasInfo: false,
-                              title: appLocalizations
-                                  .profile_tabs_personal_fields_label_primaryPhoneNumber,
-                              child: SizedBox(
-                                height: 70,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    PrivacyBlurWidgetClickable(
-                                      child: CountryCodePicker(onChange: (val) {
-                                        setState(() {
-                                          selectedCountryCode =
-                                              val?.countryCode ?? "";
-                                        });
+                            if (AppConstants.publicMvp2Items)
+                              BlocConsumer<UserStatusCubit, UserStatusState>(
+                                  listener: BlocHelper.defaultBlocListener(
+                                    listener: (context, state) {},
+                                  ),
+                                  builder: (context, state) {
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            TextWithInfo(
+                                                title: appLocalizations
+                                                    .profile_tabs_personal_fields_label_primaryPhoneNumber,
+                                                hasInfo: false,
+                                                showRequired: false,
+                                                tooltipText: ""),
+                                            (state is UserStatusLoaded &&
+                                                    state.userStatus
+                                                            .mobileNumberVerified ==
+                                                        true)
+                                                ? Container(
+                                                    decoration: BoxDecoration(
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              179, 67, 160, 72),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              3),
+                                                    ),
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 5,
+                                                        vertical: 1),
+                                                    child: const Text(
+                                                      "Verified",
+                                                      style: TextStyle(
+                                                        color: Colors.green,
+                                                      ),
+                                                    ),
+                                                  )
+                                                : Container(
+                                                    decoration: BoxDecoration(
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              20, 199, 61, 61),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              3),
+                                                    ),
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 5,
+                                                        vertical: 1),
+                                                    child: const Text(
+                                                      "Not Verified",
+                                                      style: TextStyle(
+                                                        color: Color.fromARGB(
+                                                            100, 218, 129, 129),
+                                                      ),
+                                                    ),
+                                                  )
+                                          ],
+                                        ),
+                                        const SizedBox(height: 8),
+                                        SizedBox(
+                                          height: 70,
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              PrivacyBlurWidgetClickable(
+                                                child: CountryCodePicker(
+                                                    onChange: (val) {
+                                                  setState(() {
+                                                    selectedCountryCode =
+                                                        val?.countryCode ?? "";
+                                                  });
 
-                                        checkFinalValid(val);
-                                      }),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Expanded(
-                                      child: PrivacyBlurWidgetClickable(
-                                        child: AppTextFields.simpleTextField(
-                                            name: "phoneNumber",
-                                            hint:
-                                                '${appLocalizations.profile_tabs_personal_fields_label_primaryPhoneNumber.substring(0, 15)}..',
-                                            type: TextFieldType.number,
-                                            keyboardType: TextInputType.number,
-                                            minLines: 1,
-                                            extraValidators: [
-                                              (val) {
-                                                return (!val!.contains(
-                                                        RegExp(r'^[0-9]*$')))
-                                                    ? appLocalizations
-                                                        .scheduleMeeting_phoneNumber_errors_inValid
-                                                    : null;
-                                              },
-                                              (val) {
-                                                return (val != null &&
-                                                        val != "" &&
-                                                        selectedCountryCode ==
-                                                            "BH" &&
-                                                        (val.length > 8 ||
-                                                            val.length < 8))
-                                                    ? appLocalizations
-                                                        .common_errors_phoneNumberLength
-                                                        .replaceAll("{{digit}}",
-                                                            8.toString())
-                                                    : null;
-                                              },
+                                                  checkFinalValid(val);
+                                                }),
+                                              ),
+                                              const SizedBox(width: 8),
+                                              Expanded(
+                                                child:
+                                                    PrivacyBlurWidgetClickable(
+                                                  child: AppTextFields
+                                                      .simpleTextField(
+                                                          name: "phoneNumber",
+                                                          hint:
+                                                              '${appLocalizations.profile_tabs_personal_fields_label_primaryPhoneNumber.substring(0, 15)}..',
+                                                          type: TextFieldType
+                                                              .number,
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .number,
+                                                          minLines: 1,
+                                                          extraValidators: [
+                                                            (val) {
+                                                              return (!val!.contains(
+                                                                      RegExp(
+                                                                          r'^[0-9]*$')))
+                                                                  ? appLocalizations
+                                                                      .scheduleMeeting_phoneNumber_errors_inValid
+                                                                  : null;
+                                                            },
+                                                            (val) {
+                                                              return (val !=
+                                                                          null &&
+                                                                      val !=
+                                                                          "" &&
+                                                                      selectedCountryCode ==
+                                                                          "BH" &&
+                                                                      (val.length >
+                                                                              8 ||
+                                                                          val.length <
+                                                                              8))
+                                                                  ? appLocalizations
+                                                                      .common_errors_phoneNumberLength
+                                                                      .replaceAll(
+                                                                          "{{digit}}",
+                                                                          8.toString())
+                                                                  : null;
+                                                            },
+                                                          ],
+                                                          onChanged:
+                                                              checkFinalValid),
+                                                ),
+                                              ),
                                             ],
-                                            onChanged: checkFinalValid),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                                          ),
+                                        ),
+                                        if (state is UserStatusLoaded &&
+                                            state.userStatus
+                                                    .mobileNumberVerified !=
+                                                true)
+                                          RichText(
+                                              text: TextSpan(
+                                                  style: const TextStyle(
+                                                      height: 1.3),
+                                                  children: [
+                                                TextSpan(
+                                                    text:
+                                                        "We need to verify your phone number to keep your account secure. ",
+                                                    style:
+                                                        textTheme.bodyMedium),
+                                                TextSpan(
+                                                  text:
+                                                      "Send verification code",
+                                                  style: textTheme.bodyMedium!
+                                                      .toLinkStyle(context),
+                                                  recognizer:
+                                                      TapGestureRecognizer()
+                                                        ..onTap = () {
+                                                          context.pushNamed(
+                                                              AppRoutes
+                                                                  .verifyOtp,
+                                                              queryParams: {
+                                                                "phoneNumber":
+                                                                    "+${(formKey.currentState!.instantValue["country"] as Country).phoneCode} ${formKey.currentState!.instantValue["phoneNumber"]}"
+                                                              });
+                                                        },
+                                                ),
+                                              ]))
+                                      ],
+                                    );
+                                  }),
+
+                            // EachTextField(
+                            //   hasInfo: false,
+                            //   title: appLocalizations
+                            //       .profile_tabs_personal_fields_label_primaryPhoneNumber,
+                            //   child: ,
+                            // ),
                             /* RichText(
                                 text: TextSpan(children: [
                                   TextSpan(
@@ -201,7 +324,11 @@ class _ContactInformationWidgetState
                                       : () {
                                           if (AppConstants.publicMvp2Items) {
                                             context.pushNamed(
-                                                AppRoutes.verifyPhone);
+                                                AppRoutes.verifyPhone,
+                                                queryParams: {
+                                                  "phoneNumber":
+                                                      "+${(formKey.currentState!.instantValue["country"] as Country).phoneCode} ${formKey.currentState!.instantValue["phoneNumber"]}"
+                                                });
                                           } else {
                                             if (formKey.currentState!
                                                 .validate()) {
