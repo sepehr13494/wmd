@@ -39,6 +39,7 @@ abstract class BaseState extends Equatable
         BlurredPrivacyState,
         PerformanceTableState,
         TwoFactorState,
+        GlossaryState,
         PerformanceChartState {}
 
 class BaseInitialState extends BaseState {

@@ -40,6 +40,7 @@ import 'package:wmd/features/dashboard/onboarding/presentation/pages/onboarding_
 import 'package:wmd/features/dashboard/performance_table/presentation/manager/performance_table_cubit.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/features/force_update/presentation/pages/force_update_page.dart';
+import 'package:wmd/features/glossary/presentation/pages/glossary_page.dart';
 import 'package:wmd/features/help/support/presentation/pages/schedule_call_page.dart';
 import 'package:wmd/features/help/support/presentation/pages/support_page.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
@@ -286,6 +287,12 @@ class AppRouter {
               );
             },
             routes: [
+              GoRoute(
+                  name: AppRoutes.glossary,
+                  path: "glossary",
+                  builder: (BuildContext context, GoRouterState state) {
+                    return const GlossaryPage();
+                  }),
               GoRoute(
                 name: AppRoutes.assetDetailPage,
                 path: "asset_detail",

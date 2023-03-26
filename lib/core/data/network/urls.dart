@@ -83,4 +83,7 @@ class AppUrls {
   static String getAssetClass = "${wealthBase}Performance/assetclass";
   static String getBenchmark = "${wealthBase}Performance/benchmark";
   static String getCustodianPerformance = "${wealthBase}Performance/custodian";
+
+  //glossary
+  static String getGlossaries = "${contentBase}glossaries?term=all";
 }

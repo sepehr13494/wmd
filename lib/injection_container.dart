@@ -134,6 +134,11 @@ import 'package:wmd/features/force_update/data/repositories/force_update_reposit
 import 'package:wmd/features/force_update/domain/repositories/force_update_repository.dart';
 import 'package:wmd/features/force_update/domain/use_cases/get_force_update_usecase.dart';
 import 'package:wmd/features/force_update/presentation/manager/force_update_cubit.dart';
+import 'package:wmd/features/glossary/data/data_sources/glossary_remote_datasource.dart';
+import 'package:wmd/features/glossary/data/repositories/glossary_repository_impl.dart';
+import 'package:wmd/features/glossary/domain/repositories/glossary_repository.dart';
+import 'package:wmd/features/glossary/domain/use_cases/get_glossaries_usecase.dart';
+import 'package:wmd/features/glossary/presentation/manager/glossary_cubit.dart';
 import 'package:wmd/features/help/faq/data/data_sources/faq_remote_data_source.dart';
 import 'package:wmd/features/help/faq/data/repositories/faq_respository_impl.dart';
 import 'package:wmd/features/help/faq/domain/repositories/faq_repository.dart';
@@ -521,6 +526,15 @@ Future<void> init() async {
       () => PerformanceTableRepositoryImpl(sl()));
   sl.registerLazySingleton<PerformanceTableRemoteDataSource>(
       () => PerformanceTableRemoteDataSourceImpl(sl()));
+
+  //Glossary
+  sl.registerFactory(() => GlossaryCubit(sl()));
+  sl.registerLazySingleton(() => GetGlossariesUseCase(sl()));
+
+  sl.registerLazySingleton<GlossaryRepository>(
+          () => GlossaryRepositoryImpl(sl()));
+  sl.registerLazySingleton<GlossaryRemoteDataSource>(
+          () => GlossaryRemoteDataSourceImpl(sl()));
 
   //Settings
 
