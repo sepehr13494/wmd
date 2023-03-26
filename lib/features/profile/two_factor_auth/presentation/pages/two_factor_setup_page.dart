@@ -10,6 +10,7 @@ import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
 import 'package:wmd/features/profile/core/presentation/widgets/language_bottom_sheet.dart';
 import 'package:wmd/features/profile/personal_information/presentation/widgets/country_code_picker.dart';
 import 'package:wmd/features/profile/two_factor_auth/manager/two_factor_cubit.dart';
@@ -63,18 +64,16 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
         create: (context) => sl<TwoFactorCubit>()..getTwoFactor(),
         child: BlocConsumer<TwoFactorCubit, TwoFactorState>(listener:
             BlocHelper.defaultBlocListener(listener: (context, state) {
-          // if (state is FaqLoaded) {
-          //   final faqList = state.faqs;
+          if (state is TwoFactorLoaded) {
+            final settingsData = state.entity;
 
-          //   setState(() {
-          //     expanded = List<bool>.generate(faqList.length, (i) {
-          //       if (i == 0) {
-          //         return true;
-          //       }
-          //       return false;
-          //     });
-          //   });
-          // }
+            setState(() {
+              twoFactorEnabled = settingsData.emailTwoFactorEnabled ||
+                  settingsData.smsTwoFactorEnabled;
+              emailTwoFactorEnabled = settingsData.emailTwoFactorEnabled;
+              textTwoFactorEnabled = settingsData.smsTwoFactorEnabled;
+            });
+          }
         }), builder: (context, state) {
           return Scaffold(
               appBar: AddAssetHeader(
@@ -117,6 +116,9 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
 
                               context.read<TwoFactorCubit>().setTwoFactor(
                                   PutSettingsParams(
+                                      isPrivacyMode:
+                                          PrivacyInherited.of(context)
+                                              .isBlurred,
                                       emailTwoFactorEnabled: val,
                                       smsTwoFactorEnabled: val));
                             } else {
@@ -127,7 +129,11 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
 
                               context.read<TwoFactorCubit>().setTwoFactor(
                                   PutSettingsParams(
-                                      emailTwoFactorEnabled: val));
+                                      isPrivacyMode:
+                                          PrivacyInherited.of(context)
+                                              .isBlurred,
+                                      emailTwoFactorEnabled: val,
+                                      smsTwoFactorEnabled: val));
                             }
                           },
                           title: Text(
@@ -143,7 +149,11 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                             });
 
                             context.read<TwoFactorCubit>().setTwoFactor(
-                                PutSettingsParams(emailTwoFactorEnabled: val));
+                                PutSettingsParams(
+                                    isPrivacyMode:
+                                        PrivacyInherited.of(context).isBlurred,
+                                    emailTwoFactorEnabled: val,
+                                    smsTwoFactorEnabled: textTwoFactorEnabled));
                           },
                           title: Text(appLocalizations
                               .profile_twoFactor_page_email_title),
@@ -158,7 +168,12 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                             });
 
                             context.read<TwoFactorCubit>().setTwoFactor(
-                                PutSettingsParams(smsTwoFactorEnabled: val));
+                                PutSettingsParams(
+                                    isPrivacyMode:
+                                        PrivacyInherited.of(context).isBlurred,
+                                    emailTwoFactorEnabled:
+                                        emailTwoFactorEnabled,
+                                    smsTwoFactorEnabled: val));
                           },
                           title: Text(appLocalizations
                               .profile_twoFactor_page_phone_title),
