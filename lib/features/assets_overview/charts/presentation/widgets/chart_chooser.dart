@@ -44,7 +44,7 @@ class AllChartType extends Equatable {
         AllChartType(
             name: appLocalizations.assets_charts_allocationCharts_areaChartLabel,
             barType: AssetsBarType.areaChart),
-        AllChartType(name: appLocalizations.assets_charts_allocationCharts_areaChartLabel+"%", barType: AssetsBarType.areaPercentage),
+        AllChartType(name: "%${appLocalizations.assets_charts_allocationCharts_areaChartLabel}", barType: AssetsBarType.areaPercentage),
       ];
     }
   }
