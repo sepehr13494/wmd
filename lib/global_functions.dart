@@ -33,22 +33,65 @@ class GlobalFunctions {
 
   static showSnackTile(
     context, {
-    Widget? leading,
-    Widget? title,
-    Widget? subtitle,
-    Widget? trailing,
+    required String title,
+    String? subtitle,
     Color color = const Color.fromARGB(179, 67, 160, 72),
   }) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: ListTile(
-        leading: leading,
-        title: title,
-        subtitle: subtitle,
-        trailing: trailing,
+    final textTheme = Theme.of(context).textTheme;
+    final snackBar = SnackBar(
+      margin: const EdgeInsets.all(0),
+      padding: const EdgeInsets.all(0),
+      content: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: const BorderRadius.only(
+                bottomRight: Radius.circular(8), topRight: Radius.circular(8)),
+          ),
+          child: SizedBox(
+            height: 60,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 3,
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        bottomLeft: Radius.circular(8)),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(title, style: textTheme.bodyLarge),
+                        if (subtitle != null)
+                          Text(
+                            subtitle,
+                            style: textTheme.bodySmall,
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
-      backgroundColor: color,
-    ));
+      backgroundColor: Colors.transparent,
+      behavior: SnackBarBehavior.floating,
+    );
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   static Future<bool> confirmProcess(
