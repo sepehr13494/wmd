@@ -10,9 +10,14 @@ import '../routes/app_routes.dart';
 
 class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
   final bool? enableLogoAction;
+  final bool enableActions;
   final VoidCallback? onLogoPress;
 
-  const BaseAppBar({Key? key, this.enableLogoAction = false, this.onLogoPress})
+  const BaseAppBar(
+      {Key? key,
+      this.enableLogoAction = false,
+      this.onLogoPress,
+      this.enableActions = true})
       : super(key: key);
 
   @override
@@ -69,57 +74,62 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
         },
         icon: const Icon(Icons.arrow_back),
       ),
-      actions: [
-        const PrivacyToggle(),
-        const ChangeLanguageButton(),
-        IconButton(
-          onPressed: () => context.pushNamed(AppRoutes.support),
-          icon: SvgPicture.asset("assets/images/add_assets/question.svg"),
-        ),
-        PopupMenuButton(
-          itemBuilder: (BuildContext context) {
-            final List items = [
-              [
-                AppLocalizations.of(context).profile_page_title,
-                Icons.arrow_forward_ios_rounded
-              ],
-              [
-                AppLocalizations.of(context)
-                    .profile_changePassword_button_logout,
-                CustomIcons.logout
-              ],
-            ];
-            return List.generate(
-                items.length,
-                (index) => PopupMenuItem(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(items[index][0]),
-                          Icon(
-                            items[index][1],
-                            color: Theme.of(context).textTheme.bodyLarge!.color,
-                          )
-                        ],
-                      ),
-                      onTap: () {
-                        switch (index) {
-                          case 0:
-                            context.pushNamed(AppRoutes.settings);
-                            break;
-                          case 1:
-                            AppRestart.restart(context);
-                            break;
-                        }
-                      },
-                    ));
-          },
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12),
-            child: Icon(Icons.settings),
-          ),
-        )
-      ],
+      actions: !enableActions
+          ? null
+          : [
+              const PrivacyToggle(),
+              const ChangeLanguageButton(),
+              IconButton(
+                onPressed: () => context.pushNamed(AppRoutes.support),
+                icon: SvgPicture.asset("assets/images/add_assets/question.svg"),
+              ),
+              PopupMenuButton(
+                itemBuilder: (BuildContext context) {
+                  final List items = [
+                    [
+                      AppLocalizations.of(context).profile_page_title,
+                      Icons.arrow_forward_ios_rounded
+                    ],
+                    [
+                      AppLocalizations.of(context)
+                          .profile_changePassword_button_logout,
+                      CustomIcons.logout
+                    ],
+                  ];
+                  return List.generate(
+                      items.length,
+                      (index) => PopupMenuItem(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(items[index][0]),
+                                Icon(
+                                  items[index][1],
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .color,
+                                )
+                              ],
+                            ),
+                            onTap: () {
+                              switch (index) {
+                                case 0:
+                                  context.pushNamed(AppRoutes.settings);
+                                  break;
+                                case 1:
+                                  AppRestart.restart(context);
+                                  break;
+                              }
+                            },
+                          ));
+                },
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  child: Icon(Icons.settings),
+                ),
+              )
+            ],
     );
   }
 

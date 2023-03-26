@@ -254,6 +254,7 @@ class _AssetsOverviewAreaChartState extends State<AssetsOverviewAreaChart> {
               Colors.brown;
           break;
       }
+
       return LineChartBarData(
         isCurved: false,
         color: color,
@@ -263,30 +264,49 @@ class _AssetsOverviewAreaChartState extends State<AssetsOverviewAreaChart> {
         spots: List.generate(widget.getChartEntities.length, (index) {
           GetChartEntity getChartEntity = widget.getChartEntities[index];
           double y = 0;
+          final double sum = getChartEntity.privateEquity +
+              getChartEntity.realEstate +
+              getChartEntity.privateDebt +
+              getChartEntity.others +
+              getChartEntity.bankAccount +
+              getChartEntity.listedAssetEquity +
+              getChartEntity.listedAssetFixedIncome +
+              getChartEntity.listedAssetOther;
+          final bankList =
+              getChartEntity.bankAccount / x + getChartEntity.listedAssetEquity / x;
+          final bankListEquity = bankList + getChartEntity.privateEquity / x;
+          final bankListEquityDept =
+              bankListEquity + getChartEntity.privateDebt / x;
+          final bankListEquityDeptEstate =
+              bankListEquityDept + getChartEntity.realEstate / x;
+          final bankListEquityDeptEstateFix =
+              bankListEquityDeptEstate + getChartEntity.listedAssetFixedIncome / x;
+          final bankListEquityDeptEstateFixOther =
+              bankListEquityDeptEstateFix + getChartEntity.listedAssetOther / x;
           switch (widget.titles[mainIndex]) {
             case AssetTypes.bankAccount:
               y = getChartEntity.bankAccount / x;
               break;
             case AssetTypes.privateEquity:
-              y = getChartEntity.privateEquity / x;
+              y = bankListEquity / x;
               break;
             case AssetTypes.privateDebt:
-              y = getChartEntity.privateDebt / x;
+              y = bankListEquityDept / x;
               break;
             case AssetTypes.realEstate:
-              y = getChartEntity.realEstate / x;
+              y = bankListEquityDeptEstate / x;
               break;
             case AssetTypes.listedAssetEquity:
-              y = getChartEntity.listedAssetEquity / x;
+              y = bankList / x;
               break;
             case AssetTypes.listedAssetFixedIncome:
-              y = getChartEntity.listedAssetFixedIncome / x;
+              y = bankListEquityDeptEstateFix / x;
               break;
             case AssetTypes.listedAssetOther:
-              y = getChartEntity.listedAssetOther / x;
+              y = bankListEquityDeptEstateFixOther / x;
               break;
             case AssetTypes.otherAsset:
-              y = getChartEntity.others / x;
+              y = sum / x;
               break;
           }
           return FlSpot(index.toDouble(), y);
@@ -312,29 +332,17 @@ class _AssetsOverviewAreaChartState extends State<AssetsOverviewAreaChart> {
     double maxY = 0;
     if (getChartEntities.isNotEmpty) {
       for (var element in getChartEntities) {
-        if (element.bankAccount > maxY) {
-          maxY = element.bankAccount;
-        }
-        if (element.listedAssetEquity > maxY) {
-          maxY = element.listedAssetEquity;
-        }
-        if (element.listedAssetFixedIncome > maxY) {
-          maxY = element.listedAssetFixedIncome;
-        }
-        if (element.listedAssetOther > maxY) {
-          maxY = element.listedAssetOther;
-        }
-        if (element.others > maxY) {
-          maxY = element.others;
-        }
-        if (element.privateDebt > maxY) {
-          maxY = element.privateDebt;
-        }
-        if (element.realEstate > maxY) {
-          maxY = element.realEstate;
-        }
-        if (element.privateEquity > maxY) {
-          maxY = element.privateEquity;
+        double maxEach = 0;
+        maxEach += element.bankAccount;
+        maxEach += element.listedAssetEquity;
+        maxEach += element.listedAssetFixedIncome;
+        maxEach += element.listedAssetOther;
+        maxEach += element.others;
+        maxEach += element.privateDebt;
+        maxEach += element.realEstate;
+        maxEach += element.privateEquity;
+        if(maxEach > maxY){
+          maxY = maxEach;
         }
       }
     }

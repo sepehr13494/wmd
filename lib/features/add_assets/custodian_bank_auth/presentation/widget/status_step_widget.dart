@@ -73,17 +73,21 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            flex: 1,
+            flex: 9,
             child: Text(
               widget.title,
               style: textTheme.bodyLarge,
             ),
           ),
+          const Expanded(
+            flex: 2,
+            child: SizedBox(),
+          ),
           Expanded(
-            flex: 0,
+            flex: 2,
             child: Padding(
               padding: const EdgeInsets.only(left: 4),
-              child: Text(widget.trailing),
+              child: Text(widget.trailing, style: textTheme.bodySmall),
             ),
           )
         ],
@@ -201,19 +205,24 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
       title: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            flex: 1,
+            flex: 9,
             child: Text(
               widget.title,
               style: textTheme.bodyLarge,
             ),
           ),
+          const Expanded(
+            flex: 2,
+            child: SizedBox(),
+          ),
           Expanded(
-            flex: 0,
+            flex: 2,
             child: Padding(
               padding: const EdgeInsets.only(left: 4),
-              child: Text(widget.trailing),
+              child: Text(widget.trailing, style: textTheme.bodySmall),
             ),
           )
         ],

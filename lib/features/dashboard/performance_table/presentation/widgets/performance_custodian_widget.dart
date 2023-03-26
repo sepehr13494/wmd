@@ -35,7 +35,7 @@ class PerformanceCustodianWidget extends AppStatelessWidget {
             ], widths: const [
               120,150,120,120,80,120
             ], values: state.getCustodianPerformanceEntities.map((e) => <String>[
-              e.serialNumber,e.custodianName,"${e.performance.toStringAsFixed(1)} %","${e.amount.toStringAsFixed(1)} %","${e.riskPa.toStringAsFixed(1)} %",e.sharpeRatio.toStringAsFixed(2),
+              "#${e.serialNumber}",e.custodianName,"${e.performance.toStringAsFixed(1)} %","${e.amount.toStringAsFixed(1)} %","${e.riskPa.toStringAsFixed(1)} %",e.sharpeRatio.toStringAsFixed(2),
             ]).toList())
           ],
         ) : const PerformanceTableShimmer();
