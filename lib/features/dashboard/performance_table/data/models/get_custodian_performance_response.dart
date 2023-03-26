@@ -23,7 +23,7 @@ class GetCustodianPerformanceResponse extends GetCustodianPerformanceEntity {
         custodianName: json["custodianName"]??"",
         performance: double.tryParse((json["performance"]??"0").toString())??0,
         amount: double.tryParse((json["amount"]??"0").toString())??0,
-        riskPa: double.tryParse((json["riskPa"]??"0").toString())??0,
+        riskPa: double.tryParse((json["riskPA"]??"0").toString())??0,
         sharpeRatio: double.tryParse((json["sharpeRatio"]??"0").toString())??0,
       );
 

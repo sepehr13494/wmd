@@ -19,8 +19,8 @@ class GetBenchmarkResponse extends GetBenchmarkEntity {
       GetBenchmarkResponse(
         index: json["index"]??"",
         performance: double.tryParse((json["performance"]??"0").toString())??0,
-        performancePa: double.tryParse((json["performancePa"]??"0").toString())??0,
-        riskPa: double.tryParse((json["riskPa"]??"0").toString())??0,
+        performancePa: double.tryParse((json["performancePA"]??"0").toString())??0,
+        riskPa: double.tryParse((json["riskPA"]??"0").toString())??0,
         sharpeRatio: double.tryParse((json["sharpeRatio"]??"0").toString())??0,
       );
 

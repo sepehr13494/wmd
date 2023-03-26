@@ -26,17 +26,21 @@ class PerformanceBenchmarkWidget extends AppStatelessWidget {
               child: Text(appLocalizations.home_wealthPerformanceComparision_title,
                 style: textTheme.titleLarge,),
             ),
-            PerformanceBaseTable(titles: [
-              appLocalizations.home_wealthPerformanceComparision_table_header_indexes,
-              appLocalizations.home_wealthPerformanceComparision_table_header_performance,
-              appLocalizations.home_wealthPerformanceComparision_table_header_performancePA,
-              appLocalizations.home_wealthPerformanceComparision_table_header_riskPA,
-              appLocalizations.home_wealthPerformanceComparision_table_header_sharpeRatio,
-            ], widths: const [
-              120,120,120,80,120
-            ], values: state.getBenchmarkEntities.map((e) => <String>[
-              e.index,"${e.performance.toStringAsFixed(1)} %","${e.performancePa.toStringAsFixed(1)} %","${e.riskPa.toStringAsFixed(1)} %",e.performance.toStringAsFixed(2)
-            ]).toList())
+            Builder(
+              builder: (context) {
+                return PerformanceBaseTable(titles: [
+                  appLocalizations.home_wealthPerformanceComparision_table_header_indexes,
+                  appLocalizations.home_wealthPerformanceComparision_table_header_performance,
+                  appLocalizations.home_wealthPerformanceComparision_table_header_performancePA,
+                  appLocalizations.home_wealthPerformanceComparision_table_header_riskPA,
+                  appLocalizations.home_wealthPerformanceComparision_table_header_sharpeRatio,
+                ], widths: const [
+                  120,120,120,100,120
+                ], values: state.getBenchmarkEntities.map((e) => <String>[
+                  e.index,"${e.performance.toStringAsFixed(1)} %","${e.performancePa.toStringAsFixed(1)} %","${e.riskPa.toStringAsFixed(1)} %",e.sharpeRatio.toString()
+                ]).toList());
+              }
+            )
           ],
         ) : const PerformanceTableShimmer();
       },
