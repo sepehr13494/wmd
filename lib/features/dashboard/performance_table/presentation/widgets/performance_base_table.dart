@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 
 class PerformanceBaseTable extends StatefulWidget {
   final List<String> titles;
@@ -115,9 +116,11 @@ class _PerformanceBaseTableState extends AppState<PerformanceBaseTable> {
                                         child: Align(
                                           alignment:
                                               AlignmentDirectional.centerStart,
-                                          child: Text(
-                                            insideValue,
-                                            style: textTheme.bodySmall,
+                                          child: PrivacyBlurWidget(
+                                            child: Text(
+                                              insideValue,
+                                              style: textTheme.bodySmall,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -195,9 +198,11 @@ class _PerformanceBaseTableState extends AppState<PerformanceBaseTable> {
                                                   alignment:
                                                       AlignmentDirectional
                                                           .centerStart,
-                                                  child: Text(
-                                                    insideValue,
-                                                    style: textTheme.bodySmall,
+                                                  child: PrivacyBlurWidget(
+                                                    child: Text(
+                                                      insideValue,
+                                                      style: textTheme.bodySmall,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
