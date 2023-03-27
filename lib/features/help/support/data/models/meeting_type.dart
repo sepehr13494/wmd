@@ -5,7 +5,9 @@ class MeetingType {
   MeetingType({required this.name, required this.value});
 
   static final json = [
-    {"value": "Virtual Meeting", "name": "Virtual Meeting"}
+    {"value": "Virtual Meeting", "name": "Virtual Meeting"},
+    {"value": "Video Conference", "name": "Video Conference"},
+    {"value": "Phone Call", "name": "Phone Call"},
   ];
 
   @override
