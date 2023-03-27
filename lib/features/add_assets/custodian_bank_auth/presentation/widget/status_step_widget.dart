@@ -262,7 +262,18 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
               ),
             ),
             const SizedBox(height: 4),
-            input,
+            Row(
+              children: [
+                Expanded(
+                  flex: 8,
+                  child: input,
+                ),
+                const Expanded(
+                  flex: 2,
+                  child: SizedBox(),
+                ),
+              ],
+            ),
             const SizedBox(height: 4),
             InkWell(
               onTap: isButtonDisable
