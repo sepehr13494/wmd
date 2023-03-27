@@ -329,6 +329,9 @@ class CountriesDropdown extends AppStatelessWidget {
     return FormBuilderSearchableDropdown<Country>(
       name: "country",
       hint: "Type or select a country",
+      prefixIcon: const Icon(
+        Icons.search,
+      ),
       errorMsg: appLocalizations
           .assetLiabilityForms_forms_realEstate_inputFields_country_errorMessage,
       items: Country.countriesList
@@ -458,6 +461,7 @@ class FormBuilderTypeAhead extends StatefulWidget {
   final String? title;
   final String name;
   final String hint;
+  final String? errorMsg;
   final List<String> items;
   final ValueChanged<String?>? onChange;
   final Widget? prefixIcon;
@@ -473,6 +477,7 @@ class FormBuilderTypeAhead extends StatefulWidget {
       this.prefixIcon,
       this.suffixIcon,
       this.title,
+      this.errorMsg,
       this.extraValidators,
       this.required = true,
       this.onChange})
@@ -494,9 +499,10 @@ class _FormBuilderTypeAheadState extends AppState<FormBuilderTypeAhead> {
     }
     if (widget.required ?? false) {
       validators.add(FormBuilderValidators.required(
-          errorText: widget.title != null
-              ? 'Please enter ${widget.title!.toLowerCase()}'
-              : appLocalizations.common_errors_required));
+          errorText: widget.errorMsg ??
+              (widget.title != null
+                  ? 'Please enter ${widget.title!.toLowerCase()}'
+                  : appLocalizations.common_errors_required)));
     }
 
     return FormBuilderField<String?>(
@@ -566,6 +572,7 @@ class ListedSecurityTypeAhead extends StatefulWidget {
   final String name;
   final String? title;
   final String hint;
+  final String? errorMsg;
   final List<ListedSecurityName> items;
   final ValueChanged<ListedSecurityName?>? onChange;
   final bool? required;
@@ -579,6 +586,7 @@ class ListedSecurityTypeAhead extends StatefulWidget {
       this.extraValidators,
       this.required = true,
       this.title,
+      this.errorMsg,
       this.onChange})
       : super(key: key);
 
@@ -598,9 +606,10 @@ class _ListedSecurityTypeAheadState extends AppState<ListedSecurityTypeAhead> {
 
     if (widget.required ?? false) {
       validators.add(FormBuilderValidators.required(
-          errorText: widget.title != null
-              ? 'Please enter ${widget.title!.toLowerCase()}'
-              : appLocalizations.common_errors_required));
+          errorText: widget.errorMsg ??
+              (widget.title != null
+                  ? 'Please enter ${widget.title!.toLowerCase()}'
+                  : appLocalizations.common_errors_required)));
     }
 
     return FormBuilderField<ListedSecurityName?>(
