@@ -61,22 +61,15 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            flex: 9,
+            flex: 8,
             child: Text(
               widget.title,
               style: textTheme.bodyLarge,
             ),
           ),
-          const Expanded(
-            flex: 2,
-            child: SizedBox(),
-          ),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 4),
-              child: Text(widget.trailing, style: textTheme.bodySmall),
-            ),
+          Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: Text(widget.trailing, style: textTheme.bodySmall),
           )
         ],
       ),
@@ -196,22 +189,15 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            flex: 9,
+            flex: 8,
             child: Text(
               widget.title,
               style: textTheme.bodyLarge,
             ),
           ),
-          const Expanded(
-            flex: 2,
-            child: SizedBox(),
-          ),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 4),
-              child: Text(widget.trailing, style: textTheme.bodySmall),
-            ),
+          Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: Text(widget.trailing, style: textTheme.bodySmall),
           )
         ],
       ),
@@ -265,6 +251,7 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
                     style: textTheme.bodyMedium,
                   ),
                   // const InfoIcon(),
+                  const SizedBox(width: 4),
                   Tooltip(
                     triggerMode: TooltipTriggerMode.tap,
                     textAlign: TextAlign.center,
