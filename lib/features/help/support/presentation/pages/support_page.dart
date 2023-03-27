@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
+import 'package:wmd/core/presentation/widgets/base_app_bar.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/util/colors.dart';
@@ -64,7 +65,7 @@ class _SupportPageState extends AppState<SupportPage> {
             ),
             builder: (context, state) {
               return Scaffold(
-                  appBar: const DashboardAppBar(showHelp: false),
+                  appBar: const BaseAppBar(enableActions: false),
                   body: SingleChildScrollView(
                       padding: responsiveHelper.paddingForMobileTab,
                       child: Column(

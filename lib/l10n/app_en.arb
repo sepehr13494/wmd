@@ -1411,7 +1411,7 @@
   "profile_tabs_preferences_privacyMode_label": "Privacy mode",
   "profile_tabs_preferences_privacyMode_desc": "Turning this feature on will blur the balances and asset classes of your account, preventing onlookers from improperly viewing your wealth.",
   "profile_tabs_preferences_privacyMode_warning": "Sensitive data is now being hidden",
-  "profile_tabs_preferences_privacyMode_toast_active_title": "Balances are now hidden",
+  "profile_tabs_preferences_privacyMode_toast_active_title": "Privacy mode has been turned on",
   "profile_tabs_preferences_privacyMode_toast_active_desc": "You can exit Privacy mode by toggling it off in Settings.",
   "profile_tabs_preferences_privacyMode_toast_disabled_title": "Privacy mode has been turned off",
   "profile_tabs_preferences_privacyMode_toast_disabled_decs": "Sensitive data is now being shown",
