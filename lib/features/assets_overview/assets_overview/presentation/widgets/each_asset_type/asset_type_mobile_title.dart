@@ -15,7 +15,10 @@ class AssetTypeMobileTableTitle extends AppStatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: List.generate(items.length, (index) {
-        return Text(items[index],style: textTheme.bodySmall,);
+        return Text(
+          items[index],
+          style: textTheme.bodyMedium,
+        );
       }),
     );
   }
