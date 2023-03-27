@@ -20,7 +20,7 @@ class YourHoldingsWidget extends AppStatelessWidget {
       children: [
         Text(
           appLocalizations.assets_label_yourHoldings,
-          style: textTheme.titleSmall,
+          style: textTheme.titleSmall?.apply(fontSizeDelta: 1.28),
         ),
         SizedBox(height: responsiveHelper.biggerGap),
         PrivacyBlurWidget(

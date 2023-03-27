@@ -50,7 +50,8 @@ class OverViewCard extends AppStatelessWidget {
                             children: [
                               Text(
                                 appLocalizations.assets_label_yourHoldings,
-                                style: textTheme.titleSmall,
+                                style: textTheme.titleSmall
+                                    ?.apply(fontSizeDelta: 1.28),
                               ),
                               SizedBox(height: responsiveHelper.bigger16Gap),
                               FittedBox(
@@ -94,7 +95,8 @@ class OverViewCard extends AppStatelessWidget {
                           children: [
                             Text(
                               appLocalizations.assets_label_netChange,
-                              style: textTheme.titleSmall,
+                              style: textTheme.titleSmall
+                                  ?.apply(fontSizeDelta: 1.28),
                             ),
                             SizedBox(height: responsiveHelper.bigger16Gap),
                             RowOrColumn(
