@@ -11,8 +11,9 @@ import '../../domain/entities/get_chart_entity.dart';
 
 class ChartCustomTooltip extends StatelessWidget {
   final GetChartEntity? selected;
+  final bool percentage;
 
-  const ChartCustomTooltip({Key? key, this.selected}) : super(key: key);
+  const ChartCustomTooltip({Key? key, this.selected, this.percentage = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -142,14 +143,14 @@ class ChartCustomTooltip extends StatelessWidget {
                   return item[0] != 0
                       ? eachTooltipItem(
                           item[1].toString(),
-                          (item[2] as double).formatNumberWithDecimal(),
+                          (percentage ? "${(((item[2] as double)/sum)*100).toStringAsFixed(1)}%" : (item[2] as double).formatNumberWithDecimal()),
                         )
                       : const SizedBox();
                 }),
                 eachTooltipItem(
                   appLocalizations
                       .assets_charts_allocationCharts_legendLabel_total,
-                  sum.formatNumberWithDecimal(),
+                  percentage ? "100.0%" : sum.formatNumberWithDecimal(),
                 )
               ],
             );
