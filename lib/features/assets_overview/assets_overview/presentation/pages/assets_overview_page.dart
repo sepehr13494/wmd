@@ -56,9 +56,7 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
             onWillPop: () {
               debugPrint(
                   'Backbutton pressed (device or appbar button), do whatever you want.');
-
               context.read<MainPageCubit>().onItemTapped(0);
-
               //we need to return a future
               return Future.value(false);
             },

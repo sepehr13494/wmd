@@ -7,7 +7,6 @@ import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/assets_overview/charts/domain/entities/get_chart_entity.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 
 import 'chart_custom_tooltip.dart';
@@ -52,7 +51,7 @@ class _AssetsOverviewAreaChartState extends State<AssetsOverviewAreaChart> {
             mainData(context),
           ),
           showTooltip
-              ? ChartCustomTooltip(selected: selected)
+              ? ChartCustomTooltip(selected: selected,percentage: widget.showPercentage,)
               : const SizedBox(),
         ],
       );
@@ -208,10 +207,10 @@ class _AssetsOverviewAreaChartState extends State<AssetsOverviewAreaChart> {
             : maxY <= 0
                 ? 0
                 : (maxY.abs()).ceil().toDouble(),
-        lineBarsData: getData(x));
+        lineBarsData: getData(x,maxY));
   }
 
-  List<LineChartBarData> getData(double x) {
+  List<LineChartBarData> getData(double x, double maxY) {
     return List.generate(widget.titles.length, (mainIndex) {
       Color color = Colors.transparent;
       switch (widget.titles[mainIndex]) {
@@ -254,7 +253,6 @@ class _AssetsOverviewAreaChartState extends State<AssetsOverviewAreaChart> {
               Colors.brown;
           break;
       }
-
       return LineChartBarData(
         isCurved: false,
         color: color,
@@ -288,26 +286,29 @@ class _AssetsOverviewAreaChartState extends State<AssetsOverviewAreaChart> {
               y = getChartEntity.bankAccount / x;
               break;
             case AssetTypes.privateEquity:
-              y = bankListEquity / x;
+              y = bankListEquity;
               break;
             case AssetTypes.privateDebt:
-              y = bankListEquityDept / x;
+              y = bankListEquityDept;
               break;
             case AssetTypes.realEstate:
-              y = bankListEquityDeptEstate / x;
+              y = bankListEquityDeptEstate;
               break;
             case AssetTypes.listedAssetEquity:
-              y = bankList / x;
+              y = bankList;
               break;
             case AssetTypes.listedAssetFixedIncome:
-              y = bankListEquityDeptEstateFix / x;
+              y = bankListEquityDeptEstateFix;
               break;
             case AssetTypes.listedAssetOther:
-              y = bankListEquityDeptEstateFixOther / x;
+              y = bankListEquityDeptEstateFixOther;
               break;
             case AssetTypes.otherAsset:
               y = sum / x;
               break;
+          }
+          if(widget.showPercentage){
+            y = (maxY * y)/(sum/x);
           }
           return FlSpot(index.toDouble(), y);
         }),
@@ -315,13 +316,14 @@ class _AssetsOverviewAreaChartState extends State<AssetsOverviewAreaChart> {
           show: true,
           cutOffY: 0,
           applyCutOffY: true,
-          gradient: LinearGradient(
+          color: color.withOpacity(0.8)
+          /*gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                color.withOpacity(0.4),
+                color.withOpacity(0.8),
                 color.withOpacity(0.0),
-              ]),
+              ]),*/
         ),
       );
     });
