@@ -93,7 +93,7 @@ class _AssetsOverviewAreaChartState extends State<AssetsOverviewAreaChart> {
         child: Builder(builder: (context) {
           late String text;
           if (widget.showPercentage) {
-            text = "${(((value * x) / maxY) * 100).toStringAsFixed(1)} %";
+            text = "${(((value * x) / maxY) * 100).toStringAsFixed(0)} %";
           } else {
             text = (value * x).formatNumberWithDecimal();
           }
