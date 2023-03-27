@@ -151,9 +151,7 @@ class BaseAssetView extends AppStatelessWidget {
                   Expanded(
                     child: Align(
                       alignment: AlignmentDirectional.centerStart,
-                      child: PrivacyBlurWidget(
-                        child: Text(asset.name, style: textTheme.bodySmall),
-                      ),
+                      child: Text(asset.name, style: textTheme.bodySmall),
                     ),
                   ),
                   const SizedBox(width: 12),

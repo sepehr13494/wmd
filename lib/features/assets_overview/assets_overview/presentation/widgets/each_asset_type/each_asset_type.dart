@@ -43,7 +43,7 @@ class EachAssetType extends AppStatelessWidget {
                           DotWidget(color: assetsOverviewBaseWidgetModel.color),
                           const SizedBox(width: 8),
                           Text(assetsOverviewBaseWidgetModel.title,
-                              style: textTheme.titleSmall)
+                              style: textTheme.titleMedium)
                         ],
                       ),
                     ),
