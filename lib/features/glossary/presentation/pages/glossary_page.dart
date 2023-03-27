@@ -44,6 +44,7 @@ class GlossaryPage extends AppStatelessWidget {
                     delay: 0),
                 const SizedBox(),
                 BlocConsumer<GlossaryCubit, GlossaryState>(
+                  buildWhen: (previous, current) => current is GetGlossariesLoaded,
                   listener: BlocHelper.defaultBlocListener(listener: (context, state) {},),
                   builder: (context, state) {
                     return state is GetGlossariesLoaded ? ListView(
