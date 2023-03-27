@@ -220,6 +220,7 @@ class SimpleTextField extends AppStatelessWidget {
       decoration: InputDecoration(
           labelText: showTitle ? title : null,
           hintText: hint,
+          errorMaxLines: 2,
           suffixIcon: suffixIcon),
       obscureText: obscureText,
       keyboardType: keyboardType,

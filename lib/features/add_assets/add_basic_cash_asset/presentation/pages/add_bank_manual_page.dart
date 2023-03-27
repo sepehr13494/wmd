@@ -67,6 +67,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
       AppLocalizations appLocalizations) {
     final isDepositTerm = accountType == "TermDeposit";
     final isSavingAccount = accountType == "SavingAccount";
+    DateTime? startDateValue;
 
     return MultiBlocProvider(
       providers: [
@@ -222,6 +223,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                     ),
                                   ),
                                   EachTextField(
+                                    tooltipText: appLocalizations
+                                        .assetLiabilityForms_forms_bankAccount_inputFields_accountType_tooltip,
                                     title: appLocalizations
                                         .assetLiabilityForms_forms_bankAccount_inputFields_accountType_label,
                                     child: AppTextFields.dropDownTextField(
@@ -310,6 +313,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                     Column(
                                       children: [
                                         EachTextField(
+                                          tooltipText: appLocalizations
+                                              .assetLiabilityForms_forms_bankAccount_inputFields_ownership_tooltip,
                                           title: appLocalizations
                                               .assetLiabilityForms_forms_bankAccount_inputFields_ownership_label,
                                           child: AppTextFields.simpleTextField(
@@ -345,6 +350,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                           ),
                                         ),
                                         EachTextField(
+                                          tooltipText: appLocalizations
+                                              .assetLiabilityForms_forms_bankAccount_inputFields_rate_tooltip,
                                           title: appLocalizations
                                               .assetLiabilityForms_forms_bankAccount_inputFields_rate_label,
                                           child: AppTextFields.simpleTextField(
@@ -373,6 +380,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                           ),
                                         ),
                                         EachTextField(
+                                          tooltipText: appLocalizations
+                                              .assetLiabilityForms_forms_bankAccount_inputFields_startDate_tooltip,
                                           title: appLocalizations
                                               .assetLiabilityForms_forms_bankAccount_inputFields_startDate_label,
                                           child: FormBuilderDateTimePicker(
@@ -382,7 +391,12 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                             lastDate: DateTime.now(),
                                             inputType: InputType.date,
                                             format: DateFormat("dd/MM/yyyy"),
-                                            onChanged: checkFinalValid,
+                                            onChanged: (selectedDate) {
+                                              checkFinalValid(selectedDate);
+                                              setState(() {
+                                                startDateValue = selectedDate;
+                                              });
+                                            },
                                             decoration: InputDecoration(
                                                 suffixIcon: Icon(
                                                   Icons.calendar_today_outlined,
@@ -393,99 +407,105 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                     .assetLiabilityForms_forms_bankAccount_inputFields_startDate_placeholder),
                                           ),
                                         ),
-                                        EachTextField(
-                                            title: appLocalizations
-                                                .assetLiabilityForms_forms_bankAccount_inputFields_tenure_label,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 8.0),
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: EachTextField(
-                                                      hasInfo: false,
-                                                      title: "Years",
-                                                      child: AppTextFields
-                                                          .simpleTextField(
-                                                              required: false,
-                                                              onChanged: (val) {
-                                                                checkFinalValid(
-                                                                    val);
-                                                                changeDate();
-                                                              },
-                                                              name: "years",
-                                                              hint: appLocalizations
-                                                                  .assetLiabilityForms_forms_bankAccount_inputFields_tenureYears_placeholder,
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .number),
+                                        if (startDateValue != null)
+                                          EachTextField(
+                                              tooltipText: appLocalizations
+                                                  .assetLiabilityForms_forms_bankAccount_inputFields_tenure_tooltip,
+                                              title: appLocalizations
+                                                  .assetLiabilityForms_forms_bankAccount_inputFields_tenure_label,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 8.0),
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: EachTextField(
+                                                        hasInfo: false,
+                                                        title: "Years",
+                                                        child: AppTextFields
+                                                            .simpleTextField(
+                                                                required: false,
+                                                                onChanged:
+                                                                    (val) {
+                                                                  checkFinalValid(
+                                                                      val);
+                                                                  changeDate();
+                                                                },
+                                                                name: "years",
+                                                                hint: appLocalizations
+                                                                    .assetLiabilityForms_forms_bankAccount_inputFields_tenureYears_placeholder,
+                                                                keyboardType:
+                                                                    TextInputType
+                                                                        .number),
+                                                      ),
                                                     ),
-                                                  ),
-                                                  const SizedBox(width: 12),
-                                                  Expanded(
-                                                    child: EachTextField(
-                                                      hasInfo: false,
-                                                      title: appLocalizations
-                                                          .assetLiabilityForms_forms_bankAccount_inputFields_tenureMonths_label,
-                                                      child: AppTextFields
-                                                          .simpleTextField(
-                                                              name: "months",
-                                                              extraValidators: [
-                                                                (val) {
-                                                                  return ((int.tryParse(val ?? "0") ??
-                                                                              0) <
-                                                                          13)
-                                                                      ? null
-                                                                      : "< 12";
-                                                                }
-                                                              ],
-                                                              onChanged: (val) {
-                                                                checkFinalValid(
-                                                                    val);
-                                                                changeDate();
-                                                              },
-                                                              hint: appLocalizations
-                                                                  .assetLiabilityForms_forms_bankAccount_inputFields_tenureMonths_placeholder,
-                                                              required: false,
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .number),
+                                                    const SizedBox(width: 12),
+                                                    Expanded(
+                                                      child: EachTextField(
+                                                        hasInfo: false,
+                                                        title: appLocalizations
+                                                            .assetLiabilityForms_forms_bankAccount_inputFields_tenureMonths_label,
+                                                        child: AppTextFields
+                                                            .simpleTextField(
+                                                                name: "months",
+                                                                extraValidators: [
+                                                                  (val) {
+                                                                    return ((int.tryParse(val ?? "0") ??
+                                                                                0) <
+                                                                            13)
+                                                                        ? null
+                                                                        : "< 12";
+                                                                  }
+                                                                ],
+                                                                onChanged:
+                                                                    (val) {
+                                                                  checkFinalValid(
+                                                                      val);
+                                                                  changeDate();
+                                                                },
+                                                                hint: appLocalizations
+                                                                    .assetLiabilityForms_forms_bankAccount_inputFields_tenureMonths_placeholder,
+                                                                required: false,
+                                                                keyboardType:
+                                                                    TextInputType
+                                                                        .number),
+                                                      ),
                                                     ),
-                                                  ),
-                                                  const SizedBox(width: 12),
-                                                  Expanded(
-                                                    child: EachTextField(
-                                                      hasInfo: false,
-                                                      title: appLocalizations
-                                                          .assetLiabilityForms_forms_bankAccount_inputFields_tenureDays_label,
-                                                      child: AppTextFields
-                                                          .simpleTextField(
-                                                              required: false,
-                                                              extraValidators: [
-                                                                (val) {
-                                                                  return ((int.tryParse(val ?? "0") ??
-                                                                              0) <
-                                                                          32)
-                                                                      ? null
-                                                                      : "< 31";
-                                                                }
-                                                              ],
-                                                              onChanged: (val) {
-                                                                checkFinalValid(
-                                                                    val);
-                                                                changeDate();
-                                                              },
-                                                              name: "days",
-                                                              hint: appLocalizations
-                                                                  .assetLiabilityForms_forms_bankAccount_inputFields_tenureDays_placeholder,
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .number),
+                                                    const SizedBox(width: 12),
+                                                    Expanded(
+                                                      child: EachTextField(
+                                                        hasInfo: false,
+                                                        title: appLocalizations
+                                                            .assetLiabilityForms_forms_bankAccount_inputFields_tenureDays_label,
+                                                        child: AppTextFields
+                                                            .simpleTextField(
+                                                                required: false,
+                                                                extraValidators: [
+                                                                  (val) {
+                                                                    return ((int.tryParse(val ?? "0") ??
+                                                                                0) <
+                                                                            32)
+                                                                        ? null
+                                                                        : "< 31";
+                                                                  }
+                                                                ],
+                                                                onChanged:
+                                                                    (val) {
+                                                                  checkFinalValid(
+                                                                      val);
+                                                                  changeDate();
+                                                                },
+                                                                name: "days",
+                                                                hint: appLocalizations
+                                                                    .assetLiabilityForms_forms_bankAccount_inputFields_tenureDays_placeholder,
+                                                                keyboardType:
+                                                                    TextInputType
+                                                                        .number),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            )),
+                                                  ],
+                                                ),
+                                              )),
                                         Container(
                                           padding: const EdgeInsets.all(16),
                                           decoration: BoxDecoration(

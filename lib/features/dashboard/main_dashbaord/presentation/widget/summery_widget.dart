@@ -118,9 +118,14 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
                       ),
                       const SizedBox(height: 8),
                       PrivacyBlurWidget(
-                        child: Text(
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Text(
                             (item[1] as double).convertMoney(addDollar: true),
-                            style: textTheme.headlineSmall),
+                            style: textTheme.headlineSmall,
+                            maxLines: 1,
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Builder(builder: (context) {

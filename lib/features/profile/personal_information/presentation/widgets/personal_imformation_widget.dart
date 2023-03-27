@@ -22,11 +22,20 @@ class _PersonalInformationWidgetState
   bool enableSubmitButton = false;
   final formKey = GlobalKey<FormBuilderState>();
   late Map<String, dynamic> lastValue;
+
   void checkFinalValid(value) async {
     await Future.delayed(const Duration(milliseconds: 100));
     bool finalValid = formKey.currentState!.isValid;
     Map<String, dynamic> instantValue = formKey.currentState!.instantValue;
-    if (finalValid && lastValue.toString() != instantValue.toString()) {
+
+    if (finalValid &&
+                ((lastValue["lastName"] ?? "") !=
+                    (instantValue["lastName"] ?? "")) ||
+            ((lastValue["firstName"] ?? "") !=
+                (instantValue["firstName"] ?? ""))
+
+        // lastValue.toString() != instantValue.toString()
+        ) {
       if (!enableSubmitButton) {
         setState(() {
           enableSubmitButton = true;
