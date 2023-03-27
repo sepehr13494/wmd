@@ -36,6 +36,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
   String date = "--/--/--";
   String? accountType;
   String endDateToParse = "";
+  DateTime? startDateValue;
   bool enableAddAssetButton = false;
 
   @override
@@ -67,7 +68,6 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
       AppLocalizations appLocalizations) {
     final isDepositTerm = accountType == "TermDeposit";
     final isSavingAccount = accountType == "SavingAccount";
-    DateTime? startDateValue;
 
     return MultiBlocProvider(
       providers: [
@@ -154,6 +154,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               FormBuilderTypeAhead(
+                                                  errorMsg: appLocalizations
+                                                      .assetLiabilityForms_forms_bankAccount_inputFields_bankName_errorMessage,
                                                   extraValidators: [
                                                     (val) {
                                                       return (val != null &&
@@ -203,6 +205,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                     title: appLocalizations
                                         .assetLiabilityForms_forms_bankAccount_inputFields_description_label,
                                     child: AppTextFields.simpleTextField(
+                                        errorMsg: appLocalizations
+                                            .assetLiabilityForms_forms_bankAccount_inputFields_description_errorMessage,
                                         extraValidators: [
                                           (val) {
                                             return ((val?.length ?? 0) > 100
@@ -228,6 +232,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                     title: appLocalizations
                                         .assetLiabilityForms_forms_bankAccount_inputFields_accountType_label,
                                     child: AppTextFields.dropDownTextField(
+                                      errorMsg: appLocalizations
+                                          .assetLiabilityForms_forms_bankAccount_inputFields_accountType_errorMessage,
                                       onChanged: (val) async {
                                         setState(() {
                                           accountType = val;
@@ -263,6 +269,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                           title: appLocalizations
                                               .assetLiabilityForms_forms_bankAccount_inputFields_balance_label,
                                           child: AppTextFields.simpleTextField(
+                                              errorMsg: appLocalizations
+                                                  .assetLiabilityForms_forms_bankAccount_inputFields_balance_errorMessage,
                                               name: "currentBalance",
                                               hint: appLocalizations
                                                   .assetLiabilityForms_forms_bankAccount_inputFields_balance_placeholder,
@@ -307,7 +315,15 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                                 .number),
                                               )
                                             : const SizedBox()
-                                      ],
+                                      ]
+                                          .map((e) => Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 12,
+                                                        horizontal: 0),
+                                                child: e,
+                                              ))
+                                          .toList(),
                                     ),
                                   if (isDepositTerm)
                                     Column(
@@ -330,6 +346,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                               ],
                                               onChanged: checkFinalValid,
                                               name: "ownershipPercentage",
+                                              errorMsg: appLocalizations
+                                                  .assetLiabilityForms_forms_bankAccount_inputFields_ownership_errorMessage_error,
                                               hint: appLocalizations
                                                   .assetLiabilityForms_forms_bankAccount_inputFields_ownership_placeholder,
                                               type: TextFieldType.rate,
@@ -342,6 +360,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                           title: appLocalizations
                                               .assetLiabilityForms_forms_bankAccount_inputFields_principal_label,
                                           child: AppTextFields.simpleTextField(
+                                            errorMsg: appLocalizations
+                                                .assetLiabilityForms_forms_bankAccount_inputFields_principal_errorMessage,
                                             type: TextFieldType.money,
                                             onChanged: checkFinalValid,
                                             name: "currentBalance",
@@ -365,9 +385,11 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                                     "0") ??
                                                                 0) <
                                                             0
-                                                        ? "Rate cannot be negative"
+                                                        ? appLocalizations
+                                                            .assetLiabilityForms_forms_bankAccount_inputFields_rate_errorMessage_minimum
                                                         : null
-                                                    : "Rate can't be greater then 100";
+                                                    : appLocalizations
+                                                        .assetLiabilityForms_forms_bankAccount_inputFields_rate_errorMessage_maximum;
                                               }
                                             ],
                                             name: "interestRate",
@@ -385,8 +407,6 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                           title: appLocalizations
                                               .assetLiabilityForms_forms_bankAccount_inputFields_startDate_label,
                                           child: FormBuilderDateTimePicker(
-                                            validator: FormBuilderValidators
-                                                .required(),
                                             name: "startDate",
                                             lastDate: DateTime.now(),
                                             inputType: InputType.date,
@@ -396,6 +416,9 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                               setState(() {
                                                 startDateValue = selectedDate;
                                               });
+
+                                              debugPrint(
+                                                  selectedDate.toString());
                                             },
                                             decoration: InputDecoration(
                                                 suffixIcon: Icon(
@@ -417,6 +440,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                 padding: const EdgeInsets.only(
                                                     top: 8.0),
                                                 child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Expanded(
                                                       child: EachTextField(
@@ -425,6 +450,20 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                         child: AppTextFields
                                                             .simpleTextField(
                                                                 required: false,
+                                                                extraValidators: [
+                                                                  (val) {
+                                                                    return ((int.tryParse(val ?? "0") ??
+                                                                                0) <=
+                                                                            999)
+                                                                        ? (int.tryParse(val ?? "0") ?? 0) <
+                                                                                0
+                                                                            ? appLocalizations
+                                                                                .assetLiabilityForms_forms_bankAccount_inputFields_tenureYears_errorMessage_minimum
+                                                                            : null
+                                                                        : appLocalizations
+                                                                            .assetLiabilityForms_forms_bankAccount_inputFields_tenureYears_errorMessage_maximum;
+                                                                  }
+                                                                ],
                                                                 onChanged:
                                                                     (val) {
                                                                   checkFinalValid(
@@ -454,7 +493,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                                                 0) <
                                                                             13)
                                                                         ? null
-                                                                        : "< 12";
+                                                                        : appLocalizations
+                                                                            .assetLiabilityForms_forms_bankAccount_inputFields_tenureMonths_errorMessage_maximum;
                                                                   }
                                                                 ],
                                                                 onChanged:
@@ -486,7 +526,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                                                 0) <
                                                                             32)
                                                                         ? null
-                                                                        : "< 31";
+                                                                        : appLocalizations
+                                                                            .assetLiabilityForms_forms_bankAccount_inputFields_tenureDays_errorMessage_maximum;
                                                                   }
                                                                 ],
                                                                 onChanged:
