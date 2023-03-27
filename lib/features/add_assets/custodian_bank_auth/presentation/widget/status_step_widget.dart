@@ -30,25 +30,13 @@ class StatusStepWidget extends StatefulWidget {
 }
 
 class _StatusStepWidgetState extends AppState<StatusStepWidget> {
-  late final TextField input;
-  var isButtonDisable = false;
-
   @override
   void initState() {
     super.initState();
-    input = TextField(
-      controller: TextEditingController()
-        ..addListener(() {
-          setState(() {});
-        }),
-    );
   }
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
-    isButtonDisable = widget.showInput &&
-        input.controller!.text.isEmpty &&
-        widget.onDone != null;
     return ListTile(
       leading: widget.isDone
           ? const Icon(Icons.check_circle_outline_rounded)
@@ -73,22 +61,15 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            flex: 9,
+            flex: 8,
             child: Text(
               widget.title,
               style: textTheme.bodyLarge,
             ),
           ),
-          const Expanded(
-            flex: 2,
-            child: SizedBox(),
-          ),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 4),
-              child: Text(widget.trailing, style: textTheme.bodySmall),
-            ),
+          Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: Text(widget.trailing, style: textTheme.bodySmall),
           )
         ],
       ),
@@ -108,17 +89,17 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
             }
           } else {
             if (widget.subtitle != null) {
-              var isButtonDisable =
-                  input.controller!.text.isEmpty && widget.onDone != null;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   InkWell(
-                    onTap: isButtonDisable ? null : () => widget.onDone!(null),
+                    onTap: widget.onDone == null
+                        ? null
+                        : () => widget.onDone!(null),
                     child: Text(
                       widget.subtitle!,
                       style: textTheme.bodySmall!.apply(
-                          color: isButtonDisable
+                          color: widget.onDone == null
                               ? Theme.of(context).primaryColor.withOpacity(0.4)
                               : Theme.of(context).primaryColor,
                           decoration: TextDecoration.underline),
@@ -208,22 +189,15 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            flex: 9,
+            flex: 8,
             child: Text(
               widget.title,
               style: textTheme.bodyLarge,
             ),
           ),
-          const Expanded(
-            flex: 2,
-            child: SizedBox(),
-          ),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 4),
-              child: Text(widget.trailing, style: textTheme.bodySmall),
-            ),
+          Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: Text(widget.trailing, style: textTheme.bodySmall),
           )
         ],
       ),
@@ -277,6 +251,7 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
                     style: textTheme.bodyMedium,
                   ),
                   // const InfoIcon(),
+                  const SizedBox(width: 4),
                   Tooltip(
                     triggerMode: TooltipTriggerMode.tap,
                     textAlign: TextAlign.center,
@@ -287,7 +262,18 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
               ),
             ),
             const SizedBox(height: 4),
-            input,
+            Row(
+              children: [
+                Expanded(
+                  flex: 8,
+                  child: input,
+                ),
+                const Expanded(
+                  flex: 2,
+                  child: SizedBox(),
+                ),
+              ],
+            ),
             const SizedBox(height: 4),
             InkWell(
               onTap: isButtonDisable

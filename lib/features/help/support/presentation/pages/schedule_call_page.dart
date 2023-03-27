@@ -408,7 +408,6 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                   },
                   fontSize: 13.5,
                   name: "type",
-                  enabled: false,
                   hint: "Select",
                   items: MeetingType.meetingTypeList
                       .map((e) => DropdownMenuItem(
