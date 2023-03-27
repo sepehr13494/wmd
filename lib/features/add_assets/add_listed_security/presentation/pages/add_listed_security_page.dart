@@ -440,7 +440,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                             const SizedBox(height: 8),
                                             Text(currentDayValue == "--"
                                                 ? currentDayValue
-                                                : "\$ $currentDayValue")
+                                                : "\$$currentDayValue")
                                           ],
                                         ),
                                       ),
@@ -472,6 +472,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                         ),
                                         const SizedBox(height: 30),
                                         EachTextField(
+                                          hasInfo: false,
                                           title: appLocalizations
                                               .assetLiabilityForms_forms_listedAssets_inputFields_maturityDate_label,
                                           child: FormBuilderDateTimePicker(

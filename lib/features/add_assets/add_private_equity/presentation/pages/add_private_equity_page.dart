@@ -117,6 +117,8 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_privateEquity_inputFields_name_label,
                                       child: AppTextFields.simpleTextField(
+                                          errorMsg: appLocalizations
+                                              .assetLiabilityForms_forms_privateEquity_inputFields_name_errorMessage,
                                           onChanged: checkFinalValid,
                                           extraValidators: [
                                             (val) {
@@ -161,7 +163,9 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                             AutovalidateMode.onUserInteraction,
                                         validator:
                                             FormBuilderValidators.compose([
-                                          FormBuilderValidators.required()
+                                          FormBuilderValidators.required(
+                                              errorText: appLocalizations
+                                                  .assetLiabilityForms_forms_privateEquity_inputFields_acquisitionDate_errorMessage)
                                         ]),
                                         name: "investmentDate",
                                         onChanged: (selectedDate) {
@@ -194,6 +198,8 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_label,
                                       child: AppTextFields.simpleTextField(
+                                          errorMsg: appLocalizations
+                                              .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_errorMessage,
                                           onChanged: checkFinalValid,
                                           title: "Initial investment amount",
                                           type: TextFieldType.money,
@@ -209,7 +215,9 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                             AutovalidateMode.onUserInteraction,
                                         validator:
                                             FormBuilderValidators.compose([
-                                          FormBuilderValidators.required()
+                                          FormBuilderValidators.required(
+                                              errorText: appLocalizations
+                                                  .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_errorMessage)
                                         ]),
                                         enabled: acquisitionDateValue != null,
                                         format: DateFormat("dd/MM/yyyy"),
@@ -235,6 +243,8 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_privateEquity_inputFields_currentValue_label,
                                       child: AppTextFields.simpleTextField(
+                                          errorMsg: appLocalizations
+                                              .assetLiabilityForms_forms_privateEquity_inputFields_currentValue_errorMessage,
                                           onChanged: checkFinalValid,
                                           title: "Current value",
                                           type: TextFieldType.money,
