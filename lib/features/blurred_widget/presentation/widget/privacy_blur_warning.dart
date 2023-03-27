@@ -22,28 +22,28 @@ class PrivacyBlurWarning extends AppStatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Padding(
             padding: const EdgeInsets.only(top: 8, bottom: 6),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Icon(
-                  CustomIcons.privacy_blur_icon,
-                  color: Colors.white,
-                ),
-                const SizedBox(width: 8),
-                FittedBox(
-                  fit: BoxFit.fitWidth,
-                  alignment: Alignment.center,
-                  child: Text(
+            child: FittedBox(
+              fit: BoxFit.contain,
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: Icon(
+                      CustomIcons.privacy_blur_icon,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
                     appLocalizations
                         .profile_tabs_preferences_privacyMode_warning,
                     style: textTheme.bodyLarge,
-                    textHeightBehavior: const TextHeightBehavior(
-                      applyHeightToFirstAscent: false,
-                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
