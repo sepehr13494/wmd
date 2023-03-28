@@ -316,14 +316,19 @@ class _AssetsOverviewAreaChartState extends State<AssetsOverviewAreaChart> {
           show: true,
           cutOffY: 0,
           applyCutOffY: true,
-          color: color.withOpacity(0.8)
-          /*gradient: LinearGradient(
+          gradient: Gradient.lerp(LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                color.withOpacity(0.8),
-                color.withOpacity(0.0),
-              ]),*/
+                Theme.of(context).backgroundColor,
+                Theme.of(context).backgroundColor,
+              ]), LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                color.withOpacity(0.4),
+                color.withOpacity(0.4),
+              ]), 0.5),
         ),
       );
     });

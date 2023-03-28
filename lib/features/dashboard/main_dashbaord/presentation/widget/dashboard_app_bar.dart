@@ -134,9 +134,9 @@ class GlassaryButton extends StatelessWidget {
         onTap: () {
           context.pushNamed(AppRoutes.glossary);
         },
-        child: const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Icon(Icons.sort_by_alpha),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SvgPicture.asset("assets/images/glossary.svg",width: 24,height: 24,),
         ));
   }
 }
