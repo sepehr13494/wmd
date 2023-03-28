@@ -365,9 +365,6 @@ class AppRouter {
                       path: "verify-otp",
                       builder: (BuildContext context, GoRouterState state) {
                         return MultiBlocProvider(providers: [
-                          BlocProvider.value(
-                            value: _personalInformationCubit,
-                          ),
                           BlocProvider(
                             create: (context) {
                               _verifyPhoneCubit = sl<VerifyPhoneCubit>();
