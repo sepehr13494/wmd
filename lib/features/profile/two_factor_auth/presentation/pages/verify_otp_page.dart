@@ -15,6 +15,7 @@ import 'package:wmd/features/profile/personal_information/presentation/manager/p
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_resend_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/widgets/otp_feild_widget.dart';
+import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 import 'package:go_router/go_router.dart';
 
@@ -38,6 +39,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
   // This is the entered code
   // It will be displayed in a Text widget
   String? _otp;
+  bool _otpExpired = false;
   String phoneNumberValue = "";
 
   @override
@@ -53,10 +55,6 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
   }
 
   void _onTextChanged(BuildContext context) {
-    debugPrint("working _fieldSix.text----");
-    debugPrint(_fieldSix.text);
-    debugPrint(_fieldSix.value.toString());
-
     if (_fieldSix.text != '') {
       // Fire an event when the input matches the condition
       // For example, you can use a callback function to handle the event
@@ -69,13 +67,20 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
           _fieldFive.text +
           _fieldSix.text;
 
-      debugPrint(sl<PostResendVerifyPhoneUseCase>().identifier);
-
       context.read<VerifyPhoneCubit>().postVerifyPhone(map: {
         "identifier": sl<PostResendVerifyPhoneUseCase>().identifier,
         "code": otpTemp
       });
     }
+  }
+
+  void resetOtpText() {
+    _fieldOne.clear();
+    _fieldTwo.clear();
+    _fieldThree.clear();
+    _fieldFour.clear();
+    _fieldFive.clear();
+    _fieldSix.clear();
   }
 
   @override
@@ -85,11 +90,16 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
     final responsiveHelper = ResponsiveHelper(context: context);
 
     return BlocConsumer<VerifyPhoneCubit, VerifyPhoneState>(
-        listener: BlocHelper.defaultBlocListener(listener: (context, state) {
+        listener: (context, state) {
       if (state is SuccessState) {
         context.goNamed(AppRoutes.main);
+      } else if (state is ErrorState) {
+        resetOtpText();
+        GlobalFunctions.showSnackBar(context,
+            AppLocalizations.of(context).common_errors_somethingWentWrong,
+            color: Colors.red[800], type: "error");
       }
-    }), builder: (context, state) {
+    }, builder: (context, state) {
       return BlocListener<PersonalInformationCubit, PersonalInformationState>(
           listener: (context, state) {
             if (state is PersonalInformationLoaded) {
@@ -140,58 +150,50 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            OtpInput(_fieldOne, true), // auto focus
-                            OtpInput(_fieldTwo, false),
-                            OtpInput(_fieldThree, false),
-                            OtpInput(_fieldFour, false),
-                            OtpInput(_fieldFive, false),
-                            OtpInput(_fieldSix, false),
+                            OtpInput(
+                                _fieldOne, true, _otpExpired), // auto focus
+                            OtpInput(_fieldTwo, false, _otpExpired),
+                            OtpInput(_fieldThree, false, _otpExpired),
+                            OtpInput(_fieldFour, false, _otpExpired),
+                            OtpInput(_fieldFive, false, _otpExpired),
+                            OtpInput(_fieldSix, false, _otpExpired),
                           ],
                         ),
                         SizedBox(height: responsiveHelper.defaultGap),
-                        const BasicTimerWidget(timerTime: 2000),
+                        BasicTimerWidget(
+                            timerTime: 2000,
+                            handleOtpExpired: () {
+                              setState(() {
+                                _otpExpired = true;
+                              });
+                            }),
 
-                        // Text(
-                        //   "Verification code",
-                        //   style: textTheme.bodySmall,
-                        //   textAlign: TextAlign.center,
-                        // ),
                         const SizedBox(
                           height: 30,
                         ),
-                        // Text(
-                        //   "Didn't get the verification code?",
-                        //   style: textTheme.bodySmall,
-                        //   textAlign: TextAlign.center,
-                        // ),
-                        BlocConsumer<PersonalInformationCubit,
-                                PersonalInformationState>(
-                            listener: BlocHelper.defaultBlocListener(
-                                listener: (context, state) {}),
-                            builder: (context, perosnalState) {
-                              return RichText(
-                                  text: TextSpan(
-                                      style: const TextStyle(height: 1.3),
-                                      children: [
-                                    TextSpan(
-                                      text: "Haven’t received the code? ",
-                                      style: textTheme.bodyMedium,
-                                    ),
-                                    TextSpan(
-                                      text: "Resend OTP",
-                                      style: textTheme.bodyMedium!
-                                          .toLinkStyle(context),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          context
-                                              .read<VerifyPhoneCubit>()
-                                              .postResendVerifyPhone(map: {
-                                            "phoneNumber": phoneNumberValue
-                                          });
-                                        },
-                                    ),
-                                  ]));
-                            }),
+
+                        RichText(
+                            text: TextSpan(
+                                style: const TextStyle(height: 1.3),
+                                children: [
+                              TextSpan(
+                                text: "Haven’t received the code? ",
+                                style: textTheme.bodyMedium,
+                              ),
+                              TextSpan(
+                                text: "Resend OTP",
+                                style:
+                                    textTheme.bodyMedium!.toLinkStyle(context),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    context
+                                        .read<VerifyPhoneCubit>()
+                                        .postResendVerifyPhone(map: {
+                                      "phoneNumber": phoneNumberValue
+                                    });
+                                  },
+                              ),
+                            ])),
 
                         SizedBox(height: responsiveHelper.bigger24Gap),
 
