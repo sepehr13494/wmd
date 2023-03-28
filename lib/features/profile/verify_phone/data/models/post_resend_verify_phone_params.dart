@@ -9,7 +9,7 @@ class PostResendVerifyPhoneParams extends Equatable {
 
   factory PostResendVerifyPhoneParams.fromJson(Map<String, dynamic> json) =>
       PostResendVerifyPhoneParams(
-        phoneNumber: json["phoneNumber"],
+        phoneNumber: json["phoneNumber"].replaceAll(" ", ""),
       );
 
   Map<String, dynamic> toJson() => {

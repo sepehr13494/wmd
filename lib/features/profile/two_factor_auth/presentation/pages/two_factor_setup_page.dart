@@ -180,103 +180,103 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                           subtitle: Text(appLocalizations
                               .profile_twoFactor_page_phone_subTitle),
                         ),
-                        if (textTwoFactorEnabled)
-                          FormBuilder(
-                              key: formKey,
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    EachTextField(
-                                      hasInfo: false,
-                                      title: appLocalizations
-                                          .profile_tabs_personal_fields_label_primaryPhoneNumber,
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          CountryCodePicker(onChange: (val) {
-                                            setState(() {
-                                              selectedCountryCode =
-                                                  val?.countryCode ?? "";
-                                            });
+                        // if (textTwoFactorEnabled)
+                        //   FormBuilder(
+                        //       key: formKey,
+                        //       child: Column(
+                        //           crossAxisAlignment: CrossAxisAlignment.start,
+                        //           children: [
+                        //             EachTextField(
+                        //               hasInfo: false,
+                        //               title: appLocalizations
+                        //                   .profile_tabs_personal_fields_label_primaryPhoneNumber,
+                        //               child: Row(
+                        //                 crossAxisAlignment:
+                        //                     CrossAxisAlignment.start,
+                        //                 children: [
+                        //                   CountryCodePicker(onChange: (val) {
+                        //                     setState(() {
+                        //                       selectedCountryCode =
+                        //                           val?.countryCode ?? "";
+                        //                     });
 
-                                            checkFinalValid(val);
-                                          }),
-                                          const SizedBox(width: 8),
-                                          Expanded(
-                                            child:
-                                                AppTextFields.simpleTextField(
-                                                    name: "phoneNumber",
-                                                    hint:
-                                                        '${appLocalizations.profile_tabs_personal_fields_label_primaryPhoneNumber.substring(0, 18)}..',
-                                                    type: TextFieldType.number,
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                    extraValidators: [
-                                                      (val) {
-                                                        return (!val!.contains(
-                                                                RegExp(
-                                                                    r'^[0-9]*$')))
-                                                            ? appLocalizations
-                                                                .scheduleMeeting_phoneNumber_errors_inValid
-                                                            : null;
-                                                      },
-                                                      (val) {
-                                                        return (val != null &&
-                                                                val != "" &&
-                                                                selectedCountryCode ==
-                                                                    "BH" &&
-                                                                (val.length >
-                                                                        8 ||
-                                                                    val.length <
-                                                                        8))
-                                                            ? appLocalizations
-                                                                .common_errors_phoneNumberLength
-                                                                .replaceAll(
-                                                                    "{{digit}}",
-                                                                    8.toString())
-                                                            : null;
-                                                      },
-                                                    ],
-                                                    onChanged: checkFinalValid),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        OutlinedButton(
-                                          onPressed: () {
-                                            // View Asset detail button
-                                            // context.goNamed(AppRoutes.addAssetsView);
-                                          },
-                                          style: OutlinedButton.styleFrom(
-                                              minimumSize: const Size(100, 50)),
-                                          child: Text(appLocalizations
-                                              .common_button_cancel),
-                                        ),
-                                        const SizedBox(
-                                          width: 8,
-                                        ),
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            context
-                                                .goNamed(AppRoutes.verifyOtp);
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                              minimumSize: const Size(100, 50)),
-                                          child: Text("Send code"),
-                                        )
-                                      ],
-                                    )
-                                  ]
-                                      .map((e) => Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 8, horizontal: 16),
-                                            child: e,
-                                          ))
-                                      .toList()))
+                        //                     checkFinalValid(val);
+                        //                   }),
+                        //                   const SizedBox(width: 8),
+                        //                   Expanded(
+                        //                     child:
+                        //                         AppTextFields.simpleTextField(
+                        //                             name: "phoneNumber",
+                        //                             hint:
+                        //                                 '${appLocalizations.profile_tabs_personal_fields_label_primaryPhoneNumber.substring(0, 18)}..',
+                        //                             type: TextFieldType.number,
+                        //                             keyboardType:
+                        //                                 TextInputType.number,
+                        //                             extraValidators: [
+                        //                               (val) {
+                        //                                 return (!val!.contains(
+                        //                                         RegExp(
+                        //                                             r'^[0-9]*$')))
+                        //                                     ? appLocalizations
+                        //                                         .scheduleMeeting_phoneNumber_errors_inValid
+                        //                                     : null;
+                        //                               },
+                        //                               (val) {
+                        //                                 return (val != null &&
+                        //                                         val != "" &&
+                        //                                         selectedCountryCode ==
+                        //                                             "BH" &&
+                        //                                         (val.length >
+                        //                                                 8 ||
+                        //                                             val.length <
+                        //                                                 8))
+                        //                                     ? appLocalizations
+                        //                                         .common_errors_phoneNumberLength
+                        //                                         .replaceAll(
+                        //                                             "{{digit}}",
+                        //                                             8.toString())
+                        //                                     : null;
+                        //                               },
+                        //                             ],
+                        //                             onChanged: checkFinalValid),
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //             ),
+                        //             Row(
+                        //               mainAxisAlignment: MainAxisAlignment.end,
+                        //               children: [
+                        //                 OutlinedButton(
+                        //                   onPressed: () {
+                        //                     // View Asset detail button
+                        //                     // context.goNamed(AppRoutes.addAssetsView);
+                        //                   },
+                        //                   style: OutlinedButton.styleFrom(
+                        //                       minimumSize: const Size(100, 50)),
+                        //                   child: Text(appLocalizations
+                        //                       .common_button_cancel),
+                        //                 ),
+                        //                 const SizedBox(
+                        //                   width: 8,
+                        //                 ),
+                        //                 ElevatedButton(
+                        //                   onPressed: () {
+                        //                     context
+                        //                         .goNamed(AppRoutes.verifyOtp);
+                        //                   },
+                        //                   style: ElevatedButton.styleFrom(
+                        //                       minimumSize: const Size(100, 50)),
+                        //                   child: Text("Send code"),
+                        //                 )
+                        //               ],
+                        //             )
+                        //           ]
+                        //               .map((e) => Padding(
+                        //                     padding: const EdgeInsets.symmetric(
+                        //                         vertical: 8, horizontal: 16),
+                        //                     child: e,
+                        //                   ))
+                        //               .toList()))
                       ]
                           .map((e) => Padding(
                                 padding:
