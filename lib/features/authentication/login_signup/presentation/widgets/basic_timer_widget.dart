@@ -6,9 +6,9 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 
 class BasicTimerWidget extends StatefulWidget {
   final int timerTime;
-  final bool isForgotPasswordPage;
+  final Function handleOtpExpired;
   const BasicTimerWidget(
-      {Key? key, this.timerTime = 20, this.isForgotPasswordPage = false})
+      {Key? key, this.timerTime = 20, required this.handleOtpExpired})
       : super(key: key);
 
   @override
@@ -49,6 +49,8 @@ class _BasicTimerWidgetState extends AppState<BasicTimerWidget> {
           currentSeconds = 0;
           canSend = true;
         });
+
+        widget.handleOtpExpired();
       }
     });
   }
