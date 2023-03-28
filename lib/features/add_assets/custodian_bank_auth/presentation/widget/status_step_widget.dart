@@ -153,9 +153,9 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
   void initState() {
     super.initState();
     input = TextField(
-      decoration: InputDecoration(
-          hintText:
-              AppLocalizations.of(context).linkAccount_stepper_cif_placeholder),
+      // decoration: InputDecoration(
+      //     hintText:
+      //         AppLocalizations.of(context).linkAccount_stepper_cif_placeholder),
       controller: TextEditingController(text: widget.accountId)
         ..addListener(() {
           setState(() {});
