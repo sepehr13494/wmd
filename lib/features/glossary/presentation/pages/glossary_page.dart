@@ -1,4 +1,3 @@
-import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
@@ -32,7 +31,7 @@ class GlossaryPage extends AppStatelessWidget {
                 ),
                 Text(
                   "Definition of terms and words found throughout the app",
-                  style: textTheme.bodyMedium,
+                  style: textTheme.bodyMedium!.copyWith(fontSize: 16),
                 ),
                 SearchTextField(
                     hint: "Search Glossary",
@@ -68,9 +67,9 @@ class GlossaryPage extends AppStatelessWidget {
                                             horizontal: 16, vertical: 8),
                                         child: Text(
                                           getGlossaryEntity.alphabet,
-                                          style: textTheme.titleMedium!.apply(
+                                          style: textTheme.titleMedium!.copyWith(
                                               color: Theme.of(context)
-                                                  .primaryColor),
+                                                  .primaryColor,fontSize: 22),
                                         ),
                                       ),
                                     ),
