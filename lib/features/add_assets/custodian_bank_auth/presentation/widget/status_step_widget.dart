@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/info_icon.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StatusStepWidget extends StatefulWidget {
   final String stepNumber;
@@ -152,6 +153,9 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
   void initState() {
     super.initState();
     input = TextField(
+      decoration: InputDecoration(
+          hintText:
+              AppLocalizations.of(context).linkAccount_stepper_cif_placeholder),
       controller: TextEditingController(text: widget.accountId)
         ..addListener(() {
           setState(() {});
