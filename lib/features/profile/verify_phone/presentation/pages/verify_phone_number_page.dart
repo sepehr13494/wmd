@@ -10,6 +10,7 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
+import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_resend_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/widgets/otp_feild_widget.dart';
 import 'package:wmd/injection_container.dart';
@@ -142,7 +143,10 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                                   final otpTemp = _fieldOne.text +
                                       _fieldTwo.text +
                                       _fieldThree.text +
-                                      _fieldFour.text;
+                                      _fieldFour.text +
+                                      _fieldFive.text +
+                                      _fieldSix.text;
+
                                   setState(() {
                                     _otp = otpTemp;
                                   });
@@ -150,9 +154,12 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                                   context
                                       .read<VerifyPhoneCubit>()
                                       .postVerifyPhone(map: {
-                                    "identifier": state is VerifyOtpLoaded
-                                        ? state.entity.identifier
-                                        : "",
+                                    // "identifier": state is VerifyOtpLoaded
+                                    //     ? state.entity.identifier
+                                    //     : "",
+                                    "identifier":
+                                        sl<PostResendVerifyPhoneUseCase>()
+                                            .identifier,
                                     "code": otpTemp
                                   });
                                 },
