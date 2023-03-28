@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/info_icon.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StatusStepWidget extends StatefulWidget {
   final String stepNumber;
@@ -145,26 +146,22 @@ class CifStatusWidget extends StatefulWidget {
 }
 
 class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
-  late final TextField input;
+  late final TextEditingController input;
   var isButtonDisable = false;
 
   @override
   void initState() {
     super.initState();
-    input = TextField(
-      controller: TextEditingController(text: widget.accountId)
-        ..addListener(() {
-          setState(() {});
-        }),
-      enabled: widget.accountId == null,
-    );
+    input = TextEditingController(text: widget.accountId)
+      ..addListener(() {
+        setState(() {});
+      });
   }
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
-    isButtonDisable = widget.accountId != null &&
-        input.controller!.text.isEmpty &&
-        widget.onDone != null;
+    isButtonDisable =
+        widget.accountId != null && input.text.isEmpty && widget.onDone != null;
     return ListTile(
       leading: widget.accountId != null
           ? const Icon(Icons.check_circle_outline_rounded)
@@ -202,8 +199,7 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
         ],
       ),
       subtitle: Builder(builder: (context) {
-        var isButtonDisable =
-            input.controller!.text.isEmpty || widget.onDone == null;
+        var isButtonDisable = input.text.isEmpty || widget.onDone == null;
         if (!widget.ready) {
           return const SizedBox();
         }
@@ -268,16 +264,20 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: input,
+                  child: TextField(
+                    decoration: InputDecoration(
+                        hintText: appLocalizations
+                            .linkAccount_stepper_cif_placeholder),
+                    controller: input,
+                    enabled: widget.accountId == null,
+                  ),
                 ),
                 const SizedBox(width: 50),
               ],
             ),
             const SizedBox(height: 4),
             InkWell(
-              onTap: isButtonDisable
-                  ? null
-                  : () => widget.onDone!(input.controller!.text),
+              onTap: isButtonDisable ? null : () => widget.onDone!(input.text),
               child: Text(
                 widget.subtitle ?? '',
                 style: textTheme.bodySmall!.apply(
