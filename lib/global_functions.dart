@@ -64,21 +64,38 @@ class GlobalFunctions {
                         bottomLeft: Radius.circular(8)),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                Expanded(
                   child: FittedBox(
                     fit: BoxFit.contain,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(title, style: textTheme.bodyLarge),
-                        if (subtitle != null)
-                          Text(
-                            subtitle,
-                            style: textTheme.bodySmall,
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.check_circle,
+                                color: color,
+                                size: 14,
+                              ),
+                              const SizedBox(width: 2),
+                              Text(title, style: textTheme.bodyLarge),
+                            ],
                           ),
-                      ],
+                          if (subtitle != null)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16.0),
+                              child: Text(
+                                subtitle,
+                                style: textTheme.bodySmall,
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

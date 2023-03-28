@@ -21,7 +21,7 @@ class PrivacyBlurWarning extends AppStatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Padding(
-            padding: const EdgeInsets.only(top: 8, bottom: 6),
+            padding: const EdgeInsets.only(top: 6, bottom: 6),
             child: FittedBox(
               fit: BoxFit.contain,
               alignment: Alignment.center,

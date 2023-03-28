@@ -71,7 +71,11 @@ class _SettingsPageState extends AppState<SettingsPage>
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (page != 1) const PrivacyBlurWarning(),
+                if (page != 1)
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    child: PrivacyBlurWarning(),
+                  ),
                 Expanded(
                   child: isMobile
                       ? SettingsMobileView(
