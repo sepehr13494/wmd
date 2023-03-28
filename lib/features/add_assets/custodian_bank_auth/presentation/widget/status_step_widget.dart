@@ -263,15 +263,14 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
             ),
             const SizedBox(height: 4),
             Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  flex: 8,
                   child: input,
                 ),
-                const Expanded(
-                  flex: 2,
-                  child: SizedBox(),
-                ),
+                const SizedBox(width: 50),
               ],
             ),
             const SizedBox(height: 4),

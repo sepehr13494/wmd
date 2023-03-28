@@ -5,14 +5,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 
 class BasicTimerWidget extends StatefulWidget {
-  final Function sendCodeAgain;
   final int timerTime;
-  final bool isForgotPasswordPage;
+  final Function handleOtpExpired;
   const BasicTimerWidget(
-      {Key? key,
-      required this.sendCodeAgain,
-      this.timerTime = 20,
-      this.isForgotPasswordPage = false})
+      {Key? key, this.timerTime = 20, required this.handleOtpExpired})
       : super(key: key);
 
   @override
@@ -24,7 +20,7 @@ class _BasicTimerWidgetState extends AppState<BasicTimerWidget> {
   final interval = const Duration(seconds: 1);
   bool canSend = true;
 
-  int timerMaxSeconds = 20;
+  int timerMaxSeconds = 200;
 
   int currentSeconds = 0;
 
@@ -32,7 +28,6 @@ class _BasicTimerWidgetState extends AppState<BasicTimerWidget> {
 
   String get timerText =>
       '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
-
 
   @override
   void initState() {
@@ -54,6 +49,8 @@ class _BasicTimerWidgetState extends AppState<BasicTimerWidget> {
           currentSeconds = 0;
           canSend = true;
         });
+
+        widget.handleOtpExpired();
       }
     });
   }
@@ -72,42 +69,31 @@ class _BasicTimerWidgetState extends AppState<BasicTimerWidget> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        RichText(
-            text: TextSpan(
-                children: widget.isForgotPasswordPage && !canSend
-                    ? [
-                        TextSpan(
-                            text: appLocalizations
-                                .auth_verify_text_noEmailReceived),
-                        const TextSpan(text: " "),
-                        TextSpan(
-                          text: appLocalizations.auth_forgot_link_resendIn,
-                        ),
-                      ]
-                    : [
-                        TextSpan(
-                            text: appLocalizations
-                                .auth_verify_text_noEmailReceived),
-                      ])),
-        const SizedBox(
-          width: 8,
-        ),
+        if (!canSend)
+          RichText(
+              text: TextSpan(style: const TextStyle(height: 1.3), children: [
+            TextSpan(
+              text: "Your code will expire in:",
+              style: textTheme.bodyMedium,
+            ),
+          ])),
+        if (!canSend)
+          const SizedBox(
+            width: 8,
+          ),
         Flexible(
-          child: !canSend
-              ? Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: Text(
-                    timerText,
-                    style: TextStyle(color: Theme.of(context).primaryColor),
-                  ))
-              : GestureDetector(
-                  onTap: () {
-                    _initTimer();
-                    widget.sendCodeAgain();
-                  },
-                  child: Text(appLocalizations.auth_verify_link_resend,
-                      style: TextStyle(color: Theme.of(context).primaryColor))),
-        ),
+            child: !canSend
+                ? Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: Text(
+                      timerText,
+                      style: TextStyle(color: Theme.of(context).primaryColor),
+                    ))
+                : Text(
+                    "Your verification code has expired. Click on 'Resend code' to receive a new one.",
+                    style: TextStyle(color: Colors.red[800]),
+                    textAlign: TextAlign.center,
+                  )),
       ],
     );
   }

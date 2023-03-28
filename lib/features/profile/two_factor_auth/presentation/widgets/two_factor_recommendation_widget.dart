@@ -71,7 +71,7 @@ class TwoFactorRecommendationWidget extends AppStatelessWidget {
                   expanded: !isMobile,
                   child: ElevatedButton(
                       onPressed: () {
-                        context.pushNamed(AppRoutes.settings);
+                        context.pushNamed(AppRoutes.twoFactorAuth);
                       },
                       child: Row(
                         mainAxisSize: MainAxisSize.min,

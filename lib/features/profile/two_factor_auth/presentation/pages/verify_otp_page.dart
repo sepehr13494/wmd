@@ -10,8 +10,12 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
+import 'package:wmd/features/authentication/login_signup/presentation/widgets/basic_timer_widget.dart';
+import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
+import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_resend_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/widgets/otp_feild_widget.dart';
+import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 import 'package:go_router/go_router.dart';
 
@@ -35,11 +39,13 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
   // This is the entered code
   // It will be displayed in a Text widget
   String? _otp;
+  bool _otpExpired = false;
+  String phoneNumberValue = "";
 
   @override
   void initState() {
     super.initState();
-    _fieldSix.addListener(_onTextChanged);
+    _fieldSix.addListener(() => _onTextChanged(context));
   }
 
   @override
@@ -48,11 +54,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
     super.dispose();
   }
 
-  void _onTextChanged() {
-    debugPrint("working _fieldSix.text----");
-    debugPrint(_fieldSix.text);
-    debugPrint(_fieldSix.value.toString());
-
+  void _onTextChanged(BuildContext context) {
     if (_fieldSix.text != '') {
       // Fire an event when the input matches the condition
       // For example, you can use a callback function to handle the event
@@ -66,10 +68,19 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
           _fieldSix.text;
 
       context.read<VerifyPhoneCubit>().postVerifyPhone(map: {
-        "identifier": state is VerifyOtpLoaded ? state.entity.identifier : "",
+        "identifier": sl<PostResendVerifyPhoneUseCase>().identifier,
         "code": otpTemp
       });
     }
+  }
+
+  void resetOtpText() {
+    _fieldOne.clear();
+    _fieldTwo.clear();
+    _fieldThree.clear();
+    _fieldFour.clear();
+    _fieldFive.clear();
+    _fieldSix.clear();
   }
 
   @override
@@ -78,17 +89,31 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
     final appTheme = Theme.of(context);
     final responsiveHelper = ResponsiveHelper(context: context);
 
-    return BlocProvider(
-        create: (context) => sl<VerifyPhoneCubit>()
-          ..postResendVerifyPhone(
-              map: {"phoneNumber": widget.verifyMap['phoneNumber']}),
-        child: BlocConsumer<VerifyPhoneCubit, VerifyPhoneState>(listener:
-            BlocHelper.defaultBlocListener(listener: (context, state) {
-          if (state is SuccessState) {
-            context.goNamed(AppRoutes.onboarding);
-          }
-        }), builder: (context, state) {
-          return Scaffold(
+    return BlocConsumer<VerifyPhoneCubit, VerifyPhoneState>(
+        listener: (context, state) {
+      if (state is SuccessState) {
+        context.goNamed(AppRoutes.main);
+      } else if (state is ErrorState) {
+        resetOtpText();
+        GlobalFunctions.showSnackBar(context,
+            AppLocalizations.of(context).common_errors_somethingWentWrong,
+            color: Colors.red[800], type: "error");
+      }
+    }, builder: (context, state) {
+      return BlocListener<PersonalInformationCubit, PersonalInformationState>(
+          listener: (context, state) {
+            if (state is PersonalInformationLoaded) {
+              final phone = state.getNameEntity.phoneNumber;
+
+              context.read<VerifyPhoneCubit>().postResendVerifyPhone(
+                  map: {"phoneNumber": phone?.toNumber()});
+
+              setState(() {
+                phoneNumberValue = phone?.toNumber() ?? "";
+              });
+            }
+          },
+          child: Scaffold(
             appBar: const AddAssetHeader(
               title: "",
               considerFirstTime: false,
@@ -125,51 +150,28 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            OtpInput(_fieldOne, true), // auto focus
-                            OtpInput(_fieldTwo, false),
-                            OtpInput(_fieldThree, false),
-                            OtpInput(_fieldFour, false),
-                            OtpInput(_fieldFive, false),
-                            OtpInput(_fieldSix, false),
+                            OtpInput(
+                                _fieldOne, true, _otpExpired), // auto focus
+                            OtpInput(_fieldTwo, false, _otpExpired),
+                            OtpInput(_fieldThree, false, _otpExpired),
+                            OtpInput(_fieldFour, false, _otpExpired),
+                            OtpInput(_fieldFive, false, _otpExpired),
+                            OtpInput(_fieldSix, false, _otpExpired),
                           ],
                         ),
                         SizedBox(height: responsiveHelper.defaultGap),
-                        RichText(
-                            text: TextSpan(
-                                style: const TextStyle(height: 1.3),
-                                children: [
-                              TextSpan(
-                                text: "Your code will expire in: 8m 59s",
-                                style: textTheme.bodyMedium,
-                              ),
-                              // TextSpan(
-                              //   text: "Resend code",
-                              //   style:
-                              //       textTheme.bodyMedium!.toLinkStyle(context),
-                              //   recognizer: TapGestureRecognizer()
-                              //     ..onTap = () {
-                              //       context
-                              //           .read<VerifyPhoneCubit>()
-                              //           .postResendVerifyPhone(map: {
-                              //         "phoneNumber":
-                              //             widget.verifyMap['phoneNumber']
-                              //       });
-                              //     },
-                              // ),
-                            ])),
-                        // Text(
-                        //   "Verification code",
-                        //   style: textTheme.bodySmall,
-                        //   textAlign: TextAlign.center,
-                        // ),
+                        BasicTimerWidget(
+                            timerTime: 2000,
+                            handleOtpExpired: () {
+                              setState(() {
+                                _otpExpired = true;
+                              });
+                            }),
+
                         const SizedBox(
                           height: 30,
                         ),
-                        // Text(
-                        //   "Didn't get the verification code?",
-                        //   style: textTheme.bodySmall,
-                        //   textAlign: TextAlign.center,
-                        // ),
+
                         RichText(
                             text: TextSpan(
                                 style: const TextStyle(height: 1.3),
@@ -187,8 +189,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
                                     context
                                         .read<VerifyPhoneCubit>()
                                         .postResendVerifyPhone(map: {
-                                      "phoneNumber":
-                                          widget.verifyMap['phoneNumber']
+                                      "phoneNumber": phoneNumberValue
                                     });
                                   },
                               ),
@@ -219,8 +220,8 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
                         // Display the entered OTP code
                       ],
                     )))),
-          );
-        }));
+          ));
+    });
   }
 }
 
