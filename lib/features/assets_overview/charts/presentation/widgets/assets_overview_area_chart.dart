@@ -326,8 +326,8 @@ class _AssetsOverviewAreaChartState extends State<AssetsOverviewAreaChart> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                color.withOpacity(0.4),
-                color.withOpacity(0.4),
+                color.withOpacity(1),
+                color.withOpacity(1),
               ]), 0.5),
         ),
       );
