@@ -35,11 +35,17 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                   if (element.bankAccount != 0) {
                     titles.add(AssetTypes.bankAccount);
                   }
-                  if (element.realEstate != 0) {
-                    titles.add(AssetTypes.realEstate);
-                  }
                   if (element.listedAssetEquity != 0) {
                     titles.add(AssetTypes.listedAssetEquity);
+                  }
+                  if (element.privateEquity != 0) {
+                    titles.add(AssetTypes.privateEquity);
+                  }
+                  if (element.privateDebt != 0) {
+                    titles.add(AssetTypes.privateDebt);
+                  }
+                  if (element.realEstate != 0) {
+                    titles.add(AssetTypes.realEstate);
                   }
                   if (element.listedAssetFixedIncome != 0) {
                     titles.add(AssetTypes.listedAssetFixedIncome);
@@ -50,12 +56,7 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                   if (element.others != 0) {
                     titles.add(AssetTypes.otherAsset);
                   }
-                  if (element.privateDebt != 0) {
-                    titles.add(AssetTypes.privateDebt);
-                  }
-                  if (element.privateEquity != 0) {
-                    titles.add(AssetTypes.privateEquity);
-                  }
+
                 }
                 return Column(
                   children: [
@@ -77,11 +78,12 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                                 return AssetsOverviewAreaChart(
                                     getChartEntities:
                                     state.getChartEntities,
-                                    titles: titles.toList());
-                              case AssetsBarType.treeChart:
-                                return AssetsOverviewTreeChart(
+                                    titles: titles.toList().reversed.toList());
+                              case AssetsBarType.areaPercentage:
+                                return AssetsOverviewAreaChart(
                                     getChartEntities:
-                                    state.getChartEntities);
+                                    state.getChartEntities,
+                                    titles: titles.toList().reversed.toList(),showPercentage: true,);
                               default:
                                 return const SizedBox();
                             }

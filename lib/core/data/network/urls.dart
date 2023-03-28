@@ -29,9 +29,8 @@ class AppUrls {
   static String faqsContent = "${contentBase}faqs";
   static String postInquiry = "${wealthBase}Inquiry";
   static String postScheduleCall = "portfolio/meetings/schedule";
-  static String postVerifyPhone = "${contentBase}portfolio/meetings/schedule";
-  static String postResendVerifyPhone =
-      "${contentBase}portfolio/meetings/schedule";
+  static String postVerifyPhone = "${userBase}Otp/verify";
+  static String postResendVerifyPhone = "${userBase}Otp";
 
   static String postBankDetails = "${wealthBase}BankAccount";
   static String postPrivateEquity = "${wealthBase}PrivateEquity";
@@ -76,5 +75,15 @@ class AppUrls {
   static String getValuationPerformance(String id) =>
       "${wealthBase}Valuation/$id/performance";
 
+  static String settings = "${userBase}Setting";
+
   static String getForceUpdate = "wmo/version";
+
+  //performance table
+  static String getAssetClass = "${wealthBase}Performance/assetclass";
+  static String getBenchmark = "${wealthBase}Performance/benchmark";
+  static String getCustodianPerformance = "${wealthBase}Performance/custodian";
+
+  //glossary
+  static String getGlossaries = "${contentBase}glossary";
 }

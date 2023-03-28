@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/info_icon.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StatusStepWidget extends StatefulWidget {
   final String stepNumber;
@@ -30,25 +31,13 @@ class StatusStepWidget extends StatefulWidget {
 }
 
 class _StatusStepWidgetState extends AppState<StatusStepWidget> {
-  late final TextField input;
-  var isButtonDisable = false;
-
   @override
   void initState() {
     super.initState();
-    input = TextField(
-      controller: TextEditingController()
-        ..addListener(() {
-          setState(() {});
-        }),
-    );
   }
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
-    isButtonDisable = widget.showInput &&
-        input.controller!.text.isEmpty &&
-        widget.onDone != null;
     return ListTile(
       leading: widget.isDone
           ? const Icon(Icons.check_circle_outline_rounded)
@@ -67,7 +56,24 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
                 textAlign: TextAlign.center,
               )),
             ),
-      title: Text(widget.title, style: textTheme.bodyLarge),
+      title: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 8,
+            child: Text(
+              widget.title,
+              style: textTheme.bodyLarge,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: Text(widget.trailing, style: textTheme.bodySmall),
+          )
+        ],
+      ),
       subtitle: Builder(
         builder: (context) {
           if (widget.isDone) {
@@ -84,33 +90,17 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
             }
           } else {
             if (widget.subtitle != null) {
-              var isButtonDisable = widget.showInput &&
-                  input.controller!.text.isEmpty &&
-                  widget.onDone != null;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (widget.showInput) ...[
-                    Row(
-                      children: [
-                        Text(
-                          'Confirm CIF number',
-                          style: textTheme.bodyMedium,
-                        ),
-                        const InfoIcon(),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    input,
-                    const SizedBox(height: 4),
-                  ],
                   InkWell(
-                    onTap:
-                        isButtonDisable ? null : () => widget.onDone!('sadf'),
+                    onTap: widget.onDone == null
+                        ? null
+                        : () => widget.onDone!(null),
                     child: Text(
                       widget.subtitle!,
                       style: textTheme.bodySmall!.apply(
-                          color: isButtonDisable
+                          color: widget.onDone == null
                               ? Theme.of(context).primaryColor.withOpacity(0.4)
                               : Theme.of(context).primaryColor,
                           decoration: TextDecoration.underline),
@@ -123,7 +113,7 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
           return const SizedBox.shrink();
         },
       ),
-      trailing: Text(widget.trailing),
+      // trailing: Text(widget.trailing),
     );
   }
 }
@@ -156,26 +146,22 @@ class CifStatusWidget extends StatefulWidget {
 }
 
 class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
-  late final TextField input;
+  late final TextEditingController input;
   var isButtonDisable = false;
 
   @override
   void initState() {
     super.initState();
-    input = TextField(
-      controller: TextEditingController(text: widget.accountId)
-        ..addListener(() {
-          setState(() {});
-        }),
-      enabled: widget.accountId == null,
-    );
+    input = TextEditingController(text: widget.accountId)
+      ..addListener(() {
+        setState(() {});
+      });
   }
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
-    isButtonDisable = widget.accountId != null &&
-        input.controller!.text.isEmpty &&
-        widget.onDone != null;
+    isButtonDisable =
+        widget.accountId != null && input.text.isEmpty && widget.onDone != null;
     return ListTile(
       leading: widget.accountId != null
           ? const Icon(Icons.check_circle_outline_rounded)
@@ -194,10 +180,26 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
                 textAlign: TextAlign.center,
               )),
             ),
-      title: Text(widget.title, style: textTheme.bodyLarge),
+      title: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 8,
+            child: Text(
+              widget.title,
+              style: textTheme.bodyLarge,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: Text(widget.trailing, style: textTheme.bodySmall),
+          )
+        ],
+      ),
       subtitle: Builder(builder: (context) {
-        var isButtonDisable =
-            input.controller!.text.isEmpty || widget.onDone == null;
+        var isButtonDisable = input.text.isEmpty || widget.onDone == null;
         if (!widget.ready) {
           return const SizedBox();
         }
@@ -245,6 +247,7 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
                     style: textTheme.bodyMedium,
                   ),
                   // const InfoIcon(),
+                  const SizedBox(width: 4),
                   Tooltip(
                     triggerMode: TooltipTriggerMode.tap,
                     textAlign: TextAlign.center,
@@ -255,12 +258,26 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
               ),
             ),
             const SizedBox(height: 4),
-            input,
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: TextField(
+                    decoration: InputDecoration(
+                        hintText: appLocalizations
+                            .linkAccount_stepper_cif_placeholder),
+                    controller: input,
+                    enabled: widget.accountId == null,
+                  ),
+                ),
+                const SizedBox(width: 50),
+              ],
+            ),
             const SizedBox(height: 4),
             InkWell(
-              onTap: isButtonDisable
-                  ? null
-                  : () => widget.onDone!(input.controller!.text),
+              onTap: isButtonDisable ? null : () => widget.onDone!(input.text),
               child: Text(
                 widget.subtitle ?? '',
                 style: textTheme.bodySmall!.apply(
@@ -273,7 +290,7 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
           ],
         );
       }),
-      trailing: Text(widget.trailing),
+      // trailing: Text(widget.trailing),
     );
   }
 }

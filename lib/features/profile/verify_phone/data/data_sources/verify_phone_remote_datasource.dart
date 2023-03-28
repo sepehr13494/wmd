@@ -10,7 +10,7 @@ import '../models/post_resend_verify_phone_params.dart';
 import '../models/post_resend_verify_phone_response.dart';
 
 abstract class VerifyPhoneRemoteDataSource {
-  Future<PostVerifyPhoneResponse> postVerifyPhone(PostVerifyPhoneParams params);
+  Future<void> postVerifyPhone(PostVerifyPhoneParams params);
   Future<PostResendVerifyPhoneResponse> postResendVerifyPhone(
       PostResendVerifyPhoneParams params);
 }
@@ -20,15 +20,14 @@ class VerifyPhoneRemoteDataSourceImpl extends AppServerDataSource
   VerifyPhoneRemoteDataSourceImpl(super.errorHandlerMiddleware);
 
   @override
-  Future<PostVerifyPhoneResponse> postVerifyPhone(
-      PostVerifyPhoneParams params) async {
+  Future<void> postVerifyPhone(PostVerifyPhoneParams params) async {
     try {
       final appRequestOptions = AppRequestOptions(
-          RequestTypes.get, AppUrls.postVerifyPhone, params.toJson());
+          RequestTypes.post, AppUrls.postVerifyPhone, params.toJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = PostVerifyPhoneResponse.fromJson(response);
-      return result;
+
+      return;
     } on ServerException {
       rethrow;
     } catch (e) {
@@ -42,7 +41,7 @@ class VerifyPhoneRemoteDataSourceImpl extends AppServerDataSource
       PostResendVerifyPhoneParams params) async {
     try {
       final appRequestOptions = AppRequestOptions(
-          RequestTypes.get, AppUrls.postResendVerifyPhone, params.toJson());
+          RequestTypes.post, AppUrls.postResendVerifyPhone, params.toJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = PostResendVerifyPhoneResponse.fromJson(response);

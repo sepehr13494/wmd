@@ -16,6 +16,7 @@ import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_head
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
 import 'package:wmd/injection_container.dart';
+import 'package:wmd/core/extentions/string_ext.dart';
 
 class AddPrivateEquityPage extends StatefulWidget {
   const AddPrivateEquityPage({Key? key}) : super(key: key);
@@ -60,7 +61,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
           appBar: const AddAssetHeader(title: "", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Save asset",
-              onTap: !enableAddAssetButton ? null : () {
+              onTap: () {
                 privateEquityFormKey.currentState?.validate();
                 if (enableAddAssetButton) {
                   Map<String, dynamic> finalMap = {
@@ -116,6 +117,8 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_privateEquity_inputFields_name_label,
                                       child: AppTextFields.simpleTextField(
+                                          errorMsg: appLocalizations
+                                              .assetLiabilityForms_forms_privateEquity_inputFields_name_errorMessage,
                                           onChanged: checkFinalValid,
                                           extraValidators: [
                                             (val) {
@@ -134,6 +137,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_privateEquity_inputFields_custodian_label,
                                       child: FormBuilderTypeAhead(
+                                          required: false,
                                           onChange: checkFinalValid,
                                           name: "custodian",
                                           hint: appLocalizations
@@ -159,7 +163,9 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                             AutovalidateMode.onUserInteraction,
                                         validator:
                                             FormBuilderValidators.compose([
-                                          FormBuilderValidators.required()
+                                          FormBuilderValidators.required(
+                                              errorText: appLocalizations
+                                                  .assetLiabilityForms_forms_privateEquity_inputFields_acquisitionDate_errorMessage)
                                         ]),
                                         name: "investmentDate",
                                         onChanged: (selectedDate) {
@@ -192,6 +198,8 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_label,
                                       child: AppTextFields.simpleTextField(
+                                          errorMsg: appLocalizations
+                                              .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_errorMessage,
                                           onChanged: checkFinalValid,
                                           title: "Initial investment amount",
                                           type: TextFieldType.money,
@@ -207,7 +215,9 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                             AutovalidateMode.onUserInteraction,
                                         validator:
                                             FormBuilderValidators.compose([
-                                          FormBuilderValidators.required()
+                                          FormBuilderValidators.required(
+                                              errorText: appLocalizations
+                                                  .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_errorMessage)
                                         ]),
                                         enabled: acquisitionDateValue != null,
                                         format: DateFormat("dd/MM/yyyy"),
@@ -215,7 +225,9 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                         firstDate: acquisitionDateValue,
                                         lastDate: DateTime.now(),
                                         name: "valuationDate",
-                                        onChanged: checkFinalValid,
+                                        onChanged: (selectedDate) {
+                                          checkFinalValid(selectedDate);
+                                        },
                                         decoration: InputDecoration(
                                             suffixIcon: Icon(
                                               Icons.calendar_today_outlined,
@@ -231,10 +243,23 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_privateEquity_inputFields_currentValue_label,
                                       child: AppTextFields.simpleTextField(
+                                          errorMsg: appLocalizations
+                                              .assetLiabilityForms_forms_privateEquity_inputFields_currentValue_errorMessage,
                                           onChanged: checkFinalValid,
                                           title: "Current value",
                                           type: TextFieldType.money,
                                           name: "marketValue",
+                                          extraValidators: [
+                                            (val) {
+                                              return (val != null &&
+                                                      val != "" &&
+                                                      val.convertMoneyToInt() ==
+                                                          0)
+                                                  ? appLocalizations
+                                                      .common_errors_required
+                                                  : null;
+                                            }
+                                          ],
                                           hint: appLocalizations
                                               .assetLiabilityForms_forms_privateEquity_inputFields_currentValue_placeholder),
                                     ),

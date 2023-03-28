@@ -90,7 +90,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
           appBar: const AddAssetHeader(title: "", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: appLocalizations.common_button_addAsset,
-              onTap: !enableAddAssetButton ? null : () {
+              onTap: () {
                 formKey.currentState?.validate();
                 if (enableAddAssetButton) {
                   Map<String, dynamic> finalMap = {
@@ -146,6 +146,8 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_others_inputFields_name_label,
                                       child: AppTextFields.simpleTextField(
+                                          errorMsg: appLocalizations
+                                              .assetLiabilityForms_forms_others_inputFields_name_errorMessage,
                                           title: "Name",
                                           name: "name",
                                           onChanged: checkFinalValid,
@@ -176,6 +178,8 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_others_inputFields_assetType_label,
                                       child: AppTextFields.dropDownTextField(
+                                        errorMsg: appLocalizations
+                                            .assetLiabilityForms_forms_others_inputFields_assetType_errorMessage,
                                         onChanged: (val) async {
                                           await Future.delayed(const Duration(
                                               milliseconds: 200));
@@ -261,9 +265,13 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                               .assetLiabilityForms_forms_others_inputFields_units_placeholder),
                                     ),
                                     EachTextField(
+                                      tooltipText: appLocalizations
+                                          .assetLiabilityForms_forms_others_inputFields_acquisitionCost_tooltip,
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_others_inputFields_acquisitionCost_label,
                                       child: AppTextFields.simpleTextField(
+                                          errorMsg: appLocalizations
+                                              .assetLiabilityForms_forms_others_inputFields_acquisitionCost_errorMessage,
                                           onChanged: checkFinalValid,
                                           type: TextFieldType.money,
                                           keyboardType: TextInputType.number,
@@ -272,6 +280,8 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                               .assetLiabilityForms_forms_others_inputFields_acquisitionCost_placeholder),
                                     ),
                                     EachTextField(
+                                      tooltipText: appLocalizations
+                                          .assetLiabilityForms_forms_others_inputFields_acquisitionDate_tooltip,
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_others_inputFields_acquisitionDate_label,
                                       child: FormBuilderDateTimePicker(
@@ -310,6 +320,10 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                           type: TextFieldType.number,
                                           keyboardType: TextInputType.number,
                                           onChanged: checkFinalValid,
+                                          errorMsg: appLocalizations
+                                              .assetLiabilityForms_forms_others_inputFields_ownerShip_errorMessageRequired,
+                                          suffixIcon:
+                                              AppTextFields.rateSuffixIcon(),
                                           name: "ownerShip",
                                           hint: appLocalizations
                                               .assetLiabilityForms_forms_others_inputFields_ownerShip_placeholder),

@@ -112,7 +112,8 @@ class WelcomePage extends AppStatelessWidget {
                                         children: [
                                           TextSpan(
                                               text: i,
-                                              style: textTheme.headlineSmall),
+                                              style: textTheme.headlineSmall
+                                                  ?.apply(fontSizeDelta: 0.91)),
                                         ],
                                       ),
                                     ));

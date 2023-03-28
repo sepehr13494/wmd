@@ -2,7 +2,9 @@ import 'package:datadog_flutter_plugin/datadog_flutter_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wmd/core/models/time_filer_obj.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentation/page/add_bank_auto_page.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/pages/add_bank_manual_page.dart';
 import 'package:wmd/features/add_assets/add_listed_security/presentation/pages/add_listed_security_page.dart';
@@ -28,19 +30,27 @@ import 'package:wmd/features/authentication/login_signup/presentation/pages/regi
 import 'package:wmd/features/authentication/login_signup/presentation/pages/verify_email_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/welcome_page.dart';
 import 'package:wmd/features/authentication/verify_email/presentation/pages/verify_response_page.dart';
+import 'package:wmd/features/blurred_widget/presentation/manager/blurred_privacy_cubit.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_goe_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/pages/onboarding_page.dart';
+import 'package:wmd/features/dashboard/performance_table/presentation/manager/performance_table_cubit.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/features/force_update/presentation/pages/force_update_page.dart';
+import 'package:wmd/features/glossary/presentation/pages/glossary_page.dart';
 import 'package:wmd/features/help/support/presentation/pages/schedule_call_page.dart';
 import 'package:wmd/features/help/support/presentation/pages/support_page.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/features/main_page/presentation/pages/main_page.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
+import 'package:wmd/features/profile/two_factor_auth/presentation/pages/two_factor_setup_page.dart';
+import 'package:wmd/features/profile/two_factor_auth/presentation/pages/verify_otp_page.dart';
+import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/pages/verify_phone_number_page.dart';
+import 'package:wmd/features/settings/presentation/page/settings_page.dart';
 import 'package:wmd/features/splash/presentation/pages/splash_page.dart';
 import 'package:wmd/features/profile/core/presentation/pages/profile_page.dart';
 import 'package:wmd/injection_container.dart';
@@ -57,6 +67,7 @@ class AppRouter {
   }
 
   UserStatusCubit _userStatusCubit = sl<UserStatusCubit>();
+  BlurredPrivacyCubit _blurredPrivacyCubit = sl<BlurredPrivacyCubit>();
   MainDashboardCubit _mainDashboardCubit = sl<MainDashboardCubit>();
   MainPageCubit _mainPageCubit = sl<MainPageCubit>();
   SummeryWidgetCubit _summeryWidgetCubit = sl<SummeryWidgetCubit>();
@@ -73,6 +84,13 @@ class AppRouter {
       sl<CustodianStatusListCubit>();
   PersonalInformationCubit _personalInformationCubit =
       sl<PersonalInformationCubit>();
+  PerformanceAssetClassCubit _performanceAssetClassCubit =
+      sl<PerformanceAssetClassCubit>();
+  PerformanceBenchmarkCubit _performanceBenchmarkCubit =
+      sl<PerformanceBenchmarkCubit>();
+  PerformanceCustodianCubit _performanceCustodianCubit =
+      sl<PerformanceCustodianCubit>();
+  VerifyPhoneCubit _verifyPhoneCubit = sl<VerifyPhoneCubit>();
 
   GoRouter router() {
     return GoRouter(
@@ -177,12 +195,32 @@ class AppRouter {
                     return _mainDashboardCubit..initPage();
                   }),
                   BlocProvider(create: (context) {
+                    _blurredPrivacyCubit = sl<BlurredPrivacyCubit>();
+                    return _blurredPrivacyCubit..getIsBlurred();
+                  }),
+                  BlocProvider(create: (context) {
                     _summeryWidgetCubit = sl<SummeryWidgetCubit>();
                     return _summeryWidgetCubit..initPage();
                   }),
                   BlocProvider(create: (context) {
                     _assetsOverviewCubit = sl<AssetsOverviewCubit>();
                     return _assetsOverviewCubit..getAssetsOverview();
+                  }),
+                  BlocProvider(create: (context) {
+                    _performanceAssetClassCubit =
+                        sl<PerformanceAssetClassCubit>();
+                    return _performanceAssetClassCubit..getAssetClass();
+                  }),
+                  BlocProvider(create: (context) {
+                    _performanceBenchmarkCubit =
+                        sl<PerformanceBenchmarkCubit>();
+                    return _performanceBenchmarkCubit..getBenchmark();
+                  }),
+                  BlocProvider(create: (context) {
+                    _performanceCustodianCubit =
+                        sl<PerformanceCustodianCubit>();
+                    return _performanceCustodianCubit
+                      ..getCustodianPerformance();
                   }),
                   BlocProvider(
                     create: (context) {
@@ -239,15 +277,24 @@ class AppRouter {
                     },
                   ),
                 ],
-                child: LocalAuthWrapper(
-                    child: MainPage(
-                        expandCustodian:
-                            state.queryParams['expandCustodian'] != null
-                                ? state.queryParams['expandCustodian'] == 'true'
-                                : false)),
+                child: PrivacyBlurWrapper(
+                  child: LocalAuthWrapper(
+                      child: MainPage(
+                          expandCustodian:
+                              state.queryParams['expandCustodian'] != null
+                                  ? state.queryParams['expandCustodian'] ==
+                                      'true'
+                                  : false)),
+                ),
               );
             },
             routes: [
+              GoRoute(
+                  name: AppRoutes.glossary,
+                  path: "glossary",
+                  builder: (BuildContext context, GoRouterState state) {
+                    return const GlossaryPage();
+                  }),
               GoRoute(
                 name: AppRoutes.assetDetailPage,
                 path: "asset_detail",
@@ -255,15 +302,20 @@ class AppRouter {
                   return MultiBlocProvider(
                       providers: [
                         BlocProvider.value(
+                          value: _blurredPrivacyCubit,
+                        ),
+                        BlocProvider.value(
                           value: _mainDashboardCubit,
                         ),
                         BlocProvider.value(
                           value: _mainPageCubit,
                         )
                       ],
-                      child: AssetDetailPage(
-                        assetId: state.queryParams['assetId'] as String,
-                        type: state.queryParams['type'] as String,
+                      child: PrivacyBlurWrapper(
+                        child: AssetDetailPage(
+                          assetId: state.queryParams['assetId'] as String,
+                          type: state.queryParams['type'] as String,
+                        ),
                       ));
                 },
               ),
@@ -271,9 +323,21 @@ class AppRouter {
                   name: AppRoutes.settings,
                   path: "settings",
                   builder: (BuildContext context, GoRouterState state) {
-                    return BlocProvider.value(
-                      value: _personalInformationCubit..getName(),
-                      child: const ProfilePage(),
+                    return MultiBlocProvider(
+                      providers: [
+                        BlocProvider.value(
+                          value: _blurredPrivacyCubit,
+                        ),
+                        BlocProvider.value(
+                          value: _personalInformationCubit,
+                        ),
+                        BlocProvider.value(
+                          value: _userStatusCubit,
+                        ),
+                      ],
+                      child: const PrivacyBlurWrapper(
+                        child: SettingsPage(),
+                      ),
                     );
                   },
                   routes: [
@@ -281,7 +345,36 @@ class AppRouter {
                       name: AppRoutes.verifyPhone,
                       path: "verify-phone",
                       builder: (BuildContext context, GoRouterState state) {
-                        return const VerifyPhoneNumberPage();
+                        return VerifyPhoneNumberPage(
+                            verifyMap: state.queryParams);
+                      },
+                    ),
+                    GoRoute(
+                      name: AppRoutes.twoFactorAuth,
+                      path: "two-factor-auth",
+                      builder: (BuildContext context, GoRouterState state) {
+                        return BlocProvider.value(
+                            value: _blurredPrivacyCubit,
+                            child: const PrivacyBlurWrapper(
+                              child: TwoFactorSetupPage(),
+                            ));
+                      },
+                    ),
+                    GoRoute(
+                      name: AppRoutes.verifyOtp,
+                      path: "verify-otp",
+                      builder: (BuildContext context, GoRouterState state) {
+                        return MultiBlocProvider(providers: [
+                          BlocProvider.value(
+                            value: _personalInformationCubit,
+                          ),
+                          BlocProvider(
+                            create: (context) {
+                              _verifyPhoneCubit = sl<VerifyPhoneCubit>();
+                              return _verifyPhoneCubit;
+                            },
+                          ),
+                        ], child: VerifyOtpPage(verifyMap: state.queryParams));
                       },
                     ),
                   ]),

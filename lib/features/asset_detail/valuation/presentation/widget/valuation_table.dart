@@ -10,6 +10,7 @@ import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/valuation/data/models/get_all_valuation_params.dart';
 import 'package:wmd/features/asset_detail/valuation/domain/entities/get_all_valuation_entity.dart';
 import 'package:wmd/features/valuation/presentation/widgets/valutaion_modal.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 import 'package:wmd/injection_container.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../manager/valuation_cubit.dart';
@@ -283,11 +284,13 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
           alignment: Alignment.centerLeft,
           child: Padding(
             padding: padding,
-            child: Directionality(
-              textDirection: TextDirection.ltr,
-              child: Text(
-                value,
-                style: textTheme.labelMedium,
+            child: PrivacyBlurWidget(
+              child: Directionality(
+                textDirection: TextDirection.ltr,
+                child: Text(
+                  value,
+                  style: textTheme.labelMedium,
+                ),
               ),
             ),
           ),

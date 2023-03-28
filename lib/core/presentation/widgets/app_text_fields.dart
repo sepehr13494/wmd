@@ -40,6 +40,7 @@ class AppTextFields {
   AppTextFields._();
 
   static FormBuilderDropdown dropDownTextField({
+    final String errorMsg = "",
     required final String name,
     required final String hint,
     final double fontSize = 15,
@@ -59,7 +60,8 @@ class AppTextFields {
       style: TextStyle(fontSize: fontSize),
       dropdownColor: AppColors.backgroundColorPageDark,
       items: items,
-      validator: FormBuilderValidators.required(),
+      validator: FormBuilderValidators.required(
+          errorText: errorMsg != "" ? errorMsg : null),
     );
   }
 
@@ -83,6 +85,7 @@ class AppTextFields {
     TextFieldType type = TextFieldType.simpleText,
     GlobalKey<FormBuilderFieldState>? key,
     String? title,
+    String? errorMsg,
     String? hint,
     TextInputType keyboardType = TextInputType.text,
     int? minLines,
@@ -100,6 +103,7 @@ class AppTextFields {
       type: type,
       formKey: key,
       title: title,
+      errorMsg: errorMsg,
       hint: hint,
       keyboardType: keyboardType,
       minLines: minLines,
@@ -120,6 +124,7 @@ class SimpleTextField extends AppStatelessWidget {
   final TextFieldType type;
   final GlobalKey<FormBuilderFieldState>? formKey;
   final String? title;
+  final String? errorMsg;
   final String? hint;
   final TextInputType keyboardType;
   final int? minLines;
@@ -138,6 +143,7 @@ class SimpleTextField extends AppStatelessWidget {
     required this.type,
     this.formKey,
     this.title,
+    this.errorMsg,
     this.hint,
     this.keyboardType = TextInputType.text,
     this.minLines,
@@ -159,9 +165,10 @@ class SimpleTextField extends AppStatelessWidget {
     }
     if (required) {
       validators.add(FormBuilderValidators.required(
-          errorText: title != null
-              ? 'Please enter ${title!.toLowerCase()}'
-              : appLocalizations.common_errors_required));
+          errorText: errorMsg ??
+              (title != null
+                  ? 'Please enter ${title!.toLowerCase()}'
+                  : appLocalizations.common_errors_required)));
     }
     if (type == TextFieldType.money) {
       validators.add((val) {
@@ -213,6 +220,7 @@ class SimpleTextField extends AppStatelessWidget {
       decoration: InputDecoration(
           labelText: showTitle ? title : null,
           hintText: hint,
+          errorMaxLines: 2,
           suffixIcon: suffixIcon),
       obscureText: obscureText,
       keyboardType: keyboardType,
@@ -283,8 +291,7 @@ class _CurrenciesDropdownState extends State<CurrenciesDropdown> {
               selectedCurrency = val;
             });
           },
-          itemAsString: (Currency currency) =>
-              "${currency.name} (${currency.symbol})",
+          itemAsString: (Currency currency) => currency.name,
           filterFn: (currency, string) {
             return (currency.name
                     .toLowerCase()
@@ -294,7 +301,7 @@ class _CurrenciesDropdownState extends State<CurrenciesDropdown> {
           itemBuilder: (context, currency, _) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text("${currency.name} (${currency.symbol})"),
+              child: Text(currency.name),
             );
           },
         ),
@@ -311,16 +318,22 @@ class _CurrenciesDropdownState extends State<CurrenciesDropdown> {
   }
 }
 
-class CountriesDropdown extends StatelessWidget {
+class CountriesDropdown extends AppStatelessWidget {
   final ValueChanged<Country?>? onChanged;
 
   const CountriesDropdown({Key? key, this.onChanged}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
     return FormBuilderSearchableDropdown<Country>(
       name: "country",
       hint: "Type or select a country",
+      prefixIcon: const Icon(
+        Icons.search,
+      ),
+      errorMsg: appLocalizations
+          .assetLiabilityForms_forms_realEstate_inputFields_country_errorMessage,
       items: Country.countriesList
         ..sort((a, b) => a.countryName.compareTo(b.countryName)),
       onChanged: onChanged,
@@ -342,6 +355,7 @@ class CountriesDropdown extends StatelessWidget {
 class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
   final String name;
   final String? title;
+  final String? errorMsg;
   final String hint;
   final DropdownSearchItemAsString<T>? itemAsString;
   final DropdownSearchFilterFn<T>? filterFn;
@@ -361,6 +375,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
       this.itemAsString,
       this.filterFn,
       this.title,
+      this.errorMsg,
       this.itemBuilder,
       this.extraValidators,
       this.required = true,
@@ -380,9 +395,10 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
     }
     if (required) {
       validators.add(FormBuilderValidators.required(
-          errorText: title != null
-              ? 'Please enter ${title!.toLowerCase()}'
-              : appLocalizations.common_errors_required));
+          errorText: errorMsg ??
+              (title != null
+                  ? 'Please enter ${title!.toLowerCase()}'
+                  : appLocalizations.common_errors_required)));
     }
 
     return FormBuilderField<T>(
@@ -445,6 +461,7 @@ class FormBuilderTypeAhead extends StatefulWidget {
   final String? title;
   final String name;
   final String hint;
+  final String? errorMsg;
   final List<String> items;
   final ValueChanged<String?>? onChange;
   final Widget? prefixIcon;
@@ -460,6 +477,7 @@ class FormBuilderTypeAhead extends StatefulWidget {
       this.prefixIcon,
       this.suffixIcon,
       this.title,
+      this.errorMsg,
       this.extraValidators,
       this.required = true,
       this.onChange})
@@ -481,9 +499,10 @@ class _FormBuilderTypeAheadState extends AppState<FormBuilderTypeAhead> {
     }
     if (widget.required ?? false) {
       validators.add(FormBuilderValidators.required(
-          errorText: widget.title != null
-              ? 'Please enter ${widget.title!.toLowerCase()}'
-              : appLocalizations.common_errors_required));
+          errorText: widget.errorMsg ??
+              (widget.title != null
+                  ? 'Please enter ${widget.title!.toLowerCase()}'
+                  : appLocalizations.common_errors_required)));
     }
 
     return FormBuilderField<String?>(
@@ -553,6 +572,7 @@ class ListedSecurityTypeAhead extends StatefulWidget {
   final String name;
   final String? title;
   final String hint;
+  final String? errorMsg;
   final List<ListedSecurityName> items;
   final ValueChanged<ListedSecurityName?>? onChange;
   final bool? required;
@@ -566,6 +586,7 @@ class ListedSecurityTypeAhead extends StatefulWidget {
       this.extraValidators,
       this.required = true,
       this.title,
+      this.errorMsg,
       this.onChange})
       : super(key: key);
 
@@ -585,9 +606,10 @@ class _ListedSecurityTypeAheadState extends AppState<ListedSecurityTypeAhead> {
 
     if (widget.required ?? false) {
       validators.add(FormBuilderValidators.required(
-          errorText: widget.title != null
-              ? 'Please enter ${widget.title!.toLowerCase()}'
-              : appLocalizations.common_errors_required));
+          errorText: widget.errorMsg ??
+              (widget.title != null
+                  ? 'Please enter ${widget.title!.toLowerCase()}'
+                  : appLocalizations.common_errors_required)));
     }
 
     return FormBuilderField<ListedSecurityName?>(

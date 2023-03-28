@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 
 class NetChangeWidget extends AppStatelessWidget {
   // final double current;
@@ -50,22 +51,24 @@ class NetChangeWidget extends AppStatelessWidget {
               .replaceFirstMapped('{{duration}}', (match) => days.toString()),
           style: textTheme.bodySmall,
         ),
-        Directionality(
-          textDirection: TextDirection.ltr,
-          child: Builder(builder: (context) {
-            late final String symbol;
-            if (change == 0) {
-              symbol = '+';
-            } else if (change < 0) {
-              symbol = '';
-            } else {
-              symbol = '+';
-            }
-            return Text(
-              '$symbol ${change.convertMoney(addDollar: true)}',
-              style: textTheme.bodyLarge,
-            );
-          }),
+        PrivacyBlurWidget(
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: Builder(builder: (context) {
+              late final String symbol;
+              if (change == 0) {
+                symbol = '+';
+              } else if (change < 0) {
+                symbol = '';
+              } else {
+                symbol = '+';
+              }
+              return Text(
+                '$symbol ${change.convertMoney(addDollar: true)}',
+                style: textTheme.bodyLarge,
+              );
+            }),
+          ),
         ),
         // Row(
         //   children: [

@@ -1,6 +1,5 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:wmd/core/extentions/round_ext.dart';
 
 extension NumExt on num {
   bool isNumeric(String s) {
@@ -35,13 +34,7 @@ extension NumExt on num {
   }
 
   String formatNumberWithDecimal([int digits = 0]) {
-    final val = NumberFormat.compactCurrency(
-      decimalDigits: digits,
-      symbol:
-          '\$', // if you want to add currency symbol then pass that in this else leave it empty.
-    );
-    val.significantDigits = 3;
-    return _removeExtraDecimal(val.format(this));
+    return toDouble().getCompact();
   }
 
   String formatCurrencyCompact([int digits = 0]) {
@@ -68,5 +61,15 @@ extension NumExt on num {
       }
     }
     return number;
+  }
+
+  static NumberFormat getCompactNumberFormat() {
+    final val = NumberFormat.compactCurrency(
+      decimalDigits: 0,
+      symbol:
+          '\$', // if you want to add currency symbol then pass that in this else leave it empty.
+    );
+    // val.significantDigits = 3;
+    return val;
   }
 }

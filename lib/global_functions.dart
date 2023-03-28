@@ -31,6 +31,86 @@ class GlobalFunctions {
     ));
   }
 
+  static showSnackTile(
+    context, {
+    required String title,
+    String? subtitle,
+    Color color = const Color.fromARGB(179, 67, 160, 72),
+  }) {
+    final textTheme = Theme.of(context).textTheme;
+    final snackBar = SnackBar(
+      margin: const EdgeInsets.all(0),
+      padding: const EdgeInsets.all(0),
+      content: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: const BorderRadius.only(
+                bottomRight: Radius.circular(8), topRight: Radius.circular(8)),
+          ),
+          child: SizedBox(
+            height: 60,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 3,
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        bottomLeft: Radius.circular(8)),
+                  ),
+                ),
+                Expanded(
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.check_circle,
+                                color: color,
+                                size: 14,
+                              ),
+                              const SizedBox(width: 2),
+                              Text(title, style: textTheme.bodyLarge),
+                            ],
+                          ),
+                          if (subtitle != null)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16.0),
+                              child: Text(
+                                subtitle,
+                                style: textTheme.bodySmall,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      backgroundColor: Colors.transparent,
+      behavior: SnackBarBehavior.floating,
+    );
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   static Future<bool> confirmProcess(
       {required BuildContext context,
       required String title,

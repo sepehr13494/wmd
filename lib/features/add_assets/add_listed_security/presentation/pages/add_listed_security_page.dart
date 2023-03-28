@@ -104,7 +104,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
           appBar: const AddAssetHeader(title: "", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Add asset",
-              onTap: !enableAddAssetButton ? null : () {
+              onTap: () {
                 formKey.currentState?.validate();
                 if (enableAddAssetButton) {
                   Map<String, dynamic> finalMap = {
@@ -163,6 +163,8 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                         title: appLocalizations
                                             .assetLiabilityForms_forms_listedAssets_inputFields_securityName_label,
                                         child: ListedSecurityTypeAhead(
+                                            errorMsg: appLocalizations
+                                                .assetLiabilityForms_forms_listedAssets_inputFields_securityName_errorMessage,
                                             name: "name",
                                             onChange: (e) {
                                               checkFinalValid(e);
@@ -271,6 +273,8 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_listedAssets_inputFields_assetType_label,
                                       child: AppTextFields.dropDownTextField(
+                                        errorMsg: appLocalizations
+                                            .assetLiabilityForms_forms_listedAssets_inputFields_assetType_errorMessage,
                                         onChanged: (val) async {
                                           await Future.delayed(const Duration(
                                               milliseconds: 200));
@@ -320,6 +324,8 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                       ),
                                     ),
                                     EachTextField(
+                                      tooltipText: appLocalizations
+                                          .assetLiabilityForms_forms_listedAssets_inputFields_acquisitionDate_tooltip,
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_listedAssets_inputFields_acquisitionDate_label,
                                       child: FormBuilderDateTimePicker(
@@ -334,7 +340,9 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                             AutovalidateMode.onUserInteraction,
                                         validator:
                                             FormBuilderValidators.compose([
-                                          FormBuilderValidators.required()
+                                          FormBuilderValidators.required(
+                                              errorText: appLocalizations
+                                                  .assetLiabilityForms_forms_listedAssets_inputFields_acquisitionDate_errorMessage)
                                         ]),
                                         decoration: InputDecoration(
                                             suffixIcon: Icon(
@@ -383,7 +391,8 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                       ),
                                     ),
                                     EachTextField(
-                                      hasInfo: false,
+                                      tooltipText: appLocalizations
+                                          .assetLiabilityForms_forms_listedAssets_inputFields_value_tooltip,
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_listedAssets_inputFields_value_label,
                                       child: AppTextFields.simpleTextField(
@@ -405,6 +414,8 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_listedAssets_inputFields_quantity_label,
                                       child: AppTextFields.simpleTextField(
+                                          errorMsg: appLocalizations
+                                              .assetLiabilityForms_forms_listedAssets_inputFields_quantity_errorMessage,
                                           type: TextFieldType.rate,
                                           onChanged: (val) {
                                             setState(() {
@@ -440,7 +451,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                             const SizedBox(height: 8),
                                             Text(currentDayValue == "--"
                                                 ? currentDayValue
-                                                : "\$ $currentDayValue")
+                                                : "\$$currentDayValue")
                                           ],
                                         ),
                                       ),
@@ -452,6 +463,8 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                           title: appLocalizations
                                               .assetLiabilityForms_forms_listedAssets_inputFields_couponRate_label,
                                           child: AppTextFields.simpleTextField(
+                                            errorMsg: appLocalizations
+                                                .assetLiabilityForms_forms_listedAssets_inputFields_couponRate_errorMessage_message,
                                             extraValidators: [
                                               (val) {
                                                 return ((double.tryParse(
@@ -472,6 +485,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                         ),
                                         const SizedBox(height: 30),
                                         EachTextField(
+                                          hasInfo: false,
                                           title: appLocalizations
                                               .assetLiabilityForms_forms_listedAssets_inputFields_maturityDate_label,
                                           child: FormBuilderDateTimePicker(

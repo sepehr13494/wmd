@@ -42,7 +42,7 @@ class BarChartMainDashboard extends StatelessWidget {
     return FittedBox(
       fit: BoxFit.scaleDown,
       child: Text(
-        "\$ ${(value * x).formatNumber}",
+        (value * x).formatNumberWithDecimal(),
         textAlign: TextAlign.left,
         style: const TextStyle(fontSize: 10),
       ),
@@ -116,7 +116,7 @@ class BarChartMainDashboard extends StatelessWidget {
               );
             },
             maxContentWidth: 200,
-            tooltipBgColor: const Color.fromARGB(255, 38, 49, 52),
+            tooltipBgColor: AppColors.blueCardColor,
           ),
         ),
         gridData: FlGridData(

@@ -23,6 +23,8 @@ import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_sta
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
+const double _padding = 16;
+
 class AssetsListViewPage extends AppStatelessWidget {
   const AssetsListViewPage({Key? key}) : super(key: key);
 
@@ -32,7 +34,7 @@ class AssetsListViewPage extends AppStatelessWidget {
     return BlocProvider(
       create: (context) => sl<AssetViewCubit>(),
       child: Scaffold(
-        appBar: const BaseAppBar(),
+        appBar: const BaseAppBar(enableActions: false),
         bottomSheet: Builder(builder: (context) {
           final state = context.watch<AssetViewCubit>().state;
           if (state is CustodianPage) {
@@ -52,7 +54,7 @@ class AssetsListViewPage extends AppStatelessWidget {
               opacity: 0.5,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: _padding),
               child: ResponsiveWidget(
                 mobile: AssetTabWrapper(),
                 desktop: AddAssetTabletView(),
@@ -141,7 +143,7 @@ class _AssetTabWrapperState extends AppState<AssetTabWrapper>
             Row(
               children: [
                 SizedBox(
-                  width: 300,
+                  width: MediaQuery.of(context).size.width - (_padding * 2),
                   child: TabBar(
                     controller: _tabController,
                     tabs: [
@@ -154,6 +156,7 @@ class _AssetTabWrapperState extends AppState<AssetTabWrapper>
                       Tab(text: appLocalizations.common_labels_custodianBank),
                     ],
                     isScrollable: true,
+                    // labelStyle: textTheme.bodySmall,
                   ),
                 ),
                 const Spacer(),

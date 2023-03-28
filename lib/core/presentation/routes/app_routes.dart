@@ -19,6 +19,8 @@ class AppRoutes {
   static const String onboarding = "onboarding";
   static const String settings = "settings";
   static const String verifyPhone = "verify-phone";
+  static const String verifyOtp = "verify-otp";
+  static const String twoFactorAuth = "two-factor-auth";
   static const String support = "support";
   static const String scheduleCall = "schedule-meeting";
 
@@ -37,4 +39,7 @@ class AppRoutes {
   static const String addPrivateDebt = "add_private_debt";
   static const String addOther = "add_other";
   static const String addLiability = "add_liability";
+
+  //glossary
+  static const String glossary = "glossary";
 }

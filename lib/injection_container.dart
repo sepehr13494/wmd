@@ -109,7 +109,6 @@ import 'package:wmd/features/dashboard/dashboard_charts/domain/use_cases/get_all
 import 'package:wmd/features/dashboard/dashboard_charts/domain/use_cases/get_geographic_usecase.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/use_cases/get_pie_usecase.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
-import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_goe_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/data/data_sources/main_dashboard_remote_data_source.dart';
@@ -117,6 +116,13 @@ import 'package:wmd/features/dashboard/main_dashbaord/data/repositories/main_das
 import 'package:wmd/features/dashboard/main_dashbaord/domain/repositories/main_dashboard_repository.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/domain/use_cases/user_net_worth_usecase.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
+import 'package:wmd/features/dashboard/performance_table/data/data_sources/performance_table_remote_datasource.dart';
+import 'package:wmd/features/dashboard/performance_table/data/repositories/performance_table_repository_impl.dart';
+import 'package:wmd/features/dashboard/performance_table/domain/repositories/performance_table_repository.dart';
+import 'package:wmd/features/dashboard/performance_table/domain/use_cases/get_asset_class_usecase.dart';
+import 'package:wmd/features/dashboard/performance_table/domain/use_cases/get_benchmark_usecase.dart';
+import 'package:wmd/features/dashboard/performance_table/domain/use_cases/get_custodian_performance_usecase.dart';
+import 'package:wmd/features/dashboard/performance_table/presentation/manager/performance_table_cubit.dart';
 import 'package:wmd/features/dashboard/user_status/data/data_sources/user_status_remote_data_source.dart';
 import 'package:wmd/features/dashboard/user_status/data/repositories/user_status_respository_impl.dart';
 import 'package:wmd/features/dashboard/user_status/domain/repositories/user_status_repository.dart';
@@ -128,6 +134,11 @@ import 'package:wmd/features/force_update/data/repositories/force_update_reposit
 import 'package:wmd/features/force_update/domain/repositories/force_update_repository.dart';
 import 'package:wmd/features/force_update/domain/use_cases/get_force_update_usecase.dart';
 import 'package:wmd/features/force_update/presentation/manager/force_update_cubit.dart';
+import 'package:wmd/features/glossary/data/data_sources/glossary_remote_datasource.dart';
+import 'package:wmd/features/glossary/data/repositories/glossary_repository_impl.dart';
+import 'package:wmd/features/glossary/domain/repositories/glossary_repository.dart';
+import 'package:wmd/features/glossary/domain/use_cases/get_glossaries_usecase.dart';
+import 'package:wmd/features/glossary/presentation/manager/glossary_cubit.dart';
 import 'package:wmd/features/help/faq/data/data_sources/faq_remote_data_source.dart';
 import 'package:wmd/features/help/faq/data/repositories/faq_respository_impl.dart';
 import 'package:wmd/features/help/faq/domain/repositories/faq_repository.dart';
@@ -155,12 +166,14 @@ import 'package:wmd/features/profile/profile_reset_password/data/repositories/pr
 import 'package:wmd/features/profile/profile_reset_password/domain/repositories/profile_reset_password_repository.dart';
 import 'package:wmd/features/profile/profile_reset_password/domain/use_cases/reset_usecase.dart';
 import 'package:wmd/features/profile/profile_reset_password/presentation/manager/profile_reset_password_cubit.dart';
+import 'package:wmd/features/profile/two_factor_auth/manager/two_factor_cubit.dart';
 import 'package:wmd/features/profile/verify_phone/data/data_sources/verify_phone_remote_datasource.dart';
 import 'package:wmd/features/profile/verify_phone/data/repositories/verify_phone_repository_impl.dart';
 import 'package:wmd/features/profile/verify_phone/domain/repositories/verify_phone_repository.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_resend_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
+import 'package:wmd/features/settings/data/data_sources/settings_remote_datasource.dart';
 import 'core/data/network/network_helper.dart';
 import 'core/data/network/server_request_manager.dart';
 import 'core/util/app_localization.dart';
@@ -189,6 +202,16 @@ import 'features/asset_detail/valuation/presentation/manager/valuation_cubit.dar
 import 'features/asset_see_more/core/data/data_sources/asset_see_more_remote_datasource.dart';
 import 'features/asset_see_more/core/data/repositories/asset_see_more_repository_impl.dart';
 import 'features/asset_see_more/core/domain/use_cases/get_asset_see_more_usecase.dart';
+
+import 'features/blurred_widget/data/repositories/blurred_privacy_repository_impl.dart';
+import 'features/blurred_widget/domain/repositories/blurred_privacy_repository.dart';
+import 'features/blurred_widget/domain/use_cases/get_is_blurred_usecase.dart';
+import 'features/blurred_widget/domain/use_cases/set_blurred_usecase.dart';
+import 'features/blurred_widget/presentation/manager/blurred_privacy_cubit.dart';
+import 'features/settings/data/repositories/settings_repository_impl.dart';
+import 'features/settings/domain/repositories/settings_repository.dart';
+import 'features/settings/domain/use_cases/get_settings_usecase.dart';
+import 'features/settings/domain/use_cases/put_settings_usecase.dart';
 import 'features/splash/data/repositories/splash_repository_impl.dart';
 import 'features/splash/domain/repositories/splash_repository.dart';
 import 'features/splash/domain/use_cases/check_login_usecase.dart';
@@ -474,13 +497,55 @@ Future<void> init() async {
 
   //ForceUpdate
   sl.registerFactory(() => ForceUpdateCubit(sl()));
-  sl.registerLazySingleton(() => GetForceUpdateUseCase(sl(),sl()));
+  sl.registerLazySingleton(() => GetForceUpdateUseCase(sl(), sl()));
 
   sl.registerLazySingleton<ForceUpdateRepository>(
-          () => ForceUpdateRepositoryImpl(sl()));
+      () => ForceUpdateRepositoryImpl(sl()));
   sl.registerLazySingleton<ForceUpdateRemoteDataSource>(
-          () => ForceUpdateRemoteDataSourceImpl(sl()));
+      () => ForceUpdateRemoteDataSourceImpl(sl()));
 
+  //BlurredPrivacy
+  sl.registerFactory(() => BlurredPrivacyCubit(sl(), sl()));
+  sl.registerLazySingleton(() => GetIsBlurredUseCase(sl()));
+  sl.registerLazySingleton(() => SetBlurredUseCase(sl()));
+  sl.registerLazySingleton<BlurredPrivacyRepository>(
+      () => BlurredPrivacyRepositoryImpl(sl()));
+  // sl.registerLazySingleton<BlurredPrivacyRemoteDataSource>(
+  //     () => BlurredPrivacyRemoteDataSourceImpl(sl()));
+
+  //PerformanceTable
+  sl.registerFactory(() => PerformanceTableCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => PerformanceAssetClassCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => PerformanceBenchmarkCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => PerformanceCustodianCubit(sl(), sl(), sl()));
+  sl.registerLazySingleton(() => GetAssetClassUseCase(sl()));
+  sl.registerLazySingleton(() => GetBenchmarkUseCase(sl()));
+  sl.registerLazySingleton(() => GetCustodianPerformanceUseCase(sl()));
+
+  sl.registerLazySingleton<PerformanceTableRepository>(
+      () => PerformanceTableRepositoryImpl(sl()));
+  sl.registerLazySingleton<PerformanceTableRemoteDataSource>(
+      () => PerformanceTableRemoteDataSourceImpl(sl()));
+
+  //Glossary
+  sl.registerFactory(() => GlossaryCubit(sl()));
+  sl.registerLazySingleton(() => GetGlossariesUseCase(sl()));
+
+  sl.registerLazySingleton<GlossaryRepository>(
+          () => GlossaryRepositoryImpl(sl()));
+  sl.registerLazySingleton<GlossaryRemoteDataSource>(
+          () => GlossaryRemoteDataSourceImpl(sl()));
+
+  //Settings
+
+  sl.registerFactory(() => TwoFactorCubit(sl(), sl()));
+  sl.registerLazySingleton(() => GetSettingsUseCase(sl()));
+  sl.registerLazySingleton(() => PutSettingsUseCase(sl()));
+
+  sl.registerLazySingleton<SettingsRepository>(
+      () => SettingsRepositoryImpl(sl()));
+  sl.registerLazySingleton<SettingsRemoteDataSource>(
+      () => SettingsRemoteDataSourceImpl(sl()));
 
   await initExternal();
   await initUtils();

@@ -61,7 +61,11 @@ class _SplashPageState extends State<SplashPage> {
               BlocListener<ForceUpdateCubit, ForceUpdateState>(
                 listener: BlocHelper.defaultBlocListener(listener: (context, state) {
                   if(state is GetForceUpdateLoaded){
+
                     bool isVersionGreaterThan(String newVersion, String currentVersion){
+                      if(newVersion == currentVersion){
+                        return true;
+                      }
                       List<String> currentV = currentVersion.split(".");
                       List<String> newV = newVersion.split(".");
                       bool a = false;

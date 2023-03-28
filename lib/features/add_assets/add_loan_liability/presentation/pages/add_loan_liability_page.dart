@@ -19,6 +19,7 @@ import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_head
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
 import 'package:wmd/injection_container.dart';
+import 'package:wmd/core/extentions/string_ext.dart';
 
 class AddLoanLiabilityPage extends StatefulWidget {
   const AddLoanLiabilityPage({Key? key}) : super(key: key);
@@ -30,6 +31,7 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
   final privateDebtFormKey = GlobalKey<FormBuilderState>();
   bool enableAddAssetButton = false;
   bool isPersonalLoan = false;
+  String? outStandingBalance;
   DateTime? aqusitionDateValue;
   DateTime? endDateValue;
   @override
@@ -83,7 +85,7 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
           appBar: const AddAssetHeader(title: "", showExitModal: true),
           bottomSheet: AddAssetFooter(
               buttonText: "Add liability",
-              onTap: !enableAddAssetButton ? null : () {
+              onTap: () {
                 privateDebtFormKey.currentState?.validate();
                 if (enableAddAssetButton) {
                   Map<String, dynamic> finalMap = {
@@ -229,8 +231,12 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_loan_inputFields_loanAmount_label,
                                       child: AppTextFields.simpleTextField(
-                                          required: false,
-                                          onChanged: checkFinalValid,
+                                          onChanged: (val) {
+                                            checkFinalValid(val);
+                                            setState(() {
+                                              outStandingBalance = val;
+                                            });
+                                          },
                                           type: TextFieldType.money,
                                           keyboardType: TextInputType.number,
                                           name: "loanAmountOutstanding",
@@ -246,6 +252,18 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                                           type: TextFieldType.money,
                                           keyboardType: TextInputType.number,
                                           name: "loanAmountSanctioned",
+                                          extraValidators: [
+                                            (val) {
+                                              return (val != null &&
+                                                      val.convertMoneyToInt() <
+                                                          (outStandingBalance
+                                                                  ?.convertMoneyToInt() ??
+                                                              0))
+                                                  ? appLocalizations
+                                                      .assetLiabilityForms_forms_loan_inputFields_loanAmountSanctioned_errorMessage
+                                                  : null;
+                                            }
+                                          ],
                                           hint: appLocalizations
                                               .assetLiabilityForms_forms_loan_inputFields_loanAmountSanctioned_placeholder),
                                     ),

@@ -1,25 +1,16 @@
-import 'dart:async';
-
-import 'package:countries_world_map/countries_world_map.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
-import 'package:wmd/core/presentation/widgets/loading_widget.dart';
-import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_manager.dart';
-import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_geographic_entity.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/base_asset_view.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/inside_world_map_widget.dart';
-
-import '../../data/models/get_geographic_response.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/shimmer/map_chart_shimmer.dart';
 import '../manager/dashboard_goe_cubit.dart';
 import '../models/each_asset_model.dart';
-import 'countries_json.dart';
 
 Widget _buildEmptyChart(
     AppLocalizations appLocalizations, TextTheme textTheme) {
@@ -51,7 +42,6 @@ class RandomWorldMapGenrator extends StatefulWidget {
 }
 
 class _RandomWorldMapGenratorState extends AppState<RandomWorldMapGenrator> {
-
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
@@ -82,9 +72,10 @@ class _RandomWorldMapGenratorState extends AppState<RandomWorldMapGenrator> {
                   onMoreTap: () {
                     context.read<TabManager>().changeTab(1);
                   },
-                  child: InsideWorldMapWidget(getGeographicEntity: state.getGeographicEntity),
+                  child: InsideWorldMapWidget(
+                      getGeographicEntity: state.getGeographicEntity),
                 )
-              : const LoadingWidget();
+              : const MapChartShimmer();
         },
       );
     });
