@@ -77,7 +77,9 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                         .copyWith(
                                             minimumSize:
                                                 MaterialStateProperty.all(
-                                                    const Size(0, 48))),
+                                                    const Size(0, 48)),
+                                      backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor),
+                                    ),
                                   ),
                                   iconTheme: appTheme.iconTheme
                                       .copyWith(color: appTheme.primaryColor)),

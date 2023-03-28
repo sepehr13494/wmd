@@ -137,7 +137,7 @@ class BaseAssetView extends AppStatelessWidget {
       final List<EachAssetViewModel> nonZeroList =
           assets.where((element) => element.value != 0).toList();
       return ListView.separated(
-          // physics: const NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemBuilder: (context, index) {
             EachAssetViewModel asset = nonZeroList[index];
