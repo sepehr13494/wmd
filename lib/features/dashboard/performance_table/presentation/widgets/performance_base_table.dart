@@ -116,11 +116,9 @@ class _PerformanceBaseTableState extends AppState<PerformanceBaseTable> {
                                         child: Align(
                                           alignment:
                                               AlignmentDirectional.centerStart,
-                                          child: PrivacyBlurWidget(
-                                            child: Text(
-                                              insideValue,
-                                              style: textTheme.bodySmall,
-                                            ),
+                                          child: Text(
+                                            insideValue,
+                                            style: textTheme.bodySmall,
                                           ),
                                         ),
                                       ),
@@ -135,6 +133,7 @@ class _PerformanceBaseTableState extends AppState<PerformanceBaseTable> {
                     ),
                     Expanded(
                       child: Scrollbar(
+                        thumbVisibility: true,
                         trackVisibility: true,
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,

@@ -80,6 +80,7 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                           ),
                           elevatedButtonTheme: ElevatedButtonThemeData(
                             style: appTheme.outlinedButtonTheme.style!.copyWith(
+                              backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor),
                                 minimumSize: MaterialStateProperty.all(
                                     const Size(0, 38))),
                           ),
