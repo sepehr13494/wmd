@@ -147,7 +147,7 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
             // AppColors.chartColor.withOpacity(0.3),
             AppColors.chartColor.withOpacity(0.5),
             AppColors.chartColor.withOpacity(0.3),
-            Colors.red.withOpacity(0.3),
+            Colors.red.withOpacity(0.05),
             Colors.red.withOpacity(0.5),
             // AppColors.redChartColor.withOpacity(0.3),
           ],
