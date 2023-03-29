@@ -231,11 +231,13 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
         const SizedBox.shrink(),
         Padding(
           padding: padding,
-          child: Text(
-            note,
-            style: textTheme.labelMedium,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
+          child: PrivacyBlurWidget(
+            child: Text(
+              note,
+              style: textTheme.labelMedium,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ),
         const SizedBox.shrink(),
