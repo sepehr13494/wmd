@@ -12,6 +12,7 @@ import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/basic_timer_widget.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
+import 'package:wmd/features/profile/verify_phone/domain/use_cases/get_send_otp_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_resend_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/widgets/otp_feild_widget.dart';
@@ -69,7 +70,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
           _fieldSix.text;
 
       context.read<VerifyPhoneCubit>().postVerifyPhone(map: {
-        "identifier": sl<PostResendVerifyPhoneUseCase>().identifier,
+        "identifier": sl<GetSendOtpUseCase>().identifier,
         "code": otpTemp
       });
     }
