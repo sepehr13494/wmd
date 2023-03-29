@@ -68,8 +68,7 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
             final settingsData = state.entity;
 
             setState(() {
-              twoFactorEnabled = settingsData.emailTwoFactorEnabled ||
-                  settingsData.smsTwoFactorEnabled;
+              twoFactorEnabled = settingsData.twoFactorEnabled;
               emailTwoFactorEnabled = settingsData.emailTwoFactorEnabled;
               textTwoFactorEnabled = settingsData.smsTwoFactorEnabled;
             });
@@ -77,7 +76,7 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
         }), builder: (context, state) {
           return Scaffold(
               appBar: AddAssetHeader(
-                title: "Two-factor authentication",
+                title: appLocalizations.profile_twoFactor_header,
                 considerFirstTime: false,
               ),
               body: SingleChildScrollView(

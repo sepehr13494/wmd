@@ -170,6 +170,7 @@ import 'package:wmd/features/profile/two_factor_auth/manager/two_factor_cubit.da
 import 'package:wmd/features/profile/verify_phone/data/data_sources/verify_phone_remote_datasource.dart';
 import 'package:wmd/features/profile/verify_phone/data/repositories/verify_phone_repository_impl.dart';
 import 'package:wmd/features/profile/verify_phone/domain/repositories/verify_phone_repository.dart';
+import 'package:wmd/features/profile/verify_phone/domain/use_cases/get_send_otp_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_resend_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
@@ -444,9 +445,10 @@ Future<void> init() async {
       () => FaqRemoteDataSourceImpl(sl()));
 
   //profile phone verify
-  sl.registerFactory(() => VerifyPhoneCubit(sl(), sl()));
+  sl.registerFactory(() => VerifyPhoneCubit(sl(), sl(), sl()));
   sl.registerLazySingleton(() => PostVerifyPhoneUseCase(sl()));
   sl.registerLazySingleton(() => PostResendVerifyPhoneUseCase(sl()));
+  sl.registerLazySingleton(() => GetSendOtpUseCase(sl()));
   sl.registerLazySingleton<VerifyPhoneRepository>(
       () => VerifyPhoneRepositoryImpl(sl()));
   sl.registerLazySingleton<VerifyPhoneRemoteDataSource>(
@@ -532,9 +534,9 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetGlossariesUseCase(sl()));
 
   sl.registerLazySingleton<GlossaryRepository>(
-          () => GlossaryRepositoryImpl(sl()));
+      () => GlossaryRepositoryImpl(sl()));
   sl.registerLazySingleton<GlossaryRemoteDataSource>(
-          () => GlossaryRemoteDataSourceImpl(sl()));
+      () => GlossaryRemoteDataSourceImpl(sl()));
 
   //Settings
 
