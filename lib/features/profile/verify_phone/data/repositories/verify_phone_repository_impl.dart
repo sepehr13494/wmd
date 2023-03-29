@@ -1,3 +1,4 @@
+import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
@@ -34,6 +35,18 @@ class VerifyPhoneRepositoryImpl implements VerifyPhoneRepository {
       PostResendVerifyPhoneParams params) async {
     try {
       final result = await remoteDataSource.postResendVerifyPhone(params);
+      return Right(result);
+    } on ServerException catch (error) {
+      return Left(ServerFailure.fromServerException(error));
+    } on AppException catch (error) {
+      return Left(AppFailure.fromAppException(error));
+    }
+  }
+
+  @override
+  Future<Either<Failure, OtpSentEntity>> getSendOtp(NoParams params) async {
+    try {
+      final result = await remoteDataSource.getSendOtp(params);
       return Right(result);
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
