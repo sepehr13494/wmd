@@ -1,18 +1,93 @@
 import 'package:equatable/equatable.dart';
 
-class PostValuationParams extends Equatable{
-    const PostValuationParams();
+class PostValuationParams extends Equatable {
+  final double? amount;
+  final double? amountInUsd;
+  final String? assetOrLiabilityId;
+  final String? currencyCode;
+  final double? currencyToUsdFxRate;
+  final String? originCode;
+  final String? wealthType;
+  final DateTime? valuatedAt;
+  final double? quantity;
+  final double? buyPricePerUnit;
+  final String? note;
+  final String? type;
 
-    factory PostValuationParams.fromJson(Map<String, dynamic> json) => const PostValuationParams(
-    );
+  const PostValuationParams({
+    this.amount,
+    this.amountInUsd,
+    this.assetOrLiabilityId,
+    this.currencyCode,
+    this.currencyToUsdFxRate,
+    this.originCode,
+    this.wealthType,
+    this.valuatedAt,
+    this.quantity,
+    this.buyPricePerUnit,
+    this.note,
+    this.type,
+  });
 
-    Map<String, dynamic> toJson() => {
-    };
+  factory PostValuationParams.fromJson(Map<String, dynamic> json) =>
+      PostValuationParams(
+          amount: json["amount"],
+          amountInUsd: json["amountInUsd"],
+          assetOrLiabilityId: json["assetOrLiabilityId"],
+          currencyCode: json["currencyCode"],
+          currencyToUsdFxRate: json["currencyToUsdFxRate"],
+          originCode: json["originCode"],
+          wealthType: json["wealthType"],
+          valuatedAt: json["valuatedAt"],
+          quantity: json["quantity"],
+          buyPricePerUnit: json["buyPricePerUnit"],
+          note: json["note"],
+          type: json["type"]);
 
-    @override
-    // TODO: implement props
-    List<Object?> get props => [];
-    
-    static final tParams = PostValuationParams();
+  Map<String, dynamic> toJson() => {
+        "amount": amount,
+        "amountInUsd": amountInUsd,
+        "assetOrLiabilityId": assetOrLiabilityId,
+        "currencyCode": currencyCode,
+        "currencyToUsdFxRate": currencyToUsdFxRate,
+        "originCode": originCode,
+        "wealthType": wealthType,
+        "valuatedAt": valuatedAt,
+        "quantity": quantity,
+        "buyPricePerUnit": buyPricePerUnit,
+        "note": note,
+        "type": type,
+      };
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        amount,
+        amountInUsd,
+        assetOrLiabilityId,
+        currencyCode,
+        currencyToUsdFxRate,
+        originCode,
+        wealthType,
+        valuatedAt,
+        quantity,
+        buyPricePerUnit,
+        note,
+        type
+      ];
+
+  static final tParams = PostValuationParams(
+    amount: 23232,
+    amountInUsd: 2442,
+    assetOrLiabilityId: "test",
+    currencyCode: "test",
+    currencyToUsdFxRate: 2424,
+    originCode: "test",
+    wealthType: "test",
+    valuatedAt: DateTime.parse('2022-10-05T21:00:00.000Z'),
+    quantity: 2332,
+    buyPricePerUnit: 244,
+    note: "test",
+    type: "test",
+  );
 }
-    
