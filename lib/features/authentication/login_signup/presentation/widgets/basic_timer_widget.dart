@@ -73,7 +73,9 @@ class _BasicTimerWidgetState extends AppState<BasicTimerWidget> {
           RichText(
               text: TextSpan(style: const TextStyle(height: 1.3), children: [
             TextSpan(
-              text: "Your code will expire in:",
+              text: appLocalizations.profile_otpVerification_text_codeWillExpire
+                  .split('{{sec}}')
+                  .first,
               style: textTheme.bodyMedium,
             ),
           ])),
@@ -90,7 +92,7 @@ class _BasicTimerWidgetState extends AppState<BasicTimerWidget> {
                       style: TextStyle(color: Theme.of(context).primaryColor),
                     ))
                 : Text(
-                    "Your verification code has expired. Click on 'Resend code' to receive a new one.",
+                    appLocalizations.profile_otpVerification_error_expiredOTP,
                     style: TextStyle(color: Colors.red[800]),
                     textAlign: TextAlign.center,
                   )),

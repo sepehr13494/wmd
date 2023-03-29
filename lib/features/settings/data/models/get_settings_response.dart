@@ -3,6 +3,7 @@ import '../../domain/entities/get_settings_entity.dart';
 class GetSettingsResponse extends GetSettingsEntity {
   const GetSettingsResponse(
       {required super.isPrivacyMode,
+      required super.twoFactorEnabled,
       required super.emailTwoFactorEnabled,
       required super.smsTwoFactorEnabled});
 
@@ -10,6 +11,7 @@ class GetSettingsResponse extends GetSettingsEntity {
 
   factory GetSettingsResponse.fromJson(Map<String, dynamic> json) =>
       GetSettingsResponse(
+        twoFactorEnabled: json["twoFactorEnabled"],
         emailTwoFactorEnabled: json["emailTwoFactorEnabled"],
         isPrivacyMode: json["isPrivacyMode"],
         smsTwoFactorEnabled: json["smsTwoFactorEnabled"],
@@ -17,6 +19,7 @@ class GetSettingsResponse extends GetSettingsEntity {
 
   static final tResponse = [
     const GetSettingsResponse(
+        twoFactorEnabled: true,
         emailTwoFactorEnabled: true,
         isPrivacyMode: true,
         smsTwoFactorEnabled: true)
