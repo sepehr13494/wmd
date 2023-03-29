@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/core/extentions/round_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
@@ -133,7 +134,7 @@ class OverViewCard extends AppStatelessWidget {
                                               number: state.netWorthObj.assets
                                                   .changePercentage,
                                               text:
-                                                  "${state.netWorthObj.assets.changePercentage.toStringAsFixed(1)}%"),
+                                                  "${state.netWorthObj.assets.changePercentage.toStringFixedZeroless()}%"),
                                         ],
                                       ),
                                     ],

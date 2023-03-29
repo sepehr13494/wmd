@@ -23,6 +23,10 @@ extension ExString on String {
 }
 
 extension Ex on double {
+  String toStringFixedZeroless() {
+    return toStringAsFixed(1).removeZero();
+  }
+
   String cR() {
     return roundV3(decimals: 1).toString().removeZero(); //when desc
     //return this.toString(); //when desc

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wmd/core/extentions/round_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/info_icon.dart';
@@ -27,14 +28,14 @@ class YtdItdWidget extends AppStatelessWidget {
       [
         AppLocalizations.of(context).assets_label_ytd,
         ytd,
-        "${ytd.toStringAsFixed(1)}%",
+        "${ytd.toStringFixedZeroless()}%",
         appLocalizations.assets_tooltips_ytd
         // "Year-to-date:the period from the first of\nthe calendar year to date of the\ncommunication."
       ],
       [
         AppLocalizations.of(context).assets_label_itd,
         itd,
-        "${itd.toStringAsFixed(1)}%",
+        "${itd.toStringFixedZeroless()}%",
         appLocalizations.assets_tooltips_itd
         // "Incenption-to-date:the period from the\nestablishment of the portfolio/investment to\nthe date of the communication."
       ],
@@ -70,7 +71,11 @@ class YtdItdWidget extends AppStatelessWidget {
                           ),
                       ],
                     ),
-                    ChangeWidget(number: item[1], text: item[2],tooltipMessage: (item[1] >= 99900 || item[1] <= -100) ? "" : null),
+                    ChangeWidget(
+                        number: item[1],
+                        text: item[2],
+                        tooltipMessage:
+                            (item[1] >= 99900 || item[1] <= -100) ? "" : null),
                   ],
                 ),
               ],
@@ -80,5 +85,4 @@ class YtdItdWidget extends AppStatelessWidget {
       }),
     );
   }
-
 }
