@@ -216,6 +216,8 @@ class SettingsMobileView extends AppStatelessWidget {
             final e = pages[index];
             return ExpansionTile(
               title: Text(e.key),
+              collapsedIconColor: Theme.of(context).primaryColor,
+              iconColor: Theme.of(context).primaryColor,
               backgroundColor: AppColors.backgroundColorPageDark,
               children: [e.value],
               onExpansionChanged: (value) {
