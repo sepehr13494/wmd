@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/core/extentions/round_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
@@ -70,7 +71,7 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                           child: ChangeWidget(
                             number: asset.inceptionToDate,
                             text:
-                                "${asset.inceptionToDate.toStringAsFixed(1)}%",
+                                "${asset.inceptionToDate.toStringFixedZeroless()}%",
                             tooltipMessage: (asset.inceptionToDate >= 99900 ||
                                     asset.inceptionToDate <= -100)
                                 ? appLocalizations
@@ -84,7 +85,8 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                           fit: BoxFit.scaleDown,
                           child: ChangeWidget(
                             number: asset.yearToDate,
-                            text: "${asset.yearToDate.toStringAsFixed(1)}%",
+                            text:
+                                "${asset.yearToDate.toStringFixedZeroless()}%",
                             tooltipMessage: (asset.yearToDate >= 99900 ||
                                     asset.yearToDate <= -100)
                                 ? appLocalizations
