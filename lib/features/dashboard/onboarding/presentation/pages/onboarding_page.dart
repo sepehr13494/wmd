@@ -17,6 +17,8 @@ import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_sta
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
+import '../../../../../core/presentation/widgets/loading_widget.dart';
+
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({Key? key}) : super(key: key);
 
@@ -60,8 +62,8 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
                   }
                 }
               }),
-              builder: BlocHelper.defaultBlocBuilder(builder: (context, state) {
-                return CarouselSlider(
+              builder: (context, state) {
+                return state is UserStatusLoaded ? CarouselSlider(
                   carouselController: buttonCarouselController,
                   options: CarouselOptions(
                       height: MediaQuery.of(context).size.height * 0.8,
@@ -105,7 +107,7 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
                                             color: currentPage == 0
                                                 ? Theme.of(context).primaryColor
                                                 : AppColors
-                                                    .dashBoardGreyTextColor,
+                                                .dashBoardGreyTextColor,
                                           ),
                                         ),
                                       ),
@@ -119,7 +121,7 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
                                             color: currentPage == 1
                                                 ? Theme.of(context).primaryColor
                                                 : AppColors
-                                                    .dashBoardGreyTextColor,
+                                                .dashBoardGreyTextColor,
                                           ),
                                         ),
                                       ),
@@ -133,7 +135,7 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
                                             color: currentPage == 2
                                                 ? Theme.of(context).primaryColor
                                                 : AppColors
-                                                    .dashBoardGreyTextColor,
+                                                .dashBoardGreyTextColor,
                                           ),
                                         ),
                                       ),
@@ -151,9 +153,9 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
                                                 .showOnboarding) {
                                               Map<String, dynamic> map = {
                                                 "email":
-                                                    sl<GetUserStatusUseCase>()
-                                                            .userEmail ??
-                                                        ".",
+                                                sl<GetUserStatusUseCase>()
+                                                    .userEmail ??
+                                                    ".",
                                                 "loginAt": DateTime.now()
                                                     .toIso8601String()
                                               };
@@ -186,9 +188,9 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
                                                   .showOnboarding) {
                                                 Map<String, dynamic> map = {
                                                   "email":
-                                                      sl<GetUserStatusUseCase>()
-                                                              .userEmail ??
-                                                          ".",
+                                                  sl<GetUserStatusUseCase>()
+                                                      .userEmail ??
+                                                      ".",
                                                   "loginAt": DateTime.now()
                                                       .toIso8601String()
                                                 };
@@ -224,8 +226,8 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
                       },
                     );
                   }).toList(),
-                );
-              }),
+                ) : const LoadingWidget();
+              },
             )));
   }
 }

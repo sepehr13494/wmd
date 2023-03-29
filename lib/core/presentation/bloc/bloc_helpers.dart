@@ -106,12 +106,12 @@ class BlocHelper {
     };
   }
 
-  static BlocWidgetBuilder defaultBlocBuilder({
+  static BlocWidgetBuilder errorHiderBlocBuilder({
     required BlocWidgetBuilder builder,
   }) {
     return (context, state) {
-      if (state is LoadingState) {
-        return const LoadingWidget();
+      if (state is ErrorState) {
+        return const SizedBox();
       } else {
         return builder(context, state);
       }
