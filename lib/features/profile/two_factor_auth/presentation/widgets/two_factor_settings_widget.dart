@@ -20,11 +20,13 @@ class TwoFactorSetting extends AppStatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Two-factor authentication",
+                      appLocalizations
+                          .profile_twofactorauthentication_page_heading,
                       style: textTheme.titleMedium,
                     ),
                     Text(
-                      "Two-factor authentication protects your account by adding an extra security step when you sign in.",
+                      appLocalizations
+                          .profile_twofactorauthentication_page_description,
                       style: textTheme.bodyMedium,
                     ),
                     if (state is TwoFactorLoaded &&
@@ -34,8 +36,9 @@ class TwoFactorSetting extends AppStatelessWidget {
                           Icon(Icons.check_circle, color: Colors.green[300]),
                           const SizedBox(width: 10),
                           Text(
-                            "Enabled for email address",
-                            style: textTheme.titleMedium,
+                            appLocalizations
+                                .profile_twofactorauthentication_label_enabledEmail,
+                            style: textTheme.titleSmall,
                           ),
                         ],
                       ),
@@ -46,8 +49,9 @@ class TwoFactorSetting extends AppStatelessWidget {
                           Icon(Icons.check_circle, color: Colors.green[300]),
                           const SizedBox(width: 10),
                           Text(
-                            "Enabled for mobile phone number",
-                            style: textTheme.titleMedium,
+                            appLocalizations
+                                .profile_twofactorauthentication_label_enabledPhoneNumber,
+                            style: textTheme.titleSmall,
                           ),
                         ],
                       ),
@@ -55,7 +59,8 @@ class TwoFactorSetting extends AppStatelessWidget {
                         onPressed: () {
                           context.goNamed(AppRoutes.twoFactorAuth);
                         },
-                        child: Text("Update 2FA"))
+                        child: Text(appLocalizations
+                            .profile_twofactorauthentication_button_update2FA))
                   ]
                       .map((e) => Padding(
                             padding: const EdgeInsets.symmetric(

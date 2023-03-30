@@ -24,6 +24,8 @@ class VerifyPhoneRepositoryImpl implements VerifyPhoneRepository {
       final result = await remoteDataSource.postVerifyPhone(params);
       return const Right(AppSuccess(message: "successfully done"));
     } on ServerException catch (error) {
+      print(error.message);
+
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error) {
       return Left(AppFailure.fromAppException(error));

@@ -1,33 +1,35 @@
 import 'dart:async';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 
-class BasicTimerWidget extends StatefulWidget {
+class ResendTimerWidget extends StatefulWidget {
   final int timerTime;
   final Function handleOtpExpired;
-  const BasicTimerWidget(
+  const ResendTimerWidget(
       {Key? key, this.timerTime = 20, required this.handleOtpExpired})
       : super(key: key);
 
   @override
-  AppState<BasicTimerWidget> createState() => _BasicTimerWidgetState();
+  AppState<ResendTimerWidget> createState() => _ResendTimerWidgetState();
 }
 
-class _BasicTimerWidgetState extends AppState<BasicTimerWidget> {
+class _ResendTimerWidgetState extends AppState<ResendTimerWidget> {
   Timer? timer;
   final interval = const Duration(seconds: 1);
   bool canSend = true;
 
-  int timerMaxSeconds = 600;
+  int timerMaxSeconds = 60;
 
   int currentSeconds = 0;
 
   String newVerifyToken = "";
 
   String get timerText =>
-      '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
+      ((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0');
 
   @override
   void initState() {
@@ -49,8 +51,6 @@ class _BasicTimerWidgetState extends AppState<BasicTimerWidget> {
           currentSeconds = 0;
           canSend = true;
         });
-
-        widget.handleOtpExpired();
       }
     });
   }
@@ -73,29 +73,30 @@ class _BasicTimerWidgetState extends AppState<BasicTimerWidget> {
           RichText(
               text: TextSpan(style: const TextStyle(height: 1.3), children: [
             TextSpan(
-              text: appLocalizations.profile_otpVerification_text_codeWillExpire
-                  .split('{{sec}}')
-                  .first,
-              style: textTheme.bodyMedium,
+              text: " Resend it in ",
+              style: textTheme.bodyMedium!.apply(
+                decoration: TextDecoration.underline,
+              ),
+            ),
+            TextSpan(
+              text: timerText,
+              style: textTheme.bodyMedium!.apply(
+                decoration: TextDecoration.underline,
+              ),
             ),
           ])),
-        if (!canSend)
-          const SizedBox(
-            width: 8,
-          ),
-        Flexible(
-            child: !canSend
-                ? Directionality(
-                    textDirection: TextDirection.ltr,
-                    child: Text(
-                      timerText,
-                      style: TextStyle(color: Theme.of(context).primaryColor),
-                    ))
-                : Text(
-                    appLocalizations.profile_otpVerification_error_expiredOTP,
-                    style: TextStyle(color: Colors.red[800]),
-                    textAlign: TextAlign.center,
-                  )),
+        if (canSend)
+          RichText(
+              text: TextSpan(style: const TextStyle(height: 1.3), children: [
+            TextSpan(
+              text: appLocalizations.profile_otpVerification_button_resendSMS,
+              style: textTheme.bodyMedium!.toLinkStyle(context),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  widget.handleOtpExpired();
+                },
+            ),
+          ])),
       ],
     );
   }
