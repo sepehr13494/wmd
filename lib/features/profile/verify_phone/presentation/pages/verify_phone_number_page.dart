@@ -106,7 +106,8 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                         SizedBox(height: responsiveHelper.bigger24Gap),
 
                         Text(
-                          "Verification code",
+                          appLocalizations
+                              .profile_otpVerification_text_verificationCode,
                           style: textTheme.bodySmall,
                           textAlign: TextAlign.center,
                         ),
@@ -127,7 +128,8 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                           height: 30,
                         ),
                         Text(
-                          "Didn't get the verification code?",
+                          appLocalizations
+                              .profile_otpVerification_text_verificationCodeNotReceived,
                           style: textTheme.bodySmall,
                           textAlign: TextAlign.center,
                         ),

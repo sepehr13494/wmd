@@ -3,11 +3,12 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
+import 'package:wmd/features/dashboard/performance_table/presentation/models/performance_value_obj.dart';
 
 class PerformanceBaseTable extends StatefulWidget {
   final List<String> titles;
   final List<double> widths;
-  final List<List<String>> values;
+  final List<List<PerformanceValueObj>> values;
 
   const PerformanceBaseTable(
       {Key? key,
@@ -96,7 +97,7 @@ class _PerformanceBaseTableState extends AppState<PerformanceBaseTable> {
                             return Column(
                               children:
                                   List.generate(visibleValues.length, (index) {
-                                final List<String> value = visibleValues[index];
+                                final List<PerformanceValueObj> value = visibleValues[index];
                                 return Container(
                                   color: index.isEven
                                       ? Theme.of(context).cardColor
@@ -106,7 +107,7 @@ class _PerformanceBaseTableState extends AppState<PerformanceBaseTable> {
                                           : AppColors
                                               .darkCardColorForLightTheme),
                                   child: Builder(builder: (context) {
-                                    final String insideValue = value[0];
+                                    final PerformanceValueObj insideValue = value[0];
                                     return SizedBox(
                                       height: 64,
                                       width: widget.widths[0],
@@ -116,9 +117,12 @@ class _PerformanceBaseTableState extends AppState<PerformanceBaseTable> {
                                         child: Align(
                                           alignment:
                                               AlignmentDirectional.centerStart,
-                                          child: Text(
-                                            insideValue,
-                                            style: textTheme.bodySmall,
+                                          child: PrivacyBlurWidget(
+                                            blur: insideValue.shouldBlur,
+                                            child: Text(
+                                              insideValue.value,
+                                              style: textTheme.bodySmall,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -131,92 +135,100 @@ class _PerformanceBaseTableState extends AppState<PerformanceBaseTable> {
                         ),
                       ],
                     ),
-                    Expanded(
-                      child: Scrollbar(
-                        thumbVisibility: true,
-                        trackVisibility: true,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Column(
-                            children: [
-                              Row(
-                                children: List.generate(
-                                    widget.titles.length - 1, (index) {
-                                  return SizedBox(
-                                    height: 64,
-                                    width: widget.widths[index + 1],
-                                    child: Align(
-                                      alignment:
-                                          AlignmentDirectional.centerStart,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8),
-                                        child: Text(
-                                          widget.titles[index + 1],
-                                          style: textTheme.titleSmall,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }),
-                              ),
-                              Card(
-                                margin: EdgeInsets.zero,
-                                child: Builder(builder: (context) {
-                                  final visibleValues = widget.values.sublist(
-                                      0,
-                                      ((page * perPage) < widget.values.length
-                                          ? page * perPage
-                                          : widget.values.length));
-                                  return Column(
+                    Builder(
+                      builder: (context) {
+                        final ScrollController scrollController = ScrollController();
+                        return Expanded(
+                          child: Scrollbar(
+                            thumbVisibility: true,
+                            trackVisibility: true,
+                            controller: scrollController,
+                            child: SingleChildScrollView(
+                              controller: scrollController,
+                              scrollDirection: Axis.horizontal,
+                              child: Column(
+                                children: [
+                                  Row(
                                     children: List.generate(
-                                        visibleValues.length, (index) {
-                                      final List<String> value =
-                                          visibleValues[index];
-                                      return Container(
-                                        color: index.isEven
-                                            ? Theme.of(context).cardColor
-                                            : (Theme.of(context).brightness ==
-                                                    Brightness.dark
-                                                ? AppColors
-                                                    .darkCardColorForDarkTheme
-                                                : AppColors
-                                                    .darkCardColorForLightTheme),
-                                        child: Row(
-                                          children: List.generate(
-                                              value.length - 1, (index) {
-                                            final String insideValue =
-                                                value[index + 1];
-                                            return SizedBox(
-                                              height: 64,
-                                              width: widget.widths[index + 1],
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 12),
-                                                child: Align(
-                                                  alignment:
-                                                      AlignmentDirectional
-                                                          .centerStart,
-                                                  child: PrivacyBlurWidget(
-                                                    child: Text(
-                                                      insideValue,
-                                                      style: textTheme.bodySmall,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          }),
+                                        widget.titles.length - 1, (index) {
+                                      return SizedBox(
+                                        height: 64,
+                                        width: widget.widths[index + 1],
+                                        child: Align(
+                                          alignment:
+                                              AlignmentDirectional.centerStart,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8),
+                                            child: Text(
+                                              widget.titles[index + 1],
+                                              style: textTheme.titleSmall,
+                                            ),
+                                          ),
                                         ),
                                       );
                                     }),
-                                  );
-                                }),
+                                  ),
+                                  Card(
+                                    margin: EdgeInsets.zero,
+                                    child: Builder(builder: (context) {
+                                      final visibleValues = widget.values.sublist(
+                                          0,
+                                          ((page * perPage) < widget.values.length
+                                              ? page * perPage
+                                              : widget.values.length));
+                                      return Column(
+                                        children: List.generate(
+                                            visibleValues.length, (index) {
+                                          final List<PerformanceValueObj> value =
+                                              visibleValues[index];
+                                          return Container(
+                                            color: index.isEven
+                                                ? Theme.of(context).cardColor
+                                                : (Theme.of(context).brightness ==
+                                                        Brightness.dark
+                                                    ? AppColors
+                                                        .darkCardColorForDarkTheme
+                                                    : AppColors
+                                                        .darkCardColorForLightTheme),
+                                            child: Row(
+                                              children: List.generate(
+                                                  value.length - 1, (index) {
+                                                final PerformanceValueObj insideValue =
+                                                    value[index + 1];
+                                                return SizedBox(
+                                                  height: 64,
+                                                  width: widget.widths[index + 1],
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.symmetric(
+                                                            horizontal: 12),
+                                                    child: Align(
+                                                      alignment:
+                                                          AlignmentDirectional
+                                                              .centerStart,
+                                                      child: PrivacyBlurWidget(
+                                                        blur: insideValue.shouldBlur,
+                                                        child: Text(
+                                                          insideValue.value,
+                                                          style: textTheme.bodySmall,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              }),
+                                            ),
+                                          );
+                                        }),
+                                      );
+                                    }),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
+                        );
+                      }
                     ),
                   ],
                 ),

@@ -4,14 +4,15 @@ import 'package:blur/blur.dart';
 
 class PrivacyBlurWidget extends StatelessWidget {
   final Widget child;
-  const PrivacyBlurWidget({super.key, required this.child});
+  final bool blur;
+  const PrivacyBlurWidget({super.key, required this.child, this.blur = true});
 
   @override
   Widget build(BuildContext context) {
     bool isBlurred = PrivacyInherited.of(context).isBlurred;
 
     return Blur(
-      blur: isBlurred ? 6 : 0,
+      blur: (isBlurred && blur) ? 6 : 0,
       borderRadius: BorderRadius.circular(5),
       colorOpacity: 0,
       child: child,

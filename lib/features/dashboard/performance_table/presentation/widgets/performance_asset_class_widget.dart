@@ -7,6 +7,7 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/manager/performance_table_cubit.dart';
+import 'package:wmd/features/dashboard/performance_table/presentation/models/performance_value_obj.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_base_table.dart';
 
 import 'performance_table_shimmer.dart';
@@ -100,14 +101,14 @@ class PerformanceAssetClassWidget extends AppStatelessWidget {
                         74
                       ],
                       values: state.getAssetClassEntities
-                          .map((e) => <String>[
-                                e.assetName,
-                                e.marketValue.convertMoney(addDollar: true),
-                                e.forexValue.convertMoney(addDollar: true),
-                                e.income.convertMoney(addDollar: true),
-                                e.commision.convertMoney(addDollar: true),
-                                e.total.convertMoney(addDollar: true),
-                                "${e.changePercentage.toStringAsFixed(1)} %",
+                          .map((e) => <PerformanceValueObj>[
+                                PerformanceValueObj(value: e.assetName,shouldBlur: false),
+                                PerformanceValueObj(value: e.marketValue.convertMoney(addDollar: true),),
+                                PerformanceValueObj(value: e.forexValue.convertMoney(addDollar: true),),
+                                PerformanceValueObj(value: e.income.convertMoney(addDollar: true),),
+                                PerformanceValueObj(value: e.commision.convertMoney(addDollar: true),),
+                                PerformanceValueObj(value: e.total.convertMoney(addDollar: true),),
+                                PerformanceValueObj(value: "${e.changePercentage.toStringAsFixed(1)} %",shouldBlur: false),
                               ])
                           .toList())
                 ],

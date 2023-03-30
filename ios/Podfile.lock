@@ -1,4 +1,6 @@
 PODS:
+  - advance_expansion_tile (0.0.1):
+    - Flutter
   - AppAuth (1.6.0):
     - AppAuth/Core (= 1.6.0)
     - AppAuth/ExternalUserAgent (= 1.6.0)
@@ -185,6 +187,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - advance_expansion_tile (from `.symlinks/plugins/advance_expansion_tile/ios`)
   - datadog_flutter_plugin (from `.symlinks/plugins/datadog_flutter_plugin/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
@@ -231,6 +234,8 @@ SPEC REPOS:
     - SwiftyGif
 
 EXTERNAL SOURCES:
+  advance_expansion_tile:
+    :path: ".symlinks/plugins/advance_expansion_tile/ios"
   datadog_flutter_plugin:
     :path: ".symlinks/plugins/datadog_flutter_plugin/ios"
   device_info_plus:
@@ -271,6 +276,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
+  advance_expansion_tile: 3670d843a04cc64d762ab6b5ae2fa525d10345c0
   AppAuth: 8fca6b5563a5baef2c04bee27538025e4ceb2add
   datadog_flutter_plugin: 47360389e85adcf5bf9418ff3949cbf9f7a4632d
   DatadogSDK: 78af0e8967f505643352cdc10c3e3da6ba17a19d

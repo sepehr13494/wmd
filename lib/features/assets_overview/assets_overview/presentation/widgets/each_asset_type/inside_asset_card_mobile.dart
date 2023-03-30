@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/core/extentions/round_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -85,7 +86,7 @@ class InsideAssetCardMobile extends AppStatelessWidget {
                 children: [
                   ChangeWidget(
                     number: asset.inceptionToDate,
-                    text: "${asset.inceptionToDate.toStringAsFixed(1)}%",
+                    text: "${asset.inceptionToDate.toStringFixedZeroless()}%",
                     tooltipMessage: (asset.inceptionToDate >= 99900 ||
                             asset.inceptionToDate <= -100)
                         ? appLocalizations.assets_tooltips_percentageAbsurd
@@ -94,7 +95,7 @@ class InsideAssetCardMobile extends AppStatelessWidget {
                   const SizedBox(width: 8),
                   ChangeWidget(
                     number: asset.yearToDate,
-                    text: "${asset.yearToDate.toStringAsFixed(1)} %",
+                    text: "${asset.yearToDate.toStringFixedZeroless()}%",
                     tooltipMessage:
                         (asset.yearToDate >= 99900 || asset.yearToDate <= -100)
                             ? appLocalizations.assets_tooltips_percentageAbsurd

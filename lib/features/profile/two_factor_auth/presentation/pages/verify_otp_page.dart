@@ -12,6 +12,7 @@ import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/basic_timer_widget.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
+import 'package:wmd/features/profile/verify_phone/domain/use_cases/get_send_otp_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_resend_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/widgets/otp_feild_widget.dart';
@@ -40,12 +41,13 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
   // It will be displayed in a Text widget
   String? _otp;
   bool _otpExpired = false;
-  String phoneNumberValue = "";
 
   @override
   void initState() {
     super.initState();
     _fieldSix.addListener(() => _onTextChanged(context));
+
+    context.read<VerifyPhoneCubit>().getSendOtp();
   }
 
   @override
@@ -68,7 +70,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
           _fieldSix.text;
 
       context.read<VerifyPhoneCubit>().postVerifyPhone(map: {
-        "identifier": sl<PostResendVerifyPhoneUseCase>().identifier,
+        "identifier": sl<GetSendOtpUseCase>().identifier,
         "code": otpTemp
       });
     }
@@ -100,127 +102,107 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
             color: Colors.red[800], type: "error");
       }
     }, builder: (context, state) {
-      return BlocListener<PersonalInformationCubit, PersonalInformationState>(
-          listener: (context, state) {
-            if (state is PersonalInformationLoaded) {
-              final phone = state.getNameEntity.phoneNumber;
-
-              context.read<VerifyPhoneCubit>().postResendVerifyPhone(
-                  map: {"phoneNumber": phone?.toNumber()});
-
-              setState(() {
-                phoneNumberValue = phone?.toNumber() ?? "";
-              });
-            }
-          },
-          child: Scaffold(
-            appBar: const AddAssetHeader(
-              title: "",
-              considerFirstTime: false,
-            ),
-            body: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(vertical: 32),
-                child: Theme(
-                    data: Theme.of(context).copyWith(),
-                    child: WidthLimiterWidget(
+      return Scaffold(
+        appBar: const AddAssetHeader(
+          title: "",
+          considerFirstTime: false,
+        ),
+        body: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(vertical: 32),
+            child: Theme(
+                data: Theme.of(context).copyWith(),
+                child: WidthLimiterWidget(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 30),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40),
                         child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 30),
-                        Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 40),
-                            child: Column(
-                              children: [
-                                Text(
-                                  "Two-factor authentication",
-                                  style: textTheme.headlineSmall,
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(height: 16),
-                                Text(
-                                  "Please enter the one time password to verify your account. A code has been sent to the email address we have registered.",
-                                  style: textTheme.bodyMedium,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            )),
-
-                        SizedBox(height: responsiveHelper.bigger24Gap),
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            OtpInput(
-                                _fieldOne, true, _otpExpired), // auto focus
-                            OtpInput(_fieldTwo, false, _otpExpired),
-                            OtpInput(_fieldThree, false, _otpExpired),
-                            OtpInput(_fieldFour, false, _otpExpired),
-                            OtpInput(_fieldFive, false, _otpExpired),
-                            OtpInput(_fieldSix, false, _otpExpired),
+                            Text(
+                              appLocalizations.auth_verifyOtp_title,
+                              style: textTheme.headlineSmall,
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              appLocalizations.auth_verifyOtp_subTitle,
+                              style: textTheme.bodyMedium,
+                              textAlign: TextAlign.center,
+                            ),
                           ],
-                        ),
-                        SizedBox(height: responsiveHelper.defaultGap),
-                        BasicTimerWidget(
-                            timerTime: 2000,
-                            handleOtpExpired: () {
-                              setState(() {
-                                _otpExpired = true;
-                              });
-                            }),
+                        )),
 
-                        const SizedBox(
-                          height: 30,
-                        ),
+                    SizedBox(height: responsiveHelper.bigger24Gap),
 
-                        RichText(
-                            text: TextSpan(
-                                style: const TextStyle(height: 1.3),
-                                children: [
-                              TextSpan(
-                                text: "Haven’t received the code? ",
-                                style: textTheme.bodyMedium,
-                              ),
-                              TextSpan(
-                                text: "Resend OTP",
-                                style:
-                                    textTheme.bodyMedium!.toLinkStyle(context),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    context
-                                        .read<VerifyPhoneCubit>()
-                                        .postResendVerifyPhone(map: {
-                                      "phoneNumber": phoneNumberValue
-                                    });
-                                  },
-                              ),
-                            ])),
-
-                        SizedBox(height: responsiveHelper.bigger24Gap),
-
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        // const Spacer(),
-                        const Divider(),
-                        RichText(
-                            text: TextSpan(
-                                style: const TextStyle(height: 1.3),
-                                children: [
-                              TextSpan(
-                                text: appLocalizations
-                                    .auth_forgot_link_backToLogin,
-                                style:
-                                    textTheme.bodyLarge!.toLinkStyle(context),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    context.goNamed(AppRoutes.login);
-                                  },
-                              )
-                            ])),
-                        // Display the entered OTP code
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        OtpInput(_fieldOne, true, _otpExpired), // auto focus
+                        OtpInput(_fieldTwo, false, _otpExpired),
+                        OtpInput(_fieldThree, false, _otpExpired),
+                        OtpInput(_fieldFour, false, _otpExpired),
+                        OtpInput(_fieldFive, false, _otpExpired),
+                        OtpInput(_fieldSix, false, _otpExpired),
                       ],
-                    )))),
-          ));
+                    ),
+                    SizedBox(height: responsiveHelper.defaultGap),
+                    BasicTimerWidget(
+                        timerTime: 2000,
+                        handleOtpExpired: () {
+                          setState(() {
+                            _otpExpired = true;
+                          });
+                        }),
+
+                    const SizedBox(
+                      height: 30,
+                    ),
+
+                    RichText(
+                        text: TextSpan(
+                            style: const TextStyle(height: 1.3),
+                            children: [
+                          TextSpan(
+                            text: appLocalizations
+                                .profile_otpVerification_text_verificationCodeNotReceived,
+                            style: textTheme.bodyMedium,
+                          ),
+                          TextSpan(
+                            text: "Resend OTP",
+                            style: textTheme.bodyMedium!.toLinkStyle(context),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                context.read<VerifyPhoneCubit>().getSendOtp();
+                              },
+                          ),
+                        ])),
+
+                    SizedBox(height: responsiveHelper.bigger24Gap),
+
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    // const Spacer(),
+                    const Divider(),
+                    RichText(
+                        text: TextSpan(
+                            style: const TextStyle(height: 1.3),
+                            children: [
+                          TextSpan(
+                            text: appLocalizations.auth_forgot_link_backToLogin,
+                            style: textTheme.bodyLarge!.toLinkStyle(context),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                context.goNamed(AppRoutes.login);
+                              },
+                          )
+                        ])),
+                    // Display the entered OTP code
+                  ],
+                )))),
+      );
     });
   }
 }

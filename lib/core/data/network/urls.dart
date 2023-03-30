@@ -31,6 +31,7 @@ class AppUrls {
   static String postScheduleCall = "portfolio/meetings/schedule";
   static String postVerifyPhone = "${userBase}Otp/verify";
   static String postResendVerifyPhone = "${userBase}Otp";
+  static String postResendOtp = "${userBase}User/send-otp";
 
   static String postBankDetails = "${wealthBase}BankAccount";
   static String postPrivateEquity = "${wealthBase}PrivateEquity";
