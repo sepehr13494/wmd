@@ -156,8 +156,23 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                           },
                           title: Text(appLocalizations
                               .profile_twoFactor_page_email_title),
-                          subtitle: Text(appLocalizations
-                              .profile_twoFactor_page_email_subTitle),
+                          subtitle: Wrap(
+                            alignment: WrapAlignment.start,
+                            runAlignment: WrapAlignment.start,
+                            children: [
+                              Text(
+                                appLocalizations
+                                    .profile_twoFactor_page_email_subTitle
+                                    .split('email@email.com')
+                                    .first,
+                                softWrap: true,
+                                textWidthBasis: TextWidthBasis.longestLine,
+                              ),
+                              const PrivacyBlurWidget(
+                                child: Text("email@email.com"),
+                              ),
+                            ],
+                          ),
                         ),
                         SwitchListTile.adaptive(
                           value: textTwoFactorEnabled,
