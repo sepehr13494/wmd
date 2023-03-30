@@ -83,6 +83,7 @@ dependencies:
   treemap: ^0.4.0
   package_info_plus: ^1.0.6
   blur: ^3.1.0
+  advance_expansion_tile: ^1.0.2
 
 dev_dependencies:
   flutter_test:
