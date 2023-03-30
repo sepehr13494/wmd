@@ -1,6 +1,6 @@
 {
   "@@locale": "ar",
-  "@@last_modified": "2023-03-30T11:16:44+02:00",
+  "@@last_modified": "2023-03-30T15:13:14+02:00",
   "auth_signup_page_title": "انضمّ إلى منصتنا",
   "auth_signup_page_description": "إنشاء حساب myWMD",
   "auth_signup_heading": "أنشئ حساباً",
@@ -1544,5 +1544,13 @@
   "assets_charts_allocationCharts_legendLabel_loan": "",
   "home_mobileVerificationCard_heading": "",
   "home_mobileVerificationCard_subheading": "",
-  "home_mobileVerificationCard_button_addMobileNumber": ""
+  "home_mobileVerificationCard_button_addMobileNumber": "",
+  "profile_otpVerification_error_failedAttempt": "",
+  "profile_tabs_personal_label_toEnable2FA": "",
+  "profile_otpVerification_button_resendSMSIn": "",
+  "profile_twofactorauthentication_page_mobileVerificationDescription": "",
+  "profile_twofactorauthentication_toast_updated": "",
+  "profile_otpVerification_toast_otpSentSuccess_title": "",
+  "profile_twofactorauthentication_page_2fa": "",
+  "profile_twofactorauthentication_button_change2FA": ""
 }

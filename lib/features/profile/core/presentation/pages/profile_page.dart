@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/profile/personal_information/presentation/widgets/personal_imformation_widget.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/two_factor_settings_widget.dart';
 
+import '../../../../../core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import '../../../personal_information/presentation/manager/personal_information_cubit.dart';
 import '../../../personal_information/presentation/widgets/contact_information_widget.dart';
 
@@ -25,6 +26,9 @@ class _ProfilePageState extends AppStateAlive<ProfilePage> {
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
+    final responsiveHelper = ResponsiveHelper(context: context);
+    final isMobile = responsiveHelper.isMobile;
+
     return BlocListener<PersonalInformationCubit, PersonalInformationState>(
       listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
       child: SingleChildScrollView(
@@ -36,7 +40,7 @@ class _ProfilePageState extends AppStateAlive<ProfilePage> {
             const Divider(height: 48),
             const ContactInformationWidget(),
             const Divider(height: 48),
-            const TwoFactorSetting(),
+            if (!isMobile) const TwoFactorSetting(),
             const Divider(height: 48),
           ],
         ),

@@ -6,9 +6,9 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/core/util/app_localization.dart';
 import 'package:wmd/core/util/firebase_analytics.dart';
 
-class DisableTwoFactorBottomSheet extends AppStatelessWidget {
+class FailedOtpAuthBottomSheet extends AppStatelessWidget {
   final VoidCallback callback;
-  const DisableTwoFactorBottomSheet({Key? key, required this.callback})
+  const FailedOtpAuthBottomSheet({Key? key, required this.callback})
       : super(key: key);
 
   @override
@@ -48,34 +48,30 @@ class DisableTwoFactorBottomSheet extends AppStatelessWidget {
           Column(
             children: [
               Text(
-                appLocalizations.profile_twofactorauthentication_modal_title,
+                appLocalizations.profile_otpVerification_failed_heading,
                 textAlign: TextAlign.left,
                 style: TextStyle(fontSize: responsiveHelper.xxLargeFontSize),
               ),
               Text(
-                appLocalizations
-                    .profile_twofactorauthentication_modal_description,
+                appLocalizations.profile_otpVerification_failed_description,
                 textAlign: TextAlign.center,
                 style: textTheme.bodyMedium,
               ),
-              ElevatedButton(
-                onPressed: () {
-                  // context.goNamed(AppRoutes.assetDetailPage,
-                  //     queryParams: {'assetId': assetId, 'type': assetType});
-                  callback();
-                  Navigator.pop(context);
-                },
-                // style:
-                //     ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
-                child: Text(appLocalizations.common_button_yesTurnOff2FA),
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                // style:
-                //     OutlinedButton.styleFrom(minimumSize: const Size(100, 50)),
-                child: Text(appLocalizations.common_button_cancel),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      // context.goNamed(AppRoutes.assetDetailPage,
+                      //     queryParams: {'assetId': assetId, 'type': assetType});
+                      callback();
+                      Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(100, 50)),
+                    child: Text("Okay"),
+                  ),
+                ],
               )
             ]
                 .map((e) => Padding(

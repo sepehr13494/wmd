@@ -8,6 +8,7 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_blur_warning.dart';
 import 'package:wmd/features/profile/core/presentation/pages/profile_page.dart';
+import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/two_factor_settings_widget.dart';
 import 'package:wmd/features/settings/presentation/page/preferences_page.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -52,6 +53,17 @@ class _SettingsPageState extends AppState<SettingsPage>
     final map = [
       MapEntry(
           appLocalizations.profile_tabs_personal_name, const ProfilePage()),
+      MapEntry(
+          appLocalizations.profile_twoFactor_header,
+          SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(vertical: 32),
+            child: Column(
+              // ignore: prefer_const_literals_to_create_immutables
+              children: [
+                const TwoFactorSetting(),
+              ],
+            ),
+          )),
       MapEntry(appLocalizations.profile_tabs_preferences_name,
           const PreferencesPage()),
       MapEntry(
@@ -186,6 +198,7 @@ class _SettingsTabletViewState extends AppState<SettingsTabletView>
             child: TabBarView(
           controller: _controller,
           children: [
+            const ProfilePage(),
             const ProfilePage(),
             const PreferencesPage(),
             Container(),
