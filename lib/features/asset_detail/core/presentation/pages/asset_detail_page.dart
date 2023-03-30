@@ -111,7 +111,9 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                                 ),
                               ),
                             SizedBox(height: responsiveHelper.biggerGap),
-                            ValuationWidget(assetId: widget.assetId),
+                            ValuationWidget(
+                                assetId: widget.assetId,
+                                assetType: widget.type),
                             SizedBox(height: responsiveHelper.biggerGap),
                           ],
                         ),
