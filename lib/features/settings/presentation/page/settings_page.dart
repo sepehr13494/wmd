@@ -33,7 +33,6 @@ class _SettingsPageState extends AppState<SettingsPage>
     _controller.addListener(() {
       setState(() {
         page = _controller.index;
-        print(page);
       });
     });
     super.initState();

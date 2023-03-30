@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/features/profile/two_factor_auth/manager/two_factor_cubit.dart';
-import 'package:wmd/features/profile/two_factor_auth/presentation/pages/two_factor_setup_page.dart';
 import 'package:wmd/injection_container.dart';
 
 class TwoFactorSetting extends AppStatelessWidget {
