@@ -175,6 +175,12 @@ import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_resend_v
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
 import 'package:wmd/features/settings/data/data_sources/settings_remote_datasource.dart';
+import 'package:wmd/features/valuation/data/data_sources/valuation_remote_datasource.dart';
+import 'package:wmd/features/valuation/data/repositories/valuation_repository_impl.dart';
+import 'package:wmd/features/valuation/domain/repositories/valuation_repository.dart';
+import 'package:wmd/features/valuation/domain/use_cases/post_valuation_usecase.dart';
+import 'package:wmd/features/valuation/domain/use_cases/update_valuation_usecase.dart';
+import 'package:wmd/features/valuation/presentation/manager/valuation_cubit.dart';
 import 'core/data/network/network_helper.dart';
 import 'core/data/network/server_request_manager.dart';
 import 'core/util/app_localization.dart';
@@ -539,7 +545,6 @@ Future<void> init() async {
       () => GlossaryRemoteDataSourceImpl(sl()));
 
   //Settings
-
   sl.registerFactory(() => TwoFactorCubit(sl(), sl()));
   sl.registerLazySingleton(() => GetSettingsUseCase(sl()));
   sl.registerLazySingleton(() => PutSettingsUseCase(sl()));
@@ -548,6 +553,16 @@ Future<void> init() async {
       () => SettingsRepositoryImpl(sl()));
   sl.registerLazySingleton<SettingsRemoteDataSource>(
       () => SettingsRemoteDataSourceImpl(sl()));
+
+  //Settings
+  sl.registerFactory(() => AssetValuationCubit(sl(), sl()));
+  sl.registerLazySingleton(() => AssetPostValuationUseCase(sl()));
+  sl.registerLazySingleton(() => UpdateValuationUseCase(sl()));
+
+  sl.registerLazySingleton<AssetValuationRepository>(
+      () => AssetValuationRepositoryImpl(sl()));
+  sl.registerLazySingleton<AssetValuationRemoteDataSource>(
+      () => AssetValuationRemoteDataSourceImpl(sl()));
 
   await initExternal();
   await initUtils();
