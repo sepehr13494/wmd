@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2023-03-30T11:16:44+02:00",
+  "@@last_modified": "2023-03-30T15:13:14+02:00",
   "auth:signup.page.title": "Join our Platform",
   "auth:signup.page.description": "Create myWMD account",
   "auth:signup.heading": "Create an account",
@@ -1455,7 +1455,7 @@
   "profile:otpVerification.button.continue": "Contine",
   "profile:otpVerification.label.heading": "Enter verification code",
   "profile:otpVerification.text.verificationCode": "Verification code",
-  "profile:otpVerification.text.verificationCodeNotReceived": "Didn't get your verification code?",
+  "profile:otpVerification.text.verificationCodeNotReceived": "Haven’t received the code?",
   "profile:otpVerification.text.codeWillExpire": "Your code will expire in: {{sec}}s",
   "profile:otpVerification.text.onboardingOtp": "To keep you account secure, we will send a verification code to your phone number.",
   "profile:otpVerification.error.invalidOTP": "Incorrect verification code. Please try again.",
@@ -1494,7 +1494,7 @@
   "profile:twofactorauthentication.input.description": "To keep your account secure, we need to verify your phone number",
   "profile:twofactorauthentication.modal.title": "Are you sure you wish to disable two-factor authentication?",
   "profile:twofactorauthentication.modal.description": "Two-factor authentication makes it extra difficult for anyone other than you to access your account.",
-  "profile:twofactorauthentication.button.update2FA": "Update 2FA",
+  "profile:twofactorauthentication.button.update2FA": "Change 2FA",
   "profile:twofactorauthentication.button.cancel": "Cancel",
   "profile:twofactorauthentication.button.sendCode": "Send Code",
   "profile:twofactorauthentication.button.backToLogin": "Back to login",
@@ -1544,5 +1544,13 @@
   "assets:charts.allocationCharts.legendLabel.loan": "loan",
   "home:mobileVerificationCard.heading": "Add your mobile number to two-factor authenticator",
   "home:mobileVerificationCard.subheading": "Recommended for the simplest authentication process possible.",
-  "home:mobileVerificationCard.button.addMobileNumber": "Add mobile number"
+  "home:mobileVerificationCard.button.addMobileNumber": "Add mobile number",
+  "profile.otpVerification.error.failedAttempt": "Code incorrect, please try again.\n%s attempts remaining",
+  "profile:tabs.personal.label.toEnable2FA": "to enable two-factor authentication.",
+  "profile:otpVerification.button.resendSMSIn": "Resend it in {{second}}s",
+  "profile:twofactorauthentication.page.mobileVerificationDescription": "Please enter the one time password to verify your mobile number. A code has been sent to the mobile phone you have entered.",
+  "profile:twofactorauthentication.toast.updated": "2FA mode has been updated",
+  "profile:otpVerification.toast.otpSentSuccess.title": "OTP code has been sent to his mobile number {{countryCode}}-XXXXXX{{phoneNumber}}",
+  "profile:twofactorauthentication.page.2fa": "2FA",
+  "profile:twofactorauthentication.button.change2FA": "Change 2FA"
 }
