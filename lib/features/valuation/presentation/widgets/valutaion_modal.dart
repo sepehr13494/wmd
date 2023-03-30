@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
@@ -10,21 +11,132 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/valuation/presentation/manager/valuation_cubit.dart';
 import 'package:wmd/features/valuation/presentation/widgets/bank_valuation_form.dart';
 import 'package:wmd/features/valuation/presentation/widgets/equity_debt_valuation_form.dart';
 import 'package:wmd/features/valuation/presentation/widgets/listed_equity_valuation_form.dart';
 import 'package:wmd/features/valuation/presentation/widgets/real_estate_valuation_form.dart';
+import 'package:wmd/injection_container.dart';
 
 class ValuationModalWidget extends ModalWidget {
   final String assetType;
-  const ValuationModalWidget({
+  final GlobalKey<FormBuilderState>? formKey = GlobalKey<FormBuilderState>();
+
+  ValuationModalWidget({
     super.key,
     required super.title,
     super.body,
     required super.confirmBtn,
     required super.cancelBtn,
     required this.assetType,
+    // this.formKey = GlobalKey<FormBuilderState>(),
   });
+
+  ///  Action Buttons Container of Modal
+  Widget buildActions(
+      BuildContext context, GlobalKey<FormBuilderState> formStateKey) {
+    final responsiveHelper = ResponsiveHelper(context: context);
+    final isMobile = responsiveHelper.isMobile;
+    bool enableAddAssetButton = false;
+
+    Map<String, dynamic> renderSubmitData(
+        String type, GlobalKey<FormBuilderState> formKey) {
+      Map<String, dynamic> formMap;
+
+      switch (type) {
+        case AssetTypes.bankAccount:
+          formMap = {
+            ...formKey.currentState!.instantValue,
+          };
+          break;
+        case AssetTypes.realEstate:
+          formMap = {
+            ...formKey.currentState!.instantValue,
+          };
+          break;
+        case AssetTypes.listedAsset:
+          formMap = {
+            ...formKey.currentState!.instantValue,
+          };
+          break;
+        case AssetTypes.listedAssetEquity:
+          formMap = {
+            ...formKey.currentState!.instantValue,
+          };
+          break;
+        case AssetTypes.listedAssetFixedIncome:
+          formMap = {
+            ...formKey.currentState!.instantValue,
+          };
+          break;
+        case AssetTypes.privateEquity:
+          formMap = {
+            ...formKey.currentState!.instantValue,
+          };
+          break;
+        case AssetTypes.privateDebt:
+          formMap = {
+            ...formKey.currentState!.instantValue,
+          };
+          break;
+        default:
+          formMap = {
+            ...formKey.currentState!.instantValue,
+          };
+          break;
+      }
+
+      return formMap;
+    }
+
+    return BlocProvider(
+        create: (context) => sl<AssetValuationCubit>(),
+        child: Builder(builder: (context) {
+          return Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: responsiveHelper.bigger16Gap * 5),
+              child: Row(
+                children: [
+                  OutlinedButton(
+                    onPressed: () {
+                      // View Asset detail button
+                      context.goNamed(AppRoutes.addAssetsView);
+                    },
+                    style: OutlinedButton.styleFrom(
+                        minimumSize: const Size(100, 50)),
+                    child: Text(
+                      cancelBtn,
+                    ),
+                  ),
+                  SizedBox(width: responsiveHelper.bigger16Gap),
+                  ElevatedButton(
+                    onPressed: () {
+                      debugPrint("formKey.currentState");
+                      // debugPrint(formKey.currentState!.initialValue.toString());
+                      debugPrint(formStateKey.currentState.toString());
+                      // debugPrint(enableAddAssetButton.toString());
+                      // debugPrint(formKey.currentState!.isValid.toString());
+
+                      formStateKey.currentState?.validate();
+                      if (formStateKey.currentState!.isValid) {
+                        Map<String, dynamic> finalMap =
+                            renderSubmitData(assetType, formStateKey);
+
+                        print(finalMap);
+
+                        context
+                            .read<AssetValuationCubit>()
+                            .postValuation(map: finalMap);
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(100, 50)),
+                    child: Text(confirmBtn),
+                  )
+                ],
+              ));
+        }));
+  }
 
   @override
   Widget buildDialogContent(BuildContext context) {
@@ -32,15 +144,35 @@ class ValuationModalWidget extends ModalWidget {
     final responsiveHelper = ResponsiveHelper(context: context);
     final isMobile = responsiveHelper.isMobile;
     final appLocalizations = AppLocalizations.of(context);
-    final formKey = GlobalKey<FormBuilderState>();
+    final GlobalKey<FormBuilderState> localFormKey =
+        GlobalKey<FormBuilderState>();
+
     bool enableAddAssetButton = false;
+
+    void checkFinalValid(value) async {
+      // await Future.delayed(const Duration(milliseconds: 100));
+      // bool finalValid = formKey.currentState!.isValid;
+
+      // if (finalValid) {
+      //   if (!enableAddAssetButton) {
+      //     enableAddAssetButton = true;
+      //   }
+      // } else {
+      //   if (enableAddAssetButton) {
+      //     enableAddAssetButton = false;
+      //   }
+      // }
+    }
 
     Widget renderForm(String type) {
       Widget entity;
 
       switch (type) {
         case AssetTypes.bankAccount:
-          entity = const BankValuationFormWidget();
+          entity = BankValuationFormWidget(
+            // formKey: formKey,
+            buildActions: (e) => buildActions(context, e),
+          );
           break;
         case AssetTypes.realEstate:
           entity = const RealEstateValuationFormWidget();
@@ -96,73 +228,15 @@ class ValuationModalWidget extends ModalWidget {
                           ],
                         )),
                     renderForm(assetType),
-                    buildActions(context, formKey, enableAddAssetButton),
+                    // FormBuilder(
+                    //   key: localFormKey,
+                    //   child: renderForm(assetType),
+                    // ),
+                    // buildActions(context, localFormKey),
                     SizedBox(height: responsiveHelper.bigger16Gap),
                   ])))
         ],
       ),
     );
-  }
-
-  // @override
-  // Widget buildModalHeader(BuildContext context, {Function? onClose}) {
-  //   return Row(
-  //     mainAxisAlignment: MainAxisAlignment.end,
-  //     children: [
-  //       IconButton(
-  //           onPressed: () {
-  //             Navigator.pop(context, false);
-  //             // GoRouter.of(context).goNamed(AppRoutes.dashboard);
-  //           },
-  //           icon: Icon(
-  //             Icons.close,
-  //             color: Theme.of(context).primaryColor,
-  //           )),
-  //     ],
-  //   );
-  // }
-
-  ///  Action Buttons Container of Modal
-  Widget buildActions(BuildContext context, GlobalKey<FormBuilderState> formKey,
-      bool enableAddAssetButton) {
-    final responsiveHelper = ResponsiveHelper(context: context);
-    final isMobile = responsiveHelper.isMobile;
-
-    return Padding(
-        padding:
-            EdgeInsets.symmetric(horizontal: responsiveHelper.bigger16Gap * 5),
-        child: Row(
-          children: [
-            OutlinedButton(
-              onPressed: () {
-                // View Asset detail button
-                context.goNamed(AppRoutes.addAssetsView);
-              },
-              style: OutlinedButton.styleFrom(minimumSize: const Size(100, 50)),
-              child: Text(
-                cancelBtn,
-              ),
-            ),
-            SizedBox(width: responsiveHelper.bigger16Gap),
-            ElevatedButton(
-              onPressed: () {
-                formKey.currentState?.validate();
-                if (enableAddAssetButton) {
-                  Map<String, dynamic> finalMap = {
-                    ...formKey.currentState!.instantValue,
-                  };
-
-                  print(finalMap);
-
-                  // context
-                  //     .read<GeneralInquiryCubit>()
-                  //     .postScheduleCall(map: finalMap);
-                }
-              },
-              style: ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
-              child: Text(confirmBtn),
-            )
-          ],
-        ));
   }
 }

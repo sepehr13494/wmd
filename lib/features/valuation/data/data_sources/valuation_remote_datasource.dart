@@ -9,14 +9,14 @@ import '../models/post_valuation_response.dart';
 import '../models/update_valuation_params.dart';
 import '../models/update_valuation_response.dart';
 
-abstract class ValuationRemoteDataSource {
+abstract class AssetValuationRemoteDataSource {
   Future<PostValuationResponse> postValuation(PostValuationParams params);
   Future<UpdateValuationResponse> updateValuation(UpdateValuationParams params);
 }
 
-class ValuationRemoteDataSourceImpl extends AppServerDataSource
-    implements ValuationRemoteDataSource {
-  ValuationRemoteDataSourceImpl(super.errorHandlerMiddleware);
+class AssetValuationRemoteDataSourceImpl extends AppServerDataSource
+    implements AssetValuationRemoteDataSource {
+  AssetValuationRemoteDataSourceImpl(super.errorHandlerMiddleware);
 
   @override
   Future<PostValuationResponse> postValuation(

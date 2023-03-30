@@ -41,11 +41,6 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
     final responsiveHelper = ResponsiveHelper(context: context);
     final primaryColor = Theme.of(context).primaryColor;
 
-    debugPrint("type--type-type+-- type");
-    debugPrint(widget.type);
-    debugPrint("type--type-type+-- type");
-    debugPrint("type--type-type+-- type");
-
     return MultiBlocProvider(
         providers: [
           BlocProvider(

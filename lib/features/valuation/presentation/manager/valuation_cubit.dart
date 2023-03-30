@@ -12,7 +12,7 @@ import '../../domain/entities/update_valuation_entity.dart';
 part 'valuation_state.dart';
 
 class AssetValuationCubit extends Cubit<AssetValuationState> {
-  final PostValuationUseCase postValuationUseCase;
+  final AssetPostValuationUseCase postValuationUseCase;
   final UpdateValuationUseCase updateValuationUseCase;
 
   AssetValuationCubit(
@@ -20,17 +20,19 @@ class AssetValuationCubit extends Cubit<AssetValuationState> {
     this.updateValuationUseCase,
   ) : super(LoadingState());
 
-  postValuation() async {
+  postValuation({required Map<String, dynamic> map}) async {
     emit(LoadingState());
-    final result = await postValuationUseCase(PostValuationParams());
+    final result =
+        await postValuationUseCase(PostValuationParams.fromJson(map));
     result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
       emit(PostValuationLoaded(postValuationEntity: entity));
     });
   }
 
-  updateValuation() async {
+  updateValuation({required Map<String, dynamic> map}) async {
     emit(LoadingState());
-    final result = await updateValuationUseCase(UpdateValuationParams());
+    final result =
+        await updateValuationUseCase(UpdateValuationParams.fromJson(map));
     result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
       emit(UpdateValuationLoaded(updateValuationEntity: entity));
     });

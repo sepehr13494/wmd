@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 
 class PostValuationParams extends Equatable {
   final double? amount;
@@ -31,16 +32,28 @@ class PostValuationParams extends Equatable {
 
   factory PostValuationParams.fromJson(Map<String, dynamic> json) =>
       PostValuationParams(
-          amount: json["amount"],
-          amountInUsd: json["amountInUsd"],
+          amount: json["amount"] != null
+              ? double.tryParse(json["amount"])
+              : json["amount"],
+          amountInUsd: json["amountInUsd"] != null
+              ? double.tryParse(json["amountInUsd"])
+              : json["amountInUsd"],
           assetOrLiabilityId: json["assetOrLiabilityId"],
-          currencyCode: json["currencyCode"],
-          currencyToUsdFxRate: json["currencyToUsdFxRate"],
+          currencyCode: (json["currencyCode"] as Currency).symbol,
+          currencyToUsdFxRate: json["currencyToUsdFxRate"] != null
+              ? double.tryParse(json["currencyToUsdFxRate"])
+              : json["currencyToUsdFxRate"],
           originCode: json["originCode"],
           wealthType: json["wealthType"],
-          valuatedAt: json["valuatedAt"],
-          quantity: json["quantity"],
-          buyPricePerUnit: json["buyPricePerUnit"],
+          valuatedAt: json["valuatedAt"] != null
+              ? DateTime.parse(json["valuatedAt"].toString())
+              : json["valuatedAt"],
+          quantity: json["quantity"] != null
+              ? double.tryParse(json["quantity"])
+              : json["quantity"],
+          buyPricePerUnit: json["buyPricePerUnit"] != null
+              ? double.tryParse(json["buyPricePerUnit"])
+              : json["buyPricePerUnit"],
           note: json["note"],
           type: json["type"]);
 

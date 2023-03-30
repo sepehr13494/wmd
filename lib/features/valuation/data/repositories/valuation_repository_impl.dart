@@ -5,41 +5,40 @@ import 'package:dartz/dartz.dart';
 
 import '../models/post_valuation_params.dart';
 import '../../domain/entities/post_valuation_entity.dart';
-    import '../models/update_valuation_params.dart';
+import '../models/update_valuation_params.dart';
 import '../../domain/entities/update_valuation_entity.dart';
-    
+
 import '../../domain/repositories/valuation_repository.dart';
 import '../data_sources/valuation_remote_datasource.dart';
 
-class ValuationRepositoryImpl implements ValuationRepository {
-  final ValuationRemoteDataSource remoteDataSource;
+class AssetValuationRepositoryImpl implements AssetValuationRepository {
+  final AssetValuationRemoteDataSource remoteDataSource;
 
-  ValuationRepositoryImpl(this.remoteDataSource);
+  AssetValuationRepositoryImpl(this.remoteDataSource);
 
-    @override
-  Future<Either<Failure, PostValuationEntity>> postValuation(PostValuationParams params) async {
+  @override
+  Future<Either<Failure, PostValuationEntity>> postValuation(
+      PostValuationParams params) async {
     try {
       final result = await remoteDataSource.postValuation(params);
       return Right(result);
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
-    } on AppException catch (error){
+    } on AppException catch (error) {
       return Left(AppFailure.fromAppException(error));
     }
   }
-  
-      @override
-  Future<Either<Failure, UpdateValuationEntity>> updateValuation(UpdateValuationParams params) async {
+
+  @override
+  Future<Either<Failure, UpdateValuationEntity>> updateValuation(
+      UpdateValuationParams params) async {
     try {
       final result = await remoteDataSource.updateValuation(params);
       return Right(result);
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
-    } on AppException catch (error){
+    } on AppException catch (error) {
       return Left(AppFailure.fromAppException(error));
     }
   }
-  
-    
 }
-
