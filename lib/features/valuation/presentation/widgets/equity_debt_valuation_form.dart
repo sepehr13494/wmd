@@ -11,7 +11,9 @@ import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item
 import 'package:wmd/features/valuation/data/models/valuation_action_type.dart';
 
 class EquityDebtValuationFormWidget extends StatefulWidget {
-  const EquityDebtValuationFormWidget({Key? key}) : super(key: key);
+  final Function buildActions;
+  const EquityDebtValuationFormWidget({Key? key, required this.buildActions})
+      : super(key: key);
   @override
   AppState<EquityDebtValuationFormWidget> createState() =>
       _EquityDebtValuationFormWidgetState();
@@ -73,7 +75,7 @@ class _EquityDebtValuationFormWidgetState
           children: [
             EachTextField(
               hasInfo: false,
-              title: "Date",
+              title: appLocalizations.assets_valuationModal_labels_date,
               child: FormBuilderDateTimePicker(
                 onChanged: (selectedDate) {
                   checkFinalValid(selectedDate);
@@ -87,26 +89,25 @@ class _EquityDebtValuationFormWidgetState
                 validator: FormBuilderValidators.compose(
                     [FormBuilderValidators.required()]),
                 format: DateFormat("dd/MM/yyyy"),
-                name: "date",
+                name: "valuatedAt",
                 decoration: InputDecoration(
                     suffixIcon: Icon(
                       Icons.calendar_today_outlined,
                       color: Theme.of(context).primaryColor,
                     ),
                     hintText: appLocalizations
-                        .scheduleMeeting_availableDate_placeholder),
+                        .assets_valuationModal_placeholder_date),
               ),
             ),
-            const EachTextField(
+            EachTextField(
                 hasInfo: false,
-                title: "Action",
+                title: appLocalizations.assets_valuationModal_labels_action,
                 child: RadioButton<String>(
-                    items: ValuationActionType.valuationActionTypeList,
-                    name: "action")),
+                    items: ValuationActionType.valuationActionTypeList(context),
+                    name: "type")),
             EachTextField(
               hasInfo: false,
-              title: appLocalizations
-                  .assetLiabilityForms_forms_realEstate_inputFields_currency_label,
+              title: appLocalizations.assets_valuationModal_labels_currency,
               child: CurrenciesDropdown(
                 onChanged: checkFinalValid,
                 showExchange: false,
@@ -116,20 +117,21 @@ class _EquityDebtValuationFormWidgetState
               hasInfo: false,
               title: "Value",
               child: AppTextFields.simpleTextField(
-                  onChanged: checkFinalValid,
-                  type: TextFieldType.money,
-                  name: "value",
-                  hint: appLocalizations
-                      .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_placeholder),
+                onChanged: checkFinalValid,
+                type: TextFieldType.money,
+                name: "amount",
+                hint: "Value",
+              ),
             ),
             EachTextField(
               hasInfo: false,
-              title: "Note (optional)",
+              title: appLocalizations.assets_valuationModal_labels_note,
               child: AppTextFields.simpleTextField(
+                  required: false,
                   onChanged: checkFinalValid,
                   name: "note",
-                  hint: appLocalizations
-                      .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_placeholder),
+                  hint:
+                      appLocalizations.assets_valuationModal_placeholder_note),
             ),
           ]
               .map((e) => Padding(
@@ -140,6 +142,7 @@ class _EquityDebtValuationFormWidgetState
               .toList(),
         ),
       ),
+      widget.buildActions(formKey)
     ]);
   }
 }

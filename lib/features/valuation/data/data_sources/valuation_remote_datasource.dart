@@ -10,7 +10,7 @@ import '../models/update_valuation_params.dart';
 import '../models/update_valuation_response.dart';
 
 abstract class AssetValuationRemoteDataSource {
-  Future<PostValuationResponse> postValuation(PostValuationParams params);
+  Future<void> postValuation(PostValuationParams params);
   Future<UpdateValuationResponse> updateValuation(UpdateValuationParams params);
 }
 
@@ -19,15 +19,14 @@ class AssetValuationRemoteDataSourceImpl extends AppServerDataSource
   AssetValuationRemoteDataSourceImpl(super.errorHandlerMiddleware);
 
   @override
-  Future<PostValuationResponse> postValuation(
-      PostValuationParams params) async {
+  Future<void> postValuation(PostValuationParams params) async {
     try {
       final appRequestOptions = AppRequestOptions(
-          RequestTypes.get, AppUrls.postValuation, params.toJson());
+          RequestTypes.post, AppUrls.postAddValuation, params.toJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = PostValuationResponse.fromJson(response);
-      return result;
+
+      return;
     } on ServerException {
       rethrow;
     } catch (e) {
@@ -41,7 +40,7 @@ class AssetValuationRemoteDataSourceImpl extends AppServerDataSource
       UpdateValuationParams params) async {
     try {
       final appRequestOptions = AppRequestOptions(
-          RequestTypes.put, AppUrls.postValuation, params.toJson());
+          RequestTypes.put, AppUrls.postAddValuation, params.toJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = UpdateValuationResponse.fromJson(response);

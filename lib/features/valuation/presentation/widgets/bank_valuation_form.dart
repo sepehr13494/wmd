@@ -68,7 +68,7 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
               children: [
                 EachTextField(
                   hasInfo: false,
-                  title: "Date",
+                  title: appLocalizations.assets_valuationModal_labels_date,
                   child: FormBuilderDateTimePicker(
                     onChanged: (selectedDate) {
                       checkFinalValid(selectedDate);
@@ -89,13 +89,12 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
                           color: Theme.of(context).primaryColor,
                         ),
                         hintText: appLocalizations
-                            .scheduleMeeting_availableDate_placeholder),
+                            .assets_valuationModal_placeholder_date),
                   ),
                 ),
                 EachTextField(
                   hasInfo: false,
-                  title: appLocalizations
-                      .assetLiabilityForms_forms_realEstate_inputFields_currency_label,
+                  title: appLocalizations.assets_valuationModal_labels_currency,
                   child: CurrenciesDropdown(
                     onChanged: (e) => checkFinalValid(e),
                     showExchange: false,
@@ -103,7 +102,8 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
                 ),
                 EachTextField(
                   hasInfo: false,
-                  title: "Market valuation",
+                  title: appLocalizations
+                      .assets_valuationModal_labels_marketValuation,
                   child: AppTextFields.simpleTextField(
                       onChanged: (e) => checkFinalValid(e),
                       type: TextFieldType.money,
@@ -113,13 +113,13 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
                 ),
                 EachTextField(
                   hasInfo: false,
-                  title: "Note (optional)",
+                  title: appLocalizations.assets_valuationModal_labels_note,
                   child: AppTextFields.simpleTextField(
                       required: false,
                       onChanged: (e) => checkFinalValid(e),
                       name: "note",
                       hint: appLocalizations
-                          .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_placeholder),
+                          .assets_valuationModal_placeholder_note),
                 ),
               ]
                   .map((e) => Padding(
@@ -130,53 +130,6 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
                   .toList(),
             )),
         widget.buildActions(formKey)
-        //     BlocProvider(
-        // create: (context) => sl<AssetValuationCubit>(),
-        // child: Builder(builder: (context) {
-        //   return Padding(
-        //       padding: EdgeInsets.symmetric(
-        //           horizontal: responsiveHelper.bigger16Gap * 5),
-        //       child: Row(
-        //         children: [
-        //           OutlinedButton(
-        //             onPressed: () {
-        //               // View Asset detail button
-        //               context.goNamed(AppRoutes.addAssetsView);
-        //             },
-        //             style: OutlinedButton.styleFrom(
-        //                 minimumSize: const Size(100, 50)),
-        //             child: Text(
-        //               cancelBtn,
-        //             ),
-        //           ),
-        //           SizedBox(width: responsiveHelper.bigger16Gap),
-        //           ElevatedButton(
-        //             onPressed: () {
-        //               debugPrint("formKey.currentState");
-        //               // debugPrint(formKey.currentState!.initialValue.toString());
-        //               debugPrint(formStateKey.currentState.toString());
-        //               // debugPrint(enableAddAssetButton.toString());
-        //               // debugPrint(formKey.currentState!.isValid.toString());
-
-        //               formStateKey.currentState?.validate();
-        //               if (formStateKey.currentState!.isValid) {
-        //                 Map<String, dynamic> finalMap =
-        //                     renderSubmitData(assetType, formStateKey);
-
-        //                 print(finalMap);
-
-        //                 context
-        //                     .read<AssetValuationCubit>()
-        //                     .postValuation(map: finalMap);
-        //               }
-        //             },
-        //             style: ElevatedButton.styleFrom(
-        //                 minimumSize: const Size(100, 50)),
-        //             child: Text(confirmBtn),
-        //           )
-        //         ],
-        //       ));
-        // }))
       ],
     );
   }

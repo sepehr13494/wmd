@@ -48,7 +48,8 @@ class ValuationWidget extends AppStatelessWidget {
                                 confirmBtn: appLocalizations.common_button_save,
                                 cancelBtn:
                                     appLocalizations.common_button_cancel,
-                                assetType: assetType);
+                                assetType: assetType,
+                                assetId: assetId);
                           });
 
                       // context.pushNamed(AppRoutes.forgetPassword);

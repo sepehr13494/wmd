@@ -12,6 +12,7 @@ class PostValuationParams extends Equatable {
   final DateTime? valuatedAt;
   final double? quantity;
   final double? buyPricePerUnit;
+  final double? ownershipPercentage;
   final String? note;
   final String? type;
 
@@ -26,6 +27,7 @@ class PostValuationParams extends Equatable {
     this.valuatedAt,
     this.quantity,
     this.buyPricePerUnit,
+    this.ownershipPercentage,
     this.note,
     this.type,
   });
@@ -33,7 +35,7 @@ class PostValuationParams extends Equatable {
   factory PostValuationParams.fromJson(Map<String, dynamic> json) =>
       PostValuationParams(
           amount: json["amount"] != null
-              ? double.tryParse(json["amount"])
+              ? double.tryParse(json["amount"].toString().replaceAll(',', ''))
               : json["amount"],
           amountInUsd: json["amountInUsd"] != null
               ? double.tryParse(json["amountInUsd"])
@@ -54,6 +56,9 @@ class PostValuationParams extends Equatable {
           buyPricePerUnit: json["buyPricePerUnit"] != null
               ? double.tryParse(json["buyPricePerUnit"])
               : json["buyPricePerUnit"],
+          ownershipPercentage: json["ownershipPercentage"] != null
+              ? double.tryParse(json["ownershipPercentage"])
+              : json["ownershipPercentage"],
           note: json["note"],
           type: json["type"]);
 
@@ -65,8 +70,9 @@ class PostValuationParams extends Equatable {
         "currencyToUsdFxRate": currencyToUsdFxRate,
         "originCode": originCode,
         "wealthType": wealthType,
-        "valuatedAt": valuatedAt,
+        "valuatedAt": valuatedAt?.toIso8601String(),
         "quantity": quantity,
+        "ownershipPercentage": ownershipPercentage,
         "buyPricePerUnit": buyPricePerUnit,
         "note": note,
         "type": type,
@@ -86,6 +92,7 @@ class PostValuationParams extends Equatable {
         quantity,
         buyPricePerUnit,
         note,
+        ownershipPercentage,
         type
       ];
 
@@ -100,6 +107,7 @@ class PostValuationParams extends Equatable {
     valuatedAt: DateTime.parse('2022-10-05T21:00:00.000Z'),
     quantity: 2332,
     buyPricePerUnit: 244,
+    ownershipPercentage: 20,
     note: "test",
     type: "test",
   );

@@ -553,16 +553,6 @@ Future<void> init() async {
       () => SettingsRemoteDataSourceImpl(sl()));
 
   //Settings
-  sl.registerFactory(() => TwoFactorCubit(sl(), sl()));
-  sl.registerLazySingleton(() => GetSettingsUseCase(sl()));
-  sl.registerLazySingleton(() => PutSettingsUseCase(sl()));
-
-  sl.registerLazySingleton<SettingsRepository>(
-      () => SettingsRepositoryImpl(sl()));
-  sl.registerLazySingleton<SettingsRemoteDataSource>(
-      () => SettingsRemoteDataSourceImpl(sl()));
-
-  //Settings
   sl.registerFactory(() => AssetValuationCubit(sl(), sl()));
   sl.registerLazySingleton(() => AssetPostValuationUseCase(sl()));
   sl.registerLazySingleton(() => UpdateValuationUseCase(sl()));

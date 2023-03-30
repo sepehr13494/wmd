@@ -25,7 +25,7 @@ class AssetValuationCubit extends Cubit<AssetValuationState> {
     final result =
         await postValuationUseCase(PostValuationParams.fromJson(map));
     result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
-      emit(PostValuationLoaded(postValuationEntity: entity));
+      emit(SuccessState(appSuccess: entity));
     });
   }
 

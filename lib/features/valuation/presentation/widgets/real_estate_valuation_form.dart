@@ -7,11 +7,14 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/valuation/data/models/valuation_action_type.dart';
 
 class RealEstateValuationFormWidget extends StatefulWidget {
-  const RealEstateValuationFormWidget({Key? key}) : super(key: key);
+  final Function buildActions;
+  const RealEstateValuationFormWidget({Key? key, required this.buildActions})
+      : super(key: key);
   @override
   AppState<RealEstateValuationFormWidget> createState() =>
       _RealEstateValuationFormWidgetState();
@@ -24,6 +27,10 @@ class _RealEstateValuationFormWidgetState
   bool hasTimeLineSelected = false;
   DateTime? availableDateValue;
   FormBuilderState? formState;
+
+  String currentDayValue = "--";
+  String? noOfUnits = "";
+  String? valuePerUnit = "";
 
   @override
   void didUpdateWidget(covariant RealEstateValuationFormWidget oldWidget) {
@@ -53,6 +60,32 @@ class _RealEstateValuationFormWidgetState
     formState?.save();
   }
 
+  void calculateCurrentValue() {
+    const defaultValue = "--";
+    if (noOfUnits == "" || noOfUnits == null) {
+      setState(() {
+        currentDayValue = defaultValue;
+      });
+      return;
+    }
+    if (valuePerUnit == "" || valuePerUnit == null) {
+      setState(() {
+        currentDayValue = defaultValue;
+      });
+      return;
+    }
+
+    final noOfUnitsParsed = noOfUnits != null ? int.tryParse(noOfUnits!) : 0;
+    final valuePerUnitParsed = valuePerUnit != null
+        ? int.tryParse(valuePerUnit!.toString().replaceAll(',', ''))
+        : 0;
+
+    setState(() {
+      currentDayValue = NumberFormat("#,##0", "en_US")
+          .format(noOfUnitsParsed! * valuePerUnitParsed!);
+    });
+  }
+
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
@@ -73,7 +106,7 @@ class _RealEstateValuationFormWidgetState
           children: [
             EachTextField(
               hasInfo: false,
-              title: "Date",
+              title: appLocalizations.assets_valuationModal_labels_date,
               child: FormBuilderDateTimePicker(
                 onChanged: (selectedDate) {
                   checkFinalValid(selectedDate);
@@ -87,7 +120,7 @@ class _RealEstateValuationFormWidgetState
                 validator: FormBuilderValidators.compose(
                     [FormBuilderValidators.required()]),
                 format: DateFormat("dd/MM/yyyy"),
-                name: "date",
+                name: "valuatedAt",
                 decoration: InputDecoration(
                     suffixIcon: Icon(
                       Icons.calendar_today_outlined,
@@ -97,16 +130,15 @@ class _RealEstateValuationFormWidgetState
                         .scheduleMeeting_availableDate_placeholder),
               ),
             ),
-            const EachTextField(
+            EachTextField(
                 hasInfo: false,
-                title: "Action",
+                title: appLocalizations.assets_valuationModal_labels_action,
                 child: RadioButton<String>(
-                    items: ValuationActionType.valuationActionTypeList,
-                    name: "action")),
+                    items: ValuationActionType.valuationActionTypeList(context),
+                    name: "type")),
             EachTextField(
               hasInfo: false,
-              title: appLocalizations
-                  .assetLiabilityForms_forms_realEstate_inputFields_currency_label,
+              title: appLocalizations.assets_valuationModal_labels_currency,
               child: CurrenciesDropdown(
                 onChanged: checkFinalValid,
                 showExchange: false,
@@ -114,44 +146,55 @@ class _RealEstateValuationFormWidgetState
             ),
             EachTextField(
               hasInfo: false,
-              title: appLocalizations
-                  .assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_label,
+              title: appLocalizations.assets_valuationModal_labels_noOfUnits,
               child: AppTextFields.simpleTextField(
-                  type: TextFieldType.number,
+                  type: TextFieldType.rate,
                   keyboardType: TextInputType.number,
-                  onChanged: checkFinalValid,
-                  name: "noOfUnits",
+                  onChanged: (val) {
+                    setState(() {
+                      noOfUnits = val;
+                    });
+                    calculateCurrentValue();
+                    checkFinalValid(val);
+                  },
+                  name: "quantity",
                   extraValidators: [
                     (val) {
                       return ((int.tryParse(val ?? "0") ?? 0) <= 100)
                           ? null
-                          : "${appLocalizations.assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_label} can't be greater then 100";
+                          : "${appLocalizations.assets_valuationModal_labels_noOfUnits} can't be greater then 100";
                     }
                   ],
                   hint: appLocalizations
-                      .assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_placeholder),
-            ),
-            EachTextField(
-              title: appLocalizations
-                  .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_label,
-              child: AppTextFields.simpleTextField(
-                  required: false,
-                  type: TextFieldType.money,
-                  keyboardType: TextInputType.number,
-                  name: "marketValue",
-                  hint: appLocalizations
-                      .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_placeholder),
+                      .assets_valuationModal_placeholder_noOfUnits),
             ),
             EachTextField(
               hasInfo: false,
-              title: appLocalizations
-                  .assetLiabilityForms_forms_realEstate_inputFields_yourOwnership_label,
+              title: appLocalizations.assets_valuationModal_labels_valuePerUnit,
+              child: AppTextFields.simpleTextField(
+                  required: false,
+                  type: TextFieldType.money,
+                  onChanged: (val) {
+                    setState(() {
+                      valuePerUnit = val;
+                    });
+                    calculateCurrentValue();
+                  },
+                  keyboardType: TextInputType.number,
+                  name: "amount",
+                  hint: appLocalizations
+                      .assets_valuationModal_placeholder_valuePerUnit),
+            ),
+            EachTextField(
+              hasInfo: false,
+              title: appLocalizations.assets_valuationModal_labels_ownership,
               child: AppTextFields.simpleTextField(
                   extraValidators: [
                     (val) {
                       return ((int.tryParse(val ?? "0") ?? 0) <= 100)
                           ? null
-                          : "Ownership can't be greater then 100";
+                          : appLocalizations
+                              .assets_valuationModal_errors_ownershipMax;
                     }
                   ],
                   type: TextFieldType.number,
@@ -159,16 +202,38 @@ class _RealEstateValuationFormWidgetState
                   onChanged: checkFinalValid,
                   name: "ownershipPercentage",
                   hint: appLocalizations
-                      .assetLiabilityForms_forms_realEstate_inputFields_yourOwnership_placeholder),
+                      .assets_valuationModal_placeholder_ownership),
+            ),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? AppColors.anotherCardColorForDarkTheme
+                      : AppColors.anotherCardColorForLightTheme,
+                  borderRadius: BorderRadius.circular(8)),
+              child: Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text("Total cost"),
+                    const SizedBox(height: 8),
+                    Text(currentDayValue == "--"
+                        ? currentDayValue
+                        : "\$$currentDayValue")
+                  ],
+                ),
+              ),
             ),
             EachTextField(
               hasInfo: false,
-              title: "Note (optional)",
+              title: appLocalizations.assets_valuationModal_labels_note,
               child: AppTextFields.simpleTextField(
+                  required: false,
                   onChanged: checkFinalValid,
                   name: "note",
-                  hint: appLocalizations
-                      .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_placeholder),
+                  hint:
+                      appLocalizations.assets_valuationModal_placeholder_note),
             ),
           ]
               .map((e) => Padding(
@@ -179,6 +244,7 @@ class _RealEstateValuationFormWidgetState
               .toList(),
         ),
       ),
+      widget.buildActions(formKey)
     ]);
   }
 }

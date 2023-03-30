@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
+import 'package:wmd/core/presentation/bloc/base_cubit.dart';
+import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/modal_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
@@ -16,9 +18,11 @@ import 'package:wmd/features/valuation/presentation/widgets/bank_valuation_form.
 import 'package:wmd/features/valuation/presentation/widgets/equity_debt_valuation_form.dart';
 import 'package:wmd/features/valuation/presentation/widgets/listed_equity_valuation_form.dart';
 import 'package:wmd/features/valuation/presentation/widgets/real_estate_valuation_form.dart';
+import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 
 class ValuationModalWidget extends ModalWidget {
+  final String assetId;
   final String assetType;
   final GlobalKey<FormBuilderState>? formKey = GlobalKey<FormBuilderState>();
 
@@ -29,6 +33,7 @@ class ValuationModalWidget extends ModalWidget {
     required super.confirmBtn,
     required super.cancelBtn,
     required this.assetType,
+    required this.assetId,
     // this.formKey = GlobalKey<FormBuilderState>(),
   });
 
@@ -47,36 +52,51 @@ class ValuationModalWidget extends ModalWidget {
         case AssetTypes.bankAccount:
           formMap = {
             ...formKey.currentState!.instantValue,
+            "wealthType": "Asset",
+            "assetOrLiabilityId": assetId,
+            "type": "Buy"
           };
           break;
         case AssetTypes.realEstate:
           formMap = {
             ...formKey.currentState!.instantValue,
+            "wealthType": "Asset",
+            "assetOrLiabilityId": assetId,
           };
           break;
         case AssetTypes.listedAsset:
           formMap = {
             ...formKey.currentState!.instantValue,
+            "wealthType": "Asset",
+            "assetOrLiabilityId": assetId,
           };
           break;
         case AssetTypes.listedAssetEquity:
           formMap = {
             ...formKey.currentState!.instantValue,
+            "wealthType": "Asset",
+            "assetOrLiabilityId": assetId,
           };
           break;
         case AssetTypes.listedAssetFixedIncome:
           formMap = {
             ...formKey.currentState!.instantValue,
+            "wealthType": "Asset",
+            "assetOrLiabilityId": assetId,
           };
           break;
         case AssetTypes.privateEquity:
           formMap = {
             ...formKey.currentState!.instantValue,
+            "wealthType": "Asset",
+            "assetOrLiabilityId": assetId,
           };
           break;
         case AssetTypes.privateDebt:
           formMap = {
             ...formKey.currentState!.instantValue,
+            "wealthType": "Asset",
+            "assetOrLiabilityId": assetId,
           };
           break;
         default:
@@ -91,7 +111,14 @@ class ValuationModalWidget extends ModalWidget {
 
     return BlocProvider(
         create: (context) => sl<AssetValuationCubit>(),
-        child: Builder(builder: (context) {
+        child: BlocConsumer<AssetValuationCubit, AssetValuationState>(listener:
+            BlocHelper.defaultBlocListener(listener: (context, state) {
+          if (state is SuccessState) {
+            GlobalFunctions.showSnackBar(context, 'Valuation added',
+                type: "success");
+            Navigator.pop(context, false);
+          }
+        }), builder: (context, state) {
           return Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: responsiveHelper.bigger16Gap * 5),
@@ -99,8 +126,7 @@ class ValuationModalWidget extends ModalWidget {
                 children: [
                   OutlinedButton(
                     onPressed: () {
-                      // View Asset detail button
-                      context.goNamed(AppRoutes.addAssetsView);
+                      Navigator.pop(context, false);
                     },
                     style: OutlinedButton.styleFrom(
                         minimumSize: const Size(100, 50)),
@@ -113,9 +139,8 @@ class ValuationModalWidget extends ModalWidget {
                     onPressed: () {
                       debugPrint("formKey.currentState");
                       // debugPrint(formKey.currentState!.initialValue.toString());
-                      debugPrint(formStateKey.currentState.toString());
-                      // debugPrint(enableAddAssetButton.toString());
-                      // debugPrint(formKey.currentState!.isValid.toString());
+                      debugPrint(
+                          formStateKey?.currentState!.instantValue.toString());
 
                       formStateKey.currentState?.validate();
                       if (formStateKey.currentState!.isValid) {
@@ -144,25 +169,6 @@ class ValuationModalWidget extends ModalWidget {
     final responsiveHelper = ResponsiveHelper(context: context);
     final isMobile = responsiveHelper.isMobile;
     final appLocalizations = AppLocalizations.of(context);
-    final GlobalKey<FormBuilderState> localFormKey =
-        GlobalKey<FormBuilderState>();
-
-    bool enableAddAssetButton = false;
-
-    void checkFinalValid(value) async {
-      // await Future.delayed(const Duration(milliseconds: 100));
-      // bool finalValid = formKey.currentState!.isValid;
-
-      // if (finalValid) {
-      //   if (!enableAddAssetButton) {
-      //     enableAddAssetButton = true;
-      //   }
-      // } else {
-      //   if (enableAddAssetButton) {
-      //     enableAddAssetButton = false;
-      //   }
-      // }
-    }
 
     Widget renderForm(String type) {
       Widget entity;
@@ -170,30 +176,43 @@ class ValuationModalWidget extends ModalWidget {
       switch (type) {
         case AssetTypes.bankAccount:
           entity = BankValuationFormWidget(
-            // formKey: formKey,
             buildActions: (e) => buildActions(context, e),
           );
           break;
         case AssetTypes.realEstate:
-          entity = const RealEstateValuationFormWidget();
+          entity = RealEstateValuationFormWidget(
+            buildActions: (e) => buildActions(context, e),
+          );
           break;
         case AssetTypes.listedAsset:
-          entity = const ListedEquityValuationFormWidget();
+          entity = ListedEquityValuationFormWidget(
+            buildActions: (e) => buildActions(context, e),
+          );
           break;
         case AssetTypes.listedAssetEquity:
-          entity = const ListedEquityValuationFormWidget();
+          entity = ListedEquityValuationFormWidget(
+            buildActions: (e) => buildActions(context, e),
+          );
           break;
         case AssetTypes.listedAssetFixedIncome:
-          entity = const ListedEquityValuationFormWidget();
+          entity = ListedEquityValuationFormWidget(
+            buildActions: (e) => buildActions(context, e),
+          );
           break;
         case AssetTypes.privateEquity:
-          entity = const EquityDebtValuationFormWidget();
+          entity = EquityDebtValuationFormWidget(
+            buildActions: (e) => buildActions(context, e),
+          );
           break;
         case AssetTypes.privateDebt:
-          entity = const EquityDebtValuationFormWidget();
+          entity = EquityDebtValuationFormWidget(
+            buildActions: (e) => buildActions(context, e),
+          );
           break;
         default:
-          entity = const EquityDebtValuationFormWidget();
+          entity = EquityDebtValuationFormWidget(
+            buildActions: (e) => buildActions(context, e),
+          );
           break;
       }
 
@@ -221,7 +240,7 @@ class ValuationModalWidget extends ModalWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Add valuation",
+                              appLocalizations.assets_valuationModal_heading,
                               style: appTextTheme.headlineSmall,
                               textAlign: TextAlign.center,
                             )
