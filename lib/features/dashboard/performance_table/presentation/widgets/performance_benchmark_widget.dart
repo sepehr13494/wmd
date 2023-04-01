@@ -19,53 +19,53 @@ class PerformanceBenchmarkWidget extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     return BlocConsumer<PerformanceBenchmarkCubit, PerformanceTableState>(
       listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
-      builder: (context, state) {
+      builder: BlocHelper.errorHiderBlocBuilder(builder: (context, state) {
         return state is GetBenchmarkLoaded
             ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text(
-                      appLocalizations.home_wealthPerformanceComparision_title,
-                      style: textTheme.titleLarge,
-                    ),
-                  ),
-                  Builder(builder: (context) {
-                    return PerformanceBaseTable(
-                        titles: [
-                          appLocalizations
-                              .home_wealthPerformanceComparision_table_header_indexes,
-                          appLocalizations
-                              .home_wealthPerformanceComparision_table_header_performance,
-                          appLocalizations
-                              .home_wealthPerformanceComparision_table_header_performancePA,
-                          appLocalizations
-                              .home_wealthPerformanceComparision_table_header_riskPA,
-                          appLocalizations
-                              .home_wealthPerformanceComparision_table_header_sharpeRatio,
-                        ],
-                        widths: const [
-                          120,
-                          120,
-                          120,
-                          100,
-                          120
-                        ],
-                        values: state.getBenchmarkEntities
-                            .map((e) => <PerformanceValueObj>[
-                                  PerformanceValueObj(value: e.index,shouldBlur: false),
-                                  PerformanceValueObj(value: "${e.performance.toStringAsFixed(1)} %",shouldBlur: false),
-                                  PerformanceValueObj(value: "${e.performancePa.toStringAsFixed(1)} %",shouldBlur: false),
-                                  PerformanceValueObj(value: "${e.riskPa.toStringAsFixed(1)} %",shouldBlur: false),
-                                  PerformanceValueObj(value: e.sharpeRatio.toString(),shouldBlur: true),
-                                ])
-                            .toList());
-                  })
-                ],
-              )
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text(
+                appLocalizations.home_wealthPerformanceComparision_title,
+                style: textTheme.titleLarge,
+              ),
+            ),
+            Builder(builder: (context) {
+              return PerformanceBaseTable(
+                  titles: [
+                    appLocalizations
+                        .home_wealthPerformanceComparision_table_header_indexes,
+                    appLocalizations
+                        .home_wealthPerformanceComparision_table_header_performance,
+                    appLocalizations
+                        .home_wealthPerformanceComparision_table_header_performancePA,
+                    appLocalizations
+                        .home_wealthPerformanceComparision_table_header_riskPA,
+                    appLocalizations
+                        .home_wealthPerformanceComparision_table_header_sharpeRatio,
+                  ],
+                  widths: const [
+                    120,
+                    120,
+                    120,
+                    100,
+                    120
+                  ],
+                  values: state.getBenchmarkEntities
+                      .map((e) => <PerformanceValueObj>[
+                    PerformanceValueObj(value: e.index,shouldBlur: false),
+                    PerformanceValueObj(value: "${e.performance.toStringAsFixed(1)} %",shouldBlur: false),
+                    PerformanceValueObj(value: "${e.performancePa.toStringAsFixed(1)} %",shouldBlur: false),
+                    PerformanceValueObj(value: "${e.riskPa.toStringAsFixed(1)} %",shouldBlur: false),
+                    PerformanceValueObj(value: e.sharpeRatio.toString(),shouldBlur: true),
+                  ])
+                      .toList());
+            })
+          ],
+        )
             : const PerformanceTableShimmer();
-      },
+      }),
     );
   }
 }
