@@ -1,3 +1,5 @@
+import 'dart:developer';
+import 'package:advance_expansion_tile/advance_expansion_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/base_app_bar.dart';
@@ -6,6 +8,7 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_blur_warning.dart';
 import 'package:wmd/features/profile/core/presentation/pages/profile_page.dart';
+import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/two_factor_settings_widget.dart';
 import 'package:wmd/features/settings/presentation/page/preferences_page.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -30,7 +33,6 @@ class _SettingsPageState extends AppState<SettingsPage>
     _controller.addListener(() {
       setState(() {
         page = _controller.index;
-        print(page);
       });
     });
     super.initState();
@@ -51,6 +53,17 @@ class _SettingsPageState extends AppState<SettingsPage>
     final map = [
       MapEntry(
           appLocalizations.profile_tabs_personal_name, const ProfilePage()),
+      MapEntry(
+          appLocalizations.profile_twoFactor_header,
+          SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(vertical: 32),
+            child: Column(
+              // ignore: prefer_const_literals_to_create_immutables
+              children: [
+                const TwoFactorSetting(),
+              ],
+            ),
+          )),
       MapEntry(appLocalizations.profile_tabs_preferences_name,
           const PreferencesPage()),
       MapEntry(
@@ -84,7 +97,8 @@ class _SettingsPageState extends AppState<SettingsPage>
                             setState(() {
                               page = val;
                             });
-                          })
+                          },
+                        )
                       : Padding(
                           padding: const EdgeInsets.all(padding),
                           child: SettingsTabletView(
@@ -93,6 +107,7 @@ class _SettingsPageState extends AppState<SettingsPage>
                                 setState(() {
                                   page = val;
                                 });
+                                log("Mert log: $val");
                               }),
                         ),
                 )
@@ -184,6 +199,7 @@ class _SettingsTabletViewState extends AppState<SettingsTabletView>
           controller: _controller,
           children: [
             const ProfilePage(),
+            const ProfilePage(),
             const PreferencesPage(),
             Container(),
           ],
@@ -193,11 +209,25 @@ class _SettingsTabletViewState extends AppState<SettingsTabletView>
   }
 }
 
-class SettingsMobileView extends AppStatelessWidget {
+class SettingsMobileView extends StatefulWidget {
   const SettingsMobileView(
       {super.key, required this.pages, required this.onPageOpened});
   final List<MapEntry<String, Widget>> pages;
   final void Function(int page) onPageOpened;
+
+  @override
+  AppState<SettingsMobileView> createState() => _SettingsMobileViewState();
+}
+
+class _SettingsMobileViewState extends AppState<SettingsMobileView> {
+  late final List<GlobalKey<AdvanceExpansionTileState>> keys;
+
+  @override
+  void initState() {
+    super.initState();
+    keys = List.generate(
+        widget.pages.length, (index) => GlobalKey<AdvanceExpansionTileState>());
+  }
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
@@ -212,15 +242,58 @@ class SettingsMobileView extends AppStatelessWidget {
               style: textTheme.headlineMedium,
             ),
           ),
-          ...List.generate(pages.length, (index) {
-            final e = pages[index];
-            return ExpansionTile(
+          // ExpansionPanelList(
+          //   expansionCallback: (panelIndex, isExpanded) =>
+          //       onPageOpened(panelIndex),
+          //   dividerColor: Colors.transparent,
+          //   expandedHeaderPadding: const EdgeInsets.all(0),
+          //   children: List.generate(pages.length, (index) {
+          //     final e = pages[index];
+          //     return ExpansionPanel(
+          //       headerBuilder: (context, isExpanded) => ListTile(
+          //         title: Text(e.key),
+          //         trailing: Icon(
+          //           Icons.keyboard_arrow_down,
+          //           color: Theme.of(context).primaryColor,
+          //         ),
+          //       ),
+          //       body: e.value,
+          //       isExpanded: opened == index,
+          //       canTapOnHeader: true,
+          //       backgroundColor: AppColors.backgroundColorPageDark,
+          //     );
+          //   }),
+          // ),
+          // ...List.generate(pages.length, (index) {
+          //   final e = pages[index];
+          //   return ExpansionTile(
+          //     key: Key(index.toString()),
+          //     title: Text(e.key),
+          //     initiallyExpanded: opened == index,
+          //     collapsedIconColor: Theme.of(context).primaryColor,
+          //     iconColor: Theme.of(context).primaryColor,
+          //     backgroundColor: AppColors.backgroundColorPageDark,
+          //     children: [e.value],
+          //     onExpansionChanged: (value) {
+          //       if (value) {
+          //         onPageOpened(index);
+          //       }
+          //     },
+          //   );
+          // }),
+          ...List.generate(widget.pages.length, (index) {
+            final e = widget.pages[index];
+            return AdvanceExpansionTile(
+              key: keys[index],
               title: Text(e.key),
+              collapsedIconColor: Theme.of(context).primaryColor,
+              iconColor: Theme.of(context).primaryColor,
               backgroundColor: AppColors.backgroundColorPageDark,
               children: [e.value],
               onExpansionChanged: (value) {
                 if (value) {
-                  onPageOpened(index);
+                  setPanels(index);
+                  widget.onPageOpened(index);
                 }
               },
             );
@@ -228,5 +301,13 @@ class SettingsMobileView extends AppStatelessWidget {
         ],
       ),
     );
+  }
+
+  setPanels(int index) {
+    for (var i = 0; i < keys.length; i++) {
+      if (i != index) {
+        keys[i].currentState?.collapse();
+      }
+    }
   }
 }

@@ -362,11 +362,20 @@ class AppRouter {
                       name: AppRoutes.twoFactorAuth,
                       path: "two-factor-auth",
                       builder: (BuildContext context, GoRouterState state) {
-                        return BlocProvider.value(
-                            value: _blurredPrivacyCubit,
-                            child: const PrivacyBlurWrapper(
-                              child: TwoFactorSetupPage(),
-                            ));
+                        return MultiBlocProvider(
+                          providers: [
+                            BlocProvider.value(
+                              value: _blurredPrivacyCubit,
+                            ),
+                            BlocProvider.value(
+                              value: _userStatusCubit,
+                            ),
+                            BlocProvider.value(
+                              value: _personalInformationCubit,
+                            ),
+                          ],
+                          child: const TwoFactorSetupPage(),
+                        );
                       },
                     ),
                     GoRoute(
@@ -374,9 +383,6 @@ class AppRouter {
                       path: "verify-otp",
                       builder: (BuildContext context, GoRouterState state) {
                         return MultiBlocProvider(providers: [
-                          BlocProvider.value(
-                            value: _personalInformationCubit,
-                          ),
                           BlocProvider(
                             create: (context) {
                               _verifyPhoneCubit = sl<VerifyPhoneCubit>();

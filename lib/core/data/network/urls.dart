@@ -31,6 +31,7 @@ class AppUrls {
   static String postScheduleCall = "portfolio/meetings/schedule";
   static String postVerifyPhone = "${userBase}Otp/verify";
   static String postResendVerifyPhone = "${userBase}Otp";
+  static String postResendOtp = "${userBase}User/send-otp";
 
   static String postBankDetails = "${wealthBase}BankAccount";
   static String postPrivateEquity = "${wealthBase}PrivateEquity";
@@ -72,6 +73,7 @@ class AppUrls {
   //valuation
   static String getAllValuation = "${wealthBase}Valuation/All";
   static String postValuation = "${wealthBase}Valuation";
+  static String postAddValuation = "${wealthBase}valuation";
   static String getValuationPerformance(String id) =>
       "${wealthBase}Valuation/$id/performance";
 

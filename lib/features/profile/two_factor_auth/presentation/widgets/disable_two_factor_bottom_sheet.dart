@@ -48,12 +48,13 @@ class DisableTwoFactorBottomSheet extends AppStatelessWidget {
           Column(
             children: [
               Text(
-                "Are you sure you wish to disable two-factor authentication?",
+                appLocalizations.profile_twofactorauthentication_modal_title,
                 textAlign: TextAlign.left,
                 style: TextStyle(fontSize: responsiveHelper.xxLargeFontSize),
               ),
               Text(
-                "Two-factor authentication makes it extra difficult for anyone other than you to access your account.",
+                appLocalizations
+                    .profile_twofactorauthentication_modal_description,
                 textAlign: TextAlign.center,
                 style: textTheme.bodyMedium,
               ),
@@ -66,7 +67,7 @@ class DisableTwoFactorBottomSheet extends AppStatelessWidget {
                 },
                 // style:
                 //     ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
-                child: Text("Yes, turn off 2FA"),
+                child: Text(appLocalizations.common_button_yesTurnOff2FA),
               ),
               OutlinedButton(
                 onPressed: () {
