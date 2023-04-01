@@ -20,101 +20,101 @@ class PerformanceAssetClassWidget extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     return BlocConsumer<PerformanceAssetClassCubit, PerformanceTableState>(
       listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
-      builder: (context, state) {
+      builder: BlocHelper.errorHiderBlocBuilder(builder: (context, state) {
         return state is GetAssetClassLoaded
             ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Align(
-                            alignment: AlignmentDirectional.centerStart,
-                            child: Text(
-                              appLocalizations.home_wealthPerformance_title,
-                              style: textTheme.titleLarge,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Icon(
-                          Icons.calendar_month,
-                          size: 15,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        const SizedBox(width: 8),
-                        DropdownButtonHideUnderline(
-                          child: DropdownButton<TimeFilterObj>(
-                            items: AppConstants.timeFilterForAssetPerformance(context)
-                                .map((e) => DropdownMenuItem<TimeFilterObj>(
-                                value: e,
-                                child: Text(
-                                  e.key,
-                                  style: textTheme.bodyMedium!
-                                      .apply(color: Theme.of(context).primaryColor),
-                                  // textTheme.bodyMedium!.toLinkStyle(context),
-                                )))
-                                .toList(),
-                            onChanged: ((value) {
-                              if (value != null) {
-                                context.read<PerformanceAssetClassCubit>().getAssetClass(period: value);
-                              }
-                            }),
-                            value: context.read<PerformanceAssetClassCubit>().period ?? AppConstants.timeFilterForAssetPerformance(context).first,
-                            icon: Icon(
-                              Icons.keyboard_arrow_down,
-                              size: 15,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            // style: textTheme.labelLarge,
-                          ),
-                        ),
-                      ],
+                  Expanded(
+                    child: Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: Text(
+                        appLocalizations.home_wealthPerformance_title,
+                        style: textTheme.titleLarge,
+                      ),
                     ),
                   ),
-                  PerformanceBaseTable(
-                      titles: [
-                        appLocalizations
-                            .home_wealthPerformance_table_header_assetName,
-                        appLocalizations
-                            .home_wealthPerformance_table_header_marketResults,
-                        appLocalizations
-                            .home_wealthPerformance_table_header_forexResults,
-                        appLocalizations
-                            .home_wealthPerformance_table_header_income,
-                        appLocalizations
-                            .home_wealthPerformance_table_header_commissionAndExpense,
-                        appLocalizations
-                            .home_wealthPerformance_table_header_total,
-                        appLocalizations
-                            .home_wealthPerformance_table_header_changePercentage,
-                      ],
-                      widths: const [
-                        130,
-                        124,
-                        114,
-                        94,
-                        94,
-                        124,
-                        74
-                      ],
-                      values: state.getAssetClassEntities
-                          .map((e) => <PerformanceValueObj>[
-                                PerformanceValueObj(value: e.assetName,shouldBlur: false),
-                                PerformanceValueObj(value: e.marketValue.convertMoney(addDollar: true),),
-                                PerformanceValueObj(value: e.forexValue.convertMoney(addDollar: true),),
-                                PerformanceValueObj(value: e.income.convertMoney(addDollar: true),),
-                                PerformanceValueObj(value: e.commision.convertMoney(addDollar: true),),
-                                PerformanceValueObj(value: e.total.convertMoney(addDollar: true),),
-                                PerformanceValueObj(value: "${e.changePercentage.toStringAsFixed(1)} %",shouldBlur: false),
-                              ])
-                          .toList())
+                  const SizedBox(width: 12),
+                  Icon(
+                    Icons.calendar_month,
+                    size: 15,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  const SizedBox(width: 8),
+                  DropdownButtonHideUnderline(
+                    child: DropdownButton<TimeFilterObj>(
+                      items: AppConstants.timeFilterForAssetPerformance(context)
+                          .map((e) => DropdownMenuItem<TimeFilterObj>(
+                          value: e,
+                          child: Text(
+                            e.key,
+                            style: textTheme.bodyMedium!
+                                .apply(color: Theme.of(context).primaryColor),
+                            // textTheme.bodyMedium!.toLinkStyle(context),
+                          )))
+                          .toList(),
+                      onChanged: ((value) {
+                        if (value != null) {
+                          context.read<PerformanceAssetClassCubit>().getAssetClass(period: value);
+                        }
+                      }),
+                      value: context.read<PerformanceAssetClassCubit>().period ?? AppConstants.timeFilterForAssetPerformance(context).first,
+                      icon: Icon(
+                        Icons.keyboard_arrow_down,
+                        size: 15,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      // style: textTheme.labelLarge,
+                    ),
+                  ),
                 ],
-              )
+              ),
+            ),
+            PerformanceBaseTable(
+                titles: [
+                  appLocalizations
+                      .home_wealthPerformance_table_header_assetName,
+                  appLocalizations
+                      .home_wealthPerformance_table_header_marketResults,
+                  appLocalizations
+                      .home_wealthPerformance_table_header_forexResults,
+                  appLocalizations
+                      .home_wealthPerformance_table_header_income,
+                  appLocalizations
+                      .home_wealthPerformance_table_header_commissionAndExpense,
+                  appLocalizations
+                      .home_wealthPerformance_table_header_total,
+                  appLocalizations
+                      .home_wealthPerformance_table_header_changePercentage,
+                ],
+                widths: const [
+                  130,
+                  124,
+                  114,
+                  94,
+                  120,
+                  124,
+                  74
+                ],
+                values: state.getAssetClassEntities
+                    .map((e) => <PerformanceValueObj>[
+                  PerformanceValueObj(value: e.assetName,shouldBlur: false),
+                  PerformanceValueObj(value: e.marketValue.convertMoney(addDollar: true),),
+                  PerformanceValueObj(value: e.forexValue.convertMoney(addDollar: true),),
+                  PerformanceValueObj(value: e.income.convertMoney(addDollar: true),),
+                  PerformanceValueObj(value: e.commision.convertMoney(addDollar: true),),
+                  PerformanceValueObj(value: e.total.convertMoney(addDollar: true),),
+                  PerformanceValueObj(value: "${e.changePercentage.toStringAsFixed(1)} %",shouldBlur: false),
+                ])
+                    .toList())
+          ],
+        )
             : const PerformanceTableShimmer();
-      },
+      }),
     );
   }
 }

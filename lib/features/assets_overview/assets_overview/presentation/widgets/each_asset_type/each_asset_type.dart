@@ -52,17 +52,25 @@ class EachAssetType extends AppStatelessWidget {
                   assetsOverviewBaseWidgetModel.assetsOverviewType ==
                           AssetsOverviewBaseType.assetType
                       ? const SizedBox()
-                      : Row(
-                          children: [
-                            Text(appLocalizations
-                                .home_widget_geography_label_allocation),
-                            const SizedBox(width: 4),
-                            Text(
-                              "${assetsOverviewBaseWidgetModel.allocation.toStringAsFixed(1)} %",
-                              textDirection: TextDirection.ltr,
-                            )
-                          ],
-                        )
+                      : Expanded(
+                        child: Align(
+                          alignment: AlignmentDirectional.centerEnd,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Row(
+                                children: [
+                                  Text(appLocalizations
+                                      .home_widget_geography_label_allocation),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    "${assetsOverviewBaseWidgetModel.allocation.toStringAsFixed(1)} %",
+                                    textDirection: TextDirection.ltr,
+                                  )
+                                ],
+                              ),
+                          ),
+                        ),
+                      )
                 ],
               ),
               RowOrColumn(

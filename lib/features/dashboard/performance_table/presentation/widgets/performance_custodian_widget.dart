@@ -18,49 +18,49 @@ class PerformanceCustodianWidget extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     return BlocConsumer<PerformanceCustodianCubit, PerformanceTableState>(
       listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
-      builder: (context, state) {
+      builder: BlocHelper.errorHiderBlocBuilder(builder: (context, state) {
         return state is GetCustodianPerformanceLoaded
             ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text(
-                      "Performance comparison of custodians",
-                      style: textTheme.titleLarge,
-                    ),
-                  ),
-                  PerformanceBaseTable(
-                      titles: const [
-                        "Serial Number",
-                        "Custodian Name",
-                        "Performance (ITD)",
-                        "Amount (USD)",
-                        "Risk",
-                        "Sharpe Ratio",
-                      ],
-                      widths: const [
-                        120,
-                        150,
-                        120,
-                        120,
-                        80,
-                        120
-                      ],
-                      values: state.getCustodianPerformanceEntities
-                          .map((e) => <PerformanceValueObj>[
-                                PerformanceValueObj(value: "#${e.serialNumber}",shouldBlur: false),
-                                PerformanceValueObj(value: e.custodianName),
-                                PerformanceValueObj(value: "${e.performance.toStringAsFixed(1)} %",shouldBlur: false),
-                                PerformanceValueObj(value: "${e.amount.toStringAsFixed(1)} %",shouldBlur: false),
-                                PerformanceValueObj(value: "${e.riskPa.toStringAsFixed(1)} %",shouldBlur: false),
-                                PerformanceValueObj(value: e.sharpeRatio.toStringAsFixed(2)),
-                              ])
-                          .toList())
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text(
+                "Performance comparison of custodians",
+                style: textTheme.titleLarge,
+              ),
+            ),
+            PerformanceBaseTable(
+                titles: const [
+                  "Serial Number",
+                  "Custodian Name",
+                  "Performance (ITD)",
+                  "Amount (USD)",
+                  "Risk",
+                  "Sharpe Ratio",
                 ],
-              )
+                widths: const [
+                  120,
+                  150,
+                  120,
+                  120,
+                  80,
+                  120
+                ],
+                values: state.getCustodianPerformanceEntities
+                    .map((e) => <PerformanceValueObj>[
+                  PerformanceValueObj(value: "#${e.serialNumber}",shouldBlur: false),
+                  PerformanceValueObj(value: e.custodianName),
+                  PerformanceValueObj(value: "${e.performance.toStringAsFixed(1)} %",shouldBlur: false),
+                  PerformanceValueObj(value: "${e.amount.toStringAsFixed(1)} %",shouldBlur: false),
+                  PerformanceValueObj(value: "${e.riskPa.toStringAsFixed(1)} %",shouldBlur: false),
+                  PerformanceValueObj(value: e.sharpeRatio.toStringAsFixed(2)),
+                ])
+                    .toList())
+          ],
+        )
             : const PerformanceTableShimmer();
-      },
+      }),
     );
   }
 }

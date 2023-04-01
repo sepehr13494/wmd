@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/empty_chart.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
@@ -23,7 +24,8 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
-      child: BlocBuilder<ChartsCubit, ChartsState>(
+      child: BlocConsumer<ChartsCubit, ChartsState>(
+        listener: BlocHelper.defaultBlocListener(listener: (context, state){}),
         builder: (context, state) {
           return state is GetChartLoaded
               ? state.getChartEntities.isEmpty
