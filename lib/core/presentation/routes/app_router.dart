@@ -296,29 +296,38 @@ class AppRouter {
                     return const GlossaryPage();
                   }),
               GoRoute(
-                name: AppRoutes.assetDetailPage,
-                path: "asset_detail",
-                builder: (BuildContext context, GoRouterState state) {
-                  return MultiBlocProvider(
-                      providers: [
-                        BlocProvider.value(
-                          value: _blurredPrivacyCubit,
-                        ),
-                        BlocProvider.value(
-                          value: _mainDashboardCubit,
-                        ),
-                        BlocProvider.value(
-                          value: _mainPageCubit,
-                        )
-                      ],
-                      child: PrivacyBlurWrapper(
-                        child: AssetDetailPage(
-                          assetId: state.queryParams['assetId'] as String,
-                          type: state.queryParams['type'] as String,
-                        ),
-                      ));
-                },
-              ),
+                  name: AppRoutes.assetDetailPage,
+                  path: "asset_detail",
+                  builder: (BuildContext context, GoRouterState state) {
+                    return MultiBlocProvider(
+                        providers: [
+                          BlocProvider.value(
+                            value: _blurredPrivacyCubit,
+                          ),
+                          BlocProvider.value(
+                            value: _mainDashboardCubit,
+                          ),
+                          BlocProvider.value(
+                            value: _mainPageCubit,
+                          )
+                        ],
+                        child: PrivacyBlurWrapper(
+                          child: AssetDetailPage(
+                            assetId: state.queryParams['assetId'] as String,
+                            type: state.queryParams['type'] as String,
+                          ),
+                        ));
+                  },
+                  routes: [
+                    GoRoute(
+                      name: AppRoutes.editAssetDetail,
+                      path: "edit_asset_detail",
+                      builder: (BuildContext context, GoRouterState state) {
+                        print(state.extra);
+                        return Scaffold();
+                      },
+                    ),
+                  ]),
               GoRoute(
                   name: AppRoutes.settings,
                   path: "settings",

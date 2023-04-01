@@ -27,6 +27,7 @@ class AppRoutes {
   //asset details
   static const String bankAccountDetails = "bank_account_details";
   static const String assetDetailPage = "asset_detail_page";
+  static const String editAssetDetail = "edit_asset_detail";
 
   //add assets
   static const String addAssetsView = "add_assets_view";
