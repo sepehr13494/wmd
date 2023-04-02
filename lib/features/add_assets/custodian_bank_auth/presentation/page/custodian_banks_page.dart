@@ -7,6 +7,8 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/widget/custodian_bank_widget.dart';
 import 'package:wmd/injection_container.dart';
 
+import '../../../link_tfo_wealth/presentation/widgets/tfo_custodian_bank_widget.dart';
+
 class AddCustodianBanksPage extends StatefulWidget {
   const AddCustodianBanksPage({Key? key}) : super(key: key);
 
@@ -21,6 +23,7 @@ class _AddCustodianBanksPageState extends AppState<AddCustodianBanksPage> {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    const tfoKey = "TFO";
     return BlocProvider(
       create: (context) => sl<CustodianBankListCubit>()..getCustodianBankList(),
       child: BlocConsumer<CustodianBankListCubit, CustodianBankListState>(
@@ -44,18 +47,28 @@ class _AddCustodianBanksPageState extends AppState<AddCustodianBanksPage> {
                         appLocalizations.manage_automaticLink_text_notFound);
                   }
                   return Column(
-                    children: state.custodianBankList
-                        .map((e) => CustodianBankWidgetV2(
-                              bank: e,
-                              key: Key(e.bankId),
-                              onActive: () {
-                                setState(() {
-                                  selectedBankId = e.bankId;
-                                });
-                              },
-                              isSelected: selectedBankId == e.bankId,
-                            ))
-                        .toList(),
+                    children: [
+                      TfoCustodianBankWidget(
+                        key: const Key(tfoKey),
+                        onActive: () {
+                          setState(() {
+                            selectedBankId = tfoKey;
+                          });
+                        },
+                        isSelected: selectedBankId == tfoKey,
+                      ),
+                      ...state.custodianBankList
+                          .map((e) => CustodianBankWidgetV2(
+                                bank: e,
+                                key: Key(e.bankId),
+                                onActive: () {
+                                  setState(() {
+                                    selectedBankId = e.bankId;
+                                  });
+                                },
+                                isSelected: selectedBankId == e.bankId,
+                              )),
+                    ],
                   );
                 }
                 return const Center(child: CircularProgressIndicator());
