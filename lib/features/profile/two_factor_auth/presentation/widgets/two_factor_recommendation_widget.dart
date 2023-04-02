@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
@@ -8,7 +9,8 @@ import 'package:wmd/core/util/custom_icons.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
 
 class TwoFactorRecommendationWidget extends AppStatelessWidget {
-  const TwoFactorRecommendationWidget({super.key});
+  final Function onClose;
+  const TwoFactorRecommendationWidget({super.key, required this.onClose});
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
@@ -21,70 +23,90 @@ class TwoFactorRecommendationWidget extends AppStatelessWidget {
       child: Card(
         color: AppColors.blueCardColor,
         child: Padding(
-          padding: EdgeInsets.all(responsiveHelper.biggerGap),
-          child: RowOrColumn(
-            showRow: !isMobile,
-            // mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              ExpandedIf(
-                expanded: !isMobile,
-                child: Row(
+            padding: EdgeInsets.all(responsiveHelper.biggerGap),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    const Icon(
-                      Icons.privacy_tip,
-                      color: AppColors.primary,
+                    InkWell(
+                      onTap: () {
+                        onClose();
+                      },
+                      child: Icon(
+                        Icons.close,
+                        size: 15,
+                        color: Theme.of(context).primaryColor,
+                      ),
                     ),
-                    const SizedBox(width: 20),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                            width: responsiveHelper.optimalDeviceWidth * 0.7,
-                            child: Text(
-                              appLocalizations
-                                  .home_twoFactorRecommendation_title,
-                              style: textTheme.titleMedium,
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                            )),
-                        const SizedBox(height: 12),
-                        SizedBox(
-                          width: responsiveHelper.optimalDeviceWidth * 0.7,
-                          child: Text(
-                            appLocalizations
-                                .home_twoFactorRecommendation_description,
-                            style: textTheme.bodyMedium,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    )
                   ],
                 ),
-              ),
-              !isMobile
-                  ? SizedBox(width: responsiveHelper.bigger16Gap)
-                  : SizedBox(height: responsiveHelper.bigger16Gap),
-              ExpandedIf(
-                  expanded: !isMobile,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        context.pushNamed(AppRoutes.twoFactorAuth);
-                      },
+                RowOrColumn(
+                  showRow: !isMobile,
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ExpandedIf(
+                      expanded: !isMobile,
                       child: Row(
-                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(appLocalizations
-                              .home_twoFactorRecommendation_btn),
-                          const SizedBox(width: 8),
-                          const Icon(Icons.arrow_right),
+                          SvgPicture.asset(
+                            "assets/images/shield_lock.svg",
+                            height: 35,
+                          ),
+                          const SizedBox(width: 20),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                  width:
+                                      responsiveHelper.optimalDeviceWidth * 0.6,
+                                  child: Text(
+                                    appLocalizations
+                                        .home_twoFactorRecommendation_title,
+                                    style: textTheme.titleMedium,
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                  )),
+                              const SizedBox(height: 12),
+                              SizedBox(
+                                width:
+                                    responsiveHelper.optimalDeviceWidth * 0.6,
+                                child: Text(
+                                  appLocalizations
+                                      .home_twoFactorRecommendation_description,
+                                  style: textTheme.bodyMedium,
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          )
                         ],
-                      )))
-            ],
-          ),
-        ),
+                      ),
+                    ),
+                    !isMobile
+                        ? SizedBox(width: responsiveHelper.bigger16Gap)
+                        : SizedBox(height: responsiveHelper.bigger16Gap),
+                    ExpandedIf(
+                        expanded: !isMobile,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              context.pushNamed(AppRoutes.twoFactorAuth);
+                            },
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(appLocalizations
+                                    .home_twoFactorRecommendation_btn),
+                                const SizedBox(width: 8),
+                                const Icon(Icons.arrow_right),
+                              ],
+                            )))
+                  ],
+                ),
+              ],
+            )),
       ),
     );
   }

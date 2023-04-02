@@ -13,7 +13,7 @@ import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/basic_timer_widget.dart';
-import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
+import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/failed_otp_auth_bottom_sheet.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/resend_timer_widget.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/get_send_otp_usecase.dart';
@@ -58,8 +58,25 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
     final appTheme = Theme.of(context);
     final responsiveHelper = ResponsiveHelper(context: context);
 
+    final userStatus = context.watch<UserStatusCubit>().state;
+
     return BlocConsumer<VerifyPhoneCubit, VerifyPhoneState>(
         listener: (context, state) {
+      if (userStatus is UserStatusLoaded) {
+        if (userStatus.userStatus.optAttemptExceeded == true) {
+          showModalBottomSheet(
+              isDismissible: false,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              isScrollControlled: true,
+              context: context,
+              builder: (context) {
+                return FailedOtpAuthBottomSheet(
+                  callback: (() => context.goNamed(AppRoutes.login)),
+                );
+              });
+        }
+      }
+
       if (state is VerifyOtpLoaded) {
         GlobalFunctions.showSnackBar(context, 'Verification code sent',
             type: "success");
@@ -80,6 +97,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
 
         if (failedAttampts >= 2) {
           showModalBottomSheet(
+              isDismissible: false,
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               isScrollControlled: true,
               context: context,

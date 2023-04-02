@@ -19,6 +19,7 @@ import 'package:wmd/features/dashboard/performance_table/presentation/widgets/pe
 import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_benchmark_widget.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_custodian_widget.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
+import 'package:wmd/features/profile/two_factor_auth/manager/two_factor_cubit.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/two_factor_recommendation_widget.dart';
 import '../../../dashboard_charts/presentation/widgets/pie_chart_sample.dart';
 import '../../../dashboard_charts/presentation/widgets/random_map.dart';
@@ -41,6 +42,10 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
       AppLocalizations appLocalizations) {
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
     final appTheme = Theme.of(context);
+
+    final twoFactorState = context.read<TwoFactorCubit>().state;
+    bool showTwoFactorReccoment = true;
+
     if (widget.expandCustodian) {
       context.read<CustodianStatusListCubit>().getCustodianStatusList();
     }
@@ -75,10 +80,11 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                   elevatedButtonTheme: ElevatedButtonThemeData(
                                     style: appTheme.outlinedButtonTheme.style!
                                         .copyWith(
-                                            minimumSize:
-                                                MaterialStateProperty.all(
-                                                    const Size(0, 48)),
-                                      backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor),
+                                      minimumSize: MaterialStateProperty.all(
+                                          const Size(0, 48)),
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Theme.of(context).primaryColor),
                                     ),
                                   ),
                                   iconTheme: appTheme.iconTheme
@@ -134,10 +140,20 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                                               .netWorthObj),
                                                 const NetWorthBaseChart(),
                                                 const SizedBox(height: 8),
-                                                if (state.userStatus
-                                                        .mobileNumberVerified !=
-                                                    true)
-                                                  const TwoFactorRecommendationWidget(),
+                                                if ((twoFactorState
+                                                            is TwoFactorLoaded &&
+                                                        twoFactorState.entity
+                                                                .twoFactorEnabled ==
+                                                            false) &&
+                                                    showTwoFactorReccoment)
+                                                  TwoFactorRecommendationWidget(
+                                                    onClose: () {
+                                                      setState(() {
+                                                        showTwoFactorReccoment =
+                                                            false;
+                                                      });
+                                                    },
+                                                  ),
                                                 const SizedBox(height: 8),
                                                 Align(
                                                   alignment:
