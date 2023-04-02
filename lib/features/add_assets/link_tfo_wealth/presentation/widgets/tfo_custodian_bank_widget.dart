@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/firebase_analytics.dart';
+import 'package:wmd/features/add_assets/link_tfo_wealth/presentation/widgets/tfo_confirm_mandate_modal.dart';
 import 'package:wmd/features/add_assets/link_tfo_wealth/presentation/widgets/tfo_initial_modal.dart';
 import 'package:wmd/features/add_assets/link_tfo_wealth/presentation/widgets/tfo_success_modal.dart';
 
@@ -46,7 +47,8 @@ class TfoCustodianBankWidget extends AppStatelessWidget {
                         final result =
                             await showTfoInitialModal(context: context);
                         if (result) {
-                          showTfoSuccessModal(context: context);
+                          showTfoConfirmMandateModal(context: context);
+                          // showTfoSuccessModal(context: context);
                         }
                         log('Mert log: $result');
                       },
