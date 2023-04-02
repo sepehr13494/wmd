@@ -166,16 +166,14 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
         minX = element.value;
       }
     }
-    if (minX > 0) {
+    if (minX >= 0) {
       return 1;
     }
     double maxX = values.first.value;
     for (var element in values) {
-      if (element.value > maxX) {
-        minX = element.value;
-      }
+      if (element.value > maxX) {}
     }
-    if (maxX < 0) {
+    if (maxX <= 0) {
       return 0;
     }
     double gradientStop = maxX / (maxX - minX);
