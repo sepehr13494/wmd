@@ -34,6 +34,7 @@ class DisableTwoFactorBottomSheet extends AppStatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               InkWell(
+                splashColor: Theme.of(context).primaryColor,
                 onTap: () {
                   Navigator.pop(context);
                 },
@@ -50,7 +51,7 @@ class DisableTwoFactorBottomSheet extends AppStatelessWidget {
               Text(
                 appLocalizations.profile_twofactorauthentication_modal_title,
                 textAlign: TextAlign.left,
-                style: TextStyle(fontSize: responsiveHelper.xxLargeFontSize),
+                style: textTheme.headlineSmall,
               ),
               Text(
                 appLocalizations
@@ -67,7 +68,10 @@ class DisableTwoFactorBottomSheet extends AppStatelessWidget {
                 },
                 // style:
                 //     ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
-                child: Text(appLocalizations.common_button_yesTurnOff2FA),
+                child: Text(
+                  appLocalizations.common_button_yesTurnOff2FA,
+                  style: const TextStyle(fontSize: 16),
+                ),
               ),
               OutlinedButton(
                 onPressed: () {
@@ -75,11 +79,13 @@ class DisableTwoFactorBottomSheet extends AppStatelessWidget {
                 },
                 // style:
                 //     OutlinedButton.styleFrom(minimumSize: const Size(100, 50)),
-                child: Text(appLocalizations.common_button_cancel),
+                child: Text(
+                  appLocalizations.common_button_cancel,
+                ),
               )
             ]
                 .map((e) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      padding: const EdgeInsets.symmetric(vertical: 8),
                       child: e,
                     ))
                 .toList(),
