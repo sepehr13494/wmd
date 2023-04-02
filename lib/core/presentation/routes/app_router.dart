@@ -46,6 +46,7 @@ import 'package:wmd/features/help/support/presentation/pages/support_page.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/features/main_page/presentation/pages/main_page.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
+import 'package:wmd/features/profile/two_factor_auth/manager/two_factor_cubit.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/pages/two_factor_setup_page.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/pages/verify_otp_page.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
@@ -91,6 +92,7 @@ class AppRouter {
   PerformanceCustodianCubit _performanceCustodianCubit =
       sl<PerformanceCustodianCubit>();
   VerifyPhoneCubit _verifyPhoneCubit = sl<VerifyPhoneCubit>();
+  TwoFactorCubit _twoFactorCubit = sl<TwoFactorCubit>();
 
   GoRouter router() {
     return GoRouter(
@@ -276,6 +278,12 @@ class AppRouter {
                       return _personalInformationCubit..getName();
                     },
                   ),
+                  BlocProvider(
+                    create: (context) {
+                      _twoFactorCubit = sl<TwoFactorCubit>();
+                      return _twoFactorCubit..getTwoFactor();
+                    },
+                  ),
                 ],
                 child: PrivacyBlurWrapper(
                   child: LocalAuthWrapper(
@@ -343,6 +351,9 @@ class AppRouter {
                         BlocProvider.value(
                           value: _userStatusCubit,
                         ),
+                        BlocProvider.value(
+                          value: _twoFactorCubit,
+                        ),
                       ],
                       child: const PrivacyBlurWrapper(
                         child: SettingsPage(),
@@ -373,8 +384,13 @@ class AppRouter {
                             BlocProvider.value(
                               value: _personalInformationCubit,
                             ),
+                            BlocProvider.value(
+                              value: _twoFactorCubit,
+                            ),
                           ],
-                          child: const TwoFactorSetupPage(),
+                          child: const PrivacyBlurWrapper(
+                            child: TwoFactorSetupPage(),
+                          ),
                         );
                       },
                     ),
@@ -388,6 +404,9 @@ class AppRouter {
                               _verifyPhoneCubit = sl<VerifyPhoneCubit>();
                               return _verifyPhoneCubit;
                             },
+                          ),
+                          BlocProvider.value(
+                            value: _userStatusCubit,
                           ),
                         ], child: VerifyOtpPage(verifyMap: state.queryParams));
                       },

@@ -23,7 +23,13 @@ import 'package:wmd/injection_container.dart';
 
 class OtpPhoneVerifyWidget extends StatefulWidget {
   final Function onCancel;
-  const OtpPhoneVerifyWidget({Key? key, required this.onCancel})
+  final Function onSuccess;
+  final Map<String, dynamic> formMap;
+  const OtpPhoneVerifyWidget(
+      {Key? key,
+      required this.onCancel,
+      required this.onSuccess,
+      required this.formMap})
       : super(key: key);
 
   @override
@@ -32,8 +38,30 @@ class OtpPhoneVerifyWidget extends StatefulWidget {
 
 class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyWidget> {
   final formKey = GlobalKey<FormBuilderState>();
+  Map<String, dynamic> _inputFormValue = {};
   bool enableSubmitButton = false;
   String selectedCountryCode = "BH";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    debugPrint("widget.formMap");
+    debugPrint(widget.formMap.toString());
+
+    final tempMap = widget.formMap;
+    tempMap.removeWhere((key, value) => (value == "" || value == null));
+    _inputFormValue = tempMap;
+
+    // try {
+    //   tempMap.removeWhere((key, value) => (value == "" || value == null));
+    //   formKey.currentState?.patchValue(tempMap);
+    // } catch (e) {
+    //   debugPrint("widget.formMap error");
+    //   debugPrint(e.toString());
+    // }
+  }
 
   void checkFinalValid(value) async {
     await Future.delayed(const Duration(milliseconds: 100));
@@ -73,6 +101,7 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyWidget> {
           if (state is UserStatusLoaded &&
               state.userStatus.mobileNumberVerified != true) {
             return FormBuilder(
+                initialValue: _inputFormValue,
                 key: formKey,
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,11 +173,10 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyWidget> {
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              context.pushNamed(AppRoutes.verifyPhone,
-                                  queryParams: {
-                                    "phoneNumber":
-                                        "+${(formKey.currentState!.instantValue["country"] as Country).phoneCode} ${formKey.currentState!.instantValue["phoneNumber"]}"
-                                  });
+                              widget.onSuccess(
+                                  // _inputFormValue["phoneNumber"]?.toNumber() ??
+                                  //     ""
+                                  );
                             },
                             style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(100, 50)),
