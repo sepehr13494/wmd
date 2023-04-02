@@ -4,10 +4,7 @@ import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/widgets/bottom_modal_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 
-Future<bool> showTfoInitialModal({
-  required BuildContext context,
-  void Function()? onOk,
-}) async {
+Future<bool> showTfoInitialModal({required BuildContext context}) async {
   final appLocalizations = AppLocalizations.of(context);
   final textTheme = Theme.of(context).textTheme;
   final primaryColor = Theme.of(context).primaryColor;
@@ -16,7 +13,11 @@ Future<bool> showTfoInitialModal({
     context: context,
     builder: (context) {
       final content = CenterModalWidget(
-        body: const Text('Do you want to load you existing TFO portfolio?'),
+        body: Text(
+          'Do you want to load you existing TFO portfolio?',
+          style: textTheme.bodyLarge,
+          textAlign: TextAlign.center,
+        ),
         actions: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
           child: Row(

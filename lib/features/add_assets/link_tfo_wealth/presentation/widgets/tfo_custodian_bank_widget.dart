@@ -5,6 +5,7 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/features/add_assets/link_tfo_wealth/presentation/widgets/tfo_initial_modal.dart';
+import 'package:wmd/features/add_assets/link_tfo_wealth/presentation/widgets/tfo_success_modal.dart';
 
 class TfoCustodianBankWidget extends AppStatelessWidget {
   const TfoCustodianBankWidget(
@@ -42,12 +43,11 @@ class TfoCustodianBankWidget extends AppStatelessWidget {
                                 'The Office Family custodian'),
                             params: AnalyticsUtils.linkBankEvent(
                                 'The Office Family custodian'));
-                        final result = await showTfoInitialModal(
-                          context: context,
-                          onOk: () {
-                            log('Mert log: yes yes');
-                          },
-                        );
+                        final result =
+                            await showTfoInitialModal(context: context);
+                        if (result) {
+                          showTfoSuccessModal(context: context);
+                        }
                         log('Mert log: $result');
                       },
                       child: Container(
