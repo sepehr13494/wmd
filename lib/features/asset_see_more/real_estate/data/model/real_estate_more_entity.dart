@@ -100,4 +100,27 @@ class RealEstateMoreEntity extends GetSeeMoreResponse {
         "inceptionToDate": inceptionToDate,
         "asOfDate": asOfDate.toIso8601String(),
       };
+
+  Map<String, dynamic> toFormJson() => {
+    "name": name,
+    "realEstateType": realEstateType,
+    "address": address,
+    "noOfUnits": noOfUnits,
+    "acquisitionCostPerUnit": acquisitionCostPerUnit,
+    "acquisitionDate": acquisitionDate.toIso8601String(),
+    "ownershipPercentage": ownershipPercentage,
+    "marketValue": marketValue,
+    "valuationDate": valuationDate.toIso8601String(),
+    "id": id,
+    "type": type,
+    "isActive": isActive,
+    "country": country,
+    "region": region,
+    "currencyCode": currencyCode,
+    "portfolioContribution": portfolioContribution,
+    "holdings": holdings,
+    "yearToDate": yearToDate,
+    "inceptionToDate": inceptionToDate,
+    "asOfDate": asOfDate.toIso8601String(),
+  };
 }

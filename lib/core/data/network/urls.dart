@@ -33,6 +33,7 @@ class AppUrls {
   static String postResendVerifyPhone = "${userBase}Otp";
   static String postResendOtp = "${userBase}User/send-otp";
 
+  //add assets
   static String postBankDetails = "${wealthBase}BankAccount";
   static String postPrivateEquity = "${wealthBase}PrivateEquity";
   static String postPrivateDebt = "${wealthBase}PrivateDebt";
@@ -41,6 +42,12 @@ class AppUrls {
   static String postListedAsset = "${wealthBase}ListedAsset";
   static String getListedSecurity = "${wealthBase}search-security";
   static String postLoanLiability = "${wealthBase}Loans";
+
+  //edit delete assets
+  static String putRealEstate = "${wealthBase}real";
+  static String deleteRealEstate = "${wealthBase}BankAccount";
+
+
   static String getUserNetWorth = "${wealthBase}Wealth/totalnetworth";
   static String getAllocation = "${wealthBase}wealth/";
   static String getGeographic = "${wealthBase}Assets/GeographicAllocation";

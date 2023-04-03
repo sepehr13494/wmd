@@ -41,6 +41,7 @@ abstract class BaseState extends Equatable
         PerformanceTableState,
         TwoFactorState,
         GlossaryState,
+        EditAssetBaseState,
         PerformanceChartState {}
 
 class BaseInitialState extends BaseState {
