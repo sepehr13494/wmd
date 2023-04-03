@@ -129,6 +129,12 @@ import 'package:wmd/features/dashboard/user_status/domain/repositories/user_stat
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/put_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
+import 'package:wmd/features/edit_assets/edit_real_estate/data/data_sources/edit_real_estate_remote_datasource.dart';
+import 'package:wmd/features/edit_assets/edit_real_estate/data/repositories/edit_real_estate_repository_impl.dart';
+import 'package:wmd/features/edit_assets/edit_real_estate/domain/repositories/edit_real_estate_repository.dart';
+import 'package:wmd/features/edit_assets/edit_real_estate/domain/use_cases/delete_real_estate_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_real_estate/domain/use_cases/put_real_estate_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_real_estate/presentation/manager/edit_real_estate_cubit.dart';
 import 'package:wmd/features/force_update/data/data_sources/force_update_remote_datasource.dart';
 import 'package:wmd/features/force_update/data/repositories/force_update_repository_impl.dart';
 import 'package:wmd/features/force_update/domain/repositories/force_update_repository.dart';
@@ -419,6 +425,17 @@ Future<void> init() async {
       () => LoanLiabilityRepositoryImpl(sl()));
   sl.registerLazySingleton<LoanLiabilityRemoteDataSource>(
       () => LoanLiabilityRemoteDataSourceImpl(sl()));
+
+  //EditRealEstate
+  sl.registerFactory(() => EditRealEstateCubit(sl(),sl()));
+  sl.registerLazySingleton(() => PutRealEstateUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteRealEstateUseCase(sl()));
+
+  sl.registerLazySingleton<EditRealEstateRepository>(
+          () => EditRealEstateRepositoryImpl(sl()));
+  sl.registerLazySingleton<EditRealEstateRemoteDataSource>(
+          () => EditRealEstateRemoteDataSourceImpl(sl()));
+
 
   //AssetDetail
   sl.registerFactory(() => AssetSummaryCubit(sl()));

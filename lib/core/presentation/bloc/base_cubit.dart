@@ -28,6 +28,7 @@ import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/das
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/manager/performance_table_cubit.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
+import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_state.dart';
 import 'package:wmd/features/force_update/presentation/manager/force_update_cubit.dart';
 import 'package:wmd/features/glossary/presentation/manager/glossary_cubit.dart';
 import 'package:wmd/features/help/faq/presentation/manager/faq_cubit.dart';

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wmd/core/models/time_filer_obj.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/base_app_bar.dart';
@@ -15,6 +17,8 @@ import 'package:wmd/features/asset_detail/valuation/data/models/get_valuation_pe
 import 'package:wmd/features/asset_detail/valuation/presentation/manager/performance_chart_cubit.dart';
 import 'package:wmd/features/asset_detail/valuation/presentation/widget/performance_chart.dart';
 import 'package:wmd/features/asset_detail/valuation/presentation/widget/performance_chart_v2.dart';
+import 'package:wmd/features/asset_see_more/core/data/models/get_asset_see_more_params.dart';
+import 'package:wmd/features/asset_see_more/core/presentation/manager/asset_see_more_cubit.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_blur_warning.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/injection_container.dart';
@@ -24,6 +28,7 @@ import '../../../valuation/presentation/widget/valuation_table.dart';
 class AssetDetailPage extends StatefulWidget {
   final String assetId;
   final String type;
+
   const AssetDetailPage({Key? key, required this.assetId, required this.type})
       : super(key: key);
 
@@ -33,23 +38,23 @@ class AssetDetailPage extends StatefulWidget {
 
 class _AssetDetailPageState extends AppState<AssetDetailPage> {
   late TimeFilterObj selectedTimeFilter =
-      AppConstants.timeFilter(context).first;
+      AppConstants
+          .timeFilter(context)
+          .first;
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
-    final primaryColor = Theme.of(context).primaryColor;
+    final primaryColor = Theme
+        .of(context)
+        .primaryColor;
 
     return MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => sl<AssetSummaryCubit>()
-              ..getSummary(GetSummaryParams(
-                  assetId: widget.assetId, days: selectedTimeFilter.value)),
-          ),
-          BlocProvider(
-            create: (context) => sl<PerformanceChartCubit>()
+            create: (context) =>
+            sl<PerformanceChartCubit>()
               ..getValuationPerformance(GetValuationPerformanceParams(
                   days: selectedTimeFilter.value, id: widget.assetId)),
           )
@@ -79,15 +84,59 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                                 ),
                                 builder: (context, state) {
                                   if (state is AssetLoaded) {
-                                    return AsssetSummary(
-                                      summary: state.assetSummaryEntity,
-                                      days: selectedTimeFilter.value,
-                                      assetId: widget.assetId,
-                                      child: _buildHeader(
-                                          Theme.of(context).textTheme,
-                                          Theme.of(context).primaryColor,
-                                          appLocalizations,
-                                          context),
+                                    return BlocProvider(
+                                      create: (context) =>
+                                          sl<AssetSeeMoreCubit>(),
+                                      child: Builder(
+                                          builder: (context) {
+                                            return BlocListener<
+                                                AssetSeeMoreCubit,
+                                                AssetSeeMoreState>(
+                                              listener: BlocHelper
+                                                  .defaultBlocListener(
+                                                listener: (context,
+                                                    seeMoreState) {
+                                                  if (seeMoreState is GetSeeMoreLoaded) {
+                                                    switch (state
+                                                        .assetSummaryEntity
+                                                        .assetClassName) {
+                                                      case AssetTypes
+                                                          .realEstate:
+                                                        context.pushNamed(
+                                                            AppRoutes
+                                                                .editRealEstate,
+                                                            extra:seeMoreState.getAssetSeeMoreEntity);
+                                                    }
+                                                  }
+                                                },),
+                                              child: AsssetSummary(
+                                                onEdit: () {
+                                                  context.read<
+                                                      AssetSeeMoreCubit>()
+                                                      .getAssetSeeMore(
+                                                    GetSeeMoreParams(type: state
+                                                        .assetSummaryEntity
+                                                        .assetClassName,
+                                                      assetId: widget
+                                                          .assetId,),);
+                                                },
+                                                summary: state
+                                                    .assetSummaryEntity,
+                                                days: selectedTimeFilter.value,
+                                                assetId: widget.assetId,
+                                                child: _buildHeader(
+                                                    Theme
+                                                        .of(context)
+                                                        .textTheme,
+                                                    Theme
+                                                        .of(context)
+                                                        .primaryColor,
+                                                    appLocalizations,
+                                                    context),
+                                              ),
+                                            );
+                                          }
+                                      ),
                                     );
                                   }
                                   return Padding(
@@ -101,7 +150,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                             if (state is PerformanceLoaded)
                               Padding(
                                 padding:
-                                    EdgeInsets.all(responsiveHelper.biggerGap),
+                                EdgeInsets.all(responsiveHelper.biggerGap),
                                 child: PerformanceLineChartV2(
                                   values: state
                                       .performanceEntity.valuationHistory
@@ -145,12 +194,13 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
             DropdownButtonHideUnderline(
               child: DropdownButton<TimeFilterObj>(
                 items: AppConstants.timeFilter(context)
-                    .map((e) => DropdownMenuItem<TimeFilterObj>(
+                    .map((e) =>
+                    DropdownMenuItem<TimeFilterObj>(
                         value: e,
                         child: Text(
                           e.key,
                           style:
-                              textTheme.bodyMedium!.apply(color: primaryColor),
+                          textTheme.bodyMedium!.apply(color: primaryColor),
                           // textTheme.bodyMedium!.toLinkStyle(context),
                         )))
                     .toList(),
@@ -162,7 +212,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                     context
                         .read<PerformanceChartCubit>()
                         .getValuationPerformance(GetValuationPerformanceParams(
-                            days: value.value, id: widget.assetId));
+                        days: value.value, id: widget.assetId));
 
                     context.read<AssetSummaryCubit>().getSummary(
                         GetSummaryParams(

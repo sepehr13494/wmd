@@ -19,7 +19,7 @@ class PerformanceBenchmarkWidget extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     return BlocConsumer<PerformanceBenchmarkCubit, PerformanceTableState>(
       listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
-      builder: BlocHelper.errorHiderBlocBuilder(builder: (context, state) {
+      builder: BlocHelper.errorHandlerBlocBuilder(hideError: true,builder: (context, state) {
         return state is GetBenchmarkLoaded
             ? Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -20,7 +20,7 @@ class PerformanceAssetClassWidget extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     return BlocConsumer<PerformanceAssetClassCubit, PerformanceTableState>(
       listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
-      builder: BlocHelper.errorHiderBlocBuilder(builder: (context, state) {
+      builder: BlocHelper.errorHandlerBlocBuilder(hideError: true,builder: (context, state) {
         return state is GetAssetClassLoaded
             ? Column(
           crossAxisAlignment: CrossAxisAlignment.start,

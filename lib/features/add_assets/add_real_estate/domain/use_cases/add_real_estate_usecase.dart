@@ -16,22 +16,25 @@ class AddRealEstateUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
   @override
   Future<Either<Failure, AddAsset>> call(Map<String, dynamic> params) async {
     try {
-      final acquisitionCostPerUnit =
-          params['acquisitionCostPerUnit'].toString().replaceAll(',', '');
-      final marketValue = params['marketValue'].toString().replaceAll(',', '');
-
-      final newMap = {
-        ...params,
-        "acquisitionCostPerUnit": acquisitionCostPerUnit,
-        "marketValue": marketValue,
-      };
-
-      final privateDebtAssetParam = AddRealEstateParams.fromJson(newMap);
-      return await realEstateRepository.postRealEstate(privateDebtAssetParam);
+      return await realEstateRepository.postRealEstate(getAddRealStateObj(params));
     } catch (e) {
       debugPrint("AddRealEstateUseCase catch : ${e.toString()}");
       return const Left(AppFailure(message: "Something went wrong!"));
     }
+  }
+
+  static getAddRealStateObj(Map<String, dynamic> params){
+    final acquisitionCostPerUnit =
+    params['acquisitionCostPerUnit'].toString().replaceAll(',', '');
+    final marketValue = params['marketValue'].toString().replaceAll(',', '');
+
+    final newMap = {
+      ...params,
+      "acquisitionCostPerUnit": acquisitionCostPerUnit,
+      "marketValue": marketValue,
+    };
+
+    return AddRealEstateParams.fromJson(newMap);
   }
 }
 

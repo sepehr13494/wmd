@@ -106,12 +106,17 @@ class BlocHelper {
     };
   }
 
-  static BlocWidgetBuilder errorHiderBlocBuilder({
+  static BlocWidgetBuilder errorHandlerBlocBuilder({
     required BlocWidgetBuilder builder,
+    bool hideError = false,
   }) {
     return (context, state) {
       if (state is ErrorState) {
-        return const SizedBox();
+        if(hideError){
+          return const SizedBox();
+        }else{
+          return Center(child: Text(AppLocalizations.of(context).common_errors_somethingWentWrong));
+        }
       } else {
         return builder(context, state);
       }
