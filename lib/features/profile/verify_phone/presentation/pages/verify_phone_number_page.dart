@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
@@ -9,7 +10,10 @@ import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
+import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
+import 'package:wmd/features/authentication/login_signup/presentation/widgets/basic_timer_widget.dart';
+import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/resend_timer_widget.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_resend_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/widgets/otp_feild_widget.dart';
@@ -28,33 +32,18 @@ class VerifyPhoneNumberPage extends StatefulWidget {
 }
 
 class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
-  // 4 text editing controllers that associate with the 4 input fields
-  final TextEditingController _fieldOne = TextEditingController();
-  final TextEditingController _fieldTwo = TextEditingController();
-  final TextEditingController _fieldThree = TextEditingController();
-  final TextEditingController _fieldFour = TextEditingController();
-  final TextEditingController _fieldFive = TextEditingController();
-  final TextEditingController _fieldSix = TextEditingController();
-
   // This is the entered code
   // It will be displayed in a Text widget
   String? _otp;
   bool _otpExpired = false;
+  int failedAttampts = 0;
+  bool showError = false;
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final appTheme = Theme.of(context);
     final responsiveHelper = ResponsiveHelper(context: context);
-
-    void resetOtpText() {
-      _fieldOne.clear();
-      _fieldTwo.clear();
-      _fieldThree.clear();
-      _fieldFour.clear();
-      _fieldFive.clear();
-      _fieldSix.clear();
-    }
 
     return BlocProvider(
         create: (context) => sl<VerifyPhoneCubit>()
@@ -63,9 +52,11 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
         child: BlocConsumer<VerifyPhoneCubit, VerifyPhoneState>(
             listener: (context, state) {
           if (state is SuccessState) {
-            context.goNamed(AppRoutes.main);
+            context.goNamed(AppRoutes.settings);
           } else if (state is ErrorState) {
-            resetOtpText();
+            setState(() {
+              showError = true;
+            });
             GlobalFunctions.showSnackBar(context,
                 AppLocalizations.of(context).common_errors_somethingWentWrong,
                 color: Colors.red[800], type: "error");
@@ -90,13 +81,15 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                             child: Column(
                               children: [
                                 Text(
-                                  "Phone number verification",
+                                  appLocalizations
+                                      .profile_otpVerification_label_heading,
                                   style: textTheme.headlineSmall,
                                   textAlign: TextAlign.center,
                                 ),
                                 const SizedBox(height: 16),
                                 Text(
-                                  "Please enter the code you just received on your phone number ending with ${widget.verifyMap['phoneNumber']}",
+                                  appLocalizations
+                                      .profile_twofactorauthentication_page_mobileVerificationDescription,
                                   style: textTheme.bodyMedium,
                                   textAlign: TextAlign.center,
                                 ),
@@ -105,98 +98,101 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
 
                         SizedBox(height: responsiveHelper.bigger24Gap),
 
-                        Text(
-                          appLocalizations
-                              .profile_otpVerification_text_verificationCode,
-                          style: textTheme.bodySmall,
-                          textAlign: TextAlign.center,
+                        SizedBox(height: responsiveHelper.defaultGap),
+                        OtpTextField(
+                          numberOfFields: 6,
+                          focusedBorderColor: AppColors.primary,
+                          enabledBorderColor: showError
+                              ? AppColors.errorColor
+                              : AppColors.anotherCardColorForDarkTheme,
+                          // borderColor: AppColors.anotherCardColorForDarkTheme,
+                          //set to true to show as box or false to show as dash
+                          showFieldAsBox: true,
+                          //runs when a code is typed in
+                          onCodeChanged: (String code) {
+                            //handle validation or checks here
+                            setState(() {
+                              _otp = code;
+                            });
+                          },
+                          clearText: showError,
+                          enabled: !_otpExpired,
+                          //runs when every textfield is filled
+                          onSubmit: (String verificationCode) {
+                            context
+                                .read<VerifyPhoneCubit>()
+                                .postVerifyPhone(map: {
+                              // "identifier": state is VerifyOtpLoaded
+                              //     ? state.entity.identifier
+                              //     : "",
+                              "identifier":
+                                  sl<PostResendVerifyPhoneUseCase>().identifier,
+                              "code": verificationCode
+                            });
+                          }, // end onSubmit
                         ),
                         SizedBox(height: responsiveHelper.defaultGap),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            OtpInput(
-                                _fieldOne, true, _otpExpired), // auto focus
-                            OtpInput(_fieldTwo, false, _otpExpired),
-                            OtpInput(_fieldThree, false, _otpExpired),
-                            OtpInput(_fieldFour, false, _otpExpired),
-                            OtpInput(_fieldFive, false, _otpExpired),
-                            OtpInput(_fieldSix, false, _otpExpired),
-                          ],
-                        ),
+                        BasicTimerWidget(
+                            timerTime: 600000,
+                            handleOtpExpired: () {
+                              setState(() {
+                                _otpExpired = true;
+                              });
+                            }),
                         const SizedBox(
                           height: 30,
                         ),
-                        Text(
-                          appLocalizations
-                              .profile_otpVerification_text_verificationCodeNotReceived,
-                          style: textTheme.bodySmall,
-                          textAlign: TextAlign.center,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            RichText(
+                                text: TextSpan(
+                                    style: const TextStyle(height: 1.3),
+                                    children: [
+                                  TextSpan(
+                                    text: appLocalizations
+                                        .profile_otpVerification_text_verificationCodeNotReceived,
+                                    style: textTheme.bodyMedium,
+                                  ),
+                                ])),
+                            ResendTimerWidget(
+                                timerTime: 10,
+                                handleOtpExpired: () {
+                                  context
+                                      .read<VerifyPhoneCubit>()
+                                      .postResendVerifyPhone(map: {
+                                    "phoneNumber":
+                                        widget.verifyMap['phoneNumber']
+                                  });
+
+                                  setState(() {
+                                    showError = false;
+                                  });
+                                })
+                          ],
                         ),
+
+                        SizedBox(height: responsiveHelper.bigger24Gap),
+
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        const Divider(),
                         RichText(
                             text: TextSpan(
                                 style: const TextStyle(height: 1.3),
                                 children: [
                               TextSpan(
-                                text: "Resend code",
+                                text: appLocalizations
+                                    .profile_otpVerification_button_back,
                                 style:
-                                    textTheme.bodyMedium!.toLinkStyle(context),
+                                    textTheme.bodyLarge!.toLinkStyle(context),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
-                                    context
-                                        .read<VerifyPhoneCubit>()
-                                        .postResendVerifyPhone(map: {
-                                      "phoneNumber":
-                                          widget.verifyMap['phoneNumber']
-                                    });
+                                    context.goNamed(AppRoutes.settings);
                                   },
-                              ),
+                              )
                             ])),
-
-                        SizedBox(height: responsiveHelper.bigger24Gap),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Column(children: [
-                            ElevatedButton(
-                                onPressed: () {
-                                  final otpTemp = _fieldOne.text +
-                                      _fieldTwo.text +
-                                      _fieldThree.text +
-                                      _fieldFour.text +
-                                      _fieldFive.text +
-                                      _fieldSix.text;
-
-                                  setState(() {
-                                    _otp = otpTemp;
-                                  });
-
-                                  context
-                                      .read<VerifyPhoneCubit>()
-                                      .postVerifyPhone(map: {
-                                    // "identifier": state is VerifyOtpLoaded
-                                    //     ? state.entity.identifier
-                                    //     : "",
-                                    "identifier":
-                                        sl<PostResendVerifyPhoneUseCase>()
-                                            .identifier,
-                                    "code": otpTemp
-                                  });
-                                },
-                                child: const Text('Verify')),
-                            const SizedBox(
-                              height: 18,
-                            ),
-                            OutlinedButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Text('Back')),
-                          ]),
-                        ),
-
-                        const SizedBox(
-                          height: 30,
-                        ),
                         // Display the entered OTP code
                       ],
                     )))),
