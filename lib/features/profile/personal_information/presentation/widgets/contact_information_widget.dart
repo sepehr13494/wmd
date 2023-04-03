@@ -35,6 +35,8 @@ class _ContactInformationWidgetState
   TextEditingController emailController = TextEditingController();
   bool enableSubmitButton = false;
   String selectedCountryCode = "BH";
+  bool havePhoneNumber = false;
+  bool isPhoneEditable = false;
   final formKey = GlobalKey<FormBuilderState>();
   late Map<String, dynamic> lastValue;
 
@@ -70,6 +72,7 @@ class _ContactInformationWidgetState
           json.removeWhere((key, value) => (value == "" || value == null));
           formKey.currentState!.patchValue(json);
           emailController.text = state.getNameEntity.email;
+          havePhoneNumber = state.getNameEntity.phoneNumber?.number != "";
           lastValue = formKey.currentState!.instantValue;
         }
         if (state is SuccessStatePhone) {
@@ -199,14 +202,17 @@ class _ContactInformationWidgetState
                                             children: [
                                               PrivacyBlurWidgetClickable(
                                                 child: CountryCodePicker(
+                                                    enabled: isPhoneEditable ||
+                                                        !havePhoneNumber,
                                                     onChange: (val) {
-                                                  setState(() {
-                                                    selectedCountryCode =
-                                                        val?.countryCode ?? "";
-                                                  });
+                                                      setState(() {
+                                                        selectedCountryCode =
+                                                            val?.countryCode ??
+                                                                "";
+                                                      });
 
-                                                  checkFinalValid(val);
-                                                }),
+                                                      checkFinalValid(val);
+                                                    }),
                                               ),
                                               const SizedBox(width: 8),
                                               Expanded(
@@ -223,6 +229,23 @@ class _ContactInformationWidgetState
                                                               TextInputType
                                                                   .number,
                                                           minLines: 1,
+                                                          enabled:
+                                                              isPhoneEditable ||
+                                                                  !havePhoneNumber,
+                                                          suffixIcon: InkWell(
+                                                            onTap: () {
+                                                              setState(() {
+                                                                isPhoneEditable =
+                                                                    true;
+                                                              });
+                                                            },
+                                                            child: Icon(
+                                                              Icons.edit_sharp,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .primaryColor,
+                                                            ),
+                                                          ),
                                                           extraValidators: [
                                                             (val) {
                                                               return (!val!.contains(
@@ -258,10 +281,11 @@ class _ContactInformationWidgetState
                                             ],
                                           ),
                                         ),
-                                        if (state is UserStatusLoaded &&
-                                            state.userStatus
-                                                    .mobileNumberVerified !=
-                                                true)
+                                        if ((state is UserStatusLoaded &&
+                                                state.userStatus
+                                                        .mobileNumberVerified !=
+                                                    true) &&
+                                            havePhoneNumber)
                                           RichText(
                                               text: TextSpan(
                                                   style: const TextStyle(
@@ -289,7 +313,60 @@ class _ContactInformationWidgetState
                                                               });
                                                         },
                                                 ),
-                                              ]))
+                                              ])),
+                                        if (isPhoneEditable)
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      isPhoneEditable = false;
+                                                    });
+                                                  },
+                                                  child: Text(
+                                                    appLocalizations
+                                                        .common_button_cancel,
+                                                    style: textTheme.bodySmall!
+                                                        .toLinkStyle(context),
+                                                  )),
+                                              const SizedBox(
+                                                width: 8,
+                                              ),
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  if (formKey.currentState!
+                                                      .validate()) {
+                                                    debugPrint(formKey
+                                                        .currentState!
+                                                        .instantValue
+                                                        .toString());
+
+                                                    context
+                                                        .read<
+                                                            PersonalInformationCubit>()
+                                                        .setNumber(
+                                                            map: formKey
+                                                                .currentState!
+                                                                .instantValue);
+
+                                                    context.pushNamed(
+                                                        AppRoutes.verifyPhone,
+                                                        queryParams: {
+                                                          "phoneNumber":
+                                                              "+${(formKey.currentState!.instantValue["country"] as Country).phoneCode} ${formKey.currentState!.instantValue["phoneNumber"]}"
+                                                        });
+                                                  }
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                    minimumSize:
+                                                        const Size(100, 50)),
+                                                child: Text(appLocalizations
+                                                    .profile_tabs_personal_button_updateAndVerify),
+                                              )
+                                            ],
+                                          )
                                       ],
                                     );
                                   }),
@@ -314,42 +391,42 @@ class _ContactInformationWidgetState
                                   )
                                 ]),
                               ),*/
-                            Align(
-                              alignment: AlignmentDirectional.centerEnd,
-                              child: SizedBox(
-                                width: isTablet ? 160 : null,
-                                child: ElevatedButton(
-                                  onPressed: !enableSubmitButton
-                                      ? null
-                                      : () {
-                                          if (AppConstants.publicMvp2Items) {
-                                            context.pushNamed(
-                                                AppRoutes.verifyPhone,
-                                                queryParams: {
-                                                  "phoneNumber":
-                                                      "+${(formKey.currentState!.instantValue["country"] as Country).phoneCode} ${formKey.currentState!.instantValue["phoneNumber"]}"
-                                                });
-                                          } else {
-                                            if (formKey.currentState!
-                                                .validate()) {
-                                              debugPrint(formKey
-                                                  .currentState!.instantValue
-                                                  .toString());
+                            // Align(
+                            //   alignment: AlignmentDirectional.centerEnd,
+                            //   child: SizedBox(
+                            //     width: isTablet ? 160 : null,
+                            //     child: ElevatedButton(
+                            //       onPressed: !enableSubmitButton
+                            //           ? null
+                            //           : () {
+                            //               if (AppConstants.publicMvp2Items) {
+                            //                 context.pushNamed(
+                            //                     AppRoutes.verifyPhone,
+                            //                     queryParams: {
+                            //                       "phoneNumber":
+                            //                           "+${(formKey.currentState!.instantValue["country"] as Country).phoneCode} ${formKey.currentState!.instantValue["phoneNumber"]}"
+                            //                     });
+                            //               } else {
+                            //   if (formKey.currentState!
+                            //       .validate()) {
+                            //     debugPrint(formKey
+                            //         .currentState!.instantValue
+                            //         .toString());
 
-                                              context
-                                                  .read<
-                                                      PersonalInformationCubit>()
-                                                  .setNumber(
-                                                      map: formKey.currentState!
-                                                          .instantValue);
-                                            }
-                                          }
-                                        },
-                                  child: Text(appLocalizations
-                                      .profile_tabs_preferences_button_applyChanges),
-                                ),
-                              ),
-                            ),
+                            //     context
+                            //         .read<
+                            //             PersonalInformationCubit>()
+                            //         .setNumber(
+                            //             map: formKey.currentState!
+                            //                 .instantValue);
+                            //   }
+                            // }
+                            //             },
+                            //       child: Text(appLocalizations
+                            //           .profile_tabs_preferences_button_applyChanges),
+                            //     ),
+                            //   ),
+                            // ),
                           ]
                               .map((e) => Padding(
                                     padding:
