@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -49,7 +51,7 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
                         style: textTheme.bodyMedium),
                     const SizedBox(width: 6),
                     PrivacyBlurWidget(
-                      child: Text((data.value).formatCurrencyCompact(),
+                      child: Text((data.value).formatNumberWithDecimal(),
                           style: textTheme.titleSmall!
                               .apply(color: AppColors.chartColor)),
                     ),
@@ -98,6 +100,12 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
                       placeLabelsNearAxisLine: false,
                     ),
                     primaryYAxis: NumericAxis(
+                        // axisLabelFormatter: (axisLabelRenderArgs) {
+                        //   final val = axisLabelRenderArgs.value;
+                        //   log('Mert log: $val');
+                        //   return ChartAxisLabel(val.formatNumberWithDecimal(),
+                        //       textTheme.bodySmall);
+                        // },
                         numberFormat: NumExt.getCompactNumberFormat(),
                         labelStyle:
                             textTheme.bodySmall!.apply(fontSizeDelta: -3),
@@ -166,16 +174,14 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
         minX = element.value;
       }
     }
-    if (minX > 0) {
+    if (minX >= 0) {
       return 1;
     }
     double maxX = values.first.value;
     for (var element in values) {
-      if (element.value > maxX) {
-        minX = element.value;
-      }
+      if (element.value > maxX) {}
     }
-    if (maxX < 0) {
+    if (maxX <= 0) {
       return 0;
     }
     double gradientStop = maxX / (maxX - minX);
