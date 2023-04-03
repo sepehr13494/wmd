@@ -6,7 +6,10 @@ import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item
 
 class CountryCodePicker extends StatefulWidget {
   final ValueChanged<Country?>? onChange;
-  const CountryCodePicker({Key? key, required this.onChange}) : super(key: key);
+  final bool enabled;
+  const CountryCodePicker(
+      {Key? key, required this.onChange, this.enabled = true})
+      : super(key: key);
 
   @override
   State<CountryCodePicker> createState() => _CountryCodePickerState();
@@ -40,6 +43,7 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
             controller: controller,
             style: Theme.of(context).textTheme.bodySmall,
             readOnly: true,
+            enabled: widget.enabled,
             onTap: () {
               showCountryPicker(
                 context: context,
