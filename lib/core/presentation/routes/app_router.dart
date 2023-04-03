@@ -16,7 +16,10 @@ import 'package:wmd/features/add_assets/add_real_estate/presentation/pages/add_r
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/pages/assets_list_view_page.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/pages/auto_manual_page.dart';
+import 'package:wmd/features/asset_detail/core/data/models/get_summary_params.dart';
+import 'package:wmd/features/asset_detail/core/presentation/manager/asset_summary_cubit.dart';
 import 'package:wmd/features/asset_detail/core/presentation/pages/asset_detail_page.dart';
+import 'package:wmd/features/asset_see_more/real_estate/data/model/real_estate_more_entity.dart';
 import 'package:wmd/features/assets_overview/assets_geography_chart/presentation/manager/assets_geography_chart_cubit.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/chart_chooser_manager.dart';
@@ -91,6 +94,7 @@ class AppRouter {
   PerformanceCustodianCubit _performanceCustodianCubit =
       sl<PerformanceCustodianCubit>();
   VerifyPhoneCubit _verifyPhoneCubit = sl<VerifyPhoneCubit>();
+  AssetSummaryCubit _assetSummaryCubit = sl<AssetSummaryCubit>();
 
   GoRouter router() {
     return GoRouter(
@@ -309,7 +313,17 @@ class AppRouter {
                           ),
                           BlocProvider.value(
                             value: _mainPageCubit,
-                          )
+                          ),
+                          BlocProvider(create: (context) {
+                            _assetSummaryCubit = sl<AssetSummaryCubit>();
+                            return _assetSummaryCubit
+                              ..getSummary(
+                                GetSummaryParams(
+                                    assetId:
+                                        state.queryParams['assetId'] as String,
+                                    days: 7),
+                              );
+                          }),
                         ],
                         child: PrivacyBlurWrapper(
                           child: AssetDetailPage(
@@ -320,11 +334,16 @@ class AppRouter {
                   },
                   routes: [
                     GoRoute(
-                      name: AppRoutes.editAssetDetail,
-                      path: "edit_asset_detail",
+                      name: AppRoutes.editRealEstate,
+                      path: "edit_real_estate",
                       builder: (BuildContext context, GoRouterState state) {
-                        print(state.extra);
-                        return Scaffold();
+                        return editAssetMainBlocProvider(
+                          child: AddRealEstatePage(
+                            edit: true,
+                            realEstateMoreEntity:
+                                state.extra as RealEstateMoreEntity,
+                          ),
+                        );
                       },
                     ),
                   ]),
@@ -534,6 +553,17 @@ class AppRouter {
       ),
       BlocProvider.value(
         value: _custodianStatusListCubit,
+      ),
+    ], child: child);
+  }
+
+  Widget editAssetMainBlocProvider({required Widget child}) {
+    return MultiBlocProvider(providers: [
+      BlocProvider.value(
+        value: _assetsOverviewCubit,
+      ),
+      BlocProvider.value(
+        value: _assetSummaryCubit,
       ),
     ], child: child);
   }

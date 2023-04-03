@@ -25,7 +25,7 @@ void main() {
     when(mockEditRealEstateRepository.putRealEstate(any))
         .thenAnswer((_) async => const Right(AppSuccess(message: "successfully done")));
     // act
-    final result = await putRealEstateUseCase(PutRealEstateParams.tParams);
+    final result = await putRealEstateUseCase(PutRealEstateParams.tParams.addRealEstateParams.toJson(),PutRealEstateParams.tParams.assetId);
 
     // assert
     expect(result, equals(const Right(AppSuccess.tAppSuccess)));
@@ -38,7 +38,7 @@ void main() {
       when(mockEditRealEstateRepository.putRealEstate(any))
           .thenAnswer((_) async => const Left(ServerFailure.tServerFailure));
       //act
-      final result = await putRealEstateUseCase(PutRealEstateParams.tParams);
+      final result = await putRealEstateUseCase(PutRealEstateParams.tParams.addRealEstateParams.toJson(),PutRealEstateParams.tParams.assetId);
       //assert
       expect(result, const Left(ServerFailure.tServerFailure));
       verify(mockEditRealEstateRepository.putRealEstate(PutRealEstateParams.tParams));

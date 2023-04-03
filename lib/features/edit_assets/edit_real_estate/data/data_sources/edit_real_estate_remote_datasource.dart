@@ -25,7 +25,7 @@ class EditRealEstateRemoteDataSourceImpl extends AppServerDataSource
   Future<PutRealEstateResponse> putRealEstate(PutRealEstateParams params) async {
     try{
       final appRequestOptions =
-          AppRequestOptions(RequestTypes.get, AppUrls.putRealEstate, {
+          AppRequestOptions(RequestTypes.put, AppUrls.putRealEstate, {
             ...params.addRealEstateParams.toJson(),
             "assetId":params.assetId,
           });
@@ -44,7 +44,7 @@ class EditRealEstateRemoteDataSourceImpl extends AppServerDataSource
   Future<DeleteRealEstateResponse> deleteRealEstate(DeleteRealEstateParams params) async {
     try{
       final appRequestOptions =
-          AppRequestOptions(RequestTypes.get, AppUrls.deleteRealEstate, params.toJson());
+          AppRequestOptions(RequestTypes.del, AppUrls.deleteRealEstate, params.toJson());
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = DeleteRealEstateResponse.fromJson(response);
       return result;

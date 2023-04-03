@@ -44,7 +44,7 @@ class AppUrls {
   static String postLoanLiability = "${wealthBase}Loans";
 
   //edit delete assets
-  static String putRealEstate = "${wealthBase}real";
+  static String putRealEstate = "${wealthBase}RealEstate";
   static String deleteRealEstate = "${wealthBase}BankAccount";
 
 

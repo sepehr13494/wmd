@@ -54,8 +54,8 @@ class AssetSeeMoreRemoteDataSourceImpl extends AppServerDataSource
       rethrow;
     } catch (e) {
       log('Format erro detail: $e');
-      throw const AppException(
-          message: "format Exception", type: ExceptionType.format);
+      throw AppException(
+          message: "format Exception", type: ExceptionType.format,stackTrace: e is TypeError ? e.stackTrace.toString() : null);
     }
   }
 }

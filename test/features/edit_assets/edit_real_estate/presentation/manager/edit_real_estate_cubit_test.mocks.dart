@@ -10,13 +10,11 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:wmd/core/error_and_success/failures.dart' as _i6;
 import 'package:wmd/core/error_and_success/succeses.dart' as _i7;
 import 'package:wmd/features/edit_assets/edit_real_estate/data/models/delete_real_estate_params.dart'
-    as _i10;
-import 'package:wmd/features/edit_assets/edit_real_estate/data/models/put_real_estate_params.dart'
-    as _i8;
+    as _i9;
 import 'package:wmd/features/edit_assets/edit_real_estate/domain/repositories/edit_real_estate_repository.dart'
     as _i2;
 import 'package:wmd/features/edit_assets/edit_real_estate/domain/use_cases/delete_real_estate_usecase.dart'
-    as _i9;
+    as _i8;
 import 'package:wmd/features/edit_assets/edit_real_estate/domain/use_cases/put_real_estate_usecase.dart'
     as _i4;
 
@@ -71,18 +69,26 @@ class MockPutRealEstateUseCase extends _i1.Mock
       ) as _i2.EditRealEstateRepository);
   @override
   _i5.Future<_i3.Either<_i6.Failure, _i7.AppSuccess>> call(
-          _i8.PutRealEstateParams? params) =>
+    Map<String, dynamic>? params,
+    String? assetId,
+  ) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,
-          [params],
+          [
+            params,
+            assetId,
+          ],
         ),
         returnValue: _i5.Future<_i3.Either<_i6.Failure, _i7.AppSuccess>>.value(
             _FakeEither_1<_i6.Failure, _i7.AppSuccess>(
           this,
           Invocation.method(
             #call,
-            [params],
+            [
+              params,
+              assetId,
+            ],
           ),
         )),
       ) as _i5.Future<_i3.Either<_i6.Failure, _i7.AppSuccess>>);
@@ -92,7 +98,7 @@ class MockPutRealEstateUseCase extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockDeleteRealEstateUseCase extends _i1.Mock
-    implements _i9.DeleteRealEstateUseCase {
+    implements _i8.DeleteRealEstateUseCase {
   MockDeleteRealEstateUseCase() {
     _i1.throwOnMissingStub(this);
   }
@@ -107,7 +113,7 @@ class MockDeleteRealEstateUseCase extends _i1.Mock
       ) as _i2.EditRealEstateRepository);
   @override
   _i5.Future<_i3.Either<_i6.Failure, _i7.AppSuccess>> call(
-          _i10.DeleteRealEstateParams? params) =>
+          _i9.DeleteRealEstateParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #call,

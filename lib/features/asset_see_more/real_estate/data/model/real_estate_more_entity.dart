@@ -1,8 +1,6 @@
-// To parse this JSON data, do
-//
-//     final realEstateMoreEntity = realEstateMoreEntityFromJson(jsonString);
-
-import 'dart:convert';
+import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/features/add_assets/core/data/models/country.dart';
+import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 import 'package:wmd/features/asset_see_more/core/data/models/get_asset_see_more_response.dart';
 
 class RealEstateMoreEntity extends GetSeeMoreResponse {
@@ -30,7 +28,7 @@ class RealEstateMoreEntity extends GetSeeMoreResponse {
   });
 
   final String name;
-  final int realEstateType;
+  final String realEstateType;
   final String address;
   final double noOfUnits;
   final double acquisitionCostPerUnit;
@@ -105,22 +103,22 @@ class RealEstateMoreEntity extends GetSeeMoreResponse {
     "name": name,
     "realEstateType": realEstateType,
     "address": address,
-    "noOfUnits": noOfUnits,
-    "acquisitionCostPerUnit": acquisitionCostPerUnit,
-    "acquisitionDate": acquisitionDate.toIso8601String(),
-    "ownershipPercentage": ownershipPercentage,
-    "marketValue": marketValue,
-    "valuationDate": valuationDate.toIso8601String(),
+    "noOfUnits": noOfUnits.toStringAsFixed(0),
+    "acquisitionCostPerUnit": acquisitionCostPerUnit.convertMoney(),
+    "acquisitionDate": acquisitionDate,
+    "ownershipPercentage": ownershipPercentage.toString(),
+    "marketValue": marketValue.convertMoney(),
+    "valuationDate": valuationDate,
     "id": id,
     "type": type,
     "isActive": isActive,
-    "country": country,
+    "country": Country.countriesList.firstWhere((element) => element.name == country),
     "region": region,
-    "currencyCode": currencyCode,
+    "currencyCode": Currency.currenciesList.firstWhere((element) => element.symbol == currencyCode),
     "portfolioContribution": portfolioContribution,
     "holdings": holdings,
     "yearToDate": yearToDate,
     "inceptionToDate": inceptionToDate,
-    "asOfDate": asOfDate.toIso8601String(),
+    "asOfDate": asOfDate,
   };
 }

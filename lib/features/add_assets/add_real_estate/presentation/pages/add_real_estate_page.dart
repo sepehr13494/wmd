@@ -117,7 +117,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                               assetType: AssetTypes.realEstate),
                         ),
                         BlocListener<EditRealEstateCubit, EditAssetBaseState>(
-                          listener: EditAssetBlocHelper.defaultBlocListener(listener: (context, state) {}),
+                          listener: EditAssetBlocHelper.defaultBlocListener(assetId: edit ? widget.realEstateMoreEntity!.id : ""),
                         ),
                       ],
                       child: SingleChildScrollView(
@@ -226,6 +226,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                   title: appLocalizations
                                       .assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_label,
                                   child: AppTextFields.simpleTextField(
+                                    enabled: !edit,
                                       type: TextFieldType.number,
                                       keyboardType: TextInputType.number,
                                       onChanged: checkFinalValid,
@@ -248,6 +249,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                   title: appLocalizations
                                       .assetLiabilityForms_forms_realEstate_inputFields_acquisitionCostPerUnit_label,
                                   child: AppTextFields.simpleTextField(
+                                      enabled: !edit,
                                       errorMsg: appLocalizations
                                           .assetLiabilityForms_forms_realEstate_inputFields_acquisitionCostPerUnit_errorMessage,
                                       onChanged: checkFinalValid,
@@ -263,6 +265,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                   title: appLocalizations
                                       .assetLiabilityForms_forms_realEstate_inputFields_acquisitionDate_label,
                                   child: FormBuilderDateTimePicker(
+                                    enabled: !edit,
                                     onChanged: (selectedDate) {
                                       checkFinalValid(selectedDate);
                                       setState(() {
@@ -294,6 +297,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                   title: appLocalizations
                                       .assetLiabilityForms_forms_realEstate_inputFields_yourOwnership_label,
                                   child: AppTextFields.simpleTextField(
+                                      enabled: !edit,
                                       extraValidators: [
                                         (val) {
                                           return ((int.tryParse(val ?? "0") ??
@@ -318,6 +322,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                   title: appLocalizations
                                       .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_label,
                                   child: AppTextFields.simpleTextField(
+                                      enabled: !edit,
                                       required: false,
                                       type: TextFieldType.money,
                                       keyboardType: TextInputType.number,
@@ -331,6 +336,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                   title: appLocalizations
                                       .assetLiabilityForms_forms_realEstate_inputFields_valuationDate_label,
                                   child: FormBuilderDateTimePicker(
+                                    enabled: !edit,
                                     firstDate: aqusitionDateValue,
                                     lastDate: DateTime.now(),
                                     format: DateFormat("dd/MM/yyyy"),

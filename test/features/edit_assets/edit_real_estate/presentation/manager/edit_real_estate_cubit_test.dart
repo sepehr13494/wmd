@@ -44,41 +44,41 @@ void main() {
     blocTest(
       'when PutRealEstateUseCase emits the PutRealEstateLoaded when success',
       build: () => editRealEstateCubit,
-      setUp: () => when(mockPutRealEstateUseCase(any))
+      setUp: () => when(mockPutRealEstateUseCase(any,any))
           .thenAnswer((realInvocation) async => Right(AppSuccess(message: "successfully done"))),
-      act: (bloc) async => await bloc.putRealEstate(),
+      act: (bloc) async => await bloc.putRealEstate(map: PutRealEstateParams.tParams.addRealEstateParams.toJson(),assetId: PutRealEstateParams.tParams.assetId),
       expect: () =>
       [isA<LoadingState>(), SuccessState(appSuccess: AppSuccess.tAppSuccess)],
       verify: (_) {
-        verify(mockPutRealEstateUseCase(PutRealEstateParams.tParams));
+        verify(mockPutRealEstateUseCase(PutRealEstateParams.tParams.addRealEstateParams.toJson(),PutRealEstateParams.tParams.assetId));
       },
     );
 
     blocTest(
       'when PutRealEstateUseCase emits the ErrorState when error',
       build: () => editRealEstateCubit,
-      setUp: () => when(mockPutRealEstateUseCase(any))
+      setUp: () => when(mockPutRealEstateUseCase(any,any))
           .thenAnswer((realInvocation) async => const Left(ServerFailure.tServerFailure)),
-      act: (bloc) async => await bloc.putRealEstate(),
+      act: (bloc) async => await bloc.putRealEstate(map: PutRealEstateParams.tParams.addRealEstateParams.toJson(),assetId: PutRealEstateParams.tParams.assetId),
       expect: () =>
       [isA<LoadingState>(), ErrorState(failure: ServerFailure.tServerFailure)],
       verify: (_) {
-        verify(mockPutRealEstateUseCase(PutRealEstateParams.tParams));
+        verify(mockPutRealEstateUseCase(PutRealEstateParams.tParams.addRealEstateParams.toJson(),PutRealEstateParams.tParams.assetId));
       },
     );
 
   });
   group("deleteRealEstate", () {
     blocTest(
-      'when PutRealEstateUseCase emits the PutRealEstateLoaded when success',
+      'when DeleteRealEstateUseCase emits the DeleteRealEstateLoaded when success',
       build: () => editRealEstateCubit,
-      setUp: () => when(mockPutRealEstateUseCase(any))
+      setUp: () => when(mockDeleteRealEstateUseCase(any))
           .thenAnswer((realInvocation) async => const Right(AppSuccess(message: "successfully done"))),
-      act: (bloc) async => await bloc.putRealEstate(),
+      act: (bloc) async => await bloc.deleteRealEstate(assetId: DeleteRealEstateParams.tParams.assetId),
       expect: () =>
       [isA<LoadingState>(), SuccessState(appSuccess: AppSuccess.tAppSuccess)],
       verify: (_) {
-        verify(mockPutRealEstateUseCase(PutRealEstateParams.tParams));
+        verify(mockDeleteRealEstateUseCase(DeleteRealEstateParams.tParams));
       },
     );
 
@@ -87,7 +87,7 @@ void main() {
       build: () => editRealEstateCubit,
       setUp: () => when(mockDeleteRealEstateUseCase(any))
           .thenAnswer((realInvocation) async => const Left(ServerFailure.tServerFailure)),
-      act: (bloc) async => await bloc.deleteRealEstate(),
+      act: (bloc) async => await bloc.deleteRealEstate(assetId: DeleteRealEstateParams.tParams.assetId),
       expect: () =>
       [isA<LoadingState>(), ErrorState(failure: ServerFailure.tServerFailure)],
       verify: (_) {
