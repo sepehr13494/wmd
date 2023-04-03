@@ -26,7 +26,7 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
       padding: const EdgeInsets.only(top: 8.0),
       child: BlocConsumer<ChartsCubit, ChartsState>(
         listener: BlocHelper.defaultBlocListener(listener: (context, state){}),
-        builder: (context, state) {
+        builder: BlocHelper.errorHandlerBlocBuilder(builder: (context, state) {
           return state is GetChartLoaded
               ? state.getChartEntities.isEmpty
               ? const EmptyChart()
@@ -83,9 +83,9 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                                     titles: titles.toList().reversed.toList());
                               case AssetsBarType.areaPercentage:
                                 return AssetsOverviewAreaChart(
-                                    getChartEntities:
-                                    state.getChartEntities,
-                                    titles: titles.toList().reversed.toList(),showPercentage: true,);
+                                  getChartEntities:
+                                  state.getChartEntities,
+                                  titles: titles.toList().reversed.toList(),showPercentage: true,);
                               default:
                                 return const SizedBox();
                             }
@@ -108,7 +108,7 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
               }
           )
               : const LoadingWidget();
-        },
+        }),
       ),
     );
   }

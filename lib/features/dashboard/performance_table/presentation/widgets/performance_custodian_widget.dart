@@ -18,7 +18,7 @@ class PerformanceCustodianWidget extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     return BlocConsumer<PerformanceCustodianCubit, PerformanceTableState>(
       listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
-      builder: BlocHelper.errorHiderBlocBuilder(builder: (context, state) {
+      builder: BlocHelper.errorHandlerBlocBuilder(hideError: true,builder: (context, state) {
         return state is GetCustodianPerformanceLoaded
             ? Column(
           crossAxisAlignment: CrossAxisAlignment.start,

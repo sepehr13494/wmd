@@ -150,18 +150,18 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                     listener: BlocHelper.defaultBlocListener(
                                       listener: (context, state) {},
                                     ),
-                                    builder: (context, state) {
+                                    builder: BlocHelper.errorHandlerBlocBuilder(builder: (context, state) {
                                       if (state is BaseAssetsOverviewLoaded) {
                                         List<GetGeographicEntity> otherList =
-                                            [];
+                                        [];
                                         final bool isMapGeo = (state
-                                                is GetAssetsGeographyLoaded &&
+                                        is GetAssetsGeographyLoaded &&
                                             (context
-                                                        .watch<
-                                                            GeoChartChooserManager>()
-                                                        .state
-                                                        ?.barType ??
-                                                    GeoBarType.map) ==
+                                                .watch<
+                                                GeoChartChooserManager>()
+                                                .state
+                                                ?.barType ??
+                                                GeoBarType.map) ==
                                                 GeoBarType.map);
                                         if (isMapGeo) {
                                           double sum = 0;
@@ -172,66 +172,66 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                           otherList = state
                                               .assetsOverviewBaseModels
                                               .map((e) => GetGeographicEntity(
-                                                  continent: e.geography,
-                                                  amount: e.totalAmount,
-                                                  percentage:
-                                                      (e.totalAmount / sum) *
-                                                          100))
+                                              continent: e.geography,
+                                              amount: e.totalAmount,
+                                              percentage:
+                                              (e.totalAmount / sum) *
+                                                  100))
                                               .toList();
                                         }
                                         double sum = 0;
                                         for (var element
-                                            in state.assetsOverviewBaseModels) {
+                                        in state.assetsOverviewBaseModels) {
                                           sum += element.totalAmount;
                                         }
                                         return ListView.builder(
                                           physics:
-                                              const NeverScrollableScrollPhysics(),
+                                          const NeverScrollableScrollPhysics(),
                                           shrinkWrap: true,
                                           itemCount: state
                                               .assetsOverviewBaseModels.length,
                                           itemBuilder: (context, index) {
                                             final item =
-                                                state.assetsOverviewBaseModels[
-                                                    index];
+                                            state.assetsOverviewBaseModels[
+                                            index];
                                             return state
-                                                    .assetsOverviewBaseModels[
-                                                        index]
-                                                    .assetList
-                                                    .isEmpty
+                                                .assetsOverviewBaseModels[
+                                            index]
+                                                .assetList
+                                                .isEmpty
                                                 ? const SizedBox()
                                                 : EachAssetType(
-                                                    assetsOverviewBaseWidgetModel:
-                                                        AssetsOverviewBaseWidgetModel(
-                                                      allocation:
-                                                          (item.totalAmount *
-                                                                  100) /
-                                                              sum,
-                                                      title: _getTitle(item,
-                                                          appLocalizations),
-                                                      color: isMapGeo
-                                                          ? InsideWorldMapWidgetState
-                                                              .getColorByList(
-                                                                  (item as GetAssetsGeographyEntity)
-                                                                      .geography,
-                                                                  otherList)
-                                                          : _getColor(
-                                                              item,
-                                                              index,
-                                                              state.assetsOverviewBaseModels[
-                                                                  index]),
-                                                      assetsOverviewType:
-                                                          _getType(item),
-                                                      assetsOverviewBaseModel:
-                                                          item,
-                                                    ),
-                                                  );
+                                              assetsOverviewBaseWidgetModel:
+                                              AssetsOverviewBaseWidgetModel(
+                                                allocation:
+                                                (item.totalAmount *
+                                                    100) /
+                                                    sum,
+                                                title: _getTitle(item,
+                                                    appLocalizations),
+                                                color: isMapGeo
+                                                    ? InsideWorldMapWidgetState
+                                                    .getColorByList(
+                                                    (item as GetAssetsGeographyEntity)
+                                                        .geography,
+                                                    otherList)
+                                                    : _getColor(
+                                                    item,
+                                                    index,
+                                                    state.assetsOverviewBaseModels[
+                                                    index]),
+                                                assetsOverviewType:
+                                                _getType(item),
+                                                assetsOverviewBaseModel:
+                                                item,
+                                              ),
+                                            );
                                           },
                                         );
                                       } else {
                                         return const LoadingWidget();
                                       }
-                                    },
+                                    }),
                                   );
                                 },
                               )
