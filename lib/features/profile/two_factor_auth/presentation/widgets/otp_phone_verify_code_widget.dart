@@ -27,9 +27,13 @@ import 'package:wmd/injection_container.dart';
 
 class OtpPhoneVerifyCodeWidget extends StatefulWidget {
   final Function onCancel;
+  final Function onSuccess;
   final String phone;
   const OtpPhoneVerifyCodeWidget(
-      {Key? key, required this.onCancel, required this.phone})
+      {Key? key,
+      required this.onCancel,
+      required this.onSuccess,
+      required this.phone})
       : super(key: key);
 
   @override
@@ -77,7 +81,8 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyCodeWidget> {
             listener: (context, state) {
           if (state is SuccessState) {
             context.read<UserStatusCubit>().getUserStatus();
-            context.goNamed(AppRoutes.settings);
+            widget.onSuccess();
+            // context.goNamed(AppRoutes.settings);
           } else if (state is ErrorState) {
             formKey.currentState?.reset();
             GlobalFunctions.showSnackBar(context,

@@ -90,6 +90,8 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
 
     final PersonalInformationState personalState =
         context.watch<PersonalInformationCubit>().state;
+    final UserStatusState userStatusState =
+        context.watch<UserStatusCubit>().state;
 
     return BlocConsumer<TwoFactorCubit, TwoFactorState>(
         listener: BlocHelper.defaultBlocListener(listener: (context, state) {
@@ -229,7 +231,7 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                                   "email@email.com",
                                   (personalState is PersonalInformationLoaded)
                                       ? personalState.getNameEntity.email
-                                      : "null"),
+                                      : ""),
                           style: textTheme.bodyMedium,
                         ),
                       ),
@@ -237,22 +239,36 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                         value: textTwoFactorEnabled,
                         onChanged: (val) {
                           setState(() {
+                            twoFactorEnabled = val ? true : twoFactorEnabled;
                             textTwoFactorEnabled = val;
                           });
 
-                          context.read<TwoFactorCubit>().setTwoFactor(
-                              PutSettingsParams(
-                                  isPrivacyMode:
-                                      PrivacyInherited.of(context).isBlurred,
-                                  emailTwoFactorEnabled: emailTwoFactorEnabled,
-                                  smsTwoFactorEnabled: val));
+                          if ((personalState is PersonalInformationLoaded) &&
+                              (personalState
+                                          .getNameEntity.phoneNumber?.number !=
+                                      "" &&
+                                  personalState
+                                          .getNameEntity.phoneNumber?.number !=
+                                      null) &&
+                              (userStatusState is UserStatusLoaded &&
+                                  userStatusState
+                                          .userStatus.mobileNumberVerified ==
+                                      true)) {
+                            context.read<TwoFactorCubit>().setTwoFactor(
+                                PutSettingsParams(
+                                    isPrivacyMode:
+                                        PrivacyInherited.of(context).isBlurred,
+                                    emailTwoFactorEnabled:
+                                        emailTwoFactorEnabled,
+                                    smsTwoFactorEnabled: val));
+                          }
                         },
                         title: Padding(
                             padding: const EdgeInsets.only(
                                 bottom:
                                     8.0), // set your desired top padding value
                             child: Text(
-                              '${appLocalizations.profile_twoFactor_page_phone_title}: ${(personalState is PersonalInformationLoaded) ? personalState.getNameEntity.phoneNumber?.toNumber() : "null"}',
+                              '${appLocalizations.profile_twoFactor_page_phone_title}: ${(personalState is PersonalInformationLoaded) ? personalState.getNameEntity.phoneNumber?.toNumber() ?? "" : ""}',
                               style: textTheme.titleMedium,
                             )),
                         subtitle: Text(
@@ -288,6 +304,18 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                                     : {}),
                       if (textTwoFactorEnabled && verifyPhoneNumber != "")
                         OtpPhoneVerifyCodeWidget(
+                            onSuccess: () {
+                              context.read<TwoFactorCubit>().setTwoFactor(
+                                  PutSettingsParams(
+                                      isPrivacyMode:
+                                          PrivacyInherited.of(context)
+                                              .isBlurred,
+                                      emailTwoFactorEnabled: true,
+                                      twoFactorEnabled: true,
+                                      smsTwoFactorEnabled:
+                                          textTwoFactorEnabled));
+                              Navigator.of(context).pop();
+                            },
                             onCancel: () {
                               context.read<TwoFactorCubit>().setTwoFactor(
                                   PutSettingsParams(

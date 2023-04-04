@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -113,13 +115,16 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyWidget> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CountryCodePicker(onChange: (val) {
-                              setState(() {
-                                selectedCountryCode = val?.countryCode ?? "";
-                              });
+                            CountryCodePicker(
+                                onChange: (val) {
+                                  setState(() {
+                                    selectedCountryCode =
+                                        val?.countryCode ?? "";
+                                  });
 
-                              checkFinalValid(val);
-                            }),
+                                  checkFinalValid(val);
+                                },
+                                enabled: widget.formMap["country"] == null),
                             const SizedBox(width: 8),
                             Expanded(
                               child: AppTextFields.simpleTextField(
@@ -127,7 +132,8 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyWidget> {
                                   hint:
                                       '${appLocalizations.profile_tabs_personal_fields_label_primaryPhoneNumber.substring(0, 18)}..',
                                   type: TextFieldType.number,
-                                  enabled: false,
+                                  enabled:
+                                      widget.formMap["phoneNumber"] == null,
                                   keyboardType: TextInputType.number,
                                   extraValidators: [
                                     (val) {
@@ -171,17 +177,39 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyWidget> {
                           const SizedBox(
                             width: 8,
                           ),
-                          ElevatedButton(
-                            onPressed: () {
-                              widget.onSuccess(
-                                  // _inputFormValue["phoneNumber"]?.toNumber() ??
-                                  //     ""
-                                  );
-                            },
-                            style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(100, 50)),
-                            child: const Text("Send code"),
-                          )
+                          BlocConsumer<PersonalInformationCubit,
+                                  PersonalInformationState>(
+                              listener: BlocHelper.defaultBlocListener(
+                                  listener: (context, state) {
+                            if (state is SuccessStatePhone) {
+                              context
+                                  .read<PersonalInformationCubit>()
+                                  .getName();
+                            }
+                            if (state is PersonalInformationLoaded) {
+                              widget.onSuccess();
+                            }
+                          }), builder: (context, state) {
+                            return ElevatedButton(
+                              onPressed: () {
+                                if (widget.formMap["phoneNumber"] == null) {
+                                  context
+                                      .read<PersonalInformationCubit>()
+                                      .setNumber(
+                                          map: formKey
+                                              .currentState!.instantValue);
+
+                                  Timer(const Duration(seconds: 5),
+                                      () => widget.onSuccess());
+                                } else {
+                                  widget.onSuccess();
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  minimumSize: const Size(100, 50)),
+                              child: const Text("Send code"),
+                            );
+                          })
                         ],
                       )
                     ]
