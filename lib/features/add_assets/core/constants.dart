@@ -8,4 +8,9 @@ class AddAssetConstants {
     "ownershipPercentage": "100",
     "ownerShip": "100"
   };
+  static final initialJsonForAddOtherAsset = {
+    "currencyCode": Currency.currenciesList.first,
+    "noOfUnits": "1",
+    "units": "1",
+  };
 }
