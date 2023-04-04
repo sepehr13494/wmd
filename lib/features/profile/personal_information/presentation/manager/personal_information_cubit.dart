@@ -46,6 +46,7 @@ class PersonalInformationCubit extends Cubit<PersonalInformationState> {
     final result = await setNumberUseCase(map);
     result.fold((failure) => emit(ErrorState(failure: failure)), (appSuccess) {
       emit(SuccessStatePhone(appSuccess: appSuccess));
+      getName();
     });
   }
 }

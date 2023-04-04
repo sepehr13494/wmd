@@ -13,6 +13,7 @@ import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/basic_timer_widget.dart';
+import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/failed_otp_auth_bottom_sheet.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/resend_timer_widget.dart';
@@ -114,10 +115,9 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
       }
     }, builder: (context, state) {
       return Scaffold(
-        appBar: const AddAssetHeader(
-          title: "",
-          considerFirstTime: false,
-        ),
+        appBar: const CustomAuthAppBar(
+            backgroundColor: Colors.transparent,
+            automaticallyImplyLeading: false),
         body: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(vertical: 32),
             child: Theme(
