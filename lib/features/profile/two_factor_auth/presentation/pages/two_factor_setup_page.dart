@@ -9,6 +9,7 @@ import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
+import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
@@ -141,6 +142,7 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                     children: [
                       SwitchListTile.adaptive(
                         value: twoFactorEnabled,
+                        activeColor: AppColors.primary,
                         onChanged: (val) {
                           debugPrint("form toggle");
                           debugPrint(val.toString());
@@ -197,6 +199,7 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                       ),
                       SwitchListTile.adaptive(
                         value: emailTwoFactorEnabled,
+                        activeColor: AppColors.primary,
                         onChanged: (val) {
                           if (val == false && textTwoFactorEnabled == false) {
                             setState(() {
@@ -245,6 +248,7 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                       ),
                       SwitchListTile.adaptive(
                         value: textTwoFactorEnabled,
+                        activeColor: AppColors.primary,
                         onChanged: (val) {
                           setState(() {
                             twoFactorEnabled = val ? true : twoFactorEnabled;
