@@ -39,6 +39,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
   final privateDebtFormKey = GlobalKey<FormBuilderState>();
   bool enableAddAssetButton = false;
   DateTime? aqusitionDateValue;
+  DateTime? valuationDateValue;
 
   @override
   void didUpdateWidget(covariant AddRealEstatePage oldWidget) {
@@ -117,7 +118,9 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                               assetType: AssetTypes.realEstate),
                         ),
                         BlocListener<EditRealEstateCubit, EditAssetBaseState>(
-                          listener: EditAssetBlocHelper.defaultBlocListener(assetId: edit ? widget.realEstateMoreEntity!.id : ""),
+                          listener: EditAssetBlocHelper.defaultBlocListener(
+                              assetId:
+                                  edit ? widget.realEstateMoreEntity!.id : ""),
                         ),
                       ],
                       child: SingleChildScrollView(
@@ -226,7 +229,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                   title: appLocalizations
                                       .assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_label,
                                   child: AppTextFields.simpleTextField(
-                                    enabled: !edit,
+                                      enabled: !edit,
                                       type: TextFieldType.number,
                                       keyboardType: TextInputType.number,
                                       onChanged: checkFinalValid,
@@ -272,7 +275,8 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                         aqusitionDateValue = selectedDate;
                                       });
                                     },
-                                    lastDate: DateTime.now(),
+                                    lastDate:
+                                        valuationDateValue ?? DateTime.now(),
                                     inputType: InputType.date,
                                     format: DateFormat("dd/MM/yyyy"),
                                     name: "acquisitionDate",
@@ -342,7 +346,12 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                     format: DateFormat("dd/MM/yyyy"),
                                     inputType: InputType.date,
                                     name: "valuationDate",
-                                    onChanged: checkFinalValid,
+                                    onChanged: (selectedDate) {
+                                      checkFinalValid(selectedDate);
+                                      setState(() {
+                                        valuationDateValue = selectedDate;
+                                      });
+                                    },
                                     decoration: InputDecoration(
                                         suffixIcon: Icon(
                                           Icons.calendar_today_outlined,

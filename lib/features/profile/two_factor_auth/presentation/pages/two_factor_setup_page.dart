@@ -225,15 +225,23 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                                   .profile_twoFactor_page_email_title,
                               style: textTheme.titleMedium,
                             )),
-                        subtitle: Text(
-                          appLocalizations.profile_twoFactor_page_email_subTitle
-                              .replaceFirst(
-                                  "email@email.com",
-                                  (personalState is PersonalInformationLoaded)
-                                      ? personalState.getNameEntity.email
-                                      : ""),
-                          style: textTheme.bodyMedium,
-                        ),
+                        subtitle: Wrap(children: [
+                          Text(
+                            appLocalizations
+                                .profile_twoFactor_page_email_subTitle
+                                .split("email@email.com")
+                                .first,
+                            style: textTheme.bodyMedium,
+                          ),
+                          PrivacyBlurWidget(
+                            child: Text(
+                              (personalState is PersonalInformationLoaded)
+                                  ? personalState.getNameEntity.email
+                                  : "",
+                              style: textTheme.bodyMedium,
+                            ),
+                          ),
+                        ]),
                       ),
                       SwitchListTile.adaptive(
                         value: textTwoFactorEnabled,
@@ -267,10 +275,21 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                             padding: const EdgeInsets.only(
                                 bottom:
                                     8.0), // set your desired top padding value
-                            child: Text(
-                              '${appLocalizations.profile_twoFactor_page_phone_title}: ${(personalState is PersonalInformationLoaded) ? personalState.getNameEntity.phoneNumber?.toNumber() ?? "" : ""}',
-                              style: textTheme.titleMedium,
-                            )),
+                            child: Wrap(children: [
+                              Text(
+                                appLocalizations
+                                    .profile_twoFactor_page_phone_title
+                                    .split("email@email.com")
+                                    .first,
+                                style: textTheme.titleMedium,
+                              ),
+                              PrivacyBlurWidget(
+                                child: Text(
+                                  ': ${(personalState is PersonalInformationLoaded) ? personalState.getNameEntity.phoneNumber?.toNumber() ?? "" : ""}',
+                                  style: textTheme.titleMedium,
+                                ),
+                              ),
+                            ])),
                         subtitle: Text(
                           appLocalizations
                               .profile_twoFactor_page_phone_subTitle,
