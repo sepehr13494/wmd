@@ -161,6 +161,10 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyWidget> {
                           ],
                         ),
                       ),
+                      Text(
+                          appLocalizations
+                              .profile_otpVerification_text_onboardingOtp,
+                          style: textTheme.bodyMedium),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [

@@ -121,8 +121,8 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                             child: Column(children: [
                               FormBuilder(
                                 key: formKey,
-                                initialValue:
-                                    AddAssetConstants.initialJsonForAddAsset,
+                                initialValue: AddAssetConstants
+                                    .initialJsonForAddOtherAsset,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
