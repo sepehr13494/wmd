@@ -1,5 +1,5 @@
 import 'dart:developer';
-
+import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -7,6 +7,7 @@ import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/features/add_assets/link_tfo_wealth/presentation/widgets/tfo_confirm_mandate_modal.dart';
 import 'package:wmd/features/add_assets/link_tfo_wealth/presentation/widgets/tfo_initial_modal.dart';
 import 'package:wmd/features/add_assets/link_tfo_wealth/presentation/widgets/tfo_success_modal.dart';
+import 'package:wmd/global_functions.dart';
 
 class TfoCustodianBankWidget extends AppStatelessWidget {
   const TfoCustodianBankWidget(
@@ -47,10 +48,22 @@ class TfoCustodianBankWidget extends AppStatelessWidget {
                         final result =
                             await showTfoInitialModal(context: context);
                         if (result) {
-                          showTfoConfirmMandateModal(context: context);
+                          try {
+                            // const appScheme = 'com.tfo.wmd';
+                            final auth0 = Auth0('https://tfo-dev.eu.auth0.com',
+                                'AWZejjdbi65mSS87zNGCMfgC0qXjgRn1');
+                            final Credentials credentials =
+                                await auth0.webAuthentication().login();
+                            showTfoConfirmMandateModal(context: context);
+                          } on Exception catch (e, s) {
+                            debugPrint('login error: $e - stack: $s');
+                            // ignore: use_build_context_synchronously
+                            GlobalFunctions.showSnackTile(context,
+                                title: e.toString());
+                          }
                           // showTfoSuccessModal(context: context);
                         }
-                        log('Mert log: $result');
+                        // log('Mert log: $result');
                       },
                       child: Container(
                         decoration: BoxDecoration(

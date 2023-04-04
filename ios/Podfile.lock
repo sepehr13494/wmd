@@ -7,6 +7,12 @@ PODS:
   - AppAuth/Core (1.6.0)
   - AppAuth/ExternalUserAgent (1.6.0):
     - AppAuth/Core
+  - Auth0 (2.3.2):
+    - JWTDecode (~> 3.0)
+    - SimpleKeychain (~> 1.0)
+  - auth0_flutter (1.1.0):
+    - Auth0 (~> 2.3)
+    - Flutter
   - datadog_flutter_plugin (0.0.1):
     - DatadogSDK (= 1.14.0)
     - DatadogSDKCrashReporting (= 1.14.0)
@@ -149,6 +155,7 @@ PODS:
     - AppAuth/Core (~> 1.6)
     - GTMSessionFetcher/Core (< 3.0, >= 1.5)
   - GTMSessionFetcher/Core (2.3.0)
+  - JWTDecode (3.0.1)
   - local_auth_ios (0.0.1):
     - Flutter
   - nanopb (2.30909.0):
@@ -174,6 +181,7 @@ PODS:
   - SDWebImage/Core (5.15.2)
   - sign_in_with_apple (0.0.1):
     - Flutter
+  - SimpleKeychain (1.0.1)
   - SwiftyGif (5.4.4)
   - twitter_login (0.0.1):
     - Flutter
@@ -188,6 +196,7 @@ PODS:
 
 DEPENDENCIES:
   - advance_expansion_tile (from `.symlinks/plugins/advance_expansion_tile/ios`)
+  - auth0_flutter (from `.symlinks/plugins/auth0_flutter/ios`)
   - datadog_flutter_plugin (from `.symlinks/plugins/datadog_flutter_plugin/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
@@ -211,6 +220,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AppAuth
+    - Auth0
     - DatadogSDK
     - DatadogSDKCrashReporting
     - DictionaryCoder
@@ -226,16 +236,20 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
+    - JWTDecode
     - nanopb
     - Plaid
     - PLCrashReporter
     - PromisesObjC
     - SDWebImage
+    - SimpleKeychain
     - SwiftyGif
 
 EXTERNAL SOURCES:
   advance_expansion_tile:
     :path: ".symlinks/plugins/advance_expansion_tile/ios"
+  auth0_flutter:
+    :path: ".symlinks/plugins/auth0_flutter/ios"
   datadog_flutter_plugin:
     :path: ".symlinks/plugins/datadog_flutter_plugin/ios"
   device_info_plus:
@@ -278,6 +292,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   advance_expansion_tile: 3670d843a04cc64d762ab6b5ae2fa525d10345c0
   AppAuth: 8fca6b5563a5baef2c04bee27538025e4ceb2add
+  Auth0: 64da28fdc5cd499aa516dc4bfd0ace8efae2c1da
+  auth0_flutter: 2db6426f2a0489ff64318a0d2602a54aa9eef796
   datadog_flutter_plugin: 47360389e85adcf5bf9418ff3949cbf9f7a4632d
   DatadogSDK: 78af0e8967f505643352cdc10c3e3da6ba17a19d
   DatadogSDKCrashReporting: 785b1254e3bc38e1f29f5cfb3399c7db845ad473
@@ -301,6 +317,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: c2bdc4cf2ce786c4d2e6b3bcfd599a25ca78f06f
   GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
   GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
+  JWTDecode: 2eed97c2fa46ccaf3049a787004eedf0be474a87
   local_auth_ios: ceb207b594b48c075f1065f97b61e3ffa00d686b
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   network_info_plus: b78876159360f5580608c2cea620d6ceffabd0ad
@@ -312,6 +329,7 @@ SPEC CHECKSUMS:
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   SDWebImage: 8ab87d4b3e5cc4927bd47f78db6ceb0b94442577
   sign_in_with_apple: f3bf75217ea4c2c8b91823f225d70230119b8440
+  SimpleKeychain: 130211269f88f038d7dc5254cf0b1b9ce978c398
   SwiftyGif: 93a1cc87bf3a51916001cf8f3d63835fb64c819f
   twitter_login: 2794db69b7640681171b17b3c2c84ad9dfb4a57f
   url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
@@ -319,6 +337,6 @@ SPEC CHECKSUMS:
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
   webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
 
-PODFILE CHECKSUM: 7368163408c647b7eb699d0d788ba6718e18fb8d
+PODFILE CHECKSUM: 4e8f8b2be68aeea4c0d5beb6ff1e79fface1d048
 
 COCOAPODS: 1.11.3
