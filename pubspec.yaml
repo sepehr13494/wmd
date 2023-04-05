@@ -85,6 +85,7 @@ dependencies:
   blur: ^3.1.0
   advance_expansion_tile: ^1.0.2
   flutter_otp_text_field: ^1.1.1
+  # auth0_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:

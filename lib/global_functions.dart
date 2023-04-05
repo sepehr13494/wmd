@@ -65,37 +65,36 @@ class GlobalFunctions {
                   ),
                 ),
                 Expanded(
-                  child: FittedBox(
-                    fit: BoxFit.contain,
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Icon(
-                                Icons.check_circle,
-                                color: color,
-                                size: 14,
-                              ),
-                              const SizedBox(width: 2),
-                              Text(title, style: textTheme.bodyLarge),
-                            ],
-                          ),
-                          if (subtitle != null)
-                            Padding(
-                              padding: const EdgeInsets.only(left: 16.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(
+                              Icons.check_circle,
+                              color: color,
+                              size: 14,
+                            ),
+                            const SizedBox(width: 2),
+                            Text(title, style: textTheme.bodyLarge),
+                          ],
+                        ),
+                        if (subtitle != null)
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16.0),
+                            child: FittedBox(
+                              fit: BoxFit.contain,
                               child: Text(
                                 subtitle,
                                 style: textTheme.bodySmall,
                               ),
                             ),
-                        ],
-                      ),
+                          ),
+                      ],
                     ),
                   ),
                 ),

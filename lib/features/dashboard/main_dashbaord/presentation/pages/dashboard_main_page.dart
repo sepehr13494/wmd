@@ -7,8 +7,11 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_list_cubit.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_blur_warning.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/charts_height_inherited.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/charts_height_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/pages/main_dashboard_shimmer.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/dashboard_app_bar.dart';
@@ -21,6 +24,7 @@ import 'package:wmd/features/dashboard/performance_table/presentation/widgets/pe
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/features/profile/two_factor_auth/manager/two_factor_cubit.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/two_factor_recommendation_widget.dart';
+import 'package:wmd/injection_container.dart';
 import '../../../dashboard_charts/presentation/widgets/pie_chart_sample.dart';
 import '../../../dashboard_charts/presentation/widgets/random_map.dart';
 import '../widget/bank_auth_process.dart';
@@ -165,20 +169,44 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                                       style:
                                                           textTheme.titleLarge),
                                                 ),
-                                                RowOrColumn(
-                                                  rowCrossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  showRow: !isMobile,
-                                                  children: [
-                                                    ExpandedIf(
-                                                        expanded: !isMobile,
-                                                        child:
-                                                            const PieChartSample2()),
-                                                    ExpandedIf(
-                                                        expanded: !isMobile,
-                                                        child:
-                                                            const RandomWorldMapGenrator()),
-                                                  ],
+                                                Center(
+                                                  child: BlocProvider(
+                                                    create: (context) =>
+                                                        sl<ChartsHeightCubit>(),
+                                                    child: BlocConsumer<
+                                                            ChartsHeightCubit,
+                                                            NewChartsHeight>(
+                                                        listener: BlocHelper
+                                                            .defaultBlocListener(
+                                                                listener: (context,
+                                                                    state) {}),
+                                                        builder:
+                                                            (context, state) {
+                                                          return ChartsChildrenCounts(
+                                                            length:
+                                                                state.length,
+                                                            child: RowOrColumn(
+                                                              rowCrossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              showRow:
+                                                                  !isMobile,
+                                                              children: [
+                                                                ExpandedIf(
+                                                                    expanded:
+                                                                        !isMobile,
+                                                                    child:
+                                                                        const PieChartSample2()),
+                                                                ExpandedIf(
+                                                                    expanded:
+                                                                        !isMobile,
+                                                                    child:
+                                                                        const RandomWorldMapGenrator()),
+                                                              ],
+                                                            ),
+                                                          );
+                                                        }),
+                                                  ),
                                                 ),
                                                 Column(
                                                   key: tableKey,
