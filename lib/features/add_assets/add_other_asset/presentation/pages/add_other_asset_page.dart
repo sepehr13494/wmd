@@ -208,6 +208,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                     ),
                                     if (isPainting)
                                       EachTextField(
+                                        tooltipText: appLocalizations.assetLiabilityForms_forms_others_inputFields_valuationDate_tooltip,
                                         title: appLocalizations
                                             .assetLiabilityForms_forms_others_inputFields_valuationDate_label,
                                         child: FormBuilderDateTimePicker(
