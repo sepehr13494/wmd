@@ -41,6 +41,11 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
   bool resetTimer = false;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final appTheme = Theme.of(context);
@@ -79,7 +84,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                         child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const SizedBox(height: 30),
+                        const SizedBox(height: 20),
                         Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 40),
                             child: Column(
@@ -134,7 +139,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                               _otp = code;
                             });
                           },
-                          clearText: showError,
+                          clearText: showError || resetTimer,
                           enabled: !_otpExpired,
                           //runs when every textfield is filled
                           onSubmit: (String verificationCode) {

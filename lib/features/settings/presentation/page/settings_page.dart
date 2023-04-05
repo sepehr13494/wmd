@@ -286,6 +286,8 @@ class _SettingsMobileViewState extends AppState<SettingsMobileView> {
             return AdvanceExpansionTile(
               key: keys[index],
               title: Text(e.key),
+              textColor: Colors.white,
+              collapsedTextColor: Colors.white,
               collapsedIconColor: Theme.of(context).primaryColor,
               iconColor: Theme.of(context).primaryColor,
               backgroundColor: AppColors.backgroundColorPageDark,

@@ -28,8 +28,9 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
   final formKey = GlobalKey<FormBuilderState>();
   bool enableAddAssetButton = false;
   String currentDayValue = "--";
-  String? noOfUnits = "";
+  String? noOfUnits = "1";
   String? valuePerUnit = "";
+  String? ownerShip = "";
   bool isPainting = false;
   @override
   void didUpdateWidget(covariant AddOtherAssetPage oldWidget) {
@@ -68,15 +69,24 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
       });
       return;
     }
+    if (ownerShip == "" || ownerShip == null) {
+      setState(() {
+        currentDayValue = defaultValue;
+      });
+      return;
+    }
 
     final noOfUnitsParsed = noOfUnits != null ? int.tryParse(noOfUnits!) : 0;
     final valuePerUnitParsed = valuePerUnit != null
         ? int.tryParse(valuePerUnit!.toString().replaceAll(',', ''))
         : 0;
+    final ownerShipParsed = ownerShip != null
+        ? double.tryParse(ownerShip!.toString().replaceAll(',', ''))
+        : 0;
 
     setState(() {
-      currentDayValue = NumberFormat("#,##0", "en_US")
-          .format(noOfUnitsParsed! * valuePerUnitParsed!);
+      currentDayValue = NumberFormat("#,##0", "en_US").format(
+          (noOfUnitsParsed! * valuePerUnitParsed!) * (ownerShipParsed! / 100));
     });
   }
 
@@ -272,7 +282,14 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                       child: AppTextFields.simpleTextField(
                                           errorMsg: appLocalizations
                                               .assetLiabilityForms_forms_others_inputFields_acquisitionCost_errorMessage,
-                                          onChanged: checkFinalValid,
+                                          onChanged: (val) {
+                                            setState(() {
+                                              valuePerUnit = val;
+                                            });
+                                            calculateCurrentValue();
+
+                                            checkFinalValid(val);
+                                          },
                                           type: TextFieldType.money,
                                           keyboardType: TextInputType.number,
                                           name: "acquisitionCost",
@@ -319,7 +336,12 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                           ],
                                           type: TextFieldType.number,
                                           keyboardType: TextInputType.number,
-                                          onChanged: checkFinalValid,
+                                          onChanged: (val) {
+                                            setState(() {
+                                              ownerShip = val;
+                                            });
+                                            calculateCurrentValue();
+                                          },
                                           errorMsg: appLocalizations
                                               .assetLiabilityForms_forms_others_inputFields_ownerShip_errorMessageRequired,
                                           suffixIcon:
@@ -333,12 +355,6 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                           .assetLiabilityForms_forms_others_inputFields_valuePerUnit_label,
                                       child: AppTextFields.simpleTextField(
                                           required: false,
-                                          onChanged: (val) {
-                                            setState(() {
-                                              valuePerUnit = val;
-                                            });
-                                            calculateCurrentValue();
-                                          },
                                           type: TextFieldType.money,
                                           keyboardType: TextInputType.number,
                                           name: "valuePerUnit",

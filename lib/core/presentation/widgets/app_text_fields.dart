@@ -301,7 +301,9 @@ class _CurrenciesDropdownState extends State<CurrenciesDropdown> {
           itemBuilder: (context, currency, _) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(currency.name),
+              child: Text(
+                currency.name,
+              ),
             );
           },
         ),
@@ -424,8 +426,17 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
                           decoration: InputDecoration(prefixIcon: prefixIcon))),
                   items: items,
                   dropdownDecoratorProps: DropDownDecoratorProps(
+                    baseStyle: TextStyle(
+                        color: enabled ? Colors.white : Colors.grey[700]),
                     dropdownSearchDecoration: InputDecoration(
                       hintText: hint,
+                      disabledBorder: OutlineInputBorder(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(4)),
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: Colors.grey[800]!,
+                          )),
                       // prefixIcon: prefixIcon,
                       enabledBorder: field.hasError
                           ? const OutlineInputBorder(
