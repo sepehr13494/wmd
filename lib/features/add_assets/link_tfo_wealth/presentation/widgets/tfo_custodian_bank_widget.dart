@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:auth0_flutter/auth0_flutter.dart';
+// import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -49,14 +49,14 @@ class TfoCustodianBankWidget extends AppStatelessWidget {
                             await showTfoInitialModal(context: context);
                         if (result) {
                           try {
-                            // const appScheme = 'com.tfo.wmd';
-                            final auth0 = Auth0('https://tfo-dev.eu.auth0.com',
-                                'AWZejjdbi65mSS87zNGCMfgC0qXjgRn1');
-                            final Credentials credentials =
-                                await auth0.webAuthentication().login();
+                          //   // const appScheme = 'com.tfo.wmd';
+                          //   final auth0 = Auth0('https://tfo-dev.eu.auth0.com',
+                          //       'AWZejjdbi65mSS87zNGCMfgC0qXjgRn1');
+                          //   final Credentials credentials =
+                          //       await auth0.webAuthentication().login();
                             showTfoConfirmMandateModal(context: context);
                           } on Exception catch (e, s) {
-                            debugPrint('login error: $e - stack: $s');
+                            log('login error: $e - stack: $s');
                             // ignore: use_build_context_synchronously
                             GlobalFunctions.showSnackTile(context,
                                 title: appLocalizations
