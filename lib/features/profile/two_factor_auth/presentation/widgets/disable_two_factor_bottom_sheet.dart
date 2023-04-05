@@ -40,7 +40,7 @@ class DisableTwoFactorBottomSheet extends AppStatelessWidget {
                 },
                 child: Icon(
                   Icons.close,
-                  size: 15,
+                  size: 25,
                   color: Theme.of(context).primaryColor,
                 ),
               ),

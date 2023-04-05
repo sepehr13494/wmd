@@ -495,6 +495,12 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                             firstDate: DateTime.now(),
                                             inputType: InputType.date,
                                             format: DateFormat("dd/MM/yyyy"),
+                                            validator:
+                                                FormBuilderValidators.compose([
+                                              FormBuilderValidators.required(
+                                                  errorText: appLocalizations
+                                                      .assetLiabilityForms_forms_listedAssets_inputFields_maturityDate_errorMessage)
+                                            ]),
                                             name: "maturityDate",
                                             decoration: InputDecoration(
                                                 suffixIcon: Icon(

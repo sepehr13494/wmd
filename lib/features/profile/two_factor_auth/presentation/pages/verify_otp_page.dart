@@ -40,6 +40,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
   bool _otpExpired = false;
   int failedAttampts = 0;
   bool showError = false;
+  bool resetTimer = false;
 
   @override
   void initState() {
@@ -207,11 +208,18 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
                             ])),
                         ResendTimerWidget(
                             timerTime: 10,
+                            resetTime: resetTimer,
+                            resetCallback: () {
+                              setState(() {
+                                resetTimer = false;
+                              });
+                            },
                             handleOtpExpired: () {
                               context.read<VerifyPhoneCubit>().getSendOtp();
 
                               setState(() {
                                 showError = false;
+                                resetTimer = true;
                               });
 
                               // ignore: invalid_use_of_protected_member

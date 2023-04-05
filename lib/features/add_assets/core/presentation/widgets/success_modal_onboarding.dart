@@ -69,8 +69,7 @@ class SuccessModalOnboardingWidget extends ModalWidget {
                             height: 20,
                           ),
                           Text(
-                            appLocalizations
-                                .common_formSuccessModal_newUser_description,
+                            title,
                             textAlign: TextAlign.center,
                             style: appTextTheme.bodyMedium,
                           ),
