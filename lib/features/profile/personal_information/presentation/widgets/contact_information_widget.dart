@@ -267,7 +267,7 @@ class _ContactInformationWidgetState
                                                                     checkFinalValid),
                                                         IconButton(
                                                           icon: Icon(
-                                                            Icons.edit_sharp,
+                                                            Icons.edit,
                                                             color: Theme.of(
                                                                     context)
                                                                 .primaryColor,
