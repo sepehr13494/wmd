@@ -38,6 +38,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
   bool _otpExpired = false;
   int failedAttampts = 0;
   bool showError = false;
+  bool resetTimer = false;
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -57,9 +58,12 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
             setState(() {
               showError = true;
             });
-            GlobalFunctions.showSnackBar(context,
-                AppLocalizations.of(context).common_errors_somethingWentWrong,
-                color: Colors.red[800], type: "error");
+            GlobalFunctions.showSnackBar(
+                context,
+                AppLocalizations.of(context)
+                    .profile_twofactorauthentication_onboarding_error_invalidOTP,
+                color: Colors.red[800],
+                type: "error");
           }
         }, builder: (context, state) {
           return Scaffold(
@@ -79,7 +83,22 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                         Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 40),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
+                                Container(
+                                  width: 80,
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.darkCardColorForDarkTheme,
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  child: const Icon(
+                                    Icons.lock,
+                                    color: AppColors.primary,
+                                    size: 35,
+                                  ),
+                                ),
+                                const SizedBox(height: 16),
                                 Text(
                                   appLocalizations
                                       .profile_otpVerification_label_heading,
@@ -157,6 +176,12 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                                 ])),
                             ResendTimerWidget(
                                 timerTime: 10,
+                                resetTime: resetTimer,
+                                resetCallback: () {
+                                  setState(() {
+                                    resetTimer = false;
+                                  });
+                                },
                                 handleOtpExpired: () {
                                   context
                                       .read<VerifyPhoneCubit>()
@@ -167,6 +192,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
 
                                   setState(() {
                                     showError = false;
+                                    resetTimer = true;
                                   });
                                 })
                           ],

@@ -8,10 +8,16 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 
 class ResendTimerWidget extends StatefulWidget {
   final int timerTime;
+  final bool resetTime;
+  final Function resetCallback;
   final Function handleOtpExpired;
-  const ResendTimerWidget(
-      {Key? key, this.timerTime = 20, required this.handleOtpExpired})
-      : super(key: key);
+  const ResendTimerWidget({
+    Key? key,
+    this.timerTime = 20,
+    required this.handleOtpExpired,
+    required this.resetTime,
+    required this.resetCallback,
+  }) : super(key: key);
 
   @override
   AppState<ResendTimerWidget> createState() => _ResendTimerWidgetState();
@@ -53,6 +59,19 @@ class _ResendTimerWidgetState extends AppState<ResendTimerWidget> {
         });
       }
     });
+  }
+
+  @override
+  void didUpdateWidget(covariant ResendTimerWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    debugPrint("didChangeDependencies");
+    debugPrint(widget.resetTime.toString());
+
+    if (widget.resetTime) {
+      _initTimer();
+      widget.resetCallback();
+    }
   }
 
   @override

@@ -48,7 +48,7 @@ class SuccessModalWidget extends ModalWidget {
       child: Column(
         children: [
           buildModalHeader(context,
-              onClose: () => context.goNamed(AppRoutes.addAssetsView)),
+              onClose: () => context.goNamed(AppRoutes.main)),
           Expanded(
               flex: 2,
               child: Column(
@@ -100,7 +100,7 @@ class SuccessModalWidget extends ModalWidget {
                                   SizedBox(
                                       height: responsiveHelper.defaultSmallGap),
                                   Text(
-                                    '$currencyRate $currencyCode = 1 USD',
+                                    '${currencyRate.toInt()} $currencyCode = 1 USD',
                                     textAlign: TextAlign.center,
                                     style: appTextTheme.bodySmall,
                                   ),
@@ -125,16 +125,24 @@ class SuccessModalWidget extends ModalWidget {
                                       height: responsiveHelper.defaultSmallGap),
                                   Row(
                                     children: [
-                                      Icon(
-                                        Icons.arrow_drop_up,
-                                        color: Colors.green[400],
-                                      ),
+                                      if (assetType != "LoanLiability")
+                                        Icon(
+                                          Icons.arrow_drop_up,
+                                          color: Colors.green[400],
+                                        ),
+                                      if (assetType == "LoanLiability")
+                                        Icon(
+                                          Icons.arrow_drop_down,
+                                          color: Colors.red[800],
+                                        ),
                                       Text(
                                         '\$$netWorthChange',
                                         textAlign: TextAlign.center,
                                         style: appTextTheme.bodySmall
                                             ?.merge(TextStyle(
-                                          color: Colors.green[400],
+                                          color: assetType == "LoanLiability"
+                                              ? Colors.red[800]
+                                              : Colors.green[400],
                                         )),
                                       )
                                     ],
@@ -181,6 +189,7 @@ class SuccessModalWidget extends ModalWidget {
   Widget buildActionContainer(BuildContext context) {
     final responsiveHelper = ResponsiveHelper(context: context);
     final isMobile = responsiveHelper.isMobile;
+    final appLocalizations = AppLocalizations.of(context);
 
     return Padding(
         padding:
@@ -214,7 +223,10 @@ class SuccessModalWidget extends ModalWidget {
                   },
                   style: ElevatedButton.styleFrom(
                       minimumSize: const Size(100, 50)),
-                  child: Text(confirmBtn),
+                  child: Text(assetType == "LoanLiability"
+                      ? appLocalizations
+                          .common_formSuccessModal_buttons_viewLiability
+                      : confirmBtn),
                 ))
           ],
         ));

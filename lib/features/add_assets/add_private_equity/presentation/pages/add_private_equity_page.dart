@@ -153,6 +153,8 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                       ),
                                     ),
                                     EachTextField(
+                                      tooltipText: appLocalizations
+                                          .assetLiabilityForms_forms_privateEquity_inputFields_acquisitionDate_tooltip,
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_privateEquity_inputFields_acquisitionDate_label,
                                       child: FormBuilderDateTimePicker(
@@ -208,35 +210,40 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                               .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_placeholder),
                                     ),
                                     EachTextField(
+                                      tooltipText: appLocalizations
+                                          .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_tooltip,
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_label,
-                                      child: FormBuilderDateTimePicker(
-                                        autovalidateMode:
-                                            AutovalidateMode.onUserInteraction,
-                                        validator:
-                                            FormBuilderValidators.compose([
-                                          FormBuilderValidators.required(
-                                              errorText: appLocalizations
-                                                  .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_errorMessage)
-                                        ]),
-                                        enabled: acquisitionDateValue != null,
-                                        format: DateFormat("dd/MM/yyyy"),
-                                        inputType: InputType.date,
-                                        firstDate: acquisitionDateValue,
-                                        lastDate: DateTime.now(),
-                                        name: "valuationDate",
-                                        onChanged: (selectedDate) {
-                                          checkFinalValid(selectedDate);
-                                        },
-                                        decoration: InputDecoration(
-                                            suffixIcon: Icon(
-                                              Icons.calendar_today_outlined,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                            ),
-                                            hintText: appLocalizations
-                                                .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_placeholder),
-                                      ),
+                                      child: IgnorePointer(
+                                          ignoring:
+                                              acquisitionDateValue == null,
+                                          child: FormBuilderDateTimePicker(
+                                            autovalidateMode: AutovalidateMode
+                                                .onUserInteraction,
+                                            validator:
+                                                FormBuilderValidators.compose([
+                                              FormBuilderValidators.required(
+                                                  errorText: appLocalizations
+                                                      .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_errorMessage)
+                                            ]),
+                                            // enabled: acquisitionDateValue != null,
+                                            format: DateFormat("dd/MM/yyyy"),
+                                            inputType: InputType.date,
+                                            firstDate: acquisitionDateValue,
+                                            lastDate: DateTime.now(),
+                                            name: "valuationDate",
+                                            onChanged: (selectedDate) {
+                                              checkFinalValid(selectedDate);
+                                            },
+                                            decoration: InputDecoration(
+                                                suffixIcon: Icon(
+                                                  Icons.calendar_today_outlined,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                ),
+                                                hintText: appLocalizations
+                                                    .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_placeholder),
+                                          )),
                                     ),
                                     EachTextField(
                                       hasInfo: false,

@@ -23,78 +23,82 @@ class AssetBlocHelper extends BlocHelper {
     required String asset,
     required String assetType,
   }) {
-    return BlocHelper.defaultBlocListener(listener: (context, state) {
-      final appLocalizations = AppLocalizations.of(context);
-      if (state is AddAssetState) {
-        context.read<MainDashboardCubit>().initPage();
-        context.read<AssetsOverviewCubit>().initPage();
-        context.read<DashboardAllocationCubit>().getAllocation(
-            dateTime: context.read<MainDashboardCubit>().dateTimeRange);
-        context.read<DashboardGoeCubit>().getGeographic();
-        context.read<DashboardPieCubit>().getPie();
+    return BlocHelper.defaultBlocListener(
+      listener: (context, state) {
+        final appLocalizations = AppLocalizations.of(context);
+        if (state is AddAssetState) {
+          context.read<MainDashboardCubit>().initPage();
+          context.read<AssetsOverviewCubit>().initPage();
+          context.read<DashboardAllocationCubit>().getAllocation(
+              dateTime: context.read<MainDashboardCubit>().dateTimeRange);
+          context.read<DashboardGoeCubit>().getGeographic();
+          context.read<DashboardPieCubit>().getPie();
 
-        final successValue = state.addAsset;
-        showDialog(
-          context: context,
-          builder: (buildContext) {
-            final isAssetsNotEmpty = context
-                .read<MainDashboardCubit>()
-                .netWorthObj
-                ?.assets
-                .currentValue !=
-                0;
-            final isLiabilityNotEmpty = context
-                .read<MainDashboardCubit>()
-                .netWorthObj
-                ?.liabilities
-                .currentValue !=
-                0;
+          final successValue = state.addAsset;
+          showDialog(
+            context: context,
+            builder: (buildContext) {
+              final isAssetsNotEmpty = context
+                      .read<MainDashboardCubit>()
+                      .netWorthObj
+                      ?.assets
+                      .currentValue !=
+                  0;
+              final isLiabilityNotEmpty = context
+                      .read<MainDashboardCubit>()
+                      .netWorthObj
+                      ?.liabilities
+                      .currentValue !=
+                  0;
 
-            if (isAssetsNotEmpty || isLiabilityNotEmpty) {
-              return SuccessModalWidget(
-                assetId: successValue.id,
-                assetType: assetType,
-                title: '$asset is successfully added to wealth overview',
-                confirmBtn: appLocalizations
-                    .common_formSuccessModal_buttons_viewAsset,
+              if (isAssetsNotEmpty || isLiabilityNotEmpty) {
+                return SuccessModalWidget(
+                  assetId: successValue.id,
+                  assetType: assetType,
+                  title: '$asset is successfully added to wealth overview',
+                  confirmBtn: appLocalizations
+                      .common_formSuccessModal_buttons_viewAsset,
+                  cancelBtn:
+                      appLocalizations.common_formSuccessModal_buttons_addAsset,
+                  startingBalance: successValue.startingBalance.convertMoney(),
+                  currencyCode: successValue.currencyCode,
+                  currencyRate: successValue.currencyRate,
+                  netWorth: successValue.totalNetWorth.convertMoney(),
+                  netWorthChange:
+                      successValue.totalNetWorthChange.convertMoney(),
+                );
+              }
+              return SuccessModalOnboardingWidget(
+                title: appLocalizations.common_formSuccessModal_newUser_title
+                    .replaceAll('{{assetName}}', asset)
+                    .replaceAll("{{assetType}}", assetType),
+                confirmBtn:
+                    appLocalizations.common_formSuccessModal_buttons_viewAsset,
                 cancelBtn:
-                appLocalizations.common_formSuccessModal_buttons_addAsset,
+                    appLocalizations.common_formSuccessModal_buttons_addAsset,
                 startingBalance: successValue.startingBalance.convertMoney(),
                 currencyCode: successValue.currencyCode,
                 currencyRate: successValue.currencyRate,
                 netWorth: successValue.totalNetWorth.convertMoney(),
-                netWorthChange:
-                successValue.totalNetWorthChange.convertMoney(),
+                netWorthChange: successValue.totalNetWorthChange.convertMoney(),
               );
-            }
-            return SuccessModalOnboardingWidget(
-              title: '$asset is successfully added to wealth overview',
-              confirmBtn:
-              appLocalizations.common_formSuccessModal_buttons_viewAsset,
-              cancelBtn:
-              appLocalizations.common_formSuccessModal_buttons_addAsset,
-              startingBalance: successValue.startingBalance.convertMoney(),
-              currencyCode: successValue.currencyCode,
-              currencyRate: successValue.currencyRate,
-              netWorth: successValue.totalNetWorth.convertMoney(),
-              netWorthChange: successValue.totalNetWorthChange.convertMoney(),
-            );
 
-            // return SuccessModalWidget(
-            //   title: '$asset is successfully added to wealth overview',
-            //   confirmBtn:
-            //       appLocalizations.common_formSuccessModal_buttons_viewAsset,
-            //   cancelBtn:
-            //       appLocalizations.common_formSuccessModal_buttons_addAsset,
-            //   startingBalance: successValue.startingBalance.convertMoney(),
-            //   currencyCode: successValue.currencyCode,
-            //   currencyRate: successValue.currencyRate,
-            //   netWorth: successValue.totalNetWorth.convertMoney(),
-            //   netWorthChange: successValue.totalNetWorthChange.convertMoney(),
-            // );
-          },
-        );
-      }
-    },);
+              // return SuccessModalWidget(
+              //   title: '$asset is successfully added to wealth overview',
+              //   confirmBtn:
+              //       appLocalizations.common_formSuccessModal_buttons_viewAsset,
+              //   cancelBtn:
+              //       appLocalizations.common_formSuccessModal_buttons_addAsset,
+              //   startingBalance: successValue.startingBalance.convertMoney(),
+              //   currencyCode: successValue.currencyCode,
+              //   currencyRate: successValue.currencyRate,
+              //   netWorth: successValue.totalNetWorth.convertMoney(),
+              //   netWorthChange: successValue.totalNetWorthChange.convertMoney(),
+              // );
+            },
+          );
+        }
+      },
+    );
   }
 }
