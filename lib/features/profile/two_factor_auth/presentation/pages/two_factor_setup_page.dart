@@ -9,6 +9,7 @@ import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
+import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
@@ -90,6 +91,8 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
 
     final PersonalInformationState personalState =
         context.watch<PersonalInformationCubit>().state;
+    final UserStatusState userStatusState =
+        context.watch<UserStatusCubit>().state;
 
     return BlocConsumer<TwoFactorCubit, TwoFactorState>(
         listener: BlocHelper.defaultBlocListener(listener: (context, state) {
@@ -139,6 +142,7 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                     children: [
                       SwitchListTile.adaptive(
                         value: twoFactorEnabled,
+                        activeColor: AppColors.primary,
                         onChanged: (val) {
                           debugPrint("form toggle");
                           debugPrint(val.toString());
@@ -195,6 +199,7 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                       ),
                       SwitchListTile.adaptive(
                         value: emailTwoFactorEnabled,
+                        activeColor: AppColors.primary,
                         onChanged: (val) {
                           if (val == false && textTwoFactorEnabled == false) {
                             setState(() {
@@ -223,38 +228,72 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                                   .profile_twoFactor_page_email_title,
                               style: textTheme.titleMedium,
                             )),
-                        subtitle: Text(
-                          appLocalizations.profile_twoFactor_page_email_subTitle
-                              .replaceFirst(
-                                  "email@email.com",
-                                  (personalState is PersonalInformationLoaded)
-                                      ? personalState.getNameEntity.email
-                                      : "null"),
-                          style: textTheme.bodyMedium,
-                        ),
+                        subtitle: Wrap(children: [
+                          Text(
+                            appLocalizations
+                                .profile_twoFactor_page_email_subTitle
+                                .split("email@email.com")
+                                .first,
+                            style: textTheme.bodyMedium,
+                          ),
+                          PrivacyBlurWidget(
+                            child: Text(
+                              (personalState is PersonalInformationLoaded)
+                                  ? personalState.getNameEntity.email
+                                  : "",
+                              style: textTheme.bodyMedium,
+                            ),
+                          ),
+                        ]),
                       ),
                       SwitchListTile.adaptive(
                         value: textTwoFactorEnabled,
+                        activeColor: AppColors.primary,
                         onChanged: (val) {
                           setState(() {
+                            twoFactorEnabled = val ? true : twoFactorEnabled;
                             textTwoFactorEnabled = val;
                           });
 
-                          context.read<TwoFactorCubit>().setTwoFactor(
-                              PutSettingsParams(
-                                  isPrivacyMode:
-                                      PrivacyInherited.of(context).isBlurred,
-                                  emailTwoFactorEnabled: emailTwoFactorEnabled,
-                                  smsTwoFactorEnabled: val));
+                          if ((personalState is PersonalInformationLoaded) &&
+                              (personalState
+                                          .getNameEntity.phoneNumber?.number !=
+                                      "" &&
+                                  personalState
+                                          .getNameEntity.phoneNumber?.number !=
+                                      null) &&
+                              (userStatusState is UserStatusLoaded &&
+                                  userStatusState
+                                          .userStatus.mobileNumberVerified ==
+                                      true)) {
+                            context.read<TwoFactorCubit>().setTwoFactor(
+                                PutSettingsParams(
+                                    isPrivacyMode:
+                                        PrivacyInherited.of(context).isBlurred,
+                                    emailTwoFactorEnabled:
+                                        emailTwoFactorEnabled,
+                                    smsTwoFactorEnabled: val));
+                          }
                         },
                         title: Padding(
                             padding: const EdgeInsets.only(
                                 bottom:
                                     8.0), // set your desired top padding value
-                            child: Text(
-                              '${appLocalizations.profile_twoFactor_page_phone_title}: ${(personalState is PersonalInformationLoaded) ? personalState.getNameEntity.phoneNumber?.toNumber() : "null"}',
-                              style: textTheme.titleMedium,
-                            )),
+                            child: Wrap(children: [
+                              Text(
+                                appLocalizations
+                                    .profile_twoFactor_page_phone_title
+                                    .split("email@email.com")
+                                    .first,
+                                style: textTheme.titleMedium,
+                              ),
+                              PrivacyBlurWidget(
+                                child: Text(
+                                  ': ${(personalState is PersonalInformationLoaded) ? personalState.getNameEntity.phoneNumber?.toNumber() ?? "" : ""}',
+                                  style: textTheme.titleMedium,
+                                ),
+                              ),
+                            ])),
                         subtitle: Text(
                           appLocalizations
                               .profile_twoFactor_page_phone_subTitle,
@@ -288,6 +327,18 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                                     : {}),
                       if (textTwoFactorEnabled && verifyPhoneNumber != "")
                         OtpPhoneVerifyCodeWidget(
+                            onSuccess: () {
+                              context.read<TwoFactorCubit>().setTwoFactor(
+                                  PutSettingsParams(
+                                      isPrivacyMode:
+                                          PrivacyInherited.of(context)
+                                              .isBlurred,
+                                      emailTwoFactorEnabled: true,
+                                      twoFactorEnabled: true,
+                                      smsTwoFactorEnabled:
+                                          textTwoFactorEnabled));
+                              Navigator.of(context).pop();
+                            },
                             onCancel: () {
                               context.read<TwoFactorCubit>().setTwoFactor(
                                   PutSettingsParams(
