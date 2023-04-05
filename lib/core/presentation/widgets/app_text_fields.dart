@@ -265,21 +265,21 @@ class CurrenciesDropdown extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<CurrenciesDropdown> createState() => _CurrenciesDropdownState();
+  AppState<CurrenciesDropdown> createState() => _CurrenciesDropdownState();
 }
 
-class _CurrenciesDropdownState extends State<CurrenciesDropdown> {
+class _CurrenciesDropdownState extends AppState<CurrenciesDropdown> {
   Currency? selectedCurrency =
       Currency(symbol: "USD", name: "United States dollar");
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context,textTheme,appLocalization) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FormBuilderSearchableDropdown<Currency>(
           name: "currencyCode",
-          hint: "Type or select currency",
+          hint: appLocalization.assetLiabilityForms_forms_bankAccount_inputFields_country_placeholder,
           items: Currency.currenciesList,
           enabled: widget.enabled,
           onChanged: (val) {
@@ -328,7 +328,7 @@ class CountriesDropdown extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     return FormBuilderSearchableDropdown<Country>(
       name: "country",
-      hint: "Type or select a country",
+      hint: appLocalizations.assetLiabilityForms_forms_bankAccount_inputFields_country_placeholder,
       prefixIcon: const Icon(
         Icons.search,
       ),

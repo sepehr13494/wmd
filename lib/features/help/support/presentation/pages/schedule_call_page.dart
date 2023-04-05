@@ -315,7 +315,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                 title: appLocalizations.scheduleMeeting_timeZone_label,
                 child: FormBuilderSearchableDropdown<TimeZones>(
                   name: "timeZone",
-                  hint: "Select",
+                  hint: "",
                   prefixIcon: const Icon(
                     Icons.search,
                   ),
@@ -408,7 +408,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                   },
                   fontSize: 13.5,
                   name: "type",
-                  hint: "Select",
+                  hint: "",
                   items: MeetingType.meetingTypeList
                       .map((e) => DropdownMenuItem(
                             value: e.value,
@@ -442,7 +442,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                 title: appLocalizations.scheduleMeeting_callReason_label,
                 child: FormBuilderSearchableDropdown<CallReason>(
                   name: "subject",
-                  hint: "Select",
+                  hint: "",
                   showSearchBox: false,
                   onChanged: checkFinalValid,
                   items: CallReason.callReasonList(context),
