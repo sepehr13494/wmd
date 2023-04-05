@@ -235,11 +235,14 @@ class _SettingsMobileViewState extends AppState<SettingsMobileView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16),
-            child: Text(
-              appLocalizations.profile_tabs_heading,
-              style: textTheme.headlineMedium,
+          Center(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 36.0, horizontal: 16),
+              child: Text(
+                appLocalizations.profile_tabs_heading,
+                style: textTheme.headlineMedium,
+              ),
             ),
           ),
           // ExpansionPanelList(
