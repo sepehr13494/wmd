@@ -115,6 +115,7 @@ import 'package:wmd/features/dashboard/main_dashbaord/data/data_sources/main_das
 import 'package:wmd/features/dashboard/main_dashbaord/data/repositories/main_dashboard_respository_impl.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/domain/repositories/main_dashboard_repository.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/domain/use_cases/user_net_worth_usecase.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/charts_height_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/performance_table/data/data_sources/performance_table_remote_datasource.dart';
 import 'package:wmd/features/dashboard/performance_table/data/repositories/performance_table_repository_impl.dart';
@@ -427,15 +428,14 @@ Future<void> init() async {
       () => LoanLiabilityRemoteDataSourceImpl(sl()));
 
   //EditRealEstate
-  sl.registerFactory(() => EditRealEstateCubit(sl(),sl()));
+  sl.registerFactory(() => EditRealEstateCubit(sl(), sl()));
   sl.registerLazySingleton(() => PutRealEstateUseCase(sl()));
   sl.registerLazySingleton(() => DeleteRealEstateUseCase(sl()));
 
   sl.registerLazySingleton<EditRealEstateRepository>(
-          () => EditRealEstateRepositoryImpl(sl()));
+      () => EditRealEstateRepositoryImpl(sl()));
   sl.registerLazySingleton<EditRealEstateRemoteDataSource>(
-          () => EditRealEstateRemoteDataSourceImpl(sl()));
-
+      () => EditRealEstateRemoteDataSourceImpl(sl()));
 
   //AssetDetail
   sl.registerFactory(() => AssetSummaryCubit(sl()));
@@ -570,6 +570,9 @@ Future<void> init() async {
       () => SettingsRepositoryImpl(sl()));
   sl.registerLazySingleton<SettingsRemoteDataSource>(
       () => SettingsRemoteDataSourceImpl(sl()));
+
+  //ChartsHeigth
+  sl.registerFactory(() => ChartsHeightCubit());
 
   //Settings
   sl.registerFactory(() => AssetValuationCubit(sl(), sl()));
