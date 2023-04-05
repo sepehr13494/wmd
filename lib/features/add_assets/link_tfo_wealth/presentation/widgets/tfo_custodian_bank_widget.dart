@@ -59,7 +59,9 @@ class TfoCustodianBankWidget extends AppStatelessWidget {
                             debugPrint('login error: $e - stack: $s');
                             // ignore: use_build_context_synchronously
                             GlobalFunctions.showSnackTile(context,
-                                title: e.toString());
+                                title: appLocalizations
+                                    .common_toast_generic_error_title,
+                                color: Colors.red);
                           }
                           // showTfoSuccessModal(context: context);
                         }
