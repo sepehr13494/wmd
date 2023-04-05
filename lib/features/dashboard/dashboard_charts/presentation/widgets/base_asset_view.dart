@@ -7,6 +7,8 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/charts_height_inherited.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/charts_height_cubit.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 
 import '../models/each_asset_model.dart';
@@ -32,6 +34,7 @@ class BaseAssetView extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    context.read<ChartsHeightCubit>().setLength(assets.length);
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
     return Theme(
       data: Theme.of(context).copyWith(
@@ -118,8 +121,8 @@ class BaseAssetView extends AppStatelessWidget {
                   if (isMobile) {
                     return _buildChartBody(textTheme, appLocalizations);
                   }
-                  return AspectRatio(
-                    aspectRatio: 1,
+                  return SizedBox(
+                    height: ChartsChildrenCounts.of(context).length * 45,
                     child: _buildChartBody(textTheme, appLocalizations),
                   );
                 },
