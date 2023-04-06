@@ -275,6 +275,8 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                         aqusitionDateValue = selectedDate;
                                       });
                                     },
+                                    firstDate:
+                                        DateTime.fromMillisecondsSinceEpoch(0),
                                     lastDate:
                                         valuationDateValue ?? DateTime.now(),
                                     inputType: InputType.date,
