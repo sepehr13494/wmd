@@ -42,6 +42,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
   int failedAttampts = 0;
   bool showError = false;
   bool resetTimer = false;
+  bool resetCode = false;
 
   @override
   void initState() {
@@ -175,9 +176,13 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
                       //runs when a code is typed in
                       onCodeChanged: (String code) {
                         //handle validation or checks here
+                        setState(() {
+                          resetCode = false;
+                        });
                       },
-                      clearText: showError || resetTimer,
+                      clearText: showError || resetTimer || resetCode,
                       enabled: !_otpExpired,
+                      autoFocus: true,
                       //runs when every textfield is filled
                       onSubmit: (String verificationCode) {
                         context.read<VerifyPhoneCubit>().postVerifyPhone(map: {
@@ -186,6 +191,18 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
                         });
                       }, // end onSubmit
                     ),
+                    TextButton(
+                        onPressed: () {
+                          setState(() {
+                            resetCode = true;
+                          });
+                        },
+                        child: Text(
+                          "Clear all",
+                          style: TextStyle(
+                              color: Colors.grey[600],
+                              decoration: TextDecoration.underline),
+                        )),
 
                     SizedBox(height: responsiveHelper.defaultGap),
                     (showError

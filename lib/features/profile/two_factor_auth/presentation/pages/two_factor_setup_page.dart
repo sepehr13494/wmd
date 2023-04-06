@@ -156,11 +156,6 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                                 builder: (temp) {
                                   return DisableTwoFactorBottomSheet(
                                     callback: () {
-                                      debugPrint("calback called 2FA");
-                                      debugPrint("calback called 2FA");
-                                      debugPrint("calback called 2FA");
-                                      debugPrint("calback called 2FA");
-                                      debugPrint("calback called 2FA");
                                       setState(() {
                                         twoFactorEnabled = val;
                                         emailTwoFactorEnabled = val;
