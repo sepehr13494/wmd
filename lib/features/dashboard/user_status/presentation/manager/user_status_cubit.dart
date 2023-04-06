@@ -17,7 +17,7 @@ class UserStatusCubit extends Cubit<UserStatusState> {
       : super(LoadingState());
 
   getUserStatus() async {
-    // emit(LoadingState());
+    emit(LoadingState());
     final result = await getUserStatusUseCase(NoParams());
     result.fold((failure) {
       emit(ErrorState(failure: failure));
