@@ -32,7 +32,8 @@ class CallSummaryWidget extends AppStatelessWidget {
                   CallSummaryRow(
                       label: appLocalizations.scheduleMeeting_labels_timeZone,
                       value: formState != null
-                          ? TimeZones.timezonesList
+                          ? TimeZones.getTimezonesListLocalized(
+                                  appLocalizations)
                               .firstWhere(
                                   (element) =>
                                       element.value ==

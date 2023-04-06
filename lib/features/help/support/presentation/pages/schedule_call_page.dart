@@ -294,7 +294,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
         FormBuilder(
           key: formKey,
           initialValue: {
-            "type": "Virtual Meeting",
+            "type": MeetingType.meetingTypeList.first.name,
             "email": (personalState is PersonalInformationLoaded)
                 ? personalState.getNameEntity.email
                 : ""
@@ -320,7 +320,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                   prefixIcon: const Icon(
                     Icons.search,
                   ),
-                  items: TimeZones.timezonesList,
+                  items: TimeZones.getTimezonesListLocalized(appLocalizations),
                   onChanged: (val) async {
                     // setState(() {
                     //   bottomFormKey =
