@@ -69,7 +69,8 @@ class AssetBlocHelper extends BlocHelper {
                 );
               }
               return SuccessModalOnboardingWidget(
-                title: appLocalizations.common_formSuccessModal_newUser_title
+                title: appLocalizations
+                    .common_formSuccessModal_newUser_description
                     .replaceAll('{{assetName}}', asset)
                     .replaceAll("{{assetType}}", assetType),
                 confirmBtn:

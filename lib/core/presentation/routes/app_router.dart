@@ -384,8 +384,11 @@ class AppRouter {
                       name: AppRoutes.verifyPhone,
                       path: "verify-phone",
                       builder: (BuildContext context, GoRouterState state) {
-                        return VerifyPhoneNumberPage(
-                            verifyMap: state.queryParams);
+                        return BlocProvider.value(
+                          value: _userStatusCubit,
+                          child: VerifyPhoneNumberPage(
+                              verifyMap: state.queryParams),
+                        );
                       },
                     ),
                     GoRoute(
