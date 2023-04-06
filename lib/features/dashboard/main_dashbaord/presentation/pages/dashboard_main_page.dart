@@ -7,7 +7,6 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
-import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_list_cubit.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_blur_warning.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/charts_height_inherited.dart';
@@ -134,8 +133,8 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                                 BanksAuthorizationProcess(
                                                     initiallyExpanded: widget
                                                             .expandCustodian ||
-                                                        !(isAssetsNotEmpty ||
-                                                            isLiabilityNotEmpty)),
+                                                        !isAssetsNotEmpty ||
+                                                        !isLiabilityNotEmpty),
                                                 if (isAssetsNotEmpty ||
                                                     isLiabilityNotEmpty)
                                                   SummeryWidget(

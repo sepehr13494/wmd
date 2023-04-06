@@ -127,11 +127,26 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
                     child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 20),
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 40),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
+                            Container(
+                              width: 80,
+                              height: 80,
+                              decoration: BoxDecoration(
+                                color: AppColors.darkCardColorForDarkTheme,
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: const Icon(
+                                Icons.lock,
+                                color: AppColors.primary,
+                                size: 35,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
                             Text(
                               appLocalizations.auth_verifyOtp_title,
                               style: textTheme.headlineSmall,
@@ -161,7 +176,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
                       onCodeChanged: (String code) {
                         //handle validation or checks here
                       },
-                      clearText: showError,
+                      clearText: showError || resetTimer,
                       enabled: !_otpExpired,
                       //runs when every textfield is filled
                       onSubmit: (String verificationCode) {
@@ -185,6 +200,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
                           )
                         : BasicTimerWidget(
                             timerTime: 600000,
+                            resetTime: resetTimer,
                             handleOtpExpired: () {
                               setState(() {
                                 _otpExpired = true;

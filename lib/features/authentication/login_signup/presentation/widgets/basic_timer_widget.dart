@@ -6,9 +6,13 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 
 class BasicTimerWidget extends StatefulWidget {
   final int timerTime;
+  final bool resetTime;
   final Function handleOtpExpired;
   const BasicTimerWidget(
-      {Key? key, this.timerTime = 20, required this.handleOtpExpired})
+      {Key? key,
+      this.timerTime = 20,
+      required this.handleOtpExpired,
+      required this.resetTime})
       : super(key: key);
 
   @override
@@ -53,6 +57,18 @@ class _BasicTimerWidgetState extends AppState<BasicTimerWidget> {
         widget.handleOtpExpired();
       }
     });
+  }
+
+  @override
+  void didUpdateWidget(covariant BasicTimerWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    debugPrint("didChangeDependencies");
+    debugPrint(widget.resetTime.toString());
+
+    if (widget.resetTime) {
+      _initTimer();
+    }
   }
 
   @override
