@@ -18,7 +18,7 @@ class TwoFactorSetting extends AppStatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  appLocalizations.profile_twofactorauthentication_page_heading,
+                  appLocalizations.profile_twofactorauthentication_page_2fa,
                   style: textTheme.titleMedium,
                 ),
                 Text(
@@ -57,7 +57,7 @@ class TwoFactorSetting extends AppStatelessWidget {
                       context.goNamed(AppRoutes.twoFactorAuth);
                     },
                     child: Text(appLocalizations
-                        .profile_twofactorauthentication_button_update2FA))
+                        .profile_twofactorauthentication_button_change2FA))
               ]
                   .map((e) => Padding(
                         padding: const EdgeInsets.symmetric(

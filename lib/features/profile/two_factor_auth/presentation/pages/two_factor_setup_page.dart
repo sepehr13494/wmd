@@ -125,7 +125,7 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
       }, builder: (context, state) {
         return Scaffold(
             appBar: AddAssetHeader(
-              title: appLocalizations.profile_twoFactor_header,
+              title: appLocalizations.profile_twofactorauthentication_page_2fa,
               considerFirstTime: false,
             ),
             body: SingleChildScrollView(
