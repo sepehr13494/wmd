@@ -15,56 +15,63 @@ class TwoFactorSetting extends AppStatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  appLocalizations.profile_twofactorauthentication_page_2fa,
-                  style: textTheme.titleMedium,
-                ),
-                Text(
-                  appLocalizations
-                      .profile_twofactorauthentication_page_description,
-                  style: textTheme.bodyMedium,
-                ),
-                if (state is TwoFactorLoaded &&
-                    state.entity.emailTwoFactorEnabled)
-                  Row(
-                    children: [
-                      Icon(Icons.check_circle, color: Colors.green[300]),
-                      const SizedBox(width: 10),
-                      Text(
-                        appLocalizations
-                            .profile_twofactorauthentication_label_enabledEmail,
-                        style: textTheme.titleSmall,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
+                  child: Text(
+                    appLocalizations.profile_twofactorauthentication_page_2fa,
+                    style: textTheme.titleMedium,
+                  )),
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      appLocalizations
+                          .profile_twofactorauthentication_page_description,
+                      style: textTheme.bodyMedium,
+                    ),
+                    if (state is TwoFactorLoaded &&
+                        state.entity.emailTwoFactorEnabled)
+                      Row(
+                        children: [
+                          Icon(Icons.check_circle, color: Colors.green[300]),
+                          const SizedBox(width: 10),
+                          Text(
+                            appLocalizations
+                                .profile_twofactorauthentication_label_enabledEmail,
+                            style: textTheme.titleSmall,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                if (state is TwoFactorLoaded &&
-                    state.entity.smsTwoFactorEnabled)
-                  Row(
-                    children: [
-                      Icon(Icons.check_circle, color: Colors.green[300]),
-                      const SizedBox(width: 10),
-                      Text(
-                        appLocalizations
-                            .profile_twofactorauthentication_label_enabledPhoneNumber,
-                        style: textTheme.titleSmall,
+                    if (state is TwoFactorLoaded &&
+                        state.entity.smsTwoFactorEnabled)
+                      Row(
+                        children: [
+                          Icon(Icons.check_circle, color: Colors.green[300]),
+                          const SizedBox(width: 10),
+                          Text(
+                            appLocalizations
+                                .profile_twofactorauthentication_label_enabledPhoneNumber,
+                            style: textTheme.titleSmall,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                OutlinedButton(
-                    onPressed: () {
-                      context.goNamed(AppRoutes.twoFactorAuth);
-                    },
-                    child: Text(appLocalizations
-                        .profile_twofactorauthentication_button_change2FA))
-              ]
-                  .map((e) => Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 16),
-                        child: e,
-                      ))
-                  .toList());
+                    OutlinedButton(
+                        onPressed: () {
+                          context.goNamed(AppRoutes.twoFactorAuth);
+                        },
+                        child: Text(appLocalizations
+                            .profile_twofactorauthentication_button_change2FA))
+                  ]
+                      .map((e) => Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 16),
+                            child: e,
+                          ))
+                      .toList())
+            ],
+          );
         });
   }
 }

@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/features/help/support/data/models/meeting_type.dart';
 import 'package:wmd/features/help/support/data/models/time_zones.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 
@@ -61,9 +62,10 @@ class CallSummaryWidget extends AppStatelessWidget {
                           : "null"),
                   CallSummaryRow(
                     label: appLocalizations.scheduleMeeting_labels_meetingType,
-                    value: formState != null
-                        ? formState!.instantValue["type"]
-                        : "Virtual Meeting",
+                    value: MeetingType.meetingTypeList.first.name,
+                    // value: formState != null
+                    //     ? formState!.instantValue["type"]
+                    //     : "Virtual Meeting",
                   ),
                   CallSummaryRow(
                     label: appLocalizations.scheduleMeeting_labels_email,

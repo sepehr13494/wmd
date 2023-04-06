@@ -153,23 +153,32 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                                     Theme.of(context).scaffoldBackgroundColor,
                                 isScrollControlled: true,
                                 context: context,
-                                builder: (context) {
+                                builder: (temp) {
                                   return DisableTwoFactorBottomSheet(
-                                    callback: (() => setState(() {
-                                          twoFactorEnabled = val;
-                                          emailTwoFactorEnabled = val;
-                                          textTwoFactorEnabled = val;
-                                        })),
+                                    callback: () {
+                                      debugPrint("calback called 2FA");
+                                      debugPrint("calback called 2FA");
+                                      debugPrint("calback called 2FA");
+                                      debugPrint("calback called 2FA");
+                                      debugPrint("calback called 2FA");
+                                      setState(() {
+                                        twoFactorEnabled = val;
+                                        emailTwoFactorEnabled = val;
+                                        textTwoFactorEnabled = val;
+                                      });
+
+                                      context
+                                          .read<TwoFactorCubit>()
+                                          .setTwoFactor(PutSettingsParams(
+                                              isPrivacyMode:
+                                                  PrivacyInherited.of(context)
+                                                      .isBlurred,
+                                              twoFactorEnabled: val,
+                                              emailTwoFactorEnabled: val,
+                                              smsTwoFactorEnabled: val));
+                                    },
                                   );
                                 });
-
-                            context.read<TwoFactorCubit>().setTwoFactor(
-                                PutSettingsParams(
-                                    isPrivacyMode:
-                                        PrivacyInherited.of(context).isBlurred,
-                                    twoFactorEnabled: val,
-                                    emailTwoFactorEnabled: val,
-                                    smsTwoFactorEnabled: val));
                           } else {
                             setState(() {
                               twoFactorEnabled = val;
