@@ -291,10 +291,6 @@ class _ContactInformationWidgetState
                                                               ),
                                                             ),
                                                             onPressed: () {
-                                                              // do something
-                                                              debugPrint(
-                                                                  "edit icon woring");
-
                                                               setState(() {
                                                                 isPhoneEditable =
                                                                     true;
@@ -401,6 +397,11 @@ class _ContactInformationWidgetState
                                                                 "phoneNumber":
                                                                     "+${(formKey.currentState!.instantValue["country"] as Country).phoneCode} ${formKey.currentState!.instantValue["phoneNumber"]}"
                                                               });
+
+                                                          setState(() {
+                                                            isPhoneEditable =
+                                                                false;
+                                                          });
                                                         }
                                                       },
                                                 style: ElevatedButton.styleFrom(
