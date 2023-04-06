@@ -200,6 +200,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
                           )
                         : BasicTimerWidget(
                             timerTime: 600000,
+                            resetTime: resetTimer,
                             handleOtpExpired: () {
                               setState(() {
                                 _otpExpired = true;

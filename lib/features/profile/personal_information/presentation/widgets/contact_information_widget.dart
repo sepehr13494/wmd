@@ -1,4 +1,5 @@
 import 'package:flutter/gestures.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/text_with_info.dart';
+import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
@@ -65,6 +67,7 @@ class _ContactInformationWidgetState
       AppLocalizations appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
     final isTablet = !responsiveHelper.isMobile;
+
     return BlocListener<PersonalInformationCubit, PersonalInformationState>(
       listener: (context, state) {
         if (state is PersonalInformationLoaded) {
@@ -81,6 +84,8 @@ class _ContactInformationWidgetState
             lastValue = formKey.currentState!.instantValue;
             checkFinalValid("");
           });
+          context.read<UserStatusCubit>().getUserStatus();
+
           GlobalFunctions.showSnackBar(
               context,
               appLocalizations
@@ -134,7 +139,7 @@ class _ContactInformationWidgetState
                                   listener: BlocHelper.defaultBlocListener(
                                     listener: (context, state) {},
                                   ),
-                                  builder: (context, state) {
+                                  builder: (context, userState) {
                                     return Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -147,8 +152,8 @@ class _ContactInformationWidgetState
                                                 hasInfo: false,
                                                 showRequired: false,
                                                 tooltipText: ""),
-                                            (state is UserStatusLoaded &&
-                                                    state.userStatus
+                                            (userState is UserStatusLoaded &&
+                                                    userState.userStatus
                                                             .mobileNumberVerified ==
                                                         true)
                                                 ? Container(
@@ -266,11 +271,18 @@ class _ContactInformationWidgetState
                                                                 onChanged:
                                                                     checkFinalValid),
                                                         IconButton(
-                                                          icon: Icon(
-                                                            Icons.edit,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .primaryColor,
+                                                          icon: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .fromLTRB(
+                                                                    0, 0, 0, 8),
+                                                            child: SvgPicture
+                                                                .asset(
+                                                              "assets/images/edit_square.svg",
+                                                              height: 30,
+                                                              color: AppColors
+                                                                  .primary,
+                                                            ),
                                                           ),
                                                           onPressed: () {
                                                             // do something
@@ -291,39 +303,46 @@ class _ContactInformationWidgetState
                                             ],
                                           ),
                                         ),
-                                        if ((state is UserStatusLoaded &&
-                                                state.userStatus
-                                                        .mobileNumberVerified !=
-                                                    true) &&
-                                            havePhoneNumber)
-                                          RichText(
-                                              text: TextSpan(
-                                                  style: const TextStyle(
-                                                      height: 1.3),
-                                                  children: [
-                                                TextSpan(
-                                                    text:
-                                                        "We need to verify your phone number to keep your account secure. ",
-                                                    style:
-                                                        textTheme.bodyMedium),
-                                                TextSpan(
-                                                  text:
-                                                      "Send verification code",
-                                                  style: textTheme.bodyMedium!
-                                                      .toLinkStyle(context),
-                                                  recognizer:
-                                                      TapGestureRecognizer()
-                                                        ..onTap = () {
-                                                          context.pushNamed(
-                                                              AppRoutes
-                                                                  .verifyPhone,
-                                                              queryParams: {
-                                                                "phoneNumber":
-                                                                    "+${(formKey.currentState!.instantValue["country"] as Country).phoneCode} ${formKey.currentState!.instantValue["phoneNumber"]}"
-                                                              });
-                                                        },
-                                                ),
-                                              ])),
+                                        if ((userState is UserStatusLoaded &&
+                                            userState.userStatus
+                                                    .mobileNumberVerified !=
+                                                true))
+                                          havePhoneNumber
+                                              ? RichText(
+                                                  text: TextSpan(
+                                                      style: const TextStyle(
+                                                          height: 1.3),
+                                                      children: [
+                                                      TextSpan(
+                                                          text: appLocalizations
+                                                              .profile_tabs_personal_label_verifyNumber,
+                                                          style: textTheme
+                                                              .bodyMedium),
+                                                      TextSpan(
+                                                        text: appLocalizations
+                                                            .profile_tabs_personal_label_sendCode,
+                                                        style: textTheme
+                                                            .bodyMedium!
+                                                            .toLinkStyle(
+                                                                context),
+                                                        recognizer:
+                                                            TapGestureRecognizer()
+                                                              ..onTap = () {
+                                                                context.pushNamed(
+                                                                    AppRoutes
+                                                                        .verifyPhone,
+                                                                    queryParams: {
+                                                                      "phoneNumber":
+                                                                          "+${(formKey.currentState!.instantValue["country"] as Country).phoneCode} ${formKey.currentState!.instantValue["phoneNumber"]}"
+                                                                    });
+                                                              },
+                                                      ),
+                                                    ]))
+                                              : Text(
+                                                  appLocalizations
+                                                      .profile_tabs_personal_label_verifyNumber,
+                                                  style: textTheme.bodyMedium),
+                                        const SizedBox(height: 16),
                                         if (isPhoneEditable)
                                           Row(
                                             mainAxisAlignment:
@@ -345,30 +364,34 @@ class _ContactInformationWidgetState
                                                 width: 8,
                                               ),
                                               ElevatedButton(
-                                                onPressed: () {
-                                                  if (formKey.currentState!
-                                                      .validate()) {
-                                                    debugPrint(formKey
-                                                        .currentState!
-                                                        .instantValue
-                                                        .toString());
+                                                onPressed: !enableSubmitButton
+                                                    ? null
+                                                    : () {
+                                                        if (formKey
+                                                            .currentState!
+                                                            .validate()) {
+                                                          debugPrint(formKey
+                                                              .currentState!
+                                                              .instantValue
+                                                              .toString());
 
-                                                    context
-                                                        .read<
-                                                            PersonalInformationCubit>()
-                                                        .setNumber(
-                                                            map: formKey
-                                                                .currentState!
-                                                                .instantValue);
+                                                          context
+                                                              .read<
+                                                                  PersonalInformationCubit>()
+                                                              .setNumber(
+                                                                  map: formKey
+                                                                      .currentState!
+                                                                      .instantValue);
 
-                                                    context.pushNamed(
-                                                        AppRoutes.verifyPhone,
-                                                        queryParams: {
-                                                          "phoneNumber":
-                                                              "+${(formKey.currentState!.instantValue["country"] as Country).phoneCode} ${formKey.currentState!.instantValue["phoneNumber"]}"
-                                                        });
-                                                  }
-                                                },
+                                                          context.pushNamed(
+                                                              AppRoutes
+                                                                  .verifyPhone,
+                                                              queryParams: {
+                                                                "phoneNumber":
+                                                                    "+${(formKey.currentState!.instantValue["country"] as Country).phoneCode} ${formKey.currentState!.instantValue["phoneNumber"]}"
+                                                              });
+                                                        }
+                                                      },
                                                 style: ElevatedButton.styleFrom(
                                                     minimumSize:
                                                         const Size(100, 50)),
