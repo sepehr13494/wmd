@@ -173,8 +173,8 @@ class SimpleTextField extends AppStatelessWidget {
     if (type == TextFieldType.money) {
       validators.add((val) {
         return (val != null &&
-                (double.tryParse(val.replaceAll(",", "")) ?? 0) > 1000000000000)
-            ? "Amount should be less than 1,000,000,000,000"
+                (double.tryParse(val.replaceAll(",", "")) ?? 0) > 10000000000)
+            ? "Amount should be less than 10,000,000,000"
             : null;
       });
     }
@@ -273,13 +273,14 @@ class _CurrenciesDropdownState extends AppState<CurrenciesDropdown> {
       Currency(symbol: "USD", name: "United States dollar");
 
   @override
-  Widget buildWidget(BuildContext context,textTheme,appLocalization) {
+  Widget buildWidget(BuildContext context, textTheme, appLocalization) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FormBuilderSearchableDropdown<Currency>(
           name: "currencyCode",
-          hint: appLocalization.assetLiabilityForms_forms_bankAccount_inputFields_country_placeholder,
+          hint: appLocalization
+              .assetLiabilityForms_forms_bankAccount_inputFields_country_placeholder,
           items: Currency.currenciesList,
           enabled: widget.enabled,
           onChanged: (val) {
@@ -330,7 +331,8 @@ class CountriesDropdown extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     return FormBuilderSearchableDropdown<Country>(
       name: "country",
-      hint: appLocalizations.assetLiabilityForms_forms_bankAccount_inputFields_country_placeholder,
+      hint: appLocalizations
+          .assetLiabilityForms_forms_bankAccount_inputFields_country_placeholder,
       prefixIcon: const Icon(
         Icons.search,
       ),

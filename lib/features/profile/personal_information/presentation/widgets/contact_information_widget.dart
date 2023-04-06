@@ -152,51 +152,55 @@ class _ContactInformationWidgetState
                                                 hasInfo: false,
                                                 showRequired: false,
                                                 tooltipText: ""),
-                                            (userState is UserStatusLoaded &&
-                                                    userState.userStatus
-                                                            .mobileNumberVerified ==
-                                                        true)
-                                                ? Container(
-                                                    decoration: BoxDecoration(
-                                                      color:
-                                                          const Color.fromARGB(
-                                                              179, 67, 160, 72),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              3),
-                                                    ),
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 5,
-                                                        vertical: 1),
-                                                    child: const Text(
-                                                      "Verified",
-                                                      style: TextStyle(
-                                                        color: Colors.green,
+                                            if (havePhoneNumber)
+                                              (userState is UserStatusLoaded &&
+                                                      userState.userStatus
+                                                              .mobileNumberVerified ==
+                                                          true)
+                                                  ? Container(
+                                                      decoration: BoxDecoration(
+                                                        color: const Color
+                                                                .fromARGB(
+                                                            179, 67, 160, 72),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(3),
                                                       ),
-                                                    ),
-                                                  )
-                                                : Container(
-                                                    decoration: BoxDecoration(
-                                                      color:
-                                                          const Color.fromARGB(
-                                                              20, 199, 61, 61),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              3),
-                                                    ),
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 5,
-                                                        vertical: 1),
-                                                    child: const Text(
-                                                      "Not Verified",
-                                                      style: TextStyle(
-                                                        color: Color.fromARGB(
-                                                            100, 218, 129, 129),
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 5,
+                                                          vertical: 1),
+                                                      child: const Text(
+                                                        "Verified",
+                                                        style: TextStyle(
+                                                          color: Colors.green,
+                                                        ),
                                                       ),
-                                                    ),
-                                                  )
+                                                    )
+                                                  : Container(
+                                                      decoration: BoxDecoration(
+                                                        color: const Color
+                                                                .fromARGB(
+                                                            20, 199, 61, 61),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(3),
+                                                      ),
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 5,
+                                                          vertical: 1),
+                                                      child: const Text(
+                                                        "Not Verified",
+                                                        style: TextStyle(
+                                                          color: Color.fromARGB(
+                                                              100,
+                                                              218,
+                                                              129,
+                                                              129),
+                                                        ),
+                                                      ),
+                                                    )
                                           ],
                                         ),
                                         const SizedBox(height: 8),
@@ -208,8 +212,7 @@ class _ContactInformationWidgetState
                                             children: [
                                               PrivacyBlurWidgetClickable(
                                                 child: CountryCodePicker(
-                                                    enabled: isPhoneEditable ||
-                                                        !havePhoneNumber,
+                                                    enabled: isPhoneEditable,
                                                     onChange: (val) {
                                                       setState(() {
                                                         selectedCountryCode =
@@ -233,8 +236,8 @@ class _ContactInformationWidgetState
                                                             .simpleTextField(
                                                                 name:
                                                                     "phoneNumber",
-                                                                hint:
-                                                                    '${appLocalizations.profile_tabs_personal_fields_label_primaryPhoneNumber.substring(0, 15)}..',
+                                                                hint: appLocalizations
+                                                                    .profile_tabs_personal_fields_label_primaryPhoneNumber,
                                                                 type:
                                                                     TextFieldType
                                                                         .number,
@@ -243,8 +246,7 @@ class _ContactInformationWidgetState
                                                                         .number,
                                                                 minLines: 1,
                                                                 enabled:
-                                                                    isPhoneEditable ||
-                                                                        !havePhoneNumber,
+                                                                    isPhoneEditable,
                                                                 extraValidators: [
                                                                   (val) {
                                                                     return (!val!.contains(RegExp(
@@ -270,31 +272,35 @@ class _ContactInformationWidgetState
                                                                 ],
                                                                 onChanged:
                                                                     checkFinalValid),
-                                                        IconButton(
-                                                          icon: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .fromLTRB(
-                                                                    0, 0, 0, 8),
-                                                            child: SvgPicture
-                                                                .asset(
-                                                              "assets/images/edit_square.svg",
-                                                              height: 30,
-                                                              color: AppColors
-                                                                  .primary,
+                                                        if (!isPhoneEditable)
+                                                          IconButton(
+                                                            icon: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .fromLTRB(
+                                                                      0,
+                                                                      0,
+                                                                      0,
+                                                                      8),
+                                                              child: SvgPicture
+                                                                  .asset(
+                                                                "assets/images/edit_square.svg",
+                                                                height: 30,
+                                                                color: AppColors
+                                                                    .primary,
+                                                              ),
                                                             ),
-                                                          ),
-                                                          onPressed: () {
-                                                            // do something
-                                                            debugPrint(
-                                                                "edit icon woring");
+                                                            onPressed: () {
+                                                              // do something
+                                                              debugPrint(
+                                                                  "edit icon woring");
 
-                                                            setState(() {
-                                                              isPhoneEditable =
-                                                                  true;
-                                                            });
-                                                          },
-                                                        ),
+                                                              setState(() {
+                                                                isPhoneEditable =
+                                                                    true;
+                                                              });
+                                                            },
+                                                          ),
                                                       ],
                                                     ),
                                                   ),
@@ -304,9 +310,10 @@ class _ContactInformationWidgetState
                                           ),
                                         ),
                                         if ((userState is UserStatusLoaded &&
-                                            userState.userStatus
-                                                    .mobileNumberVerified !=
-                                                true))
+                                                userState.userStatus
+                                                        .mobileNumberVerified !=
+                                                    true) &&
+                                            !isPhoneEditable)
                                           havePhoneNumber
                                               ? RichText(
                                                   text: TextSpan(
@@ -337,12 +344,16 @@ class _ContactInformationWidgetState
                                                                     });
                                                               },
                                                       ),
+                                                      TextSpan(
+                                                          text:
+                                                              ' ${appLocalizations.profile_tabs_personal_label_toEnable2FA}',
+                                                          style: textTheme
+                                                              .bodyMedium),
                                                     ]))
                                               : Text(
                                                   appLocalizations
                                                       .profile_tabs_personal_label_verifyNumber,
                                                   style: textTheme.bodyMedium),
-                                        const SizedBox(height: 16),
                                         if (isPhoneEditable)
                                           Row(
                                             mainAxisAlignment:
@@ -403,63 +414,6 @@ class _ContactInformationWidgetState
                                       ],
                                     );
                                   }),
-
-                            // EachTextField(
-                            //   hasInfo: false,
-                            //   title: appLocalizations
-                            //       .profile_tabs_personal_fields_label_primaryPhoneNumber,
-                            //   child: ,
-                            // ),
-                            /* RichText(
-                                text: TextSpan(children: [
-                                  TextSpan(
-                                    text:
-                                    "To keep your account secure, we need to verify your phone number,",
-                                    style: textTheme.bodyMedium,
-                                  ),
-                                  TextSpan(
-                                    text: " Send verification code",
-                                    style: textTheme.bodyMedium!.toLinkStyle(
-                                        context),
-                                  )
-                                ]),
-                              ),*/
-                            // Align(
-                            //   alignment: AlignmentDirectional.centerEnd,
-                            //   child: SizedBox(
-                            //     width: isTablet ? 160 : null,
-                            //     child: ElevatedButton(
-                            //       onPressed: !enableSubmitButton
-                            //           ? null
-                            //           : () {
-                            //               if (AppConstants.publicMvp2Items) {
-                            //                 context.pushNamed(
-                            //                     AppRoutes.verifyPhone,
-                            //                     queryParams: {
-                            //                       "phoneNumber":
-                            //                           "+${(formKey.currentState!.instantValue["country"] as Country).phoneCode} ${formKey.currentState!.instantValue["phoneNumber"]}"
-                            //                     });
-                            //               } else {
-                            //   if (formKey.currentState!
-                            //       .validate()) {
-                            //     debugPrint(formKey
-                            //         .currentState!.instantValue
-                            //         .toString());
-
-                            //     context
-                            //         .read<
-                            //             PersonalInformationCubit>()
-                            //         .setNumber(
-                            //             map: formKey.currentState!
-                            //                 .instantValue);
-                            //   }
-                            // }
-                            //             },
-                            //       child: Text(appLocalizations
-                            //           .profile_tabs_preferences_button_applyChanges),
-                            //     ),
-                            //   ),
-                            // ),
                           ]
                               .map((e) => Padding(
                                     padding:

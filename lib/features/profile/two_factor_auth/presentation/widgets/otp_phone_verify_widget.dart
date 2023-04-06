@@ -160,7 +160,7 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyWidget> {
                           )),
                       Text(
                           appLocalizations
-                              .profile_otpVerification_text_onboardingOtp,
+                              .profile_twofactorauthentication_input_description,
                           style: textTheme.bodyMedium),
                       const SizedBox(height: 28),
                       Row(

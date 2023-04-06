@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
@@ -140,10 +141,9 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
                                 color: AppColors.darkCardColorForDarkTheme,
                                 borderRadius: BorderRadius.circular(50),
                               ),
-                              child: const Icon(
-                                Icons.lock,
-                                color: AppColors.primary,
-                                size: 35,
+                              child: SvgPicture.asset(
+                                "assets/images/lock_otp.svg",
+                                height: 35,
                               ),
                             ),
                             const SizedBox(height: 16),
