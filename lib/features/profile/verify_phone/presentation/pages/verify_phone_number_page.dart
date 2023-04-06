@@ -13,6 +13,7 @@ import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/basic_timer_widget.dart';
+import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/resend_timer_widget.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_resend_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
@@ -58,6 +59,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
         child: BlocConsumer<VerifyPhoneCubit, VerifyPhoneState>(
             listener: (context, state) {
           if (state is SuccessState) {
+            context.read<UserStatusCubit>().getUserStatus();
             context.goNamed(AppRoutes.settings);
           } else if (state is ErrorState) {
             setState(() {
@@ -158,6 +160,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                         SizedBox(height: responsiveHelper.defaultGap),
                         BasicTimerWidget(
                             timerTime: 600000,
+                            resetTime: resetTimer,
                             handleOtpExpired: () {
                               setState(() {
                                 _otpExpired = true;

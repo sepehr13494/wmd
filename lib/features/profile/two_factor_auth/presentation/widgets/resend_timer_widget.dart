@@ -94,14 +94,14 @@ class _ResendTimerWidgetState extends AppState<ResendTimerWidget> {
             TextSpan(
               text: " Resend it in ",
               style: textTheme.bodyMedium!.apply(
-                decoration: TextDecoration.underline,
-              ),
+                  decoration: TextDecoration.underline,
+                  color: Colors.grey[800]),
             ),
             TextSpan(
               text: timerText,
               style: textTheme.bodyMedium!.apply(
-                decoration: TextDecoration.underline,
-              ),
+                  decoration: TextDecoration.underline,
+                  color: Colors.grey[800]),
             ),
           ])),
         if (canSend)
