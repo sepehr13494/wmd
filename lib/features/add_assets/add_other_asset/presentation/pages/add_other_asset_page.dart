@@ -112,18 +112,18 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
           bottomSheet: AddAssetFooter(
               buttonText: appLocalizations.common_button_addAsset,
               onTap: () {
-                formKey.currentState?.validate();
-                if (enableAddAssetButton) {
+                if(formKey.currentState!.validate()){
                   Map<String, dynamic> finalMap = {
                     ...formKey.currentState!.instantValue,
                     "currentDayValue":
-                        currentDayValue == "--" ? "0" : currentDayValue
+                    currentDayValue == "--" ? "0" : currentDayValue
                   };
 
                   print(finalMap);
 
                   context.read<OtherAssetCubit>().postOtherAsset(map: finalMap);
                 }
+
               }),
           body: Theme(
             data: Theme.of(context).copyWith(),
