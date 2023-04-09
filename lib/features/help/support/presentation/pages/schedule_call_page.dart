@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -288,7 +290,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
     return Builder(builder: (context) {
       final PersonalInformationState personalState =
           context.watch<PersonalInformationCubit>().state;
-
+      // log('Mert log: ${DateTime.now().timeZoneName} and ${DateTime.now().timeZoneOffset}');
       return Column(children: [
         FormBuilder(
           key: formKey,
@@ -319,7 +321,9 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                   prefixIcon: const Icon(
                     Icons.search,
                   ),
+                  initialValue: TimeZones.getTimezoneByDevice(appLocalizations),
                   items: TimeZones.getTimezonesListLocalized(appLocalizations),
+                  // initialValue: ,
                   onChanged: (val) async {
                     // setState(() {
                     //   bottomFormKey =

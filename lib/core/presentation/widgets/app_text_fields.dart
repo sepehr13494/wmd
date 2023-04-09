@@ -370,6 +370,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
   final DropdownSearchFilterFn<T>? filterFn;
   final DropdownSearchPopupItemBuilder<T>? itemBuilder;
   final List<T> items;
+  final T? initialValue;
   final ValueChanged<T?>? onChanged;
   final bool required;
   final bool enabled;
@@ -384,6 +385,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
       this.itemAsString,
       this.filterFn,
       this.title,
+      this.initialValue,
       this.errorMsg,
       this.itemBuilder,
       this.extraValidators,
@@ -414,6 +416,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: FormBuilderValidators.compose(validators),
         onChanged: onChanged,
+        initialValue: initialValue,
         enabled: enabled,
         builder: (FormFieldState field) {
           return Column(
