@@ -13,6 +13,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/text_with_info.dart';
+import 'package:wmd/core/util/app_localization.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
@@ -86,11 +87,11 @@ class _ContactInformationWidgetState
           });
           context.read<UserStatusCubit>().getUserStatus();
 
-          GlobalFunctions.showSnackBar(
-              context,
-              appLocalizations
-                  .profile_tabs_preferences_toast_changePasswordDescription,
-              type: "success");
+          // GlobalFunctions.showSnackBar(
+          //     context,
+          //     appLocalizations
+          //         .profile_tabs_preferences_toast_changePasswordDescription,
+          //     type: "success");
         }
       },
       child: Padding(
@@ -227,78 +228,82 @@ class _ContactInformationWidgetState
                                               Expanded(
                                                 child:
                                                     PrivacyBlurWidgetClickable(
-                                                  child: Container(
-                                                    child: Stack(
-                                                      alignment:
-                                                          Alignment.centerRight,
-                                                      children: <Widget>[
-                                                        AppTextFields
-                                                            .simpleTextField(
-                                                                name:
-                                                                    "phoneNumber",
-                                                                hint: appLocalizations
-                                                                    .profile_tabs_personal_fields_label_primaryPhoneNumber,
-                                                                type:
-                                                                    TextFieldType
-                                                                        .number,
-                                                                keyboardType:
-                                                                    TextInputType
-                                                                        .number,
-                                                                minLines: 1,
-                                                                enabled:
-                                                                    isPhoneEditable,
-                                                                extraValidators: [
-                                                                  (val) {
-                                                                    return (!val!.contains(RegExp(
-                                                                            r'^[0-9]*$')))
-                                                                        ? appLocalizations
-                                                                            .scheduleMeeting_phoneNumber_errors_inValid
-                                                                        : null;
-                                                                  },
-                                                                  (val) {
-                                                                    return (val != null &&
-                                                                            val !=
-                                                                                "" &&
-                                                                            selectedCountryCode ==
-                                                                                "BH" &&
-                                                                            (val.length > 8 ||
-                                                                                val.length <
-                                                                                    8))
-                                                                        ? appLocalizations.common_errors_phoneNumberLength.replaceAll(
-                                                                            "{{digit}}",
-                                                                            8.toString())
-                                                                        : null;
-                                                                  },
-                                                                ],
-                                                                onChanged:
-                                                                    checkFinalValid),
-                                                        if (!isPhoneEditable)
-                                                          IconButton(
-                                                            icon: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .fromLTRB(
-                                                                      0,
-                                                                      0,
-                                                                      0,
-                                                                      8),
-                                                              child: SvgPicture
-                                                                  .asset(
-                                                                "assets/images/edit_square.svg",
-                                                                height: 30,
-                                                                color: AppColors
-                                                                    .primary,
-                                                              ),
+                                                  child: Stack(
+                                                    alignment: context
+                                                                .read<
+                                                                    LocalizationManager>()
+                                                                .state
+                                                                .languageCode ==
+                                                            'en'
+                                                        ? Alignment.centerRight
+                                                        : Alignment.centerLeft,
+                                                    children: <Widget>[
+                                                      AppTextFields
+                                                          .simpleTextField(
+                                                              name:
+                                                                  "phoneNumber",
+                                                              hint: appLocalizations
+                                                                  .profile_tabs_personal_fields_label_primaryPhoneNumber,
+                                                              type:
+                                                                  TextFieldType
+                                                                      .number,
+                                                              keyboardType:
+                                                                  TextInputType
+                                                                      .number,
+                                                              minLines: 1,
+                                                              enabled:
+                                                                  isPhoneEditable,
+                                                              extraValidators: [
+                                                                (val) {
+                                                                  return (!val!.contains(
+                                                                          RegExp(
+                                                                              r'^[0-9]*$')))
+                                                                      ? appLocalizations
+                                                                          .scheduleMeeting_phoneNumber_errors_inValid
+                                                                      : null;
+                                                                },
+                                                                (val) {
+                                                                  return (val != null &&
+                                                                          val !=
+                                                                              "" &&
+                                                                          selectedCountryCode ==
+                                                                              "BH" &&
+                                                                          (val.length > 8 ||
+                                                                              val.length <
+                                                                                  8))
+                                                                      ? appLocalizations
+                                                                          .common_errors_phoneNumberLength
+                                                                          .replaceAll(
+                                                                              "{{digit}}",
+                                                                              8.toString())
+                                                                      : null;
+                                                                },
+                                                              ],
+                                                              onChanged:
+                                                                  checkFinalValid),
+                                                      if (!isPhoneEditable)
+                                                        IconButton(
+                                                          icon: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .fromLTRB(
+                                                                    0, 0, 0, 8),
+                                                            child: SvgPicture
+                                                                .asset(
+                                                              "assets/images/edit_square.svg",
+                                                              height: 30,
+                                                              color: AppColors
+                                                                  .primary,
                                                             ),
-                                                            onPressed: () {
-                                                              setState(() {
-                                                                isPhoneEditable =
-                                                                    true;
-                                                              });
-                                                            },
                                                           ),
-                                                      ],
-                                                    ),
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              isPhoneEditable =
+                                                                  true;
+                                                            });
+                                                          },
+                                                        ),
+                                                    ],
                                                   ),
                                                 ),
                                               ),

@@ -30,7 +30,16 @@ class TwoFactorCubit extends Cubit<TwoFactorState> {
   setTwoFactor(PutSettingsParams params) async {
     final result = await setBlurredUseCase(params);
     result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
-      emit(SuccessState(appSuccess: entity));
+      emit(SuccessState(
+          appSuccess: AppSuccess(
+              message: ((params.twoFactorEnabled != null &&
+                          params.twoFactorEnabled == true) ||
+                      (params.emailTwoFactorEnabled != null &&
+                          params.emailTwoFactorEnabled == true) ||
+                      (params.smsTwoFactorEnabled != null &&
+                          params.smsTwoFactorEnabled == true))
+                  ? "profile_twoFactorAuthentication_toast_on"
+                  : "profile_twoFactorAuthentication_toast_off")));
     });
   }
 }
