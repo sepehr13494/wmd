@@ -46,6 +46,7 @@ class AppTextFields {
     final double fontSize = 15,
     final ValueChanged? onChanged,
     final ValueChanged? selectedItemBuilder,
+    final dynamic initial,
     required final List<DropdownMenuItem> items,
     bool enabled = true,
   }) {
@@ -53,6 +54,7 @@ class AppTextFields {
       name: name,
       enabled: enabled,
       onChanged: onChanged,
+      initialValue: initial,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         hintText: hint,
@@ -368,6 +370,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
   final DropdownSearchFilterFn<T>? filterFn;
   final DropdownSearchPopupItemBuilder<T>? itemBuilder;
   final List<T> items;
+  final T? initialValue;
   final ValueChanged<T?>? onChanged;
   final bool required;
   final bool enabled;
@@ -382,6 +385,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
       this.itemAsString,
       this.filterFn,
       this.title,
+      this.initialValue,
       this.errorMsg,
       this.itemBuilder,
       this.extraValidators,
@@ -412,6 +416,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: FormBuilderValidators.compose(validators),
         onChanged: onChanged,
+        initialValue: initialValue,
         enabled: enabled,
         builder: (FormFieldState field) {
           return Column(
