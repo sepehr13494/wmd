@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -176,23 +178,40 @@ class ContactBusinessWidget extends ModalWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          FormBuilderSearchableDropdown<
-                                              ContactReason>(
+                                          AppTextFields.simpleTextField(
+                                            required: false,
+                                            title: "reason",
                                             name: "reason",
-                                            hint: "Select",
-                                            showSearchBox: false,
-                                            items: contactReasonList,
-                                            itemAsString: (ContactReason val) =>
-                                                val.name,
-                                            itemBuilder:
-                                                (context, currency, _) {
-                                              return Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(currency.name),
-                                              );
-                                            },
+                                            minLines: 1,
+                                            onChanged: checkFinalValid,
+                                            extraValidators: [
+                                              (val) {
+                                                return (val != null &&
+                                                        val.length > 100)
+                                                    ? "Inquiry cannot be more than 100 characters"
+                                                    : null;
+                                              }
+                                            ],
+                                            hint: appLocalizations
+                                                .common_submitEnquiryModal_subject_placeholder,
                                           ),
+                                          // FormBuilderSearchableDropdown<
+                                          //     ContactReason>(
+                                          //   name: "reason",
+                                          //   hint: "Select",
+                                          //   showSearchBox: false,
+                                          //   items: contactReasonList,
+                                          //   itemAsString: (ContactReason val) =>
+                                          //       val.name,
+                                          //   itemBuilder:
+                                          //       (context, currency, _) {
+                                          //     return Padding(
+                                          //       padding:
+                                          //           const EdgeInsets.all(8.0),
+                                          //       child: Text(currency.name),
+                                          //     );
+                                          //   },
+                                          // ),
                                           // AppTextFields.dropDownTextField(
                                           //     name: "reason",
                                           //     hint: appLocalizations
@@ -258,9 +277,9 @@ class ContactBusinessWidget extends ModalWidget {
                                                     .currentState!.instantValue,
                                               };
 
-                                              print(finalMap);
-                                              print(formKey
-                                                  .currentState!.isValid);
+                                              log(finalMap.toString());
+                                              log(formKey.currentState!.isValid
+                                                  .toString());
 
                                               context
                                                   .read<GeneralInquiryCubit>()
