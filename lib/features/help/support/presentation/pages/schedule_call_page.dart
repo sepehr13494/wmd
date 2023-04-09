@@ -16,7 +16,6 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
-import 'package:wmd/features/help/support/data/models/call_reason.dart';
 import 'package:wmd/features/help/support/data/models/meeting_type.dart';
 import 'package:wmd/features/help/support/data/models/time_zones.dart';
 import 'package:wmd/features/help/support/presentation/manager/general_inquiry_cubit.dart';
@@ -162,7 +161,6 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                       if (enableAddAssetButton) {
                         Map<String, dynamic> finalMap = {
                           ...formKey.currentState!.instantValue,
-                          "type": MeetingType.meetingTypeList.first.name,
                           "email": (personalState is PersonalInformationLoaded)
                               ? personalState.getNameEntity.email
                               : "",
@@ -289,7 +287,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
     return Builder(builder: (context) {
       final PersonalInformationState personalState =
           context.watch<PersonalInformationCubit>().state;
-
+      // log('Mert log: ${DateTime.now().timeZoneName} and ${DateTime.now().timeZoneOffset}');
       return Column(children: [
         FormBuilder(
           key: formKey,
@@ -320,7 +318,9 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                   prefixIcon: const Icon(
                     Icons.search,
                   ),
+                  initialValue: TimeZones.getTimezoneByDevice(appLocalizations),
                   items: TimeZones.getTimezonesListLocalized(appLocalizations),
+                  // initialValue: ,
                   onChanged: (val) async {
                     // setState(() {
                     //   bottomFormKey =
@@ -399,35 +399,29 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                       isToday: availableDateValue?.isToday(),
                       onChanged: (val) => checkFinalValid(val),
                     )),
-              ListTile(
-                title: Text(appLocalizations.scheduleMeeting_meetingType_label),
-                subtitle: Text(MeetingType.meetingTypeList.first.name),
-                contentPadding: const EdgeInsets.all(0),
-                minVerticalPadding: 0,
-              ),
-
-              // EachTextField(
-              //   hasInfo: false,
-              //   title: appLocalizations.scheduleMeeting_meetingType_label,
-              //   child: AppTextFields.dropDownTextField(
-              //     onChanged: (val) async {
-              //       await Future.delayed(const Duration(milliseconds: 200));
-              //       checkFinalValid(val);
-              //     },
-              //     fontSize: 13.5,
-              //     name: "type",
-              //     hint: "",
-              //     items: MeetingType.meetingTypeList
-              //         .map((e) => DropdownMenuItem(
-              //               value: e.value,
-              //               child: Text(e.name),
-              //             ))
-              //         .toList(),
-              //   ),
-              // ),
               EachTextField(
                 hasInfo: false,
-
+                title: appLocalizations.scheduleMeeting_meetingType_label,
+                child: AppTextFields.dropDownTextField(
+                  onChanged: (val) async {
+                    await Future.delayed(const Duration(milliseconds: 200));
+                    checkFinalValid(val);
+                  },
+                  fontSize: 13.5,
+                  enabled: false,
+                  name: "type",
+                  hint: "",
+                  initial: MeetingType.meetingTypeList.first.value,
+                  items: MeetingType.meetingTypeList
+                      .map((e) => DropdownMenuItem(
+                            value: e.value,
+                            child: Text(e.name),
+                          ))
+                      .toList(),
+                ),
+              ),
+              EachTextField(
+                hasInfo: false,
                 title: appLocalizations.auth_forgot_input_email_label,
                 child: TextField(
                   enabled: false,
@@ -448,20 +442,35 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
               EachTextField(
                 hasInfo: false,
                 title: appLocalizations.scheduleMeeting_callReason_label,
-                child: FormBuilderSearchableDropdown<CallReason>(
+                child: AppTextFields.simpleTextField(
+                  required: false,
+                  title: "subject",
                   name: "subject",
-                  hint: "",
-                  showSearchBox: false,
+                  minLines: 1,
                   onChanged: checkFinalValid,
-                  items: CallReason.callReasonList(context),
-                  itemAsString: (CallReason val) => val.name,
-                  itemBuilder: (context, currency, _) {
-                    return Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Text(currency.name),
-                    );
-                  },
+                  extraValidators: [
+                    (val) {
+                      return (val != null && val.length > 100)
+                          ? "Inquiry cannot be more than 100 characters"
+                          : null;
+                    }
+                  ],
+                  hint: '',
                 ),
+                // child: FormBuilderSearchableDropdown<CallReason>(
+                //   name: "subject",
+                //   hint: "",
+                //   showSearchBox: false,
+                //   onChanged: checkFinalValid,
+                //   items: CallReason.callReasonList(context),
+                //   itemAsString: (CallReason val) => val.name,
+                //   itemBuilder: (context, currency, _) {
+                //     return Padding(
+                //       padding: const EdgeInsets.all(12.0),
+                //       child: Text(currency.name),
+                //     );
+                //   },
+                // ),
               ),
               EachTextField(
                 hasInfo: false,
