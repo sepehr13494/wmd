@@ -37,7 +37,7 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
               "${field.value!.flagEmoji} ${field.value!.countryCode} +${field.value!.phoneCode}";
         }
         return SizedBox(
-          width: 125,
+          width: 120,
           height: 80,
           child: TextField(
             controller: controller,

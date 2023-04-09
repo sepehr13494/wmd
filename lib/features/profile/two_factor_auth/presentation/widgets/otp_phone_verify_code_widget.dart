@@ -85,9 +85,12 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyCodeWidget> {
             // context.goNamed(AppRoutes.settings);
           } else if (state is ErrorState) {
             formKey.currentState?.reset();
-            GlobalFunctions.showSnackBar(context,
-                AppLocalizations.of(context).common_errors_somethingWentWrong,
-                color: Colors.red[800], type: "error");
+            GlobalFunctions.showSnackBar(
+                context,
+                AppLocalizations.of(context)
+                    .profile_otpVerification_error_invalidOTP,
+                color: Colors.red[800],
+                type: "error");
           }
         }, builder: (context, state) {
           return BlocConsumer<UserStatusCubit, UserStatusState>(
@@ -117,8 +120,9 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyCodeWidget> {
                                         extraValidators: [
                                           (val) {
                                             return (val != null &&
-                                                    val.length > 6)
-                                                ? "Verification code cannot be more than 6 digits"
+                                                    (val.length > 6 ||
+                                                        val.length < 6))
+                                                ? "Enter 6 digit valid OTP."
                                                 : null;
                                           },
                                         ],
@@ -133,7 +137,8 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyCodeWidget> {
                               ),
                             ),
                             Text(
-                                "To keep your account secure, we need to verify your phone number",
+                                appLocalizations
+                                    .profile_twofactorauthentication_input_description,
                                 style: textTheme.bodySmall),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,

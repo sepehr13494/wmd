@@ -23,6 +23,7 @@ import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/disabl
 import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/otp_phone_verify_code_widget.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/otp_phone_verify_widget.dart';
 import 'package:wmd/features/settings/data/models/put_settings_params.dart';
+import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 
 class TwoFactorSetupPage extends StatefulWidget {
@@ -107,6 +108,18 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
       }
       if (state is SuccessState) {
         debugPrint("TwoFactorCubit put scuccess");
+
+        final messageSuccess = state.appSuccess?.message;
+
+        if (messageSuccess == "profile_twoFactorAuthentication_toast_on") {
+          GlobalFunctions.showSnackBar(context,
+              appLocalizations.profile_twoFactorAuthentication_toast_on,
+              type: "success");
+        } else {
+          GlobalFunctions.showSnackBar(context,
+              appLocalizations.profile_twoFactorAuthentication_toast_off,
+              type: "success");
+        }
 
         context.read<TwoFactorCubit>().getTwoFactor();
       }
@@ -352,6 +365,10 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                                       emailTwoFactorEnabled:
                                           emailTwoFactorEnabled,
                                       smsTwoFactorEnabled: false));
+
+                              setState(() {
+                                verifyPhoneNumber = "";
+                              });
                             },
                             phone: verifyPhoneNumber)
                     ]

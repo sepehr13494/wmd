@@ -62,6 +62,13 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
             listener: (context, state) {
           if (state is SuccessState) {
             context.read<UserStatusCubit>().getUserStatus();
+
+            GlobalFunctions.showSnackBar(
+                context,
+                appLocalizations
+                    .profile_tabs_preferences_toast_changePasswordDescription,
+                type: "success");
+
             context.goNamed(AppRoutes.settings);
           } else if (state is ErrorState) {
             setState(() {
