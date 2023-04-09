@@ -32,12 +32,17 @@ class TimeZones {
               name: "${e.key} ${e.value}", offset: e.value, value: e.key))
           .toList();
 
-  static getTimezoneByDevice(AppLocalizations appLocalizations) {
-    final e = _getOffsetByLocale(appLocalizations)
+  static TimeZones? getTimezoneByDevice(AppLocalizations appLocalizations) {
+    final results = _getOffsetByLocale(appLocalizations)
         .entries
-        .firstWhere((e) => e.value.contains(DateTime.now().timeZoneName));
-    return TimeZones(
-        name: "${e.key} ${e.value}", offset: e.value, value: e.key);
+        .where((e) => e.value.contains(DateTime.now().timeZoneName));
+    if (results.isNotEmpty) {
+      final e = results.first;
+      return TimeZones(
+          name: "${e.key} ${e.value}", offset: e.value, value: e.key);
+    } else {
+      return null;
+    }
   }
 
   static Map<String, String> _getOffsetByLocale(
