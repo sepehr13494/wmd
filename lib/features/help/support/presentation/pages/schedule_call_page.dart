@@ -398,13 +398,6 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                       isToday: availableDateValue?.isToday(),
                       onChanged: (val) => checkFinalValid(val),
                     )),
-              // ListTile(
-              //   title: Text(appLocalizations.scheduleMeeting_meetingType_label),
-              //   subtitle: Text(MeetingType.meetingTypeList.first.name),
-              //   contentPadding: const EdgeInsets.all(0),
-              //   minVerticalPadding: 0,
-              // ),
-
               EachTextField(
                 hasInfo: false,
                 title: appLocalizations.scheduleMeeting_meetingType_label,
@@ -448,20 +441,35 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
               EachTextField(
                 hasInfo: false,
                 title: appLocalizations.scheduleMeeting_callReason_label,
-                child: FormBuilderSearchableDropdown<CallReason>(
+                child: AppTextFields.simpleTextField(
+                  required: false,
+                  title: "subject",
                   name: "subject",
-                  hint: "",
-                  showSearchBox: false,
+                  minLines: 1,
                   onChanged: checkFinalValid,
-                  items: CallReason.callReasonList(context),
-                  itemAsString: (CallReason val) => val.name,
-                  itemBuilder: (context, currency, _) {
-                    return Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Text(currency.name),
-                    );
-                  },
+                  extraValidators: [
+                    (val) {
+                      return (val != null && val.length > 100)
+                          ? "Inquiry cannot be more than 100 characters"
+                          : null;
+                    }
+                  ],
+                  hint: '',
                 ),
+                // child: FormBuilderSearchableDropdown<CallReason>(
+                //   name: "subject",
+                //   hint: "",
+                //   showSearchBox: false,
+                //   onChanged: checkFinalValid,
+                //   items: CallReason.callReasonList(context),
+                //   itemAsString: (CallReason val) => val.name,
+                //   itemBuilder: (context, currency, _) {
+                //     return Padding(
+                //       padding: const EdgeInsets.all(12.0),
+                //       child: Text(currency.name),
+                //     );
+                //   },
+                // ),
               ),
               EachTextField(
                 hasInfo: false,
