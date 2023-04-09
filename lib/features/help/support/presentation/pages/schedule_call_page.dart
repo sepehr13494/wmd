@@ -283,6 +283,10 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
 
   Widget renderForm(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    final initialTimeZone = TimeZones.getTimezoneByDevice(appLocalizations);
+    if (initialTimeZone != null) {
+      hasTimeLineSelected = true;
+    }
     final responsiveHelper = ResponsiveHelper(context: context);
     return Builder(builder: (context) {
       final PersonalInformationState personalState =
@@ -318,7 +322,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                   prefixIcon: const Icon(
                     Icons.search,
                   ),
-                  initialValue: TimeZones.getTimezoneByDevice(appLocalizations),
+                  initialValue: initialTimeZone,
                   items: TimeZones.getTimezonesListLocalized(appLocalizations),
                   // initialValue: ,
                   onChanged: (val) async {
