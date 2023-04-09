@@ -211,7 +211,7 @@ class GlobalFunctions {
   static showExitDialog(
       {required BuildContext context,
       required VoidCallback onExitClick}) async {
-    await showDialog(
+    return await showDialog(
       context: context,
       builder: (context) {
         return ModalWidget(
@@ -224,6 +224,7 @@ class GlobalFunctions {
       if (isConfirm != null && isConfirm == true) {
         onExitClick();
       }
+      return isConfirm;
     });
   }
 }
