@@ -1,27 +1,15 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
-import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
-import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
-import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
-import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
-import 'package:wmd/features/profile/core/presentation/widgets/language_bottom_sheet.dart';
-import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
-import 'package:wmd/features/profile/personal_information/presentation/widgets/country_code_picker.dart';
-import 'package:wmd/features/profile/two_factor_auth/manager/two_factor_cubit.dart';
-import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/disable_two_factor_bottom_sheet.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_resend_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
-import 'package:wmd/features/settings/data/models/put_settings_params.dart';
 import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 
