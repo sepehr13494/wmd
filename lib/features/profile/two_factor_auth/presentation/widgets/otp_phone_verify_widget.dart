@@ -3,12 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/text_with_info.dart';
+import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
+import 'package:wmd/features/profile/core/presentation/widgets/language_bottom_sheet.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 import 'package:wmd/features/profile/personal_information/presentation/widgets/country_code_picker.dart';
 
@@ -123,8 +127,8 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyWidget> {
                               Expanded(
                                 child: AppTextFields.simpleTextField(
                                     name: "phoneNumber",
-                                    hint: appLocalizations
-                                        .profile_tabs_personal_fields_label_primaryPhoneNumber,
+                                    hint:
+                                        '${appLocalizations.profile_tabs_personal_fields_label_primaryPhoneNumber.substring(0, 18)}..',
                                     type: TextFieldType.number,
                                     enabled:
                                         widget.formMap["phoneNumber"] == null,
@@ -189,24 +193,20 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyWidget> {
                             }
                           }), builder: (context, state) {
                             return ElevatedButton(
-                              onPressed: (!enableSubmitButton &&
-                                      widget.formMap["phoneNumber"] == null)
-                                  ? null
-                                  : () {
-                                      if (widget.formMap["phoneNumber"] ==
-                                          null) {
-                                        context
-                                            .read<PersonalInformationCubit>()
-                                            .setNumber(
-                                                map: formKey.currentState!
-                                                    .instantValue);
+                              onPressed: () {
+                                if (widget.formMap["phoneNumber"] == null) {
+                                  context
+                                      .read<PersonalInformationCubit>()
+                                      .setNumber(
+                                          map: formKey
+                                              .currentState!.instantValue);
 
-                                        Timer(const Duration(seconds: 5),
-                                            () => widget.onSuccess());
-                                      } else {
-                                        widget.onSuccess();
-                                      }
-                                    },
+                                  Timer(const Duration(seconds: 5),
+                                      () => widget.onSuccess());
+                                } else {
+                                  widget.onSuccess();
+                                }
+                              },
                               style: ElevatedButton.styleFrom(
                                   minimumSize: const Size(100, 50)),
                               child: const Text("Send code"),

@@ -8,7 +8,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
-import 'package:wmd/core/util/asset_back_button_handler.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/add_private_equity/presentation/manager/private_equity_cubit.dart';
 import 'package:wmd/features/add_assets/core/constants.dart';
@@ -58,246 +57,235 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
     return BlocProvider(
       create: (context) => sl<PrivateEquityCubit>(),
       child: Builder(builder: (context) {
-        return WillPopScope(
-          onWillPop: () {
-            return handleAssetBackButton(context);
-          },
-          child: Scaffold(
-            appBar: const AddAssetHeader(title: "", showExitModal: true),
-            bottomSheet: AddAssetFooter(
-                buttonText: "Save asset",
-                onTap: () {
-                  privateEquityFormKey.currentState?.validate();
-                  if (enableAddAssetButton) {
-                    Map<String, dynamic> finalMap = {
-                      ...privateEquityFormKey.currentState!.instantValue,
-                    };
-                    context
-                        .read<PrivateEquityCubit>()
-                        .postPrivateEquity(map: finalMap);
-                  }
-                }),
-            body: Theme(
-              data: Theme.of(context).copyWith(),
-              child: Stack(
-                children: [
-                  const LeafBackground(),
-                  WidthLimiterWidget(
-                    child: Builder(builder: (context) {
-                      return BlocConsumer<PrivateEquityCubit,
-                              PrivateEquityState>(
-                          listener: AssetBlocHelper.defaultBlocListener(
-                              listener: (context, state) {},
-                              asset: appLocalizations
-                                  .assetLiabilityForms_assets_privateEquity,
-                              assetType: AssetTypes.privateEquity),
-                          builder: (context, state) {
-                            return SingleChildScrollView(
-                              child: Column(children: [
-                                FormBuilder(
-                                  key: privateEquityFormKey,
-                                  initialValue:
-                                      AddAssetConstants.initialJsonForAddAsset,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        appLocalizations
-                                            .assetLiabilityForms_heading_privateEquity,
-                                        style: textTheme.headlineSmall,
-                                        textAlign: TextAlign.start,
-                                      ),
-                                      Text(
-                                        appLocalizations
-                                            .assetLiabilityForms_subHeading_privateEquity,
-                                        style: textTheme.titleMedium,
-                                      ),
-                                      Text(
-                                        appLocalizations
-                                            .assetLiabilityForms_forms_privateEquity_title,
-                                        style: textTheme.titleSmall,
-                                      ),
-                                      EachTextField(
-                                        hasInfo: false,
-                                        title: appLocalizations
-                                            .assetLiabilityForms_forms_privateEquity_inputFields_name_label,
-                                        child: AppTextFields.simpleTextField(
-                                            errorMsg: appLocalizations
-                                                .assetLiabilityForms_forms_privateEquity_inputFields_name_errorMessage,
-                                            onChanged: checkFinalValid,
-                                            extraValidators: [
-                                              (val) {
-                                                return ((val?.length ?? 0) > 100
-                                                    ? "Name must be at most 100 characters"
-                                                    : null);
-                                              }
-                                            ],
-                                            title: "Name",
-                                            name: "investmentName",
-                                            hint: appLocalizations
-                                                .assetLiabilityForms_forms_privateEquity_inputFields_name_placeholder),
-                                      ),
-                                      EachTextField(
-                                        hasInfo: false,
-                                        title: appLocalizations
-                                            .assetLiabilityForms_forms_privateEquity_inputFields_custodian_label,
-                                        child: FormBuilderTypeAhead(
-                                            required: false,
-                                            onChange: checkFinalValid,
-                                            name: "custodian",
-                                            hint: appLocalizations
-                                                .assetLiabilityForms_forms_privateEquity_inputFields_custodian_placeholder,
-                                            items: AppConstants.custodianList),
-                                      ),
-                                      EachTextField(
-                                        hasInfo: false,
-                                        title: appLocalizations
-                                            .assetLiabilityForms_forms_privateEquity_inputFields_country_label,
-                                        child: CountriesDropdown(
+        return Scaffold(
+          appBar: const AddAssetHeader(title: "", showExitModal: true),
+          bottomSheet: AddAssetFooter(
+              buttonText: "Save asset",
+              onTap: () {
+                privateEquityFormKey.currentState?.validate();
+                if (enableAddAssetButton) {
+                  Map<String, dynamic> finalMap = {
+                    ...privateEquityFormKey.currentState!.instantValue,
+                  };
+                  context
+                      .read<PrivateEquityCubit>()
+                      .postPrivateEquity(map: finalMap);
+                }
+              }),
+          body: Theme(
+            data: Theme.of(context).copyWith(),
+            child: Stack(
+              children: [
+                const LeafBackground(),
+                WidthLimiterWidget(
+                  child: Builder(builder: (context) {
+                    return BlocConsumer<PrivateEquityCubit, PrivateEquityState>(
+                        listener: AssetBlocHelper.defaultBlocListener(
+                            listener: (context, state) {},
+                            asset: appLocalizations
+                                .assetLiabilityForms_assets_privateEquity,
+                            assetType: AssetTypes.privateEquity),
+                        builder: (context, state) {
+                          return SingleChildScrollView(
+                            child: Column(children: [
+                              FormBuilder(
+                                key: privateEquityFormKey,
+                                initialValue:
+                                    AddAssetConstants.initialJsonForAddAsset,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      appLocalizations
+                                          .assetLiabilityForms_heading_privateEquity,
+                                      style: textTheme.headlineSmall,
+                                      textAlign: TextAlign.start,
+                                    ),
+                                    Text(
+                                      appLocalizations
+                                          .assetLiabilityForms_subHeading_privateEquity,
+                                      style: textTheme.titleMedium,
+                                    ),
+                                    Text(
+                                      appLocalizations
+                                          .assetLiabilityForms_forms_privateEquity_title,
+                                      style: textTheme.titleSmall,
+                                    ),
+                                    EachTextField(
+                                      hasInfo: false,
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateEquity_inputFields_name_label,
+                                      child: AppTextFields.simpleTextField(
+                                          errorMsg: appLocalizations
+                                              .assetLiabilityForms_forms_privateEquity_inputFields_name_errorMessage,
                                           onChanged: checkFinalValid,
-                                        ),
+                                          extraValidators: [
+                                            (val) {
+                                              return ((val?.length ?? 0) > 100
+                                                  ? "Name must be at most 100 characters"
+                                                  : null);
+                                            }
+                                          ],
+                                          title: "Name",
+                                          name: "investmentName",
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_privateEquity_inputFields_name_placeholder),
+                                    ),
+                                    EachTextField(
+                                      hasInfo: false,
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateEquity_inputFields_custodian_label,
+                                      child: FormBuilderTypeAhead(
+                                          required: false,
+                                          onChange: checkFinalValid,
+                                          name: "custodian",
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_privateEquity_inputFields_custodian_placeholder,
+                                          items: AppConstants.custodianList),
+                                    ),
+                                    EachTextField(
+                                      hasInfo: false,
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateEquity_inputFields_country_label,
+                                      child: CountriesDropdown(
+                                        onChanged: checkFinalValid,
                                       ),
-                                      EachTextField(
-                                        tooltipText: appLocalizations
-                                            .assetLiabilityForms_forms_privateEquity_inputFields_acquisitionDate_tooltip,
-                                        title: appLocalizations
-                                            .assetLiabilityForms_forms_privateEquity_inputFields_acquisitionDate_label,
-                                        child: FormBuilderDateTimePicker(
-                                          inputType: InputType.date,
-                                          format: DateFormat("dd/MM/yyyy"),
-                                          lastDate: DateTime.now(),
-                                          autovalidateMode: AutovalidateMode
-                                              .onUserInteraction,
-                                          validator:
-                                              FormBuilderValidators.compose([
-                                            FormBuilderValidators.required(
-                                                errorText: appLocalizations
-                                                    .assetLiabilityForms_forms_privateEquity_inputFields_acquisitionDate_errorMessage)
-                                          ]),
-                                          name: "investmentDate",
-                                          onChanged: (selectedDate) {
-                                            checkFinalValid(selectedDate);
-                                            setState(() {
-                                              acquisitionDateValue =
-                                                  selectedDate;
-                                            });
-                                          },
-                                          decoration: InputDecoration(
-                                              suffixIcon: Icon(
-                                                Icons.calendar_today_outlined,
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                              ),
-                                              hintText: appLocalizations
-                                                  .assetLiabilityForms_forms_privateEquity_inputFields_acquisitionDate_placeholder),
-                                        ),
+                                    ),
+                                    EachTextField(
+                                      tooltipText: appLocalizations
+                                          .assetLiabilityForms_forms_privateEquity_inputFields_acquisitionDate_tooltip,
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateEquity_inputFields_acquisitionDate_label,
+                                      child: FormBuilderDateTimePicker(
+                                        inputType: InputType.date,
+                                        format: DateFormat("dd/MM/yyyy"),
+                                        lastDate: DateTime.now(),
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        validator:
+                                            FormBuilderValidators.compose([
+                                          FormBuilderValidators.required(
+                                              errorText: appLocalizations
+                                                  .assetLiabilityForms_forms_privateEquity_inputFields_acquisitionDate_errorMessage)
+                                        ]),
+                                        name: "investmentDate",
+                                        onChanged: (selectedDate) {
+                                          checkFinalValid(selectedDate);
+                                          setState(() {
+                                            acquisitionDateValue = selectedDate;
+                                          });
+                                        },
+                                        decoration: InputDecoration(
+                                            suffixIcon: Icon(
+                                              Icons.calendar_today_outlined,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                            ),
+                                            hintText: appLocalizations
+                                                .assetLiabilityForms_forms_privateEquity_inputFields_acquisitionDate_placeholder),
                                       ),
-                                      EachTextField(
-                                        hasInfo: false,
-                                        title: appLocalizations
-                                            .assetLiabilityForms_forms_privateEquity_inputFields_currency_label,
-                                        child: CurrenciesDropdown(
+                                    ),
+                                    EachTextField(
+                                      hasInfo: false,
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateEquity_inputFields_currency_label,
+                                      child: CurrenciesDropdown(
+                                        onChanged: checkFinalValid,
+                                        showExchange: true,
+                                      ),
+                                    ),
+                                    EachTextField(
+                                      hasInfo: false,
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_label,
+                                      child: AppTextFields.simpleTextField(
+                                          errorMsg: appLocalizations
+                                              .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_errorMessage,
                                           onChanged: checkFinalValid,
-                                          showExchange: true,
-                                        ),
-                                      ),
-                                      EachTextField(
-                                        hasInfo: false,
-                                        title: appLocalizations
-                                            .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_label,
-                                        child: AppTextFields.simpleTextField(
-                                            errorMsg: appLocalizations
-                                                .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_errorMessage,
-                                            onChanged: checkFinalValid,
-                                            title: "Initial investment amount",
-                                            type: TextFieldType.money,
-                                            name: "investmentAmount",
-                                            hint: appLocalizations
-                                                .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_placeholder),
-                                      ),
-                                      EachTextField(
-                                        tooltipText: appLocalizations
-                                            .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_tooltip,
-                                        title: appLocalizations
-                                            .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_label,
-                                        child: IgnorePointer(
-                                            ignoring:
-                                                acquisitionDateValue == null,
-                                            child: FormBuilderDateTimePicker(
-                                              autovalidateMode: AutovalidateMode
-                                                  .onUserInteraction,
-                                              validator: FormBuilderValidators
-                                                  .compose([
-                                                FormBuilderValidators.required(
-                                                    errorText: appLocalizations
-                                                        .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_errorMessage)
-                                              ]),
-                                              // enabled: acquisitionDateValue != null,
-                                              format: DateFormat("dd/MM/yyyy"),
-                                              inputType: InputType.date,
-                                              firstDate: acquisitionDateValue,
-                                              lastDate: DateTime.now(),
-                                              name: "valuationDate",
-                                              onChanged: (selectedDate) {
-                                                checkFinalValid(selectedDate);
-                                              },
-                                              decoration: InputDecoration(
-                                                  suffixIcon: Icon(
-                                                    Icons
-                                                        .calendar_today_outlined,
-                                                    color: Theme.of(context)
-                                                        .primaryColor,
-                                                  ),
-                                                  hintText: appLocalizations
-                                                      .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_placeholder),
-                                            )),
-                                      ),
-                                      EachTextField(
-                                        hasInfo: false,
-                                        title: appLocalizations
-                                            .assetLiabilityForms_forms_privateEquity_inputFields_currentValue_label,
-                                        child: AppTextFields.simpleTextField(
-                                            errorMsg: appLocalizations
-                                                .assetLiabilityForms_forms_privateEquity_inputFields_currentValue_errorMessage,
-                                            onChanged: checkFinalValid,
-                                            title: "Current value",
-                                            type: TextFieldType.money,
-                                            name: "marketValue",
-                                            extraValidators: [
-                                              (val) {
-                                                return (val != null &&
-                                                        val != "" &&
-                                                        val.convertMoneyToInt() ==
-                                                            0)
-                                                    ? appLocalizations
-                                                        .common_errors_required
-                                                    : null;
-                                              }
-                                            ],
-                                            hint: appLocalizations
-                                                .assetLiabilityForms_forms_privateEquity_inputFields_currentValue_placeholder),
-                                      ),
-                                      const SizedBox(height: 60),
-                                    ]
-                                        .map((e) => Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 12,
-                                                      horizontal: 16),
-                                              child: e,
-                                            ))
-                                        .toList(),
-                                  ),
+                                          title: "Initial investment amount",
+                                          type: TextFieldType.money,
+                                          name: "investmentAmount",
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_placeholder),
+                                    ),
+                                    EachTextField(
+                                      tooltipText: appLocalizations
+                                          .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_tooltip,
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_label,
+                                      child: IgnorePointer(
+                                          ignoring:
+                                              acquisitionDateValue == null,
+                                          child: FormBuilderDateTimePicker(
+                                            autovalidateMode: AutovalidateMode
+                                                .onUserInteraction,
+                                            validator:
+                                                FormBuilderValidators.compose([
+                                              FormBuilderValidators.required(
+                                                  errorText: appLocalizations
+                                                      .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_errorMessage)
+                                            ]),
+                                            // enabled: acquisitionDateValue != null,
+                                            format: DateFormat("dd/MM/yyyy"),
+                                            inputType: InputType.date,
+                                            firstDate: acquisitionDateValue,
+                                            lastDate: DateTime.now(),
+                                            name: "valuationDate",
+                                            onChanged: (selectedDate) {
+                                              checkFinalValid(selectedDate);
+                                            },
+                                            decoration: InputDecoration(
+                                                suffixIcon: Icon(
+                                                  Icons.calendar_today_outlined,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                ),
+                                                hintText: appLocalizations
+                                                    .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_placeholder),
+                                          )),
+                                    ),
+                                    EachTextField(
+                                      hasInfo: false,
+                                      title: appLocalizations
+                                          .assetLiabilityForms_forms_privateEquity_inputFields_currentValue_label,
+                                      child: AppTextFields.simpleTextField(
+                                          errorMsg: appLocalizations
+                                              .assetLiabilityForms_forms_privateEquity_inputFields_currentValue_errorMessage,
+                                          onChanged: checkFinalValid,
+                                          title: "Current value",
+                                          type: TextFieldType.money,
+                                          name: "marketValue",
+                                          extraValidators: [
+                                            (val) {
+                                              return (val != null &&
+                                                      val != "" &&
+                                                      val.convertMoneyToInt() ==
+                                                          0)
+                                                  ? appLocalizations
+                                                      .common_errors_required
+                                                  : null;
+                                            }
+                                          ],
+                                          hint: appLocalizations
+                                              .assetLiabilityForms_forms_privateEquity_inputFields_currentValue_placeholder),
+                                    ),
+                                    const SizedBox(height: 60),
+                                  ]
+                                      .map((e) => Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 12, horizontal: 16),
+                                            child: e,
+                                          ))
+                                      .toList(),
                                 ),
-                              ]),
-                            );
-                          });
-                    }),
-                  ),
-                ],
-              ),
+                              ),
+                            ]),
+                          );
+                        });
+                  }),
+                ),
+              ],
             ),
           ),
         );
