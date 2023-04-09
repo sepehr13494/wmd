@@ -46,6 +46,7 @@ class AppTextFields {
     final double fontSize = 15,
     final ValueChanged? onChanged,
     final ValueChanged? selectedItemBuilder,
+    final dynamic initial,
     required final List<DropdownMenuItem> items,
     bool enabled = true,
   }) {
@@ -53,6 +54,7 @@ class AppTextFields {
       name: name,
       enabled: enabled,
       onChanged: onChanged,
+      initialValue: initial,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         hintText: hint,

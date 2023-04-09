@@ -162,7 +162,6 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                       if (enableAddAssetButton) {
                         Map<String, dynamic> finalMap = {
                           ...formKey.currentState!.instantValue,
-                          "type": MeetingType.meetingTypeList.first.name,
                           "email": (personalState is PersonalInformationLoaded)
                               ? personalState.getNameEntity.email
                               : "",
@@ -399,35 +398,36 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                       isToday: availableDateValue?.isToday(),
                       onChanged: (val) => checkFinalValid(val),
                     )),
-              ListTile(
-                title: Text(appLocalizations.scheduleMeeting_meetingType_label),
-                subtitle: Text(MeetingType.meetingTypeList.first.name),
-                contentPadding: const EdgeInsets.all(0),
-                minVerticalPadding: 0,
-              ),
-
-              // EachTextField(
-              //   hasInfo: false,
-              //   title: appLocalizations.scheduleMeeting_meetingType_label,
-              //   child: AppTextFields.dropDownTextField(
-              //     onChanged: (val) async {
-              //       await Future.delayed(const Duration(milliseconds: 200));
-              //       checkFinalValid(val);
-              //     },
-              //     fontSize: 13.5,
-              //     name: "type",
-              //     hint: "",
-              //     items: MeetingType.meetingTypeList
-              //         .map((e) => DropdownMenuItem(
-              //               value: e.value,
-              //               child: Text(e.name),
-              //             ))
-              //         .toList(),
-              //   ),
+              // ListTile(
+              //   title: Text(appLocalizations.scheduleMeeting_meetingType_label),
+              //   subtitle: Text(MeetingType.meetingTypeList.first.name),
+              //   contentPadding: const EdgeInsets.all(0),
+              //   minVerticalPadding: 0,
               // ),
+
               EachTextField(
                 hasInfo: false,
-
+                title: appLocalizations.scheduleMeeting_meetingType_label,
+                child: AppTextFields.dropDownTextField(
+                  onChanged: (val) async {
+                    await Future.delayed(const Duration(milliseconds: 200));
+                    checkFinalValid(val);
+                  },
+                  fontSize: 13.5,
+                  enabled: false,
+                  name: "type",
+                  hint: "",
+                  initial: MeetingType.meetingTypeList.first.value,
+                  items: MeetingType.meetingTypeList
+                      .map((e) => DropdownMenuItem(
+                            value: e.value,
+                            child: Text(e.name),
+                          ))
+                      .toList(),
+                ),
+              ),
+              EachTextField(
+                hasInfo: false,
                 title: appLocalizations.auth_forgot_input_email_label,
                 child: TextField(
                   enabled: false,
