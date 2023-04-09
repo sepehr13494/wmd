@@ -173,8 +173,8 @@ class SimpleTextField extends AppStatelessWidget {
     if (type == TextFieldType.money) {
       validators.add((val) {
         return (val != null &&
-                (double.tryParse(val.replaceAll(",", "")) ?? 0) > 10000000000)
-            ? "Amount should be less than 10,000,000,000"
+                (double.tryParse(val.replaceAll(",", "")) ?? 0) > 1000000000)
+            ? "Amount should be less than 1,000,000,000"
             : null;
       });
     }
@@ -283,6 +283,9 @@ class _CurrenciesDropdownState extends AppState<CurrenciesDropdown> {
               .assetLiabilityForms_forms_bankAccount_inputFields_country_placeholder,
           items: Currency.currenciesList,
           enabled: widget.enabled,
+          prefixIcon: const Icon(
+            Icons.search,
+          ),
           onChanged: (val) {
             // setState
             if (widget.onChanged != null) {
