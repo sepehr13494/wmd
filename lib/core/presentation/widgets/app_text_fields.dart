@@ -895,6 +895,9 @@ class _RadioButtontate<T> extends AppState<RadioButton> {
                   print(value.toString());
                 },
                 initialValue: widget.initialValue,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: FormBuilderValidators.compose(
+                    [FormBuilderValidators.required()]),
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(horizontal: 0),
@@ -908,88 +911,8 @@ class _RadioButtontate<T> extends AppState<RadioButton> {
                           child: Text(option.label),
                         ))
                     .toList(growable: false))),
-      ]
-
-          // widget.items
-          //     .map((e) => Expanded(
-          //             child: ListTile(
-          //           title: Text(e.label, style: textTheme.bodySmall),
-          //           leading: Radio<T>(
-          //             value: e.value,
-          //             groupValue: e.value,
-          //             activeColor: Theme.of(context).primaryColor,
-          //             onChanged: (value) {
-          //               // setState(() {
-          //               //   _character = value;
-          //               // });
-          //             },
-          //           ),
-          //         )))
-          //     .toList()
-
-          ),
+      ]),
     );
-
-    // ListTile(
-    //         title: Text(e.label),
-    //         leading: Radio<T>(
-    //           value: e.value,
-    //           groupValue: e.value,
-    //           onChanged: (value) {
-    //             // setState(() {
-    //             //   _character = value;
-    //             // });
-    //           },
-    //         ),
-    //       )
-
-    // ListView.builder(
-    //     itemCount: widget.items.length,
-    //     itemBuilder: (BuildContext bctx, int index) {
-    //       return ListTile(
-    //         title: Text(widget.items[index].label),
-    //         leading: Radio<T>(
-    //           value: widget.items[index].value,
-    //           groupValue: widget.items[index].value,
-    //           onChanged: (value) {
-    //             // setState(() {
-    //             //   _character = value;
-    //             // });
-    //           },
-    //         ),
-    //       );
-    //     });
-
-    // Column(
-    //   children:
-
-    //   <Widget>[
-    //     ListTile(
-    //       title: const Text('Lafayette'),
-    //       leading: Radio<String>(
-    //         value: SingingCharacter.lafayette,
-    //         groupValue: _character,
-    //         onChanged: (SingingCharacter? value) {
-    //           setState(() {
-    //             _character = value;
-    //           });
-    //         },
-    //       ),
-    //     ),
-    //     ListTile(
-    //       title: const Text('Thomas Jefferson'),
-    //       leading: Radio<SingingCharacter>(
-    //         value: SingingCharacter.jefferson,
-    //         groupValue: _character,
-    //         onChanged: (SingingCharacter? value) {
-    //           setState(() {
-    //             _character = value;
-    //           });
-    //         },
-    //       ),
-    //     ),
-    //   ],
-    // );
   }
 }
 
