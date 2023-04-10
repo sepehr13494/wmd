@@ -46,6 +46,7 @@ class AppTextFields {
     final double fontSize = 15,
     final ValueChanged? onChanged,
     final ValueChanged? selectedItemBuilder,
+    final dynamic initial,
     required final List<DropdownMenuItem> items,
     bool enabled = true,
   }) {
@@ -53,6 +54,7 @@ class AppTextFields {
       name: name,
       enabled: enabled,
       onChanged: onChanged,
+      initialValue: initial,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         hintText: hint,
@@ -173,8 +175,8 @@ class SimpleTextField extends AppStatelessWidget {
     if (type == TextFieldType.money) {
       validators.add((val) {
         return (val != null &&
-                (double.tryParse(val.replaceAll(",", "")) ?? 0) > 10000000000)
-            ? "Amount should be less than 10,000,000,000"
+                (double.tryParse(val.replaceAll(",", "")) ?? 0) > 1000000000)
+            ? "Amount should be less than 1,000,000,000"
             : null;
       });
     }
@@ -283,6 +285,9 @@ class _CurrenciesDropdownState extends AppState<CurrenciesDropdown> {
               .assetLiabilityForms_forms_bankAccount_inputFields_country_placeholder,
           items: Currency.currenciesList,
           enabled: widget.enabled,
+          prefixIcon: const Icon(
+            Icons.search,
+          ),
           onChanged: (val) {
             // setState
             if (widget.onChanged != null) {
@@ -365,6 +370,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
   final DropdownSearchFilterFn<T>? filterFn;
   final DropdownSearchPopupItemBuilder<T>? itemBuilder;
   final List<T> items;
+  final T? initialValue;
   final ValueChanged<T?>? onChanged;
   final bool required;
   final bool enabled;
@@ -379,6 +385,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
       this.itemAsString,
       this.filterFn,
       this.title,
+      this.initialValue,
       this.errorMsg,
       this.itemBuilder,
       this.extraValidators,
@@ -409,6 +416,7 @@ class FormBuilderSearchableDropdown<T> extends AppStatelessWidget {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: FormBuilderValidators.compose(validators),
         onChanged: onChanged,
+        initialValue: initialValue,
         enabled: enabled,
         builder: (FormFieldState field) {
           return Column(
@@ -887,6 +895,9 @@ class _RadioButtontate<T> extends AppState<RadioButton> {
                   print(value.toString());
                 },
                 initialValue: widget.initialValue,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: FormBuilderValidators.compose(
+                    [FormBuilderValidators.required()]),
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(horizontal: 0),
@@ -900,88 +911,8 @@ class _RadioButtontate<T> extends AppState<RadioButton> {
                           child: Text(option.label),
                         ))
                     .toList(growable: false))),
-      ]
-
-          // widget.items
-          //     .map((e) => Expanded(
-          //             child: ListTile(
-          //           title: Text(e.label, style: textTheme.bodySmall),
-          //           leading: Radio<T>(
-          //             value: e.value,
-          //             groupValue: e.value,
-          //             activeColor: Theme.of(context).primaryColor,
-          //             onChanged: (value) {
-          //               // setState(() {
-          //               //   _character = value;
-          //               // });
-          //             },
-          //           ),
-          //         )))
-          //     .toList()
-
-          ),
+      ]),
     );
-
-    // ListTile(
-    //         title: Text(e.label),
-    //         leading: Radio<T>(
-    //           value: e.value,
-    //           groupValue: e.value,
-    //           onChanged: (value) {
-    //             // setState(() {
-    //             //   _character = value;
-    //             // });
-    //           },
-    //         ),
-    //       )
-
-    // ListView.builder(
-    //     itemCount: widget.items.length,
-    //     itemBuilder: (BuildContext bctx, int index) {
-    //       return ListTile(
-    //         title: Text(widget.items[index].label),
-    //         leading: Radio<T>(
-    //           value: widget.items[index].value,
-    //           groupValue: widget.items[index].value,
-    //           onChanged: (value) {
-    //             // setState(() {
-    //             //   _character = value;
-    //             // });
-    //           },
-    //         ),
-    //       );
-    //     });
-
-    // Column(
-    //   children:
-
-    //   <Widget>[
-    //     ListTile(
-    //       title: const Text('Lafayette'),
-    //       leading: Radio<String>(
-    //         value: SingingCharacter.lafayette,
-    //         groupValue: _character,
-    //         onChanged: (SingingCharacter? value) {
-    //           setState(() {
-    //             _character = value;
-    //           });
-    //         },
-    //       ),
-    //     ),
-    //     ListTile(
-    //       title: const Text('Thomas Jefferson'),
-    //       leading: Radio<SingingCharacter>(
-    //         value: SingingCharacter.jefferson,
-    //         groupValue: _character,
-    //         onChanged: (SingingCharacter? value) {
-    //           setState(() {
-    //             _character = value;
-    //           });
-    //         },
-    //       ),
-    //     ),
-    //   ],
-    // );
   }
 }
 

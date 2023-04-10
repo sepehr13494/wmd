@@ -85,7 +85,7 @@ class CallSummaryWidget extends AppStatelessWidget {
               label: "Reason",
               value: formState != null
                   ? formState!.value["subject"] != null
-                      ? formState!.value["subject"]?.name ??
+                      ? formState!.value["subject"] ??
                           appLocalizations.scheduleMeeting_text_notSpecified
                       : appLocalizations.scheduleMeeting_text_notSpecified
                   : appLocalizations.scheduleMeeting_text_notSpecified,

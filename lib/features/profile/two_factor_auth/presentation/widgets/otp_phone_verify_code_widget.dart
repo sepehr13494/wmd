@@ -1,27 +1,15 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
-import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
-import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
-import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
-import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
-import 'package:wmd/features/profile/core/presentation/widgets/language_bottom_sheet.dart';
-import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
-import 'package:wmd/features/profile/personal_information/presentation/widgets/country_code_picker.dart';
-import 'package:wmd/features/profile/two_factor_auth/manager/two_factor_cubit.dart';
-import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/disable_two_factor_bottom_sheet.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_resend_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
-import 'package:wmd/features/settings/data/models/put_settings_params.dart';
 import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 
@@ -85,9 +73,12 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyCodeWidget> {
             // context.goNamed(AppRoutes.settings);
           } else if (state is ErrorState) {
             formKey.currentState?.reset();
-            GlobalFunctions.showSnackBar(context,
-                AppLocalizations.of(context).common_errors_somethingWentWrong,
-                color: Colors.red[800], type: "error");
+            GlobalFunctions.showSnackBar(
+                context,
+                AppLocalizations.of(context)
+                    .profile_otpVerification_error_invalidOTP,
+                color: Colors.red[800],
+                type: "error");
           }
         }, builder: (context, state) {
           return BlocConsumer<UserStatusCubit, UserStatusState>(
@@ -117,8 +108,9 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyCodeWidget> {
                                         extraValidators: [
                                           (val) {
                                             return (val != null &&
-                                                    val.length > 6)
-                                                ? "Verification code cannot be more than 6 digits"
+                                                    (val.length > 6 ||
+                                                        val.length < 6))
+                                                ? "Enter 6 digit valid OTP."
                                                 : null;
                                           },
                                         ],
@@ -133,7 +125,8 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyCodeWidget> {
                               ),
                             ),
                             Text(
-                                "To keep your account secure, we need to verify your phone number",
+                                appLocalizations
+                                    .profile_twofactorauthentication_input_description,
                                 style: textTheme.bodySmall),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,

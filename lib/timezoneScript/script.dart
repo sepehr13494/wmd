@@ -5,7 +5,7 @@ void main() {
       final name = e['label']!.replaceAll('-', '_');
 
       if (key.contains(name)) {
-        print('$key : "${json[i]['offset']}",');
+        print('appLocalizations.$key : "${e['offset']}",');
       }
     }
   }
