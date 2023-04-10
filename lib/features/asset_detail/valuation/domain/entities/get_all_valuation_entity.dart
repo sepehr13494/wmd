@@ -8,6 +8,7 @@ class GetAllValuationEntity extends Equatable {
     required this.amountInUsd,
     // required this.originCode,
     required this.valuatedAt,
+    required this.isSystemGenerated,
     // required this.assetId,
     // required this.liabilityId,
     // required this.createdAt,
@@ -21,6 +22,7 @@ class GetAllValuationEntity extends Equatable {
   final double amountInUsd;
   // final String originCode;
   final DateTime valuatedAt;
+  final bool isSystemGenerated;
   // final String assetId;
   // final String? liabilityId;
   // final DateTime createdAt;
@@ -31,6 +33,7 @@ class GetAllValuationEntity extends Equatable {
         "amount": amount,
         // "currencyCode": currencyCode,
         "currencyToUsdFxRate": currencyToUsdFxRate,
+        "isSystemGenerated": isSystemGenerated,
         "amountInUsd": amountInUsd,
         // "originCode": originCode,
         "valuatedAt": valuatedAt.toIso8601String(),

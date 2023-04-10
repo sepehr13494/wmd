@@ -129,6 +129,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                     date: CustomizableDateTime.ddMmYyyy(e.valuatedAt),
                     note: e.note ?? '',
                     value: e.amountInUsd.convertMoney(addDollar: true),
+                    isSystemGenerated: e.isSystemGenerated,
                     index: index);
               }),
             ],
@@ -167,10 +168,15 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
           buildTableHeader(context, appLocalizations),
           ...List.generate(widget.getAllValuationEntities.length, (index) {
             final e = widget.getAllValuationEntities[index];
+
+            debugPrint('getAllValuationEntities---');
+            debugPrint(e.toString());
+
             return buildTableRow(context,
                 date: CustomizableDateTime.ddMmYyyy(e.valuatedAt),
                 note: e.note ?? '',
                 value: e.amountInUsd.convertMoney(addDollar: true),
+                isSystemGenerated: e.isSystemGenerated,
                 index: index);
           }),
         ],
@@ -252,6 +258,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
     required String date,
     required String note,
     required String value,
+    required bool isSystemGenerated,
     required int index,
   }) {
     final textTheme = Theme.of(context).textTheme;
@@ -300,7 +307,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
           ),
         ),
         if (AppConstants.publicMvp2Items) const SizedBox.shrink(),
-        if (AppConstants.publicMvp2Items)
+        if (AppConstants.publicMvp2Items && !isSystemGenerated)
           PopupMenuButton(
             itemBuilder: (BuildContext context) {
               final List items = [

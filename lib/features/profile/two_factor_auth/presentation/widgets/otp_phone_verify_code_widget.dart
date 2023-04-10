@@ -102,7 +102,8 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyCodeWidget> {
                                   Expanded(
                                     child: AppTextFields.simpleTextField(
                                         name: "code",
-                                        hint: "Enter 6-digit code",
+                                        hint: appLocalizations
+                                            .profile_twofactorauthentication_otp_field_placeholder,
                                         type: TextFieldType.number,
                                         keyboardType: TextInputType.number,
                                         extraValidators: [
