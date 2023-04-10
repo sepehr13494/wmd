@@ -172,7 +172,6 @@ class _ListedEquityValuationFormWidgettState
               hasInfo: false,
               title: appLocalizations.assets_valuationModal_labels_costPerUnit,
               child: AppTextFields.simpleTextField(
-                  required: false,
                   type: TextFieldType.money,
                   keyboardType: TextInputType.number,
                   onChanged: (val) {
