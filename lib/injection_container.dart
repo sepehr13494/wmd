@@ -130,6 +130,12 @@ import 'package:wmd/features/dashboard/user_status/domain/repositories/user_stat
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/put_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
+import 'package:wmd/features/edit_assets/edit_bank_manual/data/data_sources/edit_bank_manual_remote_datasource.dart';
+import 'package:wmd/features/edit_assets/edit_bank_manual/data/repositories/edit_bank_manual_repository_impl.dart';
+import 'package:wmd/features/edit_assets/edit_bank_manual/domain/repositories/edit_bank_manual_repository.dart';
+import 'package:wmd/features/edit_assets/edit_bank_manual/domain/use_cases/delete_bank_manual_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_bank_manual/domain/use_cases/put_bank_manual_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_bank_manual/presentation/manager/edit_bank_manual_cubit.dart';
 import 'package:wmd/features/edit_assets/edit_real_estate/data/data_sources/edit_real_estate_remote_datasource.dart';
 import 'package:wmd/features/edit_assets/edit_real_estate/data/repositories/edit_real_estate_repository_impl.dart';
 import 'package:wmd/features/edit_assets/edit_real_estate/domain/repositories/edit_real_estate_repository.dart';
@@ -436,6 +442,16 @@ Future<void> init() async {
       () => EditRealEstateRepositoryImpl(sl()));
   sl.registerLazySingleton<EditRealEstateRemoteDataSource>(
       () => EditRealEstateRemoteDataSourceImpl(sl()));
+
+  //EditBankManual
+  sl.registerFactory(() => EditBankManualCubit(sl(),sl()));
+  sl.registerLazySingleton(() => PutBankManualUseCase(sl(),sl()));
+  sl.registerLazySingleton(() => DeleteBankManualUseCase(sl()));
+
+  sl.registerLazySingleton<EditBankManualRepository>(
+          () => EditBankManualRepositoryImpl(sl()));
+  sl.registerLazySingleton<EditBankManualRemoteDataSource>(
+          () => EditBankManualRemoteDataSourceImpl(sl()));
 
   //AssetDetail
   sl.registerFactory(() => AssetSummaryCubit(sl()));

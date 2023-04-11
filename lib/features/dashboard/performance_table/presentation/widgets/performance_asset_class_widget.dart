@@ -5,10 +5,10 @@ import 'package:wmd/core/models/time_filer_obj.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/manager/performance_table_cubit.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/models/performance_value_obj.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_base_table.dart';
+import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_dropdown.dart';
 
 import 'performance_table_shimmer.dart';
 
@@ -18,63 +18,40 @@ class PerformanceAssetClassWidget extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    return BlocConsumer<PerformanceAssetClassCubit, PerformanceTableState>(
-      listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
-      builder: BlocHelper.errorHandlerBlocBuilder(hideError: true,builder: (context, state) {
-        return state is GetAssetClassLoaded
-            ? Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Align(
-                      alignment: AlignmentDirectional.centerStart,
-                      child: Text(
-                        appLocalizations.home_wealthPerformance_title,
-                        style: textTheme.titleLarge,
-                      ),
-                    ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Expanded(
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text(
+                    appLocalizations.home_wealthPerformance_title,
+                    style: textTheme.titleLarge,
                   ),
-                  const SizedBox(width: 12),
-                  Icon(
-                    Icons.calendar_month,
-                    size: 15,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  const SizedBox(width: 8),
-                  DropdownButtonHideUnderline(
-                    child: DropdownButton<TimeFilterObj>(
-                      items: AppConstants.timeFilterForAssetPerformance(context)
-                          .map((e) => DropdownMenuItem<TimeFilterObj>(
-                          value: e,
-                          child: Text(
-                            e.key,
-                            style: textTheme.bodyMedium!
-                                .apply(color: Theme.of(context).primaryColor),
-                            // textTheme.bodyMedium!.toLinkStyle(context),
-                          )))
-                          .toList(),
-                      onChanged: ((value) {
-                        if (value != null) {
-                          context.read<PerformanceAssetClassCubit>().getAssetClass(period: value);
-                        }
-                      }),
-                      value: context.read<PerformanceAssetClassCubit>().period ?? AppConstants.timeFilterForAssetPerformance(context).first,
-                      icon: Icon(
-                        Icons.keyboard_arrow_down,
-                        size: 15,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      // style: textTheme.labelLarge,
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-            PerformanceBaseTable(
+              const SizedBox(width: 12),
+              Icon(
+                Icons.calendar_month,
+                size: 15,
+                color: Theme.of(context).primaryColor,
+              ),
+              const SizedBox(width: 8),
+              PerformanceDropdown(bloc: context.watch<PerformanceAssetClassCubit>(), function: (value){
+                context.read<PerformanceAssetClassCubit>().getAssetClass(period: value);
+              }),
+            ],
+          ),
+        ),
+        BlocConsumer<PerformanceAssetClassCubit, PerformanceTableState>(
+          listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
+          builder: BlocHelper.errorHandlerBlocBuilder(builder: (context, state) {
+            return state is GetAssetClassLoaded
+                ? PerformanceBaseTable(
                 titles: [
                   appLocalizations
                       .home_wealthPerformance_table_header_assetName,
@@ -106,15 +83,14 @@ class PerformanceAssetClassWidget extends AppStatelessWidget {
                   PerformanceValueObj(value: e.marketValue.convertMoney(addDollar: true),),
                   PerformanceValueObj(value: e.forexValue.convertMoney(addDollar: true),),
                   PerformanceValueObj(value: e.income.convertMoney(addDollar: true),),
-                  PerformanceValueObj(value: e.commision.convertMoney(addDollar: true),),
+                  PerformanceValueObj(value: e.commission.convertMoney(addDollar: true),),
                   PerformanceValueObj(value: e.total.convertMoney(addDollar: true),),
                   PerformanceValueObj(value: "${e.changePercentage.toStringAsFixed(1)} %",shouldBlur: false),
                 ])
-                    .toList())
-          ],
+                    .toList()) : const PerformanceTableShimmer(showTexts: false,);
+          }),
         )
-            : const PerformanceTableShimmer();
-      }),
+      ],
     );
   }
 }

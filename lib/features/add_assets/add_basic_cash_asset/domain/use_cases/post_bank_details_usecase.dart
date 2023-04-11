@@ -20,22 +20,25 @@ class PostBankDetailsUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
   @override
   Future<Either<Failure, AddAsset>> call(Map<String, dynamic> params) async {
     try {
-      final currentBal = params['currentBalance'] != null
-          ? params['currentBalance'].toString().replaceAll(',', '')
-          : params['currentBalance'];
-      final ownerId = localStorage.getOwnerId();
-      final newMap = {
-        ...params,
-        "currentBalance": currentBal != null ? double.parse(currentBal) : null,
-        "owner": ownerId,
-      };
-      final bankAssetParam = BankSaveParams.fromJson(newMap);
-      final result = await bankRepository.postBankDetails(bankAssetParam);
+      final result = await bankRepository.postBankDetails(getBankSaveParamObj(params,localStorage));
       return result;
     } catch (e) {
       debugPrint("PostBankDetailsUseCase catch : ${e.toString()}");
       return const Left(AppFailure(message: "Something went wrong!"));
     }
+  }
+
+  static BankSaveParams getBankSaveParamObj(Map<String, dynamic> params,localStorage){
+    final currentBal = params['currentBalance'] != null
+        ? params['currentBalance'].toString().replaceAll(',', '')
+        : params['currentBalance'];
+    final ownerId = localStorage.getOwnerId();
+    final newMap = {
+      ...params,
+      "currentBalance": currentBal != null ? double.parse(currentBal) : null,
+      "owner": ownerId,
+    };
+    return BankSaveParams.fromJson(newMap);
   }
 }
 

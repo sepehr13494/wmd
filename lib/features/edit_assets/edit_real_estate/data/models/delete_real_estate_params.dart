@@ -1,20 +1,7 @@
-import 'package:equatable/equatable.dart';
+import 'package:wmd/features/edit_assets/core/data/models/delete_asset_params.dart';
 
-class DeleteRealEstateParams extends Equatable{
-    final String assetId;
-    const DeleteRealEstateParams({required this.assetId});
+class DeleteRealEstateParams extends DeleteAssetParams{
+  const DeleteRealEstateParams({required super.assetId});
 
-    factory DeleteRealEstateParams.fromJson(Map<String, dynamic> json) => DeleteRealEstateParams(
-        assetId: json["assetId"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "assetId":assetId,
-    };
-
-    @override
-    List<Object?> get props => [];
-    
-    static const tParams = DeleteRealEstateParams(assetId: "1234");
+  static const tParams = DeleteRealEstateParams(assetId: "1234");
 }
-    
