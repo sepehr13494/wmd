@@ -17,10 +17,16 @@ import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_bloc_he
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
+import 'package:wmd/features/asset_see_more/other_asset/data/model/other_asset_more_entity.dart';
 import 'package:wmd/injection_container.dart';
 
 class AddOtherAssetPage extends StatefulWidget {
-  const AddOtherAssetPage({Key? key}) : super(key: key);
+  final bool edit;
+  final OtherAseetMoreEntity? moreEntity;
+
+  const AddOtherAssetPage(
+      {Key? key, this.edit = false, this.moreEntity})
+      : super(key: key);
   @override
   AppState<AddOtherAssetPage> createState() => _AddOtherAssetState();
 }
@@ -105,6 +111,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    final bool edit = widget.edit;
     return BlocProvider(
       create: (context) => sl<OtherAssetCubit>(),
       child: Builder(builder: (context) {
@@ -146,8 +153,9 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                               child: Column(children: [
                                 FormBuilder(
                                   key: formKey,
-                                  initialValue: AddAssetConstants
-                                      .initialJsonForAddOtherAsset,
+                                  initialValue: edit
+                                      ? widget.moreEntity!.toFormJson()
+                                      : AddAssetConstants.initialJsonForAddOtherAsset,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,

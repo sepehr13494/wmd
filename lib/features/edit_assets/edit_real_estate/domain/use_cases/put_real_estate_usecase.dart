@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:wmd/features/add_assets/add_real_estate/domain/use_cases/add_real_estate_usecase.dart';
