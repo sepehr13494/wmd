@@ -171,9 +171,10 @@ class _ContactInformationWidgetState
                                                               .symmetric(
                                                           horizontal: 5,
                                                           vertical: 1),
-                                                      child: const Text(
-                                                        "Verified",
-                                                        style: TextStyle(
+                                                      child: Text(
+                                                        appLocalizations
+                                                            .profile_tabs_personal_fields_label_verified,
+                                                        style: const TextStyle(
                                                           color: Colors.green,
                                                         ),
                                                       ),
@@ -191,9 +192,10 @@ class _ContactInformationWidgetState
                                                               .symmetric(
                                                           horizontal: 5,
                                                           vertical: 1),
-                                                      child: const Text(
-                                                        "Not Verified",
-                                                        style: TextStyle(
+                                                      child: Text(
+                                                        appLocalizations
+                                                            .profile_tabs_personal_fields_label_notVerified,
+                                                        style: const TextStyle(
                                                           color: Color.fromARGB(
                                                               100,
                                                               218,
@@ -235,59 +237,59 @@ class _ContactInformationWidgetState
                                                                 .state
                                                                 .languageCode ==
                                                             'en'
-                                                        ? Alignment.centerRight
-                                                        : Alignment.centerLeft,
+                                                        ? Alignment.topRight
+                                                        : Alignment.topLeft,
                                                     children: <Widget>[
-                                                      AppTextFields
-                                                          .simpleTextField(
-                                                              name:
-                                                                  "phoneNumber",
-                                                              hint: appLocalizations
-                                                                  .profile_tabs_personal_fields_label_primaryPhoneNumber,
-                                                              type:
-                                                                  TextFieldType
-                                                                      .number,
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .number,
-                                                              minLines: 1,
-                                                              enabled:
-                                                                  isPhoneEditable,
-                                                              extraValidators: [
-                                                                (val) {
-                                                                  return (!val!.contains(
-                                                                          RegExp(
-                                                                              r'^[0-9]*$')))
-                                                                      ? appLocalizations
-                                                                          .scheduleMeeting_phoneNumber_errors_inValid
-                                                                      : null;
-                                                                },
-                                                                (val) {
-                                                                  return (val != null &&
-                                                                          val !=
-                                                                              "" &&
-                                                                          selectedCountryCode ==
-                                                                              "BH" &&
-                                                                          (val.length > 8 ||
-                                                                              val.length <
-                                                                                  8))
-                                                                      ? appLocalizations
-                                                                          .common_errors_phoneNumberLength
-                                                                          .replaceAll(
-                                                                              "{{digit}}",
-                                                                              8.toString())
-                                                                      : null;
-                                                                },
-                                                              ],
-                                                              onChanged:
-                                                                  checkFinalValid),
+                                                      SizedBox(
+                                                        height: 80,
+                                                        child: AppTextFields
+                                                            .simpleTextField(
+                                                                name:
+                                                                    "phoneNumber",
+                                                                hint: appLocalizations
+                                                                    .profile_tabs_personal_fields_label_primaryPhoneNumber,
+                                                                type:
+                                                                    TextFieldType
+                                                                        .number,
+                                                                keyboardType:
+                                                                    TextInputType
+                                                                        .number,
+                                                                minLines: 1,
+                                                                enabled:
+                                                                    isPhoneEditable,
+                                                                extraValidators: [
+                                                                  (val) {
+                                                                    return (!val!.contains(RegExp(
+                                                                            r'^[0-9]*$')))
+                                                                        ? appLocalizations
+                                                                            .scheduleMeeting_phoneNumber_errors_inValid
+                                                                        : null;
+                                                                  },
+                                                                  (val) {
+                                                                    return (val != null &&
+                                                                            val !=
+                                                                                "" &&
+                                                                            selectedCountryCode ==
+                                                                                "BH" &&
+                                                                            (val.length > 8 ||
+                                                                                val.length <
+                                                                                    8))
+                                                                        ? appLocalizations.common_errors_phoneNumberLength.replaceAll(
+                                                                            "{{digit}}",
+                                                                            8.toString())
+                                                                        : null;
+                                                                  },
+                                                                ],
+                                                                onChanged:
+                                                                    checkFinalValid),
+                                                      ),
                                                       if (!isPhoneEditable)
                                                         IconButton(
                                                           icon: Padding(
                                                             padding:
                                                                 const EdgeInsets
                                                                         .fromLTRB(
-                                                                    0, 0, 0, 8),
+                                                                    0, 0, 0, 0),
                                                             child: SvgPicture
                                                                 .asset(
                                                               "assets/images/edit_square.svg",
