@@ -23,7 +23,7 @@ class AddRealEstateUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
     }
   }
 
-  static getAddRealStateObj(Map<String, dynamic> params){
+  static AddRealEstateParams getAddRealStateObj(Map<String, dynamic> params){
     final acquisitionCostPerUnit =
     params['acquisitionCostPerUnit'].toString().replaceAll(',', '');
     final marketValue = params['marketValue'].toString().replaceAll(',', '');

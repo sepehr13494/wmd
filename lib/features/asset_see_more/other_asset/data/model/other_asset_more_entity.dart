@@ -102,4 +102,28 @@ class OtherAseetMoreEntity extends GetSeeMoreResponse {
         "inceptionToDate": inceptionToDate,
         "asOfDate": asOfDate.toIso8601String(),
       };
+
+  Map<String, dynamic> toFormJson() => {
+    "name": name,
+    "wealthManager": wealthManager,
+    "category": category,
+    "units": units,
+    "acquisitionCost": acquisitionCost,
+    "acquisitionDate": acquisitionDate.toIso8601String(),
+    "valuationDate": valuationDate.toIso8601String(),
+    "ownerShip": ownerShip,
+    "valuePerUnit": valuePerUnit,
+    "currentDayValue": currentDayValue,
+    "id": id,
+    "type": type,
+    "isActive": isActive,
+    "country": country,
+    "region": region,
+    "currencyCode": currencyCode,
+    "portfolioContribution": portfolioContribution,
+    "holdings": holdings,
+    "yearToDate": yearToDate,
+    "inceptionToDate": inceptionToDate,
+    "asOfDate": asOfDate.toIso8601String(),
+  };
 }

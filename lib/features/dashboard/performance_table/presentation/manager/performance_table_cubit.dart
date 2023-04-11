@@ -46,16 +46,17 @@ class PerformanceTableCubit extends Cubit<PerformanceTableState> {
   getAssetClass({TimeFilterObj? period}) async {
     this.period = period;
     emit(LoadingState());
-    final result = await getAssetClassUseCase(GetAssetClassParams(period: period?.value ?? "Last7Days"));
+    final result = await getAssetClassUseCase(GetAssetClassParams(period: period?.value ?? "YTD"));
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (entities) {
       emit(GetAssetClassLoaded(getAssetClassEntities: entities));
     });
   }
   
-  getBenchmark() async {
+  getBenchmark({TimeFilterObj? period}) async {
+    this.period = period;
     emit(LoadingState());
-    final result = await getBenchmarkUseCase(GetBenchmarkParams());
+    final result = await getBenchmarkUseCase(GetBenchmarkParams(period: period?.value ?? "YTD"));
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (entities) {
       
@@ -63,9 +64,10 @@ class PerformanceTableCubit extends Cubit<PerformanceTableState> {
     });
   }
   
-  getCustodianPerformance() async {
+  getCustodianPerformance({TimeFilterObj? period}) async {
+    this.period = period;
     emit(LoadingState());
-    final result = await getCustodianPerformanceUseCase(GetCustodianPerformanceParams());
+    final result = await getCustodianPerformanceUseCase(GetCustodianPerformanceParams(period: period?.value ?? "YTD"));
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (entities) {
       
