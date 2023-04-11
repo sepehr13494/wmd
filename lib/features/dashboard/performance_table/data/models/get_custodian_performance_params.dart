@@ -1,8 +1,9 @@
-import 'package:wmd/core/domain/usecases/usercase.dart';
+import 'package:wmd/features/dashboard/performance_table/data/models/base_performance_params.dart';
 
-class GetCustodianPerformanceParams extends NoParams{
-    
-    
-    static final tParams = GetCustodianPerformanceParams();
+class GetCustodianPerformanceParams extends BasePerformanceParams{
+
+    const GetCustodianPerformanceParams({required super.period});
+
+    static const tParams = GetCustodianPerformanceParams(period: "Last7Days");
 }
     

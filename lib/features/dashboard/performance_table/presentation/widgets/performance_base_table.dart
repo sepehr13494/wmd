@@ -60,7 +60,7 @@ class _PerformanceBaseTableState extends AppState<PerformanceBaseTable> {
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
-                          "You are up to date, there are no transactions to view",textAlign: TextAlign.center,),
+                          "There is no data for this date range. Please choose another time period",textAlign: TextAlign.center,),
                     ),
                   ),
                 )
