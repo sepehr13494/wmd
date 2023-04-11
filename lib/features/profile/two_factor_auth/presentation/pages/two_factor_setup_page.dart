@@ -288,14 +288,14 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                                     .profile_twofactorauthentication_options_emailTwoFactor_title
                                     .split("{{email}}")
                                     .first,
-                                style: textTheme.bodyMedium,
+                                style: textTheme.titleMedium,
                               ),
                               PrivacyBlurWidget(
                                 child: Text(
                                   (personalState is PersonalInformationLoaded)
                                       ? personalState.getNameEntity.email
                                       : "",
-                                  style: textTheme.bodyMedium,
+                                  style: textTheme.titleMedium,
                                 ),
                               ),
                             ])),
@@ -319,11 +319,48 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                         value: textTwoFactorEnabled,
                         activeColor: AppColors.primary,
                         onChanged: (val) {
-                          if (val == false) {
-                            setState(() {
-                              twoFactorEnabled = val ? true : twoFactorEnabled;
-                              textTwoFactorEnabled = val;
-                            });
+                          if (val == false && emailTwoFactorEnabled == false) {
+                            showModalBottomSheet(
+                                backgroundColor:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                                isScrollControlled: true,
+                                context: context,
+                                builder: (temp) {
+                                  return DisableTwoFactorBottomSheet(
+                                    callback: () {
+                                      setState(() {
+                                        twoFactorEnabled = val;
+                                        emailTwoFactorEnabled = val;
+                                        textTwoFactorEnabled = val;
+                                      });
+
+                                      context
+                                          .read<TwoFactorCubit>()
+                                          .setTwoFactor(PutSettingsParams(
+                                              isPrivacyMode:
+                                                  PrivacyInherited.of(context)
+                                                      .isBlurred,
+                                              twoFactorEnabled: val,
+                                              emailTwoFactorEnabled: val,
+                                              smsTwoFactorEnabled: val));
+                                    },
+                                  );
+                                });
+                          } else if (val == false) {
+                            if (val == false) {
+                              setState(() {
+                                twoFactorEnabled =
+                                    val ? true : twoFactorEnabled;
+                                textTwoFactorEnabled = val;
+                              });
+
+                              context.read<TwoFactorCubit>().setTwoFactor(
+                                  PutSettingsParams(
+                                      isPrivacyMode:
+                                          PrivacyInherited.of(context)
+                                              .isBlurred,
+                                      smsTwoFactorEnabled: val));
+                            }
                           } else {
                             if ((personalState is PersonalInformationLoaded) &&
                                 (personalState.getNameEntity.phoneNumber
@@ -370,7 +407,7 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                               ),
                               PrivacyBlurWidget(
                                 child: Text(
-                                  ': ${(personalState is PersonalInformationLoaded) ? personalState.getNameEntity.phoneNumber?.toFormattedNumber() ?? "" : ""}',
+                                  ' ${(personalState is PersonalInformationLoaded) ? personalState.getNameEntity.phoneNumber?.toFormattedNumber() ?? "" : ""}',
                                   style: textTheme.titleMedium,
                                 ),
                               ),
