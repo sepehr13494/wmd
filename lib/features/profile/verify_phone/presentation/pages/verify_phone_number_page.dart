@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,6 +42,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
   bool _otpExpired = false;
   int failedAttampts = 0;
   bool showError = false;
+  bool showErrorInput = false;
   bool resetTimer = false;
   bool resetCode = false;
 
@@ -73,7 +76,15 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
           } else if (state is ErrorState) {
             setState(() {
               showError = true;
+              showErrorInput = true;
             });
+
+            Timer(
+                const Duration(seconds: 2),
+                () => setState(() {
+                      showErrorInput = false;
+                    }));
+
             GlobalFunctions.showSnackBar(
                 context,
                 AppLocalizations.of(context)
@@ -150,7 +161,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                               resetCode = false;
                             });
                           },
-                          clearText: showError || resetTimer || resetCode,
+                          clearText: showErrorInput || resetTimer || resetCode,
                           enabled: !_otpExpired,
                           autoFocus: true,
                           //runs when every textfield is filled
@@ -223,6 +234,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
 
                                   setState(() {
                                     showError = false;
+                                    showErrorInput = false;
                                     resetTimer = true;
                                   });
                                 })

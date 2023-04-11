@@ -457,7 +457,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                               const SizedBox(height: 8),
                                               Text(currentDayValue == "--"
                                                   ? currentDayValue
-                                                  : "\\\$\$currentDayValue")
+                                                  : "\$$currentDayValue")
                                             ],
                                           ),
                                         ),
