@@ -55,6 +55,7 @@ class TfoCustodianBankWidget extends AppStatelessWidget {
                                 AppConstants.auth0ClientId);
                             final Credentials credentials =
                                 await auth0.webAuthentication().login();
+                            log("Mert log: ${credentials.toMap()}");
                             showTfoConfirmMandateModal(context: context);
                           } on Exception catch (e, s) {
                             log('login error: $e - stack: $s');
