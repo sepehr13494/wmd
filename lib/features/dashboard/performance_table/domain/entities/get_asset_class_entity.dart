@@ -7,7 +7,7 @@ class GetAssetClassEntity extends Equatable {
         required this.marketValue,
         required this.forexValue,
         required this.income,
-        required this.commision,
+        required this.commission,
         required this.total,
         required this.changePercentage,
     });
@@ -16,7 +16,7 @@ class GetAssetClassEntity extends Equatable {
     final double marketValue;
     final double forexValue;
     final double income;
-    final double commision;
+    final double commission;
     final double total;
     final double changePercentage;
 
@@ -25,7 +25,7 @@ class GetAssetClassEntity extends Equatable {
         "marketValue": marketValue,
         "forexValue": forexValue,
         "income": income,
-        "commision": commision,
+        "commission": commission,
         "total": total,
         "changePercentage": changePercentage,
     };
@@ -36,7 +36,7 @@ class GetAssetClassEntity extends Equatable {
         marketValue,
         forexValue,
         income,
-        commision,
+        commission,
         total,
         changePercentage,
     ];

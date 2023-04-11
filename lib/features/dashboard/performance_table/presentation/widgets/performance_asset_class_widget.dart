@@ -106,7 +106,7 @@ class PerformanceAssetClassWidget extends AppStatelessWidget {
                   PerformanceValueObj(value: e.marketValue.convertMoney(addDollar: true),),
                   PerformanceValueObj(value: e.forexValue.convertMoney(addDollar: true),),
                   PerformanceValueObj(value: e.income.convertMoney(addDollar: true),),
-                  PerformanceValueObj(value: e.commision.convertMoney(addDollar: true),),
+                  PerformanceValueObj(value: e.commission.convertMoney(addDollar: true),),
                   PerformanceValueObj(value: e.total.convertMoney(addDollar: true),),
                   PerformanceValueObj(value: "${e.changePercentage.toStringAsFixed(1)} %",shouldBlur: false),
                 ])
