@@ -208,7 +208,8 @@ class _ContactInformationWidgetState
                                         ),
                                         const SizedBox(height: 8),
                                         SizedBox(
-                                          height: 70,
+                                          height:
+                                              !enableSubmitButton ? 105 : 80,
                                           child: Row(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -241,13 +242,15 @@ class _ContactInformationWidgetState
                                                         : Alignment.topLeft,
                                                     children: <Widget>[
                                                       SizedBox(
-                                                        height: 80,
+                                                        height: 90,
                                                         child: AppTextFields
                                                             .simpleTextField(
                                                                 name:
                                                                     "phoneNumber",
-                                                                hint: appLocalizations
-                                                                    .profile_tabs_personal_fields_label_primaryPhoneNumber,
+                                                                hint: isTablet
+                                                                    ? '${appLocalizations.profile_tabs_personal_fields_label_primaryPhoneNumber.substring(0, 15)}..'
+                                                                    : appLocalizations
+                                                                        .profile_tabs_personal_fields_label_primaryPhoneNumber,
                                                                 type:
                                                                     TextFieldType
                                                                         .number,
