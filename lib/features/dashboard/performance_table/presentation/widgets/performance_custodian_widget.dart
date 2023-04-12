@@ -27,7 +27,7 @@ class PerformanceCustodianWidget extends AppStatelessWidget {
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
-                    "Performance comparison of custodians",
+                    appLocalizations.home_custodianPerformanceComparision_title,
                     style: textTheme.titleLarge,
                   ),
                 ),
@@ -57,13 +57,13 @@ class PerformanceCustodianWidget extends AppStatelessWidget {
               builder: (context, state) {
                 return state is GetCustodianPerformanceLoaded
                     ? PerformanceBaseTable(
-                    titles: const [
-                      "Serial Number",
-                      "Custodian Name",
-                      "Performance (ITD)",
-                      "Amount (USD)",
-                      "Risk",
-                      "Sharpe Ratio",
+                    titles: [
+                      appLocalizations.home_custodianPerformanceComparision_table_header_serialNumber,
+                      appLocalizations.home_custodianPerformanceComparision_table_header_custodianName,
+                      appLocalizations.home_custodianPerformanceComparision_table_header_performance,
+                      appLocalizations.home_custodianPerformanceComparision_table_header_amount,
+                      appLocalizations.home_custodianPerformanceComparision_table_header_riskPA,
+                      appLocalizations.home_custodianPerformanceComparision_table_header_sharpeRatio,
                     ],
                     widths: const [
                       120,

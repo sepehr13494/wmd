@@ -75,7 +75,7 @@ class PerformanceAssetClassWidget extends AppStatelessWidget {
                   94,
                   120,
                   124,
-                  74
+                  104
                 ],
                 values: state.getAssetClassEntities
                     .map((e) => <PerformanceValueObj>[
