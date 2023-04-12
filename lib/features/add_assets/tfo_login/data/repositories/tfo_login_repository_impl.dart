@@ -49,7 +49,12 @@ class TfoLoginRepositoryImpl implements TfoLoginRepository {
     } on AppException catch (error) {
       return Left(AppFailure.fromAppException(error));
     } on Exception catch (error) {
-      return Left(AppFailure(message: error.toString()));
+      final messages = error.toString().split(':');
+      if (messages.length > 1) {
+        return Left(AppFailure(message: messages[1]));
+      } else {
+        return Left(AppFailure(message: error.toString()));
+      }
     }
   }
 }
