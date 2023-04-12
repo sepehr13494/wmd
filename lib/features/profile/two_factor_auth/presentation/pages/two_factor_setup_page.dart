@@ -144,15 +144,9 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                 type: "success");
           }
         } else {
-          if (current2FA == "email") {
-            GlobalFunctions.showSnackBar(
-                context, appLocalizations.profile_toast_email2FAoff,
-                type: "success");
-          } else {
-            GlobalFunctions.showSnackBar(
-                context, appLocalizations.profile_toast_sms2FAoff,
-                type: "success");
-          }
+          GlobalFunctions.showSnackBar(
+              context, appLocalizations.profile_toast_2FAoff,
+              type: "success");
         }
 
         context.read<TwoFactorCubit>().getTwoFactor();
