@@ -284,7 +284,10 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                                               aqusitionDateValue = selectedDate;
                                             });
                                           },
-                                          lastDate: DateTime.now(),
+                                          initialDate:
+                                              endDateValue ?? DateTime.now(),
+                                          lastDate:
+                                              endDateValue ?? DateTime.now(),
                                           inputType: InputType.date,
                                           format: DateFormat("dd/MM/yyyy"),
                                           name: "startDate",

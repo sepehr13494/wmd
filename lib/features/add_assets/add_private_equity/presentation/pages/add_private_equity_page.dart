@@ -28,6 +28,7 @@ class AddPrivateEquityPage extends StatefulWidget {
 class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
   final privateEquityFormKey = GlobalKey<FormBuilderState>();
   DateTime? acquisitionDateValue;
+  DateTime? valuationDateValue;
   bool enableAddAssetButton = false;
   @override
   void didUpdateWidget(covariant AddPrivateEquityPage oldWidget) {
@@ -167,7 +168,10 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                         child: FormBuilderDateTimePicker(
                                           inputType: InputType.date,
                                           format: DateFormat("dd/MM/yyyy"),
-                                          lastDate: DateTime.now(),
+                                          initialDate: valuationDateValue ??
+                                              DateTime.now(),
+                                          lastDate: valuationDateValue ??
+                                              DateTime.now(),
                                           autovalidateMode: AutovalidateMode
                                               .onUserInteraction,
                                           validator:
@@ -222,37 +226,36 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                             .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_tooltip,
                                         title: appLocalizations
                                             .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_label,
-                                        child: IgnorePointer(
-                                            ignoring:
-                                                acquisitionDateValue == null,
-                                            child: FormBuilderDateTimePicker(
-                                              autovalidateMode: AutovalidateMode
-                                                  .onUserInteraction,
-                                              validator: FormBuilderValidators
-                                                  .compose([
-                                                FormBuilderValidators.required(
-                                                    errorText: appLocalizations
-                                                        .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_errorMessage)
-                                              ]),
-                                              // enabled: acquisitionDateValue != null,
-                                              format: DateFormat("dd/MM/yyyy"),
-                                              inputType: InputType.date,
-                                              firstDate: acquisitionDateValue,
-                                              lastDate: DateTime.now(),
-                                              name: "valuationDate",
-                                              onChanged: (selectedDate) {
-                                                checkFinalValid(selectedDate);
-                                              },
-                                              decoration: InputDecoration(
-                                                  suffixIcon: Icon(
-                                                    Icons
-                                                        .calendar_today_outlined,
-                                                    color: Theme.of(context)
-                                                        .primaryColor,
-                                                  ),
-                                                  hintText: appLocalizations
-                                                      .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_placeholder),
-                                            )),
+                                        child: FormBuilderDateTimePicker(
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
+                                          validator:
+                                              FormBuilderValidators.compose([
+                                            FormBuilderValidators.required(
+                                                errorText: appLocalizations
+                                                    .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_errorMessage)
+                                          ]),
+                                          // enabled: acquisitionDateValue != null,
+                                          format: DateFormat("dd/MM/yyyy"),
+                                          inputType: InputType.date,
+                                          firstDate: acquisitionDateValue,
+                                          lastDate: DateTime.now(),
+                                          name: "valuationDate",
+                                          onChanged: (val) {
+                                            setState(() {
+                                              valuationDateValue = val;
+                                            });
+                                            checkFinalValid(val);
+                                          },
+                                          decoration: InputDecoration(
+                                              suffixIcon: Icon(
+                                                Icons.calendar_today_outlined,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              ),
+                                              hintText: appLocalizations
+                                                  .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_placeholder),
+                                        ),
                                       ),
                                       EachTextField(
                                         hasInfo: false,
