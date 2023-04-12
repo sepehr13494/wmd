@@ -2,6 +2,7 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
+import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 
 class CountryCodePicker extends StatefulWidget {
@@ -30,6 +31,9 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
 
   @override
   Widget build(BuildContext context) {
+    final responsiveHelper = ResponsiveHelper(context: context);
+    final isTablet = !responsiveHelper.isMobile;
+
     return FormBuilderField<Country>(
       builder: ((field) {
         if (field.value != null) {
@@ -37,7 +41,7 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
               "${field.value!.flagEmoji} ${field.value!.countryCode} +${field.value!.phoneCode}";
         }
         return SizedBox(
-          width: 115,
+          width: isTablet ? 106 : 115,
           height: 80,
           child: TextField(
             controller: controller,

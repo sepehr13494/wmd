@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2023-04-11T14:14:37+02:00",
+  "@@last_modified": "2023-04-12T08:04:49+02:00",
   "auth_signup_page_title": "Join our Platform",
   "auth_signup_page_description": "Create myWMD account",
   "auth_signup_heading": "Create an account",
@@ -1425,7 +1425,7 @@
   "common_glossary_noDataFoundSubHeading": "We couldn’t find what you are looking for",
   "common_glossary_title": "Glossary",
   "common_glossary_description": "Discover a list of our most used terms and expressions",
-  "assets_charts_allocationCharts_percentAreaLabel": "Area Chart",
+  "assets_charts_allocationCharts_percentAreaLabel": "% Area Chart",
   "common_privacy_message": "Sensitive data are hidden for privacy purposes.",
   "common_privacy_on": "Privacy mode has been turned on.",
   "common_privacy_off": "Privacy mode has been turned off.",
@@ -1644,5 +1644,11 @@
   "profile_toast_email2FAoff": "Email 2FA feature has been turned OFF",
   "profile_toast_email2FAon": "Email 2FA feature has been turned ON",
   "profile_toast_sms2FAoff": "SMS 2FA has been turned OFF",
-  "profile_toast_sms2FAon": "SMS 2FA has been turned ON"
+  "profile_toast_sms2FAon": "SMS 2FA has been turned ON",
+  "common_toast_2FAoff": "Two-factor authentication has been turned OFF",
+  "common_toast_2FAon": "Two-factor authentication has been turned ON",
+  "common_toast_email2FAoff": "Two-factor authentication by email has been turned OFF",
+  "common_toast_email2FAon": "Two-factor authentication by email has been turned ON",
+  "common_toast_sms2FAoff": "Two-factor authentication by SMS has been turned OFF",
+  "common_toast_sms2FAon": "Two-factor authentication by SMS has been turned ON"
 }

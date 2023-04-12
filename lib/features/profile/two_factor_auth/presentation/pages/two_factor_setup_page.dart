@@ -165,8 +165,8 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
         }
       }, builder: (context, state) {
         return Scaffold(
-            appBar: AddAssetHeader(
-              title: appLocalizations.profile_twofactorauthentication_page_2fa,
+            appBar: const AddAssetHeader(
+              title: "2FA",
               considerFirstTime: false,
             ),
             body: SingleChildScrollView(
@@ -256,21 +256,37 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                                   padding: const EdgeInsets.only(
                                       bottom:
                                           4.0), // set your desired top padding value
-                                  child: Wrap(children: [
-                                    Text(
-                                      appLocalizations
-                                          .profile_twofactorauthentication_options_emailTwoFactor_title
-                                          .split("{{email}}")
-                                          .first,
-                                      style: textTheme.titleMedium,
-                                    ),
-                                    PrivacyBlurWidget(
-                                      child: Text(
-                                        ' ${(personalState is PersonalInformationLoaded) ? personalState.getNameEntity.email : ""}',
-                                        style: textTheme.bodyMedium,
-                                      ),
-                                    ),
-                                  ])),
+                                  child: RichText(
+                                      text: TextSpan(
+                                          style: const TextStyle(height: 1.3),
+                                          children: [
+                                        TextSpan(
+                                            text: appLocalizations
+                                                .profile_twofactorauthentication_options_emailTwoFactor_title
+                                                .split("{{email}}")
+                                                .first,
+                                            style: textTheme.titleMedium),
+                                        TextSpan(
+                                            text:
+                                                ' ${(personalState is PersonalInformationLoaded) ? personalState.getNameEntity.email : ""}',
+                                            style: textTheme.bodyMedium),
+                                      ]))),
+
+                              // Wrap(children: [
+                              //   Text(
+                              //     appLocalizations
+                              //         .profile_twofactorauthentication_options_emailTwoFactor_title
+                              //         .split("{{email}}")
+                              //         .first,
+                              //     style: textTheme.titleMedium,
+                              //   ),
+                              //   PrivacyBlurWidget(
+                              //     child: Text(
+                              //       ' ${(personalState is PersonalInformationLoaded) ? personalState.getNameEntity.email : ""}',
+                              //       style: textTheme.bodyMedium,
+                              //     ),
+                              //   ),
+                              // ])),
                               leading: Radio<String>(
                                 value: "email",
                                 groupValue: current2FA,
