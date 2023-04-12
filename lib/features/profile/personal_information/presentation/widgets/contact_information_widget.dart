@@ -208,8 +208,6 @@ class _ContactInformationWidgetState
                                         ),
                                         const SizedBox(height: 8),
                                         SizedBox(
-                                          height:
-                                              !enableSubmitButton ? 105 : 80,
                                           child: Row(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
