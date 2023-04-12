@@ -55,13 +55,13 @@ class ModalWidget extends StatelessWidget {
                           Text(
                             title,
                             textAlign: TextAlign.center,
-                            style: appTextTheme.titleMedium,
+                            style: appTextTheme.titleLarge,
                           ),
                           SizedBox(height: responsiveHelper.defaultGap),
                           Text(
                             body,
                             textAlign: TextAlign.center,
-                            style: appTextTheme.bodyLarge,
+                            style: appTextTheme.bodyMedium,
                           ),
                         ],
                       ),
