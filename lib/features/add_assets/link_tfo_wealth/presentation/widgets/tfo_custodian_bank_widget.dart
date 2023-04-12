@@ -53,8 +53,11 @@ class TfoCustodianBankWidget extends AppStatelessWidget {
                             // const appScheme = 'com.tfo.wmd';
                             final auth0 = Auth0(AppConstants.auth0IssuerBaseUrl,
                                 AppConstants.auth0ClientId);
-                            final Credentials credentials =
-                                await auth0.webAuthentication().login();
+                            final Credentials credentials = await auth0
+                                .webAuthentication()
+                                .login(
+                                    redirectUrl:
+                                        'com.tfo.wmd://tfo-dev.eu.auth0.com/ios/com.tfo.wmd/callback');
                             log("Mert log: ${credentials.toMap()}");
                             showTfoConfirmMandateModal(context: context);
                           } on Exception catch (e, s) {
