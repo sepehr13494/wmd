@@ -166,7 +166,7 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyCodeWidget> {
 
                                       context
                                           .read<VerifyPhoneCubit>()
-                                          .postVerifyPhone(map: {
+                                          .postMobileVerification(map: {
                                         // "identifier": state is VerifyOtpLoaded
                                         //     ? state.entity.identifier
                                         //     : "",

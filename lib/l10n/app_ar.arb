@@ -1,6 +1,6 @@
 {
   "@@locale": "ar",
-  "@@last_modified": "2023-04-11T14:14:37+02:00",
+  "@@last_modified": "2023-04-12T08:04:49+02:00",
   "auth_signup_page_title": "انضمّ إلى منصتنا",
   "auth_signup_page_description": "إنشاء حساب myWMD",
   "auth_signup_heading": "أنشئ حساباً",
@@ -1644,5 +1644,11 @@
   "profile_toast_email2FAoff": "",
   "profile_toast_email2FAon": "",
   "profile_toast_sms2FAoff": "",
-  "profile_toast_sms2FAon": ""
+  "profile_toast_sms2FAon": "",
+  "common_toast_2FAoff": "تمّ إيقاف ميزة التحقق بخطوتين",
+  "common_toast_2FAon": "تمّ تفعيل ميزة التحقق بخطوتين",
+  "common_toast_email2FAoff": "تمّ إيقاف ميزة التحقق بخطوتين عبر البريد الإلكتروني",
+  "common_toast_email2FAon": "تمّ تفعيل ميزة التحقق بخطوتين عبر البريد الإلكتروني",
+  "common_toast_sms2FAoff": "تمّ إيقاف ميزة التحقق بخطوتين عبر رسالة نصيّة",
+  "common_toast_sms2FAon": "تمّ تفعيل ميزة التحقق بخطوتين عبر رسالة نصيّة"
 }

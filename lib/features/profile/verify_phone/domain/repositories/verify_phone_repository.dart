@@ -11,6 +11,8 @@ import '../../data/models/post_resend_verify_phone_params.dart';
 abstract class VerifyPhoneRepository {
   Future<Either<Failure, AppSuccess>> postVerifyPhone(
       PostVerifyPhoneParams params);
+  Future<Either<Failure, AppSuccess>> postMobileVerification(
+      PostVerifyPhoneParams params);
   Future<Either<Failure, OtpSentEntity>> postResendVerifyPhone(
       PostResendVerifyPhoneParams params);
   Future<Either<Failure, OtpSentEntity>> getSendOtp(NoParams params);

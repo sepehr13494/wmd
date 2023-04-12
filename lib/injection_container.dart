@@ -184,6 +184,7 @@ import 'package:wmd/features/profile/verify_phone/data/data_sources/verify_phone
 import 'package:wmd/features/profile/verify_phone/data/repositories/verify_phone_repository_impl.dart';
 import 'package:wmd/features/profile/verify_phone/domain/repositories/verify_phone_repository.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/get_send_otp_usecase.dart';
+import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_mobile_verification_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_resend_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
@@ -444,14 +445,14 @@ Future<void> init() async {
       () => EditRealEstateRemoteDataSourceImpl(sl()));
 
   //EditBankManual
-  sl.registerFactory(() => EditBankManualCubit(sl(),sl()));
-  sl.registerLazySingleton(() => PutBankManualUseCase(sl(),sl()));
+  sl.registerFactory(() => EditBankManualCubit(sl(), sl()));
+  sl.registerLazySingleton(() => PutBankManualUseCase(sl(), sl()));
   sl.registerLazySingleton(() => DeleteBankManualUseCase(sl()));
 
   sl.registerLazySingleton<EditBankManualRepository>(
-          () => EditBankManualRepositoryImpl(sl()));
+      () => EditBankManualRepositoryImpl(sl()));
   sl.registerLazySingleton<EditBankManualRemoteDataSource>(
-          () => EditBankManualRemoteDataSourceImpl(sl()));
+      () => EditBankManualRemoteDataSourceImpl(sl()));
 
   //AssetDetail
   sl.registerFactory(() => AssetSummaryCubit(sl()));
@@ -484,8 +485,9 @@ Future<void> init() async {
       () => FaqRemoteDataSourceImpl(sl()));
 
   //profile phone verify
-  sl.registerFactory(() => VerifyPhoneCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => VerifyPhoneCubit(sl(), sl(), sl(), sl()));
   sl.registerLazySingleton(() => PostVerifyPhoneUseCase(sl()));
+  sl.registerLazySingleton(() => PostMobileVerificationUseCase(sl()));
   sl.registerLazySingleton(() => PostResendVerifyPhoneUseCase(sl()));
   sl.registerLazySingleton(() => GetSendOtpUseCase(sl()));
   sl.registerLazySingleton<VerifyPhoneRepository>(
