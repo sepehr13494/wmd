@@ -40,6 +40,8 @@ class DashboardMainPage extends StatefulWidget {
 }
 
 class _DashboardMainPageState extends AppState<DashboardMainPage> {
+  bool showTwoFactorReccoment = true;
+
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
@@ -47,7 +49,6 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
     final appTheme = Theme.of(context);
 
     final twoFactorState = context.read<TwoFactorCubit>().state;
-    bool showTwoFactorReccoment = true;
 
     if (widget.expandCustodian) {
       context.read<CustodianStatusListCubit>().getCustodianStatusList();

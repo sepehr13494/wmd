@@ -35,6 +35,7 @@ class FailedOtpAuthBottomSheet extends AppStatelessWidget {
             children: [
               InkWell(
                 onTap: () {
+                  callback();
                   Navigator.pop(context);
                 },
                 child: Icon(
@@ -45,40 +46,46 @@ class FailedOtpAuthBottomSheet extends AppStatelessWidget {
               ),
             ],
           ),
-          Column(
-            children: [
-              Text(
-                appLocalizations.profile_otpVerification_failed_heading,
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: responsiveHelper.xxLargeFontSize),
-              ),
-              Text(
-                appLocalizations.profile_otpVerification_failed_description,
-                textAlign: TextAlign.center,
-                style: textTheme.bodyMedium,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      // context.goNamed(AppRoutes.assetDetailPage,
-                      //     queryParams: {'assetId': assetId, 'type': assetType});
-                      callback();
-                      Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(100, 50)),
-                    child: Text("Okay"),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Text(
+                    appLocalizations.common_errors_otpFailedHeading,
+                    textAlign: TextAlign.center,
+                    style: textTheme.headlineSmall,
                   ),
-                ],
-              )
-            ]
-                .map((e) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: e,
-                    ))
-                .toList(),
+                ),
+                Text(
+                  appLocalizations.common_errors_otpFaildDescription,
+                  textAlign: TextAlign.center,
+                  style: textTheme.bodyMedium,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        // context.goNamed(AppRoutes.assetDetailPage,
+                        //     queryParams: {'assetId': assetId, 'type': assetType});
+                        callback();
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(100, 50)),
+                      child: Text("Okay"),
+                    ),
+                  ],
+                )
+              ]
+                  .map((e) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        child: e,
+                      ))
+                  .toList(),
+            ),
           )
         ]
             .map((e) => Padding(
