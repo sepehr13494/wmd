@@ -12,6 +12,7 @@ import '../models/post_resend_verify_phone_response.dart';
 
 abstract class VerifyPhoneRemoteDataSource {
   Future<void> postVerifyPhone(PostVerifyPhoneParams params);
+  Future<void> postMobileVerification(PostVerifyPhoneParams params);
   Future<PostResendVerifyPhoneResponse> postResendVerifyPhone(
       PostResendVerifyPhoneParams params);
   Future<PostResendVerifyPhoneResponse> getSendOtp(NoParams params);
@@ -26,6 +27,23 @@ class VerifyPhoneRemoteDataSourceImpl extends AppServerDataSource
     try {
       final appRequestOptions = AppRequestOptions(
           RequestTypes.post, AppUrls.postVerifyPhone, params.toJson());
+      final response =
+          await errorHandlerMiddleware.sendRequest(appRequestOptions);
+
+      return;
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw const AppException(
+          message: "format Exception", type: ExceptionType.format);
+    }
+  }
+
+  @override
+  Future<void> postMobileVerification(PostVerifyPhoneParams params) async {
+    try {
+      final appRequestOptions = AppRequestOptions(
+          RequestTypes.post, AppUrls.postMobileVerification, params.toJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
 

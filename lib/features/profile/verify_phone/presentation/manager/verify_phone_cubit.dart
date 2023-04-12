@@ -4,6 +4,7 @@ import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/features/profile/verify_phone/domain/entities/otp_sent_entity.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/get_send_otp_usecase.dart';
+import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_mobile_verification_usecase.dart';
 
 import '../../data/models/post_verify_phone_params.dart';
 import '../../domain/use_cases/post_verify_phone_usecase.dart';
@@ -15,11 +16,13 @@ part 'verify_phone_state.dart';
 
 class VerifyPhoneCubit extends Cubit<VerifyPhoneState> {
   final PostVerifyPhoneUseCase postVerifyPhoneUseCase;
+  final PostMobileVerificationUseCase postMobileVerificationUseCase;
   final PostResendVerifyPhoneUseCase postResendVerifyPhoneUseCase;
   final GetSendOtpUseCase getSendOtpUseCase;
 
   VerifyPhoneCubit(
     this.postVerifyPhoneUseCase,
+    this.postMobileVerificationUseCase,
     this.postResendVerifyPhoneUseCase,
     this.getSendOtpUseCase,
   ) : super(LoadingState());
@@ -28,6 +31,15 @@ class VerifyPhoneCubit extends Cubit<VerifyPhoneState> {
     emit(LoadingState());
     final result =
         await postVerifyPhoneUseCase(PostVerifyPhoneParams.fromJson(map));
+    result.fold((failure) => emit(ErrorState(failure: failure)), (appSuccess) {
+      emit(SuccessState(appSuccess: appSuccess));
+    });
+  }
+
+  postMobileVerification({required Map<String, dynamic> map}) async {
+    emit(LoadingState());
+    final result = await postMobileVerificationUseCase(
+        PostVerifyPhoneParams.fromJson(map));
     result.fold((failure) => emit(ErrorState(failure: failure)), (appSuccess) {
       emit(SuccessState(appSuccess: appSuccess));
     });

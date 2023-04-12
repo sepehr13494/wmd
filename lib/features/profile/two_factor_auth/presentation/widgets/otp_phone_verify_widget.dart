@@ -124,7 +124,7 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyWidget> {
                                 child: AppTextFields.simpleTextField(
                                     name: "phoneNumber",
                                     hint: appLocalizations
-                                        .profile_tabs_personal_fields_label_primaryPhoneNumber,
+                                        .profile_tabs_personal_placeholders_enterPhone,
                                     type: TextFieldType.number,
                                     enabled:
                                         widget.formMap["phoneNumber"] == null,

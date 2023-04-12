@@ -33,6 +33,21 @@ class VerifyPhoneRepositoryImpl implements VerifyPhoneRepository {
   }
 
   @override
+  Future<Either<Failure, AppSuccess>> postMobileVerification(
+      PostVerifyPhoneParams params) async {
+    try {
+      final result = await remoteDataSource.postMobileVerification(params);
+      return const Right(AppSuccess(message: "successfully done"));
+    } on ServerException catch (error) {
+      print(error.message);
+
+      return Left(ServerFailure.fromServerException(error));
+    } on AppException catch (error) {
+      return Left(AppFailure.fromAppException(error));
+    }
+  }
+
+  @override
   Future<Either<Failure, OtpSentEntity>> postResendVerifyPhone(
       PostResendVerifyPhoneParams params) async {
     try {

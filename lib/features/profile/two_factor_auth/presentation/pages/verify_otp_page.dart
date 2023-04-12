@@ -217,14 +217,17 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
 
                     SizedBox(height: responsiveHelper.defaultGap),
                     (showError
-                        ? Text(
-                            appLocalizations
-                                .profile_otpVerification_error_failedAttempt
-                                .replaceFirst(
-                                    "%s", (3 - failedAttampts).toString()),
-                            style: textTheme.bodyMedium
-                                ?.apply(color: Colors.red[800]),
-                            textAlign: TextAlign.center,
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 32),
+                            child: Text(
+                              appLocalizations
+                                  .profile_twofactorauthentication_onboarding_error_maximumAttempt
+                                  .replaceFirst("{{attempt}}",
+                                      (3 - failedAttampts).toString()),
+                              style: textTheme.bodyMedium
+                                  ?.apply(color: Colors.red[800]),
+                              textAlign: TextAlign.center,
+                            ),
                           )
                         : BasicTimerWidget(
                             timerTime: 600000,

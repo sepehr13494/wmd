@@ -30,6 +30,7 @@ class AppUrls {
   static String postInquiry = "${wealthBase}Inquiry";
   static String postScheduleCall = "portfolio/meetings/schedule";
   static String postVerifyPhone = "${userBase}Otp/verify";
+  static String postMobileVerification = "${userBase}Otp/phone-number/verify";
   static String postResendVerifyPhone = "${userBase}Otp";
   static String postResendOtp = "${userBase}User/send-otp";
 
@@ -50,8 +51,6 @@ class AppUrls {
   static String deleteBankManual = "${wealthBase}BankAccount";
   static String putOtherAsset = "${wealthBase}OtherAsset";
   static String deleteOtherAsset = "${wealthBase}OtherAsset";
-
-
 
   static String getUserNetWorth = "${wealthBase}Wealth/totalnetworth";
   static String getAllocation = "${wealthBase}wealth/";
