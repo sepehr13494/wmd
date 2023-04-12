@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -483,6 +484,12 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                         child: AppTextFields
                                                             .simpleTextField(
                                                                 required: false,
+                                                                customInputFormatters: <
+                                                                    TextInputFormatter>[
+                                                                  FilteringTextInputFormatter
+                                                                      .allow(RegExp(
+                                                                          r'^[1-9]$|^[1-9][0-9]{0,2}$')),
+                                                                ],
                                                                 extraValidators: [
                                                                   (val) {
                                                                     return ((int.tryParse(val ?? "0") ??
@@ -520,6 +527,12 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                         child: AppTextFields
                                                             .simpleTextField(
                                                                 name: "months",
+                                                                customInputFormatters: <
+                                                                    TextInputFormatter>[
+                                                                  FilteringTextInputFormatter
+                                                                      .allow(RegExp(
+                                                                          r'^[1-9]$|^1[0-2]$')),
+                                                                ],
                                                                 extraValidators: [
                                                                   (val) {
                                                                     return ((int.tryParse(val ?? "0") ??
@@ -553,6 +566,12 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                         child: AppTextFields
                                                             .simpleTextField(
                                                                 required: false,
+                                                                customInputFormatters: <
+                                                                    TextInputFormatter>[
+                                                                  FilteringTextInputFormatter
+                                                                      .allow(RegExp(
+                                                                          r'^[1-9]$|^[1-2][0-9]$|^3[0-1]$')),
+                                                                ],
                                                                 extraValidators: [
                                                                   (val) {
                                                                     return ((int.tryParse(val ?? "0") ??

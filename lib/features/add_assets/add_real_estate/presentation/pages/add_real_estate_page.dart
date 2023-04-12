@@ -28,8 +28,7 @@ class AddRealEstatePage extends StatefulWidget {
   final bool edit;
   final RealEstateMoreEntity? moreEntity;
 
-  const AddRealEstatePage(
-      {Key? key, this.edit = false, this.moreEntity})
+  const AddRealEstatePage({Key? key, this.edit = false, this.moreEntity})
       : super(key: key);
 
   @override
@@ -98,8 +97,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
 
                     if (edit) {
                       context.read<EditRealEstateCubit>().putRealEstate(
-                          map: finalMap,
-                          assetId: widget.moreEntity!.id);
+                          map: finalMap, assetId: widget.moreEntity!.id);
                     } else {
                       context
                           .read<RealEstateCubit>()
@@ -124,9 +122,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                           ),
                           BlocListener<EditRealEstateCubit, EditAssetBaseState>(
                             listener: EditAssetBlocHelper.defaultBlocListener(
-                                assetId: edit
-                                    ? widget.moreEntity!.id
-                                    : ""),
+                                assetId: edit ? widget.moreEntity!.id : ""),
                           ),
                         ],
                         child: SingleChildScrollView(
@@ -281,10 +277,14 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                           aqusitionDateValue = selectedDate;
                                         });
                                       },
-                                      initialDate: valuationDateValue?.subtract(const Duration(days: 1)) ?? DateTime.now(),
-                                      firstDate:
-                                      DateTime.fromMillisecondsSinceEpoch(
-                                              0),
+                                      // initialDate: valuationDateValue?.subtract(const Duration(days: 1)) ?? DateTime.now(),
+                                      // firstDate:
+                                      // DateTime.fromMillisecondsSinceEpoch(
+                                      //         0),
+                                      // lastDate:
+                                      //     valuationDateValue ?? DateTime.now(),
+                                      initialDate:
+                                          valuationDateValue ?? DateTime.now(),
                                       lastDate:
                                           valuationDateValue ?? DateTime.now(),
                                       inputType: InputType.date,

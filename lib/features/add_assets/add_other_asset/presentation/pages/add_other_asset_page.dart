@@ -24,8 +24,7 @@ class AddOtherAssetPage extends StatefulWidget {
   final bool edit;
   final OtherAseetMoreEntity? moreEntity;
 
-  const AddOtherAssetPage(
-      {Key? key, this.edit = false, this.moreEntity})
+  const AddOtherAssetPage({Key? key, this.edit = false, this.moreEntity})
       : super(key: key);
   @override
   AppState<AddOtherAssetPage> createState() => _AddOtherAssetState();
@@ -40,6 +39,9 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
   String? ownerShip = "";
   String? acqusitionCost = "";
   bool isPainting = false;
+  DateTime? aqusitionDateValue;
+  DateTime? valuationDateValue;
+
   @override
   void didUpdateWidget(covariant AddOtherAssetPage oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -124,17 +126,19 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
             bottomSheet: AddAssetFooter(
                 buttonText: appLocalizations.common_button_addAsset,
                 onTap: () {
-        if(formKey.currentState!.validate()){
-        Map<String, dynamic> finalMap = {
-        ...formKey.currentState!.instantValue,
-        "currentDayValue":
-        currentDayValue == "--" ? "0" : currentDayValue
-        };
+                  if (formKey.currentState!.validate()) {
+                    Map<String, dynamic> finalMap = {
+                      ...formKey.currentState!.instantValue,
+                      "currentDayValue":
+                          currentDayValue == "--" ? "0" : currentDayValue
+                    };
 
-        print(finalMap);
+                    print(finalMap);
 
-        context.read<OtherAssetCubit>().postOtherAsset(map: finalMap);
-        }
+                    context
+                        .read<OtherAssetCubit>()
+                        .postOtherAsset(map: finalMap);
+                  }
                 }),
             body: Theme(
               data: Theme.of(context).copyWith(),
@@ -155,7 +159,8 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                   key: formKey,
                                   initialValue: edit
                                       ? widget.moreEntity!.toFormJson()
-                                      : AddAssetConstants.initialJsonForAddOtherAsset,
+                                      : AddAssetConstants
+                                          .initialJsonForAddOtherAsset,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -247,9 +252,13 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                           title: appLocalizations
                                               .assetLiabilityForms_forms_others_inputFields_valuationDate_label,
                                           child: FormBuilderDateTimePicker(
-                                            onChanged: (selectedDate) {
-                                              checkFinalValid(selectedDate);
+                                            onChanged: (val) {
+                                              setState(() {
+                                                valuationDateValue = val;
+                                              });
+                                              checkFinalValid(val);
                                             },
+                                            firstDate: aqusitionDateValue,
                                             lastDate: DateTime.now(),
                                             inputType: InputType.date,
                                             initialValue: DateTime.now(),
@@ -330,8 +339,14 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                         child: FormBuilderDateTimePicker(
                                           onChanged: (selectedDate) {
                                             checkFinalValid(selectedDate);
+                                            setState(() {
+                                              aqusitionDateValue = selectedDate;
+                                            });
                                           },
-                                          lastDate: DateTime.now(),
+                                          initialDate: valuationDateValue ??
+                                              DateTime.now(),
+                                          lastDate: valuationDateValue ??
+                                              DateTime.now(),
                                           inputType: InputType.date,
                                           format: DateFormat("dd/MM/yyyy"),
                                           name: "acquisitionDate",
