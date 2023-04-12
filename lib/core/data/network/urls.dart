@@ -47,7 +47,6 @@ class AppUrls {
   static String putRealEstate = "${wealthBase}RealEstate";
   static String deleteRealEstate = "${wealthBase}BankAccount";
 
-
   static String getUserNetWorth = "${wealthBase}Wealth/totalnetworth";
   static String getAllocation = "${wealthBase}wealth/";
   static String getGeographic = "${wealthBase}Assets/GeographicAllocation";
@@ -95,4 +94,7 @@ class AppUrls {
 
   //glossary
   static String getGlossaries = "${contentBase}glossary";
+
+  static String getMandate = "${userBase}User/mandate";
+  static String postMandates = "${userBase}User/mandates";
 }
