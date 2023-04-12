@@ -24,12 +24,9 @@ class TwoFactorSetting extends AppStatelessWidget {
               Padding(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
                   child: Text(
-                    isMobile
-                        ? appLocalizations
-                            .profile_twofactorauthentication_page_heading
-                        : appLocalizations
-                            .profile_twofactorauthentication_page_heading,
-                    style: textTheme.titleMedium,
+                    appLocalizations
+                        .profile_twofactorauthentication_page_heading,
+                    style: textTheme.headlineSmall,
                   )),
               Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

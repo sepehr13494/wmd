@@ -224,8 +224,7 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                                 bottom:
                                     16.0), // set your desired top padding value
                             child: Text(
-                              appLocalizations
-                                  .profile_twofactorauthentication_options_twoFactor_title,
+                              appLocalizations.profile_twoFactor_page_title,
                               style: textTheme.headlineSmall,
                             )),
                         subtitle: Text(
@@ -292,10 +291,8 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                               ),
                               PrivacyBlurWidget(
                                 child: Text(
-                                  (personalState is PersonalInformationLoaded)
-                                      ? personalState.getNameEntity.email
-                                      : "",
-                                  style: textTheme.titleMedium,
+                                  ' ${(personalState is PersonalInformationLoaded) ? personalState.getNameEntity.email : ""}',
+                                  style: textTheme.bodyMedium,
                                 ),
                               ),
                             ])),
@@ -408,7 +405,7 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                               PrivacyBlurWidget(
                                 child: Text(
                                   ' ${(personalState is PersonalInformationLoaded) ? personalState.getNameEntity.phoneNumber?.toFormattedNumber() ?? "" : ""}',
-                                  style: textTheme.titleMedium,
+                                  style: textTheme.bodyMedium,
                                 ),
                               ),
                             ])),

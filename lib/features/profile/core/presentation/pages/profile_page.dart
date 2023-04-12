@@ -35,6 +35,7 @@ class _ProfilePageState extends AppStateAlive<ProfilePage> {
         padding: const EdgeInsets.symmetric(vertical: 32),
         child: Column(
           // ignore: prefer_const_literals_to_create_immutables
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const PersonalInformationWidget(),
             const Divider(height: 48),
