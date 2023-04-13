@@ -215,6 +215,7 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                                 PutSettingsParams(
                                     isPrivacyMode:
                                         PrivacyInherited.of(context).isBlurred,
+                                    twoFactorEnabled: val,
                                     emailTwoFactorEnabled: val,
                                     smsTwoFactorEnabled: false));
                           }
