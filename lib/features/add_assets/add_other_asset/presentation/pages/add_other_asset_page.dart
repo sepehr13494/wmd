@@ -395,7 +395,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                         title: appLocalizations
                                             .assetLiabilityForms_forms_others_inputFields_valuePerUnit_label,
                                         child: AppTextFields.simpleTextField(
-                                            required: false,
+                                            required: true,
                                             type: TextFieldType.money,
                                             keyboardType: TextInputType.number,
                                             onChanged: (val) {

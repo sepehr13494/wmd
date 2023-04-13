@@ -32,7 +32,7 @@ class BankAccountMoreEntity extends GetSeeMoreResponse {
 
   final String bankName;
   final String description;
-  final int accountType;
+  final String accountType;
   final double currentBalance;
   final bool isJointAccount;
   final int noOfCoOwners;
@@ -41,7 +41,7 @@ class BankAccountMoreEntity extends GetSeeMoreResponse {
   final DateTime? startDate;
   final DateTime? endDate;
   final String id;
-  final int type;
+  final String type;
   final bool isActive;
   final String country;
   final String region;
