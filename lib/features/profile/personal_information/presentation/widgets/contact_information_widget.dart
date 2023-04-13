@@ -240,15 +240,13 @@ class _ContactInformationWidgetState
                                                         : Alignment.topLeft,
                                                     children: <Widget>[
                                                       SizedBox(
-                                                        height: 90,
+                                                        // height: 80,
                                                         child: AppTextFields
                                                             .simpleTextField(
                                                                 name:
                                                                     "phoneNumber",
-                                                                hint: isTablet
-                                                                    ? '${appLocalizations.profile_tabs_personal_fields_label_primaryPhoneNumber.substring(0, 15)}..'
-                                                                    : appLocalizations
-                                                                        .profile_tabs_personal_fields_label_primaryPhoneNumber,
+                                                                hint: appLocalizations
+                                                                    .profile_tabs_personal_placeholders_enterPhone,
                                                                 type:
                                                                     TextFieldType
                                                                         .number,
@@ -313,6 +311,8 @@ class _ContactInformationWidgetState
                                             ],
                                           ),
                                         ),
+                                        if (!enableSubmitButton)
+                                          const SizedBox(height: 8),
                                         if ((userState is UserStatusLoaded &&
                                                 userState.userStatus
                                                         .mobileNumberVerified !=
