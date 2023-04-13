@@ -11,10 +11,10 @@ class GetSettingsResponse extends GetSettingsEntity {
 
   factory GetSettingsResponse.fromJson(Map<String, dynamic> json) =>
       GetSettingsResponse(
-        twoFactorEnabled: json["twoFactorEnabled"],
-        emailTwoFactorEnabled: json["emailTwoFactorEnabled"],
-        isPrivacyMode: json["isPrivacyMode"],
-        smsTwoFactorEnabled: json["smsTwoFactorEnabled"],
+        twoFactorEnabled: json["twoFactorEnabled"]??false,
+        emailTwoFactorEnabled: json["emailTwoFactorEnabled"]??false,
+        isPrivacyMode: json["isPrivacyMode"]??false,
+        smsTwoFactorEnabled: json["smsTwoFactorEnabled"]??false,
       );
 
   static final tResponse = [
