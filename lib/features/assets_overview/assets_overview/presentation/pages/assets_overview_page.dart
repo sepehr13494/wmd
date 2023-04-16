@@ -45,6 +45,8 @@ class AssetsOverView extends StatefulWidget {
 }
 
 class _AssetsOverViewState extends AppState<AssetsOverView> {
+
+  List<GlobalKey> itemKeys = [];
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
@@ -148,10 +150,19 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                   return BlocConsumer(
                                     bloc: bloc,
                                     listener: BlocHelper.defaultBlocListener(
-                                      listener: (context, state) {},
+                                      listener: (context, state) {
+                                        if(state is BaseAssetsOverviewLoaded){
+                                          Future.delayed(const Duration(seconds: 1),(){
+                                            if(itemKeys.isNotEmpty){
+                                              Scrollable.ensureVisible(itemKeys[0].currentContext!);
+                                            }
+                                          });
+                                        }
+                                      },
                                     ),
                                     builder: BlocHelper.errorHandlerBlocBuilder(builder: (context, state) {
                                       if (state is BaseAssetsOverviewLoaded) {
+                                        itemKeys = [];
                                         List<GetGeographicEntity> otherList =
                                         [];
                                         final bool isMapGeo = (state
@@ -194,6 +205,8 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                             final item =
                                             state.assetsOverviewBaseModels[
                                             index];
+                                            final key = GlobalKey();
+                                            itemKeys.add(key);
                                             return state
                                                 .assetsOverviewBaseModels[
                                             index]
@@ -201,6 +214,7 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                                 .isEmpty
                                                 ? const SizedBox()
                                                 : EachAssetType(
+                                              key: key,
                                               assetsOverviewBaseWidgetModel:
                                               AssetsOverviewBaseWidgetModel(
                                                 allocation:
