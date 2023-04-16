@@ -33,8 +33,8 @@ class TfoCustodianBankWidget extends AppStatelessWidget {
       child: BlocConsumer<TfoLoginCubit, TfoLoginState>(
           listener: BlocHelper.defaultBlocListener(listener: (context, state) {
         if (state is SuccessState) {
-          showTfoConfirmMandateModal(context: context);
-          // showTfoSuccessModal(context: context);
+          // showTfoConfirmMandateModal(context: context);
+          showTfoSuccessModal(context: context);
         } else if (state is ErrorState) {
           log('login error: ${state.failure}');
           GlobalFunctions.showSnackTile(context,
