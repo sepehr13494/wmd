@@ -18,6 +18,7 @@ import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_head
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
 import 'package:wmd/features/asset_see_more/other_asset/data/model/other_asset_more_entity.dart';
+import 'package:wmd/features/edit_assets/edit_other_assets/presentation/manager/edit_other_assets_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
 class AddOtherAssetPage extends StatefulWidget {
@@ -26,6 +27,7 @@ class AddOtherAssetPage extends StatefulWidget {
 
   const AddOtherAssetPage({Key? key, this.edit = false, this.moreEntity})
       : super(key: key);
+
   @override
   AppState<AddOtherAssetPage> createState() => _AddOtherAssetState();
 }
@@ -114,8 +116,15 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final bool edit = widget.edit;
-    return BlocProvider(
-      create: (context) => sl<OtherAssetCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => sl<OtherAssetCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => sl<EditOtherAssetsCubit>(),
+        ),
+      ],
       child: Builder(builder: (context) {
         return WillPopScope(
           onWillPop: () {
@@ -124,7 +133,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
           child: Scaffold(
             appBar: const AddAssetHeader(title: "", showExitModal: true),
             bottomSheet: AddAssetFooter(
-                buttonText: appLocalizations.common_button_addAsset,
+                buttonText: edit ? "Save Asset" : appLocalizations.common_button_addAsset,
                 onTap: () {
                   if (formKey.currentState!.validate()) {
                     Map<String, dynamic> finalMap = {
@@ -135,9 +144,15 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
 
                     print(finalMap);
 
-                    context
-                        .read<OtherAssetCubit>()
-                        .postOtherAsset(map: finalMap);
+                    if(edit){
+                      context.read<EditOtherAssetsCubit>().putOtherAssets(
+                          map: finalMap, assetId: widget.moreEntity!.id);
+                    }else{
+                      context
+                          .read<OtherAssetCubit>()
+                          .postOtherAsset(map: finalMap);
+                    }
+
                   }
                 }),
             body: Theme(
