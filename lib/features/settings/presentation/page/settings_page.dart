@@ -107,7 +107,6 @@ class _SettingsPageState extends AppState<SettingsPage>
                                 setState(() {
                                   page = val;
                                 });
-                                log("Mert log: $val");
                               }),
                         ),
                 )
