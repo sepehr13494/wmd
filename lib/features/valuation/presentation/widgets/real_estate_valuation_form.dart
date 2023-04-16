@@ -172,7 +172,6 @@ class _RealEstateValuationFormWidgetState
               hasInfo: false,
               title: appLocalizations.assets_valuationModal_labels_valuePerUnit,
               child: AppTextFields.simpleTextField(
-                  required: false,
                   type: TextFieldType.money,
                   onChanged: (val) {
                     setState(() {

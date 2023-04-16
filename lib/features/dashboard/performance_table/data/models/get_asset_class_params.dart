@@ -1,24 +1,12 @@
 
-import 'package:equatable/equatable.dart';
+import 'package:wmd/features/dashboard/performance_table/data/models/base_performance_params.dart';
 
-class GetAssetClassParams extends Equatable{
-    const GetAssetClassParams({
-        required this.period,
-    });
+class GetAssetClassParams extends BasePerformanceParams{
 
-    final String period;
-
-    factory GetAssetClassParams.fromJson(Map<String, dynamic> json) => GetAssetClassParams(
-        period: json["period"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "period": period,
-    };
+    const GetAssetClassParams({required super.period});
 
     static const tParams = GetAssetClassParams(period: "Last7Days");
 
-  @override
-  List<Object?> get props => [period];
+
 }
     

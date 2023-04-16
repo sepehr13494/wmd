@@ -365,14 +365,14 @@ class AppConstants {
       BuildContext context) {
     final appLocalization = AppLocalizations.of(context);
     return [
+      TimeFilterObj(key: appLocalization.assets_label_ytd, value: "YTD"),
+      TimeFilterObj(key: appLocalization.assets_label_itd, value: "ITD"),
       TimeFilterObj(
           key: appLocalization.home_select_duration_options_seven,
           value: "Last7days"),
       TimeFilterObj(
           key: appLocalization.home_select_duration_options_thirty,
           value: "Last30days"),
-      TimeFilterObj(key: appLocalization.assets_label_itd, value: "ITD"),
-      TimeFilterObj(key: appLocalization.assets_label_ytd, value: "YTD"),
     ];
   }
 }

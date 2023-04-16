@@ -73,40 +73,65 @@ class GlossaryPage extends AppStatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    ListView.separated(
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemCount:
-                                          getGlossaryEntity.record.length,
-                                      separatorBuilder: (context, index) =>
-                                          const Divider(thickness: 1),
-                                      itemBuilder: (context, index) {
-                                        RecordEntity record =
-                                            getGlossaryEntity.record[index];
-                                        return Theme(
-                                          data: Theme.of(context).copyWith(
-                                              dividerColor: Colors.transparent),
-                                          child: ExpansionTile(
-                                            expandedCrossAxisAlignment: CrossAxisAlignment.start,
-                                            title: Text(
-                                              record.term,
-                                              style: textTheme.titleMedium,
-                                            ),
-                                            children: [
-                                              Align(
-                                                alignment: AlignmentDirectional.centerStart,
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.symmetric(
-                                                          vertical: 8.0,
-                                                          horizontal: 16),
-                                                  child: Text(record.definition),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                                    Builder(
+                                      builder: (context) {
+                                        int selectedIndex = -1;
+                                        int lastOne = -1;
+                                        return StatefulBuilder(
+                                          builder: (context,setState) {
+                                            return ListView.separated(
+                                              physics: const NeverScrollableScrollPhysics(),
+                                              shrinkWrap: true,
+                                              itemCount:
+                                                  getGlossaryEntity.record.length,
+                                              separatorBuilder: (context, index) =>
+                                                  const Divider(thickness: 1),
+                                              itemBuilder: (context, index) {
+                                                RecordEntity record =
+                                                    getGlossaryEntity.record[index];
+                                                return Theme(
+                                                  data: Theme.of(context).copyWith(
+                                                      dividerColor: Colors.transparent),
+                                                  child: ExpansionTile(
+                                                    key: index == lastOne ? const Key("selected") : Key(index.toString()),
+                                                    initiallyExpanded: index == selectedIndex,
+                                                    expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                                                    iconColor: Theme.of(context).primaryColor,
+                                                    onExpansionChanged: ((newState) {
+                                                      lastOne = selectedIndex;
+                                                      if (newState) {
+                                                        setState(() {
+                                                          selectedIndex = index;
+                                                        });
+                                                      } else {
+                                                        setState(() {
+                                                          selectedIndex = -1;
+                                                        });
+                                                      }
+                                                    }),
+                                                    title: Text(
+                                                      record.term,
+                                                      style: textTheme.titleMedium,
+                                                    ),
+                                                    children: [
+                                                      Align(
+                                                        alignment: AlignmentDirectional.centerStart,
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets.symmetric(
+                                                                  vertical: 8.0,
+                                                                  horizontal: 16),
+                                                          child: Text(record.definition),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          }
                                         );
-                                      },
+                                      }
                                     )
                                   ]);
                       }),

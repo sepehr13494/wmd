@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,6 +42,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
   bool _otpExpired = false;
   int failedAttampts = 0;
   bool showError = false;
+  bool showErrorInput = false;
   bool resetTimer = false;
   bool resetCode = false;
 
@@ -73,7 +76,16 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
           } else if (state is ErrorState) {
             setState(() {
               showError = true;
+              showErrorInput = true;
+              failedAttampts = failedAttampts + 1;
             });
+
+            Timer(
+                const Duration(seconds: 2),
+                () => setState(() {
+                      showErrorInput = false;
+                    }));
+
             GlobalFunctions.showSnackBar(
                 context,
                 AppLocalizations.of(context)
@@ -148,16 +160,17 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                             setState(() {
                               _otp = code;
                               resetCode = false;
+                              showError = false;
                             });
                           },
-                          clearText: showError || resetTimer || resetCode,
+                          clearText: showErrorInput || resetTimer || resetCode,
                           enabled: !_otpExpired,
                           autoFocus: true,
                           //runs when every textfield is filled
                           onSubmit: (String verificationCode) {
                             context
                                 .read<VerifyPhoneCubit>()
-                                .postVerifyPhone(map: {
+                                .postMobileVerification(map: {
                               // "identifier": state is VerifyOtpLoaded
                               //     ? state.entity.identifier
                               //     : "",
@@ -172,6 +185,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                               setState(() {
                                 resetCode = true;
                               });
+                              FocusScope.of(context).nextFocus();
                             },
                             child: Text(
                               "Clear all",
@@ -181,6 +195,34 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                             )),
 
                         SizedBox(height: responsiveHelper.defaultGap),
+                        if (showError && (3 - failedAttampts > 0))
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 32),
+                            child: Text(
+                              appLocalizations
+                                  .profile_twofactorauthentication_onboarding_error_maximumAttempt
+                                  .replaceFirst("{{attempt}}",
+                                      (3 - failedAttampts).toString()),
+                              style: textTheme.bodyMedium
+                                  ?.apply(color: Colors.red[800]),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        if (3 - failedAttampts <= 0)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 32),
+                            child: Text(
+                              appLocalizations
+                                  .profile_twofactorauthentication_onboarding_error_maximumAttemptExceeded,
+                              style: textTheme.bodyMedium
+                                  ?.apply(color: Colors.red[800]),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        if (showError || (3 - failedAttampts <= 0))
+                          const SizedBox(
+                            height: 30,
+                          ),
                         BasicTimerWidget(
                             timerTime: 600000,
                             resetTime: resetTimer,
@@ -223,7 +265,9 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
 
                                   setState(() {
                                     showError = false;
+                                    showErrorInput = false;
                                     resetTimer = true;
+                                    failedAttampts = 0;
                                   });
                                 })
                           ],

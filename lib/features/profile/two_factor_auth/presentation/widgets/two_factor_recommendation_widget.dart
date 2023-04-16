@@ -19,7 +19,8 @@ class TwoFactorRecommendationWidget extends AppStatelessWidget {
     final isMobile = responsiveHelper.isMobile;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      padding: EdgeInsets.symmetric(
+          vertical: isMobile ? 6 : 4.0, horizontal: isMobile ? 8 : 0),
       child: Card(
         color: AppColors.blueCardColor,
         child: Padding(
@@ -35,7 +36,7 @@ class TwoFactorRecommendationWidget extends AppStatelessWidget {
                       },
                       child: Icon(
                         Icons.close,
-                        size: 15,
+                        size: 25,
                         color: Theme.of(context).primaryColor,
                       ),
                     ),
@@ -47,7 +48,7 @@ class TwoFactorRecommendationWidget extends AppStatelessWidget {
                   // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     ExpandedIf(
-                      expanded: !isMobile,
+                      expanded: false,
                       child: Row(
                         children: [
                           SvgPicture.asset(
@@ -59,8 +60,11 @@ class TwoFactorRecommendationWidget extends AppStatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
-                                  width:
-                                      responsiveHelper.optimalDeviceWidth * 0.6,
+                                  width: isMobile
+                                      ? responsiveHelper.optimalDeviceWidth *
+                                          0.5
+                                      : responsiveHelper.optimalDeviceWidth *
+                                          0.4,
                                   child: Text(
                                     appLocalizations
                                         .home_twoFactorRecommendation_title,
@@ -70,8 +74,9 @@ class TwoFactorRecommendationWidget extends AppStatelessWidget {
                                   )),
                               const SizedBox(height: 12),
                               SizedBox(
-                                width:
-                                    responsiveHelper.optimalDeviceWidth * 0.6,
+                                width: isMobile
+                                    ? responsiveHelper.optimalDeviceWidth * 0.5
+                                    : responsiveHelper.optimalDeviceWidth * 0.4,
                                 child: Text(
                                   appLocalizations
                                       .home_twoFactorRecommendation_description,
@@ -89,7 +94,7 @@ class TwoFactorRecommendationWidget extends AppStatelessWidget {
                         ? SizedBox(width: responsiveHelper.bigger16Gap)
                         : SizedBox(height: responsiveHelper.bigger16Gap),
                     ExpandedIf(
-                        expanded: !isMobile,
+                        expanded: false,
                         child: ElevatedButton(
                             onPressed: () {
                               context.pushNamed(AppRoutes.twoFactorAuth);
@@ -102,7 +107,8 @@ class TwoFactorRecommendationWidget extends AppStatelessWidget {
                                 const SizedBox(width: 8),
                                 const Icon(Icons.arrow_right),
                               ],
-                            )))
+                            ))),
+                    if (isMobile) SizedBox(height: responsiveHelper.bigger16Gap)
                   ],
                 ),
               ],

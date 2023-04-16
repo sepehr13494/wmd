@@ -44,22 +44,25 @@ class OnBoardingConfigModel extends Equatable {
           "key": 1,
           "text": appLocalizations
               .home_guidedOnBoarding_trackAndVisualizeWealth_dashboardView,
-          "image":
-              "assets/images/dashboard/onboarding/onboarding_wealth_overview.png"
+          "image": appLocalizations.localeName == "en"
+              ? "assets/images/dashboard/onboarding/onboarding_wealth_overview.png"
+              : "assets/images/dashboard/onboarding/onboarding_wealth_overview_ar.png"
         },
         {
           "key": 2,
           "text": appLocalizations
               .home_guidedOnBoarding_trackAndVisualizeWealth_dashboardAllocation,
-          "image":
-              "assets/images/dashboard/onboarding/onboarding_wealth_charts.png"
+          "image": appLocalizations.localeName == "en"
+              ? "assets/images/dashboard/onboarding/onboarding_wealth_charts.png"
+              : "assets/images/dashboard/onboarding/onboarding_wealth_charts_ar.png"
         },
         {
           "key": 3,
           "text": appLocalizations
               .home_guidedOnBoarding_trackAndVisualizeWealth_assetDetailPage,
-          "image":
-              "assets/images/dashboard/onboarding/onboarding_wealth_asset.png"
+          "image": appLocalizations.localeName == "en"
+              ? "assets/images/dashboard/onboarding/onboarding_wealth_asset.png"
+              : "assets/images/dashboard/onboarding/onboarding_wealth_asset_ar.png"
         },
       ];
 

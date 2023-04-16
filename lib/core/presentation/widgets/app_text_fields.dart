@@ -89,6 +89,7 @@ class AppTextFields {
     String? title,
     String? errorMsg,
     String? hint,
+    int? errorMaxLines,
     TextInputType keyboardType = TextInputType.text,
     int? minLines,
     bool enabled = true,
@@ -97,6 +98,7 @@ class AppTextFields {
     bool required = true,
     bool readOnly = false,
     List<String? Function(String?)>? extraValidators,
+    List<TextInputFormatter>? customInputFormatters,
     ValueChanged<String?>? onChanged,
   }) {
     return SimpleTextField(
@@ -110,10 +112,12 @@ class AppTextFields {
       keyboardType: keyboardType,
       minLines: minLines,
       enabled: enabled,
+      // errorMaxLines: errorMaxLines,
       obscureText: obscureText,
       suffixIcon: suffixIcon,
       required: required,
       readOnly: readOnly,
+      customInputFormatters: customInputFormatters,
       extraValidators: extraValidators,
       onChanged: onChanged,
     );
@@ -135,6 +139,7 @@ class SimpleTextField extends AppStatelessWidget {
   final Widget? suffixIcon;
   final bool required;
   final bool readOnly;
+  final List<TextInputFormatter>? customInputFormatters;
   final List<String? Function(String?)>? extraValidators;
   final ValueChanged<String?>? onChanged;
 
@@ -152,6 +157,7 @@ class SimpleTextField extends AppStatelessWidget {
     this.enabled = true,
     this.obscureText = false,
     this.suffixIcon,
+    this.customInputFormatters,
     this.required = true,
     this.readOnly = false,
     this.extraValidators,
@@ -202,16 +208,17 @@ class SimpleTextField extends AppStatelessWidget {
     return FormBuilderTextField(
       key: key,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      inputFormatters: type == TextFieldType.money
-          ? [CurrencyInputFormatter()]
-          : type == TextFieldType.number
-              ? <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]
-              : type == TextFieldType.rate
-                  ? [
-                      FilteringTextInputFormatter.allow(
-                          RegExp(r'^\d+\.?\d{0,3}'))
-                    ]
-                  : null,
+      inputFormatters: customInputFormatters ??
+          (type == TextFieldType.money
+              ? [CurrencyInputFormatter()]
+              : type == TextFieldType.number
+                  ? <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]
+                  : type == TextFieldType.rate
+                      ? [
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^\d+\.?\d{0,3}'))
+                        ]
+                      : null),
       scrollPadding:
           const EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 90),
       name: name,
@@ -895,6 +902,9 @@ class _RadioButtontate<T> extends AppState<RadioButton> {
                   print(value.toString());
                 },
                 initialValue: widget.initialValue,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: FormBuilderValidators.compose(
+                    [FormBuilderValidators.required()]),
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(horizontal: 0),
@@ -908,88 +918,8 @@ class _RadioButtontate<T> extends AppState<RadioButton> {
                           child: Text(option.label),
                         ))
                     .toList(growable: false))),
-      ]
-
-          // widget.items
-          //     .map((e) => Expanded(
-          //             child: ListTile(
-          //           title: Text(e.label, style: textTheme.bodySmall),
-          //           leading: Radio<T>(
-          //             value: e.value,
-          //             groupValue: e.value,
-          //             activeColor: Theme.of(context).primaryColor,
-          //             onChanged: (value) {
-          //               // setState(() {
-          //               //   _character = value;
-          //               // });
-          //             },
-          //           ),
-          //         )))
-          //     .toList()
-
-          ),
+      ]),
     );
-
-    // ListTile(
-    //         title: Text(e.label),
-    //         leading: Radio<T>(
-    //           value: e.value,
-    //           groupValue: e.value,
-    //           onChanged: (value) {
-    //             // setState(() {
-    //             //   _character = value;
-    //             // });
-    //           },
-    //         ),
-    //       )
-
-    // ListView.builder(
-    //     itemCount: widget.items.length,
-    //     itemBuilder: (BuildContext bctx, int index) {
-    //       return ListTile(
-    //         title: Text(widget.items[index].label),
-    //         leading: Radio<T>(
-    //           value: widget.items[index].value,
-    //           groupValue: widget.items[index].value,
-    //           onChanged: (value) {
-    //             // setState(() {
-    //             //   _character = value;
-    //             // });
-    //           },
-    //         ),
-    //       );
-    //     });
-
-    // Column(
-    //   children:
-
-    //   <Widget>[
-    //     ListTile(
-    //       title: const Text('Lafayette'),
-    //       leading: Radio<String>(
-    //         value: SingingCharacter.lafayette,
-    //         groupValue: _character,
-    //         onChanged: (SingingCharacter? value) {
-    //           setState(() {
-    //             _character = value;
-    //           });
-    //         },
-    //       ),
-    //     ),
-    //     ListTile(
-    //       title: const Text('Thomas Jefferson'),
-    //       leading: Radio<SingingCharacter>(
-    //         value: SingingCharacter.jefferson,
-    //         groupValue: _character,
-    //         onChanged: (SingingCharacter? value) {
-    //           setState(() {
-    //             _character = value;
-    //           });
-    //         },
-    //       ),
-    //     ),
-    //   ],
-    // );
   }
 }
 

@@ -199,7 +199,6 @@ class _SettingsTabletViewState extends AppState<SettingsTabletView>
           controller: _controller,
           children: [
             const ProfilePage(),
-            const ProfilePage(),
             const PreferencesPage(),
             Container(),
           ],

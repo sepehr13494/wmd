@@ -55,7 +55,8 @@ class ValuationWidget extends AppStatelessWidget {
                       // context.pushNamed(AppRoutes.forgetPassword);
                     },
                     child: Text(
-                      "Add valuation",
+                      appLocalizations
+                          .assets_valuationModal_buttons_buttons_addValuation,
                       style: textTheme.bodySmall!.toLinkStyle(context),
                     ))
             ],
@@ -300,15 +301,45 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
         ),
         if (AppConstants.publicMvp2Items) const SizedBox.shrink(),
         if (AppConstants.publicMvp2Items)
-          IconButton(
-              onPressed: () {
-                // Navigator.pop(context, false);
-                // GoRouter.of(context).goNamed(AppRoutes.dashboard);
-              },
-              icon: Icon(
+          PopupMenuButton(
+            itemBuilder: (BuildContext context) {
+              final List items = [
+                [
+                  AppLocalizations.of(context).common_button_edit,
+                ],
+                [
+                  AppLocalizations.of(context).common_button_delete,
+                ],
+              ];
+              return List.generate(
+                  items.length,
+                  (index) => PopupMenuItem(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(items[index][0]),
+                          ],
+                        ),
+                        onTap: () {
+                          switch (index) {
+                            case 0:
+                              // context.pushNamed(AppRoutes.settings);
+                              break;
+                            case 1:
+                              // AppRestart.restart(context);
+                              break;
+                          }
+                        },
+                      ));
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Icon(
                 Icons.more_horiz,
                 color: Theme.of(context).primaryColor,
-              )),
+              ),
+            ),
+          )
       ],
     );
   }
