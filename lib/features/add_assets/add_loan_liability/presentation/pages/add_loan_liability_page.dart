@@ -1,8 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
@@ -58,14 +59,17 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
     }
   }
 
-  int getDateDiff(DateTime? start, DateTime? end, type) {
-    int totalDays = end!.difference(start ?? DateTime.now()).inDays;
-    int years = totalDays ~/ 365;
-
+  int getDateDiff(DateTime? start, DateTime end, type) {
+    int daysOfYear = 360;
+    int daysOfMonth = 29;
+    int totalDays = end.difference(start ?? DateTime.now()).inDays;
+    int years = totalDays ~/ daysOfYear;
+    // final int month = end.month < 12 ? end.month + 1 : 1;
+    // int mountOfDay = DateTime(end.year, month, 0).day;
     if (type == 'y') {
       return years;
     } else {
-      return (totalDays - years * 365) ~/ 30;
+      return (totalDays - years * daysOfYear) ~/ daysOfMonth;
     }
   }
 
@@ -96,9 +100,6 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                     Map<String, dynamic> finalMap = {
                       ...privateDebtFormKey.currentState!.instantValue,
                     };
-
-                    print(finalMap);
-
                     context
                         .read<LoanLiabilityCubit>()
                         .postLoanLiability(map: finalMap);
@@ -350,7 +351,7 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                                                         .assetLiabilityForms_labels_endTermIn),
                                                     const SizedBox(height: 8),
                                                     Text(
-                                                        "${getDateDiff(aqusitionDateValue, endDateValue, 'y')} years ${getDateDiff(aqusitionDateValue, endDateValue, 'm')} months")
+                                                        "${getDateDiff(aqusitionDateValue, endDateValue!, 'y')} years ${getDateDiff(aqusitionDateValue, endDateValue!, 'm')} months")
                                                   ],
                                                 ),
                                               ),
