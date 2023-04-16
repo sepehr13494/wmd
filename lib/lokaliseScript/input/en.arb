@@ -1,6 +1,6 @@
 {
     "@@locale": "en",
-    "@@last_modified": "2023-04-13T13:11:26+02:00",
+    "@@last_modified": "2023-04-16T12:33:27+02:00",
     "auth:signup.page.title": "Join our Platform",
     "auth:signup.page.description": "Create myWMD account",
     "auth:signup.heading": "Create an account",
@@ -1556,7 +1556,7 @@
     "profile:twoFactorAuthentication.toast.on": "Two-factor authentication has been turned on",
     "profile:twoFactorAuthentication.toast.off": "2FA feature has been turned off",
     "profile:otpVerification.toast.otpUpdatedSuccess.title": "Your mobile number has been successfully added",
-    "common:errors.otpFailedHeading": "You have exceeded the maximum number of attempts",
+    "common:errors.otpFailedHeading": "Too many failed passcode attempts",
     "common:errors.otpFaildDescription": "For security measures, you can try to login again in 60 minutes.",
     "common:button.no": "No",
     "liabilities:details.card.collateral": "Collateral",
