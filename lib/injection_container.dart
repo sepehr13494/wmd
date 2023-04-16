@@ -209,6 +209,12 @@ import 'features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_s
 import 'features/add_assets/custodian_bank_auth/domain/use_cases/post_custodian_bank_status_usecase.dart';
 import 'features/add_assets/custodian_bank_auth/domain/use_cases/put_custodian_bank_status_usecase.dart';
 import 'features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_list_cubit.dart';
+import 'features/add_assets/tfo_login/data/data_sources/tfo_login_remote_datasource.dart';
+import 'features/add_assets/tfo_login/data/repositories/tfo_login_repository_impl.dart';
+import 'features/add_assets/tfo_login/domain/repositories/tfo_login_repository.dart';
+import 'features/add_assets/tfo_login/domain/use_cases/get_mandates_usecase.dart';
+import 'features/add_assets/tfo_login/domain/use_cases/login_tfo_account_usecase.dart';
+import 'features/add_assets/tfo_login/presentation/manager/tfo_login_cubit.dart';
 import 'features/asset_detail/core/data/data_sources/asset_summary_datasource.dart';
 import 'features/asset_detail/core/domain/repositories/asset_summary_repository.dart';
 import 'features/asset_detail/core/domain/use_cases/get_summary_usecase.dart';
@@ -601,6 +607,16 @@ Future<void> init() async {
       () => AssetValuationRepositoryImpl(sl()));
   sl.registerLazySingleton<AssetValuationRemoteDataSource>(
       () => AssetValuationRemoteDataSourceImpl(sl()));
+
+  //TfoLogin
+  sl.registerFactory(() => TfoLoginCubit(sl(), sl()));
+  sl.registerLazySingleton(() => GetMandatesUseCase(sl()));
+  sl.registerLazySingleton(() => LoginTfoAccountUseCase(sl()));
+
+  sl.registerLazySingleton<TfoLoginRepository>(
+      () => TfoLoginRepositoryImpl(sl()));
+  sl.registerLazySingleton<TfoLoginRemoteDataSource>(
+      () => TfoLoginRemoteDataSourceImpl(sl()));
 
   await initExternal();
   await initUtils();

@@ -42,6 +42,7 @@ abstract class BaseState extends Equatable
         TwoFactorState,
         GlossaryState,
         EditAssetBaseState,
+        TfoLoginState,
         PerformanceChartState {}
 
 class BaseInitialState extends BaseState {

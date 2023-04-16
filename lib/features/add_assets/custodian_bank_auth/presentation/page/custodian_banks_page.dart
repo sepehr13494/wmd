@@ -7,7 +7,7 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/widget/custodian_bank_widget.dart';
 import 'package:wmd/injection_container.dart';
 
-import '../../../link_tfo_wealth/presentation/widgets/tfo_custodian_bank_widget.dart';
+import '../../../tfo_login/presentation/widgets/tfo_custodian_bank_widget.dart';
 
 class AddCustodianBanksPage extends StatefulWidget {
   const AddCustodianBanksPage({Key? key}) : super(key: key);
