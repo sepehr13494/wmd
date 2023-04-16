@@ -1,32 +1,22 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:go_router/go_router.dart';
-import 'package:wmd/core/models/radio_button_options.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
-import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
-import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
-import 'package:wmd/features/profile/core/presentation/widgets/language_bottom_sheet.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
-import 'package:wmd/features/profile/personal_information/presentation/widgets/country_code_picker.dart';
 import 'package:wmd/features/profile/two_factor_auth/manager/two_factor_cubit.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/disable_two_factor_bottom_sheet.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/otp_phone_verify_code_widget.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/otp_phone_verify_widget.dart';
 import 'package:wmd/features/settings/data/models/put_settings_params.dart';
 import 'package:wmd/global_functions.dart';
-import 'package:wmd/injection_container.dart';
 
 class TwoFactorSetupPage extends StatefulWidget {
   const TwoFactorSetupPage({Key? key}) : super(key: key);
@@ -87,7 +77,7 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
         twoFactorEnabled = settingsData.twoFactorEnabled;
       });
 
-      if (settingsData.emailTwoFactorEnabled) {
+      if (settingsData.twoFactorEnabled && !settingsData.smsTwoFactorEnabled) {
         setState(() {
           current2FA = "email";
         });
@@ -118,7 +108,8 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
           twoFactorEnabled = settingsData.twoFactorEnabled;
         });
 
-        if (settingsData.emailTwoFactorEnabled) {
+        if (settingsData.twoFactorEnabled &&
+            !settingsData.smsTwoFactorEnabled) {
           setState(() {
             current2FA = "email";
           });
@@ -224,6 +215,7 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                                 PutSettingsParams(
                                     isPrivacyMode:
                                         PrivacyInherited.of(context).isBlurred,
+                                    twoFactorEnabled: val,
                                     emailTwoFactorEnabled: val,
                                     smsTwoFactorEnabled: false));
                           }
