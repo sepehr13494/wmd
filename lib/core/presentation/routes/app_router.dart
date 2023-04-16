@@ -30,6 +30,7 @@ import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_man
 import 'package:wmd/features/assets_overview/currency_chart/presentation/manager/currency_chart_cubit.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/forget_password_page.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/reset_password_page.dart';
+import 'package:wmd/features/authentication/login_signup/presentation/pages/auth_checker_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/login_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/register_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/verify_email_page.dart';
@@ -139,6 +140,13 @@ class AppRouter {
                 path: "login",
                 builder: (BuildContext context, GoRouterState state) {
                   return const LoginPage();
+                },
+              ),
+              GoRoute(
+                name: AppRoutes.authCheck,
+                path: "auth-check",
+                builder: (BuildContext context, GoRouterState state) {
+                  return const AuthCheckerPage();
                 },
               ),
               GoRoute(
@@ -350,8 +358,7 @@ class AppRouter {
                         return editAssetMainBlocProvider(
                           child: AddRealEstatePage(
                             edit: true,
-                            moreEntity:
-                                state.extra as RealEstateMoreEntity,
+                            moreEntity: state.extra as RealEstateMoreEntity,
                           ),
                         );
                       },
@@ -363,8 +370,7 @@ class AppRouter {
                         return editAssetMainBlocProvider(
                           child: AddBankManualPage(
                             edit: true,
-                            moreEntity:
-                            state.extra as BankAccountMoreEntity,
+                            moreEntity: state.extra as BankAccountMoreEntity,
                           ),
                         );
                       },
@@ -376,8 +382,7 @@ class AppRouter {
                         return editAssetMainBlocProvider(
                           child: AddOtherAssetPage(
                             edit: true,
-                            moreEntity:
-                            state.extra as OtherAseetMoreEntity,
+                            moreEntity: state.extra as OtherAseetMoreEntity,
                           ),
                         );
                       },
