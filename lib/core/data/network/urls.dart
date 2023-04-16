@@ -99,4 +99,7 @@ class AppUrls {
 
   //glossary
   static String getGlossaries = "${contentBase}glossary";
+
+  static String getMandate = "${userBase}User/mandate";
+  static String postMandates = "${userBase}User/mandates";
 }

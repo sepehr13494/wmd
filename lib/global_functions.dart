@@ -9,26 +9,35 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class GlobalFunctions {
   GlobalFunctions._();
 
-  static showSnackBar(context, content,
+  static showSnackBar(BuildContext context, String content,
       {color = Colors.white, type = 'default'}) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Row(
-        children: [
-          Icon(type == "error"
-              ? Icons.cancel_rounded
-              : type == "success"
-                  ? Icons.check_circle
-                  : Icons.info),
-          const SizedBox(width: 10),
-          Expanded(child: Text(content))
-        ],
-      ),
-      backgroundColor: type == "error"
-          ? Colors.red[800]
-          : type == "success"
-              ? const Color.fromARGB(179, 67, 160, 72)
-              : color,
-    ));
+    return showSnackTile(context,
+        title: content,
+        subtitle: null,
+        color: color,
+        icon: type == "error"
+            ? Icons.cancel_rounded
+            : type == "success"
+                ? Icons.check_circle
+                : Icons.info);
+    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //   content: Row(
+    //     children: [
+    //       Icon(type == "error"
+    //           ? Icons.cancel_rounded
+    //           : type == "success"
+    //               ? Icons.check_circle
+    //               : Icons.info),
+    //       const SizedBox(width: 10),
+    //       Expanded(child: Text(content))
+    //     ],
+    //   ),
+    //   backgroundColor: type == "error"
+    //       ? Colors.red[800]
+    //       : type == "success"
+    //           ? const Color.fromARGB(179, 67, 160, 72)
+    //           : color,
+    // ));
   }
 
   static showSnackTile(
@@ -36,6 +45,7 @@ class GlobalFunctions {
     required String title,
     String? subtitle,
     Color color = const Color.fromARGB(179, 67, 160, 72),
+    IconData icon = Icons.check_circle,
   }) {
     final textTheme = Theme.of(context).textTheme;
     final snackBar = SnackBar(
@@ -71,17 +81,20 @@ class GlobalFunctions {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(
-                              Icons.check_circle,
-                              color: color,
-                              size: 14,
-                            ),
-                            const SizedBox(width: 2),
-                            Text(title, style: textTheme.bodyLarge),
-                          ],
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.check_circle,
+                                color: color,
+                                size: 14,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(title, style: textTheme.bodyLarge),
+                            ],
+                          ),
                         ),
                         if (subtitle != null)
                           Padding(
