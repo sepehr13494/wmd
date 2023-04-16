@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TimeZones {
@@ -33,9 +35,18 @@ class TimeZones {
           .toList();
 
   static TimeZones? getTimezoneByDevice(AppLocalizations appLocalizations) {
+    final list = DateTime.now().timeZoneOffset.toString().split(':');
+    final minutes = DateTime.now().timeZoneOffset.inMinutes;
+    String s = minutes >= 0 ? '+' : '-';
+    int h = minutes.toDouble() ~/ 60;
+    String hS = h < 10 ? '0$h' : 'h';
+    int m = minutes - h * 60;
+    final zone = "GMT$s$hS:${list[1]}";
+
     final results = _getOffsetByLocale(appLocalizations)
         .entries
-        .where((e) => e.value.contains(DateTime.now().timeZoneName));
+        .where((e) => e.value.contains(zone));
+    // .where((e) => e.value.contains(DateTime.now().timeZoneName));
     if (results.isNotEmpty) {
       final e = results.first;
       return TimeZones(
