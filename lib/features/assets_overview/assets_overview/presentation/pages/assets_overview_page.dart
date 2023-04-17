@@ -45,8 +45,8 @@ class AssetsOverView extends StatefulWidget {
 }
 
 class _AssetsOverViewState extends AppState<AssetsOverView> {
-
   List<GlobalKey> itemKeys = [];
+
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
@@ -82,7 +82,8 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                           ),
                           elevatedButtonTheme: ElevatedButtonThemeData(
                             style: appTheme.outlinedButtonTheme.style!.copyWith(
-                              backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor),
+                                backgroundColor: MaterialStateProperty.all(
+                                    Theme.of(context).primaryColor),
                                 minimumSize: MaterialStateProperty.all(
                                     const Size(0, 38))),
                           ),
@@ -151,32 +152,42 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                     bloc: bloc,
                                     listener: BlocHelper.defaultBlocListener(
                                       listener: (context, state) {
-                                        if(state is BaseAssetsOverviewLoaded){
-                                          Future.delayed(const Duration(seconds: 1),(){
-                                            if(itemKeys.isNotEmpty){
-                                              int? scrollToIndex = context.read<TabScrollManager>().state;
-                                              if(scrollToIndex != null){
-                                                Scrollable.ensureVisible(itemKeys[scrollToIndex].currentContext!,duration: const Duration(milliseconds: 700));
-                                                context.read<TabScrollManager>().changeIndex(null);
+                                        if (state is BaseAssetsOverviewLoaded) {
+                                          Future.delayed(
+                                              const Duration(seconds: 1), () {
+                                            if (itemKeys.isNotEmpty) {
+                                              int? scrollToIndex = context
+                                                  .read<TabScrollManager>()
+                                                  .state;
+                                              if (scrollToIndex != null) {
+                                                Scrollable.ensureVisible(
+                                                    itemKeys[scrollToIndex]
+                                                        .currentContext!,
+                                                    duration: const Duration(
+                                                        milliseconds: 700));
+                                                context
+                                                    .read<TabScrollManager>()
+                                                    .changeIndex(null);
                                               }
                                             }
                                           });
                                         }
                                       },
                                     ),
-                                    builder: BlocHelper.errorHandlerBlocBuilder(builder: (context, state) {
+                                    builder: BlocHelper.errorHandlerBlocBuilder(
+                                        builder: (context, state) {
                                       if (state is BaseAssetsOverviewLoaded) {
                                         itemKeys = [];
                                         List<GetGeographicEntity> otherList =
-                                        [];
+                                            [];
                                         final bool isMapGeo = (state
-                                        is GetAssetsGeographyLoaded &&
+                                                is GetAssetsGeographyLoaded &&
                                             (context
-                                                .watch<
-                                                GeoChartChooserManager>()
-                                                .state
-                                                ?.barType ??
-                                                GeoBarType.map) ==
+                                                        .watch<
+                                                            GeoChartChooserManager>()
+                                                        .state
+                                                        ?.barType ??
+                                                    GeoBarType.map) ==
                                                 GeoBarType.map);
                                         if (isMapGeo) {
                                           double sum = 0;
@@ -187,64 +198,87 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                           otherList = state
                                               .assetsOverviewBaseModels
                                               .map((e) => GetGeographicEntity(
-                                              continent: e.geography,
-                                              amount: e.totalAmount,
-                                              percentage:
-                                              (e.totalAmount / sum) *
-                                                  100))
+                                                  continent: e.geography,
+                                                  amount: e.totalAmount,
+                                                  percentage:
+                                                      (e.totalAmount / sum) *
+                                                          100))
                                               .toList();
                                         }
                                         double sum = 0;
                                         for (var element
-                                        in state.assetsOverviewBaseModels) {
+                                            in state.assetsOverviewBaseModels) {
                                           sum += element.totalAmount;
                                         }
-                                        return ListView.builder(
-                                          physics:
-                                          const NeverScrollableScrollPhysics(),
-                                          shrinkWrap: true,
-                                          itemCount: state
-                                              .assetsOverviewBaseModels.length,
-                                          itemBuilder: (context, index) {
-                                            final item =
-                                            state.assetsOverviewBaseModels[
-                                            index];
-                                            final key = GlobalKey();
-                                            itemKeys.add(key);
-                                            return state
-                                                .assetsOverviewBaseModels[
-                                            index]
-                                                .assetList
-                                                .isEmpty
-                                                ? const SizedBox()
-                                                : EachAssetType(
-                                              key: key,
-                                              assetsOverviewBaseWidgetModel:
-                                              AssetsOverviewBaseWidgetModel(
-                                                allocation:
-                                                (item.totalAmount *
-                                                    100) /
-                                                    sum,
-                                                title: _getTitle(item,
-                                                    appLocalizations),
-                                                color: isMapGeo
-                                                    ? InsideWorldMapWidgetState
-                                                    .getColorByList(
-                                                    (item as GetAssetsGeographyEntity)
-                                                        .geography,
-                                                    otherList)
-                                                    : _getColor(
-                                                    item,
-                                                    index,
-                                                    state.assetsOverviewBaseModels[
-                                                    index]),
-                                                assetsOverviewType:
-                                                _getType(item),
-                                                assetsOverviewBaseModel:
-                                                item,
-                                              ),
+                                        return Builder(
+                                          builder: (context) {
+                                            Future.delayed(
+                                                const Duration(seconds: 1), () {
+                                              if (itemKeys.isNotEmpty) {
+                                                int? scrollToIndex = context
+                                                    .read<TabScrollManager>()
+                                                    .state;
+                                                if (scrollToIndex != null) {
+                                                  Scrollable.ensureVisible(
+                                                      itemKeys[scrollToIndex]
+                                                          .currentContext!,
+                                                      duration: const Duration(
+                                                          milliseconds: 700));
+                                                  context
+                                                      .read<TabScrollManager>()
+                                                      .changeIndex(null);
+                                                }
+                                              }
+                                            });
+                                            return ListView.builder(
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              shrinkWrap: true,
+                                              itemCount: state
+                                                  .assetsOverviewBaseModels
+                                                  .length,
+                                              itemBuilder: (context, index) {
+                                                final item = state
+                                                        .assetsOverviewBaseModels[
+                                                    index];
+                                                final key = GlobalKey();
+                                                itemKeys.add(key);
+                                                return state
+                                                        .assetsOverviewBaseModels[
+                                                            index]
+                                                        .assetList
+                                                        .isEmpty
+                                                    ? const SizedBox()
+                                                    : EachAssetType(
+                                                        key: key,
+                                                        assetsOverviewBaseWidgetModel:
+                                                            AssetsOverviewBaseWidgetModel(
+                                                          allocation:
+                                                              (item.totalAmount *
+                                                                      100) /
+                                                                  sum,
+                                                          title: _getTitle(item,
+                                                              appLocalizations),
+                                                          color: isMapGeo
+                                                              ? InsideWorldMapWidgetState
+                                                                  .getColorByList(
+                                                                      (item as GetAssetsGeographyEntity)
+                                                                          .geography,
+                                                                      otherList)
+                                                              : _getColor(
+                                                                  item,
+                                                                  index,
+                                                                  state.assetsOverviewBaseModels[
+                                                                      index]),
+                                                          assetsOverviewType:
+                                                              _getType(item),
+                                                          assetsOverviewBaseModel:
+                                                              item,
+                                                        ),
+                                                      );
+                                              },
                                             );
-                                          },
+                                          }
                                         );
                                       } else {
                                         return const LoadingWidget();
