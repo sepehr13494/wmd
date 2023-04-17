@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
@@ -6,6 +7,10 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/features/dashboard/onboarding/data/models/onboarding_config.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/empty_state_dashboard.dart';
+import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
+import 'package:wmd/injection_container.dart';
+
+import '../../../user_status/presentation/manager/user_status_cubit.dart';
 
 class DashboardPage extends AppStatelessWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -50,6 +55,11 @@ class DashboardPage extends AppStatelessWidget {
             width: 160,
             child: ElevatedButton(
               onPressed: () {
+                Map<String, dynamic> map = {
+                  "email": sl<GetUserStatusUseCase>().userEmail ?? ".",
+                  "loginAt": DateTime.now().toIso8601String()
+                };
+                context.read<UserStatusCubit>().postUserStatus(map: map);
                 context.goNamed(AppRoutes.addAssetsView);
               },
               child: Text(appLocalizations.common_button_getStarted),

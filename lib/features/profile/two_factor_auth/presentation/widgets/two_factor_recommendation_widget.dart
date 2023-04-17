@@ -51,13 +51,16 @@ class TwoFactorRecommendationWidget extends AppStatelessWidget {
                       expanded: false,
                       child: Row(
                         children: [
+                          if (isMobile) const SizedBox(width: 20),
                           SvgPicture.asset(
                             "assets/images/shield_lock.svg",
                             height: 35,
                           ),
-                          const SizedBox(width: 20),
+                          SizedBox(width: isMobile ? 32 : 20),
                           Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: isMobile
+                                ? CrossAxisAlignment.center
+                                : CrossAxisAlignment.start,
                             children: [
                               SizedBox(
                                   width: isMobile

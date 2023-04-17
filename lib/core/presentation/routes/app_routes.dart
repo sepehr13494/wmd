@@ -6,6 +6,7 @@ class AppRoutes {
   static const String forceUpdate = "force_update";
   static const String welcome = "welcome";
   static const String login = "login";
+  static const String authCheck = "auth-check";
   static const String register = "register";
   static const String verifyEmail = "verify_email";
   static const String verifySuccess = "verify_success";
