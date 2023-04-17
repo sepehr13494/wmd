@@ -25,7 +25,7 @@ class EditBankManualRemoteDataSourceImpl extends AppServerDataSource
   Future<PutBankManualResponse> putBankManual(PutBankManualParams params) async {
     try{
       final appRequestOptions =
-          AppRequestOptions(RequestTypes.get, AppUrls.putBankManual, params.toJson());
+          AppRequestOptions(RequestTypes.put, AppUrls.putBankManual, params.toJson());
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = PutBankManualResponse.fromJson(response);
       return result;
@@ -41,7 +41,7 @@ class EditBankManualRemoteDataSourceImpl extends AppServerDataSource
   Future<DeleteBankManualResponse> deleteBankManual(DeleteBankManualParams params) async {
     try{
       final appRequestOptions =
-          AppRequestOptions(RequestTypes.get, AppUrls.deleteBankManual, params.toJson());
+          AppRequestOptions(RequestTypes.del, AppUrls.deleteBankManual, params.toJson());
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = DeleteBankManualResponse.fromJson(response);
       return result;

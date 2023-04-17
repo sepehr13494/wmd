@@ -7,6 +7,10 @@ class Currency {
     required this.name,
   });
 
+  static Currency getCurrencyFromString(String currencyCode){
+    return Currency.currenciesList.firstWhere((element) => element.symbol == currencyCode);
+  }
+
   factory Currency.fromJson(Map<String, dynamic> json) => Currency(
         symbol: json["value"],
         name: json["label"],
