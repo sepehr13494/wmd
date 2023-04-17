@@ -37,13 +37,13 @@ class AllChartType extends Equatable {
     if (isGeo) {
       return [
         AllChartType(
-            name: appLocalizations.assets_charts_allocationCharts_treemapLabel,
-            barType: GeoBarType.tree,
-            image: "assets/images/tree_chart.svg"),
-        AllChartType(
             name: appLocalizations.assets_charts_allocationCharts_worldmapLabel,
             barType: GeoBarType.map,
             image: "assets/images/map_chart.svg"),
+        AllChartType(
+            name: appLocalizations.assets_charts_allocationCharts_treemapLabel,
+            barType: GeoBarType.tree,
+            image: "assets/images/tree_chart.svg"),
       ];
     } else {
       return [
