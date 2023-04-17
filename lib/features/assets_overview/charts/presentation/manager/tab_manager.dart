@@ -10,3 +10,11 @@ class TabManager extends Cubit<int>{
   }
 
 }
+
+class TabScrollManager extends Cubit<int?>{
+  TabScrollManager() : super(null);
+
+  changeIndex(int? index){
+    emit(index);
+  }
+}

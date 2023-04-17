@@ -154,7 +154,11 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                         if(state is BaseAssetsOverviewLoaded){
                                           Future.delayed(const Duration(seconds: 1),(){
                                             if(itemKeys.isNotEmpty){
-                                              Scrollable.ensureVisible(itemKeys[0].currentContext!);
+                                              int? scrollToIndex = context.read<TabScrollManager>().state;
+                                              if(scrollToIndex != null){
+                                                Scrollable.ensureVisible(itemKeys[scrollToIndex].currentContext!,duration: const Duration(milliseconds: 700));
+                                                context.read<TabScrollManager>().changeIndex(null);
+                                              }
                                             }
                                           });
                                         }

@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/firebase_analytics.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_manager.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/charts_height_inherited.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/charts_height_cubit.dart';
@@ -182,6 +183,7 @@ class BaseAssetView extends AppStatelessWidget {
                                 .geographyOverviewInsideMoreEvent);
                       }
                       context.read<MainPageCubit>().onItemTapped(1);
+                      context.read<TabScrollManager>().changeIndex(index);
                       onMoreTap();
                     },
                     child:
