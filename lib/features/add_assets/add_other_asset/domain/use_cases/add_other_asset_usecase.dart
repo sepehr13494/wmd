@@ -16,35 +16,34 @@ class AddOtherAssetUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
   @override
   Future<Either<Failure, AddAsset>> call(Map<String, dynamic> params) async {
     try {
-      final acquisitionCost =
-          params['acquisitionCost'].toString().replaceAll(',', '');
-      final valuePerUnit =
-          params['valuePerUnit'].toString().replaceAll(',', '');
-      final currentDayValue =
-          params['currentDayValue'].toString().replaceAll(',', '');
-
-      final newMap = {
-        ...params,
-        "acquisitionCost": acquisitionCost,
-        "valuePerUnit": valuePerUnit,
-        "currentDayValue": currentDayValue,
-        "valuationDate": (params['valuationDate']) != null
-            ? params['valuationDate']
-            : DateTime.now(),
-      };
-
-      debugPrint(newMap.toString());
-
-      final privateDebtAssetParam = AddOtherAssetParams.fromJson(newMap);
-
-      debugPrint(privateDebtAssetParam.toString());
-      debugPrint(AddOtherAssetParams.tAddOtherAssetParams.toString());
-
-      return await otherAssetRepository.postOtherAsset(privateDebtAssetParam);
+      return await otherAssetRepository.postOtherAsset(getAddOtherAssetObj(params));
     } catch (e) {
       debugPrint("AddOtherAssetUseCase catch : ${e.toString()}");
       return const Left(AppFailure(message: "Something went wrong!"));
     }
+  }
+
+  static AddOtherAssetParams getAddOtherAssetObj(Map<String, dynamic> params){
+    final acquisitionCost =
+    params['acquisitionCost'].toString().replaceAll(',', '');
+    final valuePerUnit =
+    params['valuePerUnit'].toString().replaceAll(',', '');
+    final currentDayValue =
+    params['currentDayValue'].toString().replaceAll(',', '');
+
+    final newMap = {
+      ...params,
+      "acquisitionCost": acquisitionCost,
+      "valuePerUnit": valuePerUnit,
+      "currentDayValue": currentDayValue,
+      "valuationDate": (params['valuationDate']) != null
+          ? params['valuationDate']
+          : DateTime.now(),
+    };
+
+    debugPrint(newMap.toString());
+
+    return AddOtherAssetParams.fromJson(newMap);
   }
 }
 

@@ -337,6 +337,7 @@ Future<void> init() async {
   sl.registerFactory(() => AssetChartChooserManager());
   sl.registerFactory(() => GeoChartChooserManager());
   sl.registerFactory(() => TabManager());
+  sl.registerFactory(() => TabScrollManager());
 
   sl.registerLazySingleton<ChartsRepository>(() => ChartsRepositoryImpl(sl()));
   sl.registerLazySingleton<ChartsRemoteDataSource>(

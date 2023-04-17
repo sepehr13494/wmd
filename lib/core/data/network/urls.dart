@@ -49,8 +49,8 @@ class AppUrls {
   static String deleteRealEstate = "${wealthBase}RealEstate";
   static String putBankManual = "${wealthBase}BankAccount";
   static String deleteBankManual = "${wealthBase}BankAccount";
-  static String putOtherAsset = "${wealthBase}OtherAsset";
-  static String deleteOtherAsset = "${wealthBase}OtherAsset";
+  static String putOtherAssets = "${wealthBase}OtherAsset";
+  static String deleteOtherAssets = "${wealthBase}OtherAsset";
 
   static String getUserNetWorth = "${wealthBase}Wealth/totalnetworth";
   static String getAllocation = "${wealthBase}wealth/";
