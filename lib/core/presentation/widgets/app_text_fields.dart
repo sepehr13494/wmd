@@ -535,6 +535,9 @@ class _FormBuilderTypeAheadState extends AppState<FormBuilderTypeAhead> {
 
     return FormBuilderField<String?>(
         builder: (state) {
+          if(typeController.text.isEmpty){
+            typeController.text = state.value??"";
+          }
           return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -592,7 +595,8 @@ class _FormBuilderTypeAheadState extends AppState<FormBuilderTypeAhead> {
         onChanged: widget.onChange,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: FormBuilderValidators.compose(validators),
-        name: widget.name);
+        name: widget.name,
+    );
   }
 }
 

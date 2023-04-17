@@ -277,12 +277,6 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                           aqusitionDateValue = selectedDate;
                                         });
                                       },
-                                      // initialDate: valuationDateValue?.subtract(const Duration(days: 1)) ?? DateTime.now(),
-                                      // firstDate:
-                                      // DateTime.fromMillisecondsSinceEpoch(
-                                      //         0),
-                                      // lastDate:
-                                      //     valuationDateValue ?? DateTime.now(),
                                       initialDate:
                                           valuationDateValue ?? DateTime.now(),
                                       lastDate:

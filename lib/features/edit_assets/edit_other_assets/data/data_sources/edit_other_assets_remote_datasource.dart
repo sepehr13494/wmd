@@ -25,7 +25,7 @@ class EditOtherAssetsRemoteDataSourceImpl extends AppServerDataSource
   Future<PutOtherAssetsResponse> putOtherAssets(PutOtherAssetsParams params) async {
     try{
       final appRequestOptions =
-          AppRequestOptions(RequestTypes.get, AppUrls.putOtherAssets, params.toJson());
+          AppRequestOptions(RequestTypes.put, AppUrls.putOtherAssets, params.toJson());
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = PutOtherAssetsResponse.fromJson(response);
       return result;
@@ -41,7 +41,7 @@ class EditOtherAssetsRemoteDataSourceImpl extends AppServerDataSource
   Future<DeleteOtherAssetsResponse> deleteOtherAssets(DeleteOtherAssetsParams params) async {
     try{
       final appRequestOptions =
-          AppRequestOptions(RequestTypes.get, AppUrls.deleteOtherAssets, params.toJson());
+          AppRequestOptions(RequestTypes.del, AppUrls.deleteOtherAssets, params.toJson());
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = DeleteOtherAssetsResponse.fromJson(response);
       return result;
