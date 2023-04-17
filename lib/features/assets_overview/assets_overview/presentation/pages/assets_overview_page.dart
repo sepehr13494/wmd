@@ -151,28 +151,7 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                   return BlocConsumer(
                                     bloc: bloc,
                                     listener: BlocHelper.defaultBlocListener(
-                                      listener: (context, state) {
-                                        if (state is BaseAssetsOverviewLoaded) {
-                                          Future.delayed(
-                                              const Duration(seconds: 1), () {
-                                            if (itemKeys.isNotEmpty) {
-                                              int? scrollToIndex = context
-                                                  .read<TabScrollManager>()
-                                                  .state;
-                                              if (scrollToIndex != null) {
-                                                Scrollable.ensureVisible(
-                                                    itemKeys[scrollToIndex]
-                                                        .currentContext!,
-                                                    duration: const Duration(
-                                                        milliseconds: 700));
-                                                context
-                                                    .read<TabScrollManager>()
-                                                    .changeIndex(null);
-                                              }
-                                            }
-                                          });
-                                        }
-                                      },
+                                      listener: (context, state) {},
                                     ),
                                     builder: BlocHelper.errorHandlerBlocBuilder(
                                         builder: (context, state) {
