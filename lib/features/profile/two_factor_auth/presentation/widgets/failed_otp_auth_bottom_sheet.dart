@@ -58,11 +58,15 @@ class FailedOtpAuthBottomSheet extends AppStatelessWidget {
                     style: textTheme.headlineSmall,
                   ),
                 ),
-                Text(
-                  appLocalizations.common_errors_otpFaildDescription,
-                  textAlign: TextAlign.center,
-                  style: textTheme.bodyMedium,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Text(
+                    appLocalizations.common_errors_otpFaildDescription,
+                    textAlign: TextAlign.center,
+                    style: textTheme.bodyMedium,
+                  ),
                 ),
+                SizedBox(height: responsiveHelper.bigger24Gap),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

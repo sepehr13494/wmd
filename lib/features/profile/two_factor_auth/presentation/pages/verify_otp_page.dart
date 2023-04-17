@@ -90,7 +90,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
             type: "success");
       }
       if (state is SuccessState) {
-        context.goNamed(AppRoutes.main);
+        context.goNamed(AppRoutes.onboarding);
       } else if (state is ErrorState) {
         GlobalFunctions.showSnackBar(
             context,
