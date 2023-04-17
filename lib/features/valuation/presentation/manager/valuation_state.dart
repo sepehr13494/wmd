@@ -27,3 +27,16 @@ class UpdateValuationLoaded extends Equatable with AssetValuationState {
         updateValuationEntity,
       ];
 }
+
+class GetValuationLoaded extends Equatable with AssetValuationState {
+  final GetAllValuationEntity entity;
+
+  GetValuationLoaded({
+    required this.entity,
+  });
+
+  @override
+  List<Object?> get props => [
+        entity,
+      ];
+}

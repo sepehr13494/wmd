@@ -3,6 +3,8 @@ import 'package:wmd/core/error_and_success/failures.dart';
 
 import 'package:dartz/dartz.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
+import 'package:wmd/features/asset_detail/valuation/domain/entities/get_all_valuation_entity.dart';
+import 'package:wmd/features/valuation/data/models/get_valuation_params.dart';
 
 import '../models/post_valuation_params.dart';
 import '../../domain/entities/post_valuation_entity.dart';
@@ -35,6 +37,32 @@ class AssetValuationRepositoryImpl implements AssetValuationRepository {
       UpdateValuationParams params) async {
     try {
       final result = await remoteDataSource.updateValuation(params);
+      return Right(result);
+    } on ServerException catch (error) {
+      return Left(ServerFailure.fromServerException(error));
+    } on AppException catch (error) {
+      return Left(AppFailure.fromAppException(error));
+    }
+  }
+
+  @override
+  Future<Either<Failure, AppSuccess>> deleteValuation(
+      GetValuationParams params) async {
+    try {
+      final result = await remoteDataSource.deleteValuation(params);
+      return const Right(AppSuccess(message: "successfully done"));
+    } on ServerException catch (error) {
+      return Left(ServerFailure.fromServerException(error));
+    } on AppException catch (error) {
+      return Left(AppFailure.fromAppException(error));
+    }
+  }
+
+  @override
+  Future<Either<Failure, GetAllValuationEntity>> getValuationById(
+      GetValuationParams params) async {
+    try {
+      final result = await remoteDataSource.getValuationById(params);
       return Right(result);
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));

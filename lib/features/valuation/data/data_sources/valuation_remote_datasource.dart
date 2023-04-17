@@ -3,6 +3,8 @@ import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/data/repository/app_data_source.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/models/app_request_options.dart';
+import 'package:wmd/features/asset_detail/valuation/data/models/get_all_valuation_response.dart';
+import 'package:wmd/features/valuation/data/models/get_valuation_params.dart';
 
 import '../models/post_valuation_params.dart';
 import '../models/post_valuation_response.dart';
@@ -12,6 +14,8 @@ import '../models/update_valuation_response.dart';
 abstract class AssetValuationRemoteDataSource {
   Future<void> postValuation(PostValuationParams params);
   Future<UpdateValuationResponse> updateValuation(UpdateValuationParams params);
+  Future<void> deleteValuation(GetValuationParams params);
+  Future<GetAllValuationResponse> getValuationById(GetValuationParams params);
 }
 
 class AssetValuationRemoteDataSourceImpl extends AppServerDataSource
@@ -44,6 +48,41 @@ class AssetValuationRemoteDataSourceImpl extends AppServerDataSource
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = UpdateValuationResponse.fromJson(response);
+      return result;
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw AppException(
+          message: "format Exception", type: ExceptionType.format);
+    }
+  }
+
+  @override
+  Future<void> deleteValuation(GetValuationParams params) async {
+    try {
+      final appRequestOptions = AppRequestOptions(
+          RequestTypes.del, AppUrls.postAddValuation, params.toJson());
+      final response =
+          await errorHandlerMiddleware.sendRequest(appRequestOptions);
+
+      return;
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw AppException(
+          message: "format Exception", type: ExceptionType.format);
+    }
+  }
+
+  @override
+  Future<GetAllValuationResponse> getValuationById(
+      GetValuationParams params) async {
+    try {
+      final appRequestOptions = AppRequestOptions(
+          RequestTypes.put, AppUrls.postAddValuation, params.toJson());
+      final response =
+          await errorHandlerMiddleware.sendRequest(appRequestOptions);
+      final result = GetAllValuationResponse.fromJson(response);
       return result;
     } on ServerException {
       rethrow;
