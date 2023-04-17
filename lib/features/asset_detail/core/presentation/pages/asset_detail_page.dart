@@ -106,6 +106,44 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                                                             AppRoutes
                                                                 .editRealEstate,
                                                             extra:seeMoreState.getAssetSeeMoreEntity);
+                                                        break;
+                                                      case AssetTypes
+                                                          .bankAccount:
+                                                        context.pushNamed(
+                                                            AppRoutes
+                                                                .editBankManual,
+                                                            extra:seeMoreState.getAssetSeeMoreEntity);
+                                                        break;
+                                                      case AssetTypes.listedAssetOther:
+                                                      case AssetTypes.listedAssetFixedIncome:
+                                                      case AssetTypes.listedAssetEquity:
+                                                      case AssetTypes.listedAsset:
+                                                        context.pushNamed(
+                                                            AppRoutes
+                                                                .editListedAsset,
+                                                            extra:seeMoreState.getAssetSeeMoreEntity);
+                                                        break;
+                                                      case AssetTypes
+                                                          .privateDebt:
+                                                        context.pushNamed(
+                                                            AppRoutes
+                                                                .editPrivateDebt,
+                                                            extra:seeMoreState.getAssetSeeMoreEntity);
+                                                        break;
+                                                      case AssetTypes
+                                                          .privateEquity:
+                                                        context.pushNamed(
+                                                            AppRoutes
+                                                                .editPrivateEquity,
+                                                            extra:seeMoreState.getAssetSeeMoreEntity);
+                                                        break;
+                                                      case AssetTypes.otherAsset:
+                                                      case AssetTypes.otherAssets:
+                                                        context.pushNamed(
+                                                            AppRoutes
+                                                                .editOtherAsset,
+                                                            extra:seeMoreState.getAssetSeeMoreEntity);
+                                                        break;
                                                     }
                                                   }
                                                 },),

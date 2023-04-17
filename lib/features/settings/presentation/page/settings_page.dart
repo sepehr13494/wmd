@@ -107,7 +107,6 @@ class _SettingsPageState extends AppState<SettingsPage>
                                 setState(() {
                                   page = val;
                                 });
-                                log("Mert log: $val");
                               }),
                         ),
                 )
@@ -198,7 +197,6 @@ class _SettingsTabletViewState extends AppState<SettingsTabletView>
             child: TabBarView(
           controller: _controller,
           children: [
-            const ProfilePage(),
             const ProfilePage(),
             const PreferencesPage(),
             Container(),

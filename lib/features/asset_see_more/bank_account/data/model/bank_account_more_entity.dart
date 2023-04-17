@@ -32,7 +32,7 @@ class BankAccountMoreEntity extends GetSeeMoreResponse {
 
   final String bankName;
   final String description;
-  final int accountType;
+  final String accountType;
   final double currentBalance;
   final bool isJointAccount;
   final int noOfCoOwners;
@@ -41,7 +41,7 @@ class BankAccountMoreEntity extends GetSeeMoreResponse {
   final DateTime? startDate;
   final DateTime? endDate;
   final String id;
-  final int type;
+  final String type;
   final bool isActive;
   final String country;
   final String region;
@@ -103,4 +103,29 @@ class BankAccountMoreEntity extends GetSeeMoreResponse {
         "asOfDate": asOfDate.toIso8601String(),
         "subType": subType,
       };
+
+  Map<String, dynamic> toFormJson() => {
+    "bankName": bankName,
+    "description": description,
+    "accountType": accountType,
+    "currentBalance": currentBalance,
+    "isJointAccount": isJointAccount,
+    "noOfCoOwners": noOfCoOwners,
+    "ownershipPercentage": ownershipPercentage,
+    "interestRate": interestRate,
+    "startDate": startDate,
+    "endDate": endDate,
+    "id": id,
+    "type": type,
+    "isActive": isActive,
+    "country": country,
+    "region": region,
+    "currencyCode": currencyCode,
+    "portfolioContribution": portfolioContribution,
+    "holdings": holdings,
+    "yearToDate": yearToDate,
+    "inceptionToDate": inceptionToDate,
+    "asOfDate": asOfDate.toIso8601String(),
+    "subType": subType,
+  };
 }

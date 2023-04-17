@@ -6,6 +6,10 @@ import 'package:wmd/core/models/time_filer_obj.dart';
 class AppConstants {
   static bool publicMvp2Items = dotenv.env['NEXT_PUBLIC_MVP2_ITEM']! == 'true';
   static bool developMode = dotenv.env['DEVELOPING_MODE']! == 'true';
+  static String auth0IssuerBaseUrl = dotenv.env['AUTH0_ISSUER_BASE_URL']!;
+  static String auth0ClientId = dotenv.env['AUTH0_CLIENT_ID']!;
+  static String auth0ClientSecret = dotenv.env['AUTH0_CLIENT_SECRET']!;
+  static String auth0Audience = dotenv.env['AUTH0_AUDIENCE']!;
 
   static const custodianList = [
     "Abbot Downing",
@@ -357,17 +361,18 @@ class AppConstants {
     ];
   }
 
-  static List<TimeFilterObj> timeFilterForAssetPerformance(BuildContext context) {
+  static List<TimeFilterObj> timeFilterForAssetPerformance(
+      BuildContext context) {
     final appLocalization = AppLocalizations.of(context);
     return [
+      TimeFilterObj(key: appLocalization.assets_label_ytd, value: "YTD"),
+      TimeFilterObj(key: appLocalization.assets_label_itd, value: "ITD"),
       TimeFilterObj(
-          key: appLocalization.home_select_duration_options_seven, value: "Last7days"),
+          key: appLocalization.home_select_duration_options_seven,
+          value: "Last7days"),
       TimeFilterObj(
-          key: appLocalization.home_select_duration_options_thirty, value: "Last30days"),
-      TimeFilterObj(
-          key: appLocalization.assets_label_itd, value: "ITD"),
-      TimeFilterObj(
-          key: appLocalization.assets_label_ytd, value: "YTD"),
+          key: appLocalization.home_select_duration_options_thirty,
+          value: "Last30days"),
     ];
   }
 }

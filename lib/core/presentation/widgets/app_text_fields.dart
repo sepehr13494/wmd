@@ -89,6 +89,7 @@ class AppTextFields {
     String? title,
     String? errorMsg,
     String? hint,
+    int? errorMaxLines,
     TextInputType keyboardType = TextInputType.text,
     int? minLines,
     bool enabled = true,
@@ -97,6 +98,7 @@ class AppTextFields {
     bool required = true,
     bool readOnly = false,
     List<String? Function(String?)>? extraValidators,
+    List<TextInputFormatter>? customInputFormatters,
     ValueChanged<String?>? onChanged,
   }) {
     return SimpleTextField(
@@ -110,10 +112,12 @@ class AppTextFields {
       keyboardType: keyboardType,
       minLines: minLines,
       enabled: enabled,
+      // errorMaxLines: errorMaxLines,
       obscureText: obscureText,
       suffixIcon: suffixIcon,
       required: required,
       readOnly: readOnly,
+      customInputFormatters: customInputFormatters,
       extraValidators: extraValidators,
       onChanged: onChanged,
     );
@@ -135,6 +139,7 @@ class SimpleTextField extends AppStatelessWidget {
   final Widget? suffixIcon;
   final bool required;
   final bool readOnly;
+  final List<TextInputFormatter>? customInputFormatters;
   final List<String? Function(String?)>? extraValidators;
   final ValueChanged<String?>? onChanged;
 
@@ -152,6 +157,7 @@ class SimpleTextField extends AppStatelessWidget {
     this.enabled = true,
     this.obscureText = false,
     this.suffixIcon,
+    this.customInputFormatters,
     this.required = true,
     this.readOnly = false,
     this.extraValidators,
@@ -202,16 +208,17 @@ class SimpleTextField extends AppStatelessWidget {
     return FormBuilderTextField(
       key: key,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      inputFormatters: type == TextFieldType.money
-          ? [CurrencyInputFormatter()]
-          : type == TextFieldType.number
-              ? <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]
-              : type == TextFieldType.rate
-                  ? [
-                      FilteringTextInputFormatter.allow(
-                          RegExp(r'^\d+\.?\d{0,3}'))
-                    ]
-                  : null,
+      inputFormatters: customInputFormatters ??
+          (type == TextFieldType.money
+              ? [CurrencyInputFormatter()]
+              : type == TextFieldType.number
+                  ? <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]
+                  : type == TextFieldType.rate
+                      ? [
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^\d+\.?\d{0,3}'))
+                        ]
+                      : null),
       scrollPadding:
           const EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 90),
       name: name,

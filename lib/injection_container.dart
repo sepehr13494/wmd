@@ -130,6 +130,12 @@ import 'package:wmd/features/dashboard/user_status/domain/repositories/user_stat
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/put_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
+import 'package:wmd/features/edit_assets/edit_bank_manual/data/data_sources/edit_bank_manual_remote_datasource.dart';
+import 'package:wmd/features/edit_assets/edit_bank_manual/data/repositories/edit_bank_manual_repository_impl.dart';
+import 'package:wmd/features/edit_assets/edit_bank_manual/domain/repositories/edit_bank_manual_repository.dart';
+import 'package:wmd/features/edit_assets/edit_bank_manual/domain/use_cases/delete_bank_manual_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_bank_manual/domain/use_cases/put_bank_manual_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_bank_manual/presentation/manager/edit_bank_manual_cubit.dart';
 import 'package:wmd/features/edit_assets/edit_real_estate/data/data_sources/edit_real_estate_remote_datasource.dart';
 import 'package:wmd/features/edit_assets/edit_real_estate/data/repositories/edit_real_estate_repository_impl.dart';
 import 'package:wmd/features/edit_assets/edit_real_estate/domain/repositories/edit_real_estate_repository.dart';
@@ -178,6 +184,7 @@ import 'package:wmd/features/profile/verify_phone/data/data_sources/verify_phone
 import 'package:wmd/features/profile/verify_phone/data/repositories/verify_phone_repository_impl.dart';
 import 'package:wmd/features/profile/verify_phone/domain/repositories/verify_phone_repository.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/get_send_otp_usecase.dart';
+import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_mobile_verification_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_resend_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
@@ -202,6 +209,12 @@ import 'features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_s
 import 'features/add_assets/custodian_bank_auth/domain/use_cases/post_custodian_bank_status_usecase.dart';
 import 'features/add_assets/custodian_bank_auth/domain/use_cases/put_custodian_bank_status_usecase.dart';
 import 'features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_list_cubit.dart';
+import 'features/add_assets/tfo_login/data/data_sources/tfo_login_remote_datasource.dart';
+import 'features/add_assets/tfo_login/data/repositories/tfo_login_repository_impl.dart';
+import 'features/add_assets/tfo_login/domain/repositories/tfo_login_repository.dart';
+import 'features/add_assets/tfo_login/domain/use_cases/get_mandates_usecase.dart';
+import 'features/add_assets/tfo_login/domain/use_cases/login_tfo_account_usecase.dart';
+import 'features/add_assets/tfo_login/presentation/manager/tfo_login_cubit.dart';
 import 'features/asset_detail/core/data/data_sources/asset_summary_datasource.dart';
 import 'features/asset_detail/core/domain/repositories/asset_summary_repository.dart';
 import 'features/asset_detail/core/domain/use_cases/get_summary_usecase.dart';
@@ -437,6 +450,16 @@ Future<void> init() async {
   sl.registerLazySingleton<EditRealEstateRemoteDataSource>(
       () => EditRealEstateRemoteDataSourceImpl(sl()));
 
+  //EditBankManual
+  sl.registerFactory(() => EditBankManualCubit(sl(), sl()));
+  sl.registerLazySingleton(() => PutBankManualUseCase(sl(), sl()));
+  sl.registerLazySingleton(() => DeleteBankManualUseCase(sl()));
+
+  sl.registerLazySingleton<EditBankManualRepository>(
+      () => EditBankManualRepositoryImpl(sl()));
+  sl.registerLazySingleton<EditBankManualRemoteDataSource>(
+      () => EditBankManualRemoteDataSourceImpl(sl()));
+
   //AssetDetail
   sl.registerFactory(() => AssetSummaryCubit(sl()));
   sl.registerLazySingleton(() => GetSummaryUseCase(sl()));
@@ -468,8 +491,9 @@ Future<void> init() async {
       () => FaqRemoteDataSourceImpl(sl()));
 
   //profile phone verify
-  sl.registerFactory(() => VerifyPhoneCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => VerifyPhoneCubit(sl(), sl(), sl(), sl()));
   sl.registerLazySingleton(() => PostVerifyPhoneUseCase(sl()));
+  sl.registerLazySingleton(() => PostMobileVerificationUseCase(sl()));
   sl.registerLazySingleton(() => PostResendVerifyPhoneUseCase(sl()));
   sl.registerLazySingleton(() => GetSendOtpUseCase(sl()));
   sl.registerLazySingleton<VerifyPhoneRepository>(
@@ -583,6 +607,16 @@ Future<void> init() async {
       () => AssetValuationRepositoryImpl(sl()));
   sl.registerLazySingleton<AssetValuationRemoteDataSource>(
       () => AssetValuationRemoteDataSourceImpl(sl()));
+
+  //TfoLogin
+  sl.registerFactory(() => TfoLoginCubit(sl(), sl()));
+  sl.registerLazySingleton(() => GetMandatesUseCase(sl()));
+  sl.registerLazySingleton(() => LoginTfoAccountUseCase(sl()));
+
+  sl.registerLazySingleton<TfoLoginRepository>(
+      () => TfoLoginRepositoryImpl(sl()));
+  sl.registerLazySingleton<TfoLoginRemoteDataSource>(
+      () => TfoLoginRemoteDataSourceImpl(sl()));
 
   await initExternal();
   await initUtils();

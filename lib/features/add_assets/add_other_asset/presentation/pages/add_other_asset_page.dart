@@ -17,10 +17,15 @@ import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_bloc_he
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
+import 'package:wmd/features/asset_see_more/other_asset/data/model/other_asset_more_entity.dart';
 import 'package:wmd/injection_container.dart';
 
 class AddOtherAssetPage extends StatefulWidget {
-  const AddOtherAssetPage({Key? key}) : super(key: key);
+  final bool edit;
+  final OtherAseetMoreEntity? moreEntity;
+
+  const AddOtherAssetPage({Key? key, this.edit = false, this.moreEntity})
+      : super(key: key);
   @override
   AppState<AddOtherAssetPage> createState() => _AddOtherAssetState();
 }
@@ -34,6 +39,9 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
   String? ownerShip = "";
   String? acqusitionCost = "";
   bool isPainting = false;
+  DateTime? aqusitionDateValue;
+  DateTime? valuationDateValue;
+
   @override
   void didUpdateWidget(covariant AddOtherAssetPage oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -105,6 +113,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    final bool edit = widget.edit;
     return BlocProvider(
       create: (context) => sl<OtherAssetCubit>(),
       child: Builder(builder: (context) {
@@ -117,8 +126,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
             bottomSheet: AddAssetFooter(
                 buttonText: appLocalizations.common_button_addAsset,
                 onTap: () {
-                  formKey.currentState?.validate();
-                  if (enableAddAssetButton) {
+                  if (formKey.currentState!.validate()) {
                     Map<String, dynamic> finalMap = {
                       ...formKey.currentState!.instantValue,
                       "currentDayValue":
@@ -149,8 +157,10 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                               child: Column(children: [
                                 FormBuilder(
                                   key: formKey,
-                                  initialValue: AddAssetConstants
-                                      .initialJsonForAddOtherAsset,
+                                  initialValue: edit
+                                      ? widget.moreEntity!.toFormJson()
+                                      : AddAssetConstants
+                                          .initialJsonForAddOtherAsset,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -242,9 +252,13 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                           title: appLocalizations
                                               .assetLiabilityForms_forms_others_inputFields_valuationDate_label,
                                           child: FormBuilderDateTimePicker(
-                                            onChanged: (selectedDate) {
-                                              checkFinalValid(selectedDate);
+                                            onChanged: (val) {
+                                              setState(() {
+                                                valuationDateValue = val;
+                                              });
+                                              checkFinalValid(val);
                                             },
+                                            firstDate: aqusitionDateValue,
                                             lastDate: DateTime.now(),
                                             inputType: InputType.date,
                                             initialValue: DateTime.now(),
@@ -325,8 +339,14 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                         child: FormBuilderDateTimePicker(
                                           onChanged: (selectedDate) {
                                             checkFinalValid(selectedDate);
+                                            setState(() {
+                                              aqusitionDateValue = selectedDate;
+                                            });
                                           },
-                                          lastDate: DateTime.now(),
+                                          initialDate: valuationDateValue ??
+                                              DateTime.now(),
+                                          lastDate: valuationDateValue ??
+                                              DateTime.now(),
                                           inputType: InputType.date,
                                           format: DateFormat("dd/MM/yyyy"),
                                           name: "acquisitionDate",
@@ -375,7 +395,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                         title: appLocalizations
                                             .assetLiabilityForms_forms_others_inputFields_valuePerUnit_label,
                                         child: AppTextFields.simpleTextField(
-                                            required: false,
+                                            required: true,
                                             type: TextFieldType.money,
                                             keyboardType: TextInputType.number,
                                             onChanged: (val) {

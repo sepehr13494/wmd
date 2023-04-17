@@ -101,12 +101,6 @@ class EachAssetWidget extends AppStatelessWidget {
                 ),
               ),
               const SizedBox(width: 12),
-              IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.add,
-                    color: Theme.of(context).primaryColor,
-                  ))
             ],
           ),
         ),

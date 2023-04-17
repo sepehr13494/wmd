@@ -20,7 +20,7 @@ class DisableTwoFactorBottomSheet extends AppStatelessWidget {
     return SizedBox(
       height: isMobile
           ? responsiveHelper.optimalDeviceHeight * 0.5
-          : responsiveHelper.optimalDeviceHeight * 0.3,
+          : responsiveHelper.optimalDeviceHeight * 0.4,
       child: Column(
         children: [
           Container(
@@ -46,49 +46,54 @@ class DisableTwoFactorBottomSheet extends AppStatelessWidget {
               ),
             ],
           ),
-          Column(
-            children: [
-              Text(
-                appLocalizations.profile_twofactorauthentication_modal_title,
-                textAlign: TextAlign.left,
-                style: textTheme.headlineSmall,
-              ),
-              Text(
-                appLocalizations
-                    .profile_twofactorauthentication_modal_description,
-                textAlign: TextAlign.center,
-                style: textTheme.bodyMedium,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  // context.goNamed(AppRoutes.assetDetailPage,
-                  //     queryParams: {'assetId': assetId, 'type': assetType});
-                  callback();
-                  Navigator.pop(context);
-                },
-                // style:
-                //     ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
-                child: Text(
-                  appLocalizations.common_button_yesTurnOff2FA,
-                  style: const TextStyle(fontSize: 16),
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal:
+                    !isMobile ? responsiveHelper.optimalDeviceWidth * 0.25 : 0),
+            child: Column(
+              children: [
+                Text(
+                  appLocalizations.profile_twofactorauthentication_modal_title,
+                  textAlign: TextAlign.left,
+                  style: textTheme.headlineSmall,
                 ),
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                // style:
-                //     OutlinedButton.styleFrom(minimumSize: const Size(100, 50)),
-                child: Text(
-                  appLocalizations.common_button_cancel,
+                Text(
+                  appLocalizations
+                      .profile_twofactorauthentication_modal_description,
+                  textAlign: TextAlign.left,
+                  style: textTheme.bodyMedium,
                 ),
-              )
-            ]
-                .map((e) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: e,
-                    ))
-                .toList(),
+                ElevatedButton(
+                  onPressed: () {
+                    // context.goNamed(AppRoutes.assetDetailPage,
+                    //     queryParams: {'assetId': assetId, 'type': assetType});
+                    callback();
+                    Navigator.pop(context);
+                  },
+                  // style:
+                  //     ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
+                  child: Text(
+                    appLocalizations.common_button_yesTurnOff2FA,
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                ),
+                OutlinedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  // style:
+                  //     OutlinedButton.styleFrom(minimumSize: const Size(100, 50)),
+                  child: Text(
+                    appLocalizations.common_button_cancel,
+                  ),
+                )
+              ]
+                  .map((e) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: e,
+                      ))
+                  .toList(),
+            ),
           )
         ]
             .map((e) => Padding(

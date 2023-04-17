@@ -30,6 +30,7 @@ class AppUrls {
   static String postInquiry = "${wealthBase}Inquiry";
   static String postScheduleCall = "portfolio/meetings/schedule";
   static String postVerifyPhone = "${userBase}Otp/verify";
+  static String postMobileVerification = "${userBase}Otp/phone-number/verify";
   static String postResendVerifyPhone = "${userBase}Otp";
   static String postResendOtp = "${userBase}User/send-otp";
 
@@ -45,8 +46,11 @@ class AppUrls {
 
   //edit delete assets
   static String putRealEstate = "${wealthBase}RealEstate";
-  static String deleteRealEstate = "${wealthBase}BankAccount";
-
+  static String deleteRealEstate = "${wealthBase}RealEstate";
+  static String putBankManual = "${wealthBase}BankAccount";
+  static String deleteBankManual = "${wealthBase}BankAccount";
+  static String putOtherAsset = "${wealthBase}OtherAsset";
+  static String deleteOtherAsset = "${wealthBase}OtherAsset";
 
   static String getUserNetWorth = "${wealthBase}Wealth/totalnetworth";
   static String getAllocation = "${wealthBase}wealth/";
@@ -95,4 +99,7 @@ class AppUrls {
 
   //glossary
   static String getGlossaries = "${contentBase}glossary";
+
+  static String getMandate = "${userBase}User/mandate";
+  static String postMandates = "${userBase}User/mandates";
 }

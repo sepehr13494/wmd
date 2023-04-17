@@ -167,7 +167,7 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyCodeWidget> {
 
                                       context
                                           .read<VerifyPhoneCubit>()
-                                          .postVerifyPhone(map: {
+                                          .postMobileVerification(map: {
                                         // "identifier": state is VerifyOtpLoaded
                                         //     ? state.entity.identifier
                                         //     : "",
@@ -181,7 +181,7 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyCodeWidget> {
                                   style: ElevatedButton.styleFrom(
                                       minimumSize: const Size(100, 50)),
                                   child: Text(appLocalizations
-                                      .profile_otpVerification_button_verify),
+                                      .profile_twofactorauthentication_button_enable),
                                 )
                               ],
                             )

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,8 +43,10 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
   bool _otpExpired = false;
   int failedAttampts = 0;
   bool showError = false;
+  bool showErrorInput = false;
   bool resetTimer = false;
   bool resetCode = false;
+  int resendCodeCount = 0;
 
   @override
   void initState() {
@@ -81,12 +85,12 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
         }
       }
 
-      if (state is VerifyOtpLoaded) {
+      if (state is VerifyOtpLoaded && resendCodeCount != 0) {
         GlobalFunctions.showSnackBar(context, 'Verification code sent',
             type: "success");
       }
       if (state is SuccessState) {
-        context.goNamed(AppRoutes.main);
+        context.goNamed(AppRoutes.onboarding);
       } else if (state is ErrorState) {
         GlobalFunctions.showSnackBar(
             context,
@@ -97,7 +101,14 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
 
         setState(() {
           showError = true;
+          showErrorInput = true;
         });
+
+        Timer(
+            const Duration(seconds: 2),
+            () => setState(() {
+                  showErrorInput = false;
+                }));
 
         if (failedAttampts >= 2) {
           showModalBottomSheet(
@@ -180,7 +191,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
                           resetCode = false;
                         });
                       },
-                      clearText: showError || resetTimer || resetCode,
+                      clearText: showErrorInput || resetTimer || resetCode,
                       enabled: !_otpExpired,
                       autoFocus: true,
                       //runs when every textfield is filled
@@ -206,14 +217,17 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
 
                     SizedBox(height: responsiveHelper.defaultGap),
                     (showError
-                        ? Text(
-                            appLocalizations
-                                .profile_otpVerification_error_failedAttempt
-                                .replaceFirst(
-                                    "%s", (3 - failedAttampts).toString()),
-                            style: textTheme.bodyMedium
-                                ?.apply(color: Colors.red[800]),
-                            textAlign: TextAlign.center,
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 32),
+                            child: Text(
+                              appLocalizations
+                                  .profile_twofactorauthentication_onboarding_error_maximumAttempt
+                                  .replaceFirst("{{attempt}}",
+                                      (3 - failedAttampts).toString()),
+                              style: textTheme.bodyMedium
+                                  ?.apply(color: Colors.red[800]),
+                              textAlign: TextAlign.center,
+                            ),
                           )
                         : BasicTimerWidget(
                             timerTime: 600000,
@@ -252,7 +266,9 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
 
                               setState(() {
                                 showError = false;
+                                showErrorInput = false;
                                 resetTimer = true;
+                                resendCodeCount = resendCodeCount + 1;
                               });
 
                               // ignore: invalid_use_of_protected_member
