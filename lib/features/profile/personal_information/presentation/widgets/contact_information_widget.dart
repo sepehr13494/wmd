@@ -311,8 +311,7 @@ class _ContactInformationWidgetState
                                             ],
                                           ),
                                         ),
-                                        if (!enableSubmitButton)
-                                          const SizedBox(height: 8),
+                                        const SizedBox(height: 8),
                                         if ((userState is UserStatusLoaded &&
                                                 userState.userStatus
                                                         .mobileNumberVerified !=
