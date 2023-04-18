@@ -19,6 +19,9 @@ class PutOtherAssetsUseCase{
       return await repository.putOtherAssets(PutOtherAssetsParams(assetId: assetId,addOtherAssetParams: AddOtherAssetUseCase.getAddOtherAssetObj(params)));
     } catch (e) {
       debugPrint("PutOtherAssetsUseCase catch : ${e.toString()}");
+      if(e is TypeError){
+        debugPrint(e.stackTrace.toString());
+      }
       return const Left(AppFailure(message: "Something went wrong!"));
     }
   }

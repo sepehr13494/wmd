@@ -2,6 +2,9 @@
 //
 //     final realEstateMoreEntity = realEstateMoreEntityFromJson(jsonString);
 
+import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/features/add_assets/core/data/models/country.dart';
+import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 import 'package:wmd/features/asset_see_more/core/data/models/get_asset_see_more_response.dart';
 
 class BankAccountMoreEntity extends GetSeeMoreResponse {
@@ -37,7 +40,7 @@ class BankAccountMoreEntity extends GetSeeMoreResponse {
   final bool isJointAccount;
   final int noOfCoOwners;
   final double ownershipPercentage;
-  final double interestRate;
+  final double? interestRate;
   final DateTime? startDate;
   final DateTime? endDate;
   final String id;
@@ -72,7 +75,8 @@ class BankAccountMoreEntity extends GetSeeMoreResponse {
             double.tryParse(json["inceptionToDate"].toString()) ?? 0,
         asOfDate: DateTime.parse(json["asOfDate"]),
         currentBalance: double.tryParse(json["currentBalance"].toString()) ?? 0,
-        interestRate: double.tryParse(json["interestRate"].toString()) ?? 0,
+        interestRate: json["interestRate"] == null ? null : double.tryParse(json["interestRate"].toString()) ?? 0,
+        startDate: json["startDate"] == null ? null : DateTime.parse(json["startDate"]),
         isJointAccount: json["isJointAccount"],
         noOfCoOwners: json["noOfCoOwners"],
         ownershipPercentage:
@@ -108,24 +112,24 @@ class BankAccountMoreEntity extends GetSeeMoreResponse {
     "bankName": bankName,
     "description": description,
     "accountType": accountType,
-    "currentBalance": currentBalance,
+    "currentBalance": currentBalance.convertMoney(),
     "isJointAccount": isJointAccount,
-    "noOfCoOwners": noOfCoOwners,
-    "ownershipPercentage": ownershipPercentage,
-    "interestRate": interestRate,
+    "noOfCoOwners": noOfCoOwners.toString(),
+    "ownershipPercentage": ownershipPercentage.toString(),
+    "interestRate": interestRate.toString(),
     "startDate": startDate,
     "endDate": endDate,
     "id": id,
     "type": type,
     "isActive": isActive,
-    "country": country,
+    "country": Country.getCountryFromString(country),
     "region": region,
-    "currencyCode": currencyCode,
+    "currencyCode": Currency.getCurrencyFromString(currencyCode),
     "portfolioContribution": portfolioContribution,
-    "holdings": holdings,
+    "holdings": holdings.convertMoney(),
     "yearToDate": yearToDate,
     "inceptionToDate": inceptionToDate,
-    "asOfDate": asOfDate.toIso8601String(),
+    "asOfDate": asOfDate,
     "subType": subType,
   };
 }

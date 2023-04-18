@@ -7,6 +7,10 @@ class Country {
     required this.countryName,
   });
 
+  static Country getCountryFromString(String country){
+    return Country.countriesList.firstWhere((element) => element.name == country);
+  }
+
   factory Country.fromJson(Map<String, dynamic> json) => Country(
         name: json["name"],
         countryName: json["countryName"],

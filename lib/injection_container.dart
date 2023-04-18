@@ -136,6 +136,12 @@ import 'package:wmd/features/edit_assets/edit_bank_manual/domain/repositories/ed
 import 'package:wmd/features/edit_assets/edit_bank_manual/domain/use_cases/delete_bank_manual_usecase.dart';
 import 'package:wmd/features/edit_assets/edit_bank_manual/domain/use_cases/put_bank_manual_usecase.dart';
 import 'package:wmd/features/edit_assets/edit_bank_manual/presentation/manager/edit_bank_manual_cubit.dart';
+import 'package:wmd/features/edit_assets/edit_other_assets/data/data_sources/edit_other_assets_remote_datasource.dart';
+import 'package:wmd/features/edit_assets/edit_other_assets/data/repositories/edit_other_assets_repository_impl.dart';
+import 'package:wmd/features/edit_assets/edit_other_assets/domain/repositories/edit_other_assets_repository.dart';
+import 'package:wmd/features/edit_assets/edit_other_assets/domain/use_cases/delete_other_assets_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_other_assets/domain/use_cases/put_other_assets_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_other_assets/presentation/manager/edit_other_assets_cubit.dart';
 import 'package:wmd/features/edit_assets/edit_real_estate/data/data_sources/edit_real_estate_remote_datasource.dart';
 import 'package:wmd/features/edit_assets/edit_real_estate/data/repositories/edit_real_estate_repository_impl.dart';
 import 'package:wmd/features/edit_assets/edit_real_estate/domain/repositories/edit_real_estate_repository.dart';
@@ -460,6 +466,17 @@ Future<void> init() async {
       () => EditBankManualRepositoryImpl(sl()));
   sl.registerLazySingleton<EditBankManualRemoteDataSource>(
       () => EditBankManualRemoteDataSourceImpl(sl()));
+
+  //EditOtherAssets
+  sl.registerFactory(() => EditOtherAssetsCubit(sl(),sl()));
+  sl.registerLazySingleton(() => PutOtherAssetsUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteOtherAssetsUseCase(sl()));
+
+  sl.registerLazySingleton<EditOtherAssetsRepository>(
+          () => EditOtherAssetsRepositoryImpl(sl()));
+  sl.registerLazySingleton<EditOtherAssetsRemoteDataSource>(
+          () => EditOtherAssetsRemoteDataSourceImpl(sl()));
+
 
   //AssetDetail
   sl.registerFactory(() => AssetSummaryCubit(sl()));
