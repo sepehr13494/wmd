@@ -14,7 +14,7 @@ class GlobalFunctions {
     return showSnackTile(context,
         title: content,
         subtitle: null,
-        color: color,
+        color: type == "success" ? Colors.green : color,
         icon: type == "error"
             ? Icons.cancel_rounded
             : type == "success"

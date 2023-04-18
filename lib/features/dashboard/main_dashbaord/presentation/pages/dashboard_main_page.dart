@@ -147,7 +147,7 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                                 if ((twoFactorState
                                                             is TwoFactorLoaded &&
                                                         twoFactorState.entity
-                                                                .twoFactorEnabled ==
+                                                                .smsTwoFactorEnabled ==
                                                             false) &&
                                                     showTwoFactorReccoment)
                                                   TwoFactorRecommendationWidget(
