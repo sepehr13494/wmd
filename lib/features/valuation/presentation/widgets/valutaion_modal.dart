@@ -18,12 +18,14 @@ import 'package:wmd/features/valuation/presentation/widgets/bank_valuation_form.
 import 'package:wmd/features/valuation/presentation/widgets/equity_debt_valuation_form.dart';
 import 'package:wmd/features/valuation/presentation/widgets/listed_equity_valuation_form.dart';
 import 'package:wmd/features/valuation/presentation/widgets/real_estate_valuation_form.dart';
+import 'package:wmd/features/valuation/presentation/widgets/valuation_warning_modal.dart';
 import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 
 class ValuationModalWidget extends ModalWidget {
   final String assetId;
   final String assetType;
+  final bool? isEdit;
   final GlobalKey<FormBuilderState>? formKey = GlobalKey<FormBuilderState>();
 
   ValuationModalWidget({
@@ -33,9 +35,66 @@ class ValuationModalWidget extends ModalWidget {
     required super.confirmBtn,
     required super.cancelBtn,
     required this.assetType,
+    this.isEdit = false,
     required this.assetId,
     // this.formKey = GlobalKey<FormBuilderState>(),
   });
+
+  void handleModalClose(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const ValuationWarningModal(
+            title: "All changes will be discarded",
+            body: "This action cannot be undone",
+            confirmBtn: 'Discard changes',
+            cancelBtn: "Go back to form");
+      },
+    ).then((isConfirm) {
+      if (isConfirm != null && isConfirm == true) {
+        Navigator.pop(context, false);
+      }
+      return isConfirm;
+    });
+  }
+
+  void handleFormSubmit(
+      formStateKey, renderSubmitData, BuildContext context, bool isEdit) {
+    debugPrint("formKey.currentState");
+    // debugPrint(formKey.currentState!.initialValue.toString());
+    debugPrint(formStateKey?.currentState!.instantValue.toString());
+
+    formStateKey.currentState?.validate();
+    if (formStateKey.currentState!.isValid) {
+      Map<String, dynamic> finalMap = renderSubmitData(assetType, formStateKey);
+
+      print(finalMap);
+
+      if (isEdit) {
+        context.read<AssetValuationCubit>().updateValuation(map: finalMap);
+      } else {
+        context.read<AssetValuationCubit>().postValuation(map: finalMap);
+      }
+    }
+  }
+
+  void handleFormSubmitOnEdit(formStateKey, renderSubmitData, context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const ValuationWarningModal(
+            title: "Save new data entry?",
+            body: "This action cannot be undone",
+            confirmBtn: 'Save',
+            cancelBtn: "Cancel");
+      },
+    ).then((isConfirm) {
+      if (isConfirm != null && isConfirm == true) {
+        handleFormSubmit(formStateKey, renderSubmitData, context, true);
+      }
+      return isConfirm;
+    });
+  }
 
   ///  Action Buttons Container of Modal
   Widget buildActions(
@@ -126,7 +185,11 @@ class ValuationModalWidget extends ModalWidget {
                 children: [
                   OutlinedButton(
                     onPressed: () {
-                      Navigator.pop(context, false);
+                      if (isEdit == true) {
+                        handleModalClose(context);
+                      } else {
+                        Navigator.pop(context, false);
+                      }
                     },
                     style: OutlinedButton.styleFrom(
                         minimumSize: const Size(100, 50)),
@@ -137,22 +200,8 @@ class ValuationModalWidget extends ModalWidget {
                   SizedBox(width: responsiveHelper.bigger16Gap),
                   ElevatedButton(
                     onPressed: () {
-                      debugPrint("formKey.currentState");
-                      // debugPrint(formKey.currentState!.initialValue.toString());
-                      debugPrint(
-                          formStateKey?.currentState!.instantValue.toString());
-
-                      formStateKey.currentState?.validate();
-                      if (formStateKey.currentState!.isValid) {
-                        Map<String, dynamic> finalMap =
-                            renderSubmitData(assetType, formStateKey);
-
-                        print(finalMap);
-
-                        context
-                            .read<AssetValuationCubit>()
-                            .postValuation(map: finalMap);
-                      }
+                      handleFormSubmit(
+                          formStateKey, renderSubmitData, context, false);
                     },
                     style: ElevatedButton.styleFrom(
                         minimumSize: const Size(100, 50)),
@@ -226,7 +275,13 @@ class ValuationModalWidget extends ModalWidget {
           : MediaQuery.of(context).size.height * 0.5,
       child: Column(
         children: [
-          buildModalHeader(context),
+          buildModalHeader(context, onClose: () {
+            if (isEdit == true) {
+              handleModalClose(context);
+            } else {
+              Navigator.pop(context, false);
+            }
+          }),
           Expanded(
               flex: 2,
               child: SingleChildScrollView(

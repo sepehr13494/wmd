@@ -18,9 +18,13 @@ import '../manager/valuation_cubit.dart';
 class ValuationWidget extends AppStatelessWidget {
   final String assetId;
   final String assetType;
-  const ValuationWidget(
-      {Key? key, required this.assetId, required this.assetType})
-      : super(key: key);
+  final bool isManuallyAdded;
+  const ValuationWidget({
+    Key? key,
+    required this.assetId,
+    required this.assetType,
+    required this.isManuallyAdded,
+  }) : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
@@ -37,7 +41,7 @@ class ValuationWidget extends AppStatelessWidget {
                 appLocalizations.assets_label_valuation,
                 style: textTheme.bodyLarge,
               ),
-              if (AppConstants.publicMvp2Items)
+              if (AppConstants.publicMvp2Items && isManuallyAdded)
                 TextButton(
                     onPressed: () {
                       showDialog(
@@ -79,7 +83,11 @@ class ValuationWidget extends AppStatelessWidget {
                     return Text(appLocalizations.common_emptyText_title);
                   }
                   return ValuationTableWidget(
-                      getAllValuationEntities: state.getAllValuationEntities);
+                    getAllValuationEntities: state.getAllValuationEntities,
+                    assetType: assetType,
+                    assetId: assetId,
+                    isManuallyAdded: isManuallyAdded,
+                  );
                 }
                 return const Center(child: CircularProgressIndicator());
               },
@@ -92,9 +100,17 @@ class ValuationWidget extends AppStatelessWidget {
 }
 
 class ValuationTableWidget extends StatefulWidget {
-  const ValuationTableWidget(
-      {super.key, required this.getAllValuationEntities});
+  const ValuationTableWidget({
+    super.key,
+    required this.getAllValuationEntities,
+    required this.assetId,
+    required this.assetType,
+    required this.isManuallyAdded,
+  });
   final List<GetAllValuationEntity> getAllValuationEntities;
+  final String assetId;
+  final String assetType;
+  final bool isManuallyAdded;
 
   @override
   AppState<ValuationTableWidget> createState() => _ValuationTableWidgetState();
@@ -238,7 +254,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
           ),
         ),
         if (AppConstants.publicMvp2Items) const SizedBox.shrink(),
-        if (AppConstants.publicMvp2Items)
+        if (AppConstants.publicMvp2Items && widget.isManuallyAdded)
           Padding(
             padding: padding,
             child: Text(
@@ -307,7 +323,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
           ),
         ),
         if (AppConstants.publicMvp2Items) const SizedBox.shrink(),
-        if (AppConstants.publicMvp2Items && !isSystemGenerated)
+        if (AppConstants.publicMvp2Items && widget.isManuallyAdded)
           PopupMenuButton(
             itemBuilder: (BuildContext context) {
               final List items = [
@@ -327,14 +343,30 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                             Text(items[index][0]),
                           ],
                         ),
-                        onTap: () {
-                          switch (index) {
-                            case 0:
-                              // context.pushNamed(AppRoutes.settings);
-                              break;
-                            case 1:
-                              // AppRestart.restart(context);
-                              break;
+                        onTap: () async {
+                          if (index == 0) {
+                            debugPrint("working edit");
+                            Future.delayed(
+                                const Duration(seconds: 0),
+                                () => showDialog(
+                                    context: context,
+                                    builder: (buildContext) {
+                                      debugPrint("working edit");
+                                      return ValuationModalWidget(
+                                        title: '',
+                                        confirmBtn: AppLocalizations.of(context)
+                                            .common_button_save,
+                                        cancelBtn: AppLocalizations.of(context)
+                                            .common_button_cancel,
+                                        assetType: widget.assetType,
+                                        assetId: widget.assetId,
+                                        isEdit: true,
+                                      );
+                                    }));
+                            ;
+                          } else {
+                            // delete here
+                            debugPrint("working delete");
                           }
                         },
                       ));
