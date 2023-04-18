@@ -342,7 +342,13 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                                   ])),
                               leading: Radio<String>(
                                 value: "phone",
-                                groupValue: current2FA,
+                                groupValue:
+                                    (userStatusState is UserStatusLoaded &&
+                                            userStatusState.userStatus
+                                                    .mobileNumberVerified ==
+                                                true)
+                                        ? current2FA
+                                        : "",
                                 onChanged: (String? value) {
                                   if (twoFactorEnabled) {
                                     setState(() {
