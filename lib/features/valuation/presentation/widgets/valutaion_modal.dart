@@ -26,6 +26,7 @@ class ValuationModalWidget extends ModalWidget {
   final String assetId;
   final String assetType;
   final bool? isEdit;
+  final String? valuationId;
   final GlobalKey<FormBuilderState>? formKey = GlobalKey<FormBuilderState>();
 
   ValuationModalWidget({
@@ -36,6 +37,7 @@ class ValuationModalWidget extends ModalWidget {
     required super.cancelBtn,
     required this.assetType,
     this.isEdit = false,
+    this.valuationId,
     required this.assetId,
     // this.formKey = GlobalKey<FormBuilderState>(),
   });
@@ -97,8 +99,8 @@ class ValuationModalWidget extends ModalWidget {
   }
 
   ///  Action Buttons Container of Modal
-  Widget buildActions(
-      BuildContext context, GlobalKey<FormBuilderState> formStateKey) {
+  Widget buildActions(BuildContext context,
+      GlobalKey<FormBuilderState> formStateKey, Function? setFormValues) {
     final responsiveHelper = ResponsiveHelper(context: context);
     final isMobile = responsiveHelper.isMobile;
     bool enableAddAssetButton = false;
@@ -169,13 +171,34 @@ class ValuationModalWidget extends ModalWidget {
     }
 
     return BlocProvider(
-        create: (context) => sl<AssetValuationCubit>(),
+        create: (context) {
+          if (isEdit == true) {
+            return sl<AssetValuationCubit>()
+              ..getValuationById(
+                  map: {"id": "dfdb655c-d675-4b30-a647-23142d12a3d8"});
+          } else {
+            return sl<AssetValuationCubit>();
+          }
+        },
         child: BlocConsumer<AssetValuationCubit, AssetValuationState>(listener:
             BlocHelper.defaultBlocListener(listener: (context, state) {
           if (state is SuccessState) {
             GlobalFunctions.showSnackBar(context, 'Valuation added',
                 type: "success");
             Navigator.pop(context, false);
+          }
+          if (state is GetValuationLoaded) {
+            var json = state.entity.toJson();
+
+            setFormValues!(json);
+
+            json.removeWhere((key, value) => (value == "" || value == null));
+            debugPrint("working  setup");
+            debugPrint(json.toString());
+            if (formStateKey?.currentState != null) {
+              debugPrint("working inside setup");
+              formStateKey?.currentState?.patchValue(json);
+            }
           }
         }), builder: (context, state) {
           return Padding(
@@ -219,49 +242,57 @@ class ValuationModalWidget extends ModalWidget {
     final isMobile = responsiveHelper.isMobile;
     final appLocalizations = AppLocalizations.of(context);
 
-    Widget renderForm(String type) {
+    Widget renderForm(String type, bool isEdit) {
       Widget entity;
 
       switch (type) {
-        case AssetTypes.bankAccount:
-          entity = BankValuationFormWidget(
-            buildActions: (e) => buildActions(context, e),
-          );
-          break;
-        case AssetTypes.realEstate:
-          entity = RealEstateValuationFormWidget(
-            buildActions: (e) => buildActions(context, e),
-          );
-          break;
-        case AssetTypes.listedAsset:
-          entity = ListedEquityValuationFormWidget(
-            buildActions: (e) => buildActions(context, e),
-          );
-          break;
-        case AssetTypes.listedAssetEquity:
-          entity = ListedEquityValuationFormWidget(
-            buildActions: (e) => buildActions(context, e),
-          );
-          break;
-        case AssetTypes.listedAssetFixedIncome:
-          entity = ListedEquityValuationFormWidget(
-            buildActions: (e) => buildActions(context, e),
-          );
-          break;
-        case AssetTypes.privateEquity:
-          entity = EquityDebtValuationFormWidget(
-            buildActions: (e) => buildActions(context, e),
-          );
-          break;
-        case AssetTypes.privateDebt:
-          entity = EquityDebtValuationFormWidget(
-            buildActions: (e) => buildActions(context, e),
-          );
-          break;
+        // case AssetTypes.bankAccount:
+        //   entity = BankValuationFormWidget(
+        //       buildActions: (e, callbackF) =>
+        //           buildActions(context, e, (x) => callbackF(x)),
+        //       isEdit: isEdit);
+        //   break;
+        // case AssetTypes.realEstate:
+        //   entity = RealEstateValuationFormWidget(
+        //       buildActions: (e, callbackF) =>
+        //           buildActions(context, e, (x) => callbackF(x)),
+        //       isEdit: isEdit);
+        //   break;
+        // case AssetTypes.listedAsset:
+        //   entity = ListedEquityValuationFormWidget(
+        //       buildActions: (e, callbackF) =>
+        //           buildActions(context, e, (x) => callbackF(x)),
+        //       isEdit: isEdit);
+        //   break;
+        // case AssetTypes.listedAssetEquity:
+        //   entity = ListedEquityValuationFormWidget(
+        //       buildActions: (e, callbackF) =>
+        //           buildActions(context, e, (x) => callbackF(x)),
+        //       isEdit: isEdit);
+        //   break;
+        // case AssetTypes.listedAssetFixedIncome:
+        //   entity = ListedEquityValuationFormWidget(
+        //       buildActions: (e, callbackF) =>
+        //           buildActions(context, e, (x) => callbackF(x)),
+        //       isEdit: isEdit);
+        //   break;
+        // case AssetTypes.privateEquity:
+        //   entity = EquityDebtValuationFormWidget(
+        //       buildActions: (e, callbackF) =>
+        //           buildActions(context, e, (x) => callbackF(x)),
+        //       isEdit: isEdit);
+        //   break;
+        // case AssetTypes.privateDebt:
+        //   entity = EquityDebtValuationFormWidget(
+        //       buildActions: (e, callbackF) =>
+        //           buildActions(context, e, (x) => callbackF(x)),
+        //       isEdit: isEdit);
+        //   break;
         default:
           entity = EquityDebtValuationFormWidget(
-            buildActions: (e) => buildActions(context, e),
-          );
+              buildActions: (e, callbackF) =>
+                  buildActions(context, e, (x) => callbackF(x)),
+              isEdit: isEdit);
           break;
       }
 
@@ -295,13 +326,16 @@ class ValuationModalWidget extends ModalWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              appLocalizations.assets_valuationModal_heading,
+                              isEdit!
+                                  ? "Edit Valuation"
+                                  : appLocalizations
+                                      .assets_valuationModal_heading,
                               style: appTextTheme.headlineSmall,
                               textAlign: TextAlign.center,
                             )
                           ],
                         )),
-                    renderForm(assetType),
+                    renderForm(assetType, isEdit!),
                     // FormBuilder(
                     //   key: localFormKey,
                     //   child: renderForm(assetType),

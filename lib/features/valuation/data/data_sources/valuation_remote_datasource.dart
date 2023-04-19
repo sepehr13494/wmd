@@ -3,11 +3,10 @@ import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/data/repository/app_data_source.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/models/app_request_options.dart';
-import 'package:wmd/features/asset_detail/valuation/data/models/get_all_valuation_response.dart';
 import 'package:wmd/features/valuation/data/models/get_valuation_params.dart';
+import 'package:wmd/features/valuation/data/models/get_valuation_response.dart';
 
 import '../models/post_valuation_params.dart';
-import '../models/post_valuation_response.dart';
 import '../models/update_valuation_params.dart';
 import '../models/update_valuation_response.dart';
 
@@ -15,7 +14,7 @@ abstract class AssetValuationRemoteDataSource {
   Future<void> postValuation(PostValuationParams params);
   Future<UpdateValuationResponse> updateValuation(UpdateValuationParams params);
   Future<void> deleteValuation(GetValuationParams params);
-  Future<GetAllValuationResponse> getValuationById(GetValuationParams params);
+  Future<GetValuationResponse> getValuationById(GetValuationParams params);
 }
 
 class AssetValuationRemoteDataSourceImpl extends AppServerDataSource
@@ -75,14 +74,14 @@ class AssetValuationRemoteDataSourceImpl extends AppServerDataSource
   }
 
   @override
-  Future<GetAllValuationResponse> getValuationById(
+  Future<GetValuationResponse> getValuationById(
       GetValuationParams params) async {
     try {
       final appRequestOptions = AppRequestOptions(
-          RequestTypes.put, AppUrls.postAddValuation, params.toJson());
+          RequestTypes.get, AppUrls.postAddValuation, params.toJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = GetAllValuationResponse.fromJson(response);
+      final result = GetValuationResponse.fromJson(response);
       return result;
     } on ServerException {
       rethrow;

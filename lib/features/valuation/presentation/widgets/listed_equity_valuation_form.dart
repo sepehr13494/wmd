@@ -13,7 +13,9 @@ import 'package:wmd/features/valuation/data/models/valuation_action_type.dart';
 
 class ListedEquityValuationFormWidget extends StatefulWidget {
   final Function buildActions;
-  const ListedEquityValuationFormWidget({Key? key, required this.buildActions})
+  final bool isEdit;
+  const ListedEquityValuationFormWidget(
+      {Key? key, required this.buildActions, required this.isEdit})
       : super(key: key);
   @override
   AppState<ListedEquityValuationFormWidget> createState() =>
@@ -142,6 +144,7 @@ class _ListedEquityValuationFormWidgettState
               child: CurrenciesDropdown(
                 onChanged: checkFinalValid,
                 showExchange: false,
+                enabled: !widget.isEdit,
               ),
             ),
             EachTextField(

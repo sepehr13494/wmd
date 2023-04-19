@@ -141,12 +141,15 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
               buildTableHeader(context, appLocalizations),
               ...List.generate(length > limit ? limit : length, (index) {
                 final e = widget.getAllValuationEntities[index];
-                return buildTableRow(context,
-                    date: CustomizableDateTime.ddMmYyyy(e.valuatedAt),
-                    note: e.note ?? '',
-                    value: e.amountInUsd.convertMoney(addDollar: true),
-                    isSystemGenerated: e.isSystemGenerated,
-                    index: index);
+                return buildTableRow(
+                  context,
+                  date: CustomizableDateTime.ddMmYyyy(e.valuatedAt),
+                  note: e.note ?? '',
+                  value: e.amountInUsd.convertMoney(addDollar: true),
+                  isSystemGenerated: e.isSystemGenerated,
+                  index: index,
+                  id: e.id,
+                );
               }),
             ],
           ),
@@ -188,12 +191,15 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             debugPrint('getAllValuationEntities---');
             debugPrint(e.toString());
 
-            return buildTableRow(context,
-                date: CustomizableDateTime.ddMmYyyy(e.valuatedAt),
-                note: e.note ?? '',
-                value: e.amountInUsd.convertMoney(addDollar: true),
-                isSystemGenerated: e.isSystemGenerated,
-                index: index);
+            return buildTableRow(
+              context,
+              date: CustomizableDateTime.ddMmYyyy(e.valuatedAt),
+              note: e.note ?? '',
+              value: e.amountInUsd.convertMoney(addDollar: true),
+              isSystemGenerated: e.isSystemGenerated,
+              index: index,
+              id: e.id,
+            );
           }),
         ],
       ),
@@ -276,6 +282,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
     required String value,
     required bool isSystemGenerated,
     required int index,
+    required String id,
   }) {
     final textTheme = Theme.of(context).textTheme;
     return TableRow(
@@ -361,6 +368,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                                         assetType: widget.assetType,
                                         assetId: widget.assetId,
                                         isEdit: true,
+                                        valuationId: id,
                                       );
                                     }));
                             ;

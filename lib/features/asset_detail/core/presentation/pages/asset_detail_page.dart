@@ -198,12 +198,12 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                             ValuationWidget(
                                 assetId: widget.assetId,
                                 assetType: widget.type,
-                                isManuallyAdded:
-                                    // true
-                                    (assetSummeryState is AssetLoaded)
-                                        ? assetSummeryState
-                                            .assetSummaryEntity.isManuallyAdded
-                                        : false),
+                                isManuallyAdded: true
+                                // (assetSummeryState is AssetLoaded)
+                                //     ? assetSummeryState
+                                //         .assetSummaryEntity.isManuallyAdded
+                                //     : false
+                                ),
                             SizedBox(height: responsiveHelper.biggerGap),
                           ],
                         ),

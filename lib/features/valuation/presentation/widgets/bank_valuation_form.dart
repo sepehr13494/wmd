@@ -16,7 +16,9 @@ import 'package:wmd/injection_container.dart';
 
 class BankValuationFormWidget extends StatefulWidget {
   final Function buildActions;
-  const BankValuationFormWidget({Key? key, required this.buildActions})
+  final bool isEdit;
+  const BankValuationFormWidget(
+      {Key? key, required this.buildActions, required this.isEdit})
       : super(key: key);
   @override
   AppState<BankValuationFormWidget> createState() =>
@@ -51,6 +53,15 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
       }
     }
     formState?.save();
+  }
+
+  void setFormValues(Map<String, dynamic> json) {
+    json.removeWhere((key, value) => (value == "" || value == null));
+    debugPrint("working  setup real");
+    if (formKey?.currentState != null) {
+      debugPrint("working inside setup real");
+      formKey?.currentState?.patchValue(json);
+    }
   }
 
   @override
@@ -98,6 +109,7 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
                   child: CurrenciesDropdown(
                     onChanged: (e) => checkFinalValid(e),
                     showExchange: false,
+                    enabled: !widget.isEdit,
                   ),
                 ),
                 EachTextField(
@@ -129,7 +141,7 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
                       ))
                   .toList(),
             )),
-        widget.buildActions(formKey)
+        widget.buildActions(formKey, (e) => setFormValues(e))
       ],
     );
   }

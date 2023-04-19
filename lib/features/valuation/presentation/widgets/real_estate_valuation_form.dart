@@ -13,7 +13,9 @@ import 'package:wmd/features/valuation/data/models/valuation_action_type.dart';
 
 class RealEstateValuationFormWidget extends StatefulWidget {
   final Function buildActions;
-  const RealEstateValuationFormWidget({Key? key, required this.buildActions})
+  final bool isEdit;
+  const RealEstateValuationFormWidget(
+      {Key? key, required this.buildActions, required this.isEdit})
       : super(key: key);
   @override
   AppState<RealEstateValuationFormWidget> createState() =>
@@ -86,6 +88,15 @@ class _RealEstateValuationFormWidgetState
     });
   }
 
+  void setFormValues(Map<String, dynamic> json) {
+    json.removeWhere((key, value) => (value == "" || value == null));
+    debugPrint("working real setup");
+    if (formKey?.currentState != null) {
+      debugPrint("working inside real setup");
+      formKey?.currentState?.patchValue(json);
+    }
+  }
+
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
@@ -142,6 +153,7 @@ class _RealEstateValuationFormWidgetState
               child: CurrenciesDropdown(
                 onChanged: checkFinalValid,
                 showExchange: false,
+                enabled: !widget.isEdit,
               ),
             ),
             EachTextField(
@@ -243,7 +255,7 @@ class _RealEstateValuationFormWidgetState
               .toList(),
         ),
       ),
-      widget.buildActions(formKey)
+      widget.buildActions(formKey, (e) => setFormValues(e))
     ]);
   }
 }

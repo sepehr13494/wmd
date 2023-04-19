@@ -29,7 +29,7 @@ class UpdateValuationLoaded extends Equatable with AssetValuationState {
 }
 
 class GetValuationLoaded extends Equatable with AssetValuationState {
-  final GetAllValuationEntity entity;
+  final GetValuationEntity entity;
 
   GetValuationLoaded({
     required this.entity,

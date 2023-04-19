@@ -3,11 +3,10 @@ import 'package:wmd/core/error_and_success/failures.dart';
 
 import 'package:dartz/dartz.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
-import 'package:wmd/features/asset_detail/valuation/domain/entities/get_all_valuation_entity.dart';
 import 'package:wmd/features/valuation/data/models/get_valuation_params.dart';
+import 'package:wmd/features/valuation/domain/entities/get_valuation_entity.dart';
 
 import '../models/post_valuation_params.dart';
-import '../../domain/entities/post_valuation_entity.dart';
 import '../models/update_valuation_params.dart';
 import '../../domain/entities/update_valuation_entity.dart';
 
@@ -59,7 +58,7 @@ class AssetValuationRepositoryImpl implements AssetValuationRepository {
   }
 
   @override
-  Future<Either<Failure, GetAllValuationEntity>> getValuationById(
+  Future<Either<Failure, GetValuationEntity>> getValuationById(
       GetValuationParams params) async {
     try {
       final result = await remoteDataSource.getValuationById(params);
