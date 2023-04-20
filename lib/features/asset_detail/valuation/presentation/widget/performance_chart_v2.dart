@@ -132,20 +132,23 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
       AreaSeries<MapEntry<DateTime, double>, String>(
         color: AppColors.chartColor.withOpacity(0.3),
         borderGradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: const [
-            AppColors.chartColor,
-            AppColors.chartColor,
-            Colors.red,
-            Colors.red,
-          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
           stops: [
             0,
             stops,
             stops,
             1,
           ],
+          colors: const [
+            AppColors.chartColor,
+            AppColors.chartColor,
+            // Colors.transparent,
+            // Colors.transparent,
+            Colors.red,
+            Colors.red,
+          ],
+          // tileMode: TileMode.clamp,
         ),
         borderWidth: 2,
         dataSource: values,
