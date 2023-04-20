@@ -13,7 +13,7 @@ class PrivacyBlurWidget extends StatelessWidget {
 
     return Blur(
       blur: (isBlurred && blur) ? 6 : 0,
-      borderRadius: BorderRadius.circular(5),
+      borderRadius: BorderRadius.circular(4),
       colorOpacity: 0,
       child: child,
     );

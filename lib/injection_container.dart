@@ -142,6 +142,12 @@ import 'package:wmd/features/edit_assets/edit_other_assets/domain/repositories/e
 import 'package:wmd/features/edit_assets/edit_other_assets/domain/use_cases/delete_other_assets_usecase.dart';
 import 'package:wmd/features/edit_assets/edit_other_assets/domain/use_cases/put_other_assets_usecase.dart';
 import 'package:wmd/features/edit_assets/edit_other_assets/presentation/manager/edit_other_assets_cubit.dart';
+import 'package:wmd/features/edit_assets/edit_private_equity/data/data_sources/edit_private_equity_remote_datasource.dart';
+import 'package:wmd/features/edit_assets/edit_private_equity/data/repositories/edit_private_equity_repository_impl.dart';
+import 'package:wmd/features/edit_assets/edit_private_equity/domain/repositories/edit_private_equity_repository.dart';
+import 'package:wmd/features/edit_assets/edit_private_equity/domain/use_cases/delete_private_equity_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_private_equity/domain/use_cases/put_private_equity_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_private_equity/presentation/manager/edit_private_equity_cubit.dart';
 import 'package:wmd/features/edit_assets/edit_real_estate/data/data_sources/edit_real_estate_remote_datasource.dart';
 import 'package:wmd/features/edit_assets/edit_real_estate/data/repositories/edit_real_estate_repository_impl.dart';
 import 'package:wmd/features/edit_assets/edit_real_estate/domain/repositories/edit_real_estate_repository.dart';
@@ -476,6 +482,16 @@ Future<void> init() async {
           () => EditOtherAssetsRepositoryImpl(sl()));
   sl.registerLazySingleton<EditOtherAssetsRemoteDataSource>(
           () => EditOtherAssetsRemoteDataSourceImpl(sl()));
+
+  //EditPrivateEquity
+  sl.registerFactory(() => EditPrivateEquityCubit(sl(),sl()));
+  sl.registerLazySingleton(() => PutPrivateEquityUseCase(sl(),sl()));
+  sl.registerLazySingleton(() => DeletePrivateEquityUseCase(sl()));
+
+  sl.registerLazySingleton<EditPrivateEquityRepository>(
+          () => EditPrivateEquityRepositoryImpl(sl()));
+  sl.registerLazySingleton<EditPrivateEquityRemoteDataSource>(
+          () => EditPrivateEquityRemoteDataSourceImpl(sl()));
 
 
   //AssetDetail
