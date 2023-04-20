@@ -131,7 +131,22 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
     return [
       AreaSeries<MapEntry<DateTime, double>, String>(
         color: AppColors.chartColor.withOpacity(0.3),
-        borderColor: AppColors.chartColor,
+        borderGradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: const [
+            AppColors.chartColor,
+            AppColors.chartColor,
+            Colors.red,
+            Colors.red,
+          ],
+          stops: [
+            0,
+            stops,
+            stops,
+            1,
+          ],
+        ),
         borderWidth: 2,
         dataSource: values,
         animationDuration: 2500,
