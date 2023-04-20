@@ -176,7 +176,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                       child: FormBuilderTypeAhead(
                                           required: false,
                                           onChange: checkFinalValid,
-                                          name: "custodian",
+                                          name: "wealthManager",
                                           hint: appLocalizations
                                               .assetLiabilityForms_forms_privateEquity_inputFields_custodian_placeholder,
                                           items: AppConstants.custodianList),
@@ -244,6 +244,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                           errorMsg: appLocalizations
                                               .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_errorMessage,
                                           onChanged: checkFinalValid,
+                                          keyboardType: TextInputType.number,
                                           title: "Initial investment amount",
                                           type: TextFieldType.money,
                                           name: "investmentAmount",
@@ -296,6 +297,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                           onChanged: checkFinalValid,
                                           title: "Current value",
                                           type: TextFieldType.money,
+                                          keyboardType: TextInputType.number,
                                           name: "marketValue",
                                           extraValidators: [
                                                 (val) {

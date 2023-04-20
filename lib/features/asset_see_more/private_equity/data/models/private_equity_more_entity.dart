@@ -1,8 +1,9 @@
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
+import 'package:wmd/features/asset_see_more/core/data/models/get_asset_see_more_response.dart';
 
-class PrivateEquityMoreEntity {
+class PrivateEquityMoreEntity extends GetSeeMoreResponse {
   PrivateEquityMoreEntity({
     required this.id,
     required this.type,
@@ -102,7 +103,7 @@ class PrivateEquityMoreEntity {
     "investmentAmount": investmentAmount.convertMoney(),
     "investmentDate": investmentDate,
     "wealthManager": wealthManager,
-    "marketValue": marketValue,
+    "marketValue": marketValue.convertMoney(),
     "valuationDate": valuationDate,
   };
 }
