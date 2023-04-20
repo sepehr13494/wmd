@@ -13,7 +13,7 @@ class PutOtherAssetsParams extends Equatable{
 
     Map<String, dynamic> toJson() => {
         "assetId":assetId,
-        "bankSaveParams":addOtherAssetParams.toJson()
+        "addOtherAssetParams":addOtherAssetParams.toJson()
     };
 
     @override

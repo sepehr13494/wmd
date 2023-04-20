@@ -39,28 +39,28 @@ class AllChartType extends Equatable {
         AllChartType(
             name: appLocalizations.assets_charts_allocationCharts_worldmapLabel,
             barType: GeoBarType.map,
-            image: "assets/images/map_chart.svg"),
+            image: "assets/images/map_chart.png"),
         AllChartType(
             name: appLocalizations.assets_charts_allocationCharts_treemapLabel,
             barType: GeoBarType.tree,
-            image: "assets/images/tree_chart.svg"),
+            image: "assets/images/tree_chart.png"),
       ];
     } else {
       return [
         AllChartType(
             name: appLocalizations.assets_charts_allocationCharts_barChartLabel,
             barType: AssetsBarType.barChart,
-            image: "assets/images/bar_chart.svg"),
+            image: "assets/images/bar_chart.png"),
         AllChartType(
             name:
                 appLocalizations.assets_charts_allocationCharts_areaChartLabel,
             barType: AssetsBarType.areaChart,
-            image: "assets/images/area_chart.svg"),
+            image: "assets/images/area_chart.png"),
         AllChartType(
             name:
                 "%${appLocalizations.assets_charts_allocationCharts_areaChartLabel}",
             barType: AssetsBarType.areaPercentage,
-            image: "assets/images/area_percentage.svg"),
+            image: "assets/images/area_percentage.png"),
       ];
     }
   }
@@ -143,7 +143,7 @@ class _ChartChooserWidgetState extends AppState<ChartChooserWidget> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              SvgPicture.asset(items[index].image,
+                              Image.asset(items[index].image,
                                   width: 40, height: 40),
                               const SizedBox(height: 4),
                               Text(
