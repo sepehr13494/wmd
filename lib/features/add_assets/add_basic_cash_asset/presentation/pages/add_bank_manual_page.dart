@@ -79,6 +79,10 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final bool edit = widget.edit;
+    if (edit) {
+      accountType = widget.moreEntity!.toFormJson()["accountType"];
+      startDateValue = widget.moreEntity!.toFormJson()["startDate"];
+    }
     final isDepositTerm = accountType == "TermDeposit";
     final isSavingAccount = accountType == "SavingAccount";
 
@@ -89,6 +93,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
         ),
         BlocProvider(
           create: (context) => sl<BankListCubit>()..getBankList(""),
+          lazy: false,
         ),
         BlocProvider(
           create: (context) => sl<EditBankManualCubit>(),
@@ -104,8 +109,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
             bottomSheet: AddAssetFooter(
               buttonText: edit ? "Save Asset" : "Add asset",
               onTap: () {
-                baseFormKey.currentState?.validate();
-                if (enableAddAssetButton) {
+                if (baseFormKey.currentState!.validate()) {
                   Map<String, dynamic> finalMap = {
                     ...baseFormKey.currentState!.instantValue,
                   };
@@ -168,16 +172,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                         .assetLiabilityForms_forms_bankAccount_title,
                                     style: textTheme.titleSmall,
                                   ),
-                                  BlocSelector<BankListCubit, BankListState,
-                                      List<String>>(
-                                    selector: (state) =>
-                                        state is BankListSuccess
-                                            ? state.banks.isEmpty
-                                                ? ["No bank found"]
-                                                : state.banks
-                                                    .map((e) => e.name)
-                                                    .toList()
-                                            : ["No bank found"],
+                                  BlocBuilder<BankListCubit, BankListState>(
                                     builder: (context, state) {
                                       return EachTextField(
                                           hasInfo: false,
@@ -202,10 +197,6 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                   onChange: (e) {
                                                     // debugPrint(e);
                                                     if (e != null) {
-                                                      context
-                                                          .read<BankListCubit>()
-                                                          .getBankList(e);
-
                                                       checkFinalValid(e);
                                                     }
                                                   },
@@ -214,7 +205,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                   ),
                                                   hint: appLocalizations
                                                       .assetLiabilityForms_forms_bankAccount_inputFields_bankName_placeholder,
-                                                  items: state),
+                                                  items: state is BankListSuccess ? (state.banks.isEmpty ? ["No bank found"] : state.banks.map((e) => e.name).toList()):["loading banks"]),
                                               TextButton(
                                                 onPressed: () {
                                                   context.goNamed(
@@ -397,6 +388,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                             errorMsg: appLocalizations
                                                 .assetLiabilityForms_forms_bankAccount_inputFields_principal_errorMessage,
                                             type: TextFieldType.money,
+                                            keyboardType: TextInputType.number,
                                             onChanged: checkFinalValid,
                                             name: "currentBalance",
                                             hint: appLocalizations
@@ -430,6 +422,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                             hint: appLocalizations
                                                 .assetLiabilityForms_forms_bankAccount_inputFields_rate_placeholder,
                                             type: TextFieldType.rate,
+                                            keyboardType: TextInputType.number,
                                             suffixIcon:
                                                 AppTextFields.rateSuffixIcon(),
                                             required: false,
@@ -450,7 +443,6 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                               setState(() {
                                                 startDateValue = selectedDate;
                                               });
-
                                               debugPrint(
                                                   selectedDate.toString());
                                             },

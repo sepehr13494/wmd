@@ -4,33 +4,33 @@ import 'package:wmd/core/data/repository/app_data_source.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/models/app_request_options.dart';
 
-import '../models/put_bank_manual_params.dart';
-import '../models/put_bank_manual_response.dart';
-import '../models/delete_bank_manual_params.dart';
-import '../models/delete_bank_manual_response.dart';
+import '../models/put_other_assets_params.dart';
+import '../models/put_other_assets_response.dart';
+import '../models/delete_other_assets_params.dart';
+import '../models/delete_other_assets_response.dart';
 
 
 
-abstract class EditBankManualRemoteDataSource {
-  Future<PutBankManualResponse> putBankManual(PutBankManualParams params);
-  Future<DeleteBankManualResponse> deleteBankManual(DeleteBankManualParams params);
+abstract class EditOtherAssetsRemoteDataSource {
+  Future<PutOtherAssetsResponse> putOtherAssets(PutOtherAssetsParams params);
+  Future<DeleteOtherAssetsResponse> deleteOtherAssets(DeleteOtherAssetsParams params);
 
 }
 
-class EditBankManualRemoteDataSourceImpl extends AppServerDataSource
-    implements EditBankManualRemoteDataSource {
-  EditBankManualRemoteDataSourceImpl(super.errorHandlerMiddleware);
+class EditOtherAssetsRemoteDataSourceImpl extends AppServerDataSource
+    implements EditOtherAssetsRemoteDataSource {
+  EditOtherAssetsRemoteDataSourceImpl(super.errorHandlerMiddleware);
   
     @override
-  Future<PutBankManualResponse> putBankManual(PutBankManualParams params) async {
+  Future<PutOtherAssetsResponse> putOtherAssets(PutOtherAssetsParams params) async {
     try{
       final appRequestOptions =
-          AppRequestOptions(RequestTypes.put, AppUrls.putBankManual, {
-            ...params.bankSaveParams.toJson(),
+          AppRequestOptions(RequestTypes.put, AppUrls.putOtherAssets, {
+            ...params.addOtherAssetParams.toJson(),
             "assetId":params.assetId,
           });
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = PutBankManualResponse.fromJson(response);
+      final result = PutOtherAssetsResponse.fromJson(response);
       return result;
     } on ServerException {
       rethrow;
@@ -41,12 +41,12 @@ class EditBankManualRemoteDataSourceImpl extends AppServerDataSource
   }
   
       @override
-  Future<DeleteBankManualResponse> deleteBankManual(DeleteBankManualParams params) async {
+  Future<DeleteOtherAssetsResponse> deleteOtherAssets(DeleteOtherAssetsParams params) async {
     try{
       final appRequestOptions =
-          AppRequestOptions(RequestTypes.del, AppUrls.deleteBankManual, params.toJson());
+          AppRequestOptions(RequestTypes.del, AppUrls.deleteOtherAssets, params.toJson());
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = DeleteBankManualResponse.fromJson(response);
+      final result = DeleteOtherAssetsResponse.fromJson(response);
       return result;
     } on ServerException {
       rethrow;

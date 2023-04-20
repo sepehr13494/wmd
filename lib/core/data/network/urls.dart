@@ -49,8 +49,8 @@ class AppUrls {
   static String deleteRealEstate = "${wealthBase}RealEstate";
   static String putBankManual = "${wealthBase}BankAccount";
   static String deleteBankManual = "${wealthBase}BankAccount";
-  static String putOtherAsset = "${wealthBase}OtherAsset";
-  static String deleteOtherAsset = "${wealthBase}OtherAsset";
+  static String putOtherAssets = "${wealthBase}OtherAsset";
+  static String deleteOtherAssets = "${wealthBase}OtherAsset";
 
   static String getUserNetWorth = "${wealthBase}Wealth/totalnetworth";
   static String getAllocation = "${wealthBase}wealth/";
@@ -70,7 +70,12 @@ class AppUrls {
   static String getListedAsset = "${wealthBase}ListedAsset";
   static String getOtherAsset = "${wealthBase}OtherAsset";
   static String getRealEstate = "${wealthBase}RealEstate";
-  static String getSeeMore(String type) => "$wealthBase$type";
+  static String getSeeMore(String type) {
+    if(type == "OtherAssets"){
+      return "${wealthBase}OtherAsset";
+    }
+    return "$wealthBase$type";
+  }
   static String getAssetSummary(String id) => "${wealthBase}Assets/$id/summary";
 
   static String linkToken = "${banking}openbanking/link-token";

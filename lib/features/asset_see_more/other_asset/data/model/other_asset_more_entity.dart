@@ -2,6 +2,9 @@
 //
 //     final realEstateMoreEntity = realEstateMoreEntityFromJson(jsonString);
 
+import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/features/add_assets/core/data/models/country.dart';
+import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 import 'package:wmd/features/asset_see_more/core/data/models/get_asset_see_more_response.dart';
 
 class OtherAseetMoreEntity extends GetSeeMoreResponse {
@@ -31,7 +34,7 @@ class OtherAseetMoreEntity extends GetSeeMoreResponse {
 
   final String name;
   final String wealthManager;
-  final double category;
+  final String category;
   final double units;
   final double acquisitionCost;
   final DateTime acquisitionDate;
@@ -40,7 +43,7 @@ class OtherAseetMoreEntity extends GetSeeMoreResponse {
   final double valuePerUnit;
   final double currentDayValue;
   final String id;
-  final double type;
+  final String type;
   final bool isActive;
   final String country;
   final String region;
@@ -57,7 +60,7 @@ class OtherAseetMoreEntity extends GetSeeMoreResponse {
         acquisitionDate: DateTime.parse(json["acquisitionDate"]),
         valuationDate: DateTime.parse(json["valuationDate"]),
         id: json["id"],
-        type: double.tryParse(json["type"].toString()) ?? 0,
+        type: json["type"].toString(),
         isActive: json["isActive"],
         country: json["country"],
         region: json["region"],
@@ -70,7 +73,7 @@ class OtherAseetMoreEntity extends GetSeeMoreResponse {
             double.tryParse(json["inceptionToDate"].toString()) ?? 0,
         asOfDate: DateTime.parse(json["asOfDate"]),
         wealthManager: json["wealthManager"],
-        category: double.tryParse(json["category"].toString()) ?? 0,
+        category: json["category"].toString(),
         units: double.tryParse(json["units"].toString()) ?? 0,
         acquisitionCost: json["acquisitionCost"],
         ownerShip: double.tryParse(json["ownerShip"].toString()) ?? 0,
@@ -106,24 +109,24 @@ class OtherAseetMoreEntity extends GetSeeMoreResponse {
   Map<String, dynamic> toFormJson() => {
     "name": name,
     "wealthManager": wealthManager,
-    "category": category,
-    "units": units,
-    "acquisitionCost": acquisitionCost,
-    "acquisitionDate": acquisitionDate.toIso8601String(),
-    "valuationDate": valuationDate.toIso8601String(),
-    "ownerShip": ownerShip,
-    "valuePerUnit": valuePerUnit,
-    "currentDayValue": currentDayValue,
+    "assetType": category,
+    "units": units.toStringAsFixed(0),
+    "acquisitionCost": acquisitionCost.convertMoney(),
+    "acquisitionDate": acquisitionDate,
+    "valuationDate": valuationDate,
+    "ownerShip": ownerShip.toString(),
+    "valuePerUnit": valuePerUnit.convertMoney(),
+    "currentDayValue": currentDayValue.convertMoney(),
     "id": id,
     "type": type,
     "isActive": isActive,
-    "country": country,
+    "country": Country.getCountryFromString(country),
     "region": region,
-    "currencyCode": currencyCode,
+    "currencyCode": Currency.getCurrencyFromString(currencyCode),
     "portfolioContribution": portfolioContribution,
     "holdings": holdings,
     "yearToDate": yearToDate,
     "inceptionToDate": inceptionToDate,
-    "asOfDate": asOfDate.toIso8601String(),
+    "asOfDate": asOfDate,
   };
 }

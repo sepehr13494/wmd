@@ -306,7 +306,7 @@ class AssetsPart extends AppStatelessWidget {
               );
             },
           ),
-          ResponsiveHelper(context: context).isMobile
+          !ResponsiveHelper(context: context).isMobile
               ? const SupportWidget()
               : const SizedBox(),
           const SizedBox(height: 84),

@@ -198,6 +198,9 @@ class AppRouter {
                     create: (context) => sl<TabManager>(),
                     lazy: false,
                   ),
+                  BlocProvider(
+                    create: (context) => sl<TabScrollManager>(),
+                  ),
                   BlocProvider(create: (context) {
                     _mainPageCubit = sl<MainPageCubit>();
                     return _mainPageCubit;
