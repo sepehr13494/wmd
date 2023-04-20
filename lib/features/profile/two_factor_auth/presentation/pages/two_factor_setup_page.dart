@@ -301,24 +301,38 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                               ),
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Wrap(children: [
-                                Text(
-                                  appLocalizations
-                                      .profile_twofactorauthentication_options_emailTwoFactor_description,
-                                  style: textTheme.bodyMedium,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: RichText(
+                                    text: TextSpan(
+                                        style: const TextStyle(height: 1.3),
+                                        children: [
+                                      TextSpan(
+                                          text: appLocalizations
+                                              .profile_twofactorauthentication_options_emailTwoFactor_description,
+                                          style: textTheme.bodyMedium),
+                                      TextSpan(
+                                          text:
+                                              ' ${(personalState is PersonalInformationLoaded) ? personalState.getNameEntity.email : ""}',
+                                          style: textTheme.bodyMedium),
+                                    ]))
+
+                                // Wrap(children: [
+                                //   Text(
+                                //     appLocalizations
+                                //         .profile_twofactorauthentication_options_emailTwoFactor_description,
+                                //     style: textTheme.bodyMedium,
+                                //   ),
+                                //   PrivacyBlurWidget(
+                                //     child: Text(
+                                //       (personalState is PersonalInformationLoaded)
+                                //           ? personalState.getNameEntity.email
+                                //           : "",
+                                //       style: textTheme.bodyMedium,
+                                //     ),
+                                //   ),
+                                // ]),
                                 ),
-                                PrivacyBlurWidget(
-                                  child: Text(
-                                    (personalState is PersonalInformationLoaded)
-                                        ? personalState.getNameEntity.email
-                                        : "",
-                                    style: textTheme.bodyMedium,
-                                  ),
-                                ),
-                              ]),
-                            ),
                             const SizedBox(height: 32),
                             ListTile(
                               title: Padding(
@@ -342,7 +356,13 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                                   ])),
                               leading: Radio<String>(
                                 value: "phone",
-                                groupValue: current2FA,
+                                groupValue:
+                                    (userStatusState is UserStatusLoaded &&
+                                            userStatusState.userStatus
+                                                    .mobileNumberVerified ==
+                                                true)
+                                        ? current2FA
+                                        : "",
                                 onChanged: (String? value) {
                                   if (twoFactorEnabled) {
                                     setState(() {

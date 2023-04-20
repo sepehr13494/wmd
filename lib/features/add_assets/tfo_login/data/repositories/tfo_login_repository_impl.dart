@@ -41,7 +41,6 @@ class TfoLoginRepositoryImpl implements TfoLoginRepository {
       final Credentials credentials = await auth0.webAuthentication().login(
           redirectUrl:
               'com.tfo.wmd://tfo-dev.eu.auth0.com/ios/com.tfo.wmd/callback');
-      log("Mert log: ${credentials.toMap()}");
       final result = await remoteDataSource.loginTfoAccount(params);
       return const Right(AppSuccess(message: "successfully done"));
     } on ServerException catch (error) {
