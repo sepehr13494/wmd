@@ -12,7 +12,9 @@ import 'package:wmd/features/valuation/data/models/valuation_action_type.dart';
 
 class EquityDebtValuationFormWidget extends StatefulWidget {
   final Function buildActions;
-  const EquityDebtValuationFormWidget({Key? key, required this.buildActions})
+  final bool isEdit;
+  const EquityDebtValuationFormWidget(
+      {Key? key, required this.buildActions, required this.isEdit})
       : super(key: key);
   @override
   AppState<EquityDebtValuationFormWidget> createState() =>
@@ -23,6 +25,7 @@ class _EquityDebtValuationFormWidgetState
     extends AppState<EquityDebtValuationFormWidget> {
   final formKey = GlobalKey<FormBuilderState>();
   bool enableAddAssetButton = false;
+  late Map<String, dynamic> lastValue;
   bool hasTimeLineSelected = false;
   DateTime? availableDateValue;
   FormBuilderState? formState;
@@ -38,12 +41,28 @@ class _EquityDebtValuationFormWidgetState
     setState(() {
       formState = formKey.currentState;
     });
-
+    Map<String, dynamic> instantValue = formKey.currentState!.instantValue;
     if (finalValid) {
-      if (!enableAddAssetButton) {
-        setState(() {
-          enableAddAssetButton = true;
-        });
+      if (widget.isEdit == true) {
+        if (lastValue.toString() != instantValue.toString()) {
+          if (!enableAddAssetButton) {
+            setState(() {
+              enableAddAssetButton = true;
+            });
+          }
+        } else {
+          if (enableAddAssetButton) {
+            setState(() {
+              enableAddAssetButton = false;
+            });
+          }
+        }
+      } else {
+        if (!enableAddAssetButton) {
+          setState(() {
+            enableAddAssetButton = true;
+          });
+        }
       }
     } else {
       if (enableAddAssetButton) {
@@ -53,6 +72,16 @@ class _EquityDebtValuationFormWidgetState
       }
     }
     formState?.save();
+  }
+
+  void setFormValues(Map<String, dynamic> json) {
+    json.removeWhere((key, value) => (value == "" || value == null));
+    debugPrint("working real setup setFormValues");
+    if (formKey.currentState != null) {
+      debugPrint("working inside real setup setFormValues");
+      debugPrint(json.toString());
+      formKey.currentState?.patchValue(json);
+    }
   }
 
   @override
@@ -111,6 +140,7 @@ class _EquityDebtValuationFormWidgetState
               child: CurrenciesDropdown(
                 onChanged: checkFinalValid,
                 showExchange: false,
+                enabled: !widget.isEdit,
               ),
             ),
             EachTextField(
@@ -142,7 +172,7 @@ class _EquityDebtValuationFormWidgetState
               .toList(),
         ),
       ),
-      widget.buildActions(formKey)
+      widget.buildActions(formKey, (e) => setFormValues(e))
     ]);
   }
 }

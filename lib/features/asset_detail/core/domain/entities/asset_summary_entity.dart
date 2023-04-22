@@ -12,6 +12,7 @@ class AssetSummaryEntitiy extends Equatable {
     required this.dealContribution,
     required this.netChange,
     required this.totalAssetsAmount,
+    required this.isManuallyAdded,
   });
 
   final String assetName;
@@ -24,6 +25,7 @@ class AssetSummaryEntitiy extends Equatable {
   final double dealContribution;
   final double netChange;
   final double totalAssetsAmount;
+  final bool isManuallyAdded;
 
   Map<String, dynamic> toJson() => {
         "assetName": assetName,
@@ -36,6 +38,7 @@ class AssetSummaryEntitiy extends Equatable {
         "dealContribution": dealContribution,
         "netChange": netChange,
         "totalAssetsAmount": totalAssetsAmount,
+        "isManuallyAdded": isManuallyAdded,
       };
 
   @override
@@ -50,5 +53,6 @@ class AssetSummaryEntitiy extends Equatable {
         dealContribution,
         netChange,
         totalAssetsAmount,
+        isManuallyAdded,
       ];
 }

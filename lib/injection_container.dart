@@ -204,6 +204,8 @@ import 'package:wmd/features/settings/data/data_sources/settings_remote_datasour
 import 'package:wmd/features/valuation/data/data_sources/valuation_remote_datasource.dart';
 import 'package:wmd/features/valuation/data/repositories/valuation_repository_impl.dart';
 import 'package:wmd/features/valuation/domain/repositories/valuation_repository.dart';
+import 'package:wmd/features/valuation/domain/use_cases/delete_valuation_usecase.dart';
+import 'package:wmd/features/valuation/domain/use_cases/get_valudation_usecase.dart';
 import 'package:wmd/features/valuation/domain/use_cases/post_valuation_usecase.dart';
 import 'package:wmd/features/valuation/domain/use_cases/update_valuation_usecase.dart';
 import 'package:wmd/features/valuation/presentation/manager/valuation_cubit.dart';
@@ -633,9 +635,11 @@ Future<void> init() async {
   sl.registerFactory(() => ChartsHeightCubit());
 
   //Settings
-  sl.registerFactory(() => AssetValuationCubit(sl(), sl()));
+  sl.registerFactory(() => AssetValuationCubit(sl(), sl(), sl(), sl()));
   sl.registerLazySingleton(() => AssetPostValuationUseCase(sl()));
   sl.registerLazySingleton(() => UpdateValuationUseCase(sl()));
+  sl.registerLazySingleton(() => AssetDeleteValuationUseCase(sl()));
+  sl.registerLazySingleton(() => AssetGetValuationUseCase(sl()));
 
   sl.registerLazySingleton<AssetValuationRepository>(
       () => AssetValuationRepositoryImpl(sl()));
