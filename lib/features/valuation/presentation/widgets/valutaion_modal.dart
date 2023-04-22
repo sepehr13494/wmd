@@ -174,8 +174,7 @@ class ValuationModalWidget extends ModalWidget {
         create: (context) {
           if (isEdit == true) {
             return sl<AssetValuationCubit>()
-              ..getValuationById(
-                  map: {"id": "dfdb655c-d675-4b30-a647-23142d12a3d8"});
+              ..getValuationById(map: {"id": valuationId});
           } else {
             return sl<AssetValuationCubit>();
           }
@@ -188,7 +187,7 @@ class ValuationModalWidget extends ModalWidget {
             Navigator.pop(context, false);
           }
           if (state is GetValuationLoaded) {
-            var json = state.entity.toJson();
+            var json = state.entity.toFormJson();
 
             setFormValues!(json);
 
@@ -205,6 +204,7 @@ class ValuationModalWidget extends ModalWidget {
               padding: EdgeInsets.symmetric(
                   horizontal: responsiveHelper.bigger16Gap * 5),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   OutlinedButton(
                     onPressed: () {
@@ -246,48 +246,48 @@ class ValuationModalWidget extends ModalWidget {
       Widget entity;
 
       switch (type) {
-        // case AssetTypes.bankAccount:
-        //   entity = BankValuationFormWidget(
-        //       buildActions: (e, callbackF) =>
-        //           buildActions(context, e, (x) => callbackF(x)),
-        //       isEdit: isEdit);
-        //   break;
-        // case AssetTypes.realEstate:
-        //   entity = RealEstateValuationFormWidget(
-        //       buildActions: (e, callbackF) =>
-        //           buildActions(context, e, (x) => callbackF(x)),
-        //       isEdit: isEdit);
-        //   break;
-        // case AssetTypes.listedAsset:
-        //   entity = ListedEquityValuationFormWidget(
-        //       buildActions: (e, callbackF) =>
-        //           buildActions(context, e, (x) => callbackF(x)),
-        //       isEdit: isEdit);
-        //   break;
-        // case AssetTypes.listedAssetEquity:
-        //   entity = ListedEquityValuationFormWidget(
-        //       buildActions: (e, callbackF) =>
-        //           buildActions(context, e, (x) => callbackF(x)),
-        //       isEdit: isEdit);
-        //   break;
-        // case AssetTypes.listedAssetFixedIncome:
-        //   entity = ListedEquityValuationFormWidget(
-        //       buildActions: (e, callbackF) =>
-        //           buildActions(context, e, (x) => callbackF(x)),
-        //       isEdit: isEdit);
-        //   break;
-        // case AssetTypes.privateEquity:
-        //   entity = EquityDebtValuationFormWidget(
-        //       buildActions: (e, callbackF) =>
-        //           buildActions(context, e, (x) => callbackF(x)),
-        //       isEdit: isEdit);
-        //   break;
-        // case AssetTypes.privateDebt:
-        //   entity = EquityDebtValuationFormWidget(
-        //       buildActions: (e, callbackF) =>
-        //           buildActions(context, e, (x) => callbackF(x)),
-        //       isEdit: isEdit);
-        //   break;
+        case AssetTypes.bankAccount:
+          entity = BankValuationFormWidget(
+              buildActions: (e, callbackF) =>
+                  buildActions(context, e, (x) => callbackF(x)),
+              isEdit: isEdit);
+          break;
+        case AssetTypes.realEstate:
+          entity = RealEstateValuationFormWidget(
+              buildActions: (e, callbackF) =>
+                  buildActions(context, e, (x) => callbackF(x)),
+              isEdit: isEdit);
+          break;
+        case AssetTypes.listedAsset:
+          entity = ListedEquityValuationFormWidget(
+              buildActions: (e, callbackF) =>
+                  buildActions(context, e, (x) => callbackF(x)),
+              isEdit: isEdit);
+          break;
+        case AssetTypes.listedAssetEquity:
+          entity = ListedEquityValuationFormWidget(
+              buildActions: (e, callbackF) =>
+                  buildActions(context, e, (x) => callbackF(x)),
+              isEdit: isEdit);
+          break;
+        case AssetTypes.listedAssetFixedIncome:
+          entity = ListedEquityValuationFormWidget(
+              buildActions: (e, callbackF) =>
+                  buildActions(context, e, (x) => callbackF(x)),
+              isEdit: isEdit);
+          break;
+        case AssetTypes.privateEquity:
+          entity = EquityDebtValuationFormWidget(
+              buildActions: (e, callbackF) =>
+                  buildActions(context, e, (x) => callbackF(x)),
+              isEdit: isEdit);
+          break;
+        case AssetTypes.privateDebt:
+          entity = EquityDebtValuationFormWidget(
+              buildActions: (e, callbackF) =>
+                  buildActions(context, e, (x) => callbackF(x)),
+              isEdit: isEdit);
+          break;
         default:
           entity = EquityDebtValuationFormWidget(
               buildActions: (e, callbackF) =>

@@ -9,6 +9,8 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/valuation/data/models/get_all_valuation_params.dart';
 import 'package:wmd/features/asset_detail/valuation/domain/entities/get_all_valuation_entity.dart';
+import 'package:wmd/features/valuation/presentation/widgets/valuation_delete_modal.dart';
+import 'package:wmd/features/valuation/presentation/widgets/valuation_warning_modal.dart';
 import 'package:wmd/features/valuation/presentation/widgets/valutaion_modal.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 import 'package:wmd/injection_container.dart';
@@ -375,6 +377,22 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                           } else {
                             // delete here
                             debugPrint("working delete");
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const ValuationDeleteModal(
+                                    title:
+                                        "Are you sure you want to delete this entry?",
+                                    body: "This action cannot be undone",
+                                    confirmBtn: 'Delete',
+                                    cancelBtn: "Cancel");
+                              },
+                            ).then((isConfirm) {
+                              if (isConfirm != null && isConfirm == true) {
+                                // handleFormSubmit(formStateKey, renderSubmitData, context, true);
+                              }
+                              return isConfirm;
+                            });
                           }
                         },
                       ));

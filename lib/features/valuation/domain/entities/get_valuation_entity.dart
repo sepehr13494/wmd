@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 
 class GetValuationEntity extends Equatable {
   const GetValuationEntity({
@@ -21,7 +23,7 @@ class GetValuationEntity extends Equatable {
 
   final String id;
   final double amount;
-  final String? currencyCode;
+  final String currencyCode;
   final double currencyToUsdFxRate;
   final double amountInUsd;
   // final String originCode;
@@ -45,6 +47,24 @@ class GetValuationEntity extends Equatable {
         "amountInUsd": amountInUsd,
         // "originCode": originCode,
         "valuatedAt": valuatedAt.toIso8601String(),
+        "assetId": assetId,
+        "type": type,
+        // "liabilityId": liabilityId,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt?.toIso8601String(),
+        "note": note,
+      };
+
+  Map<String, dynamic> toFormJson() => {
+        "id": id,
+        "amount": amount.convertMoney(),
+        "currencyCode": Currency.getCurrencyFromString(currencyCode),
+        "currencyToUsdFxRate": currencyToUsdFxRate,
+        "isSystemGenerated": isSystemGenerated,
+        "isPm1Processed": isPm1Processed,
+        "amountInUsd": amountInUsd,
+        // "originCode": originCode,
+        "valuatedAt": valuatedAt,
         "assetId": assetId,
         "type": type,
         // "liabilityId": liabilityId,

@@ -26,6 +26,7 @@ class _ListedEquityValuationFormWidgettState
     extends AppState<ListedEquityValuationFormWidget> {
   final formKey = GlobalKey<FormBuilderState>();
   bool enableAddAssetButton = false;
+  late Map<String, dynamic> lastValue;
   bool hasTimeLineSelected = false;
   DateTime? availableDateValue;
   FormBuilderState? formState;
@@ -45,12 +46,28 @@ class _ListedEquityValuationFormWidgettState
     setState(() {
       formState = formKey.currentState;
     });
-
+    Map<String, dynamic> instantValue = formKey.currentState!.instantValue;
     if (finalValid) {
-      if (!enableAddAssetButton) {
-        setState(() {
-          enableAddAssetButton = true;
-        });
+      if (widget.isEdit == true) {
+        if (lastValue.toString() != instantValue.toString()) {
+          if (!enableAddAssetButton) {
+            setState(() {
+              enableAddAssetButton = true;
+            });
+          }
+        } else {
+          if (enableAddAssetButton) {
+            setState(() {
+              enableAddAssetButton = false;
+            });
+          }
+        }
+      } else {
+        if (!enableAddAssetButton) {
+          setState(() {
+            enableAddAssetButton = true;
+          });
+        }
       }
     } else {
       if (enableAddAssetButton) {
@@ -86,6 +103,16 @@ class _ListedEquityValuationFormWidgettState
       currentDayValue = NumberFormat("#,##0", "en_US")
           .format(noOfUnitsParsed! * valuePerUnitParsed!);
     });
+  }
+
+  void setFormValues(Map<String, dynamic> json) {
+    json.removeWhere((key, value) => (value == "" || value == null));
+    debugPrint("working real setup setFormValues");
+    if (formKey.currentState != null) {
+      debugPrint("working inside real setup setFormValues");
+      debugPrint(json.toString());
+      formKey.currentState?.patchValue(json);
+    }
   }
 
   @override
@@ -227,7 +254,7 @@ class _ListedEquityValuationFormWidgettState
               .toList(),
         ),
       ),
-      widget.buildActions(formKey)
+      widget.buildActions(formKey, (e) => setFormValues(e))
     ]);
   }
 }

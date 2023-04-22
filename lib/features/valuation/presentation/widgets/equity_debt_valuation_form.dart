@@ -25,6 +25,7 @@ class _EquityDebtValuationFormWidgetState
     extends AppState<EquityDebtValuationFormWidget> {
   final formKey = GlobalKey<FormBuilderState>();
   bool enableAddAssetButton = false;
+  late Map<String, dynamic> lastValue;
   bool hasTimeLineSelected = false;
   DateTime? availableDateValue;
   FormBuilderState? formState;
@@ -40,12 +41,28 @@ class _EquityDebtValuationFormWidgetState
     setState(() {
       formState = formKey.currentState;
     });
-
+    Map<String, dynamic> instantValue = formKey.currentState!.instantValue;
     if (finalValid) {
-      if (!enableAddAssetButton) {
-        setState(() {
-          enableAddAssetButton = true;
-        });
+      if (widget.isEdit == true) {
+        if (lastValue.toString() != instantValue.toString()) {
+          if (!enableAddAssetButton) {
+            setState(() {
+              enableAddAssetButton = true;
+            });
+          }
+        } else {
+          if (enableAddAssetButton) {
+            setState(() {
+              enableAddAssetButton = false;
+            });
+          }
+        }
+      } else {
+        if (!enableAddAssetButton) {
+          setState(() {
+            enableAddAssetButton = true;
+          });
+        }
       }
     } else {
       if (enableAddAssetButton) {
@@ -63,7 +80,7 @@ class _EquityDebtValuationFormWidgetState
     if (formKey.currentState != null) {
       debugPrint("working inside real setup setFormValues");
       debugPrint(json.toString());
-      formKey.currentState?.patchValue({"amount": "23232323"});
+      formKey.currentState?.patchValue(json);
     }
   }
 

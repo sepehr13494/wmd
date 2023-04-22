@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wmd/core/presentation/bloc/base_cubit.dart';
+import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/modal_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/features/valuation/presentation/manager/valuation_cubit.dart';
+import 'package:wmd/global_functions.dart';
+import 'package:wmd/injection_container.dart';
 
-class ValuationWarningModal extends ModalWidget {
-  const ValuationWarningModal({
+class ValuationDeleteModal extends ModalWidget {
+  final String? valuationId;
+  const ValuationDeleteModal({
     super.key,
     required super.title,
     super.body,
     super.confirmBtn,
     super.cancelBtn,
+    this.valuationId,
   });
 
   @override
@@ -53,5 +61,47 @@ class ValuationWarningModal extends ModalWidget {
                     buildActionContainer(context),
                   ]))
             ]))));
+  }
+
+  ///  Action Buttons Container of Modal
+  @override
+  Widget buildActionContainer(BuildContext context) {
+    return BlocProvider(
+        create: (context) => sl<AssetValuationCubit>(),
+        child: BlocConsumer<AssetValuationCubit, AssetValuationState>(listener:
+            BlocHelper.defaultBlocListener(listener: (context, state) {
+          if (state is SuccessState) {
+            GlobalFunctions.showSnackBar(context, 'Valuation deleted',
+                type: "success");
+            Navigator.pop(context, true);
+          }
+        }), builder: (context, state) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              OutlinedButton(
+                onPressed: () => Navigator.pop(context, false),
+                style:
+                    OutlinedButton.styleFrom(minimumSize: const Size(100, 50)),
+                child: Text(
+                  cancelBtn,
+                ),
+              ),
+              const SizedBox(width: 20),
+              ElevatedButton(
+                onPressed: () {
+                  context
+                      .read<AssetValuationCubit>()
+                      .deleteValuation(map: {"id": valuationId});
+                  Navigator.pop(context, true);
+                },
+                style:
+                    ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
+                child: Text(confirmBtn),
+              ),
+            ],
+          );
+        }));
   }
 }
