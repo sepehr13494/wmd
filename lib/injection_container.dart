@@ -142,6 +142,12 @@ import 'package:wmd/features/edit_assets/edit_other_assets/domain/repositories/e
 import 'package:wmd/features/edit_assets/edit_other_assets/domain/use_cases/delete_other_assets_usecase.dart';
 import 'package:wmd/features/edit_assets/edit_other_assets/domain/use_cases/put_other_assets_usecase.dart';
 import 'package:wmd/features/edit_assets/edit_other_assets/presentation/manager/edit_other_assets_cubit.dart';
+import 'package:wmd/features/edit_assets/edit_private_debt/data/data_sources/edit_private_debt_remote_datasource.dart';
+import 'package:wmd/features/edit_assets/edit_private_debt/data/repositories/edit_private_debt_repository_impl.dart';
+import 'package:wmd/features/edit_assets/edit_private_debt/domain/repositories/edit_private_debt_repository.dart';
+import 'package:wmd/features/edit_assets/edit_private_debt/domain/use_cases/delete_private_debt_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_private_debt/domain/use_cases/put_private_debt_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_private_debt/presentation/manager/edit_private_debt_cubit.dart';
 import 'package:wmd/features/edit_assets/edit_private_equity/data/data_sources/edit_private_equity_remote_datasource.dart';
 import 'package:wmd/features/edit_assets/edit_private_equity/data/repositories/edit_private_equity_repository_impl.dart';
 import 'package:wmd/features/edit_assets/edit_private_equity/domain/repositories/edit_private_equity_repository.dart';
@@ -495,6 +501,15 @@ Future<void> init() async {
   sl.registerLazySingleton<EditPrivateEquityRemoteDataSource>(
           () => EditPrivateEquityRemoteDataSourceImpl(sl()));
 
+  //EditPrivateDebt
+  sl.registerFactory(() => EditPrivateDebtCubit(sl(),sl()));
+  sl.registerLazySingleton(() => PutPrivateDebtUseCase(sl(),sl()));
+  sl.registerLazySingleton(() => DeletePrivateDebtUseCase(sl()));
+
+  sl.registerLazySingleton<EditPrivateDebtRepository>(
+          () => EditPrivateDebtRepositoryImpl(sl()));
+  sl.registerLazySingleton<EditPrivateDebtRemoteDataSource>(
+          () => EditPrivateDebtRemoteDataSourceImpl(sl()));
 
   //AssetDetail
   sl.registerFactory(() => AssetSummaryCubit(sl()));

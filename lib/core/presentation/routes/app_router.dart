@@ -21,6 +21,7 @@ import 'package:wmd/features/asset_detail/core/presentation/manager/asset_summar
 import 'package:wmd/features/asset_detail/core/presentation/pages/asset_detail_page.dart';
 import 'package:wmd/features/asset_see_more/bank_account/data/model/bank_account_more_entity.dart';
 import 'package:wmd/features/asset_see_more/other_asset/data/model/other_asset_more_entity.dart';
+import 'package:wmd/features/asset_see_more/private_debt/data/models/private_debt_more_entity.dart';
 import 'package:wmd/features/asset_see_more/private_equity/data/models/private_equity_more_entity.dart';
 import 'package:wmd/features/asset_see_more/real_estate/data/model/real_estate_more_entity.dart';
 import 'package:wmd/features/assets_overview/assets_geography_chart/presentation/manager/assets_geography_chart_cubit.dart';
@@ -399,6 +400,18 @@ class AppRouter {
                           child: AddPrivateEquityPage(
                             edit: true,
                             moreEntity: state.extra as PrivateEquityMoreEntity,
+                          ),
+                        );
+                      },
+                    ),
+                    GoRoute(
+                      name: AppRoutes.editPrivateDebt,
+                      path: "edit_Private_debt",
+                      builder: (BuildContext context, GoRouterState state) {
+                        return editAssetMainBlocProvider(
+                          child: AddPrivateDebtPage(
+                            edit: true,
+                            moreEntity: state.extra as PrivateDebtMoreEntity,
                           ),
                         );
                       },
