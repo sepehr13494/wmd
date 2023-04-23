@@ -2,12 +2,15 @@ import 'package:equatable/equatable.dart';
 
 class GetAllValuationEntity extends Equatable {
   const GetAllValuationEntity({
+    required this.id,
     required this.amount,
     // required this.currencyCode,
     required this.currencyToUsdFxRate,
     required this.amountInUsd,
     // required this.originCode,
     required this.valuatedAt,
+    required this.isSystemGenerated,
+    required this.isPm1Processed,
     // required this.assetId,
     // required this.liabilityId,
     // required this.createdAt,
@@ -15,12 +18,15 @@ class GetAllValuationEntity extends Equatable {
     required this.note,
   });
 
+  final String id;
   final double amount;
   // final String? currencyCode;
   final double currencyToUsdFxRate;
   final double amountInUsd;
   // final String originCode;
   final DateTime valuatedAt;
+  final bool isSystemGenerated;
+  final bool isPm1Processed;
   // final String assetId;
   // final String? liabilityId;
   // final DateTime createdAt;
@@ -28,9 +34,12 @@ class GetAllValuationEntity extends Equatable {
   final String? note;
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "amount": amount,
         // "currencyCode": currencyCode,
         "currencyToUsdFxRate": currencyToUsdFxRate,
+        "isSystemGenerated": isSystemGenerated,
+        "isPm1Processed": isPm1Processed,
         "amountInUsd": amountInUsd,
         // "originCode": originCode,
         "valuatedAt": valuatedAt.toIso8601String(),

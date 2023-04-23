@@ -38,23 +38,21 @@ class AssetDetailPage extends StatefulWidget {
 
 class _AssetDetailPageState extends AppState<AssetDetailPage> {
   late TimeFilterObj selectedTimeFilter =
-      AppConstants
-          .timeFilter(context)
-          .first;
+      AppConstants.timeFilter(context).first;
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
-    final primaryColor = Theme
-        .of(context)
-        .primaryColor;
+    final primaryColor = Theme.of(context).primaryColor;
+
+    final AssetSummaryState assetSummeryState =
+        context.watch<AssetSummaryCubit>().state;
 
     return MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) =>
-            sl<PerformanceChartCubit>()
+            create: (context) => sl<PerformanceChartCubit>()
               ..getValuationPerformance(GetValuationPerformanceParams(
                   days: selectedTimeFilter.value, id: widget.assetId)),
           )
@@ -87,94 +85,93 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                                     return BlocProvider(
                                       create: (context) =>
                                           sl<AssetSeeMoreCubit>(),
-                                      child: Builder(
-                                          builder: (context) {
-                                            return BlocListener<
-                                                AssetSeeMoreCubit,
-                                                AssetSeeMoreState>(
-                                              listener: BlocHelper
-                                                  .defaultBlocListener(
-                                                listener: (context,
-                                                    seeMoreState) {
-                                                  if (seeMoreState is GetSeeMoreLoaded) {
-                                                    switch (state
-                                                        .assetSummaryEntity
-                                                        .assetClassName) {
-                                                      case AssetTypes
-                                                          .realEstate:
-                                                        context.pushNamed(
-                                                            AppRoutes
-                                                                .editRealEstate,
-                                                            extra:seeMoreState.getAssetSeeMoreEntity);
-                                                        break;
-                                                      case AssetTypes
-                                                          .bankAccount:
-                                                        context.pushNamed(
-                                                            AppRoutes
-                                                                .editBankManual,
-                                                            extra:seeMoreState.getAssetSeeMoreEntity);
-                                                        break;
-                                                      case AssetTypes.listedAssetOther:
-                                                      case AssetTypes.listedAssetFixedIncome:
-                                                      case AssetTypes.listedAssetEquity:
-                                                      case AssetTypes.listedAsset:
-                                                        context.pushNamed(
-                                                            AppRoutes
-                                                                .editListedAsset,
-                                                            extra:seeMoreState.getAssetSeeMoreEntity);
-                                                        break;
-                                                      case AssetTypes
-                                                          .privateDebt:
-                                                        context.pushNamed(
-                                                            AppRoutes
-                                                                .editPrivateDebt,
-                                                            extra:seeMoreState.getAssetSeeMoreEntity);
-                                                        break;
-                                                      case AssetTypes
-                                                          .privateEquity:
-                                                        context.pushNamed(
-                                                            AppRoutes
-                                                                .editPrivateEquity,
-                                                            extra:seeMoreState.getAssetSeeMoreEntity);
-                                                        break;
-                                                      case AssetTypes.otherAsset:
-                                                      case AssetTypes.otherAssets:
-                                                        context.pushNamed(
-                                                            AppRoutes
-                                                                .editOtherAsset,
-                                                            extra:seeMoreState.getAssetSeeMoreEntity);
-                                                        break;
-                                                    }
-                                                  }
-                                                },),
-                                              child: AsssetSummary(
-                                                onEdit: () {
-                                                  context.read<
-                                                      AssetSeeMoreCubit>()
-                                                      .getAssetSeeMore(
-                                                    GetSeeMoreParams(type: state
-                                                        .assetSummaryEntity
-                                                        .assetClassName,
-                                                      assetId: widget
-                                                          .assetId,),);
-                                                },
-                                                summary: state
-                                                    .assetSummaryEntity,
-                                                days: selectedTimeFilter.value,
-                                                assetId: widget.assetId,
-                                                child: _buildHeader(
-                                                    Theme
-                                                        .of(context)
-                                                        .textTheme,
-                                                    Theme
-                                                        .of(context)
-                                                        .primaryColor,
-                                                    appLocalizations,
-                                                    context),
-                                              ),
-                                            );
-                                          }
-                                      ),
+                                      child: Builder(builder: (context) {
+                                        return BlocListener<AssetSeeMoreCubit,
+                                            AssetSeeMoreState>(
+                                          listener:
+                                              BlocHelper.defaultBlocListener(
+                                            listener: (context, seeMoreState) {
+                                              if (seeMoreState
+                                                  is GetSeeMoreLoaded) {
+                                                switch (state.assetSummaryEntity
+                                                    .assetClassName) {
+                                                  case AssetTypes.realEstate:
+                                                    context.pushNamed(
+                                                        AppRoutes
+                                                            .editRealEstate,
+                                                        extra: seeMoreState
+                                                            .getAssetSeeMoreEntity);
+                                                    break;
+                                                  case AssetTypes.bankAccount:
+                                                    context.pushNamed(
+                                                        AppRoutes
+                                                            .editBankManual,
+                                                        extra: seeMoreState
+                                                            .getAssetSeeMoreEntity);
+                                                    break;
+                                                  case AssetTypes
+                                                      .listedAssetOther:
+                                                  case AssetTypes
+                                                      .listedAssetFixedIncome:
+                                                  case AssetTypes
+                                                      .listedAssetEquity:
+                                                  case AssetTypes.listedAsset:
+                                                    context.pushNamed(
+                                                        AppRoutes
+                                                            .editListedAsset,
+                                                        extra: seeMoreState
+                                                            .getAssetSeeMoreEntity);
+                                                    break;
+                                                  case AssetTypes.privateDebt:
+                                                    context.pushNamed(
+                                                        AppRoutes
+                                                            .editPrivateDebt,
+                                                        extra: seeMoreState
+                                                            .getAssetSeeMoreEntity);
+                                                    break;
+                                                  case AssetTypes.privateEquity:
+                                                    context.pushNamed(
+                                                        AppRoutes
+                                                            .editPrivateEquity,
+                                                        extra: seeMoreState
+                                                            .getAssetSeeMoreEntity);
+                                                    break;
+                                                  case AssetTypes.otherAsset:
+                                                  case AssetTypes.otherAssets:
+                                                    context.pushNamed(
+                                                        AppRoutes
+                                                            .editOtherAsset,
+                                                        extra: seeMoreState
+                                                            .getAssetSeeMoreEntity);
+                                                    break;
+                                                }
+                                              }
+                                            },
+                                          ),
+                                          child: AsssetSummary(
+                                            onEdit: () {
+                                              context
+                                                  .read<AssetSeeMoreCubit>()
+                                                  .getAssetSeeMore(
+                                                    GetSeeMoreParams(
+                                                      type: state
+                                                          .assetSummaryEntity
+                                                          .assetClassName,
+                                                      assetId: widget.assetId,
+                                                    ),
+                                                  );
+                                            },
+                                            summary: state.assetSummaryEntity,
+                                            days: selectedTimeFilter.value,
+                                            assetId: widget.assetId,
+                                            child: _buildHeader(
+                                                Theme.of(context).textTheme,
+                                                Theme.of(context).primaryColor,
+                                                appLocalizations,
+                                                context),
+                                          ),
+                                        );
+                                      }),
                                     );
                                   }
                                   return Padding(
@@ -188,7 +185,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                             if (state is PerformanceLoaded)
                               Padding(
                                 padding:
-                                EdgeInsets.all(responsiveHelper.biggerGap),
+                                    EdgeInsets.all(responsiveHelper.biggerGap),
                                 child: PerformanceLineChartV2(
                                   values: state
                                       .performanceEntity.valuationHistory
@@ -200,7 +197,13 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                             SizedBox(height: responsiveHelper.biggerGap),
                             ValuationWidget(
                                 assetId: widget.assetId,
-                                assetType: widget.type),
+                                assetType: widget.type,
+                                isManuallyAdded:
+                                    // true
+                                    (assetSummeryState is AssetLoaded)
+                                        ? assetSummeryState
+                                            .assetSummaryEntity.isManuallyAdded
+                                        : false),
                             SizedBox(height: responsiveHelper.biggerGap),
                           ],
                         ),
@@ -232,13 +235,12 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
             DropdownButtonHideUnderline(
               child: DropdownButton<TimeFilterObj>(
                 items: AppConstants.timeFilter(context)
-                    .map((e) =>
-                    DropdownMenuItem<TimeFilterObj>(
+                    .map((e) => DropdownMenuItem<TimeFilterObj>(
                         value: e,
                         child: Text(
                           e.key,
                           style:
-                          textTheme.bodyMedium!.apply(color: primaryColor),
+                              textTheme.bodyMedium!.apply(color: primaryColor),
                           // textTheme.bodyMedium!.toLinkStyle(context),
                         )))
                     .toList(),
@@ -250,7 +252,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                     context
                         .read<PerformanceChartCubit>()
                         .getValuationPerformance(GetValuationPerformanceParams(
-                        days: value.value, id: widget.assetId));
+                            days: value.value, id: widget.assetId));
 
                     context.read<AssetSummaryCubit>().getSummary(
                         GetSummaryParams(

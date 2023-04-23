@@ -18,12 +18,15 @@ import 'package:wmd/features/valuation/presentation/widgets/bank_valuation_form.
 import 'package:wmd/features/valuation/presentation/widgets/equity_debt_valuation_form.dart';
 import 'package:wmd/features/valuation/presentation/widgets/listed_equity_valuation_form.dart';
 import 'package:wmd/features/valuation/presentation/widgets/real_estate_valuation_form.dart';
+import 'package:wmd/features/valuation/presentation/widgets/valuation_warning_modal.dart';
 import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 
 class ValuationModalWidget extends ModalWidget {
   final String assetId;
   final String assetType;
+  final bool? isEdit;
+  final String? valuationId;
   final GlobalKey<FormBuilderState>? formKey = GlobalKey<FormBuilderState>();
 
   ValuationModalWidget({
@@ -33,13 +36,71 @@ class ValuationModalWidget extends ModalWidget {
     required super.confirmBtn,
     required super.cancelBtn,
     required this.assetType,
+    this.isEdit = false,
+    this.valuationId,
     required this.assetId,
     // this.formKey = GlobalKey<FormBuilderState>(),
   });
 
+  void handleModalClose(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const ValuationWarningModal(
+            title: "All changes will be discarded",
+            body: "This action cannot be undone",
+            confirmBtn: 'Discard changes',
+            cancelBtn: "Go back to form");
+      },
+    ).then((isConfirm) {
+      if (isConfirm != null && isConfirm == true) {
+        Navigator.pop(context, false);
+      }
+      return isConfirm;
+    });
+  }
+
+  void handleFormSubmit(
+      formStateKey, renderSubmitData, BuildContext context, bool isEdit) {
+    debugPrint("formKey.currentState");
+    // debugPrint(formKey.currentState!.initialValue.toString());
+    debugPrint(formStateKey?.currentState!.instantValue.toString());
+
+    formStateKey.currentState?.validate();
+    if (formStateKey.currentState!.isValid) {
+      Map<String, dynamic> finalMap = renderSubmitData(assetType, formStateKey);
+
+      print(finalMap);
+
+      if (isEdit) {
+        context.read<AssetValuationCubit>().updateValuation(map: finalMap);
+      } else {
+        context.read<AssetValuationCubit>().postValuation(map: finalMap);
+      }
+    }
+  }
+
+  void handleFormSubmitOnEdit(formStateKey, renderSubmitData, context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const ValuationWarningModal(
+            title: "Save new data entry?",
+            body: "This action cannot be undone",
+            confirmBtn: 'Save',
+            cancelBtn: "Cancel");
+      },
+    ).then((isConfirm) {
+      if (isConfirm != null && isConfirm == true) {
+        handleFormSubmit(formStateKey, renderSubmitData, context, true);
+      }
+      return isConfirm;
+    });
+  }
+
   ///  Action Buttons Container of Modal
-  Widget buildActions(
-      BuildContext context, GlobalKey<FormBuilderState> formStateKey) {
+  Widget buildActions(BuildContext context,
+      GlobalKey<FormBuilderState> formStateKey, Function? setFormValues) {
     final responsiveHelper = ResponsiveHelper(context: context);
     final isMobile = responsiveHelper.isMobile;
     bool enableAddAssetButton = false;
@@ -110,7 +171,14 @@ class ValuationModalWidget extends ModalWidget {
     }
 
     return BlocProvider(
-        create: (context) => sl<AssetValuationCubit>(),
+        create: (context) {
+          if (isEdit == true) {
+            return sl<AssetValuationCubit>()
+              ..getValuationById(map: {"id": valuationId});
+          } else {
+            return sl<AssetValuationCubit>();
+          }
+        },
         child: BlocConsumer<AssetValuationCubit, AssetValuationState>(listener:
             BlocHelper.defaultBlocListener(listener: (context, state) {
           if (state is SuccessState) {
@@ -118,15 +186,33 @@ class ValuationModalWidget extends ModalWidget {
                 type: "success");
             Navigator.pop(context, false);
           }
+          if (state is GetValuationLoaded) {
+            var json = state.entity.toFormJson();
+
+            setFormValues!(json);
+
+            json.removeWhere((key, value) => (value == "" || value == null));
+            debugPrint("working  setup");
+            debugPrint(json.toString());
+            if (formStateKey?.currentState != null) {
+              debugPrint("working inside setup");
+              formStateKey?.currentState?.patchValue(json);
+            }
+          }
         }), builder: (context, state) {
           return Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: responsiveHelper.bigger16Gap * 5),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   OutlinedButton(
                     onPressed: () {
-                      Navigator.pop(context, false);
+                      if (isEdit == true) {
+                        handleModalClose(context);
+                      } else {
+                        Navigator.pop(context, false);
+                      }
                     },
                     style: OutlinedButton.styleFrom(
                         minimumSize: const Size(100, 50)),
@@ -137,22 +223,8 @@ class ValuationModalWidget extends ModalWidget {
                   SizedBox(width: responsiveHelper.bigger16Gap),
                   ElevatedButton(
                     onPressed: () {
-                      debugPrint("formKey.currentState");
-                      // debugPrint(formKey.currentState!.initialValue.toString());
-                      debugPrint(
-                          formStateKey?.currentState!.instantValue.toString());
-
-                      formStateKey.currentState?.validate();
-                      if (formStateKey.currentState!.isValid) {
-                        Map<String, dynamic> finalMap =
-                            renderSubmitData(assetType, formStateKey);
-
-                        print(finalMap);
-
-                        context
-                            .read<AssetValuationCubit>()
-                            .postValuation(map: finalMap);
-                      }
+                      handleFormSubmit(
+                          formStateKey, renderSubmitData, context, false);
                     },
                     style: ElevatedButton.styleFrom(
                         minimumSize: const Size(100, 50)),
@@ -170,49 +242,57 @@ class ValuationModalWidget extends ModalWidget {
     final isMobile = responsiveHelper.isMobile;
     final appLocalizations = AppLocalizations.of(context);
 
-    Widget renderForm(String type) {
+    Widget renderForm(String type, bool isEdit) {
       Widget entity;
 
       switch (type) {
         case AssetTypes.bankAccount:
           entity = BankValuationFormWidget(
-            buildActions: (e) => buildActions(context, e),
-          );
+              buildActions: (e, callbackF) =>
+                  buildActions(context, e, (x) => callbackF(x)),
+              isEdit: isEdit);
           break;
         case AssetTypes.realEstate:
           entity = RealEstateValuationFormWidget(
-            buildActions: (e) => buildActions(context, e),
-          );
+              buildActions: (e, callbackF) =>
+                  buildActions(context, e, (x) => callbackF(x)),
+              isEdit: isEdit);
           break;
         case AssetTypes.listedAsset:
           entity = ListedEquityValuationFormWidget(
-            buildActions: (e) => buildActions(context, e),
-          );
+              buildActions: (e, callbackF) =>
+                  buildActions(context, e, (x) => callbackF(x)),
+              isEdit: isEdit);
           break;
         case AssetTypes.listedAssetEquity:
           entity = ListedEquityValuationFormWidget(
-            buildActions: (e) => buildActions(context, e),
-          );
+              buildActions: (e, callbackF) =>
+                  buildActions(context, e, (x) => callbackF(x)),
+              isEdit: isEdit);
           break;
         case AssetTypes.listedAssetFixedIncome:
           entity = ListedEquityValuationFormWidget(
-            buildActions: (e) => buildActions(context, e),
-          );
+              buildActions: (e, callbackF) =>
+                  buildActions(context, e, (x) => callbackF(x)),
+              isEdit: isEdit);
           break;
         case AssetTypes.privateEquity:
           entity = EquityDebtValuationFormWidget(
-            buildActions: (e) => buildActions(context, e),
-          );
+              buildActions: (e, callbackF) =>
+                  buildActions(context, e, (x) => callbackF(x)),
+              isEdit: isEdit);
           break;
         case AssetTypes.privateDebt:
           entity = EquityDebtValuationFormWidget(
-            buildActions: (e) => buildActions(context, e),
-          );
+              buildActions: (e, callbackF) =>
+                  buildActions(context, e, (x) => callbackF(x)),
+              isEdit: isEdit);
           break;
         default:
           entity = EquityDebtValuationFormWidget(
-            buildActions: (e) => buildActions(context, e),
-          );
+              buildActions: (e, callbackF) =>
+                  buildActions(context, e, (x) => callbackF(x)),
+              isEdit: isEdit);
           break;
       }
 
@@ -226,7 +306,13 @@ class ValuationModalWidget extends ModalWidget {
           : MediaQuery.of(context).size.height * 0.5,
       child: Column(
         children: [
-          buildModalHeader(context),
+          buildModalHeader(context, onClose: () {
+            if (isEdit == true) {
+              handleModalClose(context);
+            } else {
+              Navigator.pop(context, false);
+            }
+          }),
           Expanded(
               flex: 2,
               child: SingleChildScrollView(
@@ -240,13 +326,16 @@ class ValuationModalWidget extends ModalWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              appLocalizations.assets_valuationModal_heading,
+                              isEdit!
+                                  ? "Edit Valuation"
+                                  : appLocalizations
+                                      .assets_valuationModal_heading,
                               style: appTextTheme.headlineSmall,
                               textAlign: TextAlign.center,
                             )
                           ],
                         )),
-                    renderForm(assetType),
+                    renderForm(assetType, isEdit!),
                     // FormBuilder(
                     //   key: localFormKey,
                     //   child: renderForm(assetType),
