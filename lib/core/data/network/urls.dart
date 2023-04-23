@@ -53,6 +53,8 @@ class AppUrls {
   static String deleteOtherAssets = "${wealthBase}OtherAsset";
   static String putPrivateEquity = "${wealthBase}PrivateEquity";
   static String deletePrivateEquity = "${wealthBase}PrivateEquity";
+  static String putPrivateDebt = "${wealthBase}PrivateDebt";
+  static String deletePrivateDebt = "${wealthBase}PrivateDebt";
 
   static String getUserNetWorth = "${wealthBase}Wealth/totalnetworth";
   static String getAllocation = "${wealthBase}wealth/";
