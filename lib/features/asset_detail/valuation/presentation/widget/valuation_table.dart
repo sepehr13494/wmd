@@ -9,6 +9,8 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/valuation/data/models/get_all_valuation_params.dart';
 import 'package:wmd/features/asset_detail/valuation/domain/entities/get_all_valuation_entity.dart';
+import 'package:wmd/features/valuation/presentation/widgets/valuation_delete_modal.dart';
+import 'package:wmd/features/valuation/presentation/widgets/valuation_warning_modal.dart';
 import 'package:wmd/features/valuation/presentation/widgets/valutaion_modal.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 import 'package:wmd/injection_container.dart';
@@ -18,9 +20,13 @@ import '../manager/valuation_cubit.dart';
 class ValuationWidget extends AppStatelessWidget {
   final String assetId;
   final String assetType;
-  const ValuationWidget(
-      {Key? key, required this.assetId, required this.assetType})
-      : super(key: key);
+  final bool isManuallyAdded;
+  const ValuationWidget({
+    Key? key,
+    required this.assetId,
+    required this.assetType,
+    required this.isManuallyAdded,
+  }) : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
@@ -37,7 +43,7 @@ class ValuationWidget extends AppStatelessWidget {
                 appLocalizations.assets_label_valuation,
                 style: textTheme.bodyLarge,
               ),
-              if (AppConstants.publicMvp2Items)
+              if (AppConstants.publicMvp2Items && isManuallyAdded)
                 TextButton(
                     onPressed: () {
                       showDialog(
@@ -79,7 +85,11 @@ class ValuationWidget extends AppStatelessWidget {
                     return Text(appLocalizations.common_emptyText_title);
                   }
                   return ValuationTableWidget(
-                      getAllValuationEntities: state.getAllValuationEntities);
+                    getAllValuationEntities: state.getAllValuationEntities,
+                    assetType: assetType,
+                    assetId: assetId,
+                    isManuallyAdded: isManuallyAdded,
+                  );
                 }
                 return const Center(child: CircularProgressIndicator());
               },
@@ -92,9 +102,17 @@ class ValuationWidget extends AppStatelessWidget {
 }
 
 class ValuationTableWidget extends StatefulWidget {
-  const ValuationTableWidget(
-      {super.key, required this.getAllValuationEntities});
+  const ValuationTableWidget({
+    super.key,
+    required this.getAllValuationEntities,
+    required this.assetId,
+    required this.assetType,
+    required this.isManuallyAdded,
+  });
   final List<GetAllValuationEntity> getAllValuationEntities;
+  final String assetId;
+  final String assetType;
+  final bool isManuallyAdded;
 
   @override
   AppState<ValuationTableWidget> createState() => _ValuationTableWidgetState();
@@ -125,11 +143,15 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
               buildTableHeader(context, appLocalizations),
               ...List.generate(length > limit ? limit : length, (index) {
                 final e = widget.getAllValuationEntities[index];
-                return buildTableRow(context,
-                    date: CustomizableDateTime.ddMmYyyy(e.valuatedAt),
-                    note: e.note ?? '',
-                    value: e.amountInUsd.convertMoney(addDollar: true),
-                    index: index);
+                return buildTableRow(
+                  context,
+                  date: CustomizableDateTime.ddMmYyyy(e.valuatedAt),
+                  note: e.note ?? '',
+                  value: e.amountInUsd.convertMoney(addDollar: true),
+                  isSystemGenerated: e.isSystemGenerated,
+                  index: index,
+                  id: e.id,
+                );
               }),
             ],
           ),
@@ -167,11 +189,19 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
           buildTableHeader(context, appLocalizations),
           ...List.generate(widget.getAllValuationEntities.length, (index) {
             final e = widget.getAllValuationEntities[index];
-            return buildTableRow(context,
-                date: CustomizableDateTime.ddMmYyyy(e.valuatedAt),
-                note: e.note ?? '',
-                value: e.amountInUsd.convertMoney(addDollar: true),
-                index: index);
+
+            debugPrint('getAllValuationEntities---');
+            debugPrint(e.toString());
+
+            return buildTableRow(
+              context,
+              date: CustomizableDateTime.ddMmYyyy(e.valuatedAt),
+              note: e.note ?? '',
+              value: e.amountInUsd.convertMoney(addDollar: true),
+              isSystemGenerated: e.isSystemGenerated,
+              index: index,
+              id: e.id,
+            );
           }),
         ],
       ),
@@ -232,7 +262,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
           ),
         ),
         if (AppConstants.publicMvp2Items) const SizedBox.shrink(),
-        if (AppConstants.publicMvp2Items)
+        if (AppConstants.publicMvp2Items && widget.isManuallyAdded)
           Padding(
             padding: padding,
             child: Text(
@@ -252,7 +282,9 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
     required String date,
     required String note,
     required String value,
+    required bool isSystemGenerated,
     required int index,
+    required String id,
   }) {
     final textTheme = Theme.of(context).textTheme;
     return TableRow(
@@ -300,7 +332,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
           ),
         ),
         if (AppConstants.publicMvp2Items) const SizedBox.shrink(),
-        if (AppConstants.publicMvp2Items)
+        if (AppConstants.publicMvp2Items && widget.isManuallyAdded)
           PopupMenuButton(
             itemBuilder: (BuildContext context) {
               final List items = [
@@ -320,14 +352,47 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                             Text(items[index][0]),
                           ],
                         ),
-                        onTap: () {
-                          switch (index) {
-                            case 0:
-                              // context.pushNamed(AppRoutes.settings);
-                              break;
-                            case 1:
-                              // AppRestart.restart(context);
-                              break;
+                        onTap: () async {
+                          if (index == 0) {
+                            debugPrint("working edit");
+                            Future.delayed(
+                                const Duration(seconds: 0),
+                                () => showDialog(
+                                    context: context,
+                                    builder: (buildContext) {
+                                      debugPrint("working edit");
+                                      return ValuationModalWidget(
+                                        title: '',
+                                        confirmBtn: AppLocalizations.of(context)
+                                            .common_button_save,
+                                        cancelBtn: AppLocalizations.of(context)
+                                            .common_button_cancel,
+                                        assetType: widget.assetType,
+                                        assetId: widget.assetId,
+                                        isEdit: true,
+                                        valuationId: id,
+                                      );
+                                    }));
+                            ;
+                          } else {
+                            // delete here
+                            debugPrint("working delete");
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const ValuationDeleteModal(
+                                    title:
+                                        "Are you sure you want to delete this entry?",
+                                    body: "This action cannot be undone",
+                                    confirmBtn: 'Delete',
+                                    cancelBtn: "Cancel");
+                              },
+                            ).then((isConfirm) {
+                              if (isConfirm != null && isConfirm == true) {
+                                // handleFormSubmit(formStateKey, renderSubmitData, context, true);
+                              }
+                              return isConfirm;
+                            });
                           }
                         },
                       ));

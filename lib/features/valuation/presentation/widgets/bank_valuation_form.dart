@@ -16,7 +16,9 @@ import 'package:wmd/injection_container.dart';
 
 class BankValuationFormWidget extends StatefulWidget {
   final Function buildActions;
-  const BankValuationFormWidget({Key? key, required this.buildActions})
+  final bool isEdit;
+  const BankValuationFormWidget(
+      {Key? key, required this.buildActions, required this.isEdit})
       : super(key: key);
   @override
   AppState<BankValuationFormWidget> createState() =>
@@ -25,6 +27,7 @@ class BankValuationFormWidget extends StatefulWidget {
 
 class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
   bool enableAddAssetButton = false;
+  late Map<String, dynamic> lastValue;
   bool hasTimeLineSelected = false;
   DateTime? availableDateValue;
   FormBuilderState? formState;
@@ -36,12 +39,28 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
     setState(() {
       formState = formKey.currentState;
     });
-
+    Map<String, dynamic> instantValue = formKey.currentState!.instantValue;
     if (finalValid) {
-      if (!enableAddAssetButton) {
-        setState(() {
-          enableAddAssetButton = true;
-        });
+      if (widget.isEdit == true) {
+        if (lastValue.toString() != instantValue.toString()) {
+          if (!enableAddAssetButton) {
+            setState(() {
+              enableAddAssetButton = true;
+            });
+          }
+        } else {
+          if (enableAddAssetButton) {
+            setState(() {
+              enableAddAssetButton = false;
+            });
+          }
+        }
+      } else {
+        if (!enableAddAssetButton) {
+          setState(() {
+            enableAddAssetButton = true;
+          });
+        }
       }
     } else {
       if (enableAddAssetButton) {
@@ -51,6 +70,16 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
       }
     }
     formState?.save();
+  }
+
+  void setFormValues(Map<String, dynamic> json) {
+    json.removeWhere((key, value) => (value == "" || value == null));
+    debugPrint("working real setup setFormValues");
+    if (formKey.currentState != null) {
+      debugPrint("working inside real setup setFormValues");
+      debugPrint(json.toString());
+      formKey.currentState?.patchValue(json);
+    }
   }
 
   @override
@@ -98,6 +127,7 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
                   child: CurrenciesDropdown(
                     onChanged: (e) => checkFinalValid(e),
                     showExchange: false,
+                    enabled: !widget.isEdit,
                   ),
                 ),
                 EachTextField(
@@ -129,7 +159,7 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
                       ))
                   .toList(),
             )),
-        widget.buildActions(formKey)
+        widget.buildActions(formKey, (e) => setFormValues(e))
       ],
     );
   }

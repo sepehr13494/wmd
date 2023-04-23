@@ -13,7 +13,9 @@ import 'package:wmd/features/valuation/data/models/valuation_action_type.dart';
 
 class RealEstateValuationFormWidget extends StatefulWidget {
   final Function buildActions;
-  const RealEstateValuationFormWidget({Key? key, required this.buildActions})
+  final bool isEdit;
+  const RealEstateValuationFormWidget(
+      {Key? key, required this.buildActions, required this.isEdit})
       : super(key: key);
   @override
   AppState<RealEstateValuationFormWidget> createState() =>
@@ -24,6 +26,7 @@ class _RealEstateValuationFormWidgetState
     extends AppState<RealEstateValuationFormWidget> {
   final formKey = GlobalKey<FormBuilderState>();
   bool enableAddAssetButton = false;
+  late Map<String, dynamic> lastValue;
   bool hasTimeLineSelected = false;
   DateTime? availableDateValue;
   FormBuilderState? formState;
@@ -43,12 +46,28 @@ class _RealEstateValuationFormWidgetState
     setState(() {
       formState = formKey.currentState;
     });
-
+    Map<String, dynamic> instantValue = formKey.currentState!.instantValue;
     if (finalValid) {
-      if (!enableAddAssetButton) {
-        setState(() {
-          enableAddAssetButton = true;
-        });
+      if (widget.isEdit == true) {
+        if (lastValue.toString() != instantValue.toString()) {
+          if (!enableAddAssetButton) {
+            setState(() {
+              enableAddAssetButton = true;
+            });
+          }
+        } else {
+          if (enableAddAssetButton) {
+            setState(() {
+              enableAddAssetButton = false;
+            });
+          }
+        }
+      } else {
+        if (!enableAddAssetButton) {
+          setState(() {
+            enableAddAssetButton = true;
+          });
+        }
       }
     } else {
       if (enableAddAssetButton) {
@@ -84,6 +103,16 @@ class _RealEstateValuationFormWidgetState
       currentDayValue = NumberFormat("#,##0", "en_US")
           .format(noOfUnitsParsed! * valuePerUnitParsed!);
     });
+  }
+
+  void setFormValues(Map<String, dynamic> json) {
+    json.removeWhere((key, value) => (value == "" || value == null));
+    debugPrint("working real setup setFormValues");
+    if (formKey.currentState != null) {
+      debugPrint("working inside real setup setFormValues");
+      debugPrint(json.toString());
+      formKey.currentState?.patchValue(json);
+    }
   }
 
   @override
@@ -142,6 +171,7 @@ class _RealEstateValuationFormWidgetState
               child: CurrenciesDropdown(
                 onChanged: checkFinalValid,
                 showExchange: false,
+                enabled: !widget.isEdit,
               ),
             ),
             EachTextField(
@@ -243,7 +273,7 @@ class _RealEstateValuationFormWidgetState
               .toList(),
         ),
       ),
-      widget.buildActions(formKey)
+      widget.buildActions(formKey, (e) => setFormValues(e))
     ]);
   }
 }

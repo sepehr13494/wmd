@@ -142,6 +142,12 @@ import 'package:wmd/features/edit_assets/edit_other_assets/domain/repositories/e
 import 'package:wmd/features/edit_assets/edit_other_assets/domain/use_cases/delete_other_assets_usecase.dart';
 import 'package:wmd/features/edit_assets/edit_other_assets/domain/use_cases/put_other_assets_usecase.dart';
 import 'package:wmd/features/edit_assets/edit_other_assets/presentation/manager/edit_other_assets_cubit.dart';
+import 'package:wmd/features/edit_assets/edit_private_debt/data/data_sources/edit_private_debt_remote_datasource.dart';
+import 'package:wmd/features/edit_assets/edit_private_debt/data/repositories/edit_private_debt_repository_impl.dart';
+import 'package:wmd/features/edit_assets/edit_private_debt/domain/repositories/edit_private_debt_repository.dart';
+import 'package:wmd/features/edit_assets/edit_private_debt/domain/use_cases/delete_private_debt_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_private_debt/domain/use_cases/put_private_debt_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_private_debt/presentation/manager/edit_private_debt_cubit.dart';
 import 'package:wmd/features/edit_assets/edit_private_equity/data/data_sources/edit_private_equity_remote_datasource.dart';
 import 'package:wmd/features/edit_assets/edit_private_equity/data/repositories/edit_private_equity_repository_impl.dart';
 import 'package:wmd/features/edit_assets/edit_private_equity/domain/repositories/edit_private_equity_repository.dart';
@@ -204,6 +210,8 @@ import 'package:wmd/features/settings/data/data_sources/settings_remote_datasour
 import 'package:wmd/features/valuation/data/data_sources/valuation_remote_datasource.dart';
 import 'package:wmd/features/valuation/data/repositories/valuation_repository_impl.dart';
 import 'package:wmd/features/valuation/domain/repositories/valuation_repository.dart';
+import 'package:wmd/features/valuation/domain/use_cases/delete_valuation_usecase.dart';
+import 'package:wmd/features/valuation/domain/use_cases/get_valudation_usecase.dart';
 import 'package:wmd/features/valuation/domain/use_cases/post_valuation_usecase.dart';
 import 'package:wmd/features/valuation/domain/use_cases/update_valuation_usecase.dart';
 import 'package:wmd/features/valuation/presentation/manager/valuation_cubit.dart';
@@ -493,6 +501,15 @@ Future<void> init() async {
   sl.registerLazySingleton<EditPrivateEquityRemoteDataSource>(
           () => EditPrivateEquityRemoteDataSourceImpl(sl()));
 
+  //EditPrivateDebt
+  sl.registerFactory(() => EditPrivateDebtCubit(sl(),sl()));
+  sl.registerLazySingleton(() => PutPrivateDebtUseCase(sl(),sl()));
+  sl.registerLazySingleton(() => DeletePrivateDebtUseCase(sl()));
+
+  sl.registerLazySingleton<EditPrivateDebtRepository>(
+          () => EditPrivateDebtRepositoryImpl(sl()));
+  sl.registerLazySingleton<EditPrivateDebtRemoteDataSource>(
+          () => EditPrivateDebtRemoteDataSourceImpl(sl()));
 
   //AssetDetail
   sl.registerFactory(() => AssetSummaryCubit(sl()));
@@ -633,9 +650,11 @@ Future<void> init() async {
   sl.registerFactory(() => ChartsHeightCubit());
 
   //Settings
-  sl.registerFactory(() => AssetValuationCubit(sl(), sl()));
+  sl.registerFactory(() => AssetValuationCubit(sl(), sl(), sl(), sl()));
   sl.registerLazySingleton(() => AssetPostValuationUseCase(sl()));
   sl.registerLazySingleton(() => UpdateValuationUseCase(sl()));
+  sl.registerLazySingleton(() => AssetDeleteValuationUseCase(sl()));
+  sl.registerLazySingleton(() => AssetGetValuationUseCase(sl()));
 
   sl.registerLazySingleton<AssetValuationRepository>(
       () => AssetValuationRepositoryImpl(sl()));
