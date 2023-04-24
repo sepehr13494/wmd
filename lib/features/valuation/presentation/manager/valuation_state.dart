@@ -2,6 +2,10 @@ part of 'valuation_cubit.dart';
 
 abstract class AssetValuationState {}
 
+class PostValuationLoadingState extends LoadingState {}
+
+class DeleteValuationLoadingState extends LoadingState {}
+
 class PostValuationLoaded extends Equatable with AssetValuationState {
   final PostValuationEntity postValuationEntity;
 

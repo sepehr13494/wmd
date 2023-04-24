@@ -377,22 +377,28 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                           } else {
                             // delete here
                             debugPrint("working delete");
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return const ValuationDeleteModal(
-                                    title:
-                                        "Are you sure you want to delete this entry?",
-                                    body: "This action cannot be undone",
-                                    confirmBtn: 'Delete',
-                                    cancelBtn: "Cancel");
-                              },
-                            ).then((isConfirm) {
-                              if (isConfirm != null && isConfirm == true) {
-                                // handleFormSubmit(formStateKey, renderSubmitData, context, true);
-                              }
-                              return isConfirm;
-                            });
+                            Future.delayed(
+                                const Duration(seconds: 0),
+                                () => showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return ValuationDeleteModal(
+                                          title:
+                                              "Are you sure you want to delete this entry?",
+                                          body: "This action cannot be undone",
+                                          confirmBtn: 'Delete',
+                                          cancelBtn: "Cancel",
+                                          valuationId: id,
+                                          assetId: widget.assetId,
+                                        );
+                                      },
+                                    ).then((isConfirm) {
+                                      if (isConfirm != null &&
+                                          isConfirm == true) {
+                                        // handleFormSubmit(formStateKey, renderSubmitData, context, true);
+                                      }
+                                      return isConfirm;
+                                    }));
                           }
                         },
                       ));
