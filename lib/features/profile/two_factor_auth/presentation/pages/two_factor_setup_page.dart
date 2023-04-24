@@ -81,7 +81,8 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
         setState(() {
           current2FA = "email";
         });
-      } else if (settingsData.smsTwoFactorEnabled) {
+      } else if (settingsData.twoFactorEnabled &&
+          settingsData.smsTwoFactorEnabled) {
         setState(() {
           current2FA = "phone";
         });
@@ -113,7 +114,8 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
           setState(() {
             current2FA = "email";
           });
-        } else if (settingsData.smsTwoFactorEnabled) {
+        } else if (settingsData.twoFactorEnabled &&
+            settingsData.smsTwoFactorEnabled) {
           setState(() {
             current2FA = "phone";
           });
@@ -281,7 +283,14 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                               // ])),
                               leading: Radio<String>(
                                 value: "email",
-                                groupValue: current2FA,
+                                groupValue: current2FA == 'phone'
+                                    ? (userStatusState is UserStatusLoaded &&
+                                            userStatusState.userStatus
+                                                    .mobileNumberVerified ==
+                                                true)
+                                        ? current2FA
+                                        : 'email'
+                                    : current2FA,
                                 onChanged: (String? value) {
                                   if (twoFactorEnabled) {
                                     setState(() {

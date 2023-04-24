@@ -48,7 +48,7 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
     final appTheme = Theme.of(context);
 
-    final twoFactorState = context.read<TwoFactorCubit>().state;
+    // final twoFactorState = context.read<TwoFactorCubit>().state;
 
     if (widget.expandCustodian) {
       context.read<CustodianStatusListCubit>().getCustodianStatusList();
@@ -144,11 +144,9 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                                               .netWorthObj),
                                                 const NetWorthBaseChart(),
                                                 const SizedBox(height: 8),
-                                                if ((twoFactorState
-                                                            is TwoFactorLoaded &&
-                                                        twoFactorState.entity
-                                                                .smsTwoFactorEnabled ==
-                                                            false) &&
+                                                if ((state.userStatus
+                                                            .mobileNumberVerified ==
+                                                        false) &&
                                                     showTwoFactorReccoment)
                                                   TwoFactorRecommendationWidget(
                                                     onClose: () {
