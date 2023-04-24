@@ -29,7 +29,7 @@ class AssetValuationCubit extends Cubit<AssetValuationState> {
   ) : super(LoadingState());
 
   postValuation({required Map<String, dynamic> map}) async {
-    emit(LoadingState());
+    emit(PostValuationLoadingState());
     final result =
         await postValuationUseCase(PostValuationParams.fromJson(map));
     result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
@@ -38,7 +38,7 @@ class AssetValuationCubit extends Cubit<AssetValuationState> {
   }
 
   updateValuation({required Map<String, dynamic> map}) async {
-    emit(LoadingState());
+    emit(PostValuationLoadingState());
     final result =
         await updateValuationUseCase(UpdateValuationParams.fromJson(map));
     result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
@@ -47,9 +47,10 @@ class AssetValuationCubit extends Cubit<AssetValuationState> {
   }
 
   deleteValuation({required Map<String, dynamic> map}) async {
-    emit(LoadingState());
+    emit(DeleteValuationLoadingState());
     final result =
         await assetDeleteValuationUseCase(GetValuationParams.fromJson(map));
+
     result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
       emit(SuccessState(appSuccess: entity));
     });
