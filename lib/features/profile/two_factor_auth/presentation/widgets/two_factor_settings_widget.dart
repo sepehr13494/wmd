@@ -50,7 +50,8 @@ class TwoFactorSetting extends AppStatelessWidget {
                         ],
                       ),
                     if (state is TwoFactorLoaded &&
-                        state.entity.smsTwoFactorEnabled)
+                        (state.entity.twoFactorEnabled &&
+                            state.entity.smsTwoFactorEnabled))
                       Row(
                         children: [
                           Icon(Icons.check_circle, color: Colors.green[300]),
