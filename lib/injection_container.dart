@@ -136,6 +136,12 @@ import 'package:wmd/features/edit_assets/edit_bank_manual/domain/repositories/ed
 import 'package:wmd/features/edit_assets/edit_bank_manual/domain/use_cases/delete_bank_manual_usecase.dart';
 import 'package:wmd/features/edit_assets/edit_bank_manual/domain/use_cases/put_bank_manual_usecase.dart';
 import 'package:wmd/features/edit_assets/edit_bank_manual/presentation/manager/edit_bank_manual_cubit.dart';
+import 'package:wmd/features/edit_assets/edit_listed_asset/data/data_sources/edit_listed_asset_remote_datasource.dart';
+import 'package:wmd/features/edit_assets/edit_listed_asset/data/repositories/edit_listed_asset_repository_impl.dart';
+import 'package:wmd/features/edit_assets/edit_listed_asset/domain/repositories/edit_listed_asset_repository.dart';
+import 'package:wmd/features/edit_assets/edit_listed_asset/domain/use_cases/delete_listed_asset_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_listed_asset/domain/use_cases/put_listed_asset_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_listed_asset/presentation/manager/edit_listed_asset_cubit.dart';
 import 'package:wmd/features/edit_assets/edit_other_assets/data/data_sources/edit_other_assets_remote_datasource.dart';
 import 'package:wmd/features/edit_assets/edit_other_assets/data/repositories/edit_other_assets_repository_impl.dart';
 import 'package:wmd/features/edit_assets/edit_other_assets/domain/repositories/edit_other_assets_repository.dart';
@@ -510,6 +516,17 @@ Future<void> init() async {
           () => EditPrivateDebtRepositoryImpl(sl()));
   sl.registerLazySingleton<EditPrivateDebtRemoteDataSource>(
           () => EditPrivateDebtRemoteDataSourceImpl(sl()));
+
+  //EditListedAsset
+  sl.registerFactory(() => EditListedAssetCubit(sl(),sl()));
+  sl.registerLazySingleton(() => PutListedAssetUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteListedAssetUseCase(sl()));
+
+  sl.registerLazySingleton<EditListedAssetRepository>(
+          () => EditListedAssetRepositoryImpl(sl()));
+  sl.registerLazySingleton<EditListedAssetRemoteDataSource>(
+          () => EditListedAssetRemoteDataSourceImpl(sl()));
+
 
   //AssetDetail
   sl.registerFactory(() => AssetSummaryCubit(sl()));

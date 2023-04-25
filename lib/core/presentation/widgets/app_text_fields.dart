@@ -646,6 +646,11 @@ class _ListedSecurityTypeAheadState extends AppState<ListedSecurityTypeAhead> {
 
     return FormBuilderField<ListedSecurityName?>(
         builder: (state) {
+          if(typeController.text.isEmpty){
+            if(state.value != null){
+              typeController.text = state.value!.securityName??"";
+            }
+          }
           return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -735,7 +740,8 @@ class _ListedSecurityTypeAheadState extends AppState<ListedSecurityTypeAhead> {
         onChanged: widget.onChange,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: FormBuilderValidators.compose(validators),
-        name: widget.name);
+        name: widget.name,
+    );
   }
 }
 

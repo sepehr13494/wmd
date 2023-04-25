@@ -17,34 +17,37 @@ class AddListedSecurityUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
   @override
   Future<Either<Failure, AddAsset>> call(Map<String, dynamic> params) async {
     try {
-      final marketValue = params['marketValue'].toString().replaceAll(',', '');
-      final totalCost = params['totalCost'].toString().replaceAll(',', '');
-
-      final ListedSecurityName name = params['name'];
-
-      debugPrint("ListedSecurityName");
-
-      final newMap = {
-        ...params,
-        "securityName": name.securityName,
-        "securityShortName": name.securityShortName,
-        "tradedExchange": name.tradedExchange,
-        "isin": name.isin,
-        "category": name.category,
-        "marketValue": marketValue,
-        "totalCost": totalCost,
-      };
-
-      debugPrint("newmap");
-      debugPrint(newMap.toString());
-
-      final assetParam = AddListedSecurityParams.fromJson(newMap);
-
-      return await listedSecurityRepository.postListedSecurity(assetParam);
+      return await listedSecurityRepository.postListedSecurity(getAddListedSecurityParamsObj(params));
     } catch (e) {
       debugPrint("AddOtherAssetUseCase catch : ${e.toString()}");
       return const Left(AppFailure(message: "Something went wrong!"));
     }
+  }
+
+  static AddListedSecurityParams getAddListedSecurityParamsObj(params){
+    final marketValue = params['marketValue'].toString().replaceAll(',', '');
+    final totalCost = params['totalCost'].toString().replaceAll(',', '');
+
+    final ListedSecurityName name = params['name'];
+
+    debugPrint("ListedSecurityName");
+
+    final Map<String,dynamic> newMap = {
+      ...params,
+      "securityName": name.securityName,
+      "securityShortName": name.securityShortName,
+      "tradedExchange": name.tradedExchange,
+      "isin": name.isin,
+      "category": name.category,
+      "marketValue": marketValue,
+      "totalCost": totalCost,
+    };
+
+    debugPrint("newmap");
+    debugPrint(newMap.toString());
+
+    return AddListedSecurityParams.fromJson(newMap);
+
   }
 }
 
