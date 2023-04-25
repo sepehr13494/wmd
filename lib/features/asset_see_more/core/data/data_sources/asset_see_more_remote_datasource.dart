@@ -7,6 +7,7 @@ import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/models/app_request_options.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_see_more/bank_account/data/model/bank_account_more_entity.dart';
+import 'package:wmd/features/asset_see_more/listed_asset/data/models/listed_asset_more_entity.dart';
 import 'package:wmd/features/asset_see_more/other_asset/data/model/other_asset_more_entity.dart';
 import 'package:wmd/features/asset_see_more/private_debt/data/models/private_debt_more_entity.dart';
 import 'package:wmd/features/asset_see_more/private_equity/data/models/private_equity_more_entity.dart';
@@ -51,6 +52,12 @@ class AssetSeeMoreRemoteDataSourceImpl extends AppServerDataSource
           break;
         case AssetTypes.privateDebt:
           result = PrivateDebtMoreEntity.fromJson(response);
+          break;
+        case AssetTypes.listedAsset:
+        case AssetTypes.listedAssetEquity:
+        case AssetTypes.listedAssetFixedIncome:
+        case AssetTypes.listedAssetOther:
+          result = ListedAssetMoreEntity.fromJson(response);
           break;
         default:
           result = DefaultMoreEntity(response.toString());
