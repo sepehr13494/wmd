@@ -101,8 +101,12 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
   @override
   void initState() {
     if (widget.edit) {
-      noOfUnits = widget.moreEntity!.toFormJson()["units"];
-      valuePerUnit = widget.moreEntity!.toFormJson()["valuePerUnit"];
+      securityName = widget.moreEntity!.toFormJson()["name"];
+      noOfUnits = widget.moreEntity!.toFormJson()["quantity"];
+      valuePerUnit = widget.moreEntity!.toFormJson()["marketValue"];
+      isFixedIncome = securityName?.category == "FixedIncome";
+      isDisableCurrency = true;
+      isDisableCategory = true;
       calculateCurrentValue();
     }
     super.initState();

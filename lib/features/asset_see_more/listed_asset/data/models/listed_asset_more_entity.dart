@@ -1,10 +1,11 @@
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
+import 'package:wmd/features/add_assets/core/data/models/listed_security_name.dart';
 
 import '../../../core/data/models/get_asset_see_more_response.dart';
 
-class ListedAssetMoreEntity extends GetSeeMoreResponse{
+class ListedAssetMoreEntity extends GetSeeMoreResponse {
   ListedAssetMoreEntity({
     required this.id,
     required this.type,
@@ -54,87 +55,102 @@ class ListedAssetMoreEntity extends GetSeeMoreResponse{
   final double marketValue;
   final double quantity;
   final double totalCost;
-  final double couponRate;
-  final DateTime maturityDate;
+  final double? couponRate;
+  final DateTime? maturityDate;
 
-  factory ListedAssetMoreEntity.fromJson(Map<String, dynamic> json) => ListedAssetMoreEntity(
-    id: json["id"]??"",
-    type: json["type"]??"",
-    isActive: json["isActive"]??false,
-    country: json["country"]??"",
-    region: json["region"]??"",
-    currencyCode: json["currencyCode"]??"",
-    percentage: double.tryParse((json["percentage"] ?? "0").toString())??0,
-    holdings: double.tryParse((json["holdings"] ?? "0").toString())??0,
-    yearToDate: double.tryParse((json["yearToDate"] ?? "0").toString())??0,
-    inceptionToDate: double.tryParse((json["inceptionToDate"] ?? "0").toString())??0,
-    asOfDate: DateTime.tryParse(json["asOfDate"]) ?? DateTime.now(),
-    subType: json["subType"]??"",
-    securityName: json["securityName"]??"",
-    securityShortName: json["securityShortName"]??"",
-    tradedExchange: json["tradedExchange"]??"",
-    brokerName: json["brokerName"]??"",
-    isin: json["isin"]??"",
-    category: json["category"]??"",
-    investmentDate: DateTime.tryParse(json["investmentDate"]) ?? DateTime.now(),
-    marketValue: double.tryParse((json["marketValue"] ?? "0").toString())??0,
-    quantity: double.tryParse((json["quantity"] ?? "0").toString())??0,
-    totalCost: double.tryParse((json["totalCost"] ?? "0").toString())??0,
-    couponRate: double.tryParse((json["couponRate"] ?? "0").toString())??0,
-    maturityDate: DateTime.tryParse(json["maturityDate"]) ?? DateTime.now(),
-  );
+  factory ListedAssetMoreEntity.fromJson(Map<String, dynamic> json) =>
+      ListedAssetMoreEntity(
+        id: json["id"] ?? "",
+        type: json["type"] ?? "",
+        isActive: json["isActive"] ?? false,
+        country: json["country"] ?? "",
+        region: json["region"] ?? "",
+        currencyCode: json["currencyCode"] ?? "",
+        percentage:
+            double.tryParse((json["percentage"] ?? "0").toString()) ?? 0,
+        holdings: double.tryParse((json["holdings"] ?? "0").toString()) ?? 0,
+        yearToDate:
+            double.tryParse((json["yearToDate"] ?? "0").toString()) ?? 0,
+        inceptionToDate:
+            double.tryParse((json["inceptionToDate"] ?? "0").toString()) ?? 0,
+        asOfDate: DateTime.tryParse(json["asOfDate"]) ?? DateTime.now(),
+        subType: json["subType"] ?? "",
+        securityName: json["securityName"] ?? "",
+        securityShortName: json["securityShortName"] ?? "",
+        tradedExchange: json["tradedExchange"] ?? "",
+        brokerName: json["brokerName"] ?? "",
+        isin: json["isin"] ?? "",
+        category: json["category"] ?? "",
+        investmentDate:
+            DateTime.tryParse(json["investmentDate"]) ?? DateTime.now(),
+        marketValue:
+            double.tryParse((json["marketValue"] ?? "0").toString()) ?? 0,
+        quantity: double.tryParse((json["quantity"] ?? "0").toString()) ?? 0,
+        totalCost: double.tryParse((json["totalCost"] ?? "0").toString()) ?? 0,
+        couponRate:
+            double.tryParse((json["couponRate"] ?? "0").toString()) ?? 0,
+        maturityDate: json["maturityDate"] == null
+            ? null
+            : (DateTime.tryParse(json["maturityDate"]) ?? DateTime.now()),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "type": type,
-    "isActive": isActive,
-    "country": country,
-    "region": region,
-    "currencyCode": currencyCode,
-    "percentage": percentage,
-    "holdings": holdings,
-    "yearToDate": yearToDate,
-    "inceptionToDate": inceptionToDate,
-    "asOfDate": asOfDate.toIso8601String(),
-    "subType": subType,
-    "securityName": securityName,
-    "securityShortName": securityShortName,
-    "tradedExchange": tradedExchange,
-    "brokerName": brokerName,
-    "isin": isin,
-    "category": category,
-    "investmentDate": investmentDate.toIso8601String(),
-    "marketValue": marketValue,
-    "quantity": quantity,
-    "totalCost": totalCost,
-    "couponRate": couponRate,
-    "maturityDate": maturityDate.toIso8601String(),
-  };
+        "id": id,
+        "type": type,
+        "isActive": isActive,
+        "country": country,
+        "region": region,
+        "currencyCode": currencyCode,
+        "percentage": percentage,
+        "holdings": holdings,
+        "yearToDate": yearToDate,
+        "inceptionToDate": inceptionToDate,
+        "asOfDate": asOfDate.toIso8601String(),
+        "subType": subType,
+        "securityName": securityName,
+        "securityShortName": securityShortName,
+        "tradedExchange": tradedExchange,
+        "brokerName": brokerName,
+        "isin": isin,
+        "category": category,
+        "investmentDate": investmentDate.toIso8601String(),
+        "marketValue": marketValue,
+        "quantity": quantity,
+        "totalCost": totalCost,
+        "couponRate": couponRate,
+        "maturityDate": maturityDate,
+      };
 
-  Map<String, dynamic> toFormJson() => {
-    "id": id,
-    "type": type,
-    "isActive": isActive,
-    "country": Country.getCountryFromString(country),
-    "region": region,
-    "currencyCode": Currency.getCurrencyFromString(currencyCode),
-    "percentage": percentage.toString(),
-    "holdings": holdings.convertMoney(),
-    "yearToDate": yearToDate,
-    "inceptionToDate": inceptionToDate,
-    "asOfDate": asOfDate,
-    "subType": subType,
-    "securityName": securityName,
-    "securityShortName": securityShortName,
-    "tradedExchange": tradedExchange,
-    "brokerName": brokerName,
-    "isin": isin,
-    "category": category,
-    "investmentDate": investmentDate,
-    "marketValue": marketValue.convertMoney(),
-    "quantity": quantity.convertMoney(),
-    "totalCost": totalCost.convertMoney(),
-    "couponRate": couponRate.toString(),
-    "maturityDate": maturityDate,
-  };
+  Map<String, dynamic> toFormJson() {
+    final ListedSecurityName listedSecurityName =
+        ListedSecurityName.listedSecurityNameList.firstWhere(
+            (element) => element.securityShortName == securityShortName);
+    return {
+      "id": id,
+      "type": type,
+      "isActive": isActive,
+      "country": Country.getCountryFromString(country),
+      "region": region,
+      "currencyCode": Currency.getCurrencyFromString(currencyCode),
+      "percentage": percentage.toString(),
+      "holdings": holdings.convertMoney(),
+      "yearToDate": yearToDate,
+      "inceptionToDate": inceptionToDate,
+      "asOfDate": asOfDate,
+      "subType": subType,
+      "securityName": securityName,
+      "securityShortName": securityShortName,
+      "tradedExchange": tradedExchange,
+      "brokerName": brokerName,
+      "isin": isin,
+      "category": category,
+      "investmentDate": investmentDate,
+      "marketValue": marketValue.convertMoney(),
+      "quantity": quantity.convertMoney(),
+      "totalCost": totalCost.convertMoney(),
+      "couponRate": couponRate.toString(),
+      "maturityDate": maturityDate,
+      "name": listedSecurityName,
+    };
+  }
 }

@@ -25,7 +25,7 @@ class EditListedAssetRemoteDataSourceImpl extends AppServerDataSource
   Future<PutListedAssetResponse> putListedAsset(PutListedAssetParams params) async {
     try{
       final appRequestOptions =
-          AppRequestOptions(RequestTypes.get, AppUrls.putListedAsset, {
+          AppRequestOptions(RequestTypes.put, AppUrls.putListedAsset, {
             ...params.addListedSecurityParams.toJson(),
             "assetId":params.assetId,
           });
@@ -44,7 +44,7 @@ class EditListedAssetRemoteDataSourceImpl extends AppServerDataSource
   Future<DeleteListedAssetResponse> deleteListedAsset(DeleteListedAssetParams params) async {
     try{
       final appRequestOptions =
-          AppRequestOptions(RequestTypes.get, AppUrls.deleteListedAsset, params.toJson());
+          AppRequestOptions(RequestTypes.del, AppUrls.deleteListedAsset, params.toJson());
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = DeleteListedAssetResponse.fromJson(response);
       return result;
