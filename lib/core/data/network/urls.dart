@@ -55,6 +55,8 @@ class AppUrls {
   static String deletePrivateEquity = "${wealthBase}PrivateEquity";
   static String putPrivateDebt = "${wealthBase}PrivateDebt";
   static String deletePrivateDebt = "${wealthBase}PrivateDebt";
+  static String putListedAsset = "${wealthBase}ListedAsset";
+  static String deleteListedAsset = "${wealthBase}ListedAsset";
 
   static String getUserNetWorth = "${wealthBase}Wealth/totalnetworth";
   static String getAllocation = "${wealthBase}wealth/";
@@ -75,10 +77,17 @@ class AppUrls {
   static String getOtherAsset = "${wealthBase}OtherAsset";
   static String getRealEstate = "${wealthBase}RealEstate";
   static String getSeeMore(String type) {
-    if(type == "OtherAssets"){
-      return "${wealthBase}OtherAsset";
+    switch (type){
+      case "OtherAssets":
+        return "${wealthBase}OtherAsset";
+      case "ListedAsset":
+      case "ListedAssetEquity":
+      case "ListedAssetFixedIncome":
+      case "ListedAssetOther":
+      return "${wealthBase}ListedAsset";
+      default:
+        return "$wealthBase$type";
     }
-    return "$wealthBase$type";
   }
   static String getAssetSummary(String id) => "${wealthBase}Assets/$id/summary";
 
