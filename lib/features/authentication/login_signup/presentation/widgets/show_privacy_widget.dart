@@ -27,8 +27,7 @@ class PrivacyWidget extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    final String listTop = '* ';
-    final String listBot = '    * ';
+    const double iconSize = 5;
     final List<PrivacyData> data = getData(appLocalizations);
 
     return Container(
@@ -73,7 +72,25 @@ class PrivacyWidget extends AppStatelessWidget {
                       style: textTheme.bodyLarge,
                     ),
                     const SizedBox(height: 8),
-                    ...data.map((e) => Text(listTop + e.title)),
+                    ...data.map((e) => Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Column(
+                              children: const [
+                                SizedBox(height: 8),
+                                Icon(Icons.circle,
+                                    color: Colors.white, size: iconSize),
+                              ],
+                            ),
+                            const SizedBox(width: 4),
+                            Expanded(
+                                child: Text(
+                              e.title,
+                              maxLines: 10,
+                            )),
+                          ],
+                        )),
                     const SizedBox(height: 8),
                     ...List.generate(data.length, (index) {
                       final e = data[index];
@@ -94,8 +111,29 @@ class PrivacyWidget extends AppStatelessWidget {
                                   const SizedBox(height: 8),
                                   Text(e.content),
                                   if (e.childContent != null)
-                                    ...e.childContent!
-                                        .map((c) => Text(listBot + c))
+                                    ...e.childContent!.map((c) => Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            const SizedBox(width: 8),
+                                            Column(
+                                              children: const [
+                                                SizedBox(height: 8),
+                                                Icon(Icons.circle_outlined,
+                                                    color: Colors.white,
+                                                    size: iconSize),
+                                              ],
+                                            ),
+                                            const SizedBox(width: 4),
+                                            Expanded(
+                                                child: Text(
+                                              c,
+                                              maxLines: 10,
+                                            )),
+                                          ],
+                                        ))
                                 ],
                               );
                             })
