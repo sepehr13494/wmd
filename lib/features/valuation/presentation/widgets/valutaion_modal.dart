@@ -13,6 +13,8 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/asset_detail/valuation/data/models/get_all_valuation_params.dart';
+import 'package:wmd/features/asset_detail/valuation/presentation/manager/valuation_cubit.dart';
 import 'package:wmd/features/valuation/presentation/manager/valuation_cubit.dart';
 import 'package:wmd/features/valuation/presentation/widgets/bank_valuation_form.dart';
 import 'package:wmd/features/valuation/presentation/widgets/equity_debt_valuation_form.dart';
@@ -184,7 +186,12 @@ class ValuationModalWidget extends ModalWidget {
           if (state is SuccessState) {
             GlobalFunctions.showSnackBar(context, 'Valuation added',
                 type: "success");
+
             Navigator.pop(context, false);
+
+            context
+                .read<ValuationCubit>()
+                .getAllValuation(GetAllValuationParams(assetId));
           }
           if (state is GetValuationLoaded) {
             var json = state.entity.toFormJson();
