@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:wmd/core/data/network/server_request_manager.dart';
 import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/data/repository/app_data_source.dart';
@@ -25,13 +27,14 @@ class TfoLoginRemoteDataSourceImpl extends AppServerDataSource
           RequestTypes.get, AppUrls.getMandate, params.toJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
+      log('Mert log: $response');
       final result = GetMandatesResponse.fromJson(response);
       return result;
     } on ServerException {
       rethrow;
     } catch (e) {
       throw AppException(
-          message: "format Exception",
+          message: "format Exception + $e",
           type: ExceptionType.format,
           data: e.toString(),
           stackTrace: e is TypeError ? e.stackTrace.toString() : null);
