@@ -1,6 +1,4 @@
 {
-    "@@locale": "ar",
-    "@@last_modified": "2023-04-25T08:16:13+02:00",
     "auth:signup.page.title": "انضمّ إلى منصتنا",
     "auth:signup.page.description": "إنشاء حساب myWMD",
     "auth:signup.heading": "أنشئ حساباً",
@@ -1869,5 +1867,8 @@
     "termsAndConditions:privacyPolicy.policies.contact.description.one.1": "",
     "termsAndConditions:privacyPolicy.policies.contact.description.one.2": "",
     "termsAndConditions:privacyPolicy.policies.contact.description.one.3": "",
-    "termsAndConditions:privacyPolicy.policies.contact.description.one.description": ""
+    "termsAndConditions:privacyPolicy.policies.contact.description.one.description": "",
+    "termsAndConditions:privacyPolicy.policies.contact.description.one.4": "",
+    "termsAndConditions:privacyPolicy.policies.contact.description.one.5": "",
+    "termsAndConditions:privacyPolicy.policies.contact.description.one.6": ""
 }

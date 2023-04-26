@@ -212,7 +212,7 @@ import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_mobile_v
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_resend_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
-import 'package:wmd/features/settings/data/data_sources/settings_remote_datasource.dart';
+import 'package:wmd/features/settings/core/data/data_sources/settings_remote_datasource.dart';
 import 'package:wmd/features/valuation/data/data_sources/valuation_remote_datasource.dart';
 import 'package:wmd/features/valuation/data/repositories/valuation_repository_impl.dart';
 import 'package:wmd/features/valuation/domain/repositories/valuation_repository.dart';
@@ -261,10 +261,10 @@ import 'features/blurred_widget/domain/repositories/blurred_privacy_repository.d
 import 'features/blurred_widget/domain/use_cases/get_is_blurred_usecase.dart';
 import 'features/blurred_widget/domain/use_cases/set_blurred_usecase.dart';
 import 'features/blurred_widget/presentation/manager/blurred_privacy_cubit.dart';
-import 'features/settings/data/repositories/settings_repository_impl.dart';
-import 'features/settings/domain/repositories/settings_repository.dart';
-import 'features/settings/domain/use_cases/get_settings_usecase.dart';
-import 'features/settings/domain/use_cases/put_settings_usecase.dart';
+import 'features/settings/core/data/repositories/settings_repository_impl.dart';
+import 'features/settings/core/domain/repositories/settings_repository.dart';
+import 'features/settings/core/domain/use_cases/get_settings_usecase.dart';
+import 'features/settings/core/domain/use_cases/put_settings_usecase.dart';
 import 'features/splash/data/repositories/splash_repository_impl.dart';
 import 'features/splash/domain/repositories/splash_repository.dart';
 import 'features/splash/domain/use_cases/check_login_usecase.dart';
@@ -488,45 +488,44 @@ Future<void> init() async {
       () => EditBankManualRemoteDataSourceImpl(sl()));
 
   //EditOtherAssets
-  sl.registerFactory(() => EditOtherAssetsCubit(sl(),sl()));
+  sl.registerFactory(() => EditOtherAssetsCubit(sl(), sl()));
   sl.registerLazySingleton(() => PutOtherAssetsUseCase(sl()));
   sl.registerLazySingleton(() => DeleteOtherAssetsUseCase(sl()));
 
   sl.registerLazySingleton<EditOtherAssetsRepository>(
-          () => EditOtherAssetsRepositoryImpl(sl()));
+      () => EditOtherAssetsRepositoryImpl(sl()));
   sl.registerLazySingleton<EditOtherAssetsRemoteDataSource>(
-          () => EditOtherAssetsRemoteDataSourceImpl(sl()));
+      () => EditOtherAssetsRemoteDataSourceImpl(sl()));
 
   //EditPrivateEquity
-  sl.registerFactory(() => EditPrivateEquityCubit(sl(),sl()));
-  sl.registerLazySingleton(() => PutPrivateEquityUseCase(sl(),sl()));
+  sl.registerFactory(() => EditPrivateEquityCubit(sl(), sl()));
+  sl.registerLazySingleton(() => PutPrivateEquityUseCase(sl(), sl()));
   sl.registerLazySingleton(() => DeletePrivateEquityUseCase(sl()));
 
   sl.registerLazySingleton<EditPrivateEquityRepository>(
-          () => EditPrivateEquityRepositoryImpl(sl()));
+      () => EditPrivateEquityRepositoryImpl(sl()));
   sl.registerLazySingleton<EditPrivateEquityRemoteDataSource>(
-          () => EditPrivateEquityRemoteDataSourceImpl(sl()));
+      () => EditPrivateEquityRemoteDataSourceImpl(sl()));
 
   //EditPrivateDebt
-  sl.registerFactory(() => EditPrivateDebtCubit(sl(),sl()));
-  sl.registerLazySingleton(() => PutPrivateDebtUseCase(sl(),sl()));
+  sl.registerFactory(() => EditPrivateDebtCubit(sl(), sl()));
+  sl.registerLazySingleton(() => PutPrivateDebtUseCase(sl(), sl()));
   sl.registerLazySingleton(() => DeletePrivateDebtUseCase(sl()));
 
   sl.registerLazySingleton<EditPrivateDebtRepository>(
-          () => EditPrivateDebtRepositoryImpl(sl()));
+      () => EditPrivateDebtRepositoryImpl(sl()));
   sl.registerLazySingleton<EditPrivateDebtRemoteDataSource>(
-          () => EditPrivateDebtRemoteDataSourceImpl(sl()));
+      () => EditPrivateDebtRemoteDataSourceImpl(sl()));
 
   //EditListedAsset
-  sl.registerFactory(() => EditListedAssetCubit(sl(),sl()));
+  sl.registerFactory(() => EditListedAssetCubit(sl(), sl()));
   sl.registerLazySingleton(() => PutListedAssetUseCase(sl()));
   sl.registerLazySingleton(() => DeleteListedAssetUseCase(sl()));
 
   sl.registerLazySingleton<EditListedAssetRepository>(
-          () => EditListedAssetRepositoryImpl(sl()));
+      () => EditListedAssetRepositoryImpl(sl()));
   sl.registerLazySingleton<EditListedAssetRemoteDataSource>(
-          () => EditListedAssetRemoteDataSourceImpl(sl()));
-
+      () => EditListedAssetRemoteDataSourceImpl(sl()));
 
   //AssetDetail
   sl.registerFactory(() => AssetSummaryCubit(sl()));
