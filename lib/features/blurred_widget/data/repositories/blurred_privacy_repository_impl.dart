@@ -4,9 +4,9 @@ import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 
 import 'package:dartz/dartz.dart';
-import 'package:wmd/features/settings/data/data_sources/settings_remote_datasource.dart';
-import 'package:wmd/features/settings/data/models/get_settings_params.dart';
-import 'package:wmd/features/settings/data/models/put_settings_params.dart';
+import 'package:wmd/features/settings/core/data/data_sources/settings_remote_datasource.dart';
+import 'package:wmd/features/settings/core/data/models/get_settings_params.dart';
+import 'package:wmd/features/settings/core/data/models/put_settings_params.dart';
 
 import '../models/get_is_blurred_params.dart';
 import '../../domain/entities/is_blurred_entity.dart';
