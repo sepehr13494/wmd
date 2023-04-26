@@ -9,6 +9,7 @@ import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_blur_warning.dart';
 import 'package:wmd/features/profile/core/presentation/pages/profile_page.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/two_factor_settings_widget.dart';
+import 'package:wmd/features/settings/linked_accounts/presentation/page/linked_accounts_page.dart';
 import 'package:wmd/features/settings/preferences/presentation/page/preferences_page.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -67,7 +68,9 @@ class _SettingsPageState extends AppState<SettingsPage>
       MapEntry(appLocalizations.profile_tabs_preferences_name,
           const PreferencesPage()),
       MapEntry(
-          appLocalizations.profile_tabs_linkedAccounts_name, const SizedBox()),
+        appLocalizations.profile_tabs_linkedAccounts_name,
+        const LinkedAccountsPage(),
+      ),
     ];
     return Theme(
       data: Theme.of(context).copyWith(
@@ -173,13 +176,7 @@ class _SettingsTabletViewState extends AppState<SettingsTabletView>
                 width: width,
                 child: TabBar(
                   controller: _controller,
-                  tabs: [
-                    Tab(text: appLocalizations.profile_tabs_personal_name),
-                    Tab(text: appLocalizations.profile_tabs_preferences_name),
-                    Tab(
-                        text:
-                            appLocalizations.profile_tabs_linkedAccounts_name),
-                  ],
+                  tabs: widget.pages.map((e) => Tab(text: e.key)).toList(),
                   isScrollable: true,
                   labelStyle: textTheme.bodySmall,
                   padding: const EdgeInsets.all(0),
@@ -196,11 +193,7 @@ class _SettingsTabletViewState extends AppState<SettingsTabletView>
         Expanded(
             child: TabBarView(
           controller: _controller,
-          children: [
-            const ProfilePage(),
-            const PreferencesPage(),
-            Container(),
-          ],
+          children: widget.pages.map((e) => e.value).toList(),
         )),
       ],
     );
@@ -243,45 +236,6 @@ class _SettingsMobileViewState extends AppState<SettingsMobileView> {
               ),
             ),
           ),
-          // ExpansionPanelList(
-          //   expansionCallback: (panelIndex, isExpanded) =>
-          //       onPageOpened(panelIndex),
-          //   dividerColor: Colors.transparent,
-          //   expandedHeaderPadding: const EdgeInsets.all(0),
-          //   children: List.generate(pages.length, (index) {
-          //     final e = pages[index];
-          //     return ExpansionPanel(
-          //       headerBuilder: (context, isExpanded) => ListTile(
-          //         title: Text(e.key),
-          //         trailing: Icon(
-          //           Icons.keyboard_arrow_down,
-          //           color: Theme.of(context).primaryColor,
-          //         ),
-          //       ),
-          //       body: e.value,
-          //       isExpanded: opened == index,
-          //       canTapOnHeader: true,
-          //       backgroundColor: AppColors.backgroundColorPageDark,
-          //     );
-          //   }),
-          // ),
-          // ...List.generate(pages.length, (index) {
-          //   final e = pages[index];
-          //   return ExpansionTile(
-          //     key: Key(index.toString()),
-          //     title: Text(e.key),
-          //     initiallyExpanded: opened == index,
-          //     collapsedIconColor: Theme.of(context).primaryColor,
-          //     iconColor: Theme.of(context).primaryColor,
-          //     backgroundColor: AppColors.backgroundColorPageDark,
-          //     children: [e.value],
-          //     onExpansionChanged: (value) {
-          //       if (value) {
-          //         onPageOpened(index);
-          //       }
-          //     },
-          //   );
-          // }),
           ...List.generate(widget.pages.length, (index) {
             final e = widget.pages[index];
             return AdvanceExpansionTile(
