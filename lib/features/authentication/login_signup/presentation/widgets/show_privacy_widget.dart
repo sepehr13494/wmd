@@ -323,6 +323,12 @@ getData(AppLocalizations a) {
                 a.termsAndConditions_privacyPolicy_policies_contact_description_one_1,
                 a.termsAndConditions_privacyPolicy_policies_contact_description_one_2,
                 a.termsAndConditions_privacyPolicy_policies_contact_description_one_3,
+                '8700 Küsnacht ZH',
+                'Switzerland',
+                'Email: support@allinonelus.com'
+                // a.termsAndConditions_privacyPolicy_policies_contact_description_one_4,
+                // a.termsAndConditions_privacyPolicy_policies_contact_description_one_5,
+                // a.termsAndConditions_privacyPolicy_policies_contact_description_one_6,
               ])
         ]),
   ];

@@ -1,6 +1,4 @@
 {
-    "@@locale": "en",
-    "@@last_modified": "2023-04-25T08:16:13+02:00",
     "auth:signup.page.title": "Join our Platform",
     "auth:signup.page.description": "Create myWMD account",
     "auth:signup.heading": "Create an account",
@@ -1866,8 +1864,8 @@
     "termsAndConditions:privacyPolicy.policies.rights.description.one.description": "To the extent required by applicable laws and regulations, each Data Subject shall have the following rights:",
     "termsAndConditions:privacyPolicy.policies.rights.description.two": "In some cases, the use of those rights may be limited, postponed or impossible due to the legal or regulatory requirements applicable to ALL-IN-ONE-PLUS or due to technical or prevailing commercial limitations. In such cases, ALL-IN-ONE-PLUS shall inform the Data Subject about the reason for the limitation, postponement, or refusal, as the case may be.",
     "termsAndConditions:privacyPolicy.policies.contact.name": "Contact Us",
-    "termsAndConditions:privacyPolicy.policies.contact.description.one.1": "All-In-One-Plus AG Küsnacht (ZH)",
-    "termsAndConditions:privacyPolicy.policies.contact.description.one.2": "Switzerland",
-    "termsAndConditions:privacyPolicy.policies.contact.description.one.3": "Email: support@allinoneplus.com",
+    "termsAndConditions:privacyPolicy.policies.contact.description.one.1": "All-In-One-Plus AG",
+    "termsAndConditions:privacyPolicy.policies.contact.description.one.2": "c\/o Altenburger Ltd legal + tax",
+    "termsAndConditions:privacyPolicy.policies.contact.description.one.3": "Seestrasse 39",
     "termsAndConditions:privacyPolicy.policies.contact.description.one.description": "For any queries concerning the processing of Personal Data described in this Charter, to exercise any of the abovementioned rights or to address any complaint in relation with Personal the Data or its processing, Data Subjects may contact us at the following address:"
 }
