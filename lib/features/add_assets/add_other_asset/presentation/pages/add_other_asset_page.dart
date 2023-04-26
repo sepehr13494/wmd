@@ -244,6 +244,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                     title: appLocalizations
                                         .assetLiabilityForms_forms_others_inputFields_wealthManager_label,
                                     child: FormBuilderTypeAhead(
+                                        enabled: !edit,
                                         name: "wealthManager",
                                         required: false,
                                         hint: appLocalizations
@@ -334,6 +335,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                     title: appLocalizations
                                         .assetLiabilityForms_forms_others_inputFields_units_label,
                                     child: AppTextFields.simpleTextField(
+                                        enabled: !edit,
                                         type: TextFieldType.number,
                                         onChanged: (val) {
                                           setState(() {
@@ -353,6 +355,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                     title: appLocalizations
                                         .assetLiabilityForms_forms_others_inputFields_acquisitionCost_label,
                                     child: AppTextFields.simpleTextField(
+                                        enabled: !edit,
                                         errorMsg: appLocalizations
                                             .assetLiabilityForms_forms_others_inputFields_acquisitionCost_errorMessage,
                                         onChanged: (val) {
@@ -375,6 +378,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                     title: appLocalizations
                                         .assetLiabilityForms_forms_others_inputFields_acquisitionDate_label,
                                     child: FormBuilderDateTimePicker(
+                                      enabled: !edit,
                                       onChanged: (selectedDate) {
                                         checkFinalValid(selectedDate);
                                         setState(() {
@@ -403,6 +407,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                     title: appLocalizations
                                         .assetLiabilityForms_forms_others_inputFields_ownerShip_label,
                                     child: AppTextFields.simpleTextField(
+                                        enabled: !edit,
                                         extraValidators: [
                                           (val) {
                                             return ((int.tryParse(val ?? "0") ??
@@ -432,6 +437,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                     title: appLocalizations
                                         .assetLiabilityForms_forms_others_inputFields_valuePerUnit_label,
                                     child: AppTextFields.simpleTextField(
+                                        enabled: !edit,
                                         required: true,
                                         type: TextFieldType.money,
                                         keyboardType: TextInputType.number,
