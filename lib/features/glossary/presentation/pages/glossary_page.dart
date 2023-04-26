@@ -97,6 +97,7 @@ class GlossaryPage extends AppStatelessWidget {
                                                     initiallyExpanded: index == selectedIndex,
                                                     expandedCrossAxisAlignment: CrossAxisAlignment.start,
                                                     iconColor: Theme.of(context).primaryColor,
+                                                    collapsedIconColor: Theme.of(context).primaryColor,
                                                     onExpansionChanged: ((newState) {
                                                       lastOne = selectedIndex;
                                                       if (newState) {
