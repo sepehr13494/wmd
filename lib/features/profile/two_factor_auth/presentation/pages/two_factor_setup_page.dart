@@ -15,7 +15,7 @@ import 'package:wmd/features/profile/two_factor_auth/manager/two_factor_cubit.da
 import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/disable_two_factor_bottom_sheet.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/otp_phone_verify_code_widget.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/otp_phone_verify_widget.dart';
-import 'package:wmd/features/settings/data/models/put_settings_params.dart';
+import 'package:wmd/features/settings/core/data/models/put_settings_params.dart';
 import 'package:wmd/global_functions.dart';
 
 class TwoFactorSetupPage extends StatefulWidget {
