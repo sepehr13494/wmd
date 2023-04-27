@@ -78,9 +78,6 @@ class ValuationDeleteModal extends ModalWidget {
             GlobalFunctions.showSnackBar(context, 'Valuation deleted',
                 type: "success");
 
-            context
-                .read<ValuationCubit>()
-                .getAllValuation(GetAllValuationParams(assetId));
             Navigator.pop(context, true);
           }
         }), builder: (context, state) {
