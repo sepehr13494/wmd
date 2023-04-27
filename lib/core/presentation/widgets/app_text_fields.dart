@@ -496,6 +496,7 @@ class FormBuilderTypeAhead extends StatefulWidget {
   final Widget? suffixIcon;
   final bool? required;
   final List<String? Function(String?)>? extraValidators;
+  final bool enabled;
 
   const FormBuilderTypeAhead(
       {Key? key,
@@ -508,7 +509,9 @@ class FormBuilderTypeAhead extends StatefulWidget {
       this.errorMsg,
       this.extraValidators,
       this.required = true,
-      this.onChange})
+      this.onChange,
+      this.enabled = true,
+      })
       : super(key: key);
 
   @override
@@ -545,6 +548,7 @@ class _FormBuilderTypeAheadState extends AppState<FormBuilderTypeAhead> {
                   animationStart: 0,
                   animationDuration: Duration.zero,
                   textFieldConfiguration: TextFieldConfiguration(
+                    enabled: widget.enabled,
                     decoration: InputDecoration(
                       hintText: widget.hint,
                       prefixIcon: widget.prefixIcon,
@@ -609,6 +613,7 @@ class ListedSecurityTypeAhead extends StatefulWidget {
   final ValueChanged<ListedSecurityName?>? onChange;
   final bool? required;
   final List<String? Function(String?)>? extraValidators;
+  final bool enabled;
 
   const ListedSecurityTypeAhead(
       {Key? key,
@@ -619,7 +624,9 @@ class ListedSecurityTypeAhead extends StatefulWidget {
       this.required = true,
       this.title,
       this.errorMsg,
-      this.onChange})
+      this.onChange,
+      this.enabled = true,
+      })
       : super(key: key);
 
   @override
@@ -658,6 +665,7 @@ class _ListedSecurityTypeAheadState extends AppState<ListedSecurityTypeAhead> {
                   animationStart: 0,
                   animationDuration: Duration.zero,
                   textFieldConfiguration: TextFieldConfiguration(
+                    enabled: widget.enabled,
                     decoration: InputDecoration(
                       hintText: widget.hint,
                       enabledBorder: state.hasError
