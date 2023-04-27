@@ -173,6 +173,7 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                     title: appLocalizations
                                         .assetLiabilityForms_forms_privateDebt_inputFields_custodian_label,
                                     child: FormBuilderTypeAhead(
+                                        enabled: !edit,
                                         required: false,
                                         onChange: checkFinalValid,
                                         name: "wealthManager",
@@ -192,6 +193,7 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                     title: appLocalizations
                                         .assetLiabilityForms_forms_privateDebt_inputFields_acquisitionDate_label,
                                     child: FormBuilderDateTimePicker(
+                                      enabled: !edit,
                                       onChanged: (selectedDate) {
                                         checkFinalValid(selectedDate);
                                         setState(() {
@@ -236,6 +238,7 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                     title: appLocalizations
                                         .assetLiabilityForms_forms_privateDebt_inputFields_initialInvestmentAmount_label,
                                     child: AppTextFields.simpleTextField(
+                                        enabled: !edit,
                                         onChanged: checkFinalValid,
                                         type: TextFieldType.money,
                                         keyboardType: TextInputType.number,
@@ -247,6 +250,7 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                     title: appLocalizations
                                         .assetLiabilityForms_forms_privateDebt_inputFields_valuationDate_label,
                                     child: FormBuilderDateTimePicker(
+                                      enabled: !edit,
                                       firstDate: aqusitionDateValue,
                                       lastDate: DateTime.now(),
                                       format: DateFormat("dd/MM/yyyy"),
@@ -280,6 +284,7 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                     title: appLocalizations
                                         .assetLiabilityForms_forms_privateDebt_inputFields_currentValue_label,
                                     child: AppTextFields.simpleTextField(
+                                        enabled: !edit,
                                         onChanged: checkFinalValid,
                                         type: TextFieldType.money,
                                         keyboardType: TextInputType.number,

@@ -183,6 +183,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               FormBuilderTypeAhead(
+                                                  enabled: !edit,
                                                   errorMsg: appLocalizations
                                                       .assetLiabilityForms_forms_bankAccount_inputFields_bankName_errorMessage,
                                                   extraValidators: [
@@ -271,10 +272,25 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                       hint: appLocalizations
                                           .assetLiabilityForms_forms_bankAccount_inputFields_accountType_placeholder,
                                       items: AccountType.accountList
-                                          .map((e) => DropdownMenuItem(
+                                          .map((e) {
+                                            bool enabled = true;
+                                            if(edit){
+                                              if(isDepositTerm){
+                                                if(e.value == "SavingAccount" || e.value == "CurrentAccount"){
+                                                  enabled = false;
+                                                }
+                                              }else{
+                                                if(e.value == "TermDeposit"){
+                                                  enabled = false;
+                                                }
+                                              }
+                                            }
+                                            return DropdownMenuItem(
+                                              enabled: enabled,
                                                 value: e.value,
                                                 child: Text(e.name),
-                                              ))
+                                              );
+                                          })
                                           .toList(),
                                     ),
                                   ),
@@ -294,6 +310,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                           title: appLocalizations
                                               .assetLiabilityForms_forms_bankAccount_inputFields_balance_label,
                                           child: AppTextFields.simpleTextField(
+                                              enabled: !edit,
                                               errorMsg: appLocalizations
                                                   .assetLiabilityForms_forms_bankAccount_inputFields_balance_errorMessage,
                                               name: "currentBalance",
@@ -310,6 +327,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                     .assetLiabilityForms_forms_bankAccount_inputFields_rate_label,
                                                 child: AppTextFields
                                                     .simpleTextField(
+                                                    enabled: !edit,
                                                         name: "interestRate",
                                                         suffixIcon: AppTextFields
                                                             .rateSuffixIcon(),
@@ -385,6 +403,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                           title: appLocalizations
                                               .assetLiabilityForms_forms_bankAccount_inputFields_principal_label,
                                           child: AppTextFields.simpleTextField(
+                                            enabled: !edit,
                                             errorMsg: appLocalizations
                                                 .assetLiabilityForms_forms_bankAccount_inputFields_principal_errorMessage,
                                             type: TextFieldType.money,
@@ -401,6 +420,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                           title: appLocalizations
                                               .assetLiabilityForms_forms_bankAccount_inputFields_rate_label,
                                           child: AppTextFields.simpleTextField(
+                                            enabled: !edit,
                                             extraValidators: [
                                               (val) {
                                                 return ((int.tryParse(

@@ -176,6 +176,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                     title: appLocalizations
                                         .assetLiabilityForms_forms_privateEquity_inputFields_custodian_label,
                                     child: FormBuilderTypeAhead(
+                                        enabled: !edit,
                                         required: false,
                                         onChange: checkFinalValid,
                                         name: "wealthManager",
@@ -197,6 +198,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                     title: appLocalizations
                                         .assetLiabilityForms_forms_privateEquity_inputFields_acquisitionDate_label,
                                     child: FormBuilderDateTimePicker(
+                                      enabled: !edit,
                                       inputType: InputType.date,
                                       format: DateFormat("dd/MM/yyyy"),
                                       initialDate:
@@ -241,6 +243,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                     title: appLocalizations
                                         .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_label,
                                     child: AppTextFields.simpleTextField(
+                                        enabled: !edit,
                                         errorMsg: appLocalizations
                                             .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_errorMessage,
                                         onChanged: checkFinalValid,
@@ -257,6 +260,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                     title: appLocalizations
                                         .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_label,
                                     child: FormBuilderDateTimePicker(
+                                      enabled: !edit,
                                       autovalidateMode:
                                           AutovalidateMode.onUserInteraction,
                                       validator: FormBuilderValidators.compose([
@@ -291,6 +295,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                     title: appLocalizations
                                         .assetLiabilityForms_forms_privateEquity_inputFields_currentValue_label,
                                     child: AppTextFields.simpleTextField(
+                                        enabled: !edit,
                                         errorMsg: appLocalizations
                                             .assetLiabilityForms_forms_privateEquity_inputFields_currentValue_errorMessage,
                                         onChanged: checkFinalValid,

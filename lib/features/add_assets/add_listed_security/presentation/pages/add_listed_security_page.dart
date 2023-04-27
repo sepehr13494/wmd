@@ -204,6 +204,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                       title: appLocalizations
                                           .assetLiabilityForms_forms_listedAssets_inputFields_securityName_label,
                                       child: ListedSecurityTypeAhead(
+                                          enabled: !edit,
                                           errorMsg: appLocalizations
                                               .assetLiabilityForms_forms_listedAssets_inputFields_securityName_errorMessage,
                                           name: "name",
@@ -299,6 +300,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                     title: appLocalizations
                                         .assetLiabilityForms_forms_listedAssets_inputFields_brokerName_label,
                                     child: FormBuilderTypeAhead(
+                                        enabled: !edit,
                                         name: "brokerName",
                                         required: false,
                                         hint: appLocalizations
@@ -369,6 +371,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                       onChanged: (selectedDate) {
                                         checkFinalValid(selectedDate);
                                       },
+                                      enabled: !edit,
                                       lastDate: DateTime.now(),
                                       inputType: InputType.date,
                                       format: DateFormat("dd/MM/yyyy"),
@@ -431,6 +434,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                     title: appLocalizations
                                         .assetLiabilityForms_forms_listedAssets_inputFields_value_label,
                                     child: AppTextFields.simpleTextField(
+                                        enabled: !edit,
                                         required: false,
                                         onChanged: (val) {
                                           setState(() {
@@ -449,6 +453,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                     title: appLocalizations
                                         .assetLiabilityForms_forms_listedAssets_inputFields_quantity_label,
                                     child: AppTextFields.simpleTextField(
+                                        enabled: !edit,
                                         errorMsg: appLocalizations
                                             .assetLiabilityForms_forms_listedAssets_inputFields_quantity_errorMessage,
                                         type: TextFieldType.rate,
@@ -497,6 +502,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                         title: appLocalizations
                                             .assetLiabilityForms_forms_listedAssets_inputFields_couponRate_label,
                                         child: AppTextFields.simpleTextField(
+                                          enabled: !edit,
                                           errorMsg: appLocalizations
                                               .assetLiabilityForms_forms_listedAssets_inputFields_couponRate_errorMessage_message,
                                           extraValidators: [
@@ -523,6 +529,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                         title: appLocalizations
                                             .assetLiabilityForms_forms_listedAssets_inputFields_maturityDate_label,
                                         child: FormBuilderDateTimePicker(
+                                          enabled: !edit,
                                           onChanged: (selectedDate) {
                                             checkFinalValid(selectedDate);
                                           },
