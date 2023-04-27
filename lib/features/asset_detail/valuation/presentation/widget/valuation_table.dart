@@ -32,72 +32,80 @@ class ValuationWidget extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
     return Padding(
-      padding: EdgeInsets.all(responsiveHelper.biggerGap),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                appLocalizations.assets_label_valuation,
-                style: textTheme.bodyLarge,
-              ),
-              if (AppConstants.publicMvp2Items && isManuallyAdded)
-                TextButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (buildContext) {
-                            return ValuationModalWidget(
-                                title: '',
-                                confirmBtn: appLocalizations.common_button_save,
-                                cancelBtn:
-                                    appLocalizations.common_button_cancel,
-                                assetType: assetType,
-                                assetId: assetId);
-                          });
-
-                      // context.pushNamed(AppRoutes.forgetPassword);
-                    },
-                    child: Text(
-                      appLocalizations
-                          .assets_valuationModal_buttons_buttons_addValuation,
-                      style: textTheme.bodySmall!.toLinkStyle(context),
-                    ))
-            ],
-          ),
-          Text(
-            appLocalizations.assets_label_keepNetWorth,
-            style: textTheme.bodyMedium,
-          ),
-          const SizedBox(height: 8),
-          BlocProvider(
+        padding: EdgeInsets.all(responsiveHelper.biggerGap),
+        child: BlocProvider(
             create: (context) => sl<ValuationCubit>()
               ..getAllValuation(GetAllValuationParams(assetId)),
             child: BlocConsumer<ValuationCubit, ValuationState>(
-              listener: BlocHelper.defaultBlocListener(
-                listener: (context, state) {},
-              ),
-              builder: (context, state) {
-                if (state is GetAllValuationLoaded) {
-                  if (state.getAllValuationEntities.isEmpty) {
-                    return Text(appLocalizations.common_emptyText_title);
-                  }
-                  return ValuationTableWidget(
-                    getAllValuationEntities: state.getAllValuationEntities,
-                    assetType: assetType,
-                    assetId: assetId,
-                    isManuallyAdded: isManuallyAdded,
+                listener: BlocHelper.defaultBlocListener(
+                  listener: (context, state) {},
+                ),
+                builder: (context, state) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            appLocalizations.assets_label_valuation,
+                            style: textTheme.bodyLarge,
+                          ),
+                          if (AppConstants.publicMvp2Items && isManuallyAdded)
+                            TextButton(
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (buildContext) {
+                                        return ValuationModalWidget(
+                                            title: '',
+                                            confirmBtn: appLocalizations
+                                                .common_button_save,
+                                            cancelBtn: appLocalizations
+                                                .common_button_cancel,
+                                            assetType: assetType,
+                                            assetId: assetId);
+                                      }).then((value) {
+                                    context
+                                        .read<ValuationCubit>()
+                                        .getAllValuation(
+                                            GetAllValuationParams(assetId));
+                                  });
+
+                                  // context.pushNamed(AppRoutes.forgetPassword);
+                                },
+                                child: Text(
+                                  appLocalizations
+                                      .assets_valuationModal_buttons_buttons_addValuation,
+                                  style:
+                                      textTheme.bodySmall!.toLinkStyle(context),
+                                ))
+                        ],
+                      ),
+                      Text(
+                        appLocalizations.assets_label_keepNetWorth,
+                        style: textTheme.bodyMedium,
+                      ),
+                      const SizedBox(height: 8),
+
+                      if (state is GetAllValuationLoaded &&
+                          state.getAllValuationEntities.isEmpty)
+                        Text(appLocalizations.common_emptyText_title),
+                      if (state is GetAllValuationLoaded &&
+                          state.getAllValuationEntities.isNotEmpty)
+                        ValuationTableWidget(
+                          getAllValuationEntities:
+                              state.getAllValuationEntities,
+                          assetType: assetType,
+                          assetId: assetId,
+                          isManuallyAdded: isManuallyAdded,
+                        )
+
+                      // return const Center(
+                      //     child: CircularProgressIndicator());
+                    ],
                   );
-                }
-                return const Center(child: CircularProgressIndicator());
-              },
-            ),
-          ),
-        ],
-      ),
-    );
+                })));
   }
 }
 
@@ -358,20 +366,27 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                             Future.delayed(
                                 const Duration(seconds: 0),
                                 () => showDialog(
-                                    context: context,
-                                    builder: (buildContext) {
-                                      debugPrint("working edit");
-                                      return ValuationModalWidget(
-                                        title: '',
-                                        confirmBtn: AppLocalizations.of(context)
-                                            .common_button_save,
-                                        cancelBtn: AppLocalizations.of(context)
-                                            .common_button_cancel,
-                                        assetType: widget.assetType,
-                                        assetId: widget.assetId,
-                                        isEdit: true,
-                                        valuationId: id,
-                                      );
+                                        context: context,
+                                        builder: (buildContext) {
+                                          return ValuationModalWidget(
+                                            title: '',
+                                            confirmBtn:
+                                                AppLocalizations.of(context)
+                                                    .common_button_save,
+                                            cancelBtn:
+                                                AppLocalizations.of(context)
+                                                    .common_button_cancel,
+                                            assetType: widget.assetType,
+                                            assetId: widget.assetId,
+                                            isEdit: true,
+                                            valuationId: id,
+                                          );
+                                        }).then((value) {
+                                      context
+                                          .read<ValuationCubit>()
+                                          .getAllValuation(
+                                              GetAllValuationParams(
+                                                  widget.assetId));
                                     }));
                             ;
                           } else {
@@ -393,6 +408,11 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                                         );
                                       },
                                     ).then((isConfirm) {
+                                      context
+                                          .read<ValuationCubit>()
+                                          .getAllValuation(
+                                              GetAllValuationParams(
+                                                  widget.assetId));
                                       if (isConfirm != null &&
                                           isConfirm == true) {
                                         // handleFormSubmit(formStateKey, renderSubmitData, context, true);
