@@ -21,6 +21,11 @@ class PutRealEstateParams extends Equatable {
     "addRealEstateParams":addRealEstateParams.toJson()
   };
 
+  Map<String, dynamic> toServerJson() => {
+    "assetId":assetId,
+    ...addRealEstateParams.toJson(),
+  };
+
   @override
   List<Object?> get props => [
     assetId,

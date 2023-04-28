@@ -23,7 +23,7 @@ void main() {
   test('should get DeleteRealEstateEntity from the repository', () async {
     //arrange
     when(mockEditRealEstateRepository.deleteRealEstate(any))
-        .thenAnswer((_) async => const Right(AppSuccess(message: "successfully done")));
+        .thenAnswer((_) async => const Right(AppSuccess(message: "Successfully done")));
     // act
     final result = await deleteRealEstateUseCase(DeleteRealEstateParams.tParams);
 

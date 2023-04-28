@@ -1,13 +1,12 @@
 
 
-class DeleteOtherAssetsResponse {
+import 'package:wmd/core/data/models/no_data_response.dart';
+
+class DeleteOtherAssetsResponse extends NoDataResponse{
     DeleteOtherAssetsResponse();
 
     factory DeleteOtherAssetsResponse.fromJson(Map<String, dynamic> json) => DeleteOtherAssetsResponse(
     );
-
-    Map<String, dynamic> toJson() => {
-    };
     
     static final tResponse = DeleteOtherAssetsResponse();
 }

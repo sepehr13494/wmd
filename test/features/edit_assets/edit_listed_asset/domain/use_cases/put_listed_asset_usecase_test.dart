@@ -23,7 +23,7 @@ void main() {
   test('should get PutListedAssetEntity from the repository', () async {
     //arrange
     when(mockEditListedAssetRepository.putListedAsset(any))
-        .thenAnswer((_) async => Right(AppSuccess(message: "successfully done")));
+        .thenAnswer((_) async => Right(AppSuccess(message: "Successfully done")));
     // act
     final result = await putListedAssetUseCase(PutListedAssetParams.tParams.addListedSecurityParams.toJson(),PutListedAssetParams.tParams.assetId);
 

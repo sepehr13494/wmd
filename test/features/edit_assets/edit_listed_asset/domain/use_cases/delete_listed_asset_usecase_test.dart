@@ -23,7 +23,7 @@ void main() {
   test('should get DeleteListedAssetEntity from the repository', () async {
     //arrange
     when(mockEditListedAssetRepository.deleteListedAsset(any))
-        .thenAnswer((_) async => Right(AppSuccess(message: "successfully done")));
+        .thenAnswer((_) async => Right(AppSuccess(message: "Successfully done")));
     // act
     final result = await deleteListedAssetUseCase(DeleteListedAssetParams.tParams);
 

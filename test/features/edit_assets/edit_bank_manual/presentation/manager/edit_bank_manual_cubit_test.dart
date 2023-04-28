@@ -46,7 +46,7 @@ void main() {
       'when PutBankManualUseCase emits the PutBankManualLoaded when success',
       build: () => editBankManualCubit,
       setUp: () => when(mockPutBankManualUseCase(any,any))
-          .thenAnswer((realInvocation) async => Right(AppSuccess(message: "successfully done"))),
+          .thenAnswer((realInvocation) async => Right(AppSuccess(message: "Successfully done"))),
       act: (bloc) async => await bloc.putBankManual(map: PutBankManualParams.tParams.bankSaveParams.toJson(),assetId: PutBankManualParams.tParams.assetId),
       expect: () =>
       [isA<LoadingState>(), EditAssetSuccess()],
@@ -73,7 +73,7 @@ void main() {
       'when DeleteBankManualUseCase emits the DeleteBankManualLoaded when success',
       build: () => editBankManualCubit,
       setUp: () => when(mockDeleteBankManualUseCase(any))
-          .thenAnswer((realInvocation) async => Right(AppSuccess(message: "successfully done"))),
+          .thenAnswer((realInvocation) async => Right(AppSuccess(message: "Successfully done"))),
       act: (bloc) async => await bloc.deleteBankManual(assetId: DeleteBankManualParams.tParams.assetId),
       expect: () =>
       [isA<LoadingState>(), DeleteAssetSuccess()],

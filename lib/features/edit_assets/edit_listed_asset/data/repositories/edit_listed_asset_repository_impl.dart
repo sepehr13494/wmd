@@ -20,7 +20,7 @@ class EditListedAssetRepositoryImpl implements EditListedAssetRepository {
   Future<Either<Failure, AppSuccess>> putListedAsset(PutListedAssetParams params) async {
     try {
       final result = await remoteDataSource.putListedAsset(params);
-      return const Right(AppSuccess(message: "successfully done"));
+      return const Right(AppSuccess(message: "Successfully done"));
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error){
@@ -32,7 +32,7 @@ class EditListedAssetRepositoryImpl implements EditListedAssetRepository {
   Future<Either<Failure, AppSuccess>> deleteListedAsset(DeleteListedAssetParams params) async {
     try {
       final result = await remoteDataSource.deleteListedAsset(params);
-      return const Right(AppSuccess(message: "successfully done"));
+      return const Right(AppSuccess(message: "Successfully done"));
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error){

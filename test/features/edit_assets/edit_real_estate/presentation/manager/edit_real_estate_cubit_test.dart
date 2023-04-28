@@ -46,7 +46,7 @@ void main() {
       'when PutRealEstateUseCase emits the PutRealEstateLoaded when success',
       build: () => editRealEstateCubit,
       setUp: () => when(mockPutRealEstateUseCase(any,any))
-          .thenAnswer((realInvocation) async => Right(AppSuccess(message: "successfully done"))),
+          .thenAnswer((realInvocation) async => Right(AppSuccess(message: "Successfully done"))),
       act: (bloc) async => await bloc.putRealEstate(map: PutRealEstateParams.tParams.addRealEstateParams.toJson(),assetId: PutRealEstateParams.tParams.assetId),
       expect: () =>
       [isA<LoadingState>(), EditAssetSuccess()],
@@ -74,7 +74,7 @@ void main() {
       'when DeleteRealEstateUseCase emits the DeleteRealEstateLoaded when success',
       build: () => editRealEstateCubit,
       setUp: () => when(mockDeleteRealEstateUseCase(any))
-          .thenAnswer((realInvocation) async => const Right(AppSuccess(message: "successfully done"))),
+          .thenAnswer((realInvocation) async => const Right(AppSuccess(message: "Successfully done"))),
       act: (bloc) async => await bloc.deleteRealEstate(assetId: DeleteRealEstateParams.tParams.assetId),
       expect: () =>
       [isA<LoadingState>(), DeleteAssetSuccess()],

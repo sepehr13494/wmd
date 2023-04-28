@@ -1,13 +1,13 @@
 
 
-class PutPrivateDebtResponse {
+import 'package:wmd/core/data/models/no_data_response.dart';
+
+class PutPrivateDebtResponse extends NoDataResponse{
     PutPrivateDebtResponse();
 
     factory PutPrivateDebtResponse.fromJson(Map<String, dynamic> json) => PutPrivateDebtResponse(
     );
 
-    Map<String, dynamic> toJson() => {
-    };
 
     static final tResponse = PutPrivateDebtResponse();
 }

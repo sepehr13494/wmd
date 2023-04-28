@@ -46,7 +46,7 @@ void main() {
       'when PutPrivateDebtUseCase emits the PutPrivateDebtLoaded when success',
       build: () => editPrivateDebtCubit,
       setUp: () => when(mockPutPrivateDebtUseCase(any,any))
-          .thenAnswer((realInvocation) async => Right(AppSuccess(message: "successfully done"))),
+          .thenAnswer((realInvocation) async => Right(AppSuccess(message: "Successfully done"))),
       act: (bloc) async => await bloc.putPrivateDebt(map: PutPrivateDebtParams.tParams.addPrivateDebtParams.toJson(),assetId: PutPrivateDebtParams.tParams.assetId),
       expect: () =>
       [isA<LoadingState>(), EditAssetSuccess()],
@@ -73,7 +73,7 @@ void main() {
       'when DeletePrivateDebtUseCase emits the DeletePrivateDebtLoaded when success',
       build: () => editPrivateDebtCubit,
       setUp: () => when(mockDeletePrivateDebtUseCase(any))
-          .thenAnswer((realInvocation) async => Right(AppSuccess(message: "successfully done"))),
+          .thenAnswer((realInvocation) async => Right(AppSuccess(message: "Successfully done"))),
       act: (bloc) async => await bloc.deletePrivateDebt(assetId: PutPrivateDebtParams.tParams.assetId),
       expect: () =>
       [isA<LoadingState>(), DeleteAssetSuccess()],

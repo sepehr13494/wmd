@@ -23,7 +23,7 @@ void main() {
   test('should get DeletePrivateDebtEntity from the repository', () async {
     //arrange
     when(mockEditPrivateDebtRepository.deletePrivateDebt(any))
-        .thenAnswer((_) async => Right(AppSuccess(message: "successfully done")));
+        .thenAnswer((_) async => Right(AppSuccess(message: "Successfully done")));
     // act
     final result = await deletePrivateDebtUseCase(DeletePrivateDebtParams.tParams);
 

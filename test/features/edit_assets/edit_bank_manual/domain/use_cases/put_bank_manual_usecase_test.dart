@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
+import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/use_cases/post_bank_details_usecase.dart';
 import 'package:wmd/features/edit_assets/edit_bank_manual/data/models/put_bank_manual_params.dart';
 import 'package:wmd/features/edit_assets/edit_bank_manual/domain/use_cases/put_bank_manual_usecase.dart';
 
@@ -26,9 +27,11 @@ void main() {
   test('should get PutBankManualEntity from the repository', () async {
     //arrange
     when(mockEditBankManualRepository.putBankManual(any))
-        .thenAnswer((_) async => const Right(AppSuccess(message: "successfully done")));
+        .thenAnswer((_) async => const Right(AppSuccess(message: "Successfully done")));
+    when(mockLocalStorage.getOwnerId())
+        .thenAnswer((realInvocation) => "ownerId");
     // act
-    final result = await putBankManualUseCase(PutBankManualParams.tParams.bankSaveParams.toJson(),PutBankManualParams.tParams.assetId);
+    final result = await putBankManualUseCase(BankSaveParams.tBankFormMap,PutBankManualParams.tParams.assetId);
 
     // assert
     expect(result, equals(const Right(AppSuccess.tAppSuccess)));

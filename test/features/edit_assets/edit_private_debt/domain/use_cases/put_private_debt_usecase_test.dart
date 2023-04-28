@@ -26,7 +26,7 @@ void main() {
   test('should get PutPrivateDebtEntity from the repository', () async {
     //arrange
     when(mockEditPrivateDebtRepository.putPrivateDebt(any))
-        .thenAnswer((_) async => Right(AppSuccess(message: "successfully done")));
+        .thenAnswer((_) async => Right(AppSuccess(message: "Successfully done")));
     // act
     final result = await putPrivateDebtUseCase(PutPrivateDebtParams.tParams.addPrivateDebtParams.toJson(),PutPrivateDebtParams.tParams.assetId);
 

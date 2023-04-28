@@ -20,7 +20,7 @@ class EditBankManualRepositoryImpl implements EditBankManualRepository {
   Future<Either<Failure, AppSuccess>> putBankManual(PutBankManualParams params) async {
     try {
       final result = await remoteDataSource.putBankManual(params);
-      return const Right(AppSuccess(message: "successfully done"));
+      return const Right(AppSuccess(message: "Successfully done"));
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error){
@@ -32,7 +32,7 @@ class EditBankManualRepositoryImpl implements EditBankManualRepository {
   Future<Either<Failure, AppSuccess>> deleteBankManual(DeleteBankManualParams params) async {
     try {
       final result = await remoteDataSource.deleteBankManual(params);
-      return const Right(AppSuccess(message: "successfully done"));
+      return const Right(AppSuccess(message: "Successfully done"));
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error){

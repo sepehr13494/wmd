@@ -46,7 +46,7 @@ void main() {
       'when PutListedAssetUseCase emits the PutListedAssetLoaded when success',
       build: () => editListedAssetCubit,
       setUp: () => when(mockPutListedAssetUseCase(any,any))
-          .thenAnswer((realInvocation) async => Right(AppSuccess(message: "successfully done"))),
+          .thenAnswer((realInvocation) async => Right(AppSuccess(message: "Successfully done"))),
       act: (bloc) async => await bloc.putListedAsset(map: PutListedAssetParams.tParams.addListedSecurityParams.toJson(),assetId: PutListedAssetParams.tParams.assetId),
       expect: () =>
       [isA<LoadingState>(), EditAssetSuccess()],
@@ -73,7 +73,7 @@ void main() {
       'when DeleteListedAssetUseCase emits the DeleteListedAssetLoaded when success',
       build: () => editListedAssetCubit,
       setUp: () => when(mockDeleteListedAssetUseCase(any))
-          .thenAnswer((realInvocation) async => Right(AppSuccess(message: "successfully done"))),
+          .thenAnswer((realInvocation) async => Right(AppSuccess(message: "Successfully done"))),
       act: (bloc) async => await bloc.deleteListedAsset(assetId: PutListedAssetParams.tParams.assetId),
       expect: () =>
       [isA<LoadingState>(), DeleteAssetSuccess()],
