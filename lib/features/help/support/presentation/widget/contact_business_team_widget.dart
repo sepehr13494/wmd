@@ -123,7 +123,7 @@ class ContactBusinessWidget extends ModalWidget {
                 child: SizedBox(
                     width: double.infinity,
                     height: isMobile
-                        ? MediaQuery.of(context).size.height * 0.85
+                        ? MediaQuery.of(context).size.height * 0.7
                         : MediaQuery.of(context).size.height * 0.5,
                     child: Column(children: [
                       buildModalHeader(context),
@@ -178,23 +178,23 @@ class ContactBusinessWidget extends ModalWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          AppTextFields.simpleTextField(
-                                            required: false,
-                                            title: "reason",
-                                            name: "reason",
-                                            minLines: 1,
-                                            onChanged: checkFinalValid,
-                                            extraValidators: [
-                                              (val) {
-                                                return (val != null &&
-                                                        val.length > 100)
-                                                    ? "Inquiry cannot be more than 100 characters"
-                                                    : null;
-                                              }
-                                            ],
-                                            hint: appLocalizations
-                                                .common_submitEnquiryModal_subject_placeholder,
-                                          ),
+                                          // AppTextFields.simpleTextField(
+                                          //   required: false,
+                                          //   title: "reason",
+                                          //   name: "reason",
+                                          //   minLines: 1,
+                                          //   onChanged: checkFinalValid,
+                                          //   extraValidators: [
+                                          //     (val) {
+                                          //       return (val != null &&
+                                          //               val.length > 100)
+                                          //           ? "Inquiry cannot be more than 100 characters"
+                                          //           : null;
+                                          //     }
+                                          //   ],
+                                          //   hint: appLocalizations
+                                          //       .common_submitEnquiryModal_subject_placeholder,
+                                          // ),
                                           // FormBuilderSearchableDropdown<
                                           //     ContactReason>(
                                           //   name: "reason",
@@ -275,6 +275,7 @@ class ContactBusinessWidget extends ModalWidget {
                                               Map<String, dynamic> finalMap = {
                                                 ...formKey
                                                     .currentState!.instantValue,
+                                                "reason": ""
                                               };
 
                                               log(finalMap.toString());

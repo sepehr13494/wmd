@@ -4,7 +4,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
@@ -19,6 +18,7 @@ import 'package:wmd/features/authentication/login_signup/presentation/widgets/ba
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/failed_otp_auth_bottom_sheet.dart';
+import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/otp_text_feild_widget.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/resend_timer_widget.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/get_send_otp_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_resend_verify_phone_usecase.dart';
