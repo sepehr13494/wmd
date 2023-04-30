@@ -18,14 +18,15 @@ class UnsafeDevicePage extends AppStatelessWidget {
               child: Builder(builder: (context) {
                 late final String term;
                 if (Platform.isAndroid) {
-                  term = 'rooted';
+                  term =
+                      appLocalizations.splash_safeDevice_unsafeMessage_android;
                 } else if (Platform.isIOS) {
-                  term = 'jailbroken';
+                  term = appLocalizations.splash_safeDevice_unsafeMessage_ios;
                 } else {
-                  term = 'not safe';
+                  term = appLocalizations.splash_safeDevice_unsafeMessage_other;
                 }
                 return Text(
-                  'The device that you are using is $term. Please make sure you device is safe before using',
+                  term,
                   style: textTheme.bodyLarge,
                   textAlign: TextAlign.center,
                 );
