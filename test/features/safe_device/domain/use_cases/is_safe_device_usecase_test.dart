@@ -20,12 +20,12 @@ void main() {
   test('should get IsSafeDeviceEntity from the repository', () async {
     //arrange
     when(mockSafeDeviceRepository.isSafeDevice(any)).thenAnswer(
-        (_) async => Right(AppSuccess(message: "successfully done")));
+        (_) async => const Right(AppSuccess(message: "successfully done")));
     // act
     final result = await isSafeDeviceUseCase(IsSafeDeviceParams.tParams);
 
     // assert
-    expect(result, equals(Right(AppSuccess.tAppSuccess)));
+    expect(result, equals(const Right(AppSuccess.tAppSuccess)));
   });
 
   test(

@@ -212,7 +212,7 @@ import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_mobile_v
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_resend_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
-import 'package:wmd/features/safe_device/data/data_sources/safe_device_remote_datasource.dart';
+import 'package:wmd/features/safe_device/data/data_sources/safe_device_local_datasource.dart';
 import 'package:wmd/features/safe_device/data/repositories/safe_device_repository_impl.dart';
 import 'package:wmd/features/safe_device/domain/repositories/safe_device_repository.dart';
 import 'package:wmd/features/safe_device/domain/use_cases/is_safe_device_usecase.dart';
