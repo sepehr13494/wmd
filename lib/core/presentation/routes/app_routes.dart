@@ -4,6 +4,7 @@ class AppRoutes {
   //authentication
   static const String splash = "splash";
   static const String forceUpdate = "force_update";
+  static const String unsafe_device = "unsafe_device";
   static const String welcome = "welcome";
   static const String login = "login";
   static const String authCheck = "auth-check";

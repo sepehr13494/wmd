@@ -8,6 +8,7 @@ import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/util/local_auth_manager.dart';
 import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/features/force_update/presentation/manager/force_update_cubit.dart';
+import 'package:wmd/features/safe_device/presentation/manager/safe_device_cubit.dart';
 import '../manager/splash_cubit.dart';
 import '../../../../injection_container.dart';
 
@@ -24,6 +25,9 @@ class _SplashPageState extends State<SplashPage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
+          create: (context) => sl<SafeDeviceCubit>()..isSafeDevice(),
+        ),
+        BlocProvider(
           create: (context) => sl<SplashCubit>()..startTimer(),
         ),
         BlocProvider(
@@ -34,6 +38,18 @@ class _SplashPageState extends State<SplashPage> {
         return Scaffold(
           body: MultiBlocListener(
             listeners: [
+              BlocListener<SafeDeviceCubit, SafeDeviceState>(
+                listener: (context, state) async {
+                  if (state is IsSafeDeviceLoaded) {
+                    if (!state.isSafeDeviceEntity.isSafe) {
+                      context.replaceNamed(AppRoutes.unsafe_device);
+                    }
+                    // context.replaceNamed(
+                    //   AppRoutes.unsafe_device,
+                    // );
+                  }
+                },
+              ),
               BlocListener<SplashCubit, SplashState>(
                 listener: (context, state) async {
                   if (state is SplashLoaded) {
@@ -59,28 +75,32 @@ class _SplashPageState extends State<SplashPage> {
                 },
               ),
               BlocListener<ForceUpdateCubit, ForceUpdateState>(
-                listener: BlocHelper.defaultBlocListener(listener: (context, state) {
-                  if(state is GetForceUpdateLoaded){
-
-                    bool isVersionGreaterThan(String newVersion, String currentVersion){
-                      if(newVersion == currentVersion){
+                listener:
+                    BlocHelper.defaultBlocListener(listener: (context, state) {
+                  if (state is GetForceUpdateLoaded) {
+                    bool isVersionGreaterThan(
+                        String newVersion, String currentVersion) {
+                      if (newVersion == currentVersion) {
                         return true;
                       }
                       List<String> currentV = currentVersion.split(".");
                       List<String> newV = newVersion.split(".");
                       bool a = false;
-                      for (var i = 0 ; i <= 2; i++){
+                      for (var i = 0; i <= 2; i++) {
                         a = int.parse(newV[i]) > int.parse(currentV[i]);
-                        if(int.parse(newV[i]) != int.parse(currentV[i])) break;
+                        if (int.parse(newV[i]) != int.parse(currentV[i])) break;
                       }
                       return a;
                     }
+
                     final appVersion = sl<PackageInfo>().version;
-                    final versionFromServer = state.getForceUpdateEntity.appVersion;
-                    if(!isVersionGreaterThan(appVersion, versionFromServer) && state.getForceUpdateEntity.isForceUpdate){
+                    final versionFromServer =
+                        state.getForceUpdateEntity.appVersion;
+                    if (!isVersionGreaterThan(appVersion, versionFromServer) &&
+                        state.getForceUpdateEntity.isForceUpdate) {
                       //show force update page
                       context.replaceNamed(AppRoutes.forceUpdate);
-                    }else{
+                    } else {
                       //move on with app
                       context.read<SplashCubit>().initSplashFromSplash();
                     }

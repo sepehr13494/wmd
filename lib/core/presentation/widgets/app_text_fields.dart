@@ -498,21 +498,20 @@ class FormBuilderTypeAhead extends StatefulWidget {
   final List<String? Function(String?)>? extraValidators;
   final bool enabled;
 
-  const FormBuilderTypeAhead(
-      {Key? key,
-      required this.name,
-      required this.items,
-      required this.hint,
-      this.prefixIcon,
-      this.suffixIcon,
-      this.title,
-      this.errorMsg,
-      this.extraValidators,
-      this.required = true,
-      this.onChange,
-      this.enabled = true,
-      })
-      : super(key: key);
+  const FormBuilderTypeAhead({
+    Key? key,
+    required this.name,
+    required this.items,
+    required this.hint,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.title,
+    this.errorMsg,
+    this.extraValidators,
+    this.required = true,
+    this.onChange,
+    this.enabled = true,
+  }) : super(key: key);
 
   @override
   AppState<FormBuilderTypeAhead> createState() => _FormBuilderTypeAheadState();
@@ -537,69 +536,65 @@ class _FormBuilderTypeAheadState extends AppState<FormBuilderTypeAhead> {
     }
 
     return FormBuilderField<String?>(
-        builder: (state) {
-          if(typeController.text.isEmpty){
-            typeController.text = state.value??"";
-          }
-          return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TypeAheadField(
-                  animationStart: 0,
-                  animationDuration: Duration.zero,
-                  textFieldConfiguration: TextFieldConfiguration(
-                    enabled: widget.enabled,
-                    decoration: InputDecoration(
-                      hintText: widget.hint,
-                      prefixIcon: widget.prefixIcon,
-                      suffixIcon: widget.suffixIcon,
-                      enabledBorder: state.hasError
-                          ? const OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4)),
-                              borderSide: BorderSide(
-                                width: 1,
-                                color: Colors.red,
-                              ))
-                          : null,
-                    ),
-                    controller: typeController,
-                    onChanged: (value) {
-                      state.didChange(value);
-                    },
-                  ),
-                  suggestionsCallback: (pattern) {
-                    return widget.items.where((element) =>
-                        element.toLowerCase().contains(pattern.toLowerCase()));
-                  },
-                  itemBuilder: (context, suggestion) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Text(suggestion),
-                    );
-                  },
-                  onSuggestionSelected: (suggestion) {
-                    typeController.text = suggestion;
-                    state.didChange(suggestion);
-                  },
-                  hideOnEmpty: true,
-                ),
-                if (state.hasError) ...[
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 9),
-                    child: Text(
-                      state.errorText ?? "",
-                      style: TextStyle(fontSize: 12, color: Colors.red[600]),
-                    ),
-                  ),
-                ]
-              ]);
-        },
-        onChanged: widget.onChange,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: FormBuilderValidators.compose(validators),
-        name: widget.name,
+      builder: (state) {
+        if (typeController.text.isEmpty) {
+          typeController.text = state.value ?? "";
+        }
+        return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          TypeAheadField(
+            animationStart: 0,
+            animationDuration: Duration.zero,
+            textFieldConfiguration: TextFieldConfiguration(
+              enabled: widget.enabled,
+              decoration: InputDecoration(
+                hintText: widget.hint,
+                prefixIcon: widget.prefixIcon,
+                suffixIcon: widget.suffixIcon,
+                enabledBorder: state.hasError
+                    ? const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Colors.red,
+                        ))
+                    : null,
+              ),
+              controller: typeController,
+              onChanged: (value) {
+                state.didChange(value);
+              },
+            ),
+            suggestionsCallback: (pattern) {
+              return widget.items.where((element) =>
+                  element.toLowerCase().contains(pattern.toLowerCase()));
+            },
+            itemBuilder: (context, suggestion) {
+              return Padding(
+                padding: const EdgeInsets.all(8),
+                child: Text(suggestion),
+              );
+            },
+            onSuggestionSelected: (suggestion) {
+              typeController.text = suggestion;
+              state.didChange(suggestion);
+            },
+            hideOnEmpty: true,
+          ),
+          if (state.hasError) ...[
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 9),
+              child: Text(
+                state.errorText ?? "",
+                style: TextStyle(fontSize: 12, color: Colors.red[600]),
+              ),
+            ),
+          ]
+        ]);
+      },
+      onChanged: widget.onChange,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: FormBuilderValidators.compose(validators),
+      name: widget.name,
     );
   }
 }
@@ -615,19 +610,18 @@ class ListedSecurityTypeAhead extends StatefulWidget {
   final List<String? Function(String?)>? extraValidators;
   final bool enabled;
 
-  const ListedSecurityTypeAhead(
-      {Key? key,
-      required this.name,
-      required this.items,
-      required this.hint,
-      this.extraValidators,
-      this.required = true,
-      this.title,
-      this.errorMsg,
-      this.onChange,
-      this.enabled = true,
-      })
-      : super(key: key);
+  const ListedSecurityTypeAhead({
+    Key? key,
+    required this.name,
+    required this.items,
+    required this.hint,
+    this.extraValidators,
+    this.required = true,
+    this.title,
+    this.errorMsg,
+    this.onChange,
+    this.enabled = true,
+  }) : super(key: key);
 
   @override
   AppState<ListedSecurityTypeAhead> createState() =>
@@ -652,103 +646,96 @@ class _ListedSecurityTypeAheadState extends AppState<ListedSecurityTypeAhead> {
     }
 
     return FormBuilderField<ListedSecurityName?>(
-        builder: (state) {
-          if(typeController.text.isEmpty){
-            if(state.value != null){
-              typeController.text = state.value!.securityName??"";
-            }
+      builder: (state) {
+        if (typeController.text.isEmpty) {
+          if (state.value != null) {
+            typeController.text = state.value!.securityName ?? "";
           }
-          return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TypeAheadField(
-                  animationStart: 0,
-                  animationDuration: Duration.zero,
-                  textFieldConfiguration: TextFieldConfiguration(
-                    enabled: widget.enabled,
-                    decoration: InputDecoration(
-                      hintText: widget.hint,
-                      enabledBorder: state.hasError
-                          ? const OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4)),
-                              borderSide: BorderSide(
-                                width: 1,
-                                color: Colors.red,
-                              ))
-                          : null,
-                    ),
-                    controller: typeController,
-                    onChanged: (value) {
-                      final currentValue = widget.items.firstWhere(
-                          (element) => element.securityName == value);
-                      state.didChange(currentValue);
-                    },
-                  ),
-                  suggestionsCallback: (pattern) {
-                    return widget.items.where((element) =>
-                        element.securityName
-                            .toLowerCase()
-                            .contains(pattern.toLowerCase()) ||
-                        element.securityShortName
-                            .toLowerCase()
-                            .contains(pattern.toLowerCase()) ||
-                        element.isin
-                            .toLowerCase()
-                            .contains(pattern.toLowerCase()));
-                  },
-                  itemBuilder: (context, suggestion) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(child: Text(suggestion.securityName)),
-                                const SizedBox(width: 24),
-                                Expanded(
-                                    child: Text(suggestion.currencyCode ?? "")),
-                                Expanded(child: Text(suggestion.category)),
-                              ],
-                            ),
-                            const SizedBox(height: 5),
-                            Row(
-                              children: [
-                                Text(suggestion.securityShortName,
-                                    style: appTextTheme.bodySmall),
-                                const Text(" . "),
-                                Text(suggestion.tradedExchange,
-                                    style: appTextTheme.bodySmall),
-                              ],
-                            ),
-                            Text(suggestion.isin, style: appTextTheme.bodySmall)
-                          ]),
-                    );
-                  },
-                  onSuggestionSelected: (suggestion) {
-                    typeController.text = suggestion.securityName;
-                    state.didChange(suggestion);
-                  },
-                  hideOnEmpty: true,
-                ),
-                if (state.hasError) ...[
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 9),
-                    child: Text(
-                      state.errorText ?? "",
-                      style: TextStyle(fontSize: 12, color: Colors.red[600]),
-                    ),
-                  ),
-                ]
-              ]);
-        },
-        onChanged: widget.onChange,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: FormBuilderValidators.compose(validators),
-        name: widget.name,
+        }
+        return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          TypeAheadField(
+            animationStart: 0,
+            animationDuration: Duration.zero,
+            textFieldConfiguration: TextFieldConfiguration(
+              enabled: widget.enabled,
+              decoration: InputDecoration(
+                hintText: widget.hint,
+                enabledBorder: state.hasError
+                    ? const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Colors.red,
+                        ))
+                    : null,
+              ),
+              controller: typeController,
+              onChanged: (value) {
+                final currentValue = widget.items
+                    .firstWhere((element) => element.securityName == value);
+                state.didChange(currentValue);
+              },
+            ),
+            suggestionsCallback: (pattern) {
+              return widget.items.where((element) =>
+                  element.securityName
+                      .toLowerCase()
+                      .contains(pattern.toLowerCase()) ||
+                  element.securityShortName
+                      .toLowerCase()
+                      .contains(pattern.toLowerCase()) ||
+                  element.isin.toLowerCase().contains(pattern.toLowerCase()));
+            },
+            itemBuilder: (context, suggestion) {
+              return Padding(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(child: Text(suggestion.securityName)),
+                          const SizedBox(width: 24),
+                          Expanded(child: Text(suggestion.currencyCode ?? "")),
+                          Expanded(child: Text(suggestion.category)),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        children: [
+                          Text(suggestion.securityShortName,
+                              style: appTextTheme.bodySmall),
+                          const Text(" . "),
+                          Text(suggestion.tradedExchange,
+                              style: appTextTheme.bodySmall),
+                        ],
+                      ),
+                      Text(suggestion.isin, style: appTextTheme.bodySmall)
+                    ]),
+              );
+            },
+            onSuggestionSelected: (suggestion) {
+              typeController.text = suggestion.securityName;
+              state.didChange(suggestion);
+            },
+            hideOnEmpty: true,
+          ),
+          if (state.hasError) ...[
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 9),
+              child: Text(
+                state.errorText ?? "",
+                style: TextStyle(fontSize: 12, color: Colors.red[600]),
+              ),
+            ),
+          ]
+        ]);
+      },
+      onChanged: widget.onChange,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: FormBuilderValidators.compose(validators),
+      name: widget.name,
     );
   }
 }
@@ -941,7 +928,7 @@ class _RadioButtontate<T> extends AppState<RadioButton> {
   }
 }
 
-class TimeslotsSelector<T> extends StatelessWidget {
+class TimeslotsSelector<T> extends AppStatelessWidget {
   final String name;
   final bool? isToday;
   final ValueChanged<T?>? onChanged;
@@ -951,7 +938,8 @@ class TimeslotsSelector<T> extends StatelessWidget {
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
     final isMobile = responsiveHelper.isMobile;
 
@@ -1042,6 +1030,15 @@ class TimeslotsSelector<T> extends StatelessWidget {
                               child: Text(time),
                             )))
                       .toList()),
+              if (field.hasError)
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 9),
+                  child: Text(
+                    appLocalizations.common_errors_required,
+                    style: TextStyle(fontSize: 12, color: Colors.red[600]),
+                  ),
+                ),
             ],
           );
 
