@@ -445,7 +445,7 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                                       emailTwoFactorEnabled: false,
                                       twoFactorEnabled: true,
                                       smsTwoFactorEnabled: true));
-                              Navigator.of(context).pop();
+                              // Navigator.of(context).pop();
                             },
                             onCancel: () {
                               setState(() {

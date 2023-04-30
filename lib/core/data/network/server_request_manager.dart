@@ -19,7 +19,9 @@ class ServerRequestManager {
       clearBody!.removeWhere((key, value) => value == null);
     }
 
-    dynamic options = appRequestOptions.additionalHeaders == null ? null : Options(headers: appRequestOptions.additionalHeaders);
+    dynamic options = appRequestOptions.additionalHeaders == null
+        ? null
+        : Options(headers: appRequestOptions.additionalHeaders);
 
     switch (appRequestOptions.type) {
       case RequestTypes.post:
@@ -44,7 +46,7 @@ class ServerRequestManager {
       case RequestTypes.del:
         response = await dio.delete(
           baseUrl + appRequestOptions.url,
-          data: clearBody,
+          queryParameters: clearBody,
           options: options,
         );
         break;

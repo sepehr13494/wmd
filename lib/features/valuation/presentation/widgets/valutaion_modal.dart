@@ -189,9 +189,19 @@ class ValuationModalWidget extends ModalWidget {
 
             Navigator.pop(context, false);
 
-            context
-                .read<ValuationCubit>()
-                .getAllValuation(GetAllValuationParams(assetId));
+            // context
+            //     .read<ValuationCubit>()
+            //     .getAllValuation(GetAllValuationParams(assetId));
+          }
+          if (state is UpdateValuationLoaded) {
+            GlobalFunctions.showSnackBar(context, 'Valuation edited',
+                type: "success");
+
+            Navigator.pop(context, false);
+
+            // context
+            //     .read<ValuationCubit>()
+            //     .getAllValuation(GetAllValuationParams(assetId));
           }
           if (state is GetValuationLoaded) {
             var json = state.entity.toFormJson();
