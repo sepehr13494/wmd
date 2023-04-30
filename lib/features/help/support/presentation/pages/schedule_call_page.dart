@@ -158,7 +158,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                     formState: formState,
                     onTap: () {
                       formKey.currentState?.validate();
-                      if (enableAddAssetButton) {
+                      if (formKey.currentState!.isValid) {
                         Map<String, dynamic> finalMap = {
                           ...formKey.currentState!.instantValue,
                           "email": (personalState is PersonalInformationLoaded)
@@ -233,24 +233,31 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                                                                     formState),
                                                             ElevatedButton(
                                                                 onPressed: () {
-                                                                  Map<String,
-                                                                          dynamic>
-                                                                      finalMap =
-                                                                      {
-                                                                    ...formKey
-                                                                        .currentState!
-                                                                        .instantValue,
-                                                                  };
+                                                                  formKey
+                                                                      .currentState
+                                                                      ?.validate();
+                                                                  if (formKey
+                                                                      .currentState!
+                                                                      .isValid) {
+                                                                    Map<String,
+                                                                            dynamic>
+                                                                        finalMap =
+                                                                        {
+                                                                      ...formKey
+                                                                          .currentState!
+                                                                          .instantValue,
+                                                                    };
 
-                                                                  print(
-                                                                      finalMap);
+                                                                    print(
+                                                                        finalMap);
 
-                                                                  context
-                                                                      .read<
-                                                                          GeneralInquiryCubit>()
-                                                                      .postScheduleCall(
-                                                                          map:
-                                                                              finalMap);
+                                                                    context
+                                                                        .read<
+                                                                            GeneralInquiryCubit>()
+                                                                        .postScheduleCall(
+                                                                            map:
+                                                                                finalMap);
+                                                                  }
                                                                 },
                                                                 child: Text(
                                                                     appLocalizations
@@ -447,7 +454,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                 hasInfo: false,
                 title: appLocalizations.scheduleMeeting_callReason_label,
                 child: AppTextFields.simpleTextField(
-                  required: false,
+                  errorMsg: appLocalizations.common_errors_required,
                   title: "subject",
                   name: "subject",
                   minLines: 1,
