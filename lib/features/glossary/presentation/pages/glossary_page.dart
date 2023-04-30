@@ -34,6 +34,7 @@ class GlossaryPage extends AppStatelessWidget {
                   style: textTheme.bodyMedium!.copyWith(fontSize: 16),
                 ),
                 SearchTextField(
+                  checkLength: 0,
                     hint: "Search Glossary",
                     function: (val) {
                       context

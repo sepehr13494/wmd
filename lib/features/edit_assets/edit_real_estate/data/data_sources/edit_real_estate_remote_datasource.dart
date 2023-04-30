@@ -25,10 +25,7 @@ class EditRealEstateRemoteDataSourceImpl extends AppServerDataSource
   Future<PutRealEstateResponse> putRealEstate(PutRealEstateParams params) async {
     try{
       final appRequestOptions =
-          AppRequestOptions(RequestTypes.put, AppUrls.putRealEstate, {
-            ...params.addRealEstateParams.toJson(),
-            "assetId":params.assetId,
-          });
+          AppRequestOptions(RequestTypes.put, AppUrls.putRealEstate, params.toServerJson());
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = PutRealEstateResponse.fromJson(response);
       return result;

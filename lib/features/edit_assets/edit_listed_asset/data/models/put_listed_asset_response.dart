@@ -1,13 +1,13 @@
 
 
-class PutListedAssetResponse {
+import 'package:wmd/core/data/models/no_data_response.dart';
+
+class PutListedAssetResponse extends NoDataResponse{
     PutListedAssetResponse();
 
     factory PutListedAssetResponse.fromJson(Map<String, dynamic> json) => PutListedAssetResponse(
     );
 
-    Map<String, dynamic> toJson() => {
-    };
     
     static final tResponse = PutListedAssetResponse();
 }

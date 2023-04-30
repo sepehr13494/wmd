@@ -20,7 +20,7 @@ class EditOtherAssetsRepositoryImpl implements EditOtherAssetsRepository {
   Future<Either<Failure, AppSuccess>> putOtherAssets(PutOtherAssetsParams params) async {
     try {
       final result = await remoteDataSource.putOtherAssets(params);
-      return const Right(AppSuccess(message: "successfully done"));
+      return const Right(AppSuccess(message: "Successfully done"));
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error){
@@ -32,7 +32,7 @@ class EditOtherAssetsRepositoryImpl implements EditOtherAssetsRepository {
   Future<Either<Failure, AppSuccess>> deleteOtherAssets(DeleteOtherAssetsParams params) async {
     try {
       final result = await remoteDataSource.deleteOtherAssets(params);
-      return const Right(AppSuccess(message: "successfully done"));
+      return const Right(AppSuccess(message: "Successfully done"));
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error){

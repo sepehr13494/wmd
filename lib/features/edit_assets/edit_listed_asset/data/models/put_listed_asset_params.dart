@@ -21,6 +21,11 @@ class PutListedAssetParams extends Equatable{
         "addListedSecurityParams":addListedSecurityParams.toJson()
     };
 
+    Map<String, dynamic> toServerJson() => {
+        "assetId":assetId,
+        ...addListedSecurityParams.toJson(),
+    };
+
     @override
     List<Object?> get props => [
         assetId,

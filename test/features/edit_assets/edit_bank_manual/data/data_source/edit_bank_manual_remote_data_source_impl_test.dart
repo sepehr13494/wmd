@@ -27,9 +27,9 @@ Future<void> main() async {
 
   group('putBankManual', () {
     final tPutBankManualOptions = AppRequestOptions(
-      RequestTypes.get,
+      RequestTypes.put,
       AppUrls.putBankManual,
-      PutBankManualParams.tParams.toJson(),
+      PutBankManualParams.tParams.toServerJson(),
     );
     test('should return PutBankManualResponse when API call is successful', () async {
       // arrange
@@ -62,7 +62,7 @@ Future<void> main() async {
   });
   group('deleteBankManual', () {
     final tDeleteBankManualOptions = AppRequestOptions(
-      RequestTypes.get,
+      RequestTypes.del,
       AppUrls.deleteBankManual,
       DeleteBankManualParams.tParams.toJson(),
     );

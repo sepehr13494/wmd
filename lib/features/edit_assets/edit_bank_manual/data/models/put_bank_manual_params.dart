@@ -21,6 +21,11 @@ class PutBankManualParams extends Equatable{
         "bankSaveParams":bankSaveParams.toJson()
     };
 
+    Map<String, dynamic> toServerJson() => {
+        "assetId":assetId,
+        ...bankSaveParams.toJson(),
+    };
+
     @override
     List<Object?> get props => [
         assetId,

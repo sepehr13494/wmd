@@ -25,10 +25,7 @@ class EditBankManualRemoteDataSourceImpl extends AppServerDataSource
   Future<PutBankManualResponse> putBankManual(PutBankManualParams params) async {
     try{
       final appRequestOptions =
-          AppRequestOptions(RequestTypes.put, AppUrls.putBankManual, {
-            ...params.bankSaveParams.toJson(),
-            "assetId":params.assetId,
-          });
+          AppRequestOptions(RequestTypes.put, AppUrls.putBankManual, params.toServerJson());
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = PutBankManualResponse.fromJson(response);
       return result;

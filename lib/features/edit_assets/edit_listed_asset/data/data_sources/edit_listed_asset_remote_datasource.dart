@@ -25,10 +25,7 @@ class EditListedAssetRemoteDataSourceImpl extends AppServerDataSource
   Future<PutListedAssetResponse> putListedAsset(PutListedAssetParams params) async {
     try{
       final appRequestOptions =
-          AppRequestOptions(RequestTypes.put, AppUrls.putListedAsset, {
-            ...params.addListedSecurityParams.toJson(),
-            "assetId":params.assetId,
-          });
+          AppRequestOptions(RequestTypes.put, AppUrls.putListedAsset, params.toServerJson());
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = PutListedAssetResponse.fromJson(response);
       return result;

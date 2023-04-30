@@ -23,7 +23,7 @@ void main() {
   test('should get DeleteBankManualEntity from the repository', () async {
     //arrange
     when(mockEditBankManualRepository.deleteBankManual(any))
-        .thenAnswer((_) async => const Right(AppSuccess(message: "successfully done")));
+        .thenAnswer((_) async => const Right(AppSuccess(message: "Successfully done")));
     // act
     final result = await deleteBankManualUseCase(DeleteBankManualParams.tParams);
 

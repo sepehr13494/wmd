@@ -6,6 +6,7 @@ import 'package:mockito/annotations.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
+import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_state.dart';
 import 'package:wmd/features/edit_assets/edit_real_estate/data/models/delete_real_estate_params.dart';
 import 'package:wmd/features/edit_assets/edit_real_estate/data/models/put_real_estate_params.dart';
 import 'package:wmd/features/edit_assets/edit_real_estate/domain/use_cases/delete_real_estate_usecase.dart';
@@ -45,10 +46,10 @@ void main() {
       'when PutRealEstateUseCase emits the PutRealEstateLoaded when success',
       build: () => editRealEstateCubit,
       setUp: () => when(mockPutRealEstateUseCase(any,any))
-          .thenAnswer((realInvocation) async => Right(AppSuccess(message: "successfully done"))),
+          .thenAnswer((realInvocation) async => Right(AppSuccess(message: "Successfully done"))),
       act: (bloc) async => await bloc.putRealEstate(map: PutRealEstateParams.tParams.addRealEstateParams.toJson(),assetId: PutRealEstateParams.tParams.assetId),
       expect: () =>
-      [isA<LoadingState>(), SuccessState(appSuccess: AppSuccess.tAppSuccess)],
+      [isA<LoadingState>(), EditAssetSuccess()],
       verify: (_) {
         verify(mockPutRealEstateUseCase(PutRealEstateParams.tParams.addRealEstateParams.toJson(),PutRealEstateParams.tParams.assetId));
       },
@@ -73,10 +74,10 @@ void main() {
       'when DeleteRealEstateUseCase emits the DeleteRealEstateLoaded when success',
       build: () => editRealEstateCubit,
       setUp: () => when(mockDeleteRealEstateUseCase(any))
-          .thenAnswer((realInvocation) async => const Right(AppSuccess(message: "successfully done"))),
+          .thenAnswer((realInvocation) async => const Right(AppSuccess(message: "Successfully done"))),
       act: (bloc) async => await bloc.deleteRealEstate(assetId: DeleteRealEstateParams.tParams.assetId),
       expect: () =>
-      [isA<LoadingState>(), SuccessState(appSuccess: AppSuccess.tAppSuccess)],
+      [isA<LoadingState>(), DeleteAssetSuccess()],
       verify: (_) {
         verify(mockDeleteRealEstateUseCase(DeleteRealEstateParams.tParams));
       },

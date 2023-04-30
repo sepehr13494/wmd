@@ -21,6 +21,11 @@ class PutPrivateEquityParams extends Equatable {
     "addPrivateEquityParams":addPrivateEquityParams.toJson()
   };
 
+  Map<String, dynamic> toServerJson() => {
+    "assetId":assetId,
+    ...addPrivateEquityParams.toJson(),
+  };
+
   @override
   List<Object?> get props => [
     assetId,

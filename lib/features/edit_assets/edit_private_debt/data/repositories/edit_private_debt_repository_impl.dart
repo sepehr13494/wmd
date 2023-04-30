@@ -20,7 +20,7 @@ class EditPrivateDebtRepositoryImpl implements EditPrivateDebtRepository {
   Future<Either<Failure, AppSuccess>> putPrivateDebt(PutPrivateDebtParams params) async {
     try {
       final result = await remoteDataSource.putPrivateDebt(params);
-      return const Right(AppSuccess(message: "successfully done"));
+      return const Right(AppSuccess(message: "Successfully done"));
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error){
@@ -32,7 +32,7 @@ class EditPrivateDebtRepositoryImpl implements EditPrivateDebtRepository {
   Future<Either<Failure, AppSuccess>> deletePrivateDebt(DeletePrivateDebtParams params) async {
     try {
       final result = await remoteDataSource.deletePrivateDebt(params);
-      return const Right(AppSuccess(message: "successfully done"));
+      return const Right(AppSuccess(message: "Successfully done"));
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error){
