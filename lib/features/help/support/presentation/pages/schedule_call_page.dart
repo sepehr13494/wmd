@@ -173,9 +173,6 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                                   ? personalState.getNameEntity.lastName
                                   : "",
                         };
-
-                        print(finalMap);
-
                         context
                             .read<GeneralInquiryCubit>()
                             .postScheduleCall(map: finalMap);
@@ -286,6 +283,8 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
     final initialTimeZone = TimeZones.getTimezoneByDevice(appLocalizations);
     if (initialTimeZone != null) {
       hasTimeLineSelected = true;
+      // await Future.delayed(const Duration(milliseconds: 200));
+      checkFinalValid(initialTimeZone);
     }
     final responsiveHelper = ResponsiveHelper(context: context);
     return Builder(builder: (context) {
