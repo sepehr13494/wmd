@@ -38,9 +38,7 @@ class TfoLoginRepositoryImpl implements TfoLoginRepository {
     try {
       final auth0 =
           Auth0(AppConstants.auth0IssuerBaseUrl, AppConstants.auth0ClientId);
-      final Credentials credentials = await auth0.webAuthentication().login(
-          redirectUrl:
-              'com.tfo.wmd://tfo-dev.eu.auth0.com/ios/com.tfo.wmd/callback');
+      final Credentials credentials = await auth0.webAuthentication().login();
       final result = await remoteDataSource.loginTfoAccount(params);
       return const Right(AppSuccess(message: "successfully done"));
     } on ServerException catch (error) {
