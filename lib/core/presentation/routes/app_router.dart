@@ -60,6 +60,7 @@ import 'package:wmd/features/profile/two_factor_auth/presentation/pages/two_fact
 import 'package:wmd/features/profile/two_factor_auth/presentation/pages/verify_otp_page.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/pages/verify_phone_number_page.dart';
+import 'package:wmd/features/safe_device/presentation/pages/unsafe_device_page.dart';
 import 'package:wmd/features/settings/core/presentation/page/settings_page.dart';
 import 'package:wmd/features/splash/presentation/pages/splash_page.dart';
 import 'package:wmd/features/profile/core/presentation/pages/profile_page.dart';
@@ -122,6 +123,13 @@ class AppRouter {
           path: "/force_update",
           builder: (BuildContext context, GoRouterState state) {
             return const ForceUpdatePage();
+          },
+        ),
+        GoRoute(
+          name: AppRoutes.unsafe_device,
+          path: "/unsafe_device",
+          builder: (BuildContext context, GoRouterState state) {
+            return const UnsafeDevicePage();
           },
         ),
         GoRoute(

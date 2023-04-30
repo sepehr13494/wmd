@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/util/local_auth_manager.dart';
@@ -28,19 +25,31 @@ class _SplashPageState extends State<SplashPage> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
+          create: (context) => sl<SafeDeviceCubit>()..isSafeDevice(),
+        ),
+        BlocProvider(
           create: (context) => sl<SplashCubit>()..startTimer(),
         ),
         BlocProvider(
           create: (context) => sl<ForceUpdateCubit>()..getForceUpdate(),
-        ),
-        BlocProvider(
-          create: (context) => sl<SafeDeviceCubit>()..isSafeDevice(),
         ),
       ],
       child: Builder(builder: (context) {
         return Scaffold(
           body: MultiBlocListener(
             listeners: [
+              BlocListener<SafeDeviceCubit, SafeDeviceState>(
+                listener: (context, state) async {
+                  if (state is IsSafeDeviceLoaded) {
+                    if (!state.isSafeDeviceEntity.isSafe) {
+                      context.replaceNamed(AppRoutes.unsafe_device);
+                    }
+                    // context.replaceNamed(
+                    //   AppRoutes.unsafe_device,
+                    // );
+                  }
+                },
+              ),
               BlocListener<SplashCubit, SplashState>(
                 listener: (context, state) async {
                   if (state is SplashLoaded) {
@@ -97,15 +106,6 @@ class _SplashPageState extends State<SplashPage> {
                     }
                   }
                 }),
-              ),
-              BlocListener<SafeDeviceCubit, SafeDeviceState>(
-                listener: (context, state) async {
-                  if (state is IsSafeDeviceLoaded) {
-                    log('Mert log: is safe ${state.isSafeDeviceEntity.isSafe}');
-                    log('Mert log:isA ${state.isSafeDeviceEntity.isAndroid}');
-                    log('Mert log: isIOs ${state.isSafeDeviceEntity.isIOS}');
-                  }
-                },
               ),
             ],
             child: LayoutBuilder(builder: (context, snapShot) {
