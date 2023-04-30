@@ -25,10 +25,7 @@ class EditPrivateEquityRemoteDataSourceImpl extends AppServerDataSource
   Future<PutPrivateEquityResponse> putPrivateEquity(PutPrivateEquityParams params) async {
     try{
       final appRequestOptions =
-          AppRequestOptions(RequestTypes.put, AppUrls.putPrivateEquity, {
-            ...params.addPrivateEquityParams.toJson(),
-            "assetId":params.assetId,
-          });
+          AppRequestOptions(RequestTypes.put, AppUrls.putPrivateEquity, params.toServerJson());
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = PutPrivateEquityResponse.fromJson(response);
       return result;

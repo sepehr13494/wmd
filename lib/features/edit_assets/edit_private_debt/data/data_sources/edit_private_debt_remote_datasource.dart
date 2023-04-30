@@ -25,10 +25,7 @@ class EditPrivateDebtRemoteDataSourceImpl extends AppServerDataSource
   Future<PutPrivateDebtResponse> putPrivateDebt(PutPrivateDebtParams params) async {
     try{
       final appRequestOptions =
-          AppRequestOptions(RequestTypes.put, AppUrls.putPrivateDebt, {
-            ...params.addPrivateDebtParams.toJson(),
-            "assetId":params.assetId,
-          });
+          AppRequestOptions(RequestTypes.put, AppUrls.putPrivateDebt, params.toServerJson());
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = PutPrivateDebtResponse.fromJson(response);
       return result;

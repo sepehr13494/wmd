@@ -16,6 +16,11 @@ class PutOtherAssetsParams extends Equatable{
         "addOtherAssetParams":addOtherAssetParams.toJson()
     };
 
+    Map<String, dynamic> toServerJson() => {
+        "assetId":assetId,
+        ...addOtherAssetParams.toJson(),
+    };
+
     @override
     List<Object?> get props => [
         assetId,

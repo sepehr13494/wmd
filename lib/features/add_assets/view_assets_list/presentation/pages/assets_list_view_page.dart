@@ -126,14 +126,13 @@ class _AssetTabWrapperState extends AppState<AssetTabWrapper>
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    var isMobile = ResponsiveHelper(context: context).isMobile;
     return NestedScrollView(
         headerSliverBuilder: (context, isInnerScroll) {
           return [
             SliverList(
                 delegate: SliverChildListDelegate([
-              ResponsiveHelper(context: context).isMobile
-                  ? const AddAssetTopWidget()
-                  : const SizedBox(),
+              isMobile ? const AddAssetTopWidget() : const SizedBox(),
               const ChooseAssetWidget(),
             ]))
           ];
@@ -143,7 +142,9 @@ class _AssetTabWrapperState extends AppState<AssetTabWrapper>
             Row(
               children: [
                 SizedBox(
-                  width: MediaQuery.of(context).size.width - (_padding * 2),
+                  width: isMobile
+                      ? MediaQuery.of(context).size.width - (_padding * 2)
+                      : MediaQuery.of(context).size.width / 2,
                   child: TabBar(
                     controller: _tabController,
                     tabs: [

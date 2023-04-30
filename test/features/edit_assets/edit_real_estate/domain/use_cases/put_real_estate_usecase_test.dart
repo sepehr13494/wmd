@@ -3,9 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
+import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/features/edit_assets/edit_real_estate/data/models/put_real_estate_params.dart';
 import 'package:wmd/features/edit_assets/edit_real_estate/domain/use_cases/put_real_estate_usecase.dart';
 
+import '../../../../../core/util/local_storage_test.mocks.dart';
 import '../../data/repositories/edit_real_estate_repository_impl_test.mocks.dart';
 
 
@@ -23,7 +25,7 @@ void main() {
   test('should get PutRealEstateEntity from the repository', () async {
     //arrange
     when(mockEditRealEstateRepository.putRealEstate(any))
-        .thenAnswer((_) async => const Right(AppSuccess(message: "successfully done")));
+        .thenAnswer((_) async => const Right(AppSuccess(message: "Successfully done")));
     // act
     final result = await putRealEstateUseCase(PutRealEstateParams.tParams.addRealEstateParams.toJson(),PutRealEstateParams.tParams.assetId);
 

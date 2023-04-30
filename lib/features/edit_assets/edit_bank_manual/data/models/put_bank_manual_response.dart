@@ -1,14 +1,13 @@
 
 
-class PutBankManualResponse {
-    PutBankManualResponse();
+import 'package:wmd/core/data/models/no_data_response.dart';
 
-    factory PutBankManualResponse.fromJson(Map<String, dynamic> json) => PutBankManualResponse(
-    );
+class PutBankManualResponse extends NoDataResponse{
+    const PutBankManualResponse();
 
-    Map<String, dynamic> toJson() => {
-    };
+    factory PutBankManualResponse.fromJson(Map<String, dynamic> json) => PutBankManualResponse();
     
-    static final tResponse = PutBankManualResponse();
+    static const tResponse = PutBankManualResponse();
+
 }
     

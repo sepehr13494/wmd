@@ -20,7 +20,7 @@ class EditRealEstateRepositoryImpl implements EditRealEstateRepository {
   Future<Either<Failure, AppSuccess>> putRealEstate(PutRealEstateParams params) async {
     try {
       final result = await remoteDataSource.putRealEstate(params);
-      return const Right(AppSuccess(message: "successfully done"));
+      return const Right(AppSuccess(message: "Successfully done"));
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error){
@@ -32,7 +32,7 @@ class EditRealEstateRepositoryImpl implements EditRealEstateRepository {
   Future<Either<Failure, AppSuccess>> deleteRealEstate(DeleteRealEstateParams params) async {
     try {
       final result = await remoteDataSource.deleteRealEstate(params);
-      return const Right(AppSuccess(message: "successfully done"));
+      return const Right(AppSuccess(message: "Successfully done"));
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error){

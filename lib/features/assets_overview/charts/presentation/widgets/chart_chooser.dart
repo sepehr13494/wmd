@@ -1,10 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/chart_chooser_manager.dart';
 
 abstract class BarType {}
@@ -13,6 +11,7 @@ enum AssetsBarType implements BarType {
   barChart,
   areaChart,
   areaPercentage,
+  tree,
 }
 
 enum GeoBarType implements BarType {
@@ -61,6 +60,11 @@ class AllChartType extends Equatable {
                 "%${appLocalizations.assets_charts_allocationCharts_areaChartLabel}",
             barType: AssetsBarType.areaPercentage,
             image: "assets/images/area_percentage.png"),
+        AllChartType(
+            name:
+            appLocalizations.assets_charts_allocationCharts_treemapLabel,
+            barType: AssetsBarType.tree,
+            image: "assets/images/tree_chart.png"),
       ];
     }
   }

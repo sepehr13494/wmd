@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
@@ -9,6 +11,7 @@ Future<bool> showTfoInitialModal({required BuildContext context}) async {
   final textTheme = Theme.of(context).textTheme;
   final primaryColor = Theme.of(context).primaryColor;
   final isMobile = ResponsiveHelper(context: context).isMobile;
+
   return await showDialog(
     context: context,
     builder: (context) {
@@ -45,15 +48,9 @@ Future<bool> showTfoInitialModal({required BuildContext context}) async {
           ),
         ),
       );
-      if (isMobile) {
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: content,
-        );
-      }
+
       return Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width / 2),
+        padding: const EdgeInsets.all(16.0),
         child: content,
       );
     },

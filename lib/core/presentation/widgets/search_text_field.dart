@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 class SearchTextField extends StatefulWidget {
   final String hint;
   final int delay;
+  final int checkLength;
   final Function(String? text) function;
 
   const SearchTextField(
-      {Key? key, required this.hint, required this.function, this.delay = 1})
+      {Key? key, required this.hint, required this.function, this.delay = 1, this.checkLength = 2})
       : super(key: key);
 
   @override
@@ -47,13 +48,13 @@ class _SearchTextFieldState extends State<SearchTextField> {
         }
         if (widget.delay != 0) {
           timer = Timer(Duration(seconds: widget.delay), () {
-            if (val.length > 2 || val.isEmpty) {
-              widget.function(val.length > 2 ? val : "");
+            if (val.length > widget.checkLength || val.isEmpty) {
+              widget.function(val.length > widget.checkLength ? val : "");
             }
           });
         } else {
-          if (val.length > 2 || val.isEmpty) {
-            widget.function(val.length > 2 ? val : "");
+          if (val.length > widget.checkLength || val.isEmpty) {
+            widget.function(val.length > widget.checkLength ? val : "");
           }
         }
       },

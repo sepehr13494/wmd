@@ -26,7 +26,7 @@ void main() {
   test('should get PutPrivateEquityEntity from the repository', () async {
     //arrange
     when(mockEditPrivateEquityRepository.putPrivateEquity(any))
-        .thenAnswer((_) async => Right(AppSuccess(message: "successfully done")));
+        .thenAnswer((_) async => Right(AppSuccess(message: "Successfully done")));
     // act
     final result = await putPrivateEquityUseCase(PutPrivateEquityParams.tParams.addPrivateEquityParams.toJson(),PutPrivateEquityParams.tParams.assetId);
 

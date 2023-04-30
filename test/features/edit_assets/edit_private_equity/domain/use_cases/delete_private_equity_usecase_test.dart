@@ -23,7 +23,7 @@ void main() {
   test('should get DeletePrivateEquityEntity from the repository', () async {
     //arrange
     when(mockEditPrivateEquityRepository.deletePrivateEquity(any))
-        .thenAnswer((_) async => Right(AppSuccess(message: "successfully done")));
+        .thenAnswer((_) async => Right(AppSuccess(message: "Successfully done")));
     // act
     final result = await deletePrivateEquityUseCase(DeletePrivateEquityParams.tParams);
 

@@ -6,6 +6,7 @@ import 'package:mockito/annotations.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
+import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_state.dart';
 import 'package:wmd/features/edit_assets/edit_private_debt/data/models/delete_private_debt_params.dart';
 import 'package:wmd/features/edit_assets/edit_private_debt/data/models/put_private_debt_params.dart';
 import 'package:wmd/features/edit_assets/edit_private_debt/domain/use_cases/delete_private_debt_usecase.dart';
@@ -45,10 +46,10 @@ void main() {
       'when PutPrivateDebtUseCase emits the PutPrivateDebtLoaded when success',
       build: () => editPrivateDebtCubit,
       setUp: () => when(mockPutPrivateDebtUseCase(any,any))
-          .thenAnswer((realInvocation) async => Right(AppSuccess(message: "successfully done"))),
+          .thenAnswer((realInvocation) async => Right(AppSuccess(message: "Successfully done"))),
       act: (bloc) async => await bloc.putPrivateDebt(map: PutPrivateDebtParams.tParams.addPrivateDebtParams.toJson(),assetId: PutPrivateDebtParams.tParams.assetId),
       expect: () =>
-      [isA<LoadingState>(), SuccessState(appSuccess: AppSuccess.tAppSuccess)],
+      [isA<LoadingState>(), EditAssetSuccess()],
       verify: (_) {
         verify(mockPutPrivateDebtUseCase(PutPrivateDebtParams.tParams.addPrivateDebtParams.toJson(),PutPrivateDebtParams.tParams.assetId));
       },
@@ -72,10 +73,10 @@ void main() {
       'when DeletePrivateDebtUseCase emits the DeletePrivateDebtLoaded when success',
       build: () => editPrivateDebtCubit,
       setUp: () => when(mockDeletePrivateDebtUseCase(any))
-          .thenAnswer((realInvocation) async => Right(AppSuccess(message: "successfully done"))),
+          .thenAnswer((realInvocation) async => Right(AppSuccess(message: "Successfully done"))),
       act: (bloc) async => await bloc.deletePrivateDebt(assetId: PutPrivateDebtParams.tParams.assetId),
       expect: () =>
-      [isA<LoadingState>(), SuccessState(appSuccess: AppSuccess.tAppSuccess)],
+      [isA<LoadingState>(), DeleteAssetSuccess()],
       verify: (_) {
         verify(mockDeletePrivateDebtUseCase(DeletePrivateDebtParams.tParams));
       },

@@ -25,10 +25,7 @@ class EditOtherAssetsRemoteDataSourceImpl extends AppServerDataSource
   Future<PutOtherAssetsResponse> putOtherAssets(PutOtherAssetsParams params) async {
     try{
       final appRequestOptions =
-          AppRequestOptions(RequestTypes.put, AppUrls.putOtherAssets, {
-            ...params.addOtherAssetParams.toJson(),
-            "assetId":params.assetId,
-          });
+          AppRequestOptions(RequestTypes.put, AppUrls.putOtherAssets, params.toServerJson());
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = PutOtherAssetsResponse.fromJson(response);
       return result;

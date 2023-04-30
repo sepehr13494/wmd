@@ -30,7 +30,7 @@ class PerformanceTableRemoteDataSourceImpl extends AppServerDataSource
       final appRequestOptions =
           AppRequestOptions(RequestTypes.get, AppUrls.getAssetClass, params.toJson());
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = (response as List<dynamic>)
+      final result = (response["assetClassPerformance"] as List<dynamic>)
                   .map((e) => GetAssetClassResponse.fromJson(e))
                   .toList();
       return result;
