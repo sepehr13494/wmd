@@ -1,7 +1,7 @@
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
-import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:dartz/dartz.dart';
+import 'package:wmd/features/safe_device/domain/entities/is_safe_device_entity.dart';
 
 import '../models/is_safe_device_params.dart';
 
@@ -14,11 +14,11 @@ class SafeDeviceRepositoryImpl implements SafeDeviceRepository {
   SafeDeviceRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<Either<Failure, AppSuccess>> isSafeDevice(
+  Future<Either<Failure, IsSafeDeviceEntity>> isSafeDevice(
       IsSafeDeviceParams params) async {
     try {
       final result = await remoteDataSource.isSafeDevice(params);
-      return const Right(AppSuccess(message: "Successfully done"));
+      return Right(result);
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error) {
