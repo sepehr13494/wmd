@@ -121,7 +121,8 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
                                   context.goNamed(AppRoutes.settings);
                                   break;
                                 case 1:
-                                  context.read<LogoutCubit>().performLogout();
+                                  //context.read<LogoutCubit>().performLogout();
+                                  AppRestart.restart(context);
                                   break;
                               }
                             },
