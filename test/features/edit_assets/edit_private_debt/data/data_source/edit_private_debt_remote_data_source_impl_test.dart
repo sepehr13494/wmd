@@ -27,9 +27,9 @@ Future<void> main() async {
 
   group('putPrivateDebt', () {
     final tPutPrivateDebtOptions = AppRequestOptions(
-      RequestTypes.get,
+      RequestTypes.put,
       AppUrls.putPrivateDebt,
-      PutPrivateDebtParams.tParams.toJson(),
+      PutPrivateDebtParams.tParams.toServerJson(),
     );
     test('should return PutPrivateDebtResponse when API call is successful', () async {
       // arrange
@@ -62,7 +62,7 @@ Future<void> main() async {
   });
   group('deletePrivateDebt', () {
     final tDeletePrivateDebtOptions = AppRequestOptions(
-      RequestTypes.get,
+      RequestTypes.del,
       AppUrls.deletePrivateDebt,
       DeletePrivateDebtParams.tParams.toJson(),
     );
