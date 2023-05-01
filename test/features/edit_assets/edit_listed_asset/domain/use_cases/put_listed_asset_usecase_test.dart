@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
+import 'package:wmd/features/add_assets/add_listed_security/domain/use_cases/add_listed_security_usecase.dart';
 import 'package:wmd/features/edit_assets/edit_listed_asset/data/models/put_listed_asset_params.dart';
 import 'package:wmd/features/edit_assets/edit_listed_asset/domain/use_cases/put_listed_asset_usecase.dart';
 
@@ -25,7 +26,7 @@ void main() {
     when(mockEditListedAssetRepository.putListedAsset(any))
         .thenAnswer((_) async => Right(AppSuccess(message: "Successfully done")));
     // act
-    final result = await putListedAssetUseCase(PutListedAssetParams.tParams.addListedSecurityParams.toJson(),PutListedAssetParams.tParams.assetId);
+    final result = await putListedAssetUseCase(AddListedSecurityParams.tAddListedSecurityMap,PutListedAssetParams.tParams.assetId);
 
     // assert
     expect(result, equals(Right(AppSuccess.tAppSuccess)));
@@ -38,7 +39,7 @@ void main() {
       when(mockEditListedAssetRepository.putListedAsset(any))
           .thenAnswer((_) async => const Left(ServerFailure.tServerFailure));
       //act
-      final result = await putListedAssetUseCase(PutListedAssetParams.tParams.addListedSecurityParams.toJson(),PutListedAssetParams.tParams.assetId);
+      final result = await putListedAssetUseCase(AddListedSecurityParams.tAddListedSecurityMap,PutListedAssetParams.tParams.assetId);
       //assert
       expect(result, const Left(ServerFailure.tServerFailure));
       verify(mockEditListedAssetRepository.putListedAsset(PutListedAssetParams.tParams));
