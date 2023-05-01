@@ -33,35 +33,33 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
     final String date = (context.watch<MainDashboardCubit>().dateTimeRange ??
             AppConstants.timeFilter(context).first)
         .key;
-    final assetText = appLocalizations.home_widget_summaryCard_tooltip_assets
-        .replaceAll(
-            "{{count}}",
-            isBlurred
+
+    final assetText = appLocalizations
+            .home_widget_summaryCard_tooltip_assets_0 +
+        (isBlurred
+            ? "***"
+            : widget.netWorthEntity.assets.newAssetCount.toInt().toString()) +
+        appLocalizations.home_widget_summaryCard_tooltip_assets_1 +
+        (isBlurred
+            ? "***"
+            : widget.netWorthEntity.assets.newAssetValue
+                .convertMoney()
+                .toString());
+
+    final liabilitiesText =
+        appLocalizations.home_widget_summaryCard_tooltip_liabilities_0 +
+            (isBlurred
                 ? "***"
-                : widget.netWorthEntity.assets.newAssetCount.toInt().toString())
-        .replaceAll(
-            "{{change}}",
-            isBlurred
-                ? "***"
-                : widget.netWorthEntity.assets.newAssetValue
+                : widget.netWorthEntity.liabilities.newLiabilityValue
                     .convertMoney()
-                    .toString());
-    final liabilitiesText = appLocalizations
-        .home_widget_summaryCard_tooltip_liabilities
-        .replaceAll(
-            "{{count}}",
-            isBlurred
-                ? "***"
-                : widget.netWorthEntity.liabilities.newLiabilityCount
-                    .toInt()
-                    .toString())
-        .replaceAll(
-            "{{change}}",
-            isBlurred
+                    .toString()) +
+            appLocalizations.home_widget_summaryCard_tooltip_liabilities_1 +
+            (isBlurred
                 ? "***"
                 : widget.netWorthEntity.liabilities.newLiabilityValue
                     .convertMoney()
                     .toString());
+
     final List items = [
       [
         appLocalizations.home_label_totalNetWorth,

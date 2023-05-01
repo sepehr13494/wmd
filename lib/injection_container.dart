@@ -217,6 +217,11 @@ import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_mobile_v
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_resend_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
+import 'package:wmd/features/safe_device/data/data_sources/safe_device_local_datasource.dart';
+import 'package:wmd/features/safe_device/data/repositories/safe_device_repository_impl.dart';
+import 'package:wmd/features/safe_device/domain/repositories/safe_device_repository.dart';
+import 'package:wmd/features/safe_device/domain/use_cases/is_safe_device_usecase.dart';
+import 'package:wmd/features/safe_device/presentation/manager/safe_device_cubit.dart';
 import 'package:wmd/features/settings/core/data/data_sources/settings_remote_datasource.dart';
 import 'package:wmd/features/valuation/data/data_sources/valuation_remote_datasource.dart';
 import 'package:wmd/features/valuation/data/repositories/valuation_repository_impl.dart';
@@ -700,6 +705,15 @@ Future<void> init() async {
       () => TfoLoginRepositoryImpl(sl()));
   sl.registerLazySingleton<TfoLoginRemoteDataSource>(
       () => TfoLoginRemoteDataSourceImpl(sl()));
+
+//SafeDevice
+  sl.registerFactory(() => SafeDeviceCubit(sl()));
+  sl.registerLazySingleton(() => IsSafeDeviceUseCase(sl()));
+
+  sl.registerLazySingleton<SafeDeviceRepository>(
+      () => SafeDeviceRepositoryImpl(sl()));
+  sl.registerLazySingleton<SafeDeviceLocalDataSource>(
+      () => SafeDeviceLocalDataSourceImpl());
 
   await initExternal();
   await initUtils();
