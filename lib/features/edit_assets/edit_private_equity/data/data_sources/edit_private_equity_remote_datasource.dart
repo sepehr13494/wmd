@@ -41,7 +41,7 @@ class EditPrivateEquityRemoteDataSourceImpl extends AppServerDataSource
   Future<DeletePrivateEquityResponse> deletePrivateEquity(DeletePrivateEquityParams params) async {
     try{
       final appRequestOptions =
-          AppRequestOptions(RequestTypes.get, AppUrls.deletePrivateEquity, params.toJson());
+          AppRequestOptions(RequestTypes.del, AppUrls.deletePrivateEquity, params.toJson());
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = DeletePrivateEquityResponse.fromJson(response);
       return result;

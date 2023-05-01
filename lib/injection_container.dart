@@ -97,6 +97,11 @@ import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_r
 import 'package:wmd/features/authentication/login_signup/domain/use_cases/resend_email_usecase.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/manager/login_sign_up_cubit.dart';
 import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_login_usecase.dart';
+import 'package:wmd/features/authentication/logout/data/data_sources/logout_remote_datasource.dart';
+import 'package:wmd/features/authentication/logout/data/repositories/logout_repository_impl.dart';
+import 'package:wmd/features/authentication/logout/domain/repositories/logout_repository.dart';
+import 'package:wmd/features/authentication/logout/domain/use_cases/perform_logout_usecase.dart';
+import 'package:wmd/features/authentication/logout/presentation/manager/logout_cubit.dart';
 import 'package:wmd/features/authentication/verify_email/data/data_sources/verify_email_server_datasource.dart';
 import 'package:wmd/features/authentication/verify_email/data/repositories/verify_email_repository_impl.dart';
 import 'package:wmd/features/authentication/verify_email/domain/repositories/verify_email_repository.dart';
@@ -313,6 +318,15 @@ Future<void> init() async {
       () => ForgetPasswordRepositoryImpl(sl()));
   sl.registerLazySingleton<ForgetPasswordServerDataSource>(
       () => ForgetPasswordServerDataSourceImpl(sl()));
+
+  //Logout
+  sl.registerFactory(() => LogoutCubit(sl()));
+  sl.registerLazySingleton(() => PerformLogoutUseCase(sl()));
+
+  sl.registerLazySingleton<LogoutRepository>(
+          () => LogoutRepositoryImpl(sl()));
+  sl.registerLazySingleton<LogoutRemoteDataSource>(
+          () => LogoutRemoteDataSourceImpl(sl()));
 
   //PersonalInformation
   sl.registerFactory(() => PersonalInformationCubit(sl(), sl(), sl()));
