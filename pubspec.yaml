@@ -88,6 +88,7 @@ dependencies:
   # auth0_flutter2: ^0.0.12
   auth0_flutter: ^1.1.0
   flutter_root_jailbreak: ^2.0.2
+  http_certificate_pinning: ^2.0.6
 
 dev_dependencies:
   flutter_test:

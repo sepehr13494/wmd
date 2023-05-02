@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../util/local_storage.dart';
+import 'package:http_certificate_pinning/http_certificate_pinning.dart';
 
 class NetworkHelper {
   final LocalStorage localStorage;
@@ -35,6 +36,7 @@ class NetworkHelper {
         },
       ),
     );
+    dio.interceptors.add(CertificatePinningInterceptor(allowedSHAFingerprints))
     return dio;
   }
 }
