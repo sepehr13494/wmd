@@ -27,9 +27,9 @@ Future<void> main() async {
 
   group('putListedAsset', () {
     final tPutListedAssetOptions = AppRequestOptions(
-      RequestTypes.get,
+      RequestTypes.put,
       AppUrls.putListedAsset,
-      PutListedAssetParams.tParams.toJson(),
+      PutListedAssetParams.tParams.toServerJson(),
     );
     test('should return PutListedAssetResponse when API call is successful', () async {
       // arrange
@@ -62,7 +62,7 @@ Future<void> main() async {
   });
   group('deleteListedAsset', () {
     final tDeleteListedAssetOptions = AppRequestOptions(
-      RequestTypes.get,
+      RequestTypes.del,
       AppUrls.deleteListedAsset,
       DeleteListedAssetParams.tParams.toJson(),
     );

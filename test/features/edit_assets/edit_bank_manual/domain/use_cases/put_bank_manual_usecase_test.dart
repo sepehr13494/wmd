@@ -43,8 +43,10 @@ void main() {
       //arrange
       when(mockEditBankManualRepository.putBankManual(any))
           .thenAnswer((_) async => const Left(ServerFailure.tServerFailure));
+      when(mockLocalStorage.getOwnerId())
+          .thenAnswer((realInvocation) => "ownerId");
       //act
-      final result = await putBankManualUseCase(PutBankManualParams.tParams.bankSaveParams.toJson(),PutBankManualParams.tParams.assetId);
+      final result = await putBankManualUseCase(BankSaveParams.tBankFormMap,PutBankManualParams.tParams.assetId);
       //assert
       expect(result, const Left(ServerFailure.tServerFailure));
       verify(mockEditBankManualRepository.putBankManual(PutBankManualParams.tParams));

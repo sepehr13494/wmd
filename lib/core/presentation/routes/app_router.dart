@@ -147,12 +147,30 @@ class AppRouter {
             },
             routes: [
               GoRoute(
-                name: AppRoutes.login,
-                path: "login",
-                builder: (BuildContext context, GoRouterState state) {
-                  return const LoginPage();
-                },
-              ),
+                  name: AppRoutes.login,
+                  path: "login",
+                  builder: (BuildContext context, GoRouterState state) {
+                    return const LoginPage();
+                  },
+                  routes: [
+                    GoRoute(
+                      name: AppRoutes.verifyOtp,
+                      path: "verify-otp",
+                      builder: (BuildContext context, GoRouterState state) {
+                        return MultiBlocProvider(providers: [
+                          BlocProvider(
+                            create: (context) {
+                              _verifyPhoneCubit = sl<VerifyPhoneCubit>();
+                              return _verifyPhoneCubit;
+                            },
+                          ),
+                          BlocProvider.value(
+                            value: _userStatusCubit,
+                          ),
+                        ], child: VerifyOtpPage(verifyMap: state.queryParams));
+                      },
+                    )
+                  ]),
               GoRoute(
                 name: AppRoutes.authCheck,
                 path: "auth-check",
@@ -497,23 +515,6 @@ class AppRouter {
                             child: TwoFactorSetupPage(),
                           ),
                         );
-                      },
-                    ),
-                    GoRoute(
-                      name: AppRoutes.verifyOtp,
-                      path: "verify-otp",
-                      builder: (BuildContext context, GoRouterState state) {
-                        return MultiBlocProvider(providers: [
-                          BlocProvider(
-                            create: (context) {
-                              _verifyPhoneCubit = sl<VerifyPhoneCubit>();
-                              return _verifyPhoneCubit;
-                            },
-                          ),
-                          BlocProvider.value(
-                            value: _userStatusCubit,
-                          ),
-                        ], child: VerifyOtpPage(verifyMap: state.queryParams));
                       },
                     ),
                   ]),

@@ -27,9 +27,9 @@ Future<void> main() async {
 
   group('putRealEstate', () {
     final tPutRealEstateOptions = AppRequestOptions(
-      RequestTypes.get,
+      RequestTypes.put,
       AppUrls.putRealEstate,
-      PutRealEstateParams.tParams.toJson(),
+      PutRealEstateParams.tParams.toServerJson(),
     );
     test('should return PutRealEstateResponse when API call is successful', () async {
       // arrange
@@ -62,7 +62,7 @@ Future<void> main() async {
   });
   group('deleteRealEstate', () {
     final tDeleteRealEstateOptions = AppRequestOptions(
-      RequestTypes.get,
+      RequestTypes.del,
       AppUrls.deleteRealEstate,
       DeleteRealEstateParams.tParams.toJson(),
     );

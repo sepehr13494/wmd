@@ -4,6 +4,7 @@ import 'package:mockito/mockito.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:wmd/core/util/local_storage.dart';
+import 'package:wmd/features/add_assets/add_real_estate/domain/use_cases/add_real_estate_usecase.dart';
 import 'package:wmd/features/edit_assets/edit_real_estate/data/models/put_real_estate_params.dart';
 import 'package:wmd/features/edit_assets/edit_real_estate/domain/use_cases/put_real_estate_usecase.dart';
 
@@ -27,7 +28,7 @@ void main() {
     when(mockEditRealEstateRepository.putRealEstate(any))
         .thenAnswer((_) async => const Right(AppSuccess(message: "Successfully done")));
     // act
-    final result = await putRealEstateUseCase(PutRealEstateParams.tParams.addRealEstateParams.toJson(),PutRealEstateParams.tParams.assetId);
+    final result = await putRealEstateUseCase(AddRealEstateParams.tAddRealEstateMap,PutRealEstateParams.tParams.assetId);
 
     // assert
     expect(result, equals(const Right(AppSuccess.tAppSuccess)));
@@ -40,7 +41,7 @@ void main() {
       when(mockEditRealEstateRepository.putRealEstate(any))
           .thenAnswer((_) async => const Left(ServerFailure.tServerFailure));
       //act
-      final result = await putRealEstateUseCase(PutRealEstateParams.tParams.addRealEstateParams.toJson(),PutRealEstateParams.tParams.assetId);
+      final result = await putRealEstateUseCase(AddRealEstateParams.tAddRealEstateMap,PutRealEstateParams.tParams.assetId);
       //assert
       expect(result, const Left(ServerFailure.tServerFailure));
       verify(mockEditRealEstateRepository.putRealEstate(PutRealEstateParams.tParams));

@@ -286,27 +286,27 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                                 value: "email",
                                 groupValue: current2FA == 'phone'
                                     ? (userStatusState is UserStatusLoaded &&
-                                            userStatusState.userStatus
-                                                    .mobileNumberVerified ==
-                                                true)
+                                                userStatusState.userStatus
+                                                        .mobileNumberVerified ==
+                                                    true) ||
+                                            !twoFactorEnabled
                                         ? current2FA
                                         : 'email'
                                     : current2FA,
                                 onChanged: (String? value) {
-                                  if (twoFactorEnabled) {
-                                    setState(() {
-                                      current2FA = value;
-                                    });
+                                  setState(() {
+                                    current2FA = value;
+                                    twoFactorEnabled = true;
+                                  });
 
-                                    context.read<TwoFactorCubit>().setTwoFactor(
-                                        PutSettingsParams(
-                                            isPrivacyMode:
-                                                PrivacyInherited.of(context)
-                                                    .isBlurred,
-                                            twoFactorEnabled: true,
-                                            emailTwoFactorEnabled: true,
-                                            smsTwoFactorEnabled: false));
-                                  }
+                                  context.read<TwoFactorCubit>().setTwoFactor(
+                                      PutSettingsParams(
+                                          isPrivacyMode:
+                                              PrivacyInherited.of(context)
+                                                  .isBlurred,
+                                          twoFactorEnabled: true,
+                                          emailTwoFactorEnabled: true,
+                                          smsTwoFactorEnabled: false));
                                 },
                               ),
                             ),
@@ -372,33 +372,35 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                                         ? current2FA
                                         : "",
                                 onChanged: (String? value) {
-                                  if (twoFactorEnabled) {
-                                    setState(() {
-                                      current2FA = value;
-                                    });
-
-                                    if ((personalState
-                                            is PersonalInformationLoaded) &&
-                                        (personalState.getNameEntity.phoneNumber
-                                                    ?.number !=
-                                                "" &&
-                                            personalState.getNameEntity
-                                                    .phoneNumber?.number !=
-                                                null) &&
+                                  setState(() {
+                                    current2FA = value;
+                                    twoFactorEnabled =
                                         (userStatusState is UserStatusLoaded &&
                                             userStatusState.userStatus
                                                     .mobileNumberVerified ==
-                                                true)) {
-                                      context
-                                          .read<TwoFactorCubit>()
-                                          .setTwoFactor(PutSettingsParams(
-                                              isPrivacyMode:
-                                                  PrivacyInherited.of(context)
-                                                      .isBlurred,
-                                              twoFactorEnabled: true,
-                                              emailTwoFactorEnabled: false,
-                                              smsTwoFactorEnabled: true));
-                                    }
+                                                true);
+                                  });
+
+                                  if ((personalState
+                                          is PersonalInformationLoaded) &&
+                                      (personalState.getNameEntity.phoneNumber
+                                                  ?.number !=
+                                              "" &&
+                                          personalState.getNameEntity
+                                                  .phoneNumber?.number !=
+                                              null) &&
+                                      (userStatusState is UserStatusLoaded &&
+                                          userStatusState.userStatus
+                                                  .mobileNumberVerified ==
+                                              true)) {
+                                    context.read<TwoFactorCubit>().setTwoFactor(
+                                        PutSettingsParams(
+                                            isPrivacyMode:
+                                                PrivacyInherited.of(context)
+                                                    .isBlurred,
+                                            twoFactorEnabled: true,
+                                            emailTwoFactorEnabled: false,
+                                            smsTwoFactorEnabled: true));
                                   }
                                 },
                               ),
