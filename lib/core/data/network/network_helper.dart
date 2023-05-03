@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/adapter.dart';
@@ -44,7 +45,7 @@ class NetworkHelper {
       final cert = AppConstants.certificate;
       final SecurityContext context = SecurityContext();
       client.badCertificateCallback = (cert, host, port) => false;
-      context.setTrustedCertificates(cert);
+      context.setTrustedCertificatesBytes(base64Decode(cert));
       return HttpClient(context: context);
     };
     return dio;
