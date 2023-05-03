@@ -122,6 +122,11 @@ import 'package:wmd/features/dashboard/main_dashbaord/domain/repositories/main_d
 import 'package:wmd/features/dashboard/main_dashbaord/domain/use_cases/user_net_worth_usecase.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/charts_height_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
+import 'package:wmd/features/dashboard/performance_table/client_index/data/data_sources/client_index_remote_datasource.dart';
+import 'package:wmd/features/dashboard/performance_table/client_index/data/repositories/client_index_repository_impl.dart';
+import 'package:wmd/features/dashboard/performance_table/client_index/domain/repositories/client_index_repository.dart';
+import 'package:wmd/features/dashboard/performance_table/client_index/domain/use_cases/get_client_index_usecase.dart';
+import 'package:wmd/features/dashboard/performance_table/client_index/presentation/manager/client_index_cubit.dart';
 import 'package:wmd/features/dashboard/performance_table/data/data_sources/performance_table_remote_datasource.dart';
 import 'package:wmd/features/dashboard/performance_table/data/repositories/performance_table_repository_impl.dart';
 import 'package:wmd/features/dashboard/performance_table/domain/repositories/performance_table_repository.dart';
@@ -665,6 +670,15 @@ Future<void> init() async {
       () => PerformanceTableRepositoryImpl(sl()));
   sl.registerLazySingleton<PerformanceTableRemoteDataSource>(
       () => PerformanceTableRemoteDataSourceImpl(sl()));
+
+  //ClientIndex
+  sl.registerFactory(() => ClientIndexCubit(sl()));
+  sl.registerLazySingleton(() => GetClientIndexUseCase(sl()));
+
+  sl.registerLazySingleton<ClientIndexRepository>(
+          () => ClientIndexRepositoryImpl(sl()));
+  sl.registerLazySingleton<ClientIndexRemoteDataSource>(
+          () => ClientIndexRemoteDataSourceImpl(sl()));
 
   //Glossary
   sl.registerFactory(() => GlossaryCubit(sl()));

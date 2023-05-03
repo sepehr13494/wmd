@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -86,7 +87,7 @@ class PerformanceCustodianWidget extends AppStatelessWidget {
                           shouldBlur: false),
                       PerformanceValueObj(
                           value:
-                          "${e.amount.toStringAsFixed(1)} %",
+                          e.amount.convertMoney(),
                           shouldBlur: false),
                       PerformanceValueObj(
                           value:
@@ -94,7 +95,7 @@ class PerformanceCustodianWidget extends AppStatelessWidget {
                           shouldBlur: false),
                       PerformanceValueObj(
                           value: e.sharpeRatio
-                              .toStringAsFixed(2)),
+                              .toStringAsFixed(1)),
                     ])
                         .toList())
                     : const PerformanceTableShimmer(showTexts: false,);

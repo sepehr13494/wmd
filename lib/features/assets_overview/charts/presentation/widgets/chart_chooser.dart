@@ -60,11 +60,11 @@ class AllChartType extends Equatable {
                 "%${appLocalizations.assets_charts_allocationCharts_areaChartLabel}",
             barType: AssetsBarType.areaPercentage,
             image: "assets/images/area_percentage.png"),
-        AllChartType(
+        /*AllChartType(
             name:
             appLocalizations.assets_charts_allocationCharts_treemapLabel,
             barType: AssetsBarType.tree,
-            image: "assets/images/tree_chart.png"),
+            image: "assets/images/tree_chart.png"),*/
       ];
     }
   }
