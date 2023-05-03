@@ -42,7 +42,6 @@ class BlocHelper {
             case ExceptionType.normal:
             case ExceptionType.format:
             case ExceptionType.ssl:
-              AppRestart.restart(context);
               GlobalFunctions.showSnackBar(
                 context,
                 'SSL pinning error. Please be sure your connection is secure',
