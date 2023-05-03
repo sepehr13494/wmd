@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/core/util/local_auth_manager.dart';
 import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/features/force_update/presentation/manager/force_update_cubit.dart';
@@ -40,13 +41,11 @@ class _SplashPageState extends State<SplashPage> {
             listeners: [
               BlocListener<SafeDeviceCubit, SafeDeviceState>(
                 listener: (context, state) async {
-                  if (state is IsSafeDeviceLoaded) {
+                  if (!AppConstants.developMode &&
+                      state is IsSafeDeviceLoaded) {
                     if (!state.isSafeDeviceEntity.isSafe) {
                       context.replaceNamed(AppRoutes.unsafe_device);
                     }
-                    // context.replaceNamed(
-                    //   AppRoutes.unsafe_device,
-                    // );
                   }
                 },
               ),

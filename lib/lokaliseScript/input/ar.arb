@@ -1888,7 +1888,9 @@
     "home:widget.loans.Other": "",
     "common:emptyText.pnlEmptyMessage": "",
     "home:text.total": "إجمالي",
-    "splash:safeDevice.unsafeMessage.ios": "",
-    "splash:safeDevice.unsafeMessage.android": "",
-    "splash:safeDevice.unsafeMessage.other": ""
+    "splash:safeDevice.unsafeMessage.ios": "جهازك من Apple خاضع لكسر الحماية \"جيلبريك\". يُرجى التأكد من استخدام جهاز آمن قبل المتابعة.",
+    "splash:safeDevice.unsafeMessage.android": "جهازك بنظام التشغيل Android خاضع للتأصيل. يُرجى التأكد من استخدام جهاز آمن قبل المتابعة.",
+    "splash:safeDevice.unsafeMessage.other": "الجهاز المستخدم غير آمن. يُرجى التأكد من استخدام جهاز آمن قبل المتابعة.",
+    "assets:valuationModal.deleteTransactionHeading": "",
+    "assets:valuationModal.deleteTransactionDescription": ""
 }

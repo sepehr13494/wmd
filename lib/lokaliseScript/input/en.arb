@@ -1888,7 +1888,9 @@
     "home:widget.loans.Other": "Other loans",
     "common:emptyText.pnlEmptyMessage": "There is no data for this date range. Please choose another time period",
     "home:text.total": "Total",
-    "splash:safeDevice.unsafeMessage.ios": "The device that you are using is jailbroken. Please make sure you device is safe before using",
-    "splash:safeDevice.unsafeMessage.android": "The device that you are using is rooted. Please make sure you device is safe before using",
-    "splash:safeDevice.unsafeMessage.other": "The device that you are using is not safe. Please make sure you device is safe before using"
+    "splash:safeDevice.unsafeMessage.ios": "Your Apple device has been jailbroken. Please make sure you use a safe device before proceeding.",
+    "splash:safeDevice.unsafeMessage.android": "Your Android device is rooted. Please make sure you use a safe device before proceeding.",
+    "splash:safeDevice.unsafeMessage.other": "The device you are using is not safe. Please make sure you use a safe device before proceeding.",
+    "assets:valuationModal.deleteTransactionHeading": "Are you sure you want to delete ?",
+    "assets:valuationModal.deleteTransactionDescription": "This action cannot be reversed"
 }
