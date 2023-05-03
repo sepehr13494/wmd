@@ -27,6 +27,7 @@ import 'package:wmd/features/authentication/verify_email/presentation/manager/ve
 import 'package:wmd/features/blurred_widget/presentation/manager/blurred_privacy_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
+import 'package:wmd/features/dashboard/performance_table/client_index/presentation/manager/client_index_cubit.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/manager/performance_table_cubit.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_state.dart';
@@ -39,6 +40,7 @@ import 'package:wmd/features/profile/profile_reset_password/presentation/manager
 import 'package:wmd/features/profile/two_factor_auth/manager/two_factor_cubit.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
 import 'package:wmd/features/safe_device/presentation/manager/safe_device_cubit.dart';
+import 'package:wmd/features/settings/linked_accounts/presentation/manager/linked_accounts_cubit.dart';
 import 'package:wmd/features/valuation/presentation/manager/valuation_cubit.dart';
 import '../../../features/asset_detail/valuation/presentation/manager/performance_chart_cubit.dart';
 import '../../error_and_success/failures.dart';

@@ -14,7 +14,8 @@ class PerformanceBaseTable extends StatefulWidget {
       {Key? key,
       required this.titles,
       required this.widths,
-      required this.values})
+      required this.values,
+      })
       : super(key: key);
 
   @override
@@ -63,13 +64,13 @@ class _PerformanceBaseTableState extends AppState<PerformanceBaseTable> {
                         }),
                       ),
                     ),
-                    const Card(
+                    Card(
                       child: SizedBox(
                         width: double.maxFinite,
                         child: Padding(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: Text(
-                              "There is no data for this date range. Please choose another time period",textAlign: TextAlign.center,),
+                              appLocalizations.common_emptyText_emptyState,textAlign: TextAlign.center,),
                         ),
                       ),
                     )

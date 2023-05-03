@@ -8,13 +8,14 @@ import 'dart:async' as _i5;
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:wmd/core/error_and_success/failures.dart' as _i8;
-import 'package:wmd/core/error_and_success/succeses.dart' as _i9;
 import 'package:wmd/features/safe_device/data/data_sources/safe_device_local_datasource.dart'
     as _i4;
 import 'package:wmd/features/safe_device/data/models/is_safe_device_params.dart'
     as _i6;
 import 'package:wmd/features/safe_device/data/models/is_safe_device_response.dart'
     as _i2;
+import 'package:wmd/features/safe_device/domain/entities/is_safe_device_entity.dart'
+    as _i9;
 import 'package:wmd/features/safe_device/domain/repositories/safe_device_repository.dart'
     as _i7;
 
@@ -88,20 +89,21 @@ class MockSafeDeviceRepository extends _i1.Mock
   }
 
   @override
-  _i5.Future<_i3.Either<_i8.Failure, _i9.AppSuccess>> isSafeDevice(
+  _i5.Future<_i3.Either<_i8.Failure, _i9.IsSafeDeviceEntity>> isSafeDevice(
           _i6.IsSafeDeviceParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #isSafeDevice,
           [params],
         ),
-        returnValue: _i5.Future<_i3.Either<_i8.Failure, _i9.AppSuccess>>.value(
-            _FakeEither_1<_i8.Failure, _i9.AppSuccess>(
+        returnValue:
+            _i5.Future<_i3.Either<_i8.Failure, _i9.IsSafeDeviceEntity>>.value(
+                _FakeEither_1<_i8.Failure, _i9.IsSafeDeviceEntity>(
           this,
           Invocation.method(
             #isSafeDevice,
             [params],
           ),
         )),
-      ) as _i5.Future<_i3.Either<_i8.Failure, _i9.AppSuccess>>);
+      ) as _i5.Future<_i3.Either<_i8.Failure, _i9.IsSafeDeviceEntity>>);
 }

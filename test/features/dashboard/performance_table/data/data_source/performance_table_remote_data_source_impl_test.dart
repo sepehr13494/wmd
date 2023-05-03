@@ -36,7 +36,7 @@ Future<void> main() async {
     test('should return GetAssetClassResponse when API call is successful', () async {
       // arrange
       when(mockErrorHandlerMiddleware.sendRequest(any)).thenAnswer(
-        (_) async => List<dynamic>.from(GetAssetClassResponse.tResponse.map((x) => x.toJson())),
+        (_) async => {"assetClassPerformance":List<dynamic>.from(GetAssetClassResponse.tResponse.map((x) => x.toJson()))},
       );
       //act
       final result =

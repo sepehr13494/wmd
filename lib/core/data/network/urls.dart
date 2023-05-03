@@ -112,6 +112,7 @@ class AppUrls {
 
   //performance table
   static String getAssetClass = "${wealthBase}Performance/assetclass";
+  static String getClientIndex = "${wealthBase}Performance/assetclasses/mandate";
   static String getBenchmark = "${wealthBase}Performance/benchmark";
   static String getCustodianPerformance = "${wealthBase}Performance/custodian";
 
@@ -120,4 +121,7 @@ class AppUrls {
 
   static String getMandate = "${userBase}User/mandate";
   static String postMandates = "${userBase}User/mandates";
+
+  static String getLinkedAccounts =
+      "${wealthBase}CustodianBank/linked-accounts";
 }

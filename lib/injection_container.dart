@@ -122,6 +122,11 @@ import 'package:wmd/features/dashboard/main_dashbaord/domain/repositories/main_d
 import 'package:wmd/features/dashboard/main_dashbaord/domain/use_cases/user_net_worth_usecase.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/charts_height_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
+import 'package:wmd/features/dashboard/performance_table/client_index/data/data_sources/client_index_remote_datasource.dart';
+import 'package:wmd/features/dashboard/performance_table/client_index/data/repositories/client_index_repository_impl.dart';
+import 'package:wmd/features/dashboard/performance_table/client_index/domain/repositories/client_index_repository.dart';
+import 'package:wmd/features/dashboard/performance_table/client_index/domain/use_cases/get_client_index_usecase.dart';
+import 'package:wmd/features/dashboard/performance_table/client_index/presentation/manager/client_index_cubit.dart';
 import 'package:wmd/features/dashboard/performance_table/data/data_sources/performance_table_remote_datasource.dart';
 import 'package:wmd/features/dashboard/performance_table/data/repositories/performance_table_repository_impl.dart';
 import 'package:wmd/features/dashboard/performance_table/domain/repositories/performance_table_repository.dart';
@@ -223,6 +228,11 @@ import 'package:wmd/features/safe_device/domain/repositories/safe_device_reposit
 import 'package:wmd/features/safe_device/domain/use_cases/is_safe_device_usecase.dart';
 import 'package:wmd/features/safe_device/presentation/manager/safe_device_cubit.dart';
 import 'package:wmd/features/settings/core/data/data_sources/settings_remote_datasource.dart';
+import 'package:wmd/features/settings/linked_accounts/data/data_sources/linked_accounts_remote_datasource.dart';
+import 'package:wmd/features/settings/linked_accounts/data/repositories/linked_accounts_repository_impl.dart';
+import 'package:wmd/features/settings/linked_accounts/domain/repositories/linked_accounts_repository.dart';
+import 'package:wmd/features/settings/linked_accounts/domain/use_cases/get_linked_accounts_usecase.dart';
+import 'package:wmd/features/settings/linked_accounts/presentation/manager/linked_accounts_cubit.dart';
 import 'package:wmd/features/valuation/data/data_sources/valuation_remote_datasource.dart';
 import 'package:wmd/features/valuation/data/repositories/valuation_repository_impl.dart';
 import 'package:wmd/features/valuation/domain/repositories/valuation_repository.dart';
@@ -323,10 +333,9 @@ Future<void> init() async {
   sl.registerFactory(() => LogoutCubit(sl()));
   sl.registerLazySingleton(() => PerformLogoutUseCase(sl()));
 
-  sl.registerLazySingleton<LogoutRepository>(
-          () => LogoutRepositoryImpl(sl()));
+  sl.registerLazySingleton<LogoutRepository>(() => LogoutRepositoryImpl(sl()));
   sl.registerLazySingleton<LogoutRemoteDataSource>(
-          () => LogoutRemoteDataSourceImpl(sl()));
+      () => LogoutRemoteDataSourceImpl(sl()));
 
   //PersonalInformation
   sl.registerFactory(() => PersonalInformationCubit(sl(), sl(), sl()));
@@ -662,6 +671,15 @@ Future<void> init() async {
   sl.registerLazySingleton<PerformanceTableRemoteDataSource>(
       () => PerformanceTableRemoteDataSourceImpl(sl()));
 
+  //ClientIndex
+  sl.registerFactory(() => ClientIndexCubit(sl()));
+  sl.registerLazySingleton(() => GetClientIndexUseCase(sl()));
+
+  sl.registerLazySingleton<ClientIndexRepository>(
+          () => ClientIndexRepositoryImpl(sl()));
+  sl.registerLazySingleton<ClientIndexRemoteDataSource>(
+          () => ClientIndexRemoteDataSourceImpl(sl()));
+
   //Glossary
   sl.registerFactory(() => GlossaryCubit(sl()));
   sl.registerLazySingleton(() => GetGlossariesUseCase(sl()));
@@ -706,7 +724,7 @@ Future<void> init() async {
   sl.registerLazySingleton<TfoLoginRemoteDataSource>(
       () => TfoLoginRemoteDataSourceImpl(sl()));
 
-//SafeDevice
+  //SafeDevice
   sl.registerFactory(() => SafeDeviceCubit(sl()));
   sl.registerLazySingleton(() => IsSafeDeviceUseCase(sl()));
 
@@ -714,6 +732,15 @@ Future<void> init() async {
       () => SafeDeviceRepositoryImpl(sl()));
   sl.registerLazySingleton<SafeDeviceLocalDataSource>(
       () => SafeDeviceLocalDataSourceImpl());
+
+  //LinkedAccounts
+  sl.registerFactory(() => LinkedAccountsCubit(sl()));
+  sl.registerLazySingleton(() => GetLinkedAccountsUseCase(sl()));
+
+  sl.registerLazySingleton<LinkedAccountsRepository>(
+      () => LinkedAccountsRepositoryImpl(sl()));
+  sl.registerLazySingleton<LinkedAccountsRemoteDataSource>(
+      () => LinkedAccountsRemoteDataSourceImpl(sl()));
 
   await initExternal();
   await initUtils();
