@@ -78,18 +78,19 @@ class AppUrls {
   static String getOtherAsset = "${wealthBase}OtherAsset";
   static String getRealEstate = "${wealthBase}RealEstate";
   static String getSeeMore(String type) {
-    switch (type){
+    switch (type) {
       case "OtherAssets":
         return "${wealthBase}OtherAsset";
       case "ListedAsset":
       case "ListedAssetEquity":
       case "ListedAssetFixedIncome":
       case "ListedAssetOther":
-      return "${wealthBase}ListedAsset";
+        return "${wealthBase}ListedAsset";
       default:
         return "$wealthBase$type";
     }
   }
+
   static String getAssetSummary(String id) => "${wealthBase}Assets/$id/summary";
 
   static String linkToken = "${banking}openbanking/link-token";
@@ -106,9 +107,7 @@ class AppUrls {
   static String postAddValuation = "${wealthBase}valuation";
   static String getValuationPerformance(String id) =>
       "${wealthBase}Valuation/$id/performance";
-
   static String settings = "${userBase}Setting";
-
   static String getForceUpdate = "wmo/version";
 
   //performance table
@@ -122,4 +121,7 @@ class AppUrls {
 
   static String getMandate = "${userBase}User/mandate";
   static String postMandates = "${userBase}User/mandates";
+
+  static String getLinkedAccounts =
+      "${wealthBase}CustodianBank/linked-accounts";
 }

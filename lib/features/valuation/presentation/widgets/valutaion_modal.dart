@@ -1,10 +1,10 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
@@ -13,8 +13,9 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/constants.dart';
-import 'package:wmd/features/asset_detail/valuation/data/models/get_all_valuation_params.dart';
-import 'package:wmd/features/asset_detail/valuation/presentation/manager/valuation_cubit.dart';
+import 'package:wmd/features/add_assets/core/data/models/currency.dart';
+import 'package:wmd/features/asset_see_more/core/data/models/get_asset_see_more_params.dart';
+import 'package:wmd/features/asset_see_more/core/presentation/manager/asset_see_more_cubit.dart';
 import 'package:wmd/features/valuation/presentation/manager/valuation_cubit.dart';
 import 'package:wmd/features/valuation/presentation/widgets/bank_valuation_form.dart';
 import 'package:wmd/features/valuation/presentation/widgets/equity_debt_valuation_form.dart';
@@ -172,15 +173,27 @@ class ValuationModalWidget extends ModalWidget {
       return formMap;
     }
 
-    return BlocProvider(
-        create: (context) {
-          if (isEdit == true) {
-            return sl<AssetValuationCubit>()
-              ..getValuationById(map: {"id": valuationId});
-          } else {
-            return sl<AssetValuationCubit>();
-          }
-        },
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) {
+              if (isEdit == true) {
+                return sl<AssetValuationCubit>()
+                  ..getValuationById(map: {"id": valuationId});
+              } else {
+                return sl<AssetValuationCubit>();
+              }
+            },
+          ),
+          BlocProvider(
+              create: (context) => sl<AssetSeeMoreCubit>()
+                ..getAssetSeeMore(
+                  GetSeeMoreParams(
+                    type: assetType,
+                    assetId: assetId,
+                  ),
+                )),
+        ],
         child: BlocConsumer<AssetValuationCubit, AssetValuationState>(listener:
             BlocHelper.defaultBlocListener(listener: (context, state) {
           if (state is SuccessState) {
@@ -217,38 +230,54 @@ class ValuationModalWidget extends ModalWidget {
             }
           }
         }), builder: (context, state) {
-          return Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: responsiveHelper.bigger16Gap * 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  OutlinedButton(
-                    onPressed: () {
-                      if (isEdit == true) {
-                        handleModalClose(context);
-                      } else {
-                        Navigator.pop(context, false);
-                      }
-                    },
-                    style: OutlinedButton.styleFrom(
-                        minimumSize: const Size(100, 50)),
-                    child: Text(
-                      cancelBtn,
+          return BlocConsumer<AssetSeeMoreCubit, AssetSeeMoreState>(listener:
+              BlocHelper.defaultBlocListener(listener: (context, seeMoreState) {
+            if (seeMoreState is GetSeeMoreLoaded) {
+              var json = seeMoreState.getAssetSeeMoreEntity as dynamic;
+
+              if (json?.currencyCode != null) {
+                setFormValues!({
+                  "currencyCode":
+                      Currency.getCurrencyFromString(json?.currencyCode)
+                });
+              }
+
+              debugPrint(json?.currencyCode?.toString());
+            }
+          }), builder: (context, seeMoreState) {
+            return Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: responsiveHelper.bigger16Gap * 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    OutlinedButton(
+                      onPressed: () {
+                        if (isEdit == true) {
+                          handleModalClose(context);
+                        } else {
+                          Navigator.pop(context, false);
+                        }
+                      },
+                      style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(100, 50)),
+                      child: Text(
+                        cancelBtn,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: responsiveHelper.bigger16Gap),
-                  ElevatedButton(
-                    onPressed: () {
-                      handleFormSubmit(
-                          formStateKey, renderSubmitData, context, false);
-                    },
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(100, 50)),
-                    child: Text(confirmBtn),
-                  )
-                ],
-              ));
+                    SizedBox(width: responsiveHelper.bigger16Gap),
+                    ElevatedButton(
+                      onPressed: () {
+                        handleFormSubmit(
+                            formStateKey, renderSubmitData, context, false);
+                      },
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(100, 50)),
+                      child: Text(confirmBtn),
+                    )
+                  ],
+                ));
+          });
         }));
   }
 
@@ -319,7 +348,7 @@ class ValuationModalWidget extends ModalWidget {
     return SizedBox(
       width: double.infinity,
       height: isMobile
-          ? MediaQuery.of(context).size.height * 0.8
+          ? min(MediaQuery.of(context).size.height * 0.8, 625)
           : MediaQuery.of(context).size.height * 0.5,
       child: Column(
         children: [

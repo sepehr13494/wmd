@@ -40,6 +40,7 @@ import 'package:wmd/features/profile/profile_reset_password/presentation/manager
 import 'package:wmd/features/profile/two_factor_auth/manager/two_factor_cubit.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
 import 'package:wmd/features/safe_device/presentation/manager/safe_device_cubit.dart';
+import 'package:wmd/features/settings/linked_accounts/presentation/manager/linked_accounts_cubit.dart';
 import 'package:wmd/features/valuation/presentation/manager/valuation_cubit.dart';
 import '../../../features/asset_detail/valuation/presentation/manager/performance_chart_cubit.dart';
 import '../../error_and_success/failures.dart';
