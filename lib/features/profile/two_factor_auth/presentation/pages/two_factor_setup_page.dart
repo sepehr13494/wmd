@@ -266,22 +266,6 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                                   ],
                                 ),
                               ),
-
-                              // Wrap(children: [
-                              //   Text(
-                              //     appLocalizations
-                              //         .profile_twofactorauthentication_options_emailTwoFactor_title
-                              //         .split("{{email}}")
-                              //         .first,
-                              //     style: textTheme.titleMedium,
-                              //   ),
-                              //   PrivacyBlurWidget(
-                              //     child: Text(
-                              //       ' ${(personalState is PersonalInformationLoaded) ? personalState.getNameEntity.email : ""}',
-                              //       style: textTheme.bodyMedium,
-                              //     ),
-                              //   ),
-                              // ])),
                               leading: Radio<String>(
                                 value: "email",
                                 groupValue: current2FA == 'phone'
@@ -313,7 +297,7 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                             Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 16),
-                                child: Row(children: [
+                                child: Wrap(children: [
                                   Text(
                                       appLocalizations
                                           .profile_twofactorauthentication_options_emailTwoFactor_description,
@@ -323,24 +307,7 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                                         ' ${(personalState is PersonalInformationLoaded) ? personalState.getNameEntity.email : ""}',
                                         style: textTheme.bodyMedium),
                                   ),
-                                ])
-
-                                // Wrap(children: [
-                                //   Text(
-                                //     appLocalizations
-                                //         .profile_twofactorauthentication_options_emailTwoFactor_description,
-                                //     style: textTheme.bodyMedium,
-                                //   ),
-                                //   PrivacyBlurWidget(
-                                //     child: Text(
-                                //       (personalState is PersonalInformationLoaded)
-                                //           ? personalState.getNameEntity.email
-                                //           : "",
-                                //       style: textTheme.bodyMedium,
-                                //     ),
-                                //   ),
-                                // ]),
-                                ),
+                                ])),
                             const SizedBox(height: 32),
                             ListTile(
                               title: Padding(
@@ -374,8 +341,10 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                                 onChanged: (String? value) {
                                   setState(() {
                                     current2FA = value;
-                                    twoFactorEnabled =
-                                        (userStatusState is UserStatusLoaded &&
+                                    twoFactorEnabled = twoFactorEnabled
+                                        ? twoFactorEnabled
+                                        : (userStatusState
+                                                is UserStatusLoaded &&
                                             userStatusState.userStatus
                                                     .mobileNumberVerified ==
                                                 true);
