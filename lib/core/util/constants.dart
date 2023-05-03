@@ -10,6 +10,7 @@ class AppConstants {
   static String auth0ClientId = dotenv.env['AUTH0_CLIENT_ID']!;
   static String auth0ClientSecret = dotenv.env['AUTH0_CLIENT_SECRET']!;
   static String auth0Audience = dotenv.env['AUTH0_AUDIENCE']!;
+  static String certificate = dotenv.env['CERTIICATE']!;
 
   static const custodianList = [
     "Abbot Downing",

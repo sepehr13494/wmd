@@ -1,7 +1,10 @@
+import 'dart:io';
+
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:wmd/core/util/constants.dart';
 import '../../util/local_storage.dart';
-import 'package:http_certificate_pinning/http_certificate_pinning.dart';
 
 class NetworkHelper {
   final LocalStorage localStorage;
@@ -36,7 +39,14 @@ class NetworkHelper {
         },
       ),
     );
-    dio.interceptors.add(CertificatePinningInterceptor(allowedSHAFingerprints))
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      final cert = AppConstants.certificate;
+      final SecurityContext context = SecurityContext();
+      client.badCertificateCallback = (cert, host, port) => false;
+      context.setTrustedCertificates(cert);
+      return HttpClient(context: context);
+    };
     return dio;
   }
 }
