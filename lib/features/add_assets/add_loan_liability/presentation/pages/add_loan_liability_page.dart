@@ -402,6 +402,7 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                                             child: const RadioButton<bool>(
                                                 items: RadioLiabilityType
                                                     .radioLiabilityList,
+                                                required: false,
                                                 name: "collateral")),
                                       EachTextField(
                                           hasInfo: false,
@@ -410,6 +411,7 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                                           child: const RadioButton<bool>(
                                               items: RadioLiabilityType
                                                   .radioLiabilityList,
+                                              required: false,
                                               name: "insurance")),
                                       const SizedBox(height: 60),
                                     ]
