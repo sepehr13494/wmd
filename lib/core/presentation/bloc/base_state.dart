@@ -44,6 +44,7 @@ abstract class BaseState extends Equatable
         EditAssetBaseState,
         TfoLoginState,
         SafeDeviceState,
+        ClientIndexState,
         PerformanceChartState {}
 
 class BaseInitialState extends BaseState {

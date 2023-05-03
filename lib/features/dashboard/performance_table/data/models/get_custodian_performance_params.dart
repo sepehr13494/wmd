@@ -4,6 +4,6 @@ class GetCustodianPerformanceParams extends BasePerformanceParams{
 
     const GetCustodianPerformanceParams({required super.period});
 
-    static const tParams = GetCustodianPerformanceParams(period: "Last7Days");
+    static const tParams = GetCustodianPerformanceParams(period: "ITD");
 }
     
