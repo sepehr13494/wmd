@@ -5,7 +5,6 @@ import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/util/app_restart.dart';
 import 'package:wmd/global_functions.dart';
 import 'base_cubit.dart';
-import '../widgets/loading_widget.dart';
 import '../../util/loading/loading_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -42,6 +41,14 @@ class BlocHelper {
           switch ((state.failure as ServerFailure).type) {
             case ExceptionType.normal:
             case ExceptionType.format:
+            case ExceptionType.ssl:
+              AppRestart.restart(context);
+              GlobalFunctions.showSnackBar(
+                context,
+                'SSL pinning error. Please be sure your connection is secure',
+                color: Colors.orange[800],
+              );
+              break;
             case ExceptionType.unExpected:
               if (state.tryAgainFunction != null) {
                 showDialog(
@@ -112,10 +119,12 @@ class BlocHelper {
   }) {
     return (context, state) {
       if (state is ErrorState) {
-        if(hideError){
+        if (hideError) {
           return const SizedBox();
-        }else{
-          return Center(child: Text(AppLocalizations.of(context).common_errors_somethingWentWrong));
+        } else {
+          return Center(
+              child: Text(AppLocalizations.of(context)
+                  .common_errors_somethingWentWrong));
         }
       } else {
         return builder(context, state);

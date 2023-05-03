@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +54,11 @@ class ErrorHandlerMiddleware {
     } on ServerException catch (e) {
       debugPrint(e.toString());
       rethrow;
+    } on DioError catch (e) {
+      log('Mert error ${e.message}');
+      if (e.message.contains('CERTIFICATE_VERIFY_FAILED')) {
+        throw ServerException(message: e.message, type: ExceptionType.ssl);
+      }
     } catch (e) {
       debugPrint(e.toString());
       throw ServerException(
