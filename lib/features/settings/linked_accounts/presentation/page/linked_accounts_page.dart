@@ -25,7 +25,6 @@ class LinkedAccountsPage extends AppStatelessWidget {
           listener:
               BlocHelper.defaultBlocListener(listener: (context, state) {}),
           builder: (context, state) {
-            log("Mert $state");
             if (state is LoadingState) {
               return const LoadingWidget();
             }
@@ -58,7 +57,7 @@ class LinkedAccountsPage extends AppStatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         OutlinedButton(
-                          onPressed: () {},
+                          onPressed: null,
                           child: const Text('Link new account'),
                         ),
                       ],
@@ -135,6 +134,9 @@ class LinkedTableTablet extends AppStatelessWidget {
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
+    if (getLinkedAccountsEntities.isEmpty) {
+      return Text(appLocalizations.common_glossary_noDataFoundHeading);
+    }
     return Table(
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       columnWidths: columnWidths,
@@ -211,12 +213,15 @@ class LinkedTableMobile extends AppStatelessWidget {
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
+    if (getLinkedAccountsEntities.isEmpty) {
+      return Text(appLocalizations.common_glossary_noDataFoundHeading);
+    }
     return Table(
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       columnWidths: columnWidths,
       children: [
         _buildTableHeader(context, textTheme),
-        ...List.generate(2, (index) {
+        ...List.generate(getLinkedAccountsEntities.length, (index) {
           return _buildTableRow(context, index);
         }),
       ],
