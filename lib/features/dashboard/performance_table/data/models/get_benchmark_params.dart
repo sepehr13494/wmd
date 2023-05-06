@@ -4,7 +4,7 @@ class GetBenchmarkParams extends BasePerformanceParams{
 
     const GetBenchmarkParams({required super.period});
 
-    static const tParams = GetBenchmarkParams(period: "Last7Days");
+    static const tParams = GetBenchmarkParams(period: "ITD");
 
 }
     

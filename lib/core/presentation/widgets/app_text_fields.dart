@@ -875,6 +875,8 @@ class RadioButton<T> extends StatefulWidget {
   final List<RadioButtonOptions<T>> items;
   final String? initialValue;
   final String name;
+  final String? errorMsg;
+  final bool required;
   final ValueChanged<String?>? onChange;
 
   const RadioButton({
@@ -882,6 +884,8 @@ class RadioButton<T> extends StatefulWidget {
     this.hint,
     this.onChange,
     this.initialValue,
+    this.errorMsg,
+    this.required = true,
     required this.items,
     required this.name,
   }) : super(key: key);
@@ -896,6 +900,14 @@ class _RadioButtontate<T> extends AppState<RadioButton> {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    final validators = <String? Function(dynamic?)>[];
+
+    if (widget.required) {
+      validators.add(FormBuilderValidators.required(
+          errorText:
+              widget.errorMsg ?? appLocalizations.common_errors_required));
+    }
+
     return SizedBox(
       child: Row(children: [
         Expanded(
@@ -908,8 +920,7 @@ class _RadioButtontate<T> extends AppState<RadioButton> {
                 },
                 initialValue: widget.initialValue,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: FormBuilderValidators.compose(
-                    [FormBuilderValidators.required()]),
+                validator: FormBuilderValidators.compose(validators),
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(horizontal: 0),

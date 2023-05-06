@@ -46,6 +46,7 @@ import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/das
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/pages/onboarding_page.dart';
+import 'package:wmd/features/dashboard/performance_table/client_index/presentation/manager/client_index_cubit.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/manager/performance_table_cubit.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/features/force_update/presentation/pages/force_update_page.dart';
@@ -99,6 +100,7 @@ class AppRouter {
       sl<PerformanceAssetClassCubit>();
   PerformanceBenchmarkCubit _performanceBenchmarkCubit =
       sl<PerformanceBenchmarkCubit>();
+  ClientIndexCubit _clientIndexCubit = sl<ClientIndexCubit>();
   PerformanceCustodianCubit _performanceCustodianCubit =
       sl<PerformanceCustodianCubit>();
   VerifyPhoneCubit _verifyPhoneCubit = sl<VerifyPhoneCubit>();
@@ -263,6 +265,11 @@ class AppRouter {
                     _performanceBenchmarkCubit =
                         sl<PerformanceBenchmarkCubit>();
                     return _performanceBenchmarkCubit..getBenchmark();
+                  }),
+                  BlocProvider(create: (context) {
+                    _clientIndexCubit =
+                        sl<ClientIndexCubit>();
+                    return _clientIndexCubit..getClientIndex();
                   }),
                   BlocProvider(create: (context) {
                     _performanceCustodianCubit =

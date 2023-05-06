@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -68,7 +69,7 @@ class ContactBusinessWidget extends ModalWidget {
                         BoxDecoration(border: Border.all(color: Colors.grey)),
                     width: MediaQuery.of(context).size.width * 0.9,
                     height: isMobile
-                        ? MediaQuery.of(context).size.height * 0.7
+                        ? min(MediaQuery.of(context).size.height * 0.7, 625)
                         : MediaQuery.of(context).size.height * 0.5,
                     child: Center(
                         child: Column(children: [
@@ -123,7 +124,7 @@ class ContactBusinessWidget extends ModalWidget {
                 child: SizedBox(
                     width: double.infinity,
                     height: isMobile
-                        ? MediaQuery.of(context).size.height * 0.7
+                        ? min(MediaQuery.of(context).size.height * 0.7, 625)
                         : MediaQuery.of(context).size.height * 0.5,
                     child: Column(children: [
                       buildModalHeader(context),
@@ -277,10 +278,6 @@ class ContactBusinessWidget extends ModalWidget {
                                                     .currentState!.instantValue,
                                                 "reason": ""
                                               };
-
-                                              log(finalMap.toString());
-                                              log(formKey.currentState!.isValid
-                                                  .toString());
 
                                               context
                                                   .read<GeneralInquiryCubit>()

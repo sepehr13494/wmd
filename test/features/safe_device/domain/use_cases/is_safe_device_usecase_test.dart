@@ -4,6 +4,7 @@ import 'package:mockito/mockito.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:wmd/features/safe_device/data/models/is_safe_device_params.dart';
+import 'package:wmd/features/safe_device/domain/entities/is_safe_device_entity.dart';
 import 'package:wmd/features/safe_device/domain/use_cases/is_safe_device_usecase.dart';
 
 import '../../data/repositories/safe_device_repository_impl_test.mocks.dart';
@@ -19,8 +20,8 @@ void main() {
 
   test('should get IsSafeDeviceEntity from the repository', () async {
     //arrange
-    when(mockSafeDeviceRepository.isSafeDevice(any)).thenAnswer(
-        (_) async => const Right(AppSuccess(message: "successfully done")));
+    when(mockSafeDeviceRepository.isSafeDevice(any))
+        .thenAnswer((_) async => const Right(IsSafeDeviceEntity(true)));
     // act
     final result = await isSafeDeviceUseCase(IsSafeDeviceParams.tParams);
 

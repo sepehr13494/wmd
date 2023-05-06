@@ -7,6 +7,7 @@ import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/features/safe_device/data/models/is_safe_device_params.dart';
+import 'package:wmd/features/safe_device/domain/entities/is_safe_device_entity.dart';
 import 'package:wmd/features/safe_device/domain/use_cases/is_safe_device_usecase.dart';
 import 'package:wmd/features/safe_device/presentation/manager/safe_device_cubit.dart';
 
@@ -34,7 +35,7 @@ void main() {
       build: () => safeDeviceCubit,
       setUp: () => when(mockIsSafeDeviceUseCase(any)).thenAnswer(
           (realInvocation) async =>
-              Right(AppSuccess(message: "Successfully done"))),
+              const Right(IsSafeDeviceEntity(true))),
       act: (bloc) async => await bloc.isSafeDevice(),
       expect: () => [
         isA<LoadingState>(),

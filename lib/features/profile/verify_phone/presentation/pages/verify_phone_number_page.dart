@@ -222,14 +222,15 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                           const SizedBox(
                             height: 30,
                           ),
-                        BasicTimerWidget(
-                            timerTime: 600000,
-                            resetTime: resetTimer,
-                            handleOtpExpired: () {
-                              setState(() {
-                                _otpExpired = true;
-                              });
-                            }),
+                        if (!resetTimer)
+                          BasicTimerWidget(
+                              timerTime: 600000,
+                              resetTime: resetTimer,
+                              handleOtpExpired: () {
+                                setState(() {
+                                  _otpExpired = true;
+                                });
+                              }),
                         const SizedBox(
                           height: 30,
                         ),

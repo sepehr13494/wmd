@@ -124,12 +124,7 @@ class _ListedEquityValuationFormWidgettState
     return Column(children: [
       FormBuilder(
         key: formKey,
-        // initialValue: {
-        //   "type": "Virtual Meeting",
-        //   "email": (personalState is PersonalInformationLoaded)
-        //       ? personalState.getNameEntity.email
-        //       : ""
-        // },
+        initialValue: widget.isEdit ? {} : {'note': "New valuation added"},
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -171,7 +166,7 @@ class _ListedEquityValuationFormWidgettState
               child: CurrenciesDropdown(
                 onChanged: checkFinalValid,
                 showExchange: false,
-                enabled: !widget.isEdit,
+                enabled: false,
               ),
             ),
             EachTextField(
