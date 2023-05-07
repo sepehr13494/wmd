@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/features/asset_see_more/core/data/models/get_asset_see_more_response.dart';
 
@@ -19,6 +20,7 @@ class AssetSeeMoreCubit extends Cubit<AssetSeeMoreState> {
     emit(LoadingState());
     final result = await getAssetSeeMoreUseCase(params);
     result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
+      debugPrint("working see more");
       emit(GetSeeMoreLoaded(getAssetSeeMoreEntity: entity));
     });
   }

@@ -31,6 +31,11 @@ class ValuationWidget extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
+
+    debugPrint("assetId");
+    debugPrint(assetId);
+    debugPrint(assetType);
+
     return Padding(
         padding: EdgeInsets.all(responsiveHelper.biggerGap),
         child: BlocProvider(
@@ -51,7 +56,9 @@ class ValuationWidget extends AppStatelessWidget {
                             appLocalizations.assets_label_valuation,
                             style: textTheme.bodyLarge,
                           ),
-                          if (AppConstants.publicMvp2Items && isManuallyAdded)
+                          if ((AppConstants.publicMvp2Items &&
+                                  isManuallyAdded) ||
+                              assetType == AssetTypes.loanLiability)
                             TextButton(
                                 onPressed: () {
                                   showDialog(
