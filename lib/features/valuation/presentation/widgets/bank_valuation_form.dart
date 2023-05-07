@@ -109,8 +109,11 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
                     lastDate: DateTime.now(),
                     inputType: InputType.date,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: FormBuilderValidators.compose(
-                        [FormBuilderValidators.required()]),
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(
+                          errorText: appLocalizations
+                              .assets_valuationModal_errors_acquisitionDate)
+                    ]),
                     format: DateFormat("dd/MM/yyyy"),
                     name: "valuatedAt",
                     decoration: InputDecoration(
@@ -137,6 +140,7 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
                       .assets_valuationModal_labels_marketValuation,
                   child: AppTextFields.simpleTextField(
                       onChanged: (e) => checkFinalValid(e),
+                      errorMsg: appLocalizations.common_errors_required,
                       type: TextFieldType.money,
                       name: "amount",
                       hint: appLocalizations

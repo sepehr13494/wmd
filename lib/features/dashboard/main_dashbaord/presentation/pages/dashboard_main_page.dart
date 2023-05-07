@@ -52,6 +52,7 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
 
     if (widget.expandCustodian) {
       context.read<CustodianStatusListCubit>().getCustodianStatusList();
+      context.read<UserStatusCubit>().getUserStatus();
     }
     return Scaffold(
       appBar: const DashboardAppBar(),

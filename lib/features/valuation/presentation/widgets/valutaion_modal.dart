@@ -235,12 +235,23 @@ class ValuationModalWidget extends ModalWidget {
             if (seeMoreState is GetSeeMoreLoaded) {
               var json = seeMoreState.getAssetSeeMoreEntity as dynamic;
 
+              debugPrint(json?.currencyCode.toString());
+              debugPrint(json?.acquisitionDate.toString());
+
               if (json?.currencyCode != null) {
-                setFormValues!({
+                Map<String, dynamic> formDataTemp = {
                   "currencyCode":
                       Currency.getCurrencyFromString(json?.currencyCode)
-                });
+                };
+
+                if (json?.acquisitionDate != null) {
+                  formDataTemp['acquisitionDate'] = json?.acquisitionDate;
+                }
+
+                setFormValues!(formDataTemp);
               }
+
+              debugPrint(json?.acquisitionDate.toString());
 
               debugPrint(json?.currencyCode?.toString());
             }
@@ -361,34 +372,37 @@ class ValuationModalWidget extends ModalWidget {
           }),
           Expanded(
               flex: 2,
-              child: SingleChildScrollView(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                    Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12, horizontal: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              isEdit!
-                                  ? "Edit Valuation"
-                                  : appLocalizations
-                                      .assets_valuationModal_heading,
-                              style: appTextTheme.headlineSmall,
-                              textAlign: TextAlign.center,
-                            )
-                          ],
-                        )),
-                    renderForm(assetType, isEdit!),
-                    // FormBuilder(
-                    //   key: localFormKey,
-                    //   child: renderForm(assetType),
-                    // ),
-                    // buildActions(context, localFormKey),
-                    SizedBox(height: responsiveHelper.bigger16Gap),
-                  ])))
+              child: Scrollbar(
+                trackVisibility: true,
+                child: SingleChildScrollView(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                      Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 12, horizontal: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                isEdit!
+                                    ? "Edit Valuation"
+                                    : appLocalizations
+                                        .assets_valuationModal_heading,
+                                style: appTextTheme.headlineSmall,
+                                textAlign: TextAlign.center,
+                              )
+                            ],
+                          )),
+                      renderForm(assetType, isEdit!),
+                      // FormBuilder(
+                      //   key: localFormKey,
+                      //   child: renderForm(assetType),
+                      // ),
+                      // buildActions(context, localFormKey),
+                      SizedBox(height: responsiveHelper.bigger16Gap),
+                    ])),
+              ))
         ],
       ),
     );
