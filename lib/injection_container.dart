@@ -1,5 +1,6 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:local_auth/local_auth.dart';
@@ -676,9 +677,9 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetClientIndexUseCase(sl()));
 
   sl.registerLazySingleton<ClientIndexRepository>(
-          () => ClientIndexRepositoryImpl(sl()));
+      () => ClientIndexRepositoryImpl(sl()));
   sl.registerLazySingleton<ClientIndexRemoteDataSource>(
-          () => ClientIndexRemoteDataSourceImpl(sl()));
+      () => ClientIndexRemoteDataSourceImpl(sl()));
 
   //Glossary
   sl.registerFactory(() => GlossaryCubit(sl()));
@@ -764,7 +765,9 @@ Future<void> initUtils() async {
 }
 
 Future<void> initExternal() async {
-  sl.registerFactory<Dio>(() => NetworkHelper(sl()).getDio());
+  final sslCert = await rootBundle.load('assets/certificate.pem');
+  // final sslCert = await rootBundle.load('assets/certt.cer');
+  sl.registerFactory<Dio>(() => NetworkHelper(sl()).getDio(sslCert));
 
   sl.registerLazySingleton<DeviceInfoPlugin>(() => DeviceInfoPlugin());
 
