@@ -22,13 +22,14 @@ class PrivacyBlurWidget extends StatelessWidget {
 
 class PrivacyBlurWidgetClickable extends StatelessWidget {
   final Widget child;
-  const PrivacyBlurWidgetClickable({super.key, required this.child});
+  final bool blur;
+  const PrivacyBlurWidgetClickable({super.key, required this.child, this.blur = true});
 
   @override
   Widget build(BuildContext context) {
     bool isBlurred = PrivacyInherited.of(context).isBlurred;
     if (isBlurred) {
-      return PrivacyBlurWidget(child: child);
+      return PrivacyBlurWidget(blur: blur,child: child,);
     }
     return child;
   }

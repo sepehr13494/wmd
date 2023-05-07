@@ -71,7 +71,7 @@ class PerformanceCustodianWidget extends AppStatelessWidget {
                       150,
                       120,
                       120,
-                      80,
+                      120,
                       120
                     ],
                     values: state.getCustodianPerformanceEntities
@@ -83,19 +83,25 @@ class PerformanceCustodianWidget extends AppStatelessWidget {
                           value: e.custodianName),
                       PerformanceValueObj(
                           value:
-                          "${e.performance.toStringAsFixed(1)} %",
-                          shouldBlur: false),
+                          "${(e.performance * 100).toStringAsFixed(1)} %",
+                          shouldBlur: false,
+                        showTooltip: ((e.performance * 100) >= 99900 || (e.performance * 100) <= -100)
+                      ),
                       PerformanceValueObj(
                           value:
                           e.amount.convertMoney(),
-                          shouldBlur: false),
+                          shouldBlur: false,
+                      ),
                       PerformanceValueObj(
                           value:
                           "${e.riskPa.toStringAsFixed(1)} %",
-                          shouldBlur: false),
+                          shouldBlur: false,
+                        showTooltip: (e.riskPa >= 99900 || e.riskPa <= -100)
+                      ),
                       PerformanceValueObj(
                           value: e.sharpeRatio
-                              .toStringAsFixed(1)),
+                              .toStringAsFixed(1),
+                      ),
                     ])
                         .toList())
                     : const PerformanceTableShimmer(showTexts: false,);
