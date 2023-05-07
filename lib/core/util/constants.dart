@@ -10,7 +10,22 @@ class AppConstants {
   static String auth0ClientId = dotenv.env['AUTH0_CLIENT_ID']!;
   static String auth0ClientSecret = dotenv.env['AUTH0_CLIENT_SECRET']!;
   static String auth0Audience = dotenv.env['AUTH0_AUDIENCE']!;
-  static String certificate = dotenv.env['CERTIICATE']!;
+  static String getCertificate(env) {
+    switch (env) {
+      case "uat":
+        return "assets/certificates/uat.crt";
+      case "qa":
+        return "assets/certificates/qa.crt";
+      case "prod":
+        return "assets/certificates/prod.crt";
+      case "dev":
+        return "assets/certificates/dev.crt";
+      case "developer":
+        return "assets/certificates/qa.crt";
+      default:
+        return "assets/certificates/dev.crt";
+    }
+  }
 
   static const custodianList = [
     "Abbot Downing",
