@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/presentation/widgets/info_icon.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/models/performance_value_obj.dart';
@@ -216,11 +217,30 @@ class _PerformanceBaseTableState extends AppState<PerformanceBaseTable> {
                                                           alignment:
                                                               AlignmentDirectional
                                                                   .centerStart,
-                                                          child: PrivacyBlurWidget(
+                                                          child: PrivacyBlurWidgetClickable(
                                                             blur: insideValue.shouldBlur,
-                                                            child: Text(
-                                                              insideValue.value,
-                                                              style: textTheme.bodySmall,
+                                                            child: Row(
+                                                              children: [
+                                                                Text(
+                                                                  insideValue.value,
+                                                                  style: textTheme.bodySmall,
+                                                                ),
+                                                                if (insideValue.showTooltip)
+                                                                  InkWell(
+                                                                    onTap: (){
+                                                                      print("hi");
+                                                                    },
+                                                                    child: Tooltip(
+                                                                      triggerMode: TooltipTriggerMode.tap,
+                                                                      message: AppLocalizations.of(context)
+                                                                          .assets_tooltips_percentageAbsurd,
+                                                                      child: const Padding(
+                                                                        padding: EdgeInsets.symmetric(horizontal: 4.0),
+                                                                        child: InfoIcon(),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                              ],
                                                             ),
                                                           ),
                                                         ),
