@@ -21,7 +21,7 @@ class AssetsOverviewResponse extends AssetsOverviewEntity {
 
   factory AssetsOverviewResponse.fromJson(Map<String, dynamic> json) =>
       AssetsOverviewResponse(
-        type: json["type"] ?? ".",
+        type: json["type"].toString() ?? "",
         assetClassSubType: json["assetClassSubType"],
         totalAmount: double.tryParse(json["totalAmount"].toString()) ?? 0,
         assetList: List<AssetListResponse>.from(

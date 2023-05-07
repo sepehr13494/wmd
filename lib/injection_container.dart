@@ -232,6 +232,7 @@ import 'package:wmd/features/settings/core/data/data_sources/settings_remote_dat
 import 'package:wmd/features/settings/linked_accounts/data/data_sources/linked_accounts_remote_datasource.dart';
 import 'package:wmd/features/settings/linked_accounts/data/repositories/linked_accounts_repository_impl.dart';
 import 'package:wmd/features/settings/linked_accounts/domain/repositories/linked_accounts_repository.dart';
+import 'package:wmd/features/settings/linked_accounts/domain/use_cases/delete_linked_accounts_usecase.dart';
 import 'package:wmd/features/settings/linked_accounts/domain/use_cases/get_linked_accounts_usecase.dart';
 import 'package:wmd/features/settings/linked_accounts/presentation/manager/linked_accounts_cubit.dart';
 import 'package:wmd/features/valuation/data/data_sources/valuation_remote_datasource.dart';
@@ -735,8 +736,9 @@ Future<void> init() async {
       () => SafeDeviceLocalDataSourceImpl());
 
   //LinkedAccounts
-  sl.registerFactory(() => LinkedAccountsCubit(sl()));
+  sl.registerFactory(() => LinkedAccountsCubit(sl(), sl()));
   sl.registerLazySingleton(() => GetLinkedAccountsUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteLinkedAccountsUseCase(sl()));
 
   sl.registerLazySingleton<LinkedAccountsRepository>(
       () => LinkedAccountsRepositoryImpl(sl()));

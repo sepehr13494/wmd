@@ -1,4 +1,5 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:wmd/core/util/constants.dart';
 
 class AppUrls {
   AppUrls._();
@@ -86,6 +87,8 @@ class AppUrls {
       case "ListedAssetFixedIncome":
       case "ListedAssetOther":
         return "${wealthBase}ListedAsset";
+      case AssetTypes.loanLiability:
+        return "${wealthBase}loans";
       default:
         return "$wealthBase$type";
     }
@@ -112,7 +115,8 @@ class AppUrls {
 
   //performance table
   static String getAssetClass = "${wealthBase}Performance/assetclass";
-  static String getClientIndex = "${wealthBase}Performance/assetclasses/mandate";
+  static String getClientIndex =
+      "${wealthBase}Performance/assetclasses/mandate";
   static String getBenchmark = "${wealthBase}Performance/benchmark";
   static String getCustodianPerformance = "${wealthBase}Performance/custodian";
 

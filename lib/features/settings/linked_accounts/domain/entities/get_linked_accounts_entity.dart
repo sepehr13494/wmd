@@ -1,13 +1,20 @@
 import 'package:equatable/equatable.dart';
 
 class GetLinkedAccountsEntity extends Equatable {
-    const GetLinkedAccountsEntity();
-    
-    Map<String, dynamic> toJson() => {
-    
-    };
+  final String id;
+  final String bankName;
+  final DateTime dateLinked;
+  final String type;
+  final String subType;
+  const GetLinkedAccountsEntity(
+      {required this.bankName,
+      required this.id,
+      required this.dateLinked,
+      required this.type,
+      required this.subType});
 
-    @override
-    List<Object?> get props => [];
+  Map<String, dynamic> toJson() => {};
+
+  @override
+  List<Object?> get props => [];
 }
-    
