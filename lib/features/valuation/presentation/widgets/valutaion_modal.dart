@@ -19,6 +19,7 @@ import 'package:wmd/features/asset_see_more/core/presentation/manager/asset_see_
 import 'package:wmd/features/valuation/presentation/manager/valuation_cubit.dart';
 import 'package:wmd/features/valuation/presentation/widgets/bank_valuation_form.dart';
 import 'package:wmd/features/valuation/presentation/widgets/equity_debt_valuation_form.dart';
+import 'package:wmd/features/valuation/presentation/widgets/liability_valuation_form.dart';
 import 'package:wmd/features/valuation/presentation/widgets/listed_equity_valuation_form.dart';
 import 'package:wmd/features/valuation/presentation/widgets/real_estate_valuation_form.dart';
 import 'package:wmd/features/valuation/presentation/widgets/valuation_warning_modal.dart';
@@ -233,10 +234,12 @@ class ValuationModalWidget extends ModalWidget {
           return BlocConsumer<AssetSeeMoreCubit, AssetSeeMoreState>(listener:
               BlocHelper.defaultBlocListener(listener: (context, seeMoreState) {
             if (seeMoreState is GetSeeMoreLoaded) {
-              var json = seeMoreState.getAssetSeeMoreEntity as dynamic;
+              debugPrint("working see more 2");
+              debugPrint(seeMoreState.getAssetSeeMoreEntity.toString());
+              dynamic json = seeMoreState.getAssetSeeMoreEntity as dynamic;
 
-              debugPrint(json?.currencyCode.toString());
-              debugPrint(json?.acquisitionDate.toString());
+              // debugPrint(json?.currencyCode.toString());
+              // debugPrint(json?.acquisitionDate.toString());
 
               if (json?.currencyCode != null) {
                 Map<String, dynamic> formDataTemp = {
@@ -249,7 +252,21 @@ class ValuationModalWidget extends ModalWidget {
                 }
 
                 setFormValues!(formDataTemp);
+              } else {
+                setFormValues!(
+                    {'currencyCode': Currency.getCurrencyFromString('USD')});
               }
+
+              // try {
+
+              // } catch (e) {
+              //   debugPrint('Format erro detail:');
+              //   debugPrint('Format erro detail: $e');
+              //   // throw AppException(
+              //   //     message: "format Exception",
+              //   //     type: ExceptionType.format,
+              //   //     stackTrace: e is TypeError ? e.stackTrace.toString() : null);
+              // }
 
               debugPrint(json?.acquisitionDate.toString());
 
@@ -341,6 +358,12 @@ class ValuationModalWidget extends ModalWidget {
           break;
         case AssetTypes.privateDebt:
           entity = EquityDebtValuationFormWidget(
+              buildActions: (e, callbackF) =>
+                  buildActions(context, e, (x) => callbackF(x)),
+              isEdit: isEdit);
+          break;
+        case AssetTypes.loanLiability:
+          entity = LoanLiabilityValuationFormWidget(
               buildActions: (e, callbackF) =>
                   buildActions(context, e, (x) => callbackF(x)),
               isEdit: isEdit);

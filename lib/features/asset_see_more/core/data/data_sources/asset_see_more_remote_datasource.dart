@@ -8,6 +8,7 @@ import 'package:wmd/core/models/app_request_options.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_see_more/bank_account/data/model/bank_account_more_entity.dart';
 import 'package:wmd/features/asset_see_more/listed_asset/data/models/listed_asset_more_entity.dart';
+import 'package:wmd/features/asset_see_more/loan_liability/data/models/loan_liability_more_entity.dart';
 import 'package:wmd/features/asset_see_more/other_asset/data/model/other_asset_more_entity.dart';
 import 'package:wmd/features/asset_see_more/private_debt/data/models/private_debt_more_entity.dart';
 import 'package:wmd/features/asset_see_more/private_equity/data/models/private_equity_more_entity.dart';
@@ -28,10 +29,14 @@ class AssetSeeMoreRemoteDataSourceImpl extends AppServerDataSource
   Future<GetSeeMoreResponse> getAssetSeeMore(GetSeeMoreParams params) async {
     String type = params.type;
     try {
-      final appRequestOptions =
-          AppRequestOptions(RequestTypes.get, AppUrls.getSeeMore(type), {
-        'assetId': params.assetId,
-      });
+      final appRequestOptions = AppRequestOptions(
+          RequestTypes.get,
+          AppUrls.getSeeMore(type),
+          type == AssetTypes.loanLiability
+              ? {'liabilityId': params.assetId}
+              : {
+                  'assetId': params.assetId,
+                });
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
       late final GetSeeMoreResponse result;
@@ -59,6 +64,9 @@ class AssetSeeMoreRemoteDataSourceImpl extends AppServerDataSource
         case AssetTypes.listedAssetOther:
           result = ListedAssetMoreEntity.fromJson(response);
           break;
+        case AssetTypes.loanLiability:
+          result = LoanLiabilityMoreEntity.fromJson(response);
+          break;
         default:
           result = DefaultMoreEntity(response.toString());
       }
@@ -68,7 +76,9 @@ class AssetSeeMoreRemoteDataSourceImpl extends AppServerDataSource
     } catch (e) {
       log('Format erro detail: $e');
       throw AppException(
-          message: "format Exception", type: ExceptionType.format,stackTrace: e is TypeError ? e.stackTrace.toString() : null);
+          message: "format Exception",
+          type: ExceptionType.format,
+          stackTrace: e is TypeError ? e.stackTrace.toString() : null);
     }
   }
 }
