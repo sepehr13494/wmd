@@ -1,4 +1,8 @@
+import 'dart:developer';
+import 'dart:io';
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../util/local_storage.dart';
 
@@ -6,7 +10,7 @@ class NetworkHelper {
   final LocalStorage localStorage;
   NetworkHelper(this.localStorage);
 
-  Dio getDio() {
+  Dio getDio(ByteData sslCert) {
     Map<String, String> headers = {
       'content-type': 'application/json',
       'accept': "application/json",
@@ -35,6 +39,21 @@ class NetworkHelper {
         },
       ),
     );
+
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      SecurityContext securityContext = SecurityContext();
+      client.badCertificateCallback = (cert, host, port) {
+        log('Mert log: $cert');
+        log('Mert log: $host');
+        log('Mert log: $port');
+        return false;
+      };
+      securityContext.setTrustedCertificatesBytes(sslCert.buffer.asInt8List());
+      // final SecurityContext context = SecurityContext();
+      // context.setTrustedCertificatesBytes(sslCert.buffer.asInt8List());
+      return HttpClient(context: securityContext);
+    };
     return dio;
   }
 }

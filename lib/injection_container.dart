@@ -1,10 +1,12 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:wmd/core/data/network/error_handler_middleware.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/core/util/local_auth_manager.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/data/data_sources/plaid_data_source.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/data/repository/plaid_repository_impl.dart';
@@ -293,7 +295,7 @@ import 'features/splash/presentation/manager/splash_cubit.dart';
 
 final sl = GetIt.instance;
 
-Future<void> init() async {
+Future<void> init(String env) async {
   //repository_and_cubits
   // Splash dependency
   sl.registerFactory(() => SplashCubit(sl()));
@@ -744,7 +746,7 @@ Future<void> init() async {
   sl.registerLazySingleton<LinkedAccountsRemoteDataSource>(
       () => LinkedAccountsRemoteDataSourceImpl(sl()));
 
-  await initExternal();
+  await initExternal(env);
   await initUtils();
 }
 
@@ -765,8 +767,10 @@ Future<void> initUtils() async {
   sl.registerFactory(() => LocalAuthManager(sl()));
 }
 
-Future<void> initExternal() async {
-  sl.registerFactory<Dio>(() => NetworkHelper(sl()).getDio());
+Future<void> initExternal(String env) async {
+  final sslCert = await rootBundle.load(AppConstants.getCertificate(env));
+  // final sslCert = await rootBundle.load('assets/certt.cer');
+  sl.registerFactory<Dio>(() => NetworkHelper(sl()).getDio(sslCert));
 
   sl.registerLazySingleton<DeviceInfoPlugin>(() => DeviceInfoPlugin());
 
