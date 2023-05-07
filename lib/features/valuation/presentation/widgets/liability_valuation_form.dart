@@ -14,18 +14,19 @@ import 'package:wmd/features/valuation/data/models/valuation_action_type.dart';
 import 'package:wmd/features/valuation/presentation/manager/valuation_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
-class BankValuationFormWidget extends StatefulWidget {
+class LoanLiabilityValuationFormWidget extends StatefulWidget {
   final Function buildActions;
   final bool isEdit;
-  const BankValuationFormWidget(
+  const LoanLiabilityValuationFormWidget(
       {Key? key, required this.buildActions, required this.isEdit})
       : super(key: key);
   @override
-  AppState<BankValuationFormWidget> createState() =>
-      _BankValuationFormWidgetState();
+  AppState<LoanLiabilityValuationFormWidget> createState() =>
+      _LoanLiabilityValuationFormWidgetState();
 }
 
-class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
+class _LoanLiabilityValuationFormWidgetState
+    extends AppState<LoanLiabilityValuationFormWidget> {
   bool enableAddAssetButton = false;
   late Map<String, dynamic> lastValue;
   bool hasTimeLineSelected = false;
