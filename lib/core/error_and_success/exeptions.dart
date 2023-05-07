@@ -3,6 +3,7 @@ enum ExceptionType {
   auth,
   unExpected,
   format,
+  ssl,
 }
 
 class CacheException implements Exception {

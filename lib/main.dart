@@ -32,7 +32,7 @@ Future<void> main() async {
   final envFile = envInitConfig(envFor);
   await dotenv.load(fileName: envFile);
   await Hive.initFlutter();
-  await di.init();
+  await di.init(envFor);
 
   final configuration = DdSdkConfiguration(
     clientToken: 'pub8df6124a6a447c1cbdf885ffe962ac6d',

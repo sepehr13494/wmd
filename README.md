@@ -39,3 +39,13 @@ flutter run --dart-define=env=qa
 #our flutter version
 flutter version 3.3.8
 
+# SSL Pinning. This command will save ssl crt for defined domain 
+## qa
+openssl s_client -showcerts -servername apigw-wmd-qa.azure-api.net -connect apigw-wmd-qa.azure-api.net:443 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > assets/certificates/qa.crt
+
+## dev
+openssl s_client -showcerts -servername apigw-wmd-dev.azure-api.net -connect apigw-wmd-dev.azure-api.net:443 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > assets/certificates/dev.crt
+## uat
+openssl s_client -showcerts -servername apimaz-weu-tfo-mvp-qa.azure-api.net -connect apimaz-weu-tfo-mvp-qa.azure-api.net:443 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > assets/certificates/uat.crt
+## prod
+openssl s_client -showcerts -servername apigw-wmd-prod-01.azure-api.net -connect apigw-wmd-prod-01.azure-api.net:443 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > assets/certificates/prod.crt
