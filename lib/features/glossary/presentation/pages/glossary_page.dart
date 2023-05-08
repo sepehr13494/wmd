@@ -20,22 +20,22 @@ class GlossaryPage extends AppStatelessWidget {
       create: (context) => sl<GlossaryCubit>()..getGlossaries(),
       child: Builder(builder: (context) {
         return Scaffold(
-          appBar: AppBar(title: Text("Glossary")),
+          appBar: AppBar(title: Text(appLocalizations.common_glossary_heading)),
           body: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Glossary",
+                  appLocalizations.common_glossary_heading,
                   style: textTheme.titleLarge,
                 ),
                 Text(
-                  "Definition of terms and words found throughout the app",
+                  appLocalizations.common_glossary_description,
                   style: textTheme.bodyMedium!.copyWith(fontSize: 16),
                 ),
                 SearchTextField(
                   checkLength: 0,
-                    hint: "Search Glossary",
+                    hint: appLocalizations.common_glossary_placeholder,
                     function: (val) {
                       context
                           .read<GlossaryCubit>()
