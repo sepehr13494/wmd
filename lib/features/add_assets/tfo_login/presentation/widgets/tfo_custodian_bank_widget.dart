@@ -55,7 +55,7 @@ class TfoCustodianBankWidget extends AppStatelessWidget {
               onTap: () {
                 onActive();
               },
-              title: const Text('The Office Family'),
+              title: const Text('The Family Office'),
               leading: Icon(Icons.account_balance, color: primaryColor),
               trailing: isDone
                   ? _buildButton(context,
