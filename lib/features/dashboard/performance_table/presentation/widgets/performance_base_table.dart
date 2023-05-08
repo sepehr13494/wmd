@@ -25,7 +25,7 @@ class PerformanceBaseTable extends StatefulWidget {
 
 class _PerformanceBaseTableState extends AppState<PerformanceBaseTable> {
   late int page = 1;
-  final int perPage = 10;
+  final int perPage = 5;
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,

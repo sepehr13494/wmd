@@ -61,18 +61,20 @@ class PerformanceAssetClassWidget extends AppStatelessWidget {
                 ? Builder(builder: (context) {
                     List<GetAssetClassEntity> newList = [];
                     newList.addAll(state.getAssetClassEntities);
-
-                    GetAssetClassEntity total = GetAssetClassEntity(
-                      assetName: appLocalizations
-                          .home_wealthPerformance_table_header_total,
-                      marketValue: newList.map((e) => e.marketValue).reduce((a, b) => a + b),
-                      forexValue: newList.map((e) => e.forexValue).reduce((a, b) => a + b),
-                      income: newList.map((e) => e.income).reduce((a, b) => a + b),
-                      commission: newList.map((e) => e.commission).reduce((a, b) => a + b),
-                      total: newList.map((e) => e.total).reduce((a, b) => a + b),
-                      changePercentage: newList.map((e) => e.changePercentage).reduce((a, b) => a + b),
-                    );
-                    newList.add(total);
+                    GetAssetClassEntity? total;
+                    if(newList.isNotEmpty){
+                      total = GetAssetClassEntity(
+                        assetName: appLocalizations
+                            .home_wealthPerformance_table_header_total,
+                        marketValue: newList.map((e) => e.marketValue).reduce((a, b) => a + b),
+                        forexValue: newList.map((e) => e.forexValue).reduce((a, b) => a + b),
+                        income: newList.map((e) => e.income).reduce((a, b) => a + b),
+                        commission: newList.map((e) => e.commission).reduce((a, b) => a + b),
+                        total: newList.map((e) => e.total).reduce((a, b) => a + b),
+                        changePercentage: newList.map((e) => e.changePercentage).reduce((a, b) => a + b),
+                      );
+                      newList.add(total);
+                    }
                     return PerformanceBaseTable(
                         titles: [
                           appLocalizations

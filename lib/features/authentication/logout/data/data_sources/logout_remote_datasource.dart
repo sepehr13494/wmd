@@ -24,7 +24,7 @@ class LogoutRemoteDataSourceImpl extends AppServerDataSource
       final appRequestOptions =
           AppRequestOptions(RequestTypes.post, AppUrls.performLogout, params.toJson());
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = PerformLogoutResponse.fromJson(response);
+      final result = PerformLogoutResponse();
       return result;
     } on ServerException {
       rethrow;
