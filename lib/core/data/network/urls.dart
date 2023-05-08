@@ -71,6 +71,13 @@ class AppUrls {
   static String getBankList = "${banking}Bank";
   static String getPopularBankList = "${banking}Bank/Popular";
 
+  //preferences
+  static String patchPreferenceMobileBanner =
+      "${userBase}User/preferences/showMobileBanner";
+  static String patchPreferenceLanguage =
+      "${userBase}User/preferences/language";
+  static String getPreference = "${userBase}User/preferences";
+
   //get asset details
   static String getBankAccount = "${wealthBase}BankAccount";
   static String getPrivateDebt = "${wealthBase}PrivateDebt";

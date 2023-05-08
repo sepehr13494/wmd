@@ -46,6 +46,7 @@ abstract class BaseState extends Equatable
         SafeDeviceState,
         ClientIndexState,
         LinkedAccountsState,
+        PreferenceState,
         PerformanceChartState {}
 
 class BaseInitialState extends BaseState {
