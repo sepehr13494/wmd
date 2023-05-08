@@ -34,7 +34,7 @@ class AppUrls {
   static String postMobileVerification = "${userBase}Otp/phone-number/verify";
   static String postResendVerifyPhone = "${userBase}Otp";
   static String postResendOtp = "${userBase}User/send-otp";
-  static String performLogout = "${userBase}User/logout";
+  static String performLogout = "${authBase}logout";
 
   //add assets
   static String postBankDetails = "${wealthBase}BankAccount";
