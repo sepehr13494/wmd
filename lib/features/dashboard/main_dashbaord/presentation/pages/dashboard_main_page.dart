@@ -135,8 +135,8 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                                 BanksAuthorizationProcess(
                                                     initiallyExpanded: widget
                                                             .expandCustodian ||
-                                                        !isAssetsNotEmpty ||
-                                                        !isLiabilityNotEmpty),
+                                                        (!isAssetsNotEmpty &&
+                                                            !isLiabilityNotEmpty)),
                                                 if (isAssetsNotEmpty ||
                                                     isLiabilityNotEmpty)
                                                   SummeryWidget(
