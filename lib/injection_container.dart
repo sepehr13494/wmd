@@ -210,6 +210,13 @@ import 'package:wmd/features/profile/personal_information/domain/use_cases/get_n
 import 'package:wmd/features/profile/personal_information/domain/use_cases/set_name_usecase.dart';
 import 'package:wmd/features/profile/personal_information/domain/use_cases/set_number_usecase.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
+import 'package:wmd/features/profile/preference/data/data_sources/preference_remote_datasource.dart';
+import 'package:wmd/features/profile/preference/data/repositories/preference_repository_impl.dart';
+import 'package:wmd/features/profile/preference/domain/repositories/preference_repository.dart';
+import 'package:wmd/features/profile/preference/domain/use_cases/get_preference_usecase.dart';
+import 'package:wmd/features/profile/preference/domain/use_cases/patch_preference_language_usecase.dart';
+import 'package:wmd/features/profile/preference/domain/use_cases/patch_preference_mobile_banner_usecase.dart';
+import 'package:wmd/features/profile/preference/presentation/manager/preference_cubit.dart';
 import 'package:wmd/features/profile/profile_reset_password/data/data_sources/profile_reset_password_remote_datasource.dart';
 import 'package:wmd/features/profile/profile_reset_password/data/repositories/profile_reset_password_repository_impl.dart';
 import 'package:wmd/features/profile/profile_reset_password/domain/repositories/profile_reset_password_repository.dart';
@@ -587,6 +594,16 @@ Future<void> init(String env) async {
   sl.registerLazySingleton<FaqRepository>(() => FaqRepositoryImpl(sl()));
   sl.registerLazySingleton<FaqRemoteDataSource>(
       () => FaqRemoteDataSourceImpl(sl()));
+
+  //Preference
+  sl.registerFactory(() => PreferenceCubit(sl(), sl(), sl()));
+  sl.registerLazySingleton(() => PatchPreferenceMobileBannerUseCase(sl()));
+  sl.registerLazySingleton(() => PatchPreferenceLanguageUseCase(sl()));
+  sl.registerLazySingleton(() => GetPreferenceUseCase(sl()));
+  sl.registerLazySingleton<PreferenceRepository>(
+      () => PreferenceRepositoryImpl(sl()));
+  sl.registerLazySingleton<PreferenceRemoteDataSource>(
+      () => PreferenceRemoteDataSourceImpl(sl()));
 
   //profile phone verify
   sl.registerFactory(() => VerifyPhoneCubit(sl(), sl(), sl(), sl()));
