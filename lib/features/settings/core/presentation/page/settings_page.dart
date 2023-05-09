@@ -56,10 +56,12 @@ class _SettingsPageState extends AppState<SettingsPage>
     final appTheme = Theme.of(context);
     final responsiveHelper = ResponsiveHelper(context: context);
     final isMobile = responsiveHelper.isMobile;
-    final map = [
+    final List<MapEntry<String, Widget>> map = [
       MapEntry(
           appLocalizations.profile_tabs_personal_name, const ProfilePage()),
-      MapEntry(
+    ];
+    if (isMobile) {
+      map.add(MapEntry(
           appLocalizations.profile_twoFactor_header,
           SingleChildScrollView(
             padding: const EdgeInsets.symmetric(vertical: 32),
@@ -69,14 +71,16 @@ class _SettingsPageState extends AppState<SettingsPage>
                 const TwoFactorSetting(),
               ],
             ),
-          )),
-      MapEntry(appLocalizations.profile_tabs_preferences_name,
-          const PreferencesPage()),
-      MapEntry(
-        appLocalizations.profile_tabs_linkedAccounts_name,
-        const LinkedAccountsPage(),
-      ),
-    ];
+          )));
+    }
+
+    map.add(MapEntry(appLocalizations.profile_tabs_preferences_name,
+        const PreferencesPage()));
+    map.add(MapEntry(
+      appLocalizations.profile_tabs_linkedAccounts_name,
+      const LinkedAccountsPage(),
+    ));
+
     return Theme(
       data: Theme.of(context).copyWith(
         outlinedButtonTheme: OutlinedButtonThemeData(
