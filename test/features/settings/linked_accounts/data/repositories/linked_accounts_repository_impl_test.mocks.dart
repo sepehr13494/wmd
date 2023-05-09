@@ -7,7 +7,10 @@ import 'dart:async' as _i4;
 
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:wmd/core/error_and_success/failures.dart' as _i8;
+import 'package:wmd/core/error_and_success/failures.dart' as _i9;
+import 'package:wmd/core/error_and_success/succeses.dart' as _i11;
+import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/delete_custodian_bank_status_params.dart'
+    as _i7;
 import 'package:wmd/features/settings/linked_accounts/data/data_sources/linked_accounts_remote_datasource.dart'
     as _i3;
 import 'package:wmd/features/settings/linked_accounts/data/models/get_linked_accounts_params.dart'
@@ -15,9 +18,9 @@ import 'package:wmd/features/settings/linked_accounts/data/models/get_linked_acc
 import 'package:wmd/features/settings/linked_accounts/data/models/get_linked_accounts_response.dart'
     as _i5;
 import 'package:wmd/features/settings/linked_accounts/domain/entities/get_linked_accounts_entity.dart'
-    as _i9;
+    as _i10;
 import 'package:wmd/features/settings/linked_accounts/domain/repositories/linked_accounts_repository.dart'
-    as _i7;
+    as _i8;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -60,19 +63,30 @@ class MockLinkedAccountsRemoteDataSource extends _i1.Mock
         returnValue: _i4.Future<List<_i5.GetLinkedAccountsResponse>>.value(
             <_i5.GetLinkedAccountsResponse>[]),
       ) as _i4.Future<List<_i5.GetLinkedAccountsResponse>>);
+  @override
+  _i4.Future<void> deleteLinkedAccounts(
+          _i7.DeleteCustodianBankStatusParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteLinkedAccounts,
+          [params],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 }
 
 /// A class which mocks [LinkedAccountsRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockLinkedAccountsRepository extends _i1.Mock
-    implements _i7.LinkedAccountsRepository {
+    implements _i8.LinkedAccountsRepository {
   MockLinkedAccountsRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.Either<_i8.Failure, List<_i9.GetLinkedAccountsEntity>>>
+  _i4.Future<_i2.Either<_i9.Failure, List<_i10.GetLinkedAccountsEntity>>>
       getLinkedAccounts(_i6.GetLinkedAccountsParams? params) =>
           (super.noSuchMethod(
             Invocation.method(
@@ -80,9 +94,9 @@ class MockLinkedAccountsRepository extends _i1.Mock
               [params],
             ),
             returnValue: _i4.Future<
-                    _i2.Either<_i8.Failure,
-                        List<_i9.GetLinkedAccountsEntity>>>.value(
-                _FakeEither_0<_i8.Failure, List<_i9.GetLinkedAccountsEntity>>(
+                    _i2.Either<_i9.Failure,
+                        List<_i10.GetLinkedAccountsEntity>>>.value(
+                _FakeEither_0<_i9.Failure, List<_i10.GetLinkedAccountsEntity>>(
               this,
               Invocation.method(
                 #getLinkedAccounts,
@@ -90,5 +104,22 @@ class MockLinkedAccountsRepository extends _i1.Mock
               ),
             )),
           ) as _i4.Future<
-              _i2.Either<_i8.Failure, List<_i9.GetLinkedAccountsEntity>>>);
+              _i2.Either<_i9.Failure, List<_i10.GetLinkedAccountsEntity>>>);
+  @override
+  _i4.Future<_i2.Either<_i9.Failure, _i11.AppSuccess>> deleteLinkedAccounts(
+          _i7.DeleteCustodianBankStatusParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteLinkedAccounts,
+          [params],
+        ),
+        returnValue: _i4.Future<_i2.Either<_i9.Failure, _i11.AppSuccess>>.value(
+            _FakeEither_0<_i9.Failure, _i11.AppSuccess>(
+          this,
+          Invocation.method(
+            #deleteLinkedAccounts,
+            [params],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i9.Failure, _i11.AppSuccess>>);
 }

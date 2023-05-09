@@ -8,6 +8,7 @@ import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/features/settings/linked_accounts/data/models/get_linked_accounts_params.dart';
 import 'package:wmd/features/settings/linked_accounts/data/models/get_linked_accounts_response.dart';
+import 'package:wmd/features/settings/linked_accounts/domain/use_cases/delete_linked_accounts_usecase.dart';
 import 'package:wmd/features/settings/linked_accounts/domain/use_cases/get_linked_accounts_usecase.dart';
 import 'package:wmd/features/settings/linked_accounts/presentation/manager/linked_accounts_cubit.dart';
 
@@ -15,9 +16,11 @@ import 'linked_accounts_cubit_test.mocks.dart';
 
 @GenerateMocks([
   GetLinkedAccountsUseCase,
+  DeleteLinkedAccountsUseCase,
 ])
 void main() {
   late MockGetLinkedAccountsUseCase mockGetLinkedAccountsUseCase;
+  late MockDeleteLinkedAccountsUseCase mockDeleteLinkedAccountsUseCase;
 
   late LinkedAccountsCubit linkedAccountsCubit;
 
@@ -25,8 +28,7 @@ void main() {
     mockGetLinkedAccountsUseCase = MockGetLinkedAccountsUseCase();
 
     linkedAccountsCubit = LinkedAccountsCubit(
-      mockGetLinkedAccountsUseCase,
-    );
+        mockGetLinkedAccountsUseCase, mockDeleteLinkedAccountsUseCase);
   });
 
   group("getLinkedAccounts", () {
