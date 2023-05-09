@@ -26,6 +26,7 @@ void main() {
 
   setUp(() {
     mockGetLinkedAccountsUseCase = MockGetLinkedAccountsUseCase();
+    mockDeleteLinkedAccountsUseCase = MockDeleteLinkedAccountsUseCase();
 
     linkedAccountsCubit = LinkedAccountsCubit(
         mockGetLinkedAccountsUseCase, mockDeleteLinkedAccountsUseCase);
