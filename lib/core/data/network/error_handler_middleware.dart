@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'server_request_manager.dart';
 import 'urls.dart';
 import '../../error_and_success/exeptions.dart';
@@ -22,7 +23,7 @@ class ErrorHandlerMiddleware {
             type: ExceptionType.auth,
             data: response.data);
       } else {
-        if (appRequestOptions.showLog) {
+        if (appRequestOptions.showLog && AppConstants.developMode) {
           if (response.requestOptions.data is FormData) {
             debugPrint(
                 (response.requestOptions.data as FormData).fields.toString());
