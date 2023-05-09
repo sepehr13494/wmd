@@ -8,12 +8,17 @@ import 'dart:async' as _i5;
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:wmd/core/error_and_success/failures.dart' as _i6;
+import 'package:wmd/core/error_and_success/succeses.dart' as _i10;
+import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/delete_custodian_bank_status_params.dart'
+    as _i11;
 import 'package:wmd/features/settings/linked_accounts/data/models/get_linked_accounts_params.dart'
     as _i8;
 import 'package:wmd/features/settings/linked_accounts/domain/entities/get_linked_accounts_entity.dart'
     as _i7;
 import 'package:wmd/features/settings/linked_accounts/domain/repositories/linked_accounts_repository.dart'
     as _i2;
+import 'package:wmd/features/settings/linked_accounts/domain/use_cases/delete_linked_accounts_usecase.dart'
+    as _i9;
 import 'package:wmd/features/settings/linked_accounts/domain/use_cases/get_linked_accounts_usecase.dart'
     as _i4;
 
@@ -86,4 +91,40 @@ class MockGetLinkedAccountsUseCase extends _i1.Mock
         )),
       ) as _i5
           .Future<_i3.Either<_i6.Failure, List<_i7.GetLinkedAccountsEntity>>>);
+}
+
+/// A class which mocks [DeleteLinkedAccountsUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockDeleteLinkedAccountsUseCase extends _i1.Mock
+    implements _i9.DeleteLinkedAccountsUseCase {
+  MockDeleteLinkedAccountsUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.LinkedAccountsRepository get repository => (super.noSuchMethod(
+        Invocation.getter(#repository),
+        returnValue: _FakeLinkedAccountsRepository_0(
+          this,
+          Invocation.getter(#repository),
+        ),
+      ) as _i2.LinkedAccountsRepository);
+  @override
+  _i5.Future<_i3.Either<_i6.Failure, _i10.AppSuccess>> call(
+          _i11.DeleteCustodianBankStatusParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i10.AppSuccess>>.value(
+            _FakeEither_1<_i6.Failure, _i10.AppSuccess>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i6.Failure, _i10.AppSuccess>>);
 }
