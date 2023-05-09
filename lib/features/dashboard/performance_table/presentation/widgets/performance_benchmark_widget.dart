@@ -64,9 +64,7 @@ class PerformanceBenchmarkWidget extends AppStatelessWidget {
                   ? Builder(builder: (context) {
                 List<GetBenchmarkEntity> newList = [];
                 newList.addAll(state.getBenchmarkEntities);
-                      return BlocConsumer<ClientIndexCubit, ClientIndexState>(
-                        listener: BlocHelper.defaultBlocListener(
-                            listener: (context, state) {}),
+                      return BlocBuilder<ClientIndexCubit, ClientIndexState>(
                         builder: (context, clientIndexState) {
                           if (clientIndexState is GetClientIndexLoaded) {
                             newList = [];

@@ -38,6 +38,7 @@ class LoginPage extends AppStatelessWidget {
             listener:
                 BlocHelper.defaultBlocListener(listener: (context, state) {
               if (state is SuccessState) {
+                context.read<LocalAuthManager>().setLocalAuth(false, context,askUser: false);
                 context.goNamed(AppRoutes.authCheck);
               }
             }),
