@@ -41,13 +41,6 @@ class BlocHelper {
           switch ((state.failure as ServerFailure).type) {
             case ExceptionType.normal:
             case ExceptionType.format:
-            case ExceptionType.ssl:
-              GlobalFunctions.showSnackBar(
-                context,
-                'SSL pinning error. Please be sure your connection is secure',
-                color: Colors.orange[800],
-              );
-              break;
             case ExceptionType.unExpected:
               if (state.tryAgainFunction != null) {
                 showDialog(
@@ -89,6 +82,13 @@ class BlocHelper {
                     color: Colors.red[800],
                     type: "error");
               }
+              break;
+            case ExceptionType.ssl:
+              GlobalFunctions.showSnackBar(
+                context,
+                'SSL pinning error. Please be sure your connection is secure',
+                color: Colors.orange[800],
+              );
               break;
             case ExceptionType.auth:
               GlobalFunctions.showSnackBar(context,
