@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
@@ -24,7 +26,7 @@ class VerifyPhoneRepositoryImpl implements VerifyPhoneRepository {
       final result = await remoteDataSource.postVerifyPhone(params);
       return const Right(AppSuccess(message: "successfully done"));
     } on ServerException catch (error) {
-      print(error.message);
+      log(error.message);
 
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error) {
@@ -39,7 +41,7 @@ class VerifyPhoneRepositoryImpl implements VerifyPhoneRepository {
       final result = await remoteDataSource.postMobileVerification(params);
       return const Right(AppSuccess(message: "successfully done"));
     } on ServerException catch (error) {
-      print(error.message);
+      log(error.message);
 
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error) {

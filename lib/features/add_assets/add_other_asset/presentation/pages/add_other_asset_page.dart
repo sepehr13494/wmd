@@ -160,9 +160,6 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                       "currentDayValue":
                           currentDayValue == "--" ? "0" : currentDayValue
                     };
-
-                    print(finalMap);
-
                     if (edit) {
                       context.read<EditOtherAssetsCubit>().putOtherAssets(
                           map: finalMap, assetId: widget.moreEntity!.id);

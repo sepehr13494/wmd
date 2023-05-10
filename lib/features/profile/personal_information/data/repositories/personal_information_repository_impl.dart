@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
@@ -25,7 +27,7 @@ class PersonalInformationRepositoryImpl
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error) {
-      print(error);
+      log(error.toString());
       return Left(AppFailure.fromAppException(error));
     }
   }
@@ -38,7 +40,7 @@ class PersonalInformationRepositoryImpl
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error) {
-      print(error);
+      log(error.toString());
       return Left(AppFailure.fromAppException(error));
     }
   }

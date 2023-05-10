@@ -245,8 +245,9 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                                                                           .instantValue,
                                                                     };
 
-                                                                    print(
-                                                                        finalMap);
+                                                                    debugPrint(
+                                                                        finalMap
+                                                                            .toString());
 
                                                                     context
                                                                         .read<
