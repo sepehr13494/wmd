@@ -293,7 +293,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                       ]),
                                       decoration: InputDecoration(
                                           suffixIcon: Icon(
-                                            Icons.calendar_today_outlined,
+                                            Icons.calendar_month,
                                             color:
                                                 Theme.of(context).primaryColor,
                                           ),
@@ -359,7 +359,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                       },
                                       decoration: InputDecoration(
                                           suffixIcon: Icon(
-                                            Icons.calendar_today_outlined,
+                                            Icons.calendar_month,
                                             color:
                                                 Theme.of(context).primaryColor,
                                           ),

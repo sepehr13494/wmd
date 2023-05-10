@@ -206,7 +206,15 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                   ),
                                                   hint: appLocalizations
                                                       .assetLiabilityForms_forms_bankAccount_inputFields_bankName_placeholder,
-                                                  items: state is BankListSuccess ? (state.banks.isEmpty ? ["No bank found"] : state.banks.map((e) => e.name).toList()):["loading banks"]),
+                                                  items: state
+                                                          is BankListSuccess
+                                                      ? (state.banks.isEmpty
+                                                          ? ["No bank found"]
+                                                          : state.banks
+                                                              .map(
+                                                                  (e) => e.name)
+                                                              .toList())
+                                                      : ["loading banks"]),
                                               TextButton(
                                                 onPressed: () {
                                                   context.goNamed(
@@ -271,27 +279,26 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                       name: "accountType",
                                       hint: appLocalizations
                                           .assetLiabilityForms_forms_bankAccount_inputFields_accountType_placeholder,
-                                      items: AccountType.accountList
-                                          .map((e) {
-                                            bool enabled = true;
-                                            if(edit){
-                                              if(isDepositTerm){
-                                                if(e.value == "SavingAccount" || e.value == "CurrentAccount"){
-                                                  enabled = false;
-                                                }
-                                              }else{
-                                                if(e.value == "TermDeposit"){
-                                                  enabled = false;
-                                                }
-                                              }
+                                      items: AccountType.accountList.map((e) {
+                                        bool enabled = true;
+                                        if (edit) {
+                                          if (isDepositTerm) {
+                                            if (e.value == "SavingAccount" ||
+                                                e.value == "CurrentAccount") {
+                                              enabled = false;
                                             }
-                                            return DropdownMenuItem(
-                                              enabled: enabled,
-                                                value: e.value,
-                                                child: Text(e.name),
-                                              );
-                                          })
-                                          .toList(),
+                                          } else {
+                                            if (e.value == "TermDeposit") {
+                                              enabled = false;
+                                            }
+                                          }
+                                        }
+                                        return DropdownMenuItem(
+                                          enabled: enabled,
+                                          value: e.value,
+                                          child: Text(e.name),
+                                        );
+                                      }).toList(),
                                     ),
                                   ),
                                   EachTextField(
@@ -327,7 +334,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                     .assetLiabilityForms_forms_bankAccount_inputFields_rate_label,
                                                 child: AppTextFields
                                                     .simpleTextField(
-                                                    enabled: !edit,
+                                                        enabled: !edit,
                                                         name: "interestRate",
                                                         suffixIcon: AppTextFields
                                                             .rateSuffixIcon(),
@@ -468,7 +475,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                             },
                                             decoration: InputDecoration(
                                                 suffixIcon: Icon(
-                                                  Icons.calendar_today_outlined,
+                                                  Icons.calendar_month,
                                                   color: Theme.of(context)
                                                       .primaryColor,
                                                 ),

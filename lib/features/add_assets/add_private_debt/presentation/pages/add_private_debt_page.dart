@@ -211,7 +211,7 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                           [FormBuilderValidators.required()]),
                                       decoration: InputDecoration(
                                           suffixIcon: Icon(
-                                            Icons.calendar_today_outlined,
+                                            Icons.calendar_month,
                                             color:
                                                 Theme.of(context).primaryColor,
                                           ),
@@ -263,7 +263,7 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                       },
                                       decoration: InputDecoration(
                                           suffixIcon: Icon(
-                                            Icons.calendar_today_outlined,
+                                            Icons.calendar_month,
                                             color:
                                                 Theme.of(context).primaryColor,
                                           ),

@@ -382,7 +382,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                       ]),
                                       decoration: InputDecoration(
                                           suffixIcon: Icon(
-                                            Icons.calendar_today_outlined,
+                                            Icons.calendar_month,
                                             color:
                                                 Theme.of(context).primaryColor,
                                           ),
@@ -542,7 +542,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                           name: "maturityDate",
                                           decoration: InputDecoration(
                                               suffixIcon: Icon(
-                                                Icons.calendar_today_outlined,
+                                                Icons.calendar_month,
                                                 color: Theme.of(context)
                                                     .primaryColor,
                                               ),
