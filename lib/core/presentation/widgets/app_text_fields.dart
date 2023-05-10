@@ -928,6 +928,7 @@ class _RadioButtontate<T> extends AppState<RadioButton> {
                 orientation: OptionsOrientation.horizontal,
                 name: widget.name,
                 activeColor: Theme.of(context).primaryColor,
+                hoverColor: Theme.of(context).primaryColor,
                 options: widget.items
                     .map((option) => FormBuilderFieldOption(
                           value: option.value,
