@@ -80,7 +80,7 @@ class CustodianBankAuthRemoteDataSourceImpl extends AppServerDataSource
   Future<void> deleteCustodianBankStatus(
       DeleteCustodianBankStatusParams params) async {
     final appRequestOptions = AppRequestOptions(
-        RequestTypes.del, AppUrls.custodianBank, params.toJson());
+        RequestTypes.delete, AppUrls.custodianBank, params.toJson());
     final response =
         await errorHandlerMiddleware.sendRequest(appRequestOptions);
     // final result = GetCustodianBankStatusResponse.fromJson(response);

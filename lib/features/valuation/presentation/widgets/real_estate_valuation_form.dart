@@ -172,7 +172,7 @@ class _RealEstateValuationFormWidgetState
                 name: "valuatedAt",
                 decoration: InputDecoration(
                     suffixIcon: Icon(
-                      Icons.calendar_today_outlined,
+                      Icons.calendar_month,
                       color: Theme.of(context).primaryColor,
                     ),
                     hintText: appLocalizations
