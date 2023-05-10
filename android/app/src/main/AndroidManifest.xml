@@ -1,5 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"    
-    package="com.tfo.wmd">   
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.tfo.wmd">
 
     <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
       <!-- Provide required visibility configuration for API level 30 and above -->
@@ -29,9 +30,11 @@
 
             
     <application
+        android:allowBackup="true"
         android:label="All In One Plus"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon">        
+        android:icon="@mipmap/launcher_icon"
+        tools:targetApi="donut">
         <activity
             android:name=".MainActivity"
             android:exported="true"
