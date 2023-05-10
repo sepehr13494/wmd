@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'urls.dart';
 import '../../models/app_request_options.dart';
 
-enum RequestTypes { post, get, del, put, patch }
+enum RequestTypes { post, get, del, put, patch, delete }
 
 class ServerRequestManager {
   final Dio dio;
@@ -47,6 +47,13 @@ class ServerRequestManager {
         response = await dio.delete(
           baseUrl + appRequestOptions.url,
           queryParameters: clearBody,
+          options: options,
+        );
+        break;
+      case RequestTypes.delete:
+        response = await dio.delete(
+          baseUrl + appRequestOptions.url,
+          data: clearBody,
           options: options,
         );
         break;
