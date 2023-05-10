@@ -7,6 +7,7 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
+import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/util/asset_back_button_handler.dart';
 import 'package:wmd/core/util/constants.dart';
@@ -66,6 +67,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    final bool isMobile = ResponsiveHelper(context: context).isMobile;
     return MultiBlocProvider(
       providers: [
         BlocProvider(

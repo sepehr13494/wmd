@@ -350,8 +350,7 @@ class CountriesDropdown extends AppStatelessWidget {
       ),
       errorMsg: appLocalizations
           .assetLiabilityForms_forms_realEstate_inputFields_country_errorMessage,
-      items: Country.countriesList
-        ..sort((a, b) => a.countryName.compareTo(b.countryName)),
+      items: Country.getCountryList(),
       onChanged: onChanged,
       itemAsString: (country) => country.countryName,
       filterFn: (country, string) {
