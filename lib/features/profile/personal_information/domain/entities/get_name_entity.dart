@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:country_picker/country_picker.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wmd/features/profile/personal_information/domain/entities/phone_number_entity.dart';
@@ -25,7 +27,7 @@ class GetNameEntity extends Equatable {
         }
       }
     }
-    print(country);
+    log(country);
     return {
       "email": email,
       "phoneNumber": phoneNumber?.number,

@@ -916,7 +916,7 @@ class _RadioButtontate<T> extends AppState<RadioButton> {
                   // String paymentMethod = value.toString();
                   // paymentViewModel.setPaymentMethod(paymentMethod);
 
-                  print(value.toString());
+                  debugPrint(value.toString());
                 },
                 initialValue: widget.initialValue,
                 autovalidateMode: AutovalidateMode.onUserInteraction,

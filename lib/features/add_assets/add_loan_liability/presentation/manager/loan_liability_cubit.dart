@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/features/add_assets/add_loan_liability/domain/use_cases/add_loan_liability_usecase.dart';
 import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_base_state.dart';
@@ -13,7 +14,7 @@ class LoanLiabilityCubit extends Cubit<LoanLiabilityState> {
       : super(LoanLiabilityInitial());
 
   postLoanLiability({required Map<String, dynamic> map}) async {
-    print(map);
+    debugPrint(map.toString());
     emit(LoadingState());
     final result = await addLoanLiabilityUseCase(map);
     result.fold(
