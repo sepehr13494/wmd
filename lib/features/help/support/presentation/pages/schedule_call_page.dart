@@ -393,7 +393,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                   name: "date",
                   decoration: InputDecoration(
                       suffixIcon: Icon(
-                        Icons.calendar_today_outlined,
+                        Icons.calendar_month,
                         color: Theme.of(context).primaryColor,
                       ),
                       hintText: appLocalizations

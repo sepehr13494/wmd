@@ -91,6 +91,7 @@ class _ProfileRestPasswordPageState extends AppState<ProfileRestPasswordPage> {
 
                 Navigator.pop(context);
                 showDialog(
+                    barrierDismissible: false,
                     context: context,
                     builder: (context) {
                       return Dialog(

@@ -10,6 +10,7 @@ import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/core/util/custom_expansion_pannel.dart';
 import 'package:wmd/features/help/faq/presentation/manager/faq_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
@@ -60,7 +61,7 @@ class _FaqItemListState extends AppState<FaqItemList> {
           if (state is FaqLoaded) {
             final faqList = state.faqs;
 
-            return ExpansionPanelList(
+            return CustomExpansionPanelList(
                 expansionCallback: (panelIndex, isExpanded) {
                   setState(() {
                     final currentList = expanded.map((x) => false).toList();
@@ -75,7 +76,7 @@ class _FaqItemListState extends AppState<FaqItemList> {
                   int idx = entry.key;
                   final currentFaq = entry.value;
 
-                  return ExpansionPanel(
+                  return CustomExpansionPanel(
                       canTapOnHeader: true,
                       backgroundColor: AppColors.backgroundColorPageDark,
                       headerBuilder: (context, isOpen) {

@@ -221,7 +221,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                       },
                                       decoration: InputDecoration(
                                           suffixIcon: Icon(
-                                            Icons.calendar_today_outlined,
+                                            Icons.calendar_month,
                                             color:
                                                 Theme.of(context).primaryColor,
                                           ),
@@ -282,7 +282,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                       },
                                       decoration: InputDecoration(
                                           suffixIcon: Icon(
-                                            Icons.calendar_today_outlined,
+                                            Icons.calendar_month,
                                             color:
                                                 Theme.of(context).primaryColor,
                                           ),
