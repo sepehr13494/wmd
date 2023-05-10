@@ -294,7 +294,7 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                                           name: "startDate",
                                           decoration: InputDecoration(
                                               suffixIcon: Icon(
-                                                Icons.calendar_today_outlined,
+                                                Icons.calendar_month,
                                                 color: Theme.of(context)
                                                     .primaryColor,
                                               ),
@@ -318,7 +318,7 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                                           },
                                           decoration: InputDecoration(
                                               suffixIcon: Icon(
-                                                Icons.calendar_today_outlined,
+                                                Icons.calendar_month,
                                                 color: Theme.of(context)
                                                     .primaryColor,
                                               ),
