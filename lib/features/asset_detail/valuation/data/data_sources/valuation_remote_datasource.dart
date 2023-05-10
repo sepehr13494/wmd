@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:intl/intl.dart';
 import 'package:wmd/core/data/network/server_request_manager.dart';
 import 'package:wmd/core/data/network/urls.dart';
@@ -78,7 +80,7 @@ class ValuationRemoteDataSourceImpl extends AppServerDataSource
     } on ServerException {
       rethrow;
     } catch (e) {
-      print(e);
+      log(e.toString());
       throw const AppException(
           message: "format Exception", type: ExceptionType.format);
     }

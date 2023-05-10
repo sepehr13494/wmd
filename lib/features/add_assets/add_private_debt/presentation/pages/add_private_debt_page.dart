@@ -83,16 +83,14 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
           child: Scaffold(
             appBar: const AddAssetHeader(title: "", showExitModal: true),
             bottomSheet: AddAssetFooter(
-                buttonText: edit ? "Save Asset"
+                buttonText: edit
+                    ? "Save Asset"
                     : appLocalizations.common_button_addAsset,
                 onTap: () {
                   if (privateDebtFormKey.currentState!.validate()) {
                     Map<String, dynamic> finalMap = {
                       ...privateDebtFormKey.currentState!.instantValue,
                     };
-
-                    print(finalMap);
-
                     if (edit) {
                       context.read<EditPrivateDebtCubit>().putPrivateDebt(
                           map: finalMap, assetId: widget.moreEntity!.id);
@@ -113,12 +111,13 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                       return MultiBlocListener(
                         listeners: [
                           BlocListener<PrivateDebtCubit, PrivateDebtState>(
-                              listener: AssetBlocHelper.defaultBlocListener(
-                                  listener: (context, state) {},
-                                  asset: "Private debt",
-                                  assetType: AssetTypes.privateDebt),
-                              ),
-                          BlocListener<EditPrivateDebtCubit, EditAssetBaseState>(
+                            listener: AssetBlocHelper.defaultBlocListener(
+                                listener: (context, state) {},
+                                asset: "Private debt",
+                                assetType: AssetTypes.privateDebt),
+                          ),
+                          BlocListener<EditPrivateDebtCubit,
+                              EditAssetBaseState>(
                             listener: EditAssetBlocHelper.defaultBlocListener(
                                 assetId: edit ? widget.moreEntity!.id : ""),
                           ),
@@ -127,12 +126,11 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                           child: Column(children: [
                             FormBuilder(
                               key: privateDebtFormKey,
-                              initialValue:edit
+                              initialValue: edit
                                   ? widget.moreEntity!.toFormJson()
                                   : AddAssetConstants.initialJsonForAddAsset,
                               child: Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     appLocalizations
@@ -158,9 +156,9 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                         name: "investmentName",
                                         onChanged: checkFinalValid,
                                         extraValidators: [
-                                              (val) {
+                                          (val) {
                                             return (val != null &&
-                                                val.length > 100)
+                                                    val.length > 100)
                                                 ? "Name cannot be more than 100 characters"
                                                 : null;
                                           }
@@ -200,25 +198,22 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                           aqusitionDateValue = selectedDate;
                                         });
                                       },
-                                      initialDate: valuationDateValue ??
-                                          DateTime.now(),
-                                      lastDate: valuationDateValue ??
-                                          DateTime.now(),
+                                      initialDate:
+                                          valuationDateValue ?? DateTime.now(),
+                                      lastDate:
+                                          valuationDateValue ?? DateTime.now(),
                                       inputType: InputType.date,
                                       format: DateFormat("dd/MM/yyyy"),
                                       name: "investmentDate",
-                                      autovalidateMode: AutovalidateMode
-                                          .onUserInteraction,
-                                      validator:
-                                      FormBuilderValidators.compose([
-                                        FormBuilderValidators.required()
-                                      ]),
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      validator: FormBuilderValidators.compose(
+                                          [FormBuilderValidators.required()]),
                                       decoration: InputDecoration(
                                           suffixIcon: Icon(
                                             Icons.calendar_today_outlined,
-                                            color: Theme
-                                                .of(context)
-                                                .primaryColor,
+                                            color:
+                                                Theme.of(context).primaryColor,
                                           ),
                                           hintText: appLocalizations
                                               .assetLiabilityForms_forms_privateDebt_inputFields_acquisitionDate_placeholder),
@@ -255,12 +250,10 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                       lastDate: DateTime.now(),
                                       format: DateFormat("dd/MM/yyyy"),
                                       inputType: InputType.date,
-                                      autovalidateMode: AutovalidateMode
-                                          .onUserInteraction,
-                                      validator:
-                                      FormBuilderValidators.compose([
-                                        FormBuilderValidators.required()
-                                      ]),
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      validator: FormBuilderValidators.compose(
+                                          [FormBuilderValidators.required()]),
                                       name: "valuationDate",
                                       onChanged: (val) {
                                         setState(() {
@@ -271,9 +264,8 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                       decoration: InputDecoration(
                                           suffixIcon: Icon(
                                             Icons.calendar_today_outlined,
-                                            color: Theme
-                                                .of(context)
-                                                .primaryColor,
+                                            color:
+                                                Theme.of(context).primaryColor,
                                           ),
                                           hintText: appLocalizations
                                               .assetLiabilityForms_forms_privateDebt_inputFields_valuationDate_placeholder),
@@ -294,14 +286,11 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                   ),
                                   const SizedBox(height: 60),
                                 ]
-                                    .map((e) =>
-                                    Padding(
-                                      padding:
-                                      const EdgeInsets.symmetric(
-                                          vertical: 12,
-                                          horizontal: 16),
-                                      child: e,
-                                    ))
+                                    .map((e) => Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 12, horizontal: 16),
+                                          child: e,
+                                        ))
                                     .toList(),
                               ),
                             ),

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import '../../util/constants.dart';
 import 'urls.dart';
 import '../../models/app_request_options.dart';
 
@@ -72,7 +73,7 @@ class ServerRequestManager {
         );
         break;
     }
-    if (appRequestOptions.showLog) {
+    if (appRequestOptions.showLog && AppConstants.developMode) {
       debugPrint(response.requestOptions.uri.toString());
       debugPrint(response.requestOptions.headers.toString());
       debugPrint(response.statusCode.toString());

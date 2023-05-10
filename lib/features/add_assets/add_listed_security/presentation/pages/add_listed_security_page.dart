@@ -140,9 +140,6 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                       ...formKey.currentState!.instantValue,
                       "totalCost": currentDayValue,
                     };
-
-                    print("finalMap");
-                    print(finalMap);
                     if (edit) {
                       context.read<EditListedAssetCubit>().putListedAsset(
                           map: finalMap, assetId: widget.moreEntity!.id);
@@ -178,7 +175,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                           child: Column(children: [
                             FormBuilder(
                               key: formKey,
-                              initialValue:edit
+                              initialValue: edit
                                   ? widget.moreEntity!.toFormJson()
                                   : AddAssetConstants.initialJsonForAddAsset,
                               child: Column(
@@ -346,7 +343,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                           });
                                         }
                                         checkFinalValid(val);
-                                        print(formKey.currentState!
+                                        debugPrint(formKey.currentState!
                                             .instantValue["category"]);
                                       },
                                       enabled: !isDisableCategory,

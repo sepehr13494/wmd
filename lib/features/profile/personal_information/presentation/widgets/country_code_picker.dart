@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -55,7 +57,7 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
                 showPhoneCode:
                     true, // optional. Shows phone code before the country name.
                 onSelect: (Country country) {
-                  print('Select country: ${country.displayName}');
+                  log('Select country: ${country.displayName}');
 
                   String code = country.phoneCode;
 

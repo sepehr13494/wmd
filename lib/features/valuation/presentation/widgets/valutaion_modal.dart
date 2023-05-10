@@ -73,9 +73,6 @@ class ValuationModalWidget extends ModalWidget {
     formStateKey.currentState?.validate();
     if (formStateKey.currentState!.isValid) {
       Map<String, dynamic> finalMap = renderSubmitData(assetType, formStateKey);
-
-      print(finalMap);
-
       if (isEdit) {
         context.read<AssetValuationCubit>().updateValuation(map: finalMap);
       } else {
