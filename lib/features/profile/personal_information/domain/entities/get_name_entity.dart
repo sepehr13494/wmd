@@ -19,6 +19,7 @@ class GetNameEntity extends Equatable {
 
   Map<String, dynamic> toJson() {
     var country;
+
     if (phoneNumber?.countryCode != null) {
       var allCountries = CountryService().getAll();
       for (var element in allCountries) {
@@ -27,11 +28,11 @@ class GetNameEntity extends Equatable {
         }
       }
     }
-    log(country);
+
     return {
       "email": email,
       "phoneNumber": phoneNumber?.number,
-      "country": country,
+      "country": country ?? "",
       "firstName": firstName,
       "lastName": lastName,
     };
