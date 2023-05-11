@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -29,7 +31,7 @@ class _SupportPageState extends AppState<SupportPage> {
     String email = Uri.encodeComponent("support@allinoneplus.com");
     String subject = Uri.encodeComponent("");
     String body = Uri.encodeComponent("");
-    print(subject); //output: Hello%20Flutter
+    log(subject); //output: Hello%20Flutter
     Uri mail = Uri.parse("mailto:$email?subject=$subject&body=$body");
     if (await launchUrl(mail)) {
       //email app opened

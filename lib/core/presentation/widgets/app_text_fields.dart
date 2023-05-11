@@ -350,8 +350,7 @@ class CountriesDropdown extends AppStatelessWidget {
       ),
       errorMsg: appLocalizations
           .assetLiabilityForms_forms_realEstate_inputFields_country_errorMessage,
-      items: Country.countriesList
-        ..sort((a, b) => a.countryName.compareTo(b.countryName)),
+      items: Country.getCountryList(),
       onChanged: onChanged,
       itemAsString: (country) => country.countryName,
       filterFn: (country, string) {
@@ -916,7 +915,7 @@ class _RadioButtontate<T> extends AppState<RadioButton> {
                   // String paymentMethod = value.toString();
                   // paymentViewModel.setPaymentMethod(paymentMethod);
 
-                  print(value.toString());
+                  debugPrint(value.toString());
                 },
                 initialValue: widget.initialValue,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -928,6 +927,7 @@ class _RadioButtontate<T> extends AppState<RadioButton> {
                 orientation: OptionsOrientation.horizontal,
                 name: widget.name,
                 activeColor: Theme.of(context).primaryColor,
+                hoverColor: Theme.of(context).primaryColor,
                 options: widget.items
                     .map((option) => FormBuilderFieldOption(
                           value: option.value,

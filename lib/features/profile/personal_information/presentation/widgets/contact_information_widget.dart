@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -46,7 +48,6 @@ class _ContactInformationWidgetState
   void checkFinalValid(value) async {
     await Future.delayed(const Duration(milliseconds: 100));
     bool finalValid = formKey.currentState!.isValid;
-    print(finalValid);
     Map<String, dynamic> instantValue = formKey.currentState!.instantValue;
     if (finalValid && lastValue.toString() != instantValue.toString()) {
       if (!enableSubmitButton) {

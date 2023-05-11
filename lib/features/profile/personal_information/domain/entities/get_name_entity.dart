@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:country_picker/country_picker.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wmd/features/profile/personal_information/domain/entities/phone_number_entity.dart';
@@ -17,6 +19,7 @@ class GetNameEntity extends Equatable {
 
   Map<String, dynamic> toJson() {
     var country;
+
     if (phoneNumber?.countryCode != null) {
       var allCountries = CountryService().getAll();
       for (var element in allCountries) {
@@ -25,11 +28,11 @@ class GetNameEntity extends Equatable {
         }
       }
     }
-    print(country);
+
     return {
       "email": email,
       "phoneNumber": phoneNumber?.number,
-      "country": country,
+      "country": country ?? "",
       "firstName": firstName,
       "lastName": lastName,
     };

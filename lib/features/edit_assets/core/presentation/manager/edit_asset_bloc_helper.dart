@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/features/asset_detail/core/data/models/get_summary_params.dart';
 import 'package:wmd/features/asset_detail/core/presentation/manager/asset_summary_cubit.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
@@ -17,7 +18,7 @@ class EditAssetBlocHelper{
         context.pop();
       }
       if (state is DeleteAssetSuccess) {
-        //TODO: add after delete functions
+        context.goNamed(AppRoutes.main);
       }
     },);
   }

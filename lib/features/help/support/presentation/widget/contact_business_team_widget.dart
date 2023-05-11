@@ -241,7 +241,7 @@ class ContactBusinessWidget extends ModalWidget {
                                             height: 16,
                                           ),
                                           AppTextFields.simpleTextField(
-                                              name: "enquiryText",
+                                              name: "reason",
                                               minLines: 5,
                                               onChanged: checkFinalValid,
                                               extraValidators: [
@@ -276,7 +276,7 @@ class ContactBusinessWidget extends ModalWidget {
                                               Map<String, dynamic> finalMap = {
                                                 ...formKey
                                                     .currentState!.instantValue,
-                                                "reason": ""
+                                                "enquiryText": ""
                                               };
 
                                               context

@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import '../../util/constants.dart';
 import 'urls.dart';
 import '../../models/app_request_options.dart';
 
-enum RequestTypes { post, get, del, put, patch }
+enum RequestTypes { post, get, del, put, patch, delete }
 
 class ServerRequestManager {
   final Dio dio;
@@ -50,6 +51,13 @@ class ServerRequestManager {
           options: options,
         );
         break;
+      case RequestTypes.delete:
+        response = await dio.delete(
+          baseUrl + appRequestOptions.url,
+          data: clearBody,
+          options: options,
+        );
+        break;
       case RequestTypes.put:
         response = await dio.put(
           baseUrl + appRequestOptions.url,
@@ -65,7 +73,7 @@ class ServerRequestManager {
         );
         break;
     }
-    if (appRequestOptions.showLog) {
+    if (appRequestOptions.showLog && AppConstants.developMode) {
       debugPrint(response.requestOptions.uri.toString());
       debugPrint(response.requestOptions.headers.toString());
       debugPrint(response.statusCode.toString());

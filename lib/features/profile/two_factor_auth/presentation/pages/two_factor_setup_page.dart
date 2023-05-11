@@ -42,7 +42,6 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
   void checkFinalValid(value) async {
     await Future.delayed(const Duration(milliseconds: 100));
     bool finalValid = formKey.currentState!.isValid;
-    print(finalValid);
     Map<String, dynamic> instantValue = formKey.currentState!.instantValue;
     if (finalValid
         //  && lastValue.toString() != instantValue.toString()

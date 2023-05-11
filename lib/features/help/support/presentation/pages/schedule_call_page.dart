@@ -245,8 +245,9 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                                                                           .instantValue,
                                                                     };
 
-                                                                    print(
-                                                                        finalMap);
+                                                                    debugPrint(
+                                                                        finalMap
+                                                                            .toString());
 
                                                                     context
                                                                         .read<
@@ -329,7 +330,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                     Icons.search,
                   ),
                   initialValue: initialTimeZone,
-                  items: TimeZones.getTimezonesListLocalized(appLocalizations),
+                  items: TimeZones.getTimeZones(appLocalizations),
                   // initialValue: ,
                   onChanged: (val) async {
                     // setState(() {
@@ -392,7 +393,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                   name: "date",
                   decoration: InputDecoration(
                       suffixIcon: Icon(
-                        Icons.calendar_today_outlined,
+                        Icons.calendar_month,
                         color: Theme.of(context).primaryColor,
                       ),
                       hintText: appLocalizations

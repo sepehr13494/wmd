@@ -160,9 +160,6 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                       "currentDayValue":
                           currentDayValue == "--" ? "0" : currentDayValue
                     };
-
-                    print(finalMap);
-
                     if (edit) {
                       context.read<EditOtherAssetsCubit>().putOtherAssets(
                           map: finalMap, assetId: widget.moreEntity!.id);
@@ -305,7 +302,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                         name: "valuationDate",
                                         decoration: InputDecoration(
                                             suffixIcon: Icon(
-                                              Icons.calendar_today_outlined,
+                                              Icons.calendar_month,
                                               color: Theme.of(context)
                                                   .primaryColor,
                                             ),
@@ -394,7 +391,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                       name: "acquisitionDate",
                                       decoration: InputDecoration(
                                           suffixIcon: Icon(
-                                            Icons.calendar_today_outlined,
+                                            Icons.calendar_month,
                                             color:
                                                 Theme.of(context).primaryColor,
                                           ),
