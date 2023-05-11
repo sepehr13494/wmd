@@ -5,7 +5,8 @@ void main() {
       final name = e['label']!.replaceAll('-', '_');
 
       if (key.contains(name)) {
-        print('appLocalizations.$key : "${e['offset']}",');
+        print(
+            'TimeZones(name: appLocalizations.$key + " " + "${e['offset']}", offset: "${e['offset']}", value: lnEn.$key),');
       }
     }
   }
