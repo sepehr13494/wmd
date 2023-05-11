@@ -44,6 +44,7 @@ class YtdItdWidget extends AppStatelessWidget {
       items = items.reversed.toList();
     }
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: List.generate(2, (index) {
         final item = items[index];
         return ExpandedIf(
@@ -56,6 +57,7 @@ class YtdItdWidget extends AppStatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           item[0],
@@ -71,11 +73,20 @@ class YtdItdWidget extends AppStatelessWidget {
                           ),
                       ],
                     ),
-                    ChangeWidget(
-                        number: item[1],
-                        text: item[2],
-                        tooltipMessage:
-                            (item[1] >= 99900 || item[1] <= -100) ? "" : null),
+                    Container(
+                      constraints: const BoxConstraints(maxWidth: 100),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.center,
+                        child: ChangeWidget(
+                            number: item[1],
+                            text: item[2],
+                            tooltipMessage:
+                                (item[1] >= 99900 || item[1] <= -100)
+                                    ? ""
+                                    : null),
+                      ),
+                    ),
                   ],
                 ),
               ],
