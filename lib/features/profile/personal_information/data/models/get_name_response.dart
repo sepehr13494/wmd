@@ -20,7 +20,7 @@ class GetNameResponse extends GetNameEntity {
         email: json["email"] ?? "",
         phoneNumber: json["phoneNumber"] != null
             ? PhoneNumberEntity.fromJson(json["phoneNumber"])
-            : null,
+            : const PhoneNumberEntity(countryCode: "", number: ""),
         firstName: json["firstName"] ?? "",
         lastName: json["lastName"] ?? "",
       );
