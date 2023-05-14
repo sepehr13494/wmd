@@ -267,8 +267,7 @@ class AppRouter {
                     return _performanceBenchmarkCubit..getBenchmark();
                   }),
                   BlocProvider(create: (context) {
-                    _clientIndexCubit =
-                        sl<ClientIndexCubit>();
+                    _clientIndexCubit = sl<ClientIndexCubit>();
                     return _clientIndexCubit..getClientIndex();
                   }),
                   BlocProvider(create: (context) {
