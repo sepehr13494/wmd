@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:chewie/chewie.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:linkedin_login/linkedin_login.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:twitter_login/twitter_login.dart';
+import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
@@ -18,9 +20,34 @@ import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/util/app_localization.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
+import 'package:wmd/features/authentication/login_signup/presentation/widgets/video_player_widget/video_player_widget.dart';
+import 'package:wmd/features/authentication/login_signup/presentation/widgets/video_player_widget/bloc/video_controller_cubit.dart';
 
-class WelcomePage extends AppStatelessWidget {
+class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
+
+  @override
+  AppState<WelcomePage> createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends AppState<WelcomePage> {
+  ChewieController? chewieController;
+
+  @override
+  void initState() {
+    super.initState();
+    debugPrint("initState Called");
+    debugPrint("initState Called");
+    debugPrint("initState Called");
+    debugPrint("initState Called");
+    debugPrint("initState Called");
+  }
+
+  @override
+  void dispose() {
+    chewieController?.dispose();
+    super.dispose();
+  }
 
   String getBackgroundImage(BuildContext context, isMobile) {
     String targetImage = "";
@@ -67,11 +94,68 @@ class WelcomePage extends AppStatelessWidget {
                           stops: const [0.0, 0.3, 1.0]).createShader(bounds);
                     },
                     blendMode: BlendMode.srcATop,
-                    child: Image.asset(
-                      getBackgroundImage(context, responsiveHelper.isMobile),
-                      width: double.maxFinite,
-                      fit: BoxFit.fitWidth,
+                    child: BlocProvider(
+                      create: (context) =>
+                          VideoControllerCubit()..initializePlayer(context),
+                      child: Builder(builder: (context) {
+                        return BlocBuilder<VideoControllerCubit,
+                            VideoControllerState>(
+                          builder: (context, state) {
+                            if (state is VideoControllerLoaded) {
+                              // final chewieController = ChewieController(
+                              //   videoPlayerController:
+                              //       state.videoPlayerController,
+                              //   autoPlay: true,
+                              //   // showControls: false,
+                              //   looping: true,
+                              //   hideControlsTimer: const Duration(seconds: 1),
+                              //   errorBuilder: (context, errorMessage) =>
+                              //       const Center(
+                              //           child: Text(
+                              //               "something wrong playing video,\nplease try again later")),
+                              // );
+
+                              chewieController = ChewieController(
+                                videoPlayerController:
+                                    state.videoPlayerController,
+                                autoPlay: true,
+                                // showControls: false,
+                                looping: true,
+                                hideControlsTimer: const Duration(seconds: 1),
+                                errorBuilder: (context, errorMessage) =>
+                                    const Center(
+                                        child: Text(
+                                            "something wrong playing video,\nplease try again later")),
+                              );
+
+                              chewieController?.setVolume(0.0);
+                              chewieController?.pause();
+
+                              return Chewie(
+                                controller: chewieController!,
+                              );
+                            } else if (state is ErrorState) {
+                              return Text(state.failure.message);
+                            } else {
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  CircularProgressIndicator(),
+                                  SizedBox(height: 20),
+                                  Text('Loading'),
+                                ],
+                              );
+                            }
+                          },
+                        );
+                      }),
                     ),
+
+                    // Image.asset(
+                    //   getBackgroundImage(context, responsiveHelper.isMobile),
+                    //   width: double.maxFinite,
+                    //   fit: BoxFit.fitWidth,
+                    // ),
                   ),
                   WidthLimiterWidget(
                       child: Column(
@@ -80,7 +164,7 @@ class WelcomePage extends AppStatelessWidget {
                       const Expanded(
                         flex: 6,
                         /*child: WelcomeVideoPlayerWidget(),*/
-                        child: SizedBox(),
+                        child: WelcomeVideoPlayerWidget(),
                       ),
                       Container(
                         color: Theme.of(context)
