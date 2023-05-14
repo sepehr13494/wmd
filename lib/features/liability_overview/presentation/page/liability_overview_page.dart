@@ -12,6 +12,8 @@ import 'package:wmd/features/blurred_widget/presentation/widget/privacy_blur_war
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/dashboard_app_bar.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 
+import '../widget/liability_summary_widget.dart';
+
 class LiabilityOverviewPage extends AppStatelessWidget {
   const LiabilityOverviewPage({super.key});
 
@@ -79,6 +81,7 @@ class LiabilityOverviewPage extends AppStatelessWidget {
                               ),
                           ],
                         ),
+                        const LiabilitySummaryWidget(),
                       ],
                     ),
                   ),
