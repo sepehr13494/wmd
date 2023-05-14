@@ -46,17 +46,17 @@ class _MainPageState extends AppState<MainPage> with WidgetsBindingObserver {
         appLocalizations.common_nav_links_assets,
         "assets/images/assets_icon_filled.svg"
       ],
-      [
-        "assets/images/assets_icon.svg",
-        appLocalizations.common_nav_links_liabilities,
-        "assets/images/assets_icon_filled.svg"
-      ],
+      // [
+      //   "assets/images/assets_icon.svg",
+      //   appLocalizations.common_nav_links_liabilities,
+      //   "assets/images/assets_icon_filled.svg"
+      // ],
     ];
 
     final List<Widget> widgetOptions = <Widget>[
       DashboardMainPage(expandCustodian: widget.expandCustodian),
       const AssetsOverView(),
-      const LiabilityOverviewPage(),
+      // const LiabilityOverviewPage(),
     ];
 
     return Builder(builder: (context) {
