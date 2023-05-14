@@ -132,6 +132,7 @@ class _WelcomePageState extends AppState<WelcomePage> {
                                 videoPlayerController =
                                     state.videoPlayerController;
 
+                                videoPlayerController.setLooping(true);
                                 videoPlayerController.setVolume(0.0);
                                 videoPlayerController.pause();
 
