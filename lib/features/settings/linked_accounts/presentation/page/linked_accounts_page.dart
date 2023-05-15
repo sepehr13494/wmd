@@ -2,11 +2,14 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/injection_container.dart';
 import '../manager/linked_accounts_cubit.dart';
 import '../widget/mobile_view.dart';
@@ -57,8 +60,11 @@ class LinkedAccountsPage extends AppStatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         OutlinedButton(
-                          onPressed: null,
-                          child: const Text('Link new account'),
+                          onPressed: () {
+                            context.pushNamed(AppRoutes.addAssetsView,
+                                queryParams: {'initial': '2'});
+                          },
+                          child:  Text(appLocalizations.profile_linkedAccounts_buttons_link),
                         ),
                       ],
                     ),
