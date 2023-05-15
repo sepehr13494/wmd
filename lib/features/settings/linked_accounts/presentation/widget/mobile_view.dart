@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
-import 'package:wmd/core/presentation/widgets/bottom_modal_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/delete_custodian_bank_status_params.dart';
-import 'package:wmd/features/asset_see_more/core/presentation/widget/see_more_popup.dart';
 import 'package:wmd/features/asset_see_more/core/presentation/widget/title_subtitle.dart';
 import 'package:wmd/features/settings/linked_accounts/domain/entities/get_linked_accounts_entity.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -23,7 +21,8 @@ class LinkedTableMobile extends AppStatelessWidget {
   };
 
   @override
-  Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
+  Widget buildWidget(
+      BuildContext context, textTheme, AppLocalizations appLocalizations) {
     if (getLinkedAccountsEntities.isEmpty) {
       return Text(appLocalizations.common_glossary_noDataFoundHeading);
     }
@@ -31,7 +30,7 @@ class LinkedTableMobile extends AppStatelessWidget {
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       columnWidths: columnWidths,
       children: [
-        _buildTableHeader(context, textTheme),
+        _buildTableHeader(context, textTheme, appLocalizations),
         ...List.generate(getLinkedAccountsEntities.length, (index) {
           return _buildTableRow(
               context, index, getLinkedAccountsEntities[index]);
@@ -70,14 +69,15 @@ class LinkedTableMobile extends AppStatelessWidget {
                   });
             },
             icon: Icon(
-              Icons.keyboard_arrow_right_outlined,
+              Icons.navigate_next,
               color: Theme.of(context).primaryColor,
             ))
       ],
     );
   }
 
-  TableRow _buildTableHeader(BuildContext context, TextTheme textTheme) {
+  TableRow _buildTableHeader(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
     final primaryColor = Theme.of(context).primaryColor;
     return TableRow(
       key: UniqueKey(),
@@ -86,10 +86,10 @@ class LinkedTableMobile extends AppStatelessWidget {
       ),
       children: [
         ListTile(
-            title: Text('Name',
+            title: Text(appLocalizations.profile_linkedAccounts_name,
                 style: textTheme.bodyLarge!.apply(color: primaryColor))),
         ListTile(
-            title: Text('Type',
+            title: Text(appLocalizations.profile_linkedAccounts_type,
                 style: textTheme.bodyLarge!.apply(color: primaryColor))),
         const SizedBox(),
       ],
@@ -145,26 +145,34 @@ Future<bool?> showDetailModal(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'Account details',
+                        appLocalizations.profile_linkedAccounts_accountDetails,
                         style: textTheme.titleMedium,
                       ),
                       const SizedBox(height: 16),
                       const SizedBox(height: 8),
-                      TitleSubtitle(title: 'Name', subTitle: e.bankName),
+                      TitleSubtitle(
+                          title: appLocalizations.profile_linkedAccounts_name,
+                          subTitle: e.bankName),
                       const SizedBox(height: 8),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           TitleSubtitle(
-                              title: 'Date Linked',
+                              title: appLocalizations
+                                  .profile_linkedAccounts_dateLinked,
                               subTitle: CustomizableDateTime.ddMmYyyyWithSlash(
                                   e.dateLinked)),
-                          TitleSubtitle(title: 'Type', subTitle: e.type),
+                          TitleSubtitle(
+                              title:
+                                  appLocalizations.profile_linkedAccounts_type,
+                              subTitle: e.type),
                         ],
                       ),
                       const SizedBox(height: 8),
-                      const TitleSubtitle(
-                          title: 'Service Provider', subTitle: '.'),
+                      TitleSubtitle(
+                          title: appLocalizations
+                              .profile_linkedAccounts_serviceProvider,
+                          subTitle: '.'),
                       const SizedBox(height: 8),
                       const Divider(),
                       const SizedBox(height: 8),
