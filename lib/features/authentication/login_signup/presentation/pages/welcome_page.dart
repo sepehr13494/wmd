@@ -38,20 +38,11 @@ class _WelcomePageState extends AppState<WelcomePage> {
   @override
   void initState() {
     super.initState();
-    debugPrint("initState Called");
-    debugPrint("initState Called");
-    debugPrint("initState Called");
-    debugPrint("initState Called");
-    debugPrint("initState Called");
-
-    // TimeDe
-    //   chewieController?.pause();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    debugPrint("changed made");
   }
 
   @override
