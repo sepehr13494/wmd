@@ -70,6 +70,7 @@ class LinkedTableTablet extends AppStatelessWidget {
 
   TableRow _buildTableHeader(BuildContext context, TextTheme textTheme) {
     final primaryColor = Theme.of(context).primaryColor;
+    final appLocalizations = AppLocalizations.of(context);
     return TableRow(
       key: UniqueKey(),
       decoration: const BoxDecoration(
@@ -77,17 +78,17 @@ class LinkedTableTablet extends AppStatelessWidget {
       ),
       children: [
         ListTile(
-            title: Text('Name',
+            title: Text(appLocalizations.profile_linkedAccounts_name,
                 style: textTheme.bodyLarge!.apply(color: primaryColor))),
         ListTile(
-          title: Text('Date linked',
+          title: Text(appLocalizations.profile_linkedAccounts_dateLinked,
               style: textTheme.bodyLarge!.apply(color: primaryColor)),
         ),
         ListTile(
-            title: Text('Type',
+            title: Text(appLocalizations.profile_linkedAccounts_type,
                 style: textTheme.bodyLarge!.apply(color: primaryColor))),
         ListTile(
-          title: Text('Service provider',
+          title: Text(appLocalizations.profile_linkedAccounts_serviceProvider,
               style: textTheme.bodyLarge!.apply(color: primaryColor)),
         ),
         const SizedBox(),
