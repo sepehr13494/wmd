@@ -1,6 +1,4 @@
 {
-    "@@locale": "en",
-    "@@last_modified": "2023-05-14T10:15:31+02:00",
     "auth:signup.page.title": "Join our Platform",
     "auth:signup.page.description": "Create myWMD account",
     "auth:signup.heading": "Create an account",
@@ -1600,7 +1598,7 @@
     "common:linkTFO.modal.oneMandate.title": "Your TFO account has been successfully linked",
     "common:linkTFO.modal.oneMandate.description": "Data will be fetched within the next 1-2 working days. You will be notified via email about the successful data synchronization.",
     "common:linkTFO.modal.multipleMandates.title": "Your TFO account has been successfully linked",
-    "common:linkTFO.modal.multipleMandates.description": "Data will be fetched within the next 1-2 working days. You will be notified via email about the successful data synchronization.",
+    "common:linkTFO.modal.multipleMandates.description": "Please review and confirm the mandates you want to integrate below, then click \\\"Confirm\\\". Data will be fetched within the next 1-2 working days.",
     "common:linkTFO.toast.noMandates.title": "No mandates found",
     "common:linkTFO.toast.noMandates.description": "Please contact your financial advisor to add mandates",
     "common:linkTFO.toast.success.title": "Mandates successfully linked",

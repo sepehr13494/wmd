@@ -64,7 +64,7 @@ class LinkedAccountsPage extends AppStatelessWidget {
                             context.pushNamed(AppRoutes.addAssetsView,
                                 queryParams: {'initial': '2'});
                           },
-                          child: const Text('Link new account'),
+                          child:  Text(appLocalizations.profile_linkedAccounts_buttons_link),
                         ),
                       ],
                     ),
