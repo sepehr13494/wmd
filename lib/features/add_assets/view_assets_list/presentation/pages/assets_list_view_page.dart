@@ -26,7 +26,8 @@ import 'package:wmd/injection_container.dart';
 const double _padding = 16;
 
 class AssetsListViewPage extends AppStatelessWidget {
-  const AssetsListViewPage({Key? key}) : super(key: key);
+  final int initial;
+  const AssetsListViewPage({this.initial = 0, Key? key}) : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -49,16 +50,16 @@ class AssetsListViewPage extends AppStatelessWidget {
                     });
         }),
         body: Stack(
-          children: const [
-            LeafBackground(
+          children: [
+            const LeafBackground(
               opacity: 0.5,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: _padding),
+              padding: const EdgeInsets.symmetric(horizontal: _padding),
               child: ResponsiveWidget(
-                mobile: AssetTabWrapper(),
-                desktop: AddAssetTabletView(),
-                tablet: AddAssetTabletView(),
+                mobile: AssetTabWrapper(initial: initial),
+                desktop: AddAssetTabletView(initial: initial),
+                tablet: AddAssetTabletView(initial: initial),
               ),
             ),
           ],
@@ -69,7 +70,8 @@ class AssetsListViewPage extends AppStatelessWidget {
 }
 
 class AddAssetTabletView extends StatelessWidget {
-  const AddAssetTabletView({Key? key}) : super(key: key);
+  final int initial;
+  const AddAssetTabletView({Key? key, required this.initial}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -87,14 +89,15 @@ class AddAssetTabletView extends StatelessWidget {
         const SizedBox(width: 16),
         Expanded(
             flex: ResponsiveHelper(context: context).isDesktop ? 6 : 4,
-            child: const AssetTabWrapper())
+            child: AssetTabWrapper(initial: initial))
       ],
     );
   }
 }
 
 class AssetTabWrapper extends StatefulWidget {
-  const AssetTabWrapper({Key? key}) : super(key: key);
+  final int initial;
+  const AssetTabWrapper({Key? key, required this.initial}) : super(key: key);
 
   @override
   AppState<AssetTabWrapper> createState() => _AssetTabWrapperState();
@@ -109,7 +112,10 @@ class _AssetTabWrapperState extends AppState<AssetTabWrapper>
   void initState() {
     super.initState();
 
-    _tabController = TabController(length: showMvp2 ? 3 : 1, vsync: this);
+    _tabController = TabController(
+        length: showMvp2 ? 3 : 1,
+        vsync: this,
+        initialIndex: showMvp2 ? widget.initial : 0);
     if (showMvp2) {
       _tabController.addListener(() {
         if (_tabController.index == 2) {
