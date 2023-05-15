@@ -158,7 +158,9 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                     formState: formState,
                     onTap: () {
                       formKey.currentState?.validate();
-                      if (formKey.currentState!.isValid) {
+
+                      if (formKey.currentState!.isValid &&
+                          formKey.currentState?.value["subject"] != null) {
                         Map<String, dynamic> finalMap = {
                           ...formKey.currentState!.instantValue,
                           "email": (personalState is PersonalInformationLoaded)
