@@ -545,6 +545,8 @@ class AppRouter {
                 name: AppRoutes.addAssetsView,
                 path: "add_assets_view",
                 builder: (BuildContext context, GoRouterState state) {
+                  final t = state.queryParams['initial'];
+                  int? initial = t != null ? int.parse(t) : 0;
                   return MultiBlocProvider(
                     providers: [
                       BlocProvider.value(
@@ -557,7 +559,7 @@ class AppRouter {
                         value: _custodianStatusListCubit,
                       ),
                     ],
-                    child: const AssetsListViewPage(),
+                    child: AssetsListViewPage(initial: initial),
                   );
                 },
                 routes: [
