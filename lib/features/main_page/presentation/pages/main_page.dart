@@ -13,6 +13,7 @@ import 'package:wmd/features/assets_overview/assets_overview/presentation/pages/
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/pages/dashboard_main_page.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
+import 'package:wmd/features/liability_overview/presentation/page/liability_overview_page.dart';
 
 import '../manager/main_page_cubit.dart';
 
@@ -45,11 +46,17 @@ class _MainPageState extends AppState<MainPage> with WidgetsBindingObserver {
         appLocalizations.common_nav_links_assets,
         "assets/images/assets_icon_filled.svg"
       ],
+      // [
+      //   "assets/images/assets_icon.svg",
+      //   appLocalizations.common_nav_links_liabilities,
+      //   "assets/images/assets_icon_filled.svg"
+      // ],
     ];
 
     final List<Widget> widgetOptions = <Widget>[
       DashboardMainPage(expandCustodian: widget.expandCustodian),
       const AssetsOverView(),
+      // const LiabilityOverviewPage(),
     ];
 
     return Builder(builder: (context) {

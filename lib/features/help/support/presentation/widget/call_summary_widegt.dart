@@ -62,7 +62,8 @@ class CallSummaryWidget extends AppStatelessWidget {
                           : "null"),
                   CallSummaryRow(
                     label: appLocalizations.scheduleMeeting_labels_meetingType,
-                    value: MeetingType.meetingTypeList.first.name,
+                    value: appLocalizations
+                        .scheduleMeeting_meetingType_options_virtualMeeting,
                     // value: formState != null
                     //     ? formState!.instantValue["type"]
                     //     : "Virtual Meeting",
@@ -79,9 +80,9 @@ class CallSummaryWidget extends AppStatelessWidget {
             height: 20,
           ),
           CallSummarySection(
-            title: "Call specification",
+            title: appLocalizations.scheduleMeeting_labels_callSpecifications,
             child: CallSummaryRow(
-              label: "Reason",
+              label: appLocalizations.scheduleMeeting_labels_reason,
               value: formState != null
                   ? formState!.value["subject"] != null
                       ? formState!.value["subject"] ??
