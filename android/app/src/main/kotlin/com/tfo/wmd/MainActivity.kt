@@ -1,4 +1,4 @@
-// package com.tfo.wmd
+package com.tfo.wmd
 import androidx.annotation.NonNull
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
@@ -9,16 +9,16 @@ class MainActivity: FlutterActivity() {
   private val channelName = "adb"
 
   override fun configureFlutterEngine( flutterEngine: FlutterEngine) {
-    super.configureFlutterEngine(flutterEngine);
+    super.configureFlutterEngine(flutterEngine)
 
-    var channel MethodChannel(flutterEngine.dartExecutor.binaryMessenger, channelName);
+    var channel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, channelName);
 
     channel.setMethodCallHandler { call, result ->
         if (call.method == "adbChecking") {
             checkingadb(result);
         } else {
             result.notImplemented();
-        }
+        
     }
   }
 

@@ -4,10 +4,10 @@ import 'package:flutter/services.dart';
 
 class AdbChecker {
   static const platform = MethodChannel('adb');
-  Future<bool> checkadb() async {
+  Future<bool> adbChecking() async {
     if (!Platform.isAndroid) return false;
     try {
-      final int result = await platform.invokeMethod('checkingadb');
+      final int result = await platform.invokeMethod('adbChecking');
       return result == 1 ? true : false;
     } on PlatformException catch (e) {
       print(e.message);
@@ -15,4 +15,3 @@ class AdbChecker {
     }
   }
 }
-
