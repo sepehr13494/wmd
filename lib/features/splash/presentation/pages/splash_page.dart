@@ -14,6 +14,7 @@ import 'package:wmd/features/safe_device/presentation/manager/safe_device_cubit.
 import 'package:wmd/global_functions.dart';
 import '../manager/splash_cubit.dart';
 import '../../../../injection_container.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -23,13 +24,14 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  detectAdb() async {
+  detectAdb(BuildContext context) async {
     final res = await AdbChecker().adbChecking();
     if (res) {
       // ignore: use_build_context_synchronously
       GlobalFunctions.showSnackBar(
         context,
-        'Warning: Usb debugging is active',
+        // ignore: use_build_context_synchronously
+        AppLocalizations.of(context).splash_adb_warning,
         color: Colors.orange[800],
         type: "error",
       );
@@ -39,7 +41,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    detectAdb();
+    detectAdb(context);
   }
 
   @override
