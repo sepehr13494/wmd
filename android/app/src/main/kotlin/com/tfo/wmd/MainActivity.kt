@@ -6,13 +6,15 @@ import io.flutter.plugin.common.MethodChannel
 import android.provider.Settings;
 
 class MainActivity: FlutterActivity() {
-  private val CHANNEL = "adb"
+  private val channelName = "adb"
 
-  override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
-    super.configureFlutterEngine(flutterEngine)
-    MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler {
-      call, result ->
-        if (call.method == "checkingadb") {
+  override fun configureFlutterEngine( flutterEngine: FlutterEngine) {
+    super.configureFlutterEngine(flutterEngine);
+
+    var channel MethodChannel(flutterEngine.dartExecutor.binaryMessenger, channelName);
+
+    channel.setMethodCallHandler { call, result ->
+        if (call.method == "adbChecking") {
             checkingadb(result);
         } else {
             result.notImplemented();
@@ -20,7 +22,7 @@ class MainActivity: FlutterActivity() {
     }
   }
 
-    private fun checkingadb(  result: MethodChannel.Result) {
+    private fun checkingadb(result: MethodChannel.Result) {
         if (Settings.Secure.getInt(this.getContentResolver(), Settings.Secure.ADB_ENABLED, 0) == 1) {
             // debugging enabled
             result.success(1);
