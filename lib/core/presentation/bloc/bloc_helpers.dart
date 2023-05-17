@@ -30,6 +30,7 @@ class BlocHelper {
 
   static BlocWidgetListener defaultBlocListener({
     required BlocWidgetListener listener,
+    Function(ErrorState)? otherErrors,
   }) {
     return (context, state) {
       if (state is LoadingState) {
@@ -94,6 +95,11 @@ class BlocHelper {
               GlobalFunctions.showSnackBar(context,
                   AppLocalizations.of(context).auth_login_toast_wrongToken);
               AppRestart.restart(context);
+              break;
+            case ExceptionType.other:
+              if(otherErrors != null){
+                otherErrors(state);
+              }
               break;
           }
         } else {

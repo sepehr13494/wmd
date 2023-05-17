@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -103,15 +104,15 @@ class PerformanceBenchmarkWidget extends AppStatelessWidget {
                                             value: e.index, shouldBlur: false),
                                         PerformanceValueObj(
                                             value:
-                                                "${e.performance.toStringAsFixed(1)} %",
+                                                "${e.performance.toStringAsFixedZero(1)} %",
                                             shouldBlur: false),
                                         PerformanceValueObj(
                                             value:
-                                                "${e.performancePa.toStringAsFixed(1)} %",
+                                                "${e.performancePa.toStringAsFixedZero(1)} %",
                                             shouldBlur: false),
                                         PerformanceValueObj(
                                             value:
-                                                "${e.riskPa.toStringAsFixed(1)} %",
+                                                "${e.riskPa.toStringAsFixedZero(1)} %",
                                             shouldBlur: false),
                                         PerformanceValueObj(
                                             value: e.sharpeRatio

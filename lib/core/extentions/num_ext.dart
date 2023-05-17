@@ -72,4 +72,12 @@ extension NumExt on num {
     // val.significantDigits = 3;
     return val;
   }
+
+  String toStringAsFixedZero(int fractionDigits){
+    if(this == 0){
+      return "0";
+    }else{
+      return toStringAsFixed(fractionDigits);
+    }
+  }
 }
