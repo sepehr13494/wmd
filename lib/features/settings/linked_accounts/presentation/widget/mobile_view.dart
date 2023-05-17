@@ -169,11 +169,11 @@ Future<bool?> showDetailModal(
                         ],
                       ),
                       const SizedBox(height: 8),
-                      TitleSubtitle(
-                          title: appLocalizations
-                              .profile_linkedAccounts_serviceProvider,
-                          subTitle: '.'),
-                      const SizedBox(height: 8),
+                      // TitleSubtitle(
+                      //     title: appLocalizations
+                      //         .profile_linkedAccounts_serviceProvider,
+                      //     subTitle: '.'),
+                      // const SizedBox(height: 8),
                       const Divider(),
                       const SizedBox(height: 8),
                       Row(

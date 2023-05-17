@@ -9,19 +9,32 @@ import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
-import 'package:wmd/core/util/firebase_analytics.dart';
+import 'package:wmd/features/settings/linked_accounts/domain/entities/get_linked_accounts_entity.dart';
 import 'package:wmd/injection_container.dart';
 import '../manager/linked_accounts_cubit.dart';
 import '../widget/mobile_view.dart';
 import '../widget/tablet_view.dart';
 
-class LinkedAccountsPage extends AppStatelessWidget {
+class LinkedAccountsPage extends StatefulWidget {
   const LinkedAccountsPage({super.key});
+
+  @override
+  AppState<LinkedAccountsPage> createState() => _LinkedAccountsPageState();
+}
+
+class _LinkedAccountsPageState extends AppState<LinkedAccountsPage> {
+  bool isFiveOnly = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
     final primaryColor = Theme.of(context).primaryColor;
     final isMobile = ResponsiveHelper(context: context).isMobile;
+
     return BlocProvider<LinkedAccountsCubit>(
       create: (context) => sl<LinkedAccountsCubit>()..getLinkedAccounts(),
       child: BlocConsumer<LinkedAccountsCubit, LinkedAccountsState>(
@@ -42,13 +55,19 @@ class LinkedAccountsPage extends AppStatelessWidget {
                     const SizedBox(height: 8),
                     Builder(builder: (context) {
                       if (state is GetLinkedAccountsLoaded) {
+                        List<GetLinkedAccountsEntity> values =
+                            state.getLinkedAccountsEntities;
+                        if (isFiveOnly) {
+                          if (values.length > 5) {
+                            values = List.from(values.sublist(
+                                values.length - 5, values.length));
+                          }
+                        }
                         return isMobile
                             ? LinkedTableMobile(
-                                getLinkedAccountsEntities:
-                                    state.getLinkedAccountsEntities)
+                                getLinkedAccountsEntities: values)
                             : LinkedTableTablet(
-                                getLinkedAccountsEntities:
-                                    state.getLinkedAccountsEntities);
+                                getLinkedAccountsEntities: values);
                       } else if (state is ErrorState) {
                         return Text(state.failure.message);
                       } else {
@@ -64,7 +83,8 @@ class LinkedAccountsPage extends AppStatelessWidget {
                             context.pushNamed(AppRoutes.addAssetsView,
                                 queryParams: {'initial': '2'});
                           },
-                          child:  Text(appLocalizations.profile_linkedAccounts_buttons_link),
+                          child: Text(appLocalizations
+                              .profile_linkedAccounts_buttons_link),
                         ),
                       ],
                     ),
@@ -78,6 +98,10 @@ class LinkedAccountsPage extends AppStatelessWidget {
 
   Row _buildHeader(AppLocalizations appLocalizations, TextTheme textTheme,
       BuildContext context, Color primaryColor) {
+    final filters = [
+      appLocalizations.profile_linkedAccounts_showAll,
+      appLocalizations.profile_linkedAccounts_show5,
+    ];
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -95,22 +119,32 @@ class LinkedAccountsPage extends AppStatelessWidget {
             child: DropdownButtonHideUnderline(
               child: DropdownButton<String>(
                 items: [
-                  DropdownMenuItem<String>(
-                    value: 'Show all',
-                    child: Row(
-                      children: [
-                        Text(
-                          'Show all',
-                          style: textTheme.bodyMedium!,
-                          // textTheme.bodyMedium!.toLinkStyle(context),
+                  ...filters.map((e) => DropdownMenuItem<String>(
+                        value: e,
+                        child: Row(
+                          children: [
+                            Text(
+                              e,
+                              style: textTheme.bodyMedium!,
+                              // textTheme.bodyMedium!.toLinkStyle(context),
+                            ),
+                            const SizedBox(width: 16),
+                          ],
                         ),
-                        const SizedBox(width: 16),
-                      ],
-                    ),
-                  ),
+                      )),
                 ],
-                onChanged: ((value) async {}),
-                value: 'Show all',
+                onChanged: ((value) async {
+                  if (value == filters[1]) {
+                    setState(() {
+                      isFiveOnly = true;
+                    });
+                  } else {
+                    setState(() {
+                      isFiveOnly = false;
+                    });
+                  }
+                }),
+                value: isFiveOnly ? filters[1] : filters.first,
                 icon: Icon(
                   Icons.keyboard_arrow_down,
                   size: 15,
