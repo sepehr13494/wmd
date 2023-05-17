@@ -29,7 +29,7 @@ class LinkedTableTablet extends AppStatelessWidget {
       columnWidths: columnWidths,
       children: [
         _buildTableHeader(context, textTheme),
-        ...List.generate(2, (index) {
+        ...List.generate(getLinkedAccountsEntities.length, (index) {
           return _buildTableRow(context, index,
               getLinkedAccountsEntities[index], appLocalizations);
         }),
@@ -87,10 +87,11 @@ class LinkedTableTablet extends AppStatelessWidget {
         ListTile(
             title: Text(appLocalizations.profile_linkedAccounts_type,
                 style: textTheme.bodyLarge!.apply(color: primaryColor))),
-        ListTile(
-          title: Text(appLocalizations.profile_linkedAccounts_serviceProvider,
-              style: textTheme.bodyLarge!.apply(color: primaryColor)),
-        ),
+        // ListTile(
+        //   title: Text(appLocalizations.profile_linkedAccounts_serviceProvider,
+        //       style: textTheme.bodyLarge!.apply(color: primaryColor)),
+        // ),
+        const SizedBox(),
         const SizedBox(),
       ],
     );
