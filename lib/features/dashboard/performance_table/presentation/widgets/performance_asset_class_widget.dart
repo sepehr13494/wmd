@@ -127,7 +127,7 @@ class PerformanceAssetClassWidget extends AppStatelessWidget {
                                   ),
                                   PerformanceValueObj(
                                       value:
-                                          "${e.changePercentage.toStringAsFixed(1)} %",
+                                          "${e.changePercentage.toStringAsFixedZero(1)} %",
                                       shouldBlur: false),
                                 ])
                             .toList());

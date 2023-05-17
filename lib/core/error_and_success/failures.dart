@@ -6,12 +6,14 @@ abstract class Failure extends Equatable {
   final ExceptionType type;
   final dynamic data;
   final dynamic stackTrace;
+  final int? statusCode;
 
   const Failure({
     required this.message,
     this.type = ExceptionType.normal,
     this.data,
     this.stackTrace,
+    this.statusCode,
   });
 
   @override
