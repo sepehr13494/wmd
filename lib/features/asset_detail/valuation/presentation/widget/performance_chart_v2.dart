@@ -1,5 +1,5 @@
 import 'dart:developer';
-
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -128,28 +128,30 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
 
   _getSeries() {
     final stops = calculateStops(values);
+    final gradient = calculateStopsV(values);
+    double stopsY = calculateHipo(stops, gradient);
     return [
       AreaSeries<MapEntry<DateTime, double>, String>(
         color: AppColors.chartColor.withOpacity(0.3),
-        borderGradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          stops: [
-            0,
-            stops,
-            stops,
-            1,
-          ],
-          colors: const [
-            AppColors.chartColor,
-            AppColors.chartColor,
-            // Colors.transparent,
-            // Colors.transparent,
-            Colors.red,
-            Colors.red,
-          ],
-          // tileMode: TileMode.clamp,
-        ),
+        borderColor: AppColors.chartColor.withOpacity(0.5),
+        // borderGradient: LinearGradient(
+        //   begin: Alignment.centerLeft,
+        //   end: Alignment.centerRight,
+        //   stops: [
+        //     0,
+        //     stopsY,
+        //     stopsY,
+        //     1,
+        //   ],
+        //   colors: [
+        //     // AppColors.chartColor.withOpacity(0.3),
+        //     AppColors.chartColor.withOpacity(0.5),
+        //     AppColors.chartColor.withOpacity(0.3),
+        //     Colors.red.withOpacity(0.05),
+        //     Colors.red.withOpacity(0.5),
+        //     // AppColors.redChartColor.withOpacity(0.3),
+        //   ],
+        // ),
         borderWidth: 2,
         dataSource: values,
         animationDuration: 2500,
@@ -185,6 +187,21 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
     ];
   }
 
+  double calculateHipo(double stops, List<bool> gradient) {
+    final addings = 1 / values.length;
+    // final hipotenus = math.sqrt(math.pow(addings, 2) + math.pow(stops, 2));
+    double stopsY = stops * 0.1;
+    for (var e in gradient) {
+      if (e) {
+        stopsY += addings;
+      }
+    }
+    if (stopsY > 1) {
+      stopsY = 1;
+    }
+    return stopsY;
+  }
+
   double calculateStops(List<MapEntry<DateTime, double>> values) {
     double minX = values.first.value;
     for (var element in values) {
@@ -197,7 +214,9 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
     }
     double maxX = values.first.value;
     for (var element in values) {
-      if (element.value > maxX) {}
+      if (element.value > maxX) {
+        maxX = element.value;
+      }
     }
     if (maxX <= 0) {
       return 0;
@@ -209,5 +228,17 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
       gradientStop = 0;
     }
     return gradientStop;
+  }
+
+  List<bool> calculateStopsV(List<MapEntry<DateTime, double>> values) {
+    final List<bool> list = [];
+    for (var e in values) {
+      if (e.value >= 0) {
+        list.add(true);
+      } else
+        list.add(false);
+    }
+
+    return list;
   }
 }

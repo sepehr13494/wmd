@@ -5,13 +5,16 @@ import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
+import 'package:wmd/core/util/adb_checker.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/core/util/local_auth_manager.dart';
 import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/features/force_update/presentation/manager/force_update_cubit.dart';
 import 'package:wmd/features/safe_device/presentation/manager/safe_device_cubit.dart';
+import 'package:wmd/global_functions.dart';
 import '../manager/splash_cubit.dart';
 import '../../../../injection_container.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -21,6 +24,26 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  detectAdb(BuildContext context) async {
+    final res = await AdbChecker().adbChecking();
+    if (res) {
+      // ignore: use_build_context_synchronously
+      GlobalFunctions.showSnackBar(
+        context,
+        // ignore: use_build_context_synchronously
+        AppLocalizations.of(context).splash_adb_warning,
+        color: Colors.orange[800],
+        type: "error",
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    detectAdb(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(

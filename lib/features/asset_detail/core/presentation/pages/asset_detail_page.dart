@@ -183,17 +183,23 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                                   );
                                 }),
                             if (state is PerformanceLoaded)
-                              Padding(
-                                padding:
-                                    EdgeInsets.all(responsiveHelper.biggerGap),
-                                child: PerformanceLineChartV2(
-                                  values: state
-                                      .performanceEntity.valuationHistory
-                                      .map((e) => MapEntry(e.date, e.value))
-                                      .toList(),
-                                  days: selectedTimeFilter.value,
-                                ),
-                              ),
+                              Builder(builder: (context) {
+                                List<MapEntry<DateTime, double>> values = state
+                                    .performanceEntity.valuationHistory
+                                    .map((e) => MapEntry(e.date, e.value))
+                                    .toList();
+                                // values.add(MapEntry(
+                                //     DateTime.now().add(const Duration(days: 1)),
+                                //     -12312312));
+                                return Padding(
+                                  padding: EdgeInsets.all(
+                                      responsiveHelper.biggerGap),
+                                  child: PerformanceLineChartV2(
+                                    values: values,
+                                    days: selectedTimeFilter.value,
+                                  ),
+                                );
+                              }),
                             SizedBox(height: responsiveHelper.biggerGap),
                             ValuationWidget(
                                 assetId: widget.assetId,
