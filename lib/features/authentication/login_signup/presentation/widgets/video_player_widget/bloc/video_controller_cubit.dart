@@ -22,8 +22,8 @@ class VideoControllerCubit extends Cubit<VideoControllerState> {
                 .state
                 .languageCode ==
             "ar"
-        ? "https://a.storyblok.com/f/127566/x/fad761400a/tfo_mvp_walk-through_arabic_no_logos_1108.mp4"
-        : 'https://a.storyblok.com/f/127566/x/4770bdc9ca/tfo-mvp-walk-through-english-no-logo_1108.mp4');
+        ? "https://a.storyblok.com/f/127566/x/2929f4a675/tfo-all-in-one-walkthrough-arabic-28-april.mp4"
+        : 'https://a.storyblok.com/f/127566/x/64ba720364/tfo-all-in-one-walkthrough-english-28-april.mp4');
     await _videoPlayerController.initialize().onError((error, stackTrace) {
       emit(ErrorState(
           failure: const AppFailure(
