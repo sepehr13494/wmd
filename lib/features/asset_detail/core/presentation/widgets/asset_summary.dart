@@ -42,7 +42,8 @@ class AsssetSummary extends AppStatelessWidget {
         children: [
           const PrivacyBlurWarning(showCloseButton: false),
           PrivacyBlurWidget(
-              child: Text(summary.assetName, style: textTheme.headlineSmall)),
+              child:
+                  Text(summary.assetNameFixed, style: textTheme.headlineSmall)),
           const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

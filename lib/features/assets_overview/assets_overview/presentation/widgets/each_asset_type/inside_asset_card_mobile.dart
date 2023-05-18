@@ -45,9 +45,9 @@ class InsideAssetCardMobile extends AppStatelessWidget {
                         children: [
                           PrivacyBlurWidget(
                             child: Text(
-                              asset.assetName.length > 15
-                                  ? '${asset.assetName.substring(0, 15)}..'
-                                  : asset.assetName,
+                              asset.assetNameFixed.length > 15
+                                  ? '${asset.assetNameFixed.substring(0, 15)}..'
+                                  : asset.assetNameFixed,
                               style: TextStyle(
                                   color: Theme.of(context).primaryColor),
                               overflow: TextOverflow.ellipsis,
