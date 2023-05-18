@@ -6,6 +6,10 @@ import 'package:wmd/core/models/time_filer_obj.dart';
 class AppConstants {
   static bool publicMvp2Items = dotenv.env['NEXT_PUBLIC_MVP2_ITEM']! == 'true';
   static bool developMode = dotenv.env['DEVELOPING_MODE']! == 'true';
+
+  static const String contactEmail = "developer@allinoneplus.com";
+  // developMode ? "developer@allinoneplus.com" : "n.albasri@tfoco.com";
+
   static String auth0IssuerBaseUrl = dotenv.env['AUTH0_ISSUER_BASE_URL']!;
   static String auth0ClientId = dotenv.env['AUTH0_CLIENT_ID']!;
   static String auth0ClientSecret = dotenv.env['AUTH0_CLIENT_SECRET']!;
