@@ -55,4 +55,6 @@ class AssetSummaryEntitiy extends Equatable {
         totalAssetsAmount,
         isManuallyAdded,
       ];
+
+  String get assetNameFixed => assetName.replaceAll(RegExp(r"\s+"), " ");
 }

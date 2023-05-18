@@ -41,7 +41,7 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                       case 0:
                         return PrivacyBlurWidget(
                           child: Text(
-                            asset.assetName,
+                            asset.assetNameFixed,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor),
