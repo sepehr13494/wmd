@@ -1,6 +1,4 @@
 {
-    "@@locale": "ar",
-    "@@last_modified": "2023-05-18T08:37:13+02:00",
     "auth:signup.page.title": "انضمّ إلى منصتنا",
     "auth:signup.page.description": "إنشاء حساب myWMD",
     "auth:signup.heading": "أنشئ حساباً",
