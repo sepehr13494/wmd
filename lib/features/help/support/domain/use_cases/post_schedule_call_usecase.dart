@@ -5,6 +5,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/help/support/domain/repositories/schedule_call_repository.dart';
 
 class PostScheduleCallUseCase
@@ -51,7 +52,7 @@ class PostScheduleCallUseCase
 
 class ScheduleCallParams extends Equatable {
   const ScheduleCallParams({
-    this.contactEmail = "n.albasri@tfoco.com",
+    this.contactEmail = AppConstants.contactEmail,
     required this.subject,
     this.content = "",
     required this.startTime,
@@ -72,7 +73,7 @@ class ScheduleCallParams extends Equatable {
 
   factory ScheduleCallParams.fromJson(Map<String, dynamic> json) =>
       ScheduleCallParams(
-        contactEmail: json["contactEmail"] ?? "n.albasri@tfoco.com",
+        contactEmail: json["contactEmail"] ?? AppConstants.contactEmail,
         subject: json["subject"],
         content: json["content"] ?? "",
         startTime: json["startTime"],
