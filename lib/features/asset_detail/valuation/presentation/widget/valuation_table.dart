@@ -94,15 +94,14 @@ class ValuationWidget extends AppStatelessWidget {
                         style: textTheme.bodyMedium,
                       ),
                       const SizedBox(height: 8),
-
-                      if (state is GetAllValuationLoaded &&
-                          state.getAllValuationEntities.isEmpty)
-                        Text(appLocalizations.common_emptyText_title),
+                      // if (state is GetAllValuationLoaded &&
+                      //     state.getAllValuationEntities.isEmpty)
+                      //   Text(appLocalizations.common_emptyText_emptyState),
                       if (state is GetAllValuationLoaded &&
                           state.getAllValuationEntities.isNotEmpty)
                         ValuationTableWidget(
-                          getAllValuationEntities:
-                              state.getAllValuationEntities,
+                          getAllValuationEntities: [],
+                          // state.getAllValuationEntities,
                           assetType: assetType,
                           assetId: assetId,
                           isManuallyAdded: isManuallyAdded,
@@ -156,20 +155,23 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             columnWidths: columnWidths,
             children: [
               buildTableHeader(context, appLocalizations),
-              ...List.generate(length > limit ? limit : length, (index) {
-                final e = widget.getAllValuationEntities[index];
-                return buildTableRow(
-                  context,
-                  date: CustomizableDateTime.ddMmYyyy(e.valuatedAt),
-                  note: e.note ?? '',
-                  value: e.amountInUsd.convertMoney(addDollar: true),
-                  isSystemGenerated: e.isSystemGenerated,
-                  index: index,
-                  id: e.id,
-                );
-              }),
+              if (widget.getAllValuationEntities.isNotEmpty)
+                ...List.generate(length > limit ? limit : length, (index) {
+                  final e = widget.getAllValuationEntities[index];
+                  return buildTableRow(
+                    context,
+                    date: CustomizableDateTime.ddMmYyyy(e.valuatedAt),
+                    note: e.note ?? '',
+                    value: e.amountInUsd.convertMoney(addDollar: true),
+                    isSystemGenerated: e.isSystemGenerated,
+                    index: index,
+                    id: e.id,
+                  );
+                }),
             ],
           ),
+          if (widget.getAllValuationEntities.isEmpty)
+            buildEmptyTableRow(context, appLocalizations),
           if (length > limit)
             InkWell(
               onTap: () {
@@ -202,24 +204,27 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
         columnWidths: columnWidths,
         children: [
           buildTableHeader(context, appLocalizations),
-          ...List.generate(widget.getAllValuationEntities.length, (index) {
-            final e = widget.getAllValuationEntities[index];
+          if (widget.getAllValuationEntities.isNotEmpty)
+            ...List.generate(widget.getAllValuationEntities.length, (index) {
+              final e = widget.getAllValuationEntities[index];
 
-            debugPrint('getAllValuationEntities---');
-            debugPrint(e.toString());
+              debugPrint('getAllValuationEntities---');
+              debugPrint(e.toString());
 
-            return buildTableRow(
-              context,
-              date: CustomizableDateTime.ddMmYyyy(e.valuatedAt),
-              note: e.note ?? '',
-              value: e.amountInUsd.convertMoney(addDollar: true),
-              isSystemGenerated: e.isSystemGenerated,
-              index: index,
-              id: e.id,
-            );
-          }),
+              return buildTableRow(
+                context,
+                date: CustomizableDateTime.ddMmYyyy(e.valuatedAt),
+                note: e.note ?? '',
+                value: e.amountInUsd.convertMoney(addDollar: true),
+                isSystemGenerated: e.isSystemGenerated,
+                index: index,
+                id: e.id,
+              );
+            }),
         ],
       ),
+      if (widget.getAllValuationEntities.isEmpty)
+        buildEmptyTableRow(context, appLocalizations),
       if (length > limit)
         InkWell(
           onTap: () {
@@ -439,6 +444,27 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             ),
           )
       ],
+    );
+  }
+
+  Widget buildEmptyTableRow(
+    BuildContext context,
+    AppLocalizations appLocalizations, {
+    EdgeInsetsGeometry padding =
+        const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8),
+  }) {
+    final textTheme = Theme.of(context).textTheme;
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Center(
+            child: Text(
+          appLocalizations.common_emptyText_emptyState,
+          style:  textTheme.bodySmall!.apply(color: Theme.of(context).primaryColor),
+          
+          textAlign: TextAlign.center,
+        )),
+      ),
     );
   }
 }
