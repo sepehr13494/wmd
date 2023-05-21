@@ -128,8 +128,7 @@ class _WelcomePageState extends AppState<WelcomePage> {
                                 videoPlayerController.pause();
 
                                 return AspectRatio(
-                                  aspectRatio: state
-                                      .videoPlayerController.value.aspectRatio,
+                                  aspectRatio: 1.001,
                                   child: VideoPlayer(videoPlayerController),
                                 );
                               } else if (state is ErrorState) {
