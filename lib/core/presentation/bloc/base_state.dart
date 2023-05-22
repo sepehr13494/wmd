@@ -47,6 +47,7 @@ abstract class BaseState extends Equatable
         ClientIndexState,
         LinkedAccountsState,
         PreferenceState,
+        LiablilityOverviewState,
         PerformanceChartState {}
 
 class BaseInitialState extends BaseState {

@@ -202,6 +202,11 @@ import 'package:wmd/features/help/support/domain/repositories/schedule_call_repo
 import 'package:wmd/features/help/support/domain/use_cases/post_general_inquiry_usecase.dart';
 import 'package:wmd/features/help/support/domain/use_cases/post_schedule_call_usecase.dart';
 import 'package:wmd/features/help/support/presentation/manager/general_inquiry_cubit.dart';
+import 'package:wmd/features/liability_overview/data/data_sources/liablility_overview_remote_datasource.dart';
+import 'package:wmd/features/liability_overview/data/repositories/liablility_overview_repository_impl.dart';
+import 'package:wmd/features/liability_overview/domain/repositories/liablility_overview_repository.dart';
+import 'package:wmd/features/liability_overview/domain/use_cases/get_liablility_overview_usecase.dart';
+import 'package:wmd/features/liability_overview/presentation/manager/liablility_overview_cubit.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/features/profile/personal_information/data/data_sources/personal_information_remote_datasource.dart';
 import 'package:wmd/features/profile/personal_information/data/repositories/personal_information_repository_impl.dart';
@@ -762,6 +767,15 @@ Future<void> init(String env) async {
       () => LinkedAccountsRepositoryImpl(sl()));
   sl.registerLazySingleton<LinkedAccountsRemoteDataSource>(
       () => LinkedAccountsRemoteDataSourceImpl(sl()));
+
+  //LiablilityOverview
+  sl.registerFactory(() => LiablilityOverviewCubit(sl()));
+  sl.registerLazySingleton(() => GetLiablilityOverviewUseCase(sl()));
+
+  sl.registerLazySingleton<LiablilityOverviewRepository>(
+      () => LiablilityOverviewRepositoryImpl(sl()));
+  sl.registerLazySingleton<LiablilityOverviewRemoteDataSource>(
+      () => LiablilityOverviewRemoteDataSourceImpl(sl()));
 
   await initExternal(env);
   await initUtils();
