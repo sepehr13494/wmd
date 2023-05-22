@@ -5,6 +5,7 @@ enum AssetsOverviewBaseType {
   assetType,
   geography,
   currency,
+  portfolio,
 }
 
 class AssetsOverviewBaseWidgetModel {

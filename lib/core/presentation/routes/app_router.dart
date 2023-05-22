@@ -31,6 +31,7 @@ import 'package:wmd/features/assets_overview/charts/presentation/manager/chart_c
 import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_manager.dart';
 import 'package:wmd/features/assets_overview/currency_chart/presentation/manager/currency_chart_cubit.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab/presentation/manager/portfolio_tab_cubit.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/forget_password_page.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/reset_password_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/auth_checker_page.dart';
@@ -88,6 +89,8 @@ class AppRouter {
   CurrencyChartCubit _currencyChartCubit = sl<CurrencyChartCubit>();
   AssetsGeographyChartCubit _assetsGeographyChartCubit =
       sl<AssetsGeographyChartCubit>();
+  PortfolioTabCubit _portfolioTabCubit =
+  sl<PortfolioTabCubit>();
   DashboardAllocationCubit _dashboardAllocationCubit =
       sl<DashboardAllocationCubit>();
   DashboardPieCubit _dashboardPieCubit = sl<DashboardPieCubit>();
@@ -293,6 +296,13 @@ class AppRouter {
                       _assetsGeographyChartCubit =
                           sl<AssetsGeographyChartCubit>();
                       return _assetsGeographyChartCubit..getAssetsGeography();
+                    },
+                  ),
+                  BlocProvider(
+                    create: (context) {
+                      _portfolioTabCubit =
+                          sl<PortfolioTabCubit>();
+                      return _portfolioTabCubit..getPortfolioTab();
                     },
                   ),
                   BlocProvider(
@@ -655,6 +665,9 @@ class AppRouter {
       ),
       BlocProvider.value(
         value: _assetsGeographyChartCubit,
+      ),
+      BlocProvider.value(
+        value: _portfolioTabCubit,
       ),
       BlocProvider.value(
         value: _dashboardAllocationCubit,
