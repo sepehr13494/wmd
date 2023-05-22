@@ -125,10 +125,10 @@ class LiabilitySummaryWidget extends AppStatelessWidget {
                                 ],
                               ),
                               SizedBox(height: responsiveHelper.bigger16Gap),
-                              RowOrColumn(
-                                showRow: !isMobile,
-                                columnCrossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                              Wrap(
+                                // showRow: !isMobile,
+                                // columnCrossAxisAlignment:
+                                //     CrossAxisAlignment.start,
                                 children: [
                                   ExpandedIf(
                                     flex: 4,
