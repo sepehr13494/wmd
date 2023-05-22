@@ -42,7 +42,12 @@ class AssetsListViewPage extends AppStatelessWidget {
             return const SizedBox.shrink();
           }
           return AddAssetFooter(
-              buttonText: appLocalizations.common_button_addAsset,
+              buttonText: state == null
+                  ? appLocalizations.common_button_addAsset
+                  : (state as EachAssetModel).pageRoute ==
+                          AppRoutes.addLiability
+                      ? appLocalizations.common_button_addLiability
+                      : appLocalizations.common_button_addAsset,
               onTap: state == null
                   ? null
                   : () {
