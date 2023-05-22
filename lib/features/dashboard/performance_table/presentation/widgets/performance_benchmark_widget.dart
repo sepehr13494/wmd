@@ -116,7 +116,7 @@ class PerformanceBenchmarkWidget extends AppStatelessWidget {
                                             shouldBlur: false),
                                         PerformanceValueObj(
                                             value: e.sharpeRatio
-                                                .toStringAsFixed(1),
+                                                .toStringAsFixedZero(1),
                                             shouldBlur: true),
                                       ])
                                   .toList());
