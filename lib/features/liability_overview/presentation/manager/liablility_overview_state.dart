@@ -2,20 +2,16 @@ part of 'liablility_overview_cubit.dart';
 
 abstract class LiablilityOverviewState {}
 
-class GetLiablilityOverviewLoaded extends Equatable with LiablilityOverviewState{
+class GetLiabilityOverviewLoaded extends Equatable
+    with LiablilityOverviewState {
   final List<GetLiablilityOverviewEntity> getLiablilityOverviewEntities;
-  
 
-  GetLiablilityOverviewLoaded({
+  GetLiabilityOverviewLoaded({
     required this.getLiablilityOverviewEntities,
-    
   });
 
   @override
   List<Object?> get props => [
-    getLiablilityOverviewEntities,
-    
-  ];
+        getLiablilityOverviewEntities,
+      ];
 }
-
-    

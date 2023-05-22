@@ -5,27 +5,25 @@ import 'package:dartz/dartz.dart';
 
 import '../models/get_liablility_overview_params.dart';
 import '../../domain/entities/get_liablility_overview_entity.dart';
-    
+
 import '../../domain/repositories/liablility_overview_repository.dart';
 import '../data_sources/liablility_overview_remote_datasource.dart';
 
-class LiablilityOverviewRepositoryImpl implements LiablilityOverviewRepository {
-  final LiablilityOverviewRemoteDataSource remoteDataSource;
+class LiabilityOverviewRepositoryImpl implements LiabilityOverviewRepository {
+  final LiabilityOverviewRemoteDataSource remoteDataSource;
 
-  LiablilityOverviewRepositoryImpl(this.remoteDataSource);
+  LiabilityOverviewRepositoryImpl(this.remoteDataSource);
 
-    @override
-  Future<Either<Failure, List<GetLiablilityOverviewEntity>>> getLiablilityOverview(GetLiablilityOverviewParams params) async {
+  @override
+  Future<Either<Failure, List<GetLiablilityOverviewEntity>>>
+      getLiablilityOverview(GetLiabilityOverviewParams params) async {
     try {
       final result = await remoteDataSource.getLiablilityOverview(params);
       return Right(result);
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
-    } on AppException catch (error){
+    } on AppException catch (error) {
       return Left(AppFailure.fromAppException(error));
     }
   }
-  
-    
 }
-

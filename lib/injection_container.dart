@@ -769,13 +769,13 @@ Future<void> init(String env) async {
       () => LinkedAccountsRemoteDataSourceImpl(sl()));
 
   //LiablilityOverview
-  sl.registerFactory(() => LiablilityOverviewCubit(sl()));
-  sl.registerLazySingleton(() => GetLiablilityOverviewUseCase(sl()));
+  sl.registerFactory(() => LiabilityOverviewCubit(sl()));
+  sl.registerLazySingleton(() => GetLiabilityOverviewUseCase(sl()));
 
-  sl.registerLazySingleton<LiablilityOverviewRepository>(
-      () => LiablilityOverviewRepositoryImpl(sl()));
-  sl.registerLazySingleton<LiablilityOverviewRemoteDataSource>(
-      () => LiablilityOverviewRemoteDataSourceImpl(sl()));
+  sl.registerLazySingleton<LiabilityOverviewRepository>(
+      () => LiabilityOverviewRepositoryImpl(sl()));
+  sl.registerLazySingleton<LiabilityOverviewRemoteDataSource>(
+      () => LiabilityOverviewRemoteDataSourceImpl(sl()));
 
   await initExternal(env);
   await initUtils();

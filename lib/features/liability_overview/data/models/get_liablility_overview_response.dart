@@ -1,11 +1,10 @@
 import '../../domain/entities/get_liablility_overview_entity.dart';
 
-class GetLiablilityOverviewResponse  extends GetLiablilityOverviewEntity{
-    GetLiablilityOverviewResponse();
+class GetLiabilityOverviewResponse extends GetLiablilityOverviewEntity {
+  GetLiabilityOverviewResponse();
 
-    factory GetLiablilityOverviewResponse.fromJson(Map<String, dynamic> json) => GetLiablilityOverviewResponse(
-    );
-    
-    static final tResponse = [GetLiablilityOverviewResponse()];
+  factory GetLiabilityOverviewResponse.fromJson(Map<String, dynamic> json) =>
+      GetLiabilityOverviewResponse();
+
+  static final tResponse = [GetLiabilityOverviewResponse()];
 }
-    

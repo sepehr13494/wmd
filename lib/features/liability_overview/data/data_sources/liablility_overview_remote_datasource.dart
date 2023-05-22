@@ -7,34 +7,35 @@ import 'package:wmd/core/models/app_request_options.dart';
 import '../models/get_liablility_overview_params.dart';
 import '../models/get_liablility_overview_response.dart';
 
-
-
-abstract class LiablilityOverviewRemoteDataSource {
-  Future<List<GetLiablilityOverviewResponse>> getLiablilityOverview(GetLiablilityOverviewParams params);
-
+abstract class LiabilityOverviewRemoteDataSource {
+  Future<List<GetLiabilityOverviewResponse>> getLiablilityOverview(
+      GetLiabilityOverviewParams params);
 }
 
-class LiablilityOverviewRemoteDataSourceImpl extends AppServerDataSource
-    implements LiablilityOverviewRemoteDataSource {
-  LiablilityOverviewRemoteDataSourceImpl(super.errorHandlerMiddleware);
-  
-    @override
-  Future<List<GetLiablilityOverviewResponse>> getLiablilityOverview(GetLiablilityOverviewParams params) async {
-    try{
-      final appRequestOptions =
-          AppRequestOptions(RequestTypes.get, AppUrls.getLiablilityOverview, params.toJson());
-      final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
+class LiabilityOverviewRemoteDataSourceImpl extends AppServerDataSource
+    implements LiabilityOverviewRemoteDataSource {
+  LiabilityOverviewRemoteDataSourceImpl(super.errorHandlerMiddleware);
+
+  @override
+  Future<List<GetLiabilityOverviewResponse>> getLiablilityOverview(
+      GetLiabilityOverviewParams params) async {
+    try {
+      final appRequestOptions = AppRequestOptions(
+          RequestTypes.get, AppUrls.getLiablilityOverview, params.toJson());
+      final response =
+          await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = (response as List<dynamic>)
-                  .map((e) => GetLiablilityOverviewResponse.fromJson(e))
-                  .toList();
+          .map((e) => GetLiabilityOverviewResponse.fromJson(e))
+          .toList();
       return result;
     } on ServerException {
       rethrow;
     } catch (e) {
       throw AppException(
-          message: "format Exception", type: ExceptionType.format,data: e.toString(),stackTrace: e is TypeError ? e.stackTrace.toString() : null);
+          message: "format Exception",
+          type: ExceptionType.format,
+          data: e.toString(),
+          stackTrace: e is TypeError ? e.stackTrace.toString() : null);
     }
   }
-  
-    
 }

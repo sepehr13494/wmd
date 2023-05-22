@@ -6,29 +6,21 @@ import '../../data/models/get_liablility_overview_params.dart';
 import '../../domain/use_cases/get_liablility_overview_usecase.dart';
 import '../../domain/entities/get_liablility_overview_entity.dart';
 
-
 part 'liablility_overview_state.dart';
 
-class LiablilityOverviewCubit extends Cubit<LiablilityOverviewState> {
+class LiabilityOverviewCubit extends Cubit<LiablilityOverviewState> {
+  final GetLiabilityOverviewUseCase getLiablilityOverviewUseCase;
 
-  final GetLiablilityOverviewUseCase getLiablilityOverviewUseCase;
-
-
-  LiablilityOverviewCubit(
+  LiabilityOverviewCubit(
     this.getLiablilityOverviewUseCase,
   ) : super(LoadingState());
 
   getLiablilityOverview() async {
     emit(LoadingState());
-    final result = await getLiablilityOverviewUseCase(GetLiablilityOverviewParams());
-    result.fold((failure) => emit(ErrorState(failure: failure)),
-        (entities) {
-      
-      emit(GetLiablilityOverviewLoaded(getLiablilityOverviewEntities: entities));
+    final result =
+        await getLiablilityOverviewUseCase(GetLiabilityOverviewParams());
+    result.fold((failure) => emit(ErrorState(failure: failure)), (entities) {
+      emit(GetLiabilityOverviewLoaded(getLiablilityOverviewEntities: entities));
     });
   }
-  
-
 }
-
-    
