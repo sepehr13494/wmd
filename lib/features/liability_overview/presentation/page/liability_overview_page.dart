@@ -83,7 +83,7 @@ class LiabilityOverviewPage extends AppStatelessWidget {
                           ],
                         ),
                         const LiabilitySummaryWidget(),
-                        const LiabilitiesWidget(),
+                        // const LiabilitiesWidget(),
                       ],
                     ),
                   ),
