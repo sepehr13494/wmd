@@ -162,9 +162,12 @@ class LiabilityCardMobile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Icon(Icons.link),
+              const SizedBox(width: 8),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   PrivacyBlurWidget(
                     child: Text(
@@ -211,9 +214,11 @@ class LiabilityCardTablet extends StatelessWidget {
             ),
           ),
           PrivacyBlurWidget(
-              child: Text(item.current.convertMoney(addDollar: true))),
+              child: Text(item.current
+                  .convertMoney(addDollar: true, textDollar: true))),
           PrivacyBlurWidget(
-              child: Text(item.mounthly.convertMoney(addDollar: true))),
+              child: Text(item.mounthly
+                  .convertMoney(addDollar: true, textDollar: true))),
           Text(CustomizableDateTime.ddMmYyyyWithSlash(item.endDate)),
         ],
       ),
