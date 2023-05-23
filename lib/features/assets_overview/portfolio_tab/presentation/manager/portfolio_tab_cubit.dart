@@ -11,7 +11,7 @@ import '../../domain/entities/get_portfolio_tab_entity.dart';
 
 part 'portfolio_tab_state.dart';
 
-class PortfolioTabCubit extends Cubit<AssetsGeographyChartState> {
+class PortfolioTabCubit extends Cubit<PortfolioTabState> {
 
   final GetPortfolioTabUseCase getPortfolioTabUseCase;
 
