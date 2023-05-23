@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 import 'package:wmd/core/util/local_auth_manager.dart';
+import 'package:wmd/features/safe_device/presentation/pages/unsafe_device_page.dart';
 import 'package:wmd/firebase_options.dart';
 import 'core/presentation/routes/app_router.dart';
 import 'core/util/app_localization.dart';
@@ -73,6 +75,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final router = AppRouter().router();
+    bool isObsecured = false;
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -93,20 +97,35 @@ class MyApp extends StatelessWidget {
               FocusManager.instance.primaryFocus!.unfocus();
             }
           },
-          child: MaterialApp.router(
-            routerConfig: router,
-            title: 'WMD',
-            theme: AppThemes.getAppTheme(context, brightness: Brightness.light),
-            darkTheme:
-                AppThemes.getAppTheme(context, brightness: Brightness.dark),
-            themeMode: context.watch<ThemeManager>().state,
-            localizationsDelegates: const [
-              ...AppLocalizations.localizationsDelegates,
-              FormBuilderLocalizations.delegate,
-            ],
-            supportedLocales: AppLocalizations.supportedLocales,
-            locale: context.watch<LocalizationManager>().state,
-          ),
+          child: VisibilityDetector(
+              key: const Key('app-key'),
+              onVisibilityChanged: (visibilityInfo) {
+                debugPrint(
+                    'Widget ${visibilityInfo.key} is ${visibilityInfo.visibleFraction}% visible');
+                if (visibilityInfo.visibleFraction != 1.0) {
+                  // Widget is obscured
+                  isObsecured = true;
+                }
+
+                // chewieController?.pause();
+              },
+              child: isObsecured
+                  ? const UnsafeDevicePage()
+                  : MaterialApp.router(
+                      routerConfig: router,
+                      title: 'WMD',
+                      theme: AppThemes.getAppTheme(context,
+                          brightness: Brightness.light),
+                      darkTheme: AppThemes.getAppTheme(context,
+                          brightness: Brightness.dark),
+                      themeMode: context.watch<ThemeManager>().state,
+                      localizationsDelegates: const [
+                        ...AppLocalizations.localizationsDelegates,
+                        FormBuilderLocalizations.delegate,
+                      ],
+                      supportedLocales: AppLocalizations.supportedLocales,
+                      locale: context.watch<LocalizationManager>().state,
+                    )),
         );
       }),
     );
