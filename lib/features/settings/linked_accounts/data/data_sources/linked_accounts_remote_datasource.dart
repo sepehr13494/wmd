@@ -33,7 +33,6 @@ class LinkedAccountsRemoteDataSourceImpl extends AppServerDataSource
       final result = (response as List<dynamic>)
           .map((e) => GetLinkedAccountsResponse.fromJson(e))
           .toList();
-      log('Mert log : $result');
       return result;
     } on ServerException {
       rethrow;
@@ -47,7 +46,8 @@ class LinkedAccountsRemoteDataSourceImpl extends AppServerDataSource
   }
 
   @override
-  Future<void> deleteLinkedAccounts(DeleteCustodianBankStatusParams params) async {
+  Future<void> deleteLinkedAccounts(
+      DeleteCustodianBankStatusParams params) async {
     try {
       final appRequestOptions = AppRequestOptions(
           RequestTypes.del, AppUrls.custodianBank, params.toJson());

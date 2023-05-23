@@ -27,7 +27,6 @@ class TfoLoginRemoteDataSourceImpl extends AppServerDataSource
           RequestTypes.get, AppUrls.getMandate, params.toJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      log('Mert log: $response');
       final result = GetMandatesResponse.fromJson(response);
       return result;
     } on ServerException {
