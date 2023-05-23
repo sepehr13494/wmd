@@ -1,4 +1,6 @@
 {
+    "@@locale": "en",
+    "@@last_modified": "2023-05-22T08:54:01+02:00",
     "auth:signup.page.title": "Join our Platform",
     "auth:signup.page.description": "Create myWMD account",
     "auth:signup.heading": "Create an account",
