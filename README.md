@@ -49,3 +49,5 @@ openssl s_client -showcerts -servername apigw-wmd-dev.azure-api.net -connect api
 openssl s_client -showcerts -servername apimaz-weu-tfo-mvp-qa.azure-api.net -connect apimaz-weu-tfo-mvp-qa.azure-api.net:443 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > assets/certificates/uat.crt
 ## prod
 openssl s_client -showcerts -servername apigw-wmd-prod-01.azure-api.net -connect apigw-wmd-prod-01.azure-api.net:443 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > assets/certificates/prod.crt
+## newbackend
+openssl s_client -showcerts -servername app-aio-svc-tst-01.azurewebsites.net -connect app-aio-svc-tst-01.azurewebsites.net:443 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > assets/certificates/newbackend.crt

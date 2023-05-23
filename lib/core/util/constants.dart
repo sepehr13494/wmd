@@ -26,6 +26,8 @@ class AppConstants {
         return "assets/certificates/dev.crt";
       case "developer":
         return "assets/certificates/qa.crt";
+      case "newbackend":
+        return "assets/certificates/newbackend.crt";
       default:
         return "assets/certificates/dev.crt";
     }
