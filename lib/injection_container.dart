@@ -86,6 +86,11 @@ import 'package:wmd/features/assets_overview/currency_chart/data/repositories/cu
 import 'package:wmd/features/assets_overview/currency_chart/domain/repositories/currency_chart_repository.dart';
 import 'package:wmd/features/assets_overview/currency_chart/domain/use_cases/get_currency_usecase.dart';
 import 'package:wmd/features/assets_overview/currency_chart/presentation/manager/currency_chart_cubit.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab/data/data_sources/portfolio_tab_remote_datasource.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab/data/repositories/portfolio_tab_repository_impl.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab/domain/repositories/portfolio_tab_repository.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab/domain/use_cases/get_portfolio_tab_usecase.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab/presentation/manager/portfolio_tab_cubit.dart';
 import 'package:wmd/features/authentication/forget_password/data/data_sources/forget_password_server_datasource.dart';
 import 'package:wmd/features/authentication/forget_password/data/repositories/forget_password_repository_impl.dart';
 import 'package:wmd/features/authentication/forget_password/domain/repositories/forget_password_repository.dart';
@@ -428,6 +433,16 @@ Future<void> init(String env) async {
       () => AssetsGeographyChartRepositoryImpl(sl()));
   sl.registerLazySingleton<AssetsGeographyChartRemoteDataSource>(
       () => AssetsGeographyChartRemoteDataSourceImpl(sl()));
+
+  //PortfolioTab
+  sl.registerFactory(() => PortfolioTabCubit(sl()));
+  sl.registerLazySingleton(() => GetPortfolioTabUseCase(sl()));
+
+  sl.registerLazySingleton<PortfolioTabRepository>(
+          () => PortfolioTabRepositoryImpl(sl()));
+  sl.registerLazySingleton<PortfolioTabRemoteDataSource>(
+          () => PortfolioTabRemoteDataSourceImpl(sl()));
+
 
   // Dashboard - user status dependencies
   sl.registerFactory(() => UserStatusCubit(sl(), sl()));

@@ -382,6 +382,12 @@ getData(AppLocalizations a, TextTheme textTheme) {
                 a.termsAndConditions_tou_terms_one_consolidation_description),
           ], textTheme),
           renderRow([
+            TermsChildData(a
+                .termsAndConditions_tou_terms_one_consolidationStartDate_title),
+            TermsChildData(a
+                .termsAndConditions_tou_terms_one_consolidationStartDate_description),
+          ], textTheme),
+          renderRow([
             TermsChildData(
                 a.termsAndConditions_tou_terms_one_dataProviders_title),
             TermsChildData(
