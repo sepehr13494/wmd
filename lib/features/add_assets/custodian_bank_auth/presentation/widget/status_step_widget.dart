@@ -294,7 +294,7 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
                   widget.subtitle ?? '',
                   style: textTheme.bodySmall!.apply(
                       color: isButtonDisable
-                          ? Theme.of(context).cardColor
+                          ? Theme.of(context).disabledColor
                           : Theme.of(context).primaryColor,
                       decoration: TextDecoration.underline),
                 ),

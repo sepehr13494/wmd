@@ -44,9 +44,6 @@ class NetworkHelper {
         (client) {
       SecurityContext securityContext = SecurityContext();
       client.badCertificateCallback = (cert, host, port) {
-        log('Mert log: $cert');
-        log('Mert log: $host');
-        log('Mert log: $port');
         return false;
       };
       securityContext.setTrustedCertificatesBytes(sslCert.buffer.asInt8List());

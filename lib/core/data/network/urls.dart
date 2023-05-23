@@ -69,6 +69,7 @@ class AppUrls {
   static String getPortfolioTab = "${wealthBase}Assets/Portfolio";
   static String getPie = "${wealthBase}Assets";
   static String getAssetsOverview = "${wealthBase}Assets/All";
+  static String getLiablilityOverview = "${wealthBase}Liability/All";
   static String getBankList = "${banking}Bank";
   static String getPopularBankList = "${banking}Bank/Popular";
 
