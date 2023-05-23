@@ -25,7 +25,6 @@ class LiabilitySummaryWidget extends AppStatelessWidget {
     return BlocBuilder<SummeryWidgetCubit, MainDashboardState>(
         builder: (context, state) {
       if (state is MainDashboardNetWorthLoaded) {
-        log('Mert log: $state');
         final liability = state.netWorthObj.liabilities;
         final date = (context.read<SummeryWidgetCubit>().dateTimeRange ??
                 AppConstants.timeFilter(context).first)
@@ -126,10 +125,10 @@ class LiabilitySummaryWidget extends AppStatelessWidget {
                                 ],
                               ),
                               SizedBox(height: responsiveHelper.bigger16Gap),
-                              RowOrColumn(
-                                showRow: !isMobile,
-                                columnCrossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                              Wrap(
+                                // showRow: !isMobile,
+                                // columnCrossAxisAlignment:
+                                //     CrossAxisAlignment.start,
                                 children: [
                                   ExpandedIf(
                                     flex: 4,

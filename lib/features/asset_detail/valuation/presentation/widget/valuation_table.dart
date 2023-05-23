@@ -332,8 +332,8 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             child: Text(
               note,
               style: textTheme.labelMedium,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+              // maxLines: 2,
+              // overflow: TextOverflow.ellipsis,
             ),
           ),
         ),

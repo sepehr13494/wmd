@@ -28,3 +28,27 @@ class AddButton extends AppStatelessWidget {
   }
 
 }
+
+class AddButtonLiability extends AppStatelessWidget {
+  final void Function() onTap;
+
+  const AddButtonLiability({
+    Key? key,
+    required this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget buildWidget(BuildContext context, TextTheme textTheme, AppLocalizations appLocalizations) {
+    return ElevatedButton(
+        onPressed: onTap,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.add_circle_outlined),
+            const SizedBox(width: 8),
+            Text((ResponsiveHelper(context: context).isMobile) ? appLocalizations.common_button_add : appLocalizations.common_button_addLiability)
+          ],
+        ));
+  }
+
+}
