@@ -20,8 +20,11 @@ import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/features/profile/personal_information/presentation/widgets/country_code_picker.dart';
+import 'package:wmd/features/profile/two_factor_auth/manager/two_factor_cubit.dart';
+import 'package:wmd/features/settings/core/data/models/put_settings_params.dart';
 import 'package:wmd/global_functions.dart';
 import 'package:country_picker/country_picker.dart';
 
@@ -359,67 +362,94 @@ class _ContactInformationWidgetState
                                                       .profile_tabs_personal_label_verifyNumber,
                                                   style: textTheme.bodyMedium),
                                         if (isPhoneEditable)
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              TextButton(
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      isPhoneEditable = false;
-                                                    });
-                                                  },
-                                                  child: Text(
-                                                    appLocalizations
-                                                        .common_button_cancel,
-                                                    style: textTheme.bodySmall!
-                                                        .toLinkStyle(context),
-                                                  )),
-                                              const SizedBox(
-                                                width: 8,
-                                              ),
-                                              ElevatedButton(
-                                                onPressed: !enableSubmitButton
-                                                    ? null
-                                                    : () {
-                                                        if (formKey
-                                                            .currentState!
-                                                            .validate()) {
-                                                          debugPrint(formKey
-                                                              .currentState!
-                                                              .instantValue
-                                                              .toString());
-
-                                                          context
-                                                              .read<
-                                                                  PersonalInformationCubit>()
-                                                              .setNumber(
-                                                                  map: formKey
-                                                                      .currentState!
-                                                                      .instantValue);
-
-                                                          context.pushNamed(
-                                                              AppRoutes
-                                                                  .verifyPhone,
-                                                              queryParams: {
-                                                                "phoneNumber":
-                                                                    "+${(formKey.currentState!.instantValue["country"] as Country).phoneCode} ${formKey.currentState!.instantValue["phoneNumber"]}"
-                                                              });
-
+                                          BlocConsumer<TwoFactorCubit,
+                                                  TwoFactorState>(
+                                              listener: BlocHelper
+                                                  .defaultBlocListener(
+                                                      listener:
+                                                          (context, state) {}),
+                                              builder: (context, state) {
+                                                return Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    TextButton(
+                                                        onPressed: () {
                                                           setState(() {
                                                             isPhoneEditable =
                                                                 false;
                                                           });
-                                                        }
-                                                      },
-                                                style: ElevatedButton.styleFrom(
-                                                    minimumSize:
-                                                        const Size(100, 50)),
-                                                child: Text(appLocalizations
-                                                    .profile_tabs_personal_button_updateAndVerify),
-                                              )
-                                            ],
-                                          )
+                                                        },
+                                                        child: Text(
+                                                          appLocalizations
+                                                              .common_button_cancel,
+                                                          style: textTheme
+                                                              .bodySmall!
+                                                              .toLinkStyle(
+                                                                  context),
+                                                        )),
+                                                    const SizedBox(
+                                                      width: 8,
+                                                    ),
+                                                    if (state
+                                                        is TwoFactorLoaded)
+                                                      ElevatedButton(
+                                                        onPressed:
+                                                            !enableSubmitButton
+                                                                ? null
+                                                                : () {
+                                                                    if (formKey
+                                                                        .currentState!
+                                                                        .validate()) {
+                                                                      debugPrint(formKey
+                                                                          .currentState!
+                                                                          .instantValue
+                                                                          .toString());
+
+                                                                      context
+                                                                          .read<
+                                                                              PersonalInformationCubit>()
+                                                                          .setNumber(
+                                                                              map: formKey.currentState!.instantValue);
+
+                                                                      context.read<TwoFactorCubit>().setTwoFactor(PutSettingsParams(
+                                                                          isPrivacyMode: PrivacyInherited.of(context)
+                                                                              .isBlurred,
+                                                                          twoFactorEnabled:
+                                                                              false,
+                                                                          emailTwoFactorEnabled:
+                                                                              false,
+                                                                          smsTwoFactorEnabled: state
+                                                                              .entity
+                                                                              .smsTwoFactorEnabled));
+
+                                                                      context.pushNamed(
+                                                                          AppRoutes
+                                                                              .verifyPhone,
+                                                                          queryParams: {
+                                                                            "phoneNumber":
+                                                                                "+${(formKey.currentState!.instantValue["country"] as Country).phoneCode} ${formKey.currentState!.instantValue["phoneNumber"]}"
+                                                                          });
+
+                                                                      setState(
+                                                                          () {
+                                                                        isPhoneEditable =
+                                                                            false;
+                                                                      });
+                                                                    }
+                                                                  },
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                                minimumSize:
+                                                                    const Size(
+                                                                        100,
+                                                                        50)),
+                                                        child: Text(appLocalizations
+                                                            .profile_tabs_personal_button_updateAndVerify),
+                                                      )
+                                                  ],
+                                                );
+                                              })
                                       ],
                                     );
                                   }),
