@@ -70,8 +70,9 @@ class DisableTwoFactorBottomSheet extends AppStatelessWidget {
                     callback();
                     Navigator.pop(context);
                   },
-                  // style:
-                  //     ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
+                  style: OutlinedButton.styleFrom(
+                      minimumSize:
+                          Size(responsiveHelper.optimalDeviceWidth * 0.85, 50)),
                   child: Text(
                     appLocalizations.common_button_yesTurnOff2FA,
                     style: const TextStyle(fontSize: 16),
@@ -81,8 +82,9 @@ class DisableTwoFactorBottomSheet extends AppStatelessWidget {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  // style:
-                  //     OutlinedButton.styleFrom(minimumSize: const Size(100, 50)),
+                  style: OutlinedButton.styleFrom(
+                      minimumSize:
+                          Size(responsiveHelper.optimalDeviceWidth * 0.85, 50)),
                   child: Text(
                     appLocalizations.common_button_cancel,
                   ),

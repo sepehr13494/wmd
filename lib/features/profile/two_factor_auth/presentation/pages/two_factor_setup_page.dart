@@ -171,265 +171,286 @@ class _TwoFactorSetupPageState extends AppState<TwoFactorSetupPage> {
                               MaterialStateProperty.all(const Size(0, 38))),
                     ),
                   ),
-                  child: Column(
-                    children: [
-                      SwitchListTile.adaptive(
-                        value: twoFactorEnabled,
-                        activeColor: AppColors.primary,
-                        onChanged: (val) {
-                          debugPrint("form toggle");
-                          debugPrint(val.toString());
+                  child: BlocConsumer<TwoFactorCubit, TwoFactorState>(
+                      listener: BlocHelper.defaultBlocListener(
+                          listener: (context, state) {}),
+                      builder: (context, state) {
+                        return Column(
+                          children: [
+                            if (state is TwoFactorLoaded)
+                              SwitchListTile.adaptive(
+                                value: twoFactorEnabled,
+                                activeColor: AppColors.primary,
+                                onChanged: (val) {
+                                  debugPrint("form toggle");
+                                  debugPrint(val.toString());
 
-                          if (val == false) {
-                            showModalBottomSheet(
-                                backgroundColor:
-                                    Theme.of(context).scaffoldBackgroundColor,
-                                isScrollControlled: true,
-                                context: context,
-                                builder: (temp) {
-                                  return DisableTwoFactorBottomSheet(
-                                    callback: () {
-                                      setState(() {
-                                        twoFactorEnabled = val;
-                                        current2FA = null;
-                                      });
+                                  if (val == false) {
+                                    showModalBottomSheet(
+                                        backgroundColor: Theme.of(context)
+                                            .scaffoldBackgroundColor,
+                                        isScrollControlled: true,
+                                        context: context,
+                                        builder: (temp) {
+                                          return DisableTwoFactorBottomSheet(
+                                            callback: () {
+                                              setState(() {
+                                                twoFactorEnabled = val;
+                                                current2FA = null;
+                                              });
 
-                                      context
-                                          .read<TwoFactorCubit>()
-                                          .setTwoFactor(PutSettingsParams(
-                                              isPrivacyMode:
-                                                  PrivacyInherited.of(context)
-                                                      .isBlurred,
-                                              twoFactorEnabled: val,
-                                              emailTwoFactorEnabled: val,
-                                              smsTwoFactorEnabled: val));
-                                    },
-                                  );
-                                });
-                          } else {
-                            setState(() {
-                              twoFactorEnabled = val;
-                              current2FA = "email";
-                            });
+                                              context
+                                                  .read<TwoFactorCubit>()
+                                                  .setTwoFactor(PutSettingsParams(
+                                                      isPrivacyMode:
+                                                          PrivacyInherited.of(
+                                                                  context)
+                                                              .isBlurred,
+                                                      twoFactorEnabled: val,
+                                                      emailTwoFactorEnabled:
+                                                          val,
+                                                      smsTwoFactorEnabled:
+                                                          val));
+                                            },
+                                          );
+                                        });
+                                  } else {
+                                    setState(() {
+                                      twoFactorEnabled = val;
+                                      current2FA = "email";
+                                    });
 
-                            context.read<TwoFactorCubit>().setTwoFactor(
-                                PutSettingsParams(
-                                    isPrivacyMode:
-                                        PrivacyInherited.of(context).isBlurred,
-                                    twoFactorEnabled: val,
-                                    emailTwoFactorEnabled: val,
-                                    smsTwoFactorEnabled: false));
-                          }
-                        },
-                        title: Padding(
-                            padding: const EdgeInsets.only(
-                                bottom:
-                                    16.0), // set your desired top padding value
-                            child: Text(
-                              appLocalizations.profile_twoFactor_page_title,
-                              style: textTheme.headlineSmall,
-                            )),
-                        subtitle: Text(
-                          appLocalizations
-                              .profile_twofactorauthentication_options_twoFactor_description,
-                          style: textTheme.bodyMedium,
-                        ),
-                      ),
-                      FormBuilder(
-                          key: formKeySettings,
-                          // initialValue: {
-                          //   "type": "Virtual Meeting",
-                          //   "email": (personalState is PersonalInformationLoaded)
-                          //       ? personalState.getNameEntity.email
-                          //       : ""
-                          // },
-                          child: Column(children: [
-                            ListTile(
-                              title: Padding(
-                                padding: const EdgeInsets.only(
-                                    bottom:
-                                        4.0), // set your desired top padding value
-                                child: Row(
-                                  children: [
-                                    Text(
-                                        appLocalizations
-                                            .profile_twofactorauthentication_options_emailTwoFactor_title
-                                            .split("{{email}}")
-                                            .first,
-                                        style: textTheme.titleMedium),
-                                    PrivacyBlurWidget(
-                                      child: Text(
-                                          ' ${(personalState is PersonalInformationLoaded) ? personalState.getNameEntity.email : ""}',
-                                          style: textTheme.bodyMedium),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              leading: Radio<String>(
-                                value: "email",
-                                groupValue: current2FA == 'phone'
-                                    ? (userStatusState is UserStatusLoaded &&
-                                                userStatusState.userStatus
-                                                        .mobileNumberVerified ==
-                                                    true) ||
-                                            !twoFactorEnabled
-                                        ? current2FA
-                                        : 'email'
-                                    : current2FA,
-                                onChanged: (String? value) {
-                                  setState(() {
-                                    current2FA = value;
-                                    twoFactorEnabled = true;
-                                  });
-
-                                  context.read<TwoFactorCubit>().setTwoFactor(
-                                      PutSettingsParams(
-                                          isPrivacyMode:
-                                              PrivacyInherited.of(context)
-                                                  .isBlurred,
-                                          twoFactorEnabled: true,
-                                          emailTwoFactorEnabled: true,
-                                          smsTwoFactorEnabled: false));
-                                },
-                              ),
-                            ),
-                            Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
-                                child: Wrap(children: [
-                                  Text(
-                                      appLocalizations
-                                          .profile_twofactorauthentication_options_emailTwoFactor_description,
-                                      style: textTheme.bodyMedium),
-                                  PrivacyBlurWidget(
-                                    child: Text(
-                                        ' ${(personalState is PersonalInformationLoaded) ? personalState.getNameEntity.email : ""}',
-                                        style: textTheme.bodyMedium),
-                                  ),
-                                ])),
-                            const SizedBox(height: 32),
-                            ListTile(
-                              title: Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom:
-                                          4.0), // set your desired top padding value
-                                  child: Wrap(children: [
-                                    Text(
-                                      appLocalizations
-                                          .profile_twofactorauthentication_options_smsTwoFactor_title
-                                          .split("{{phoneNumber}}")
-                                          .first,
-                                      style: textTheme.titleMedium,
-                                    ),
-                                    PrivacyBlurWidget(
-                                      child: Text(
-                                        ' ${(personalState is PersonalInformationLoaded) ? personalState.getNameEntity.phoneNumber?.toFormattedNumber() ?? "" : ""}',
-                                        style: textTheme.bodyMedium,
-                                      ),
-                                    ),
-                                  ])),
-                              leading: Radio<String>(
-                                value: "phone",
-                                groupValue:
-                                    (userStatusState is UserStatusLoaded &&
-                                            userStatusState.userStatus
-                                                    .mobileNumberVerified ==
-                                                true)
-                                        ? current2FA
-                                        : "",
-                                onChanged: (String? value) {
-                                  setState(() {
-                                    current2FA = value;
-                                    twoFactorEnabled = twoFactorEnabled
-                                        ? twoFactorEnabled
-                                        : (userStatusState
-                                                is UserStatusLoaded &&
-                                            userStatusState.userStatus
-                                                    .mobileNumberVerified ==
-                                                true);
-                                  });
-
-                                  if ((personalState
-                                          is PersonalInformationLoaded) &&
-                                      (personalState.getNameEntity.phoneNumber
-                                                  ?.number !=
-                                              "" &&
-                                          personalState.getNameEntity
-                                                  .phoneNumber?.number !=
-                                              null) &&
-                                      (userStatusState is UserStatusLoaded &&
-                                          userStatusState.userStatus
-                                                  .mobileNumberVerified ==
-                                              true)) {
                                     context.read<TwoFactorCubit>().setTwoFactor(
                                         PutSettingsParams(
                                             isPrivacyMode:
                                                 PrivacyInherited.of(context)
                                                     .isBlurred,
-                                            twoFactorEnabled: true,
-                                            emailTwoFactorEnabled: false,
-                                            smsTwoFactorEnabled: true));
+                                            twoFactorEnabled: val,
+                                            emailTwoFactorEnabled: val,
+                                            smsTwoFactorEnabled: state
+                                                .entity.smsTwoFactorEnabled));
                                   }
                                 },
-                              ),
-                            ),
-                            Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
-                                child: Text(
+                                title: Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom:
+                                            16.0), // set your desired top padding value
+                                    child: Text(
+                                      appLocalizations
+                                          .profile_twoFactor_page_title,
+                                      style: textTheme.headlineSmall,
+                                    )),
+                                subtitle: Text(
                                   appLocalizations
-                                      .profile_twofactorauthentication_options_smsTwoFactor_description,
+                                      .profile_twofactorauthentication_options_twoFactor_description,
                                   style: textTheme.bodyMedium,
-                                )),
-                            const SizedBox(height: 16),
-                          ])),
-                      if ((current2FA == 'phone') && verifyPhoneNumber == "")
-                        OtpPhoneVerifyWidget(
-                            onCancel: () {
-                              setState(() {
-                                current2FA = "email";
-                              });
-                            },
-                            onSuccess: () {
-                              setState(() {
-                                verifyPhoneNumber = (personalState
-                                        is PersonalInformationLoaded)
-                                    ? personalState.getNameEntity.phoneNumber!
-                                        .toNumber()
-                                    : "";
-                              });
-                            },
-                            formMap:
-                                (personalState is PersonalInformationLoaded)
-                                    ? personalState.getNameEntity.toJson()
-                                    : {}),
-                      if ((current2FA == 'phone') && verifyPhoneNumber != "")
-                        OtpPhoneVerifyCodeWidget(
-                            onSuccess: () {
-                              context.read<TwoFactorCubit>().setTwoFactor(
-                                  PutSettingsParams(
-                                      isPrivacyMode:
-                                          PrivacyInherited.of(context)
-                                              .isBlurred,
-                                      emailTwoFactorEnabled: false,
-                                      twoFactorEnabled: true,
-                                      smsTwoFactorEnabled: true));
-                              // Navigator.of(context).pop();
-                            },
-                            onCancel: () {
-                              setState(() {
-                                verifyPhoneNumber = "";
-                                current2FA = "email";
-                              });
-                            },
-                            phone: verifyPhoneNumber)
-                    ]
-                        .map((e) => Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              child: e,
-                            ))
-                        .toList(),
-                  )),
+                                ),
+                              ),
+                            FormBuilder(
+                                key: formKeySettings,
+                                // initialValue: {
+                                //   "type": "Virtual Meeting",
+                                //   "email": (personalState is PersonalInformationLoaded)
+                                //       ? personalState.getNameEntity.email
+                                //       : ""
+                                // },
+                                child: Column(children: [
+                                  ListTile(
+                                    title: Padding(
+                                      padding: const EdgeInsets.only(
+                                          bottom:
+                                              4.0), // set your desired top padding value
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                              appLocalizations
+                                                  .profile_twofactorauthentication_options_emailTwoFactor_title
+                                                  .split("{{email}}")
+                                                  .first,
+                                              style: textTheme.titleMedium),
+                                          PrivacyBlurWidget(
+                                            child: Text(
+                                                ' ${(personalState is PersonalInformationLoaded) ? personalState.getNameEntity.email : ""}',
+                                                style: textTheme.bodyMedium),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    leading: Radio<String>(
+                                      value: "email",
+                                      groupValue: current2FA == 'phone'
+                                          ? (userStatusState
+                                                          is UserStatusLoaded &&
+                                                      userStatusState.userStatus
+                                                              .mobileNumberVerified ==
+                                                          true) ||
+                                                  !twoFactorEnabled
+                                              ? current2FA
+                                              : 'email'
+                                          : current2FA,
+                                      onChanged: (String? value) {
+                                        setState(() {
+                                          current2FA = value;
+                                          twoFactorEnabled = true;
+                                        });
+
+                                        context
+                                            .read<TwoFactorCubit>()
+                                            .setTwoFactor(PutSettingsParams(
+                                                isPrivacyMode:
+                                                    PrivacyInherited.of(context)
+                                                        .isBlurred,
+                                                twoFactorEnabled: true,
+                                                emailTwoFactorEnabled: true,
+                                                smsTwoFactorEnabled: false));
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16),
+                                      child: Wrap(children: [
+                                        Text(
+                                            appLocalizations
+                                                .profile_twofactorauthentication_options_emailTwoFactor_description,
+                                            style: textTheme.bodyMedium),
+                                        PrivacyBlurWidget(
+                                          child: Text(
+                                              ' ${(personalState is PersonalInformationLoaded) ? personalState.getNameEntity.email : ""}',
+                                              style: textTheme.bodyMedium),
+                                        ),
+                                      ])),
+                                  const SizedBox(height: 32),
+                                  ListTile(
+                                    title: Padding(
+                                        padding: const EdgeInsets.only(
+                                            bottom:
+                                                4.0), // set your desired top padding value
+                                        child: Wrap(children: [
+                                          Text(
+                                            appLocalizations
+                                                .profile_twofactorauthentication_options_smsTwoFactor_title
+                                                .split("{{phoneNumber}}")
+                                                .first,
+                                            style: textTheme.titleMedium,
+                                          ),
+                                          PrivacyBlurWidget(
+                                            child: Text(
+                                              ' ${(personalState is PersonalInformationLoaded) ? personalState.getNameEntity.phoneNumber?.toFormattedNumber() ?? "" : ""}',
+                                              style: textTheme.bodyMedium,
+                                            ),
+                                          ),
+                                        ])),
+                                    leading: Radio<String>(
+                                      value: "phone",
+                                      groupValue: (userStatusState
+                                                  is UserStatusLoaded &&
+                                              userStatusState.userStatus
+                                                      .mobileNumberVerified ==
+                                                  true)
+                                          ? current2FA
+                                          : "",
+                                      onChanged: (String? value) {
+                                        setState(() {
+                                          current2FA = value;
+                                          twoFactorEnabled = twoFactorEnabled
+                                              ? twoFactorEnabled
+                                              : (userStatusState
+                                                      is UserStatusLoaded &&
+                                                  userStatusState.userStatus
+                                                          .mobileNumberVerified ==
+                                                      true);
+                                        });
+
+                                        if ((personalState
+                                                is PersonalInformationLoaded) &&
+                                            (personalState.getNameEntity
+                                                        .phoneNumber?.number !=
+                                                    "" &&
+                                                personalState.getNameEntity
+                                                        .phoneNumber?.number !=
+                                                    null) &&
+                                            (userStatusState
+                                                    is UserStatusLoaded &&
+                                                userStatusState.userStatus
+                                                        .mobileNumberVerified ==
+                                                    true)) {
+                                          context
+                                              .read<TwoFactorCubit>()
+                                              .setTwoFactor(PutSettingsParams(
+                                                  isPrivacyMode:
+                                                      PrivacyInherited.of(
+                                                              context)
+                                                          .isBlurred,
+                                                  twoFactorEnabled: true,
+                                                  emailTwoFactorEnabled: false,
+                                                  smsTwoFactorEnabled: true));
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16),
+                                      child: Text(
+                                        appLocalizations
+                                            .profile_twofactorauthentication_options_smsTwoFactor_description,
+                                        style: textTheme.bodyMedium,
+                                      )),
+                                  const SizedBox(height: 16),
+                                ])),
+                            if ((current2FA == 'phone') &&
+                                verifyPhoneNumber == "")
+                              OtpPhoneVerifyWidget(
+                                  onCancel: () {
+                                    setState(() {
+                                      current2FA = "email";
+                                    });
+                                  },
+                                  onSuccess: () {
+                                    setState(() {
+                                      verifyPhoneNumber = (personalState
+                                              is PersonalInformationLoaded)
+                                          ? personalState
+                                              .getNameEntity.phoneNumber!
+                                              .toNumber()
+                                          : "";
+                                    });
+                                  },
+                                  formMap: (personalState
+                                          is PersonalInformationLoaded)
+                                      ? personalState.getNameEntity.toJson()
+                                      : {}),
+                            if ((current2FA == 'phone') &&
+                                verifyPhoneNumber != "")
+                              OtpPhoneVerifyCodeWidget(
+                                  onSuccess: () {
+                                    context.read<TwoFactorCubit>().setTwoFactor(
+                                        PutSettingsParams(
+                                            isPrivacyMode:
+                                                PrivacyInherited.of(context)
+                                                    .isBlurred,
+                                            emailTwoFactorEnabled: false,
+                                            twoFactorEnabled: true,
+                                            smsTwoFactorEnabled: true));
+                                    // Navigator.of(context).pop();
+                                  },
+                                  onCancel: () {
+                                    setState(() {
+                                      verifyPhoneNumber = "";
+                                      current2FA = "email";
+                                    });
+                                  },
+                                  phone: verifyPhoneNumber)
+                          ]
+                              .map((e) => Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 8),
+                                    child: e,
+                                  ))
+                              .toList(),
+                        );
+                      })),
             ));
       });
     });
