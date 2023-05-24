@@ -19,7 +19,7 @@ class AppConstants {
       case "uat":
         return "assets/certificates/uat.crt";
       case "qa":
-        return "assets/certificates/newbackend.crt";
+        return "assets/certificates/qa.crt";
       case "oldqa":
         return "assets/certificates/qa.crt";
       case "prod":

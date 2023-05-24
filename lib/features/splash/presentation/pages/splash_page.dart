@@ -98,7 +98,7 @@ class _SplashPageState extends State<SplashPage> {
               ),
               BlocListener<ForceUpdateCubit, ForceUpdateState>(
                 listener: (context, state) {
-                  context.read<SplashCubit>().initSplashFromSplash();
+                  // context.read<SplashCubit>().initSplashFromSplash();
 
                   if (state is GetForceUpdateLoaded) {
                     bool isVersionGreaterThan(
