@@ -63,6 +63,8 @@ envInitConfig(env) {
       return "assets/env/.env";
     case "developer":
       return "assets/env/developer.env";
+    case "newbackend":
+      return "assets/env/newbackend.env";
     default:
       return "assets/env/.env";
   }
