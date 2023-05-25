@@ -26,6 +26,7 @@ import 'package:wmd/features/asset_see_more/bank_account/data/model/bank_account
 import 'package:wmd/features/asset_see_more/real_estate/data/model/real_estate_more_entity.dart';
 import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_bloc_helper.dart';
 import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_state.dart';
+import 'package:wmd/features/edit_assets/core/presentation/widgets/delete_base_widget.dart';
 import 'package:wmd/features/edit_assets/edit_bank_manual/presentation/manager/edit_bank_manual_cubit.dart';
 import 'package:wmd/injection_container.dart';
 import 'package:wmd/core/extentions/string_ext.dart';
@@ -149,6 +150,9 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                         ],
                         child: SingleChildScrollView(
                           child: Column(children: [
+                            edit ? DeleteAssetBaseWidget(name: "Bank account", onTap: (){
+                              context.read<EditBankManualCubit>().deleteBankManual(assetId: widget.moreEntity!.id);
+                            }) : const SizedBox(),
                             FormBuilder(
                               key: baseFormKey,
                               initialValue: edit

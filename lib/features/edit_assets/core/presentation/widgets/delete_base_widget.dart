@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 
 class DeleteAssetBaseWidget extends AppStatelessWidget {
   final String name;

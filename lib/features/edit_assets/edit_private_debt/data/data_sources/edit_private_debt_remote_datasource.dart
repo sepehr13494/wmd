@@ -43,7 +43,7 @@ class EditPrivateDebtRemoteDataSourceImpl extends AppServerDataSource
       final appRequestOptions =
           AppRequestOptions(RequestTypes.del, AppUrls.deletePrivateDebt, params.toJson());
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = DeletePrivateDebtResponse.fromJson(response);
+      final result = DeletePrivateDebtResponse();
       return result;
     } on ServerException {
       rethrow;
