@@ -75,10 +75,14 @@ class BankAccountMoreEntity extends GetSeeMoreResponse {
             double.tryParse(json["inceptionToDate"].toString()) ?? 0,
         asOfDate: DateTime.parse(json["asOfDate"]),
         currentBalance: double.tryParse(json["currentBalance"].toString()) ?? 0,
-        interestRate: json["interestRate"] == null ? null : double.tryParse(json["interestRate"].toString()) ?? 0,
-        startDate: json["startDate"] == null ? null : DateTime.parse(json["startDate"]),
-        isJointAccount: json["isJointAccount"],
-        noOfCoOwners: json["noOfCoOwners"],
+        interestRate: json["interestRate"] == null
+            ? null
+            : double.tryParse(json["interestRate"].toString()) ?? 0,
+        startDate: json["startDate"] == null
+            ? null
+            : DateTime.parse(json["startDate"]),
+        isJointAccount: json["isJointAccount"] ?? false,
+        noOfCoOwners: json["noOfCoOwners"] ?? 0,
         ownershipPercentage:
             double.tryParse(json["ownershipPercentage"].toString()) ?? 0,
       );
@@ -109,27 +113,27 @@ class BankAccountMoreEntity extends GetSeeMoreResponse {
       };
 
   Map<String, dynamic> toFormJson() => {
-    "bankName": bankName,
-    "description": description,
-    "accountType": accountType,
-    "currentBalance": currentBalance.convertMoney(),
-    "isJointAccount": isJointAccount,
-    "noOfCoOwners": noOfCoOwners.toString(),
-    "ownershipPercentage": ownershipPercentage.toString(),
-    "interestRate": interestRate.toString(),
-    "startDate": startDate,
-    "endDate": endDate,
-    "id": id,
-    "type": type,
-    "isActive": isActive,
-    "country": Country.getCountryFromString(country),
-    "region": region,
-    "currencyCode": Currency.getCurrencyFromString(currencyCode),
-    "portfolioContribution": portfolioContribution,
-    "holdings": holdings.convertMoney(),
-    "yearToDate": yearToDate,
-    "inceptionToDate": inceptionToDate,
-    "asOfDate": asOfDate,
-    "subType": subType,
-  };
+        "bankName": bankName,
+        "description": description,
+        "accountType": accountType,
+        "currentBalance": currentBalance.convertMoney(),
+        "isJointAccount": isJointAccount,
+        "noOfCoOwners": noOfCoOwners.toString(),
+        "ownershipPercentage": ownershipPercentage.toString(),
+        "interestRate": interestRate.toString(),
+        "startDate": startDate,
+        "endDate": endDate,
+        "id": id,
+        "type": type,
+        "isActive": isActive,
+        "country": Country.getCountryFromString(country),
+        "region": region,
+        "currencyCode": Currency.getCurrencyFromString(currencyCode),
+        "portfolioContribution": portfolioContribution,
+        "holdings": holdings.convertMoney(),
+        "yearToDate": yearToDate,
+        "inceptionToDate": inceptionToDate,
+        "asOfDate": asOfDate,
+        "subType": subType,
+      };
 }

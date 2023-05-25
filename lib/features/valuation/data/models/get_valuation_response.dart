@@ -24,20 +24,20 @@ class GetValuationResponse extends GetValuationEntity {
         id: json["id"] ?? '',
         currencyCode: json["currencyCode"],
         currencyToUsdFxRate:
-            double.tryParse(json["currencyToUsdFxRate"].toString()) ?? 0,
-        amountInUsd: double.tryParse(json["amountInUsd"].toString()) ?? 0,
+            double.tryParse(json["conversionRate"].toString()) ?? 0,
+        amountInUsd: double.tryParse(json["amountUSD"].toString()) ?? 0,
         isSystemGenerated: json["isSystemGenerated"] ?? false,
         isPm1Processed: json["isPm1Processed"] ?? false,
         // originCode: json["originCode"] ?? '',
-        valuatedAt: DateTime.parse(json["valuatedAt"]),
-        assetId: json["assetId"],
+        valuatedAt: DateTime.parse(json["transactionDate"]),
+        assetId: json["id"],
         type: json["type"],
         // liabilityId: json["liabilityId"] ?? '',
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: json["updatedAt"] == null
             ? null
             : DateTime.parse(json["updatedAt"]),
-        note: json["note"] ?? '',
+        note: json["notes"] ?? '',
       );
 
   // static final tResponse = [GetAllValuationResponse()];
