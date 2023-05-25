@@ -64,17 +64,17 @@ class PostValuationParams extends Equatable {
 
   Map<String, dynamic> toJson() => {
         "amount": amount,
-        "amountInUsd": amountInUsd,
+        "amountUSD": amountInUsd,
         "assetOrLiabilityId": assetOrLiabilityId,
         "currencyCode": currencyCode,
-        "currencyToUsdFxRate": currencyToUsdFxRate,
+        "conversionRate": currencyToUsdFxRate,
         "originCode": originCode,
         "wealthType": wealthType,
-        "valuatedAt": valuatedAt?.toIso8601String(),
+        "transactionDate": valuatedAt?.toIso8601String(),
         "quantity": quantity,
         "ownershipPercentage": ownershipPercentage,
-        "buyPricePerUnit": buyPricePerUnit,
-        "note": note,
+        "pricePerUnit": buyPricePerUnit,
+        "notes": note,
         "type": type,
       };
 
