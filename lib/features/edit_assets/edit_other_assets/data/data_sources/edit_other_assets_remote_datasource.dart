@@ -43,7 +43,7 @@ class EditOtherAssetsRemoteDataSourceImpl extends AppServerDataSource
       final appRequestOptions =
           AppRequestOptions(RequestTypes.del, AppUrls.deleteOtherAssets, params.toJson());
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = DeleteOtherAssetsResponse.fromJson(response);
+      final result = DeleteOtherAssetsResponse();
       return result;
     } on ServerException {
       rethrow;

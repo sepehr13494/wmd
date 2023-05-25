@@ -47,7 +47,7 @@ class ServerRequestManager {
       case RequestTypes.del:
         response = await dio.delete(
           baseUrl + appRequestOptions.url,
-          queryParameters: clearBody,
+          data: clearBody,
           options: options,
         );
         break;

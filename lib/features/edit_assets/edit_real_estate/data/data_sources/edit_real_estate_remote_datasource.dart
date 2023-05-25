@@ -43,7 +43,7 @@ class EditRealEstateRemoteDataSourceImpl extends AppServerDataSource
       final appRequestOptions =
           AppRequestOptions(RequestTypes.del, AppUrls.deleteRealEstate, params.toJson());
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = DeleteRealEstateResponse.fromJson(response);
+      final result = DeleteRealEstateResponse();
       return result;
     } on ServerException {
       rethrow;
