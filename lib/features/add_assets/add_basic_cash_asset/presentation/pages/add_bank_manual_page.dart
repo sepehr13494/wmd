@@ -215,21 +215,22 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                                   (e) => e.name)
                                                               .toList())
                                                       : ["loading banks"]),
-                                              TextButton(
-                                                onPressed: () {
-                                                  context.goNamed(
-                                                      AppRoutes.autoManualPage);
-                                                },
-                                                child: Text(
-                                                  appLocalizations
-                                                      .linkAccount_automaticLink_title,
-                                                  style: textTheme.titleSmall!
-                                                      .apply(
-                                                          color: Theme.of(
-                                                                  context)
-                                                              .primaryColor),
-                                                ),
-                                              )
+                                              if (!AppConstants.isRelease1)
+                                                TextButton(
+                                                  onPressed: () {
+                                                    context.goNamed(AppRoutes
+                                                        .autoManualPage);
+                                                  },
+                                                  child: Text(
+                                                    appLocalizations
+                                                        .linkAccount_automaticLink_title,
+                                                    style: textTheme.titleSmall!
+                                                        .apply(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .primaryColor),
+                                                  ),
+                                                )
                                             ],
                                           ));
                                     },
