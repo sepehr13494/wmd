@@ -95,7 +95,7 @@ class SuccessModalWidget extends ModalWidget {
                                       height: responsiveHelper.defaultSmallGap),
                                   if (AppConstants.isRelease1)
                                     Text(
-                                      "\$$startingBalance",
+                                      "USD $startingBalance",
                                       textAlign: TextAlign.center,
                                       style: appTextTheme.bodyLarge,
                                     ),
