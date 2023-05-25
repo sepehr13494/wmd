@@ -211,7 +211,7 @@ class SummaryCardWidget extends AppStatelessWidget {
         ),
         Builder(builder: (context) {
           // return const SizedBox();
-          if (AppConstants.publicMvp2Items) {
+          if (!AppConstants.isRelease1) {
             return TextButton(
               onPressed: () {
                 showSeeMoreModal(

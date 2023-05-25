@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 
 import 'package:wmd/features/assets_overview/assets_overview/presentation/pages/assets_overview_page.dart';
@@ -46,17 +47,18 @@ class _MainPageState extends AppState<MainPage> with WidgetsBindingObserver {
         appLocalizations.common_nav_links_assets,
         "assets/images/assets_icon_filled.svg"
       ],
-      [
-        "assets/images/liability_disabled.svg",
-        appLocalizations.common_nav_links_liabilities,
-        "assets/images/liability_active.svg"
-      ],
+      if (!AppConstants.isRelease1)
+        [
+          "assets/images/liability_disabled.svg",
+          appLocalizations.common_nav_links_liabilities,
+          "assets/images/liability_active.svg"
+        ],
     ];
 
     final List<Widget> widgetOptions = <Widget>[
       DashboardMainPage(expandCustodian: widget.expandCustodian),
       const AssetsOverView(),
-      const LiabilityOverviewPage(),
+      if (!AppConstants.isRelease1) const LiabilityOverviewPage(),
     ];
 
     return Builder(builder: (context) {

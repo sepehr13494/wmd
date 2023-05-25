@@ -7,6 +7,7 @@ class AppConstants {
   static bool publicMvp2Items = dotenv.env['NEXT_PUBLIC_MVP2_ITEM']! == 'true';
   static bool developMode = dotenv.env['DEVELOPING_MODE']! == 'true';
   static bool developRoutes = dotenv.env['DEVELOPING_ROUTES']! == 'true';
+  static bool isRelease1 = dotenv.env['IS_RELEASE_ONE']! == 'true';
 
   static const String contactEmail = "developer@allinoneplus.com";
   // developMode ? "developer@allinoneplus.com" : "n.albasri@tfoco.com";
@@ -29,8 +30,6 @@ class AppConstants {
         return "assets/certificates/dev.crt";
       case "developer":
         return "assets/certificates/qa.crt";
-      case "newbackend":
-        return "assets/certificates/newbackend.crt";
       default:
         return "assets/certificates/dev.crt";
     }
