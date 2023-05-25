@@ -27,8 +27,17 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
 
   @override
   void initState() {
-    _controller = TabController(
-        length: 4, vsync: this, initialIndex: context.read<TabManager>().state);
+    if (AppConstants.isRelease1) {
+      _controller = TabController(
+          length: 2,
+          vsync: this,
+          initialIndex: context.read<TabManager>().state);
+    } else {
+      _controller = TabController(
+          length: 4,
+          vsync: this,
+          initialIndex: context.read<TabManager>().state);
+    }
     _controller.addListener(() {
       context.read<TabManager>().changeTab(_controller.index);
     });
@@ -90,6 +99,7 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
                         width: isMobile ? snap.maxWidth : 400,
                         child: FittedBox(
                           fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
                           child: TabBar(
                             labelStyle: textTheme.titleSmall,
                             controller: _controller,
@@ -100,12 +110,14 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
                               Tab(
                                   text: appLocalizations
                                       .assets_charts_tabs_geography),
-                              Tab(
-                                  text: appLocalizations
-                                      .assets_charts_tabs_currency),
-                              Tab(
-                                  text: appLocalizations
-                                      .assets_charts_tabs_portfolio),
+                              if (!AppConstants.isRelease1)
+                                Tab(
+                                    text: appLocalizations
+                                        .assets_charts_tabs_currency),
+                              if (!AppConstants.isRelease1)
+                                Tab(
+                                    text: appLocalizations
+                                        .assets_charts_tabs_portfolio),
                             ],
                             isScrollable: true,
                           ),
