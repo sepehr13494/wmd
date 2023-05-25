@@ -8,6 +8,7 @@ import 'package:wmd/core/presentation/widgets/modal_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/util/constants.dart';
 
 class SuccessModalWidget extends ModalWidget {
   final String startingBalance,
@@ -92,18 +93,27 @@ class SuccessModalWidget extends ModalWidget {
                                   ),
                                   SizedBox(
                                       height: responsiveHelper.defaultSmallGap),
-                                  Text(
-                                    "$currencyCode  \$$startingBalance",
-                                    textAlign: TextAlign.center,
-                                    style: appTextTheme.bodyLarge,
-                                  ),
-                                  SizedBox(
-                                      height: responsiveHelper.defaultSmallGap),
-                                  Text(
-                                    '${currencyRate.toInt()} $currencyCode = 1 USD',
-                                    textAlign: TextAlign.center,
-                                    style: appTextTheme.bodySmall,
-                                  ),
+                                  if (AppConstants.isRelease1)
+                                    Text(
+                                      "USD $startingBalance",
+                                      textAlign: TextAlign.center,
+                                      style: appTextTheme.bodyLarge,
+                                    ),
+                                  if (!AppConstants.isRelease1) ...[
+                                    Text(
+                                      "$currencyCode  \$$startingBalance",
+                                      textAlign: TextAlign.center,
+                                      style: appTextTheme.bodyLarge,
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            responsiveHelper.defaultSmallGap),
+                                    Text(
+                                      '${currencyRate.toInt()} $currencyCode = 1 USD',
+                                      textAlign: TextAlign.center,
+                                      style: appTextTheme.bodySmall,
+                                    ),
+                                  ]
                                 ],
                               ),
                               Column(
