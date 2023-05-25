@@ -11,15 +11,20 @@ class DeleteAssetBaseWidget extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    return Column(
-      children: [
-        Text("Edit $name details",style: textTheme.titleLarge,),
-        Text("Remove the asset altogether?",style: textTheme.bodyMedium,),
-        InkWell(
-          onTap: onTap,
-          child: Text("Delete asset",style: textTheme.bodyMedium!.toLinkStyle(context),),
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(left: 16,right:16,top: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Edit $name details",style: textTheme.titleLarge,),
+          const SizedBox(height: 12),
+          Text("Remove the asset altogether?",style: textTheme.bodyMedium,),
+          InkWell(
+            onTap: onTap,
+            child: Text("Delete asset",style: textTheme.bodyMedium!.toLinkStyle(context),),
+          ),
+        ],
+      ),
     );
   }
 }

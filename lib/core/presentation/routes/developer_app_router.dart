@@ -25,13 +25,6 @@ import 'package:wmd/features/asset_see_more/other_asset/data/model/other_asset_m
 import 'package:wmd/features/asset_see_more/private_debt/data/models/private_debt_more_entity.dart';
 import 'package:wmd/features/asset_see_more/private_equity/data/models/private_equity_more_entity.dart';
 import 'package:wmd/features/asset_see_more/real_estate/data/model/real_estate_more_entity.dart';
-import 'package:wmd/features/assets_overview/assets_geography_chart/presentation/manager/assets_geography_chart_cubit.dart';
-import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
-import 'package:wmd/features/assets_overview/charts/presentation/manager/chart_chooser_manager.dart';
-import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
-import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_manager.dart';
-import 'package:wmd/features/assets_overview/currency_chart/presentation/manager/currency_chart_cubit.dart';
-import 'package:wmd/features/assets_overview/portfolio_tab/presentation/manager/portfolio_tab_cubit.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/forget_password_page.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/reset_password_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/auth_checker_page.dart';
@@ -40,24 +33,14 @@ import 'package:wmd/features/authentication/login_signup/presentation/pages/regi
 import 'package:wmd/features/authentication/login_signup/presentation/pages/verify_email_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/welcome_page.dart';
 import 'package:wmd/features/authentication/verify_email/presentation/pages/verify_response_page.dart';
-import 'package:wmd/features/blurred_widget/presentation/manager/blurred_privacy_cubit.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
-import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
-import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_goe_cubit.dart';
-import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
-import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/pages/onboarding_page.dart';
-import 'package:wmd/features/dashboard/performance_table/client_index/presentation/manager/client_index_cubit.dart';
-import 'package:wmd/features/dashboard/performance_table/presentation/manager/performance_table_cubit.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/features/force_update/presentation/pages/force_update_page.dart';
 import 'package:wmd/features/glossary/presentation/pages/glossary_page.dart';
 import 'package:wmd/features/help/support/presentation/pages/schedule_call_page.dart';
 import 'package:wmd/features/help/support/presentation/pages/support_page.dart';
-import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/features/main_page/presentation/pages/main_page.dart';
-import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
-import 'package:wmd/features/profile/two_factor_auth/manager/two_factor_cubit.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/pages/two_factor_setup_page.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/pages/verify_otp_page.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
@@ -65,7 +48,6 @@ import 'package:wmd/features/profile/verify_phone/presentation/pages/verify_phon
 import 'package:wmd/features/safe_device/presentation/pages/unsafe_device_page.dart';
 import 'package:wmd/features/settings/core/presentation/page/settings_page.dart';
 import 'package:wmd/features/splash/presentation/pages/splash_page.dart';
-import 'package:wmd/features/profile/core/presentation/pages/profile_page.dart';
 import 'package:wmd/injection_container.dart';
 
 import '../widgets/local_auth_wrapper.dart';

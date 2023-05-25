@@ -6,6 +6,7 @@ import 'package:wmd/features/asset_detail/core/data/models/get_summary_params.da
 import 'package:wmd/features/asset_detail/core/presentation/manager/asset_summary_cubit.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
 import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_state.dart';
+import 'package:wmd/global_functions.dart';
 
 class EditAssetBlocHelper{
   static BlocWidgetListener defaultBlocListener({
@@ -18,6 +19,7 @@ class EditAssetBlocHelper{
         context.pop();
       }
       if (state is DeleteAssetSuccess) {
+        GlobalFunctions.showSnackBar(context, "Asset Deleted",type: "success");
         context.goNamed(AppRoutes.main);
       }
     },);
