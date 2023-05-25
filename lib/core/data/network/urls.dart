@@ -114,11 +114,11 @@ class AppUrls {
   static String custodianBank = "${wealthBase}custodianbank";
 
   //valuation
-  static String getAllValuation = "${wealthBase}Valuation/All";
-  static String postValuation = "${wealthBase}Valuation";
-  static String postAddValuation = "${wealthBase}valuation";
+  static String getAllValuation = "${wealthBase}Transaction/all";
+  static String postValuation = "${wealthBase}Transaction";
+  static String postAddValuation = "${wealthBase}Transaction";
   static String getValuationPerformance(String id) =>
-      "${wealthBase}Valuation/$id/performance";
+      "${wealthBase}Transaction/$id/performance";
   static String settings = "${userBase}Setting";
   static String getForceUpdate = "wmo/version";
 
