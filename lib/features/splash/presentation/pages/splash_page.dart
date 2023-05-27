@@ -97,9 +97,8 @@ class _SplashPageState extends State<SplashPage> {
                 },
               ),
               BlocListener<ForceUpdateCubit, ForceUpdateState>(
-                listener: (context, state) {
+                listener: BlocHelper.defaultBlocListener(listener: (context, state) {
                   // context.read<SplashCubit>().initSplashFromSplash();
-
                   if (state is GetForceUpdateLoaded) {
                     bool isVersionGreaterThan(
                         String newVersion, String currentVersion) {
@@ -128,7 +127,7 @@ class _SplashPageState extends State<SplashPage> {
                       context.read<SplashCubit>().initSplashFromSplash();
                     }
                   }
-                },
+                }),
               ),
             ],
             child: LayoutBuilder(builder: (context, snapShot) {
