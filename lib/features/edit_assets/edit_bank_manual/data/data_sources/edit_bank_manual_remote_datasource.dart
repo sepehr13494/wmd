@@ -43,7 +43,7 @@ class EditBankManualRemoteDataSourceImpl extends AppServerDataSource
       final appRequestOptions =
           AppRequestOptions(RequestTypes.del, AppUrls.deleteBankManual, params.toJson());
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = DeleteBankManualResponse.fromJson(response);
+      final result = DeleteBankManualResponse();
       return result;
     } on ServerException {
       rethrow;

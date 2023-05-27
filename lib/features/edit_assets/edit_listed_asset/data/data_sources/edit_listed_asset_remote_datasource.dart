@@ -48,7 +48,7 @@ class EditListedAssetRemoteDataSourceImpl extends AppServerDataSource
           RequestTypes.del, AppUrls.deleteListedAsset, params.toJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = DeleteListedAssetResponse.fromJson(response);
+      final result = DeleteListedAssetResponse();
       return result;
     } on ServerException {
       rethrow;
