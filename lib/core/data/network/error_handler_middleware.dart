@@ -54,6 +54,7 @@ class ErrorHandlerMiddleware {
       debugPrint(e.toString());
       rethrow;
     } on DioError catch (e) {
+      debugPrint(e.toString());
       if (e.message.contains('CERTIFICATE_VERIFY_FAILED')) {
         throw ServerException(message: e.message, type: ExceptionType.ssl);
       }
