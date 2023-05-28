@@ -6,6 +6,7 @@ class GetValuationEntity extends Equatable {
   const GetValuationEntity({
     required this.id,
     required this.amount,
+    this.pricePerUnit,
     required this.currencyCode,
     required this.currencyToUsdFxRate,
     required this.amountInUsd,
@@ -23,6 +24,7 @@ class GetValuationEntity extends Equatable {
 
   final String id;
   final double amount;
+  final double? pricePerUnit;
   final String currencyCode;
   final double currencyToUsdFxRate;
   final double amountInUsd;
@@ -40,6 +42,7 @@ class GetValuationEntity extends Equatable {
   Map<String, dynamic> toJson() => {
         "id": id,
         "amount": amount,
+        "pricePerUnit": pricePerUnit,
         "currencyCode": currencyCode,
         "currencyToUsdFxRate": currencyToUsdFxRate,
         "isSystemGenerated": isSystemGenerated,
@@ -58,6 +61,8 @@ class GetValuationEntity extends Equatable {
   Map<String, dynamic> toFormJson() => {
         "id": id,
         "amount": amount.convertMoney(),
+        "pricePerUnit":
+            pricePerUnit != null ? pricePerUnit?.convertMoney() : pricePerUnit,
         "currencyCode": Currency.getCurrencyFromString(currencyCode),
         "currencyToUsdFxRate": currencyToUsdFxRate,
         "isSystemGenerated": isSystemGenerated,

@@ -3,6 +3,7 @@ import 'package:wmd/features/valuation/domain/entities/get_valuation_entity.dart
 class GetValuationResponse extends GetValuationEntity {
   const GetValuationResponse(
       {required super.amount,
+      required super.pricePerUnit,
       required super.id,
       required super.currencyCode,
       required super.currencyToUsdFxRate,
@@ -21,8 +22,9 @@ class GetValuationResponse extends GetValuationEntity {
   factory GetValuationResponse.fromJson(Map<String, dynamic> json) =>
       GetValuationResponse(
         amount: double.tryParse(json["amount"].toString()) ?? 0,
+        pricePerUnit: double.tryParse(json["pricePerUnit"].toString()) ?? 0,
         id: json["id"] ?? '',
-        currencyCode: json["currencyCode"],
+        currencyCode: json["currency"],
         currencyToUsdFxRate:
             double.tryParse(json["conversionRate"].toString()) ?? 0,
         amountInUsd: double.tryParse(json["amountUSD"].toString()) ?? 0,

@@ -144,7 +144,7 @@ class _EquityDebtValuationFormWidgetState
               child: AppTextFields.simpleTextField(
                 onChanged: checkFinalValid,
                 type: TextFieldType.money,
-                name: "amount",
+                name: "pricePerUnit",
                 hint: "Value",
               ),
             ),

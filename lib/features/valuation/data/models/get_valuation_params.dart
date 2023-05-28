@@ -7,7 +7,7 @@ class GetValuationParams extends Equatable {
   factory GetValuationParams.fromJson(Map<String, dynamic> json) =>
       GetValuationParams(id: json['id']);
 
-  Map<String, dynamic> toJson() => {"id": id};
+  Map<String, dynamic> toJson() => {"transactionId": id};
 
   @override
   // TODO: implement props
