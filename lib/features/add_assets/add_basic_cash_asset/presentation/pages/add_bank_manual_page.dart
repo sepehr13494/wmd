@@ -110,7 +110,9 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
           child: Scaffold(
             appBar: const AddAssetHeader(title: "", showExitModal: true),
             bottomSheet: AddAssetFooter(
-              buttonText: edit ? "Save Asset" : "Add asset",
+              buttonText: edit
+                  ? "Save Asset"
+                  : appLocalizations.common_button_addAsset,
               onTap: () {
                 if (baseFormKey.currentState!.validate()) {
                   Map<String, dynamic> finalMap = {
