@@ -64,9 +64,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                 onLogoPress: () =>
                     context.read<MainPageCubit>().onItemTapped(0)),
             body: BlocConsumer<PerformanceChartCubit, PerformanceChartState>(
-                listener: BlocHelper.defaultBlocListener(
-                  listener: (context, state) {},
-                ),
+                listener: (context, state) {},
                 builder: (context, state) {
                   return Stack(
                     children: [

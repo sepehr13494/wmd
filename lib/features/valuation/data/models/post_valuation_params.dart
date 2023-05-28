@@ -10,8 +10,8 @@ class PostValuationParams extends Equatable {
   final String? originCode;
   final String? wealthType;
   final DateTime? valuatedAt;
-  final double? quantity;
-  final double? buyPricePerUnit;
+  final int? quantity;
+  final double? pricePerUnit;
   final double? ownershipPercentage;
   final String? note;
   final String? type;
@@ -26,7 +26,7 @@ class PostValuationParams extends Equatable {
     this.wealthType,
     this.valuatedAt,
     this.quantity,
-    this.buyPricePerUnit,
+    this.pricePerUnit,
     this.ownershipPercentage,
     this.note,
     this.type,
@@ -51,11 +51,12 @@ class PostValuationParams extends Equatable {
               ? DateTime.parse(json["valuatedAt"].toString())
               : json["valuatedAt"],
           quantity: json["quantity"] != null
-              ? double.tryParse(json["quantity"])
+              ? int.tryParse(json["quantity"])
               : json["quantity"],
-          buyPricePerUnit: json["buyPricePerUnit"] != null
-              ? double.tryParse(json["buyPricePerUnit"])
-              : json["buyPricePerUnit"],
+          pricePerUnit: json["pricePerUnit"] != null
+              ? double.tryParse(
+                  json["pricePerUnit"].toString().replaceAll(',', ''))
+              : json["pricePerUnit"],
           ownershipPercentage: json["ownershipPercentage"] != null
               ? double.tryParse(json["ownershipPercentage"])
               : json["ownershipPercentage"],
@@ -65,15 +66,15 @@ class PostValuationParams extends Equatable {
   Map<String, dynamic> toJson() => {
         "amount": amount,
         "amountUSD": amountInUsd,
-        "assetOrLiabilityId": assetOrLiabilityId,
+        "holdingId": assetOrLiabilityId,
         "currencyCode": currencyCode,
         "conversionRate": currencyToUsdFxRate,
         "originCode": originCode,
         "wealthType": wealthType,
         "transactionDate": valuatedAt?.toIso8601String(),
-        "quantity": quantity,
-        "ownershipPercentage": ownershipPercentage,
-        "pricePerUnit": buyPricePerUnit,
+        "quantity": quantity ?? 0,
+        "ownershipPercentage": ownershipPercentage ?? 100,
+        "pricePerUnit": pricePerUnit,
         "notes": note,
         "type": type,
       };
@@ -90,7 +91,7 @@ class PostValuationParams extends Equatable {
         wealthType,
         valuatedAt,
         quantity,
-        buyPricePerUnit,
+        pricePerUnit,
         note,
         ownershipPercentage,
         type
@@ -106,7 +107,7 @@ class PostValuationParams extends Equatable {
     wealthType: "test",
     valuatedAt: DateTime.parse('2022-10-05T21:00:00.000Z'),
     quantity: 2332,
-    buyPricePerUnit: 244,
+    pricePerUnit: 244,
     ownershipPercentage: 20,
     note: "test",
     type: "test",

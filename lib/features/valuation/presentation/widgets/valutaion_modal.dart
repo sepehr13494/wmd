@@ -161,8 +161,17 @@ class ValuationModalWidget extends ModalWidget {
             "assetOrLiabilityId": assetId,
           };
           break;
+        case AssetTypes.otherAsset:
+          formMap = {
+            ...formKey.currentState!.instantValue,
+            "wealthType": "Asset",
+            "assetOrLiabilityId": assetId,
+          };
+          break;
         default:
           formMap = {
+            "wealthType": "Asset",
+            "assetOrLiabilityId": assetId,
             ...formKey.currentState!.instantValue,
           };
           break;
@@ -235,35 +244,50 @@ class ValuationModalWidget extends ModalWidget {
               debugPrint(seeMoreState.getAssetSeeMoreEntity.toString());
               dynamic json = seeMoreState.getAssetSeeMoreEntity as dynamic;
 
-              // debugPrint(json?.currencyCode.toString());
-              // debugPrint(json?.acquisitionDate.toString());
+              // debugPrint(json?.accountType.toString());
+              // debugPrint(json?.accountType.toString());
 
-              if (json?.currencyCode != null) {
-                Map<String, dynamic> formDataTemp = {
-                  "currencyCode":
-                      Currency.getCurrencyFromString(json?.currencyCode)
-                };
+              try {
+                if (json?.currencyCode != null) {
+                  Map<String, dynamic> formDataTemp = {
+                    "currencyCode":
+                        Currency.getCurrencyFromString(json?.currencyCode)
+                  };
 
-                if (json?.acquisitionDate != null) {
-                  formDataTemp['acquisitionDate'] = json?.acquisitionDate;
+                  bool isAcquisitionDateAvailable = false;
+                  bool isSavingOrCurrentBank = false;
+
+                  try {
+                    isAcquisitionDateAvailable = json?.acquisitionDate != null;
+                  } catch (e) {
+                    // Handle the exception if the variable is not available
+                  }
+
+                  try {
+                    isSavingOrCurrentBank =
+                        json?.accountType == 'SavingAccount' ||
+                            json?.accountType == 'CurrentAccount';
+                  } catch (e) {
+                    // Handle the exception if the variable is not available
+                  }
+
+                  if (isAcquisitionDateAvailable) {
+                    formDataTemp['acquisitionDate'] = json?.acquisitionDate;
+                  }
+
+                  setFormValues!(formDataTemp);
+                } else {
+                  setFormValues!(
+                      {'currencyCode': Currency.getCurrencyFromString('USD')});
                 }
-
-                setFormValues!(formDataTemp);
-              } else {
-                setFormValues!(
-                    {'currencyCode': Currency.getCurrencyFromString('USD')});
+              } catch (e) {
+                debugPrint('Format erro detail:');
+                debugPrint('Format erro detail: $e');
+                // throw AppException(
+                //     message: "format Exception",
+                //     type: ExceptionType.format,
+                //     stackTrace: e is TypeError ? e.stackTrace.toString() : null);
               }
-
-              // try {
-
-              // } catch (e) {
-              //   debugPrint('Format erro detail:');
-              //   debugPrint('Format erro detail: $e');
-              //   // throw AppException(
-              //   //     message: "format Exception",
-              //   //     type: ExceptionType.format,
-              //   //     stackTrace: e is TypeError ? e.stackTrace.toString() : null);
-              // }
 
               debugPrint(json?.acquisitionDate.toString());
 

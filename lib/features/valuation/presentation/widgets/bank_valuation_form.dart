@@ -142,7 +142,7 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
                       onChanged: (e) => checkFinalValid(e),
                       errorMsg: appLocalizations.common_errors_required,
                       type: TextFieldType.money,
-                      name: "amount",
+                      name: "pricePerUnit",
                       hint: appLocalizations
                           .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_placeholder),
                 ),
