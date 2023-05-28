@@ -34,7 +34,7 @@ class GetAllValuationResponse extends GetAllValuationEntity {
         // updatedAt: json["updatedAt"] == null
         // ? null
         // : DateTime.parse(json["updatedAt"]),
-        note: json["note"] ?? '',
+        note: json["notes"] ?? '',
       );
 
   // static final tResponse = [GetAllValuationResponse()];
