@@ -65,6 +65,7 @@ class ValuationWidget extends AppStatelessWidget {
                                   onPressed: () {
                                     showDialog(
                                         context: context,
+                                        barrierDismissible: false,
                                         builder: (buildContext) {
                                           return ValuationModalWidget(
                                               title: '',
@@ -382,6 +383,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                                 const Duration(seconds: 0),
                                 () => showDialog(
                                         context: context,
+                                        barrierDismissible: false,
                                         builder: (buildContext) {
                                           return ValuationModalWidget(
                                             title: '',

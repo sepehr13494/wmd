@@ -275,6 +275,11 @@ class ValuationModalWidget extends ModalWidget {
                     formDataTemp['acquisitionDate'] = json?.acquisitionDate;
                   }
 
+                  if (isSavingOrCurrentBank) {
+                    formDataTemp['isSavingOrCurrentBank'] =
+                        isSavingOrCurrentBank;
+                  }
+
                   setFormValues!(formDataTemp);
                 } else {
                   setFormValues!(
