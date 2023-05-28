@@ -17,9 +17,7 @@ import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/ad
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/each_asset_widget.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/support_widget.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
-import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/dashboard_app_bar.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/add_asset_onboarding_view.dart';
-import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
@@ -111,27 +109,32 @@ class AssetTabWrapper extends StatefulWidget {
 class _AssetTabWrapperState extends AppState<AssetTabWrapper>
     with TickerProviderStateMixin {
   late TabController _tabController;
-  bool showMvp2 = AppConstants.publicMvp2Items;
+  bool isReleaseOne = AppConstants.isRelease1;
 
   @override
   void initState() {
     super.initState();
 
     _tabController = TabController(
-        length: showMvp2 ? 3 : 1,
+        length: !isReleaseOne ? 3 : 2,
         vsync: this,
-        initialIndex: showMvp2 ? widget.initial : 0);
-    if (showMvp2) {
-      _tabController.addListener(() {
-        if (_tabController.index == 2) {
-          context.read<AssetViewCubit>().selectCustodian();
-        } else {
-          context.read<AssetViewCubit>().empty();
-        }
-      });
-    } else {
+        initialIndex: isReleaseOne
+            ? (widget.initial == 2)
+                ? 1
+                : 0
+            : widget.initial);
+    if (widget.initial != 0) {
       context.read<AssetViewCubit>().selectCustodian();
     }
+    _tabController.addListener(() {
+      if (_tabController.index == 1 && isReleaseOne) {
+        context.read<AssetViewCubit>().selectCustodian();
+      } else if (_tabController.index == 2 && !isReleaseOne) {
+        context.read<AssetViewCubit>().selectCustodian();
+      } else {
+        context.read<AssetViewCubit>().empty();
+      }
+    });
   }
 
   @override
@@ -159,9 +162,8 @@ class _AssetTabWrapperState extends AppState<AssetTabWrapper>
                   child: TabBar(
                     controller: _tabController,
                     tabs: [
-                      if (showMvp2)
-                        Tab(text: appLocalizations.assets_breadCrumb_assets),
-                      if (showMvp2)
+                      Tab(text: appLocalizations.assets_breadCrumb_assets),
+                      if (!isReleaseOne)
                         Tab(
                             text: appLocalizations
                                 .liabilities_breadCrumb_liabilities),
@@ -182,8 +184,8 @@ class _AssetTabWrapperState extends AppState<AssetTabWrapper>
                 child: TabBarView(
               controller: _tabController,
               children: [
-                if (showMvp2) const AssetsPart(isLiability: false),
-                if (showMvp2)
+                const AssetsPart(isLiability: false),
+                if (!isReleaseOne)
                   const AssetsPart(
                     isLiability: true,
                   ),
