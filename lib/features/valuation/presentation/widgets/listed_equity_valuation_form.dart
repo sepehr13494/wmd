@@ -205,7 +205,7 @@ class _ListedEquityValuationFormWidgettState
                     });
                     calculateCurrentValue();
                   },
-                  name: "amount",
+                  name: "pricePerUnit",
                   hint: appLocalizations
                       .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_placeholder),
             ),
