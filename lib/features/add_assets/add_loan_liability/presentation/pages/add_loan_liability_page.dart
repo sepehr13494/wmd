@@ -231,7 +231,7 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                                             .assetLiabilityForms_forms_loan_inputFields_currency_label,
                                         child: CurrenciesDropdown(
                                           onChanged: checkFinalValid,
-                                          showExchange: true,
+                                          // showExchange: true,
                                         ),
                                       ),
                                       EachTextField(

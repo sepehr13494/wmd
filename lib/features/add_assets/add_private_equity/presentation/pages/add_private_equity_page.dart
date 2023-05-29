@@ -237,7 +237,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                         .assetLiabilityForms_forms_privateEquity_inputFields_currency_label,
                                     child: CurrenciesDropdown(
                                       onChanged: checkFinalValid,
-                                      showExchange: true,
+                                      // showExchange: true,
                                     ),
                                   ),
                                   EachTextField(
