@@ -313,7 +313,7 @@ class CurrenciesDropdown extends StatefulWidget {
       {Key? key,
       this.onChanged,
       this.showExchange = false,
-      this.enabled = true})
+      this.enabled = false})
       : super(key: key);
 
   @override

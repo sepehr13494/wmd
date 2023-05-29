@@ -47,7 +47,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
   ListedSecurityName? securityName;
   bool isFixedIncome = false;
   bool isDisableCategory = false;
-  bool isDisableCurrency = false;
+  bool isDisableCurrency = true;
 
   @override
   void didUpdateWidget(covariant AddListedSecurityPage oldWidget) {
@@ -422,7 +422,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
 
                                         checkFinalValid(val);
                                       },
-                                      showExchange: true,
+                                      // showExchange: true,
                                     ),
                                   ),
                                   EachTextField(

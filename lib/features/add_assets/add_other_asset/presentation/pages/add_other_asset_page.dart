@@ -324,7 +324,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                         .assetLiabilityForms_forms_others_inputFields_currency_label,
                                     child: CurrenciesDropdown(
                                       onChanged: checkFinalValid,
-                                      showExchange: true,
+                                      // showExchange: true,
                                     ),
                                   ),
                                   EachTextField(
