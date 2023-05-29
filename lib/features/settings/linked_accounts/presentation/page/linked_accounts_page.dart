@@ -109,48 +109,53 @@ class _LinkedAccountsPageState extends AppState<LinkedAccountsPage> {
           appLocalizations.profile_tabs_linkedAccounts_name,
           style: textTheme.headlineSmall,
         ),
-        Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
-            border: Border.all(color: Theme.of(context).dividerColor),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
-                items: [
-                  ...filters.map((e) => DropdownMenuItem<String>(
-                        value: e,
-                        child: Row(
-                          children: [
-                            Text(
-                              e,
-                              style: textTheme.bodyMedium!,
-                              // textTheme.bodyMedium!.toLinkStyle(context),
-                            ),
-                            const SizedBox(width: 16),
-                          ],
-                        ),
-                      )),
-                ],
-                onChanged: ((value) async {
-                  if (value == filters[1]) {
-                    setState(() {
-                      isFiveOnly = true;
-                    });
-                  } else {
-                    setState(() {
-                      isFiveOnly = false;
-                    });
-                  }
-                }),
-                value: isFiveOnly ? filters[1] : filters.first,
-                icon: Icon(
-                  Icons.keyboard_arrow_down,
-                  size: 15,
-                  color: primaryColor,
+        const SizedBox(width: 8),
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              border: Border.all(color: Theme.of(context).dividerColor),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  items: [
+                    ...filters.map((e) => DropdownMenuItem<String>(
+                          value: e,
+                          child: Row(
+                            children: [
+                              Text(
+                                e,
+                                style: textTheme.bodyMedium!,
+                                // textTheme.bodyMedium!.toLinkStyle(context),
+                              ),
+                              const SizedBox(width: 16),
+                            ],
+                          ),
+                        )),
+                  ],
+                  onChanged: ((value) async {
+                    if (value == filters[1]) {
+                      setState(() {
+                        isFiveOnly = true;
+                      });
+                    } else {
+                      setState(() {
+                        isFiveOnly = false;
+                      });
+                    }
+                  }),
+                  value: isFiveOnly ? filters[1] : filters.first,
+                  isExpanded: true,
+                  itemHeight: null,
+                  icon: Icon(
+                    Icons.keyboard_arrow_down,
+                    size: 15,
+                    color: primaryColor,
+                  ),
+                  // style: textTheme.labelLarge,
                 ),
-                // style: textTheme.labelLarge,
               ),
             ),
           ),

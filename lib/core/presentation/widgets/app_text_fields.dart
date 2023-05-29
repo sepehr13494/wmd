@@ -35,7 +35,45 @@ class CurrencyInputFormatter extends TextInputFormatter {
   }
 }
 
-enum TextFieldType { email, password, phone, simpleText, money, number, rate }
+class CurrencyWithNegetiveInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.selection.baseOffset == 0) {
+      return newValue;
+    }
+
+    debugPrint(newValue.text);
+    debugPrint("newValue.text");
+
+    double value = 0;
+
+    if (newValue.text == "-") {
+      return newValue;
+    } else {
+      value = double.tryParse(newValue.text.replaceAll(",", "")) ?? 0;
+    }
+
+    debugPrint(value.toString());
+
+    String newText = NumberFormat("#,##0", "en_US").format(value);
+
+    return newValue.copyWith(
+        text: newText,
+        selection: TextSelection.collapsed(offset: newText.length));
+  }
+}
+
+enum TextFieldType {
+  email,
+  password,
+  phone,
+  simpleText,
+  money,
+  minusMoney,
+  number,
+  rate
+}
 
 class AppTextFields {
   AppTextFields._();
@@ -212,14 +250,18 @@ class SimpleTextField extends AppStatelessWidget {
       inputFormatters: customInputFormatters ??
           (type == TextFieldType.money
               ? [CurrencyInputFormatter()]
-              : type == TextFieldType.number
-                  ? <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]
-                  : type == TextFieldType.rate
-                      ? [
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'^\d+\.?\d{0,3}'))
+              : type == TextFieldType.minusMoney
+                  ? [CurrencyWithNegetiveInputFormatter()]
+                  : type == TextFieldType.number
+                      ? <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
                         ]
-                      : null),
+                      : type == TextFieldType.rate
+                          ? [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'^\d+\.?\d{0,3}'))
+                            ]
+                          : null),
       scrollPadding:
           const EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 90),
       name: name,
@@ -272,7 +314,7 @@ class CurrenciesDropdown extends StatefulWidget {
       {Key? key,
       this.onChanged,
       this.showExchange = false,
-      this.enabled = true})
+      this.enabled = false})
       : super(key: key);
 
   @override

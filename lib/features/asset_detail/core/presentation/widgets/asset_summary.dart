@@ -10,6 +10,7 @@ import 'package:wmd/features/asset_see_more/core/presentation/widget/see_more_po
 import 'package:wmd/features/assets_overview/assets_overview/presentation/widgets/ytd_itd_widget.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_blur_warning.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'as_of_date_widget.dart';
 import 'net_change_widget.dart';
@@ -50,25 +51,32 @@ class AsssetSummary extends AppStatelessWidget {
             children: [
               // if (summary.assetClassName != null) Text(summary.assetClassName),
               if (onEdit != null)
-                InkWell(
-                  onTap: () {
-                    onEdit!();
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: primaryColor),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(2))),
-                    child: Padding(
-                      padding: const EdgeInsets.all(6),
-                      child: Text(
-                        appLocalizations.common_button_editDetails,
-                        style: textTheme.labelMedium!
-                            .apply(color: Theme.of(context).primaryColor),
+                Builder(builder: (context) {
+                  final isBlurred = PrivacyInherited.of(context).isBlurred;
+                  return InkWell(
+                    onTap: isBlurred
+                        ? null
+                        : () {
+                            onEdit!();
+                          },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(color: primaryColor),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(2))),
+                      child: Padding(
+                        padding: const EdgeInsets.all(6),
+                        child: Text(
+                          appLocalizations.common_button_editDetails,
+                          style: textTheme.labelMedium!.apply(
+                              color: isBlurred
+                                  ? Theme.of(context).disabledColor
+                                  : Theme.of(context).primaryColor),
+                        ),
                       ),
                     ),
-                  ),
-                ),
+                  );
+                }),
             ],
           ),
           if (child != null) child!,

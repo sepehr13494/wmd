@@ -90,6 +90,7 @@ class _ContactInformationWidgetState
             checkFinalValid("");
           });
           context.read<UserStatusCubit>().getUserStatus();
+          context.read<TwoFactorCubit>().getTwoFactor();
 
           // GlobalFunctions.showSnackBar(
           //     context,
@@ -412,16 +413,19 @@ class _ContactInformationWidgetState
                                                                           .setNumber(
                                                                               map: formKey.currentState!.instantValue);
 
-                                                                      context.read<TwoFactorCubit>().setTwoFactor(PutSettingsParams(
-                                                                          isPrivacyMode: PrivacyInherited.of(context)
-                                                                              .isBlurred,
-                                                                          twoFactorEnabled:
-                                                                              false,
-                                                                          emailTwoFactorEnabled:
-                                                                              false,
-                                                                          smsTwoFactorEnabled: state
-                                                                              .entity
-                                                                              .smsTwoFactorEnabled));
+                                                                      if (state
+                                                                          .entity
+                                                                          .smsTwoFactorEnabled) {
+                                                                        context.read<TwoFactorCubit>().setTwoFactor(PutSettingsParams(
+                                                                            isPrivacyMode: PrivacyInherited.of(context)
+                                                                                .isBlurred,
+                                                                            twoFactorEnabled:
+                                                                                false,
+                                                                            emailTwoFactorEnabled:
+                                                                                false,
+                                                                            smsTwoFactorEnabled:
+                                                                                state.entity.smsTwoFactorEnabled));
+                                                                      }
 
                                                                       context.pushNamed(
                                                                           AppRoutes

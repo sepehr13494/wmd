@@ -28,6 +28,7 @@ class BankValuationFormWidget extends StatefulWidget {
 class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
   bool enableAddAssetButton = false;
   late Map<String, dynamic> lastValue;
+  bool isSavingOrCurrentBank = false;
   bool hasTimeLineSelected = false;
   DateTime? availableDateValue;
   FormBuilderState? formState;
@@ -78,6 +79,13 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
     if (formKey.currentState != null) {
       debugPrint("working inside real setup setFormValues");
       debugPrint(json.toString());
+
+      if (json['isSavingOrCurrentBank'] == true) {
+        setState(() {
+          isSavingOrCurrentBank = true;
+        });
+      }
+
       formKey.currentState?.patchValue(json);
     }
   }
@@ -141,8 +149,10 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
                   child: AppTextFields.simpleTextField(
                       onChanged: (e) => checkFinalValid(e),
                       errorMsg: appLocalizations.common_errors_required,
-                      type: TextFieldType.money,
-                      name: "amount",
+                      type: isSavingOrCurrentBank
+                          ? TextFieldType.minusMoney
+                          : TextFieldType.money,
+                      name: "pricePerUnit",
                       hint: appLocalizations
                           .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_placeholder),
                 ),
