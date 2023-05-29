@@ -7,6 +7,7 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
+import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/util/asset_back_button_handler.dart';
 import 'package:wmd/core/util/constants.dart';
@@ -19,6 +20,7 @@ import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
 import 'package:wmd/features/asset_see_more/real_estate/data/model/real_estate_more_entity.dart';
 import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_state.dart';
+import 'package:wmd/features/edit_assets/core/presentation/widgets/delete_base_widget.dart';
 import 'package:wmd/features/edit_assets/edit_real_estate/presentation/manager/edit_real_estate_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
@@ -78,6 +80,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
         ),
       ],
       child: Builder(builder: (context) {
+        final bool isMobile = ResponsiveHelper(context: context).isMobile;
         return WillPopScope(
           onWillPop: () {
             return handleAssetBackButton(context);
@@ -107,282 +110,322 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                 }),
             body: Theme(
               data: Theme.of(context).copyWith(),
-              child: Stack(
-                children: [
-                  const LeafBackground(),
-                  WidthLimiterWidget(
-                    child: Builder(builder: (context) {
-                      return MultiBlocListener(
-                        listeners: [
-                          BlocListener<RealEstateCubit, RealEstateState>(
-                            listener: AssetBlocHelper.defaultBlocListener(
-                                listener: (context, state) {},
-                                asset: "Real estate",
-                                assetType: AssetTypes.realEstate),
-                          ),
-                          BlocListener<EditRealEstateCubit, EditAssetBaseState>(
-                            listener: EditAssetBlocHelper.defaultBlocListener(
-                                assetId: edit ? widget.moreEntity!.id : ""),
-                          ),
-                        ],
-                        child: SingleChildScrollView(
-                          child: Column(children: [
-                            FormBuilder(
-                              key: privateDebtFormKey,
-                              initialValue: edit
-                                  ? widget.moreEntity!.toFormJson()
-                                  : AddAssetConstants.initialJsonForAddAsset,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    appLocalizations
-                                        .assetLiabilityForms_heading_realEstate,
-                                    style: textTheme.headlineSmall,
-                                  ),
-                                  Text(
-                                    appLocalizations
-                                        .manage_assetAndLiability_assetAndLiabilityList_realEstate_description,
-                                    style: textTheme.bodySmall,
-                                  ),
-                                  Text(
-                                    appLocalizations
-                                        .assetLiabilityForms_forms_realEstate_title,
-                                    style: textTheme.titleSmall,
-                                  ),
-                                  EachTextField(
-                                    hasInfo: false,
-                                    title: appLocalizations
-                                        .assetLiabilityForms_forms_realEstate_inputFields_name_label,
-                                    child: AppTextFields.simpleTextField(
-                                        title: "Name",
-                                        name: "name",
-                                        onChanged: checkFinalValid,
-                                        extraValidators: [
-                                          (val) {
-                                            return (val != null &&
-                                                    val.length > 100)
-                                                ? "Name cannot be more than 100 characters"
-                                                : null;
-                                          }
-                                        ],
-                                        hint: appLocalizations
-                                            .assetLiabilityForms_forms_realEstate_inputFields_name_placeholder),
-                                  ),
-                                  EachTextField(
-                                    hasInfo: false,
-                                    title: appLocalizations
-                                        .assetLiabilityForms_forms_realEstate_inputFields_typeOfRealEstate_label,
-                                    child: AppTextFields.dropDownTextField(
-                                      errorMsg: appLocalizations
-                                          .assetLiabilityForms_forms_realEstate_inputFields_typeOfRealEstate_errorMessage,
-                                      onChanged: (val) async {
-                                        // setState(() {
-                                        //   bottomFormKey =
-                                        //       GlobalKey<FormBuilderState>();
-                                        //   accountType = val;
-                                        // });
-                                        await Future.delayed(
-                                            const Duration(milliseconds: 200));
-                                        checkFinalValid(val);
-                                      },
-                                      name: "realEstateType",
-                                      hint: appLocalizations
-                                          .assetLiabilityForms_forms_realEstate_inputFields_typeOfRealEstate_placeholder,
-                                      items: RealEstateType.realEstateList
-                                          .map((e) => DropdownMenuItem(
-                                                value: e.value,
-                                                child: Text(e.name),
-                                              ))
-                                          .toList(),
-                                    ),
-                                  ),
-                                  EachTextField(
-                                    hasInfo: false,
-                                    title: appLocalizations
-                                        .assetLiabilityForms_forms_realEstate_inputFields_address_label,
-                                    child: AppTextFields.simpleTextField(
-                                        title: "Address",
-                                        name: "address",
-                                        required: false,
-                                        // onChanged: checkFinalValid,
-                                        hint: appLocalizations
-                                            .assetLiabilityForms_forms_realEstate_inputFields_address_placeholder),
-                                  ),
-                                  EachTextField(
-                                    hasInfo: false,
-                                    title: appLocalizations
-                                        .assetLiabilityForms_forms_realEstate_inputFields_country_label,
-                                    child: CountriesDropdown(
-                                      onChanged: checkFinalValid,
-                                    ),
-                                  ),
-                                  EachTextField(
-                                    hasInfo: false,
-                                    title: appLocalizations
-                                        .assetLiabilityForms_forms_realEstate_inputFields_currency_label,
-                                    child: CurrenciesDropdown(
-                                      onChanged: checkFinalValid,
-                                      showExchange: true,
-                                    ),
-                                  ),
-                                  EachTextField(
-                                    hasInfo: false,
-                                    title: appLocalizations
-                                        .assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_label,
-                                    child: AppTextFields.simpleTextField(
-                                        enabled: !edit,
-                                        type: TextFieldType.number,
-                                        keyboardType: TextInputType.number,
-                                        onChanged: checkFinalValid,
-                                        name: "noOfUnits",
-                                        extraValidators: [
-                                          (val) {
-                                            return ((int.tryParse(val ?? "0") ??
-                                                        0) <=
-                                                    100)
-                                                ? null
-                                                : "\${appLocalizations.assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_label} can't be greater then 100";
-                                          }
-                                        ],
-                                        hint: appLocalizations
-                                            .assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_placeholder),
-                                  ),
-                                  EachTextField(
-                                    tooltipText: appLocalizations
-                                        .assetLiabilityForms_forms_realEstate_inputFields_acquisitionCostPerUnit_tooltip,
-                                    title: appLocalizations
-                                        .assetLiabilityForms_forms_realEstate_inputFields_acquisitionCostPerUnit_label,
-                                    child: AppTextFields.simpleTextField(
-                                        enabled: !edit,
-                                        errorMsg: appLocalizations
-                                            .assetLiabilityForms_forms_realEstate_inputFields_acquisitionCostPerUnit_errorMessage,
-                                        onChanged: checkFinalValid,
-                                        type: TextFieldType.money,
-                                        keyboardType: TextInputType.number,
-                                        name: "acquisitionCostPerUnit",
-                                        hint: appLocalizations
-                                            .assetLiabilityForms_forms_realEstate_inputFields_acquisitionCostPerUnit_placeholder),
-                                  ),
-                                  EachTextField(
-                                    tooltipText: appLocalizations
-                                        .assetLiabilityForms_forms_realEstate_inputFields_acquisitionDate_tooltip,
-                                    title: appLocalizations
-                                        .assetLiabilityForms_forms_realEstate_inputFields_acquisitionDate_label,
-                                    child: FormBuilderDateTimePicker(
-                                      enabled: !edit,
-                                      onChanged: (selectedDate) {
-                                        checkFinalValid(selectedDate);
-                                        setState(() {
-                                          aqusitionDateValue = selectedDate;
-                                        });
-                                      },
-                                      initialDate:
-                                          valuationDateValue ?? DateTime.now(),
-                                      lastDate:
-                                          valuationDateValue ?? DateTime.now(),
-                                      inputType: InputType.date,
-                                      format: DateFormat("dd/MM/yyyy"),
-                                      name: "acquisitionDate",
-                                      autovalidateMode:
-                                          AutovalidateMode.onUserInteraction,
-                                      validator: FormBuilderValidators.compose([
-                                        FormBuilderValidators.required(
-                                            errorText: appLocalizations
-                                                .assetLiabilityForms_forms_realEstate_inputFields_acquisitionDate_errorMessage)
-                                      ]),
-                                      decoration: InputDecoration(
-                                          suffixIcon: Icon(
-                                            Icons.calendar_month,
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                          ),
-                                          hintText: appLocalizations
-                                              .assetLiabilityForms_forms_realEstate_inputFields_acquisitionDate_placeholder),
-                                    ),
-                                  ),
-                                  EachTextField(
-                                    hasInfo: false,
-                                    title: appLocalizations
-                                        .assetLiabilityForms_forms_realEstate_inputFields_yourOwnership_label,
-                                    child: AppTextFields.simpleTextField(
-                                        enabled: !edit,
-                                        extraValidators: [
-                                          (val) {
-                                            return ((int.tryParse(val ?? "0") ??
-                                                        0) <=
-                                                    100)
-                                                ? null
-                                                : "Ownership can't be greater then 100";
-                                          }
-                                        ],
-                                        type: TextFieldType.number,
-                                        keyboardType: TextInputType.number,
-                                        onChanged: checkFinalValid,
-                                        suffixIcon:
-                                            AppTextFields.rateSuffixIcon(),
-                                        name: "ownershipPercentage",
-                                        hint: appLocalizations
-                                            .assetLiabilityForms_forms_realEstate_inputFields_yourOwnership_placeholder),
-                                  ),
-                                  EachTextField(
-                                    tooltipText: appLocalizations
-                                        .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_tooltip,
-                                    title: appLocalizations
-                                        .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_label,
-                                    child: AppTextFields.simpleTextField(
-                                        enabled: !edit,
-                                        required: false,
-                                        type: TextFieldType.money,
-                                        keyboardType: TextInputType.number,
-                                        name: "marketValue",
-                                        hint: appLocalizations
-                                            .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_placeholder),
-                                  ),
-                                  EachTextField(
-                                    tooltipText: appLocalizations
-                                        .assetLiabilityForms_forms_realEstate_inputFields_valuationDate_tooltip,
-                                    title: appLocalizations
-                                        .assetLiabilityForms_forms_realEstate_inputFields_valuationDate_label,
-                                    child: FormBuilderDateTimePicker(
-                                      enabled: !edit,
-                                      firstDate: aqusitionDateValue,
-                                      lastDate: DateTime.now(),
-                                      format: DateFormat("dd/MM/yyyy"),
-                                      inputType: InputType.date,
-                                      name: "valuationDate",
-                                      onChanged: (selectedDate) {
-                                        checkFinalValid(selectedDate);
-                                        setState(() {
-                                          valuationDateValue = selectedDate;
-                                        });
-                                      },
-                                      decoration: InputDecoration(
-                                          suffixIcon: Icon(
-                                            Icons.calendar_month,
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                          ),
-                                          hintText: appLocalizations
-                                              .assetLiabilityForms_forms_realEstate_inputFields_valuationDate_placeholder),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 60),
-                                ]
-                                    .map((e) => Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 12, horizontal: 16),
-                                          child: e,
-                                        ))
-                                    .toList(),
+              child: Builder(
+                builder: (context) {
+                  final Widget deleteWidget = DeleteAssetBaseWidget(
+                      name: "Real estate",
+                      onTap: () {
+                        context
+                            .read<EditRealEstateCubit>()
+                            .deleteRealEstate(
+                            assetId:
+                            widget.moreEntity!.id);
+                      });
+                  return Stack(
+                    children: [
+                      const LeafBackground(),
+                      WidthLimiterWidget(
+                        width: edit ? 1000 : 500,
+                        child: Builder(builder: (context) {
+                          return MultiBlocListener(
+                            listeners: [
+                              BlocListener<RealEstateCubit, RealEstateState>(
+                                listener: AssetBlocHelper.defaultBlocListener(
+                                    listener: (context, state) {},
+                                    asset: "Real estate",
+                                    assetType: AssetTypes.realEstate),
                               ),
+                              BlocListener<EditRealEstateCubit, EditAssetBaseState>(
+                                listener: EditAssetBlocHelper.defaultBlocListener(
+                                    assetId: edit ? widget.moreEntity!.id : ""),
+                              ),
+                            ],
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                (!isMobile && edit) ? Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    deleteWidget,
+                                    Container(margin: const EdgeInsets.only(top: 32),width: 0.7,height: 200,color: Theme.of(context).dividerColor,),
+                                  ],
+                                ) : const SizedBox(),
+                                Expanded(
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          (isMobile &&  edit)
+                                              ? deleteWidget
+                                              : const SizedBox(),
+                                      FormBuilder(
+                                        key: privateDebtFormKey,
+                                        initialValue: edit
+                                            ? widget.moreEntity!.toFormJson()
+                                            : AddAssetConstants.initialJsonForAddAsset,
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            edit
+                                                ? const SizedBox()
+                                                :Column(
+                                              children: [
+                                                Text(
+                                                  appLocalizations
+                                                      .assetLiabilityForms_heading_realEstate,
+                                                  style: textTheme.headlineSmall,
+                                                ),
+                                                const SizedBox(height: 24),
+                                                Text(
+                                                  appLocalizations
+                                                      .manage_assetAndLiability_assetAndLiabilityList_realEstate_description,
+                                                  style: textTheme.bodySmall,
+                                                ),
+                                              ],
+                                            ),
+                                            Text(
+                                              appLocalizations
+                                                  .assetLiabilityForms_forms_realEstate_title,
+                                              style: textTheme.titleSmall,
+                                            ),
+                                            EachTextField(
+                                              hasInfo: false,
+                                              title: appLocalizations
+                                                  .assetLiabilityForms_forms_realEstate_inputFields_name_label,
+                                              child: AppTextFields.simpleTextField(
+                                                  title: "Name",
+                                                  name: "name",
+                                                  onChanged: checkFinalValid,
+                                                  extraValidators: [
+                                                    (val) {
+                                                      return (val != null &&
+                                                              val.length > 100)
+                                                          ? "Name cannot be more than 100 characters"
+                                                          : null;
+                                                    }
+                                                  ],
+                                                  hint: appLocalizations
+                                                      .assetLiabilityForms_forms_realEstate_inputFields_name_placeholder),
+                                            ),
+                                            EachTextField(
+                                              hasInfo: false,
+                                              title: appLocalizations
+                                                  .assetLiabilityForms_forms_realEstate_inputFields_typeOfRealEstate_label,
+                                              child: AppTextFields.dropDownTextField(
+                                                errorMsg: appLocalizations
+                                                    .assetLiabilityForms_forms_realEstate_inputFields_typeOfRealEstate_errorMessage,
+                                                onChanged: (val) async {
+                                                  // setState(() {
+                                                  //   bottomFormKey =
+                                                  //       GlobalKey<FormBuilderState>();
+                                                  //   accountType = val;
+                                                  // });
+                                                  await Future.delayed(
+                                                      const Duration(milliseconds: 200));
+                                                  checkFinalValid(val);
+                                                },
+                                                name: "realEstateType",
+                                                hint: appLocalizations
+                                                    .assetLiabilityForms_forms_realEstate_inputFields_typeOfRealEstate_placeholder,
+                                                items: RealEstateType.realEstateList
+                                                    .map((e) => DropdownMenuItem(
+                                                          value: e.value,
+                                                          child: Text(e.name),
+                                                        ))
+                                                    .toList(),
+                                              ),
+                                            ),
+                                            EachTextField(
+                                              hasInfo: false,
+                                              title: appLocalizations
+                                                  .assetLiabilityForms_forms_realEstate_inputFields_address_label,
+                                              child: AppTextFields.simpleTextField(
+                                                  title: "Address",
+                                                  name: "address",
+                                                  required: false,
+                                                  onChanged: checkFinalValid,
+                                                  hint: appLocalizations
+                                                      .assetLiabilityForms_forms_realEstate_inputFields_address_placeholder),
+                                            ),
+                                            EachTextField(
+                                              hasInfo: false,
+                                              title: appLocalizations
+                                                  .assetLiabilityForms_forms_realEstate_inputFields_country_label,
+                                              child: CountriesDropdown(
+                                                onChanged: checkFinalValid,
+                                              ),
+                                            ),
+                                            EachTextField(
+                                              hasInfo: false,
+                                              title: appLocalizations
+                                                  .assetLiabilityForms_forms_realEstate_inputFields_currency_label,
+                                              child: CurrenciesDropdown(
+                                                onChanged: checkFinalValid,
+                                                showExchange: true,
+                                              ),
+                                            ),
+                                            EachTextField(
+                                              hasInfo: false,
+                                              title: appLocalizations
+                                                  .assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_label,
+                                              child: AppTextFields.simpleTextField(
+                                                  enabled: !edit,
+                                                  type: TextFieldType.number,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: checkFinalValid,
+                                                  name: "noOfUnits",
+                                                  extraValidators: [
+                                                    (val) {
+                                                      return ((int.tryParse(val ?? "0") ??
+                                                                  0) <=
+                                                              100)
+                                                          ? null
+                                                          : "\${appLocalizations.assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_label} can't be greater then 100";
+                                                    }
+                                                  ],
+                                                  hint: appLocalizations
+                                                      .assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_placeholder),
+                                            ),
+                                            EachTextField(
+                                              tooltipText: appLocalizations
+                                                  .assetLiabilityForms_forms_realEstate_inputFields_acquisitionCostPerUnit_tooltip,
+                                              title: appLocalizations
+                                                  .assetLiabilityForms_forms_realEstate_inputFields_acquisitionCostPerUnit_label,
+                                              child: AppTextFields.simpleTextField(
+                                                  enabled: !edit,
+                                                  errorMsg: appLocalizations
+                                                      .assetLiabilityForms_forms_realEstate_inputFields_acquisitionCostPerUnit_errorMessage,
+                                                  onChanged: checkFinalValid,
+                                                  type: TextFieldType.money,
+                                                  keyboardType: TextInputType.number,
+                                                  name: "acquisitionCostPerUnit",
+                                                  hint: appLocalizations
+                                                      .assetLiabilityForms_forms_realEstate_inputFields_acquisitionCostPerUnit_placeholder),
+                                            ),
+                                            EachTextField(
+                                              tooltipText: appLocalizations
+                                                  .assetLiabilityForms_forms_realEstate_inputFields_acquisitionDate_tooltip,
+                                              title: appLocalizations
+                                                  .assetLiabilityForms_forms_realEstate_inputFields_acquisitionDate_label,
+                                              child: FormBuilderDateTimePicker(
+                                                enabled: !edit,
+                                                onChanged: (selectedDate) {
+                                                  checkFinalValid(selectedDate);
+                                                  setState(() {
+                                                    aqusitionDateValue = selectedDate;
+                                                  });
+                                                },
+                                                initialDate:
+                                                    valuationDateValue ?? DateTime.now(),
+                                                lastDate:
+                                                    valuationDateValue ?? DateTime.now(),
+                                                inputType: InputType.date,
+                                                format: DateFormat("dd/MM/yyyy"),
+                                                name: "acquisitionDate",
+                                                autovalidateMode:
+                                                    AutovalidateMode.onUserInteraction,
+                                                validator: FormBuilderValidators.compose([
+                                                  FormBuilderValidators.required(
+                                                      errorText: appLocalizations
+                                                          .assetLiabilityForms_forms_realEstate_inputFields_acquisitionDate_errorMessage)
+                                                ]),
+                                                decoration: InputDecoration(
+                                                    suffixIcon: Icon(
+                                                      Icons.calendar_month,
+                                                      color:
+                                                          Theme.of(context).primaryColor,
+                                                    ),
+                                                    hintText: appLocalizations
+                                                        .assetLiabilityForms_forms_realEstate_inputFields_acquisitionDate_placeholder),
+                                              ),
+                                            ),
+                                            EachTextField(
+                                              hasInfo: false,
+                                              title: appLocalizations
+                                                  .assetLiabilityForms_forms_realEstate_inputFields_yourOwnership_label,
+                                              child: AppTextFields.simpleTextField(
+                                                  enabled: !edit,
+                                                  extraValidators: [
+                                                    (val) {
+                                                      return ((int.tryParse(val ?? "0") ??
+                                                                  0) <=
+                                                              100)
+                                                          ? null
+                                                          : "Ownership can't be greater then 100";
+                                                    }
+                                                  ],
+                                                  type: TextFieldType.number,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: checkFinalValid,
+                                                  suffixIcon:
+                                                      AppTextFields.rateSuffixIcon(),
+                                                  name: "ownershipPercentage",
+                                                  hint: appLocalizations
+                                                      .assetLiabilityForms_forms_realEstate_inputFields_yourOwnership_placeholder),
+                                            ),
+                                            EachTextField(
+                                              tooltipText: appLocalizations
+                                                  .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_tooltip,
+                                              title: appLocalizations
+                                                  .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_label,
+                                              child: AppTextFields.simpleTextField(
+                                                  enabled: !edit,
+                                                  required: false,
+                                                  type: TextFieldType.money,
+                                                  keyboardType: TextInputType.number,
+                                                  name: "marketValue",
+                                                  hint: appLocalizations
+                                                      .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_placeholder),
+                                            ),
+                                            EachTextField(
+                                              tooltipText: appLocalizations
+                                                  .assetLiabilityForms_forms_realEstate_inputFields_valuationDate_tooltip,
+                                              title: appLocalizations
+                                                  .assetLiabilityForms_forms_realEstate_inputFields_valuationDate_label,
+                                              child: FormBuilderDateTimePicker(
+                                                enabled: !edit,
+                                                firstDate: aqusitionDateValue,
+                                                lastDate: DateTime.now(),
+                                                format: DateFormat("dd/MM/yyyy"),
+                                                inputType: InputType.date,
+                                                name: "valuationDate",
+                                                onChanged: (selectedDate) {
+                                                  checkFinalValid(selectedDate);
+                                                  setState(() {
+                                                    valuationDateValue = selectedDate;
+                                                  });
+                                                },
+                                                decoration: InputDecoration(
+                                                    suffixIcon: Icon(
+                                                      Icons.calendar_month,
+                                                      color:
+                                                          Theme.of(context).primaryColor,
+                                                    ),
+                                                    hintText: appLocalizations
+                                                        .assetLiabilityForms_forms_realEstate_inputFields_valuationDate_placeholder),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 60),
+                                          ]
+                                              .map((e) => Padding(
+                                                    padding: const EdgeInsets.symmetric(
+                                                        vertical: 12, horizontal: 16),
+                                                    child: e,
+                                                  ))
+                                              .toList(),
+                                        ),
+                                      ),
+                                    ]),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ]),
-                        ),
-                      );
-                    }),
-                  ),
-                ],
+                          );
+                        }),
+                      ),
+                    ],
+                  );
+                }
               ),
             ),
           ),

@@ -232,6 +232,7 @@ class SimpleTextField extends AppStatelessWidget {
           hintText: hint,
           errorMaxLines: 2,
           suffixIcon: suffixIcon),
+      style: TextStyle(color: !enabled ? Theme.of(context).disabledColor : null),
       obscureText: obscureText,
       keyboardType: keyboardType,
       textInputAction: TextInputAction.next,
@@ -550,6 +551,12 @@ class _FormBuilderTypeAheadState extends AppState<FormBuilderTypeAhead> {
                 hintText: widget.hint,
                 prefixIcon: widget.prefixIcon,
                 suffixIcon: widget.suffixIcon,
+                disabledBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: Colors.grey,
+                    )),
                 enabledBorder: state.hasError
                     ? const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -559,6 +566,7 @@ class _FormBuilderTypeAheadState extends AppState<FormBuilderTypeAhead> {
                         ))
                     : null,
               ),
+
               controller: typeController,
               onChanged: (value) {
                 state.didChange(value);

@@ -16,6 +16,7 @@ class EditAssetBlocHelper{
       if (state is EditAssetSuccess) {
         context.read<AssetSummaryCubit>().getSummary(GetSummaryParams(days: 7, assetId: assetId));
         context.read<AssetsOverviewCubit>().initPage();
+        GlobalFunctions.showSnackBar(context, "Asset Edited",type: "success");
         context.pop();
       }
       if (state is DeleteAssetSuccess) {

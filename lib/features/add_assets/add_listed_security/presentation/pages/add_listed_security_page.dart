@@ -211,15 +211,21 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              appLocalizations
-                                                  .assetLiabilityForms_heading_listedAssets,
-                                              style: textTheme.headlineSmall,
-                                            ),
-                                            Text(
-                                              appLocalizations
-                                                  .assetLiabilityForms_subHeading_listedAssets,
-                                              style: textTheme.bodySmall,
+                                            edit ? const SizedBox() : Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  appLocalizations
+                                                      .assetLiabilityForms_heading_listedAssets,
+                                                  style: textTheme.headlineSmall,
+                                                ),
+                                                const SizedBox(height: 24),
+                                                Text(
+                                                  appLocalizations
+                                                      .assetLiabilityForms_subHeading_listedAssets,
+                                                  style: textTheme.bodySmall,
+                                                ),
+                                              ],
                                             ),
                                             Text(
                                               appLocalizations

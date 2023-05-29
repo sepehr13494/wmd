@@ -230,15 +230,21 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              appLocalizations
-                                                  .assetLiabilityForms_heading_others,
-                                              style: textTheme.headlineSmall,
-                                            ),
-                                            Text(
-                                              appLocalizations
-                                                  .assetLiabilityForms_subHeading_others,
-                                              style: textTheme.bodySmall,
+                                            edit ? const SizedBox() : Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  appLocalizations
+                                                      .assetLiabilityForms_heading_others,
+                                                  style: textTheme.headlineSmall,
+                                                ),
+                                                const SizedBox(height: 24),
+                                                Text(
+                                                  appLocalizations
+                                                      .assetLiabilityForms_subHeading_others,
+                                                  style: textTheme.bodySmall,
+                                                ),
+                                              ],
                                             ),
                                             Text(
                                               appLocalizations

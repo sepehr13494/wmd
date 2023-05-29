@@ -358,6 +358,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                   title: appLocalizations
                                                       .assetLiabilityForms_forms_bankAccount_inputFields_currency_label,
                                                   child: CurrenciesDropdown(
+                                                    enabled: !edit,
                                                     onChanged: checkFinalValid,
                                                   ),
                                                 ),
