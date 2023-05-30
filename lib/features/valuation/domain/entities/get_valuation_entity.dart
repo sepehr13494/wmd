@@ -7,6 +7,8 @@ class GetValuationEntity extends Equatable {
     required this.id,
     required this.amount,
     this.pricePerUnit,
+    this.quantity,
+    this.ownershipPercentage,
     required this.currencyCode,
     required this.currencyToUsdFxRate,
     required this.amountInUsd,
@@ -28,6 +30,8 @@ class GetValuationEntity extends Equatable {
   final String currencyCode;
   final double currencyToUsdFxRate;
   final double amountInUsd;
+  final double? quantity;
+  final double? ownershipPercentage;
   // final String originCode;
   final DateTime valuatedAt;
   final bool isSystemGenerated;
@@ -43,6 +47,8 @@ class GetValuationEntity extends Equatable {
         "id": id,
         "amount": amount,
         "pricePerUnit": pricePerUnit,
+        "quantity": quantity,
+        "ownershipPercentage": ownershipPercentage,
         "currencyCode": currencyCode,
         "currencyToUsdFxRate": currencyToUsdFxRate,
         "isSystemGenerated": isSystemGenerated,
@@ -65,6 +71,7 @@ class GetValuationEntity extends Equatable {
             pricePerUnit != null ? pricePerUnit?.convertMoney() : pricePerUnit,
         "currencyCode": Currency.getCurrencyFromString(currencyCode),
         "currencyToUsdFxRate": currencyToUsdFxRate,
+        "quantity": quantity != null ? quantity.toString() : 0,
         "isSystemGenerated": isSystemGenerated,
         "isPm1Processed": isPm1Processed,
         "amountInUsd": amountInUsd,
@@ -76,6 +83,9 @@ class GetValuationEntity extends Equatable {
         "createdAt": createdAt,
         "updatedAt": updatedAt,
         "note": note,
+        "ownershipPercentage": ownershipPercentage != null
+            ? ownershipPercentage?.toInt().toString()
+            : 0,
       };
 
   @override
