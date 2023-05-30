@@ -15,8 +15,7 @@ class AppConstants {
 
   static String auth0IssuerBaseUrl = dotenv.env['AUTH0_ISSUER_BASE_URL']!;
   static String auth0ClientId = dotenv.env['AUTH0_CLIENT_ID']!;
-  static String auth0ClientSecret = dotenv.env['AUTH0_CLIENT_SECRET']!;
-  static String auth0Audience = dotenv.env['AUTH0_AUDIENCE']!;
+
   static String getCertificate(env) {
     switch (env) {
       case "uat":

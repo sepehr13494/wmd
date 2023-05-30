@@ -49,3 +49,9 @@ openssl s_client -showcerts -servername apigw-wmd-dev.azure-api.net -connect api
 openssl s_client -showcerts -servername apimaz-weu-tfo-mvp-qa.azure-api.net -connect apimaz-weu-tfo-mvp-qa.azure-api.net:443 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > assets/certificates/uat.crt
 ## prod
 openssl s_client -showcerts -servername apigw-wmd-prod-01.azure-api.net -connect apigw-wmd-prod-01.azure-api.net:443 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > assets/certificates/prod.crt
+
+# Setting up auth0 console
+This is official sdk, https://pub.dev/packages/auth0_flutter
+
+- edit .env domain(with https) and clientID
+- add domain(without https) in auth0.properties file 

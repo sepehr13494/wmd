@@ -107,12 +107,12 @@ class _RealEstateValuationFormWidgetState
       return;
     }
 
-    final noOfUnitsParsed = noOfUnits != null ? int.tryParse(noOfUnits!) : 0;
+    final noOfUnitsParsed = noOfUnits != null ? double.tryParse(noOfUnits!) : 0;
     final valuePerUnitParsed = valuePerUnit != null
-        ? int.tryParse(valuePerUnit!.toString().replaceAll(',', ''))
+        ? int.tryParse(valuePerUnit.toString().replaceAll(',', ''))
         : 0;
     final ownerShipParsed = ownerShip != null
-        ? double.tryParse(ownerShip!.toString().replaceAll(',', ''))
+        ? double.tryParse(ownerShip.toString().replaceAll(',', ''))
         : 0;
 
     setState(() {
@@ -125,10 +125,17 @@ class _RealEstateValuationFormWidgetState
     json.removeWhere((key, value) => (value == "" || value == null));
 
     if (formKey.currentState != null) {
-      debugPrint("working inside real setup setFormValues");
+      debugPrint("working inside real estate form setup setFormValues");
       debugPrint(json.toString());
+
+      try {
+        formKey.currentState?.patchValue(json);
+      } catch (e) {
+        debugPrint("patchValue failed");
+        debugPrint(e.toString());
+      }
+
       debugPrint(json["acquisitionDate"].toString());
-      formKey.currentState?.patchValue(json);
 
       setState(() {
         aqusitionDateValue = json["acquisitionDate"];
@@ -258,8 +265,13 @@ class _RealEstateValuationFormWidgetState
                     setState(() {
                       ownerShip = val;
                     });
-                    calculateCurrentValue();
                     checkFinalValid(val);
+
+                    try {
+                      calculateCurrentValue();
+                    } catch (e) {
+                      debugPrint(e.toString());
+                    }
                   },
                   name: "ownershipPercentage",
                   hint: appLocalizations
