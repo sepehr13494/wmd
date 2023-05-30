@@ -243,6 +243,8 @@ class SimpleTextField extends AppStatelessWidget {
         break;
       case TextFieldType.rate:
         break;
+      case TextFieldType.minusMoney:
+        break;
     }
     return FormBuilderTextField(
       key: key,
@@ -274,6 +276,7 @@ class SimpleTextField extends AppStatelessWidget {
           hintText: hint,
           errorMaxLines: 2,
           suffixIcon: suffixIcon),
+      style: TextStyle(color: !enabled ? Theme.of(context).disabledColor : null),
       obscureText: obscureText,
       keyboardType: keyboardType,
       textInputAction: TextInputAction.next,
@@ -300,19 +303,19 @@ class SimpleTextField extends AppStatelessWidget {
         return null;
       case TextFieldType.rate:
         return null;
+      case TextFieldType.minusMoney:
+        return null;
     }
   }
 }
 
 class CurrenciesDropdown extends StatefulWidget {
   final ValueChanged<Currency?>? onChanged;
-  final bool showExchange;
   final bool enabled;
 
   const CurrenciesDropdown(
       {Key? key,
       this.onChanged,
-      this.showExchange = false,
       this.enabled = false})
       : super(key: key);
 
@@ -363,7 +366,7 @@ class _CurrenciesDropdownState extends AppState<CurrenciesDropdown> {
             );
           },
         ),
-        if (widget.showExchange && !AppConstants.isRelease1) ...[
+        if (AppConstants.currencyConvertor && !AppConstants.isRelease1) ...[
           const SizedBox(
             height: 10,
           ),
@@ -592,6 +595,12 @@ class _FormBuilderTypeAheadState extends AppState<FormBuilderTypeAhead> {
                 hintText: widget.hint,
                 prefixIcon: widget.prefixIcon,
                 suffixIcon: widget.suffixIcon,
+                disabledBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: Colors.grey,
+                    )),
                 enabledBorder: state.hasError
                     ? const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -601,6 +610,7 @@ class _FormBuilderTypeAheadState extends AppState<FormBuilderTypeAhead> {
                         ))
                     : null,
               ),
+
               controller: typeController,
               onChanged: (value) {
                 state.didChange(value);
