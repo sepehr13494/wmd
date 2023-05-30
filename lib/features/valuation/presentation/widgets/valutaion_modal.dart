@@ -227,14 +227,6 @@ class ValuationModalWidget extends ModalWidget {
             var json = state.entity.toFormJson();
 
             setFormValues!(json);
-
-            json.removeWhere((key, value) => (value == "" || value == null));
-            debugPrint("working  setup");
-            debugPrint(json.toString());
-            if (formStateKey?.currentState != null) {
-              debugPrint("working inside setup");
-              formStateKey?.currentState?.patchValue(json);
-            }
           }
         }), builder: (context, state) {
           return BlocConsumer<AssetSeeMoreCubit, AssetSeeMoreState>(listener:
@@ -249,10 +241,12 @@ class ValuationModalWidget extends ModalWidget {
 
               try {
                 if (json?.currencyCode != null) {
-                  Map<String, dynamic> formDataTemp = {
-                    "currencyCode":
-                        Currency.getCurrencyFromString(json?.currencyCode)
-                  };
+                  Map<String, dynamic> formDataTemp = {};
+
+                  if (isEdit == null || isEdit == false) {
+                    formDataTemp['currencyCode'] =
+                        Currency.getCurrencyFromString(json?.currencyCode);
+                  }
 
                   bool isAcquisitionDateAvailable = false;
                   bool isSavingOrCurrentBank = false;

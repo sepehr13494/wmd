@@ -4,6 +4,8 @@ class GetValuationResponse extends GetValuationEntity {
   const GetValuationResponse(
       {required super.amount,
       required super.pricePerUnit,
+      super.quantity,
+      super.ownershipPercentage,
       required super.id,
       required super.currencyCode,
       required super.currencyToUsdFxRate,
@@ -22,6 +24,12 @@ class GetValuationResponse extends GetValuationEntity {
   factory GetValuationResponse.fromJson(Map<String, dynamic> json) =>
       GetValuationResponse(
         amount: double.tryParse(json["amount"].toString()) ?? 0,
+        quantity: json["quantity"] != null
+            ? double.tryParse(json["quantity"].toString()) ?? 0
+            : 0,
+        ownershipPercentage: json["ownershipPercentage"] != null
+            ? double.tryParse(json["ownershipPercentage"].toString()) ?? 0
+            : 0,
         pricePerUnit: double.tryParse(json["pricePerUnit"].toString()) ?? 0,
         id: json["id"] ?? '',
         currencyCode: json["currency"],
