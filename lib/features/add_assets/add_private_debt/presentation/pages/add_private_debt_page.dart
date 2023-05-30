@@ -256,7 +256,6 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                                   .assetLiabilityForms_forms_privateDebt_inputFields_currency_label,
                                               child: CurrenciesDropdown(
                                                 onChanged: checkFinalValid,
-                                                showExchange: true,
                                               ),
                                             ),
                                             EachTextField(

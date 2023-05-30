@@ -261,7 +261,6 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                                   .assetLiabilityForms_forms_realEstate_inputFields_currency_label,
                                               child: CurrenciesDropdown(
                                                 onChanged: checkFinalValid,
-                                                showExchange: true,
                                               ),
                                             ),
                                             EachTextField(

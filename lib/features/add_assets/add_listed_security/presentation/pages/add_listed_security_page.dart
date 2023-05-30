@@ -458,7 +458,6 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
 
                                                   checkFinalValid(val);
                                                 },
-                                                showExchange: true,
                                               ),
                                             ),
                                             EachTextField(

@@ -272,7 +272,6 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                               child: CurrenciesDropdown(
                                                 enabled: !edit,
                                                 onChanged: checkFinalValid,
-                                                showExchange: true,
                                               ),
                                             ),
                                             EachTextField(

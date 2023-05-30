@@ -311,13 +311,11 @@ class SimpleTextField extends AppStatelessWidget {
 
 class CurrenciesDropdown extends StatefulWidget {
   final ValueChanged<Currency?>? onChanged;
-  final bool showExchange;
   final bool enabled;
 
   const CurrenciesDropdown(
       {Key? key,
       this.onChanged,
-      this.showExchange = false,
       this.enabled = false})
       : super(key: key);
 
