@@ -243,6 +243,8 @@ class SimpleTextField extends AppStatelessWidget {
         break;
       case TextFieldType.rate:
         break;
+      case TextFieldType.minusMoney:
+        break;
     }
     return FormBuilderTextField(
       key: key,
@@ -300,6 +302,8 @@ class SimpleTextField extends AppStatelessWidget {
       case TextFieldType.number:
         return null;
       case TextFieldType.rate:
+        return null;
+      case TextFieldType.minusMoney:
         return null;
     }
   }
@@ -364,7 +368,7 @@ class _CurrenciesDropdownState extends AppState<CurrenciesDropdown> {
             );
           },
         ),
-        if (widget.showExchange && !AppConstants.isRelease1) ...[
+        if (AppConstants.currencyConvertor && !AppConstants.isRelease1) ...[
           const SizedBox(
             height: 10,
           ),
