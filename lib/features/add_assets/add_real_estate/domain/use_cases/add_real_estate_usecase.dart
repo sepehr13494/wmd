@@ -16,16 +16,17 @@ class AddRealEstateUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
   @override
   Future<Either<Failure, AddAsset>> call(Map<String, dynamic> params) async {
     try {
-      return await realEstateRepository.postRealEstate(getAddRealStateObj(params));
+      return await realEstateRepository
+          .postRealEstate(getAddRealStateObj(params));
     } catch (e) {
       debugPrint("AddRealEstateUseCase catch : ${e.toString()}");
       return const Left(AppFailure(message: "Something went wrong!"));
     }
   }
 
-  static AddRealEstateParams getAddRealStateObj(Map<String, dynamic> params){
+  static AddRealEstateParams getAddRealStateObj(Map<String, dynamic> params) {
     final acquisitionCostPerUnit =
-    params['acquisitionCostPerUnit'].toString().replaceAll(',', '');
+        params['acquisitionCostPerUnit'].toString().replaceAll(',', '');
     final marketValue = params['marketValue'].toString().replaceAll(',', '');
 
     final newMap = {
@@ -99,7 +100,7 @@ class AddRealEstateParams extends Equatable {
         "currencyCode": currencyCode,
         "acquisitionCostPerUnit": acquisitionCostPerUnit,
         "ownershipPercentage": ownershipPercentage,
-        "marketValue": marketValue,
+        "valuePerUnit": marketValue,
         "acquisitionDate": acquisitionDate.toIso8601String(),
         "valuationDate": valuationDate?.toIso8601String()
       };
