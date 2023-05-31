@@ -177,6 +177,10 @@ class ValuationModalWidget extends ModalWidget {
           break;
       }
 
+      if (isEdit == true) {
+        formMap['transactionId'] = valuationId;
+      }
+
       return formMap;
     }
 
@@ -213,16 +217,7 @@ class ValuationModalWidget extends ModalWidget {
             //     .read<ValuationCubit>()
             //     .getAllValuation(GetAllValuationParams(assetId));
           }
-          if (state is UpdateValuationLoaded) {
-            GlobalFunctions.showSnackBar(context, 'Valuation edited',
-                type: "success");
 
-            Navigator.pop(context, false);
-
-            // context
-            //     .read<ValuationCubit>()
-            //     .getAllValuation(GetAllValuationParams(assetId));
-          }
           if (state is GetValuationLoaded) {
             var json = state.entity.toFormJson();
 
@@ -316,8 +311,16 @@ class ValuationModalWidget extends ModalWidget {
                     SizedBox(width: responsiveHelper.bigger16Gap),
                     ElevatedButton(
                       onPressed: () {
-                        handleFormSubmit(
-                            formStateKey, renderSubmitData, context, false);
+                        if (isEdit == true) {
+                          handleFormSubmitOnEdit(
+                            formStateKey,
+                            renderSubmitData,
+                            context,
+                          );
+                        } else {
+                          handleFormSubmit(
+                              formStateKey, renderSubmitData, context, false);
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                           minimumSize: const Size(100, 50)),
@@ -347,6 +350,18 @@ class ValuationModalWidget extends ModalWidget {
               isEdit: isEdit);
           break;
         case AssetTypes.realEstate:
+          entity = RealEstateValuationFormWidget(
+              buildActions: (e, callbackF) =>
+                  buildActions(context, e, (x) => callbackF(x)),
+              isEdit: isEdit);
+          break;
+        case AssetTypes.otherAsset:
+          entity = RealEstateValuationFormWidget(
+              buildActions: (e, callbackF) =>
+                  buildActions(context, e, (x) => callbackF(x)),
+              isEdit: isEdit);
+          break;
+        case AssetTypes.otherAssets:
           entity = RealEstateValuationFormWidget(
               buildActions: (e, callbackF) =>
                   buildActions(context, e, (x) => callbackF(x)),

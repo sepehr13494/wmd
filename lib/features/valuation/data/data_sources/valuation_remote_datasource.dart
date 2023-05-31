@@ -13,7 +13,7 @@ import '../models/update_valuation_response.dart';
 
 abstract class AssetValuationRemoteDataSource {
   Future<void> postValuation(PostValuationParams params);
-  Future<UpdateValuationResponse> updateValuation(UpdateValuationParams params);
+  Future<void> updateValuation(UpdateValuationParams params);
   Future<void> deleteValuation(GetValuationParams params);
   Future<GetValuationResponse> getValuationById(GetValuationParams params);
 }
@@ -40,15 +40,14 @@ class AssetValuationRemoteDataSourceImpl extends AppServerDataSource
   }
 
   @override
-  Future<UpdateValuationResponse> updateValuation(
-      UpdateValuationParams params) async {
+  Future<void> updateValuation(UpdateValuationParams params) async {
     try {
       final appRequestOptions = AppRequestOptions(
           RequestTypes.put, AppUrls.postAddValuation, params.toJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = UpdateValuationResponse.fromJson(response);
-      return result;
+
+      return;
     } on ServerException {
       rethrow;
     } catch (e) {

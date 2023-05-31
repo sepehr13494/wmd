@@ -10,7 +10,7 @@ import '../entities/update_valuation_entity.dart';
 
 abstract class AssetValuationRepository {
   Future<Either<Failure, AppSuccess>> postValuation(PostValuationParams params);
-  Future<Either<Failure, UpdateValuationEntity>> updateValuation(
+  Future<Either<Failure, AppSuccess>> updateValuation(
       UpdateValuationParams params);
   Future<Either<Failure, AppSuccess>> deleteValuation(
       GetValuationParams params);

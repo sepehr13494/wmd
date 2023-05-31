@@ -208,27 +208,28 @@ class _ListedEquityValuationFormWidgettState
                   hint: appLocalizations
                       .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_placeholder),
             ),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? AppColors.anotherCardColorForDarkTheme
-                      : AppColors.anotherCardColorForLightTheme,
-                  borderRadius: BorderRadius.circular(8)),
-              child: Align(
-                alignment: AlignmentDirectional.centerStart,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text("Total cost"),
-                    const SizedBox(height: 8),
-                    Text(currentDayValue == "--"
-                        ? currentDayValue
-                        : "\$$currentDayValue")
-                  ],
+            if (currentDayValue != "--")
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? AppColors.anotherCardColorForDarkTheme
+                        : AppColors.anotherCardColorForLightTheme,
+                    borderRadius: BorderRadius.circular(8)),
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text("Total cost"),
+                      const SizedBox(height: 8),
+                      Text(currentDayValue == "--"
+                          ? currentDayValue
+                          : "\$$currentDayValue")
+                    ],
+                  ),
                 ),
               ),
-            ),
             EachTextField(
               hasInfo: false,
               title: appLocalizations.assets_valuationModal_labels_note,

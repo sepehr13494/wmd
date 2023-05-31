@@ -276,9 +276,11 @@ class SimpleTextField extends AppStatelessWidget {
           hintText: hint,
           errorMaxLines: 2,
           suffixIcon: suffixIcon),
-      style: TextStyle(color: !enabled ? Theme.of(context).disabledColor : null),
+      style:
+          TextStyle(color: !enabled ? Theme.of(context).disabledColor : null),
       obscureText: obscureText,
-      keyboardType: keyboardType,
+      keyboardType:
+          type == TextFieldType.number ? TextInputType.number : keyboardType,
       textInputAction: TextInputAction.next,
       autofillHints:
           _getAutofillHint(type) == null ? null : [_getAutofillHint(type)!],
@@ -313,10 +315,7 @@ class CurrenciesDropdown extends StatefulWidget {
   final ValueChanged<Currency?>? onChanged;
   final bool enabled;
 
-  const CurrenciesDropdown(
-      {Key? key,
-      this.onChanged,
-      this.enabled = false})
+  const CurrenciesDropdown({Key? key, this.onChanged, this.enabled = false})
       : super(key: key);
 
   @override
@@ -610,7 +609,6 @@ class _FormBuilderTypeAheadState extends AppState<FormBuilderTypeAhead> {
                         ))
                     : null,
               ),
-
               controller: typeController,
               onChanged: (value) {
                 state.didChange(value);
