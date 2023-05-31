@@ -31,7 +31,7 @@ class ErrorHandlerMiddleware {
             debugPrint(response.requestOptions.data.toString());
           }
           debugPrint(appRequestOptions.type.toString());
-          log("response : $response");
+          log("response for ${appRequestOptions.url} : $response");
         }
         if (appRequestOptions.checkResponse) {
           if ((response.statusCode ?? 600) < 300) {

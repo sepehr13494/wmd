@@ -8,14 +8,14 @@ class AppConstants {
   static bool developMode = dotenv.env['DEVELOPING_MODE']! == 'true';
   static bool developRoutes = dotenv.env['DEVELOPING_ROUTES']! == 'true';
   static bool isRelease1 = dotenv.env['IS_RELEASE_ONE']! == 'true';
+  static bool currencyConvertor = dotenv.env['CURRENCY_CONVERTOR']! == 'true';
 
   static const String contactEmail = "developer@allinoneplus.com";
   // developMode ? "developer@allinoneplus.com" : "n.albasri@tfoco.com";
 
   static String auth0IssuerBaseUrl = dotenv.env['AUTH0_ISSUER_BASE_URL']!;
   static String auth0ClientId = dotenv.env['AUTH0_CLIENT_ID']!;
-  static String auth0ClientSecret = dotenv.env['AUTH0_CLIENT_SECRET']!;
-  static String auth0Audience = dotenv.env['AUTH0_AUDIENCE']!;
+
   static String getCertificate(env) {
     switch (env) {
       case "uat":

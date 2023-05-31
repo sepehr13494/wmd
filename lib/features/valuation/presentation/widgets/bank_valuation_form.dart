@@ -138,7 +138,6 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
                   title: appLocalizations.assets_valuationModal_labels_currency,
                   child: CurrenciesDropdown(
                     onChanged: (e) => checkFinalValid(e),
-                    showExchange: false,
                     enabled: false,
                   ),
                 ),

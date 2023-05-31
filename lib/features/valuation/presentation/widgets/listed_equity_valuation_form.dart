@@ -165,7 +165,6 @@ class _ListedEquityValuationFormWidgettState
               title: appLocalizations.assets_valuationModal_labels_currency,
               child: CurrenciesDropdown(
                 onChanged: checkFinalValid,
-                showExchange: false,
                 enabled: false,
               ),
             ),

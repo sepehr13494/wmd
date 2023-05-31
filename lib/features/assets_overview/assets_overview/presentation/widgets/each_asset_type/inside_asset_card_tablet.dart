@@ -71,7 +71,7 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                           child: ChangeWidget(
                             number: asset.inceptionToDate,
                             text:
-                                "${asset.inceptionToDate.toStringFixedZeroless()}%",
+                                "${asset.inceptionToDate.toStringAsFixedZero(1)}%",
                             tooltipMessage: (asset.inceptionToDate >= 99900 ||
                                     asset.inceptionToDate <= -100)
                                 ? appLocalizations
@@ -86,7 +86,7 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                           child: ChangeWidget(
                             number: asset.yearToDate,
                             text:
-                                "${asset.yearToDate.toStringFixedZeroless()}%",
+                                "${asset.yearToDate.toStringAsFixedZero(1)}%",
                             tooltipMessage: (asset.yearToDate >= 99900 ||
                                     asset.yearToDate <= -100)
                                 ? appLocalizations
@@ -110,6 +110,7 @@ class InsideAssetCardTablet extends AppStatelessWidget {
                                   break;
                                 case AssetsOverviewBaseType.currency:
                                 case AssetsOverviewBaseType.geography:
+                                case AssetsOverviewBaseType.portfolio:
                                   finalText =
                                       AssetsOverviewChartsColors.getAssetType(
                                           appLocalizations, asset.type);
