@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/extentions/round_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
@@ -28,14 +29,14 @@ class YtdItdWidget extends AppStatelessWidget {
       [
         AppLocalizations.of(context).assets_label_ytd,
         ytd,
-        "${ytd.toStringFixedZeroless()}%",
+        "${ytd.toStringAsFixedZero(1)}%",
         appLocalizations.assets_tooltips_ytd
         // "Year-to-date:the period from the first of\nthe calendar year to date of the\ncommunication."
       ],
       [
         AppLocalizations.of(context).assets_label_itd,
         itd,
-        "${itd.toStringFixedZeroless()}%",
+        "${itd.toStringAsFixedZero(1)}%",
         appLocalizations.assets_tooltips_itd
         // "Incenption-to-date:the period from the\nestablishment of the portfolio/investment to\nthe date of the communication."
       ],

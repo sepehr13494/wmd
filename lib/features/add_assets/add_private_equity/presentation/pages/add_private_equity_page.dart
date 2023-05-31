@@ -112,6 +112,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                   final Widget deleteWidget = DeleteAssetBaseWidget(
                       name: appLocalizations
                           .assetLiabilityForms_assets_privateEquity,
+                      realAssetName: widget.moreEntity!.investmentName,
                       onTap: () {
                         context
                             .read<EditPrivateEquityCubit>()
