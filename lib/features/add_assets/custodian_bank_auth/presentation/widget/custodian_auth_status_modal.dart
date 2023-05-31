@@ -155,8 +155,10 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
               title: appLocalizations.linkAccount_stepper_stepTwo_title,
               trailing: '2 ${appLocalizations.assets_charts_days}',
               // showInput: true,
-              subtitle:
-                  appLocalizations.linkAccount_stepper_stepTwo_action_active,
+              subtitle: status.accountId != null
+                  ? appLocalizations
+                      .linkAccount_stepper_stepTwo_action_completed
+                  : appLocalizations.linkAccount_stepper_stepTwo_action_active,
               accountId: status.accountId,
               // isDone: status.shareWithBank,
               ready: status.signLetter,
