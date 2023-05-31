@@ -379,7 +379,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                         onTap: () async {
                           if (index == 0) {
                             debugPrint("working edit");
-                            Future.delayed(
+                            final res = await Future.delayed(
                                 const Duration(seconds: 0),
                                 () => showDialog(
                                         context: context,
@@ -398,14 +398,24 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                                             isEdit: true,
                                             valuationId: id,
                                           );
-                                        }).then((value) {
+                                        }).then((isConfirm) {
                                       context
                                           .read<ValuationCubit>()
                                           .getAllValuation(
                                               GetAllValuationParams(
                                                   widget.assetId));
+
+                                      if (isConfirm != null &&
+                                          isConfirm == true) {
+                                        // handleFormSubmit(formStateKey, renderSubmitData, context, true);
+                                      }
+                                      return isConfirm;
                                     }));
-                            ;
+
+                            if (res != null) {
+                              context.read<ValuationCubit>().getAllValuation(
+                                  GetAllValuationParams(widget.assetId));
+                            }
                           } else {
                             // delete here
                             debugPrint("working delete");

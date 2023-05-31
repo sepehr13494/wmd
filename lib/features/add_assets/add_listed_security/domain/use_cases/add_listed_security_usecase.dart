@@ -17,14 +17,15 @@ class AddListedSecurityUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
   @override
   Future<Either<Failure, AddAsset>> call(Map<String, dynamic> params) async {
     try {
-      return await listedSecurityRepository.postListedSecurity(getAddListedSecurityParamsObj(params));
+      return await listedSecurityRepository
+          .postListedSecurity(getAddListedSecurityParamsObj(params));
     } catch (e) {
       debugPrint("AddOtherAssetUseCase catch : ${e.toString()}");
       return const Left(AppFailure(message: "Something went wrong!"));
     }
   }
 
-  static AddListedSecurityParams getAddListedSecurityParamsObj(params){
+  static AddListedSecurityParams getAddListedSecurityParamsObj(params) {
     final marketValue = params['marketValue'].toString().replaceAll(',', '');
     final totalCost = params['totalCost'].toString().replaceAll(',', '');
 
@@ -32,7 +33,7 @@ class AddListedSecurityUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
 
     debugPrint("ListedSecurityName");
 
-    final Map<String,dynamic> newMap = {
+    final Map<String, dynamic> newMap = {
       ...params,
       "securityName": name.securityName,
       "securityShortName": name.securityShortName,
@@ -47,7 +48,6 @@ class AddListedSecurityUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
     debugPrint(newMap.toString());
 
     return AddListedSecurityParams.fromJson(newMap);
-
   }
 }
 
@@ -122,6 +122,7 @@ class AddListedSecurityParams extends Equatable {
         "country": country,
         "currencyCode": currencyCode,
         "investmentDate": investmentDate.toIso8601String(),
+        "valuationDate": investmentDate.toIso8601String(),
         "marketValue": marketValue,
         "quantity": quantity,
         "totalCost": totalCost,

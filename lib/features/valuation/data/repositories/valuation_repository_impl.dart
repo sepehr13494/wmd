@@ -32,11 +32,11 @@ class AssetValuationRepositoryImpl implements AssetValuationRepository {
   }
 
   @override
-  Future<Either<Failure, UpdateValuationEntity>> updateValuation(
+  Future<Either<Failure, AppSuccess>> updateValuation(
       UpdateValuationParams params) async {
     try {
       final result = await remoteDataSource.updateValuation(params);
-      return Right(result);
+      return const Right(AppSuccess(message: "successfully done"));
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error) {
