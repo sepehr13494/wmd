@@ -46,21 +46,24 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           widget.isDone
-              ? const Icon(Icons.check_circle_outline_rounded)
-              : Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Theme.of(context).primaryColor,
+              ? const Icon(Icons.check_circle)
+              : Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    height: 20,
+                    width: 20,
+                    child: Center(
+                        child: Text(
+                      widget.stepNumber,
+                      style: textTheme.bodySmall!
+                          .apply(color: Theme.of(context).backgroundColor),
+                      textAlign: TextAlign.center,
+                    )),
                   ),
-                  height: 18,
-                  width: 18,
-                  child: Center(
-                      child: Text(
-                    widget.stepNumber,
-                    style: textTheme.bodySmall!
-                        .apply(color: Theme.of(context).backgroundColor),
-                    textAlign: TextAlign.center,
-                  )),
                 ),
           const SizedBox(width: 8),
           Expanded(
@@ -173,16 +176,16 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
         children: [
           widget.accountId != null
               ? const Icon(
-                  Icons.check_circle_outline_rounded,
-                  size: 18,
+                  Icons.check_circle,
                 )
               : Container(
+                  padding: const EdgeInsets.all(2),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Theme.of(context).primaryColor,
                   ),
-                  height: 18,
-                  width: 18,
+                  height: 20,
+                  width: 20,
                   child: Center(
                       child: Text(
                     widget.stepNumber,
