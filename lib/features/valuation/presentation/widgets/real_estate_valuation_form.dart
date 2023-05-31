@@ -183,7 +183,7 @@ class _RealEstateValuationFormWidgetState
                       color: Theme.of(context).primaryColor,
                     ),
                     hintText: appLocalizations
-                        .scheduleMeeting_availableDate_placeholder),
+                        .assets_valuationModal_placeholder_date),
               ),
             ),
             EachTextField(
@@ -273,6 +273,7 @@ class _RealEstateValuationFormWidgetState
                     }
                   },
                   name: "ownershipPercentage",
+                  suffixIcon: AppTextFields.rateSuffixIcon(),
                   hint: appLocalizations
                       .assets_valuationModal_placeholder_ownership),
             ),

@@ -148,6 +148,7 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
                   child: AppTextFields.simpleTextField(
                       onChanged: (e) => checkFinalValid(e),
                       errorMsg: appLocalizations.common_errors_required,
+                      keyboardType: TextInputType.phone,
                       type: isSavingOrCurrentBank
                           ? TextFieldType.minusMoney
                           : TextFieldType.money,
