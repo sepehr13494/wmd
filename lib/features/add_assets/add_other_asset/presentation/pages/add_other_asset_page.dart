@@ -125,6 +125,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
       noOfUnits = widget.moreEntity!.toFormJson()["units"];
       acqusitionCost = widget.moreEntity!.toFormJson()["acquisitionCost"];
       ownerShip = widget.moreEntity!.toFormJson()["ownerShip"];
+      print("ownewship : $ownerShip");
       valuePerUnit = widget.moreEntity!.toFormJson()["valuePerUnit"];
       calculateCurrentValue();
     }
@@ -178,7 +179,8 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
               child: Builder(
                 builder: (context) {
                   final Widget deleteWidget = DeleteAssetBaseWidget(
-                      name: "Bank account",
+                      name: "Other asset",
+                      realAssetName: widget.moreEntity!.name,
                       onTap: () {
                         context
                             .read<EditOtherAssetsCubit>()

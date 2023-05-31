@@ -110,6 +110,7 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                 builder: (context) {
                   final Widget deleteWidget = DeleteAssetBaseWidget(
                       name: "Private debt",
+                      realAssetName: widget.moreEntity!.investmentName,
                       onTap: () {
                         context
                             .read<EditPrivateDebtCubit>()

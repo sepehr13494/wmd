@@ -159,6 +159,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                 builder: (context) {
                   final Widget deleteWidget = DeleteAssetBaseWidget(
                       name: "Listed asset",
+                      realAssetName: widget.moreEntity!.securityShortName,
                       onTap: () {
                         context
                             .read<EditListedAssetCubit>()

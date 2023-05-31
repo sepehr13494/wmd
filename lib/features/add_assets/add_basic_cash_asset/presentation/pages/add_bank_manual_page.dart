@@ -54,8 +54,12 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
   bool enableAddAssetButton = false;
 
   @override
-  void didUpdateWidget(covariant AddBankManualPage oldWidget) {
-    super.didUpdateWidget(oldWidget);
+  void initState() {
+    if (widget.edit) {
+      accountType = widget.moreEntity!.toFormJson()["accountType"];
+      startDateValue = widget.moreEntity!.toFormJson()["startDate"];
+    }
+    super.initState();
   }
 
   void checkFinalValid(value) async {
@@ -81,13 +85,8 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final bool edit = widget.edit;
-    if (edit) {
-      accountType = widget.moreEntity!.toFormJson()["accountType"];
-      startDateValue = widget.moreEntity!.toFormJson()["startDate"];
-    }
     final isDepositTerm = accountType == "TermDeposit";
     final isSavingAccount = accountType == "SavingAccount";
-
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -138,6 +137,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                 builder: (context) {
                   final Widget deleteWidget = DeleteAssetBaseWidget(
                       name: "Bank account",
+                      realAssetName: widget.moreEntity!.bankName,
                       onTap: () {
                         context
                             .read<EditBankManualCubit>()

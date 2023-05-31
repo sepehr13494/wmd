@@ -114,6 +114,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                 builder: (context) {
                   final Widget deleteWidget = DeleteAssetBaseWidget(
                       name: "Real estate",
+                      realAssetName: widget.moreEntity!.name,
                       onTap: () {
                         context
                             .read<EditRealEstateCubit>()

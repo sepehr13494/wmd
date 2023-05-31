@@ -86,7 +86,7 @@ class InsideAssetCardMobile extends AppStatelessWidget {
                 children: [
                   ChangeWidget(
                     number: asset.inceptionToDate,
-                    text: "${asset.inceptionToDate.toStringFixedZeroless()}%",
+                    text: "${asset.inceptionToDate.toStringAsFixedZero(1)}%",
                     tooltipMessage: (asset.inceptionToDate >= 99900 ||
                             asset.inceptionToDate <= -100)
                         ? appLocalizations.assets_tooltips_percentageAbsurd
@@ -95,7 +95,7 @@ class InsideAssetCardMobile extends AppStatelessWidget {
                   const SizedBox(width: 8),
                   ChangeWidget(
                     number: asset.yearToDate,
-                    text: "${asset.yearToDate.toStringFixedZeroless()}%",
+                    text: "${asset.yearToDate.toStringAsFixedZero(1)}%",
                     tooltipMessage:
                         (asset.yearToDate >= 99900 || asset.yearToDate <= -100)
                             ? appLocalizations.assets_tooltips_percentageAbsurd
