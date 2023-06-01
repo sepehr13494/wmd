@@ -106,7 +106,7 @@ class RealEstateMoreEntity extends GetSeeMoreResponse {
         "noOfUnits": noOfUnits.toStringAsFixed(0),
         "acquisitionCostPerUnit": acquisitionCostPerUnit.convertMoney(),
         "acquisitionDate": acquisitionDate,
-        "ownershipPercentage": ownershipPercentage.toString(),
+        "ownershipPercentage": ownershipPercentage.toStringAsFixedZero(0),
         "marketValue": ((marketValue * 100)/ownershipPercentage).convertMoney(),
         "valuationDate": valuationDate,
         "id": id,
