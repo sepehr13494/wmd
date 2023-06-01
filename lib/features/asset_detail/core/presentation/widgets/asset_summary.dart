@@ -42,13 +42,13 @@ class AsssetSummary extends AppStatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const PrivacyBlurWarning(showCloseButton: false),
-          PrivacyBlurWidget(
-              child:
-                  Text(summary.assetNameFixed, style: textTheme.headlineSmall)),
           const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              PrivacyBlurWidget(
+                  child: Text(summary.assetNameFixed,
+                      style: textTheme.headlineSmall)),
               // if (summary.assetClassName != null) Text(summary.assetClassName),
               if (onEdit != null)
                 Builder(builder: (context) {
@@ -79,6 +79,7 @@ class AsssetSummary extends AppStatelessWidget {
                 }),
             ],
           ),
+          const SizedBox(height: 12),
           if (child != null) child!,
           SummaryCardWidget(
             summary: summary,
