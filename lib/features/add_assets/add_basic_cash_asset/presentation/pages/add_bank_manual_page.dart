@@ -421,8 +421,6 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                                 .assetLiabilityForms_forms_bankAccount_inputFields_rate_label,
                                                             child: AppTextFields
                                                                 .simpleTextField(
-                                                                    enabled:
-                                                                        !edit,
                                                                     name:
                                                                         "interestRate",
                                                                     suffixIcon:
