@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/core/util/map_utils.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/valuation/data/models/valuation_action_type.dart';
 
@@ -26,10 +26,9 @@ class _ListedEquityValuationFormWidgettState
     extends AppState<ListedEquityValuationFormWidget> {
   final formKey = GlobalKey<FormBuilderState>();
   bool enableAddAssetButton = false;
-  late Map<String, dynamic> lastValue;
+  Map<String, dynamic>? lastValue;
   bool hasTimeLineSelected = false;
   DateTime? availableDateValue;
-  FormBuilderState? formState;
 
   String currentDayValue = "--";
   String? noOfUnits = "";
@@ -43,13 +42,17 @@ class _ListedEquityValuationFormWidgettState
   void checkFinalValid(value) async {
     await Future.delayed(const Duration(milliseconds: 100));
     bool finalValid = formKey.currentState!.isValid;
-    setState(() {
-      formState = formKey.currentState;
-    });
+
     Map<String, dynamic> instantValue = formKey.currentState!.instantValue;
+
+    debugPrint("instantValue");
+    debugPrint(instantValue.toString());
+    debugPrint("lastValue");
+    debugPrint(lastValue.toString());
+
     if (finalValid) {
       if (widget.isEdit == true) {
-        if (lastValue.toString() != instantValue.toString()) {
+        if (!compareMaps(instantValue, lastValue!)) {
           if (!enableAddAssetButton) {
             setState(() {
               enableAddAssetButton = true;
@@ -76,7 +79,6 @@ class _ListedEquityValuationFormWidgettState
         });
       }
     }
-    formState?.save();
   }
 
   void calculateCurrentValue() {
@@ -94,7 +96,7 @@ class _ListedEquityValuationFormWidgettState
       return;
     }
 
-    final noOfUnitsParsed = noOfUnits != null ? int.tryParse(noOfUnits!) : 0;
+    final noOfUnitsParsed = noOfUnits != null ? double.tryParse(noOfUnits!) : 0;
     final valuePerUnitParsed = valuePerUnit != null
         ? int.tryParse(valuePerUnit!.toString().replaceAll(',', ''))
         : 0;
@@ -106,12 +108,28 @@ class _ListedEquityValuationFormWidgettState
   }
 
   void setFormValues(Map<String, dynamic> json) {
-    json.removeWhere((key, value) => (value == "" || value == null));
+    // json.removeWhere((key, value) => (value == "" || value == null));
     debugPrint("working real setup setFormValues");
     if (formKey.currentState != null) {
       debugPrint("working inside real setup setFormValues");
       debugPrint(json.toString());
-      formKey.currentState?.patchValue(json);
+      debugPrint(lastValue.toString());
+
+      try {
+        formKey.currentState?.patchValue(json);
+
+        setState(() {
+          lastValue = lastValue != null ? {...?lastValue, ...json} : json;
+        });
+      } catch (e) {
+        debugPrint("patchValue failed");
+        debugPrint(e.toString());
+      }
+      // formKey.currentState?.patchValue(json);
+
+      // setState(() {
+      //   lastValue = lastValue != null ? {...?lastValue, ...json} : json;
+      // });
     }
   }
 
@@ -173,8 +191,8 @@ class _ListedEquityValuationFormWidgettState
               title: appLocalizations.assets_valuationModal_labels_noOfUnits,
               child: AppTextFields.simpleTextField(
                   type: TextFieldType.rate,
+                  errorMsg: appLocalizations.assets_valuationModal_errors_value,
                   keyboardType: TextInputType.number,
-                  name: "quantity",
                   onChanged: (val) {
                     setState(() {
                       noOfUnits = val;
@@ -182,6 +200,7 @@ class _ListedEquityValuationFormWidgettState
                     calculateCurrentValue();
                     checkFinalValid(val);
                   },
+                  name: "quantity",
                   extraValidators: [
                     (val) {
                       return ((int.tryParse(val ?? "0") ?? 0) <= 100)
@@ -203,6 +222,7 @@ class _ListedEquityValuationFormWidgettState
                       valuePerUnit = val;
                     });
                     calculateCurrentValue();
+                    checkFinalValid(val);
                   },
                   name: "pricePerUnit",
                   hint: appLocalizations
@@ -249,7 +269,8 @@ class _ListedEquityValuationFormWidgettState
               .toList(),
         ),
       ),
-      widget.buildActions(formKey, (e) => setFormValues(e))
+      widget.buildActions(
+          formKey, (e) => setFormValues(e), enableAddAssetButton)
     ]);
   }
 }
