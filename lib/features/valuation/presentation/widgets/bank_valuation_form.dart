@@ -99,35 +99,35 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                EachTextField(
-                  hasInfo: false,
-                  title: appLocalizations.assets_valuationModal_labels_date,
-                  child: FormBuilderDateTimePicker(
-                    onChanged: (selectedDate) {
-                      checkFinalValid(selectedDate);
-                      setState(() {
-                        availableDateValue = selectedDate;
-                      });
-                    },
-                    lastDate: DateTime.now(),
-                    inputType: InputType.date,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.required(
-                          errorText: appLocalizations
-                              .assets_valuationModal_errors_acquisitionDate)
-                    ]),
-                    format: DateFormat("dd/MM/yyyy"),
-                    name: "valuatedAt",
-                    decoration: InputDecoration(
-                        suffixIcon: Icon(
-                          Icons.calendar_month,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        hintText: appLocalizations
-                            .assets_valuationModal_placeholder_date),
-                  ),
-                ),
+                // EachTextField(
+                //   hasInfo: false,
+                //   title: appLocalizations.assets_valuationModal_labels_date,
+                //   child: FormBuilderDateTimePicker(
+                //     onChanged: (selectedDate) {
+                //       checkFinalValid(selectedDate);
+                //       setState(() {
+                //         availableDateValue = selectedDate;
+                //       });
+                //     },
+                //     lastDate: DateTime.now(),
+                //     inputType: InputType.date,
+                //     autovalidateMode: AutovalidateMode.onUserInteraction,
+                //     validator: FormBuilderValidators.compose([
+                //       FormBuilderValidators.required(
+                //           errorText: appLocalizations
+                //               .assets_valuationModal_errors_acquisitionDate)
+                //     ]),
+                //     format: DateFormat("dd/MM/yyyy"),
+                //     name: "valuatedAt",
+                //     decoration: InputDecoration(
+                //         suffixIcon: Icon(
+                //           Icons.calendar_month,
+                //           color: Theme.of(context).primaryColor,
+                //         ),
+                //         hintText: appLocalizations
+                //             .assets_valuationModal_placeholder_date),
+                //   ),
+                // ),
                 EachTextField(
                   hasInfo: false,
                   title: appLocalizations.assets_valuationModal_labels_currency,
@@ -169,6 +169,9 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
                       ))
                   .toList(),
             )),
+        const SizedBox(
+          height: 48,
+        ),
         widget.buildActions(
             formKey, (e) => setFormValues(e), enableAddAssetButton)
       ],

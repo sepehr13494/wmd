@@ -49,7 +49,7 @@ class PostValuationParams extends Equatable {
           wealthType: json["wealthType"],
           valuatedAt: json["valuatedAt"] != null
               ? DateTime.parse(json["valuatedAt"].toString())
-              : json["valuatedAt"],
+              : DateTime.now(),
           quantity: json["quantity"] != null
               ? int.tryParse(json["quantity"])
               : json["quantity"],

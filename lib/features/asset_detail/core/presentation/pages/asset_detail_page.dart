@@ -13,8 +13,10 @@ import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/features/asset_detail/core/data/models/get_summary_params.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/asset_summary.dart';
+import 'package:wmd/features/asset_detail/valuation/data/models/get_all_valuation_params.dart';
 import 'package:wmd/features/asset_detail/valuation/data/models/get_valuation_performance_params.dart';
 import 'package:wmd/features/asset_detail/valuation/presentation/manager/performance_chart_cubit.dart';
+import 'package:wmd/features/asset_detail/valuation/presentation/manager/valuation_cubit.dart';
 import 'package:wmd/features/asset_detail/valuation/presentation/widget/performance_chart.dart';
 import 'package:wmd/features/asset_detail/valuation/presentation/widget/performance_chart_v2.dart';
 import 'package:wmd/features/asset_see_more/core/data/models/get_asset_see_more_params.dart';
@@ -56,7 +58,11 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
             create: (context) => sl<PerformanceChartCubit>()
               ..getValuationPerformance(GetValuationPerformanceParams(
                   days: selectedTimeFilter.value, id: widget.assetId)),
-          )
+          ),
+          BlocProvider(
+            create: (context) => sl<ValuationCubit>()
+              ..getAllValuation(GetAllValuationParams(widget.assetId)),
+          ),
         ],
         child: Builder(builder: (context) {
           return Scaffold(
@@ -216,6 +222,11 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                                         .getSummary(GetSummaryParams(
                                             assetId: widget.assetId,
                                             days: selectedTimeFilter.value));
+
+                                    context
+                                        .read<ValuationCubit>()
+                                        .getAllValuation(GetAllValuationParams(
+                                            widget.assetId));
                                   } catch (e) {
                                     debugPrint(
                                         "callback working. gfailed.....");

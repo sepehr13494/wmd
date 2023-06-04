@@ -124,7 +124,8 @@ class ValuationModalWidget extends ModalWidget {
             ...formKey.currentState!.instantValue,
             "wealthType": "Asset",
             "assetOrLiabilityId": assetId,
-            "type": "Buy"
+            "type": "Buy",
+            // "valuatedAt": DateTime.now(),
           };
           break;
         case AssetTypes.realEstate:
@@ -219,11 +220,8 @@ class ValuationModalWidget extends ModalWidget {
             GlobalFunctions.showSnackBar(context, 'Valuation added',
                 type: "success");
 
-            Navigator.pop(context, false);
-
-            // context
-            //     .read<ValuationCubit>()
-            //     .getAllValuation(GetAllValuationParams(assetId));
+            Navigator.of(context, rootNavigator: true).pop();
+            // Navigator.pop(context, false);
           }
 
           if (state is GetValuationLoaded) {
