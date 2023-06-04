@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/core/util/map_utils.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/valuation/data/models/valuation_action_type.dart';
 
@@ -26,10 +26,10 @@ class _RealEstateValuationFormWidgetState
     extends AppState<RealEstateValuationFormWidget> {
   final formKey = GlobalKey<FormBuilderState>();
   bool enableAddAssetButton = false;
-  late Map<String, dynamic> lastValue;
+  Map<String, dynamic>? lastValue;
   bool hasTimeLineSelected = false;
   DateTime? availableDateValue;
-  FormBuilderState? formState;
+
   DateTime? aqusitionDateValue;
 
   String currentDayValue = "--";
@@ -46,16 +46,10 @@ class _RealEstateValuationFormWidgetState
     await Future.delayed(const Duration(milliseconds: 100));
     bool finalValid = formKey.currentState!.isValid;
 
-    debugPrint("formKey.currentState.value");
-    debugPrint(formKey.currentState!.value.toString());
-
-    setState(() {
-      formState = formKey.currentState;
-    });
     Map<String, dynamic> instantValue = formKey.currentState!.instantValue;
     if (finalValid) {
       if (widget.isEdit == true) {
-        if (lastValue.toString() != instantValue.toString()) {
+        if (!compareMaps(instantValue, lastValue!)) {
           if (!enableAddAssetButton) {
             setState(() {
               enableAddAssetButton = true;
@@ -82,7 +76,6 @@ class _RealEstateValuationFormWidgetState
         });
       }
     }
-    formState?.save();
   }
 
   void calculateCurrentValue() {
@@ -122,7 +115,7 @@ class _RealEstateValuationFormWidgetState
   }
 
   void setFormValues(Map<String, dynamic> json) {
-    json.removeWhere((key, value) => (value == "" || value == null));
+    // json.removeWhere((key, value) => (value == "" || value == null));
 
     if (formKey.currentState != null) {
       debugPrint("working inside real estate form setup setFormValues");
@@ -130,6 +123,10 @@ class _RealEstateValuationFormWidgetState
 
       try {
         formKey.currentState?.patchValue(json);
+
+        setState(() {
+          lastValue = lastValue != null ? {...?lastValue, ...json} : json;
+        });
       } catch (e) {
         debugPrint("patchValue failed");
         debugPrint(e.toString());
@@ -318,7 +315,8 @@ class _RealEstateValuationFormWidgetState
               .toList(),
         ),
       ),
-      widget.buildActions(formKey, (e) => setFormValues(e))
+      widget.buildActions(
+          formKey, (e) => setFormValues(e), enableAddAssetButton)
     ]);
   }
 }
