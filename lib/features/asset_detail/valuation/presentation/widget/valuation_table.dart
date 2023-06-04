@@ -10,6 +10,7 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/valuation/data/models/get_all_valuation_params.dart';
 import 'package:wmd/features/asset_detail/valuation/domain/entities/get_all_valuation_entity.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/valuation/presentation/widgets/valuation_delete_modal.dart';
 import 'package:wmd/features/valuation/presentation/widgets/valuation_warning_modal.dart';
 import 'package:wmd/features/valuation/presentation/widgets/valutaion_modal.dart';
@@ -22,11 +23,13 @@ class ValuationWidget extends AppStatelessWidget {
   final String assetId;
   final String assetType;
   final bool isManuallyAdded;
+  final Function updateHoldings;
   const ValuationWidget({
     Key? key,
     required this.assetId,
     required this.assetType,
     required this.isManuallyAdded,
+    required this.updateHoldings,
   }) : super(key: key);
 
   @override
@@ -80,6 +83,7 @@ class ValuationWidget extends AppStatelessWidget {
                                           .read<ValuationCubit>()
                                           .getAllValuation(
                                               GetAllValuationParams(assetId));
+                                      updateHoldings();
                                     });
 
                                     // context.pushNamed(AppRoutes.forgetPassword);
@@ -107,6 +111,7 @@ class ValuationWidget extends AppStatelessWidget {
                             assetType: assetType,
                             assetId: assetId,
                             isManuallyAdded: isManuallyAdded,
+                            updateHoldings: updateHoldings,
                           )
 
                         // return const Center(
@@ -126,11 +131,13 @@ class ValuationTableWidget extends StatefulWidget {
     required this.assetId,
     required this.assetType,
     required this.isManuallyAdded,
+    required this.updateHoldings,
   });
   final List<GetAllValuationEntity> getAllValuationEntities;
   final String assetId;
   final String assetType;
   final bool isManuallyAdded;
+  final Function updateHoldings;
 
   @override
   AppState<ValuationTableWidget> createState() => _ValuationTableWidgetState();
@@ -399,11 +406,20 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                                             valuationId: id,
                                           );
                                         }).then((isConfirm) {
-                                      context
-                                          .read<ValuationCubit>()
-                                          .getAllValuation(
-                                              GetAllValuationParams(
-                                                  widget.assetId));
+                                      try {
+                                        debugPrint("on close action");
+
+                                        context
+                                            .read<ValuationCubit>()
+                                            .getAllValuation(
+                                                GetAllValuationParams(
+                                                    widget.assetId));
+
+                                        widget.updateHoldings();
+                                      } catch (e) {
+                                        debugPrint("on close action failed---");
+                                        debugPrint(e.toString());
+                                      }
 
                                       if (isConfirm != null &&
                                           isConfirm == true) {

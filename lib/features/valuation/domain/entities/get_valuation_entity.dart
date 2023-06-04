@@ -71,14 +71,17 @@ class GetValuationEntity extends Equatable {
             pricePerUnit != null ? pricePerUnit?.convertMoney() : pricePerUnit,
         "currencyCode": Currency.getCurrencyFromString(currencyCode),
         "currencyToUsdFxRate": currencyToUsdFxRate,
+        "type": type,
         "quantity": quantity != null ? quantity.toString() : 0,
+        "valuatedAt": valuatedAt,
         "isSystemGenerated": isSystemGenerated,
         "isPm1Processed": isPm1Processed,
         "amountInUsd": amountInUsd,
+
         // "originCode": originCode,
-        "valuatedAt": valuatedAt,
+
         "assetId": assetId,
-        "type": type,
+
         // "liabilityId": liabilityId,
         "createdAt": createdAt,
         "updatedAt": updatedAt,

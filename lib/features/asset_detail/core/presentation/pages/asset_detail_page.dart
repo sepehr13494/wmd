@@ -20,6 +20,7 @@ import 'package:wmd/features/asset_detail/valuation/presentation/widget/performa
 import 'package:wmd/features/asset_see_more/core/data/models/get_asset_see_more_params.dart';
 import 'package:wmd/features/asset_see_more/core/presentation/manager/asset_see_more_cubit.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_blur_warning.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/injection_container.dart';
 import '../manager/asset_summary_cubit.dart';
@@ -202,6 +203,25 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                             ValuationWidget(
                                 assetId: widget.assetId,
                                 assetType: widget.type,
+                                updateHoldings: () {
+                                  try {
+                                    context
+                                        .read<PerformanceChartCubit>()
+                                        .getValuationPerformance(
+                                            GetValuationPerformanceParams(
+                                                days: selectedTimeFilter.value,
+                                                id: widget.assetId));
+                                    context
+                                        .read<AssetSummaryCubit>()
+                                        .getSummary(GetSummaryParams(
+                                            assetId: widget.assetId,
+                                            days: selectedTimeFilter.value));
+                                  } catch (e) {
+                                    debugPrint(
+                                        "callback working. gfailed.....");
+                                    debugPrint(e.toString());
+                                  }
+                                },
                                 isManuallyAdded:
                                     // true
                                     (assetSummeryState is AssetLoaded)
