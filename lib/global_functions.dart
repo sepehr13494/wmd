@@ -127,8 +127,9 @@ class GlobalFunctions {
       {required BuildContext context,
       required String title,
       required String body,
+      Widget? icon,
       String yes = 'Yes',
-      String no = 'No'}) async {
+      String no = 'No',bool reverse = false}) async {
     bool isConfirm = await showDialog(
       context: context,
       builder: (context) {
@@ -156,6 +157,7 @@ class GlobalFunctions {
                   ),
                 ),
               ),
+              icon??const SizedBox(),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                 child: Center(
@@ -186,25 +188,28 @@ class GlobalFunctions {
                   ),
                 ),
               const SizedBox(height: 15.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () => Navigator.pop(context, true),
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(100, 40)),
-                    child: Text(yes),
-                  ),
-                  const SizedBox(width: 20.0),
-                  OutlinedButton(
-                    onPressed: () => Navigator.pop(context, false),
-                    style: OutlinedButton.styleFrom(
-                        minimumSize: const Size(100, 40)),
-                    child: Text(
-                      no,
+              Directionality(
+                textDirection: !reverse ? TextDirection.ltr : TextDirection.rtl,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => Navigator.pop(context, true),
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(100, 40)),
+                      child: Text(yes),
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 20.0),
+                    OutlinedButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(100, 40)),
+                      child: Text(
+                        no,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

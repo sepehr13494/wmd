@@ -37,7 +37,7 @@ class OtherAseetMoreEntity extends GetSeeMoreResponse {
   final String category;
   final double units;
   final double acquisitionCost;
-  final DateTime acquisitionDate;
+  final DateTime? acquisitionDate;
   final DateTime valuationDate;
   final double ownerShip;
   final double valuePerUnit;
@@ -57,7 +57,7 @@ class OtherAseetMoreEntity extends GetSeeMoreResponse {
   factory OtherAseetMoreEntity.fromJson(Map<String, dynamic> json) =>
       OtherAseetMoreEntity(
         name: json["name"],
-        acquisitionDate: DateTime.parse(json["acquisitionDate"]),
+        acquisitionDate: json["acquisitionDate"] == null ? null : DateTime.parse(json["acquisitionDate"]),
         valuationDate: DateTime.parse(json["valuationDate"]),
         id: json["id"],
         type: json["type"].toString(),
@@ -86,7 +86,7 @@ class OtherAseetMoreEntity extends GetSeeMoreResponse {
         "category": category,
         "units": units,
         "acquisitionCost": acquisitionCost,
-        "acquisitionDate": acquisitionDate.toIso8601String(),
+        "acquisitionDate": acquisitionDate == null ? null : acquisitionDate!.toIso8601String(),
         "valuationDate": valuationDate.toIso8601String(),
         "ownership": ownerShip,
         "valuePerUnit": valuePerUnit,
@@ -112,9 +112,9 @@ class OtherAseetMoreEntity extends GetSeeMoreResponse {
     "acquisitionCost": acquisitionCost.convertMoney(),
     "acquisitionDate": acquisitionDate,
     "valuationDate": valuationDate,
-    "ownerShip": ownerShip.toString(),
+    "ownerShip": ownerShip.toStringAsFixedZero(0),
     "valuePerUnit": valuePerUnit.convertMoney(),
-    "currentDayValue": currentDayValue.convertMoney(),
+    "currentDayValue": ((currentDayValue * 100)/ownerShip).convertMoney(),
     "id": id,
     "type": type,
     "isActive": isActive,

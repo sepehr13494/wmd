@@ -134,6 +134,7 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                             BlocListener<EditPrivateDebtCubit,
                                 EditAssetBaseState>(
                               listener: EditAssetBlocHelper.defaultBlocListener(
+                                  type: AssetTypes.privateDebt,
                                   assetId: edit ? widget.moreEntity!.id : ""),
                             ),
                           ],

@@ -138,6 +138,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                             BlocListener<EditPrivateEquityCubit,
                                 EditAssetBaseState>(
                               listener: EditAssetBlocHelper.defaultBlocListener(
+                                  type: AssetTypes.privateEquity,
                                   assetId: edit ? widget.moreEntity!.id : ""),
                             ),
                           ],

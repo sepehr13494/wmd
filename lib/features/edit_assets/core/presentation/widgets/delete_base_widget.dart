@@ -36,6 +36,16 @@ class DeleteAssetBaseWidget extends AppStatelessWidget {
           InkWell(
             onTap: () {
               GlobalFunctions.confirmProcess(
+                icon: Container(
+                  margin: const EdgeInsets.only(bottom: 8),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: textTheme.bodySmall!.color!.withOpacity(0.1)
+                  ),
+                  padding: const EdgeInsets.all(12),
+                  child: Icon(Icons.delete,color: Theme.of(context).primaryColor,),
+                ),
+                reverse: true,
                       context: context,
                       title: AppLocalizations.of(context)
                           .common_deleteAssetModal_title.replaceAll("{{assetName}}", realAssetName),

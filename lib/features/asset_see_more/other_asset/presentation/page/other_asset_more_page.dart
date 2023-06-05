@@ -41,8 +41,8 @@ class OtherAssetMorePage extends AppStatelessWidget {
         subTitle: entity.acquisitionCost.toString());
     var acquisDate = TitleSubtitle(
         title: appLocalizations.assets_seeMore_labels_acquisitionDate,
-        subTitle:
-            CustomizableDateTime.localizedDdMmYyyy(entity.acquisitionDate));
+        subTitle:entity.acquisitionDate == null ? "" :
+            CustomizableDateTime.localizedDdMmYyyy(entity.acquisitionDate!));
     var currentValue = TitleSubtitle(
         title: appLocalizations.assets_seeMore_labels_currentTotalValue,
         subTitle: entity.holdings.convertMoney(addDollar: true));
