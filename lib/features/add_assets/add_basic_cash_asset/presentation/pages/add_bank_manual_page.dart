@@ -160,6 +160,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                             BlocListener<EditBankManualCubit,
                                 EditAssetBaseState>(
                               listener: EditAssetBlocHelper.defaultBlocListener(
+                                  type: AssetTypes.bankAccount,
                                   assetId: edit ? widget.moreEntity!.id : ""),
                             ),
                           ],

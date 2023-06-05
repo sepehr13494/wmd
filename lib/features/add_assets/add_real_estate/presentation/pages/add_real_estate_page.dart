@@ -138,6 +138,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                             BlocListener<EditRealEstateCubit,
                                 EditAssetBaseState>(
                               listener: EditAssetBlocHelper.defaultBlocListener(
+                                type: AssetTypes.realEstate,
                                   assetId: edit ? widget.moreEntity!.id : ""),
                             ),
                           ],

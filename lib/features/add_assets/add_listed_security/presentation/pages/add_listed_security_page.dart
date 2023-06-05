@@ -184,6 +184,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
                                     EditAssetBaseState>(
                                 listener:
                                     EditAssetBlocHelper.defaultBlocListener(
+                                        type: AssetTypes.listedAsset,
                                         assetId:
                                             edit ? widget.moreEntity!.id : "")),
                           ],
