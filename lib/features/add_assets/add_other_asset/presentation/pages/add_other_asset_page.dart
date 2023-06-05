@@ -125,7 +125,6 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
       noOfUnits = widget.moreEntity!.toFormJson()["units"];
       acqusitionCost = widget.moreEntity!.toFormJson()["acquisitionCost"];
       ownerShip = widget.moreEntity!.toFormJson()["ownerShip"];
-      print("ownewship : $ownerShip");
       valuePerUnit = widget.moreEntity!.toFormJson()["valuePerUnit"];
       calculateCurrentValue();
     }
@@ -203,6 +202,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                     EditAssetBaseState>(
                                 listener:
                                     EditAssetBlocHelper.defaultBlocListener(
+                                        type: AssetTypes.otherAsset,
                                         assetId:
                                             edit ? widget.moreEntity!.id : "")),
                           ],

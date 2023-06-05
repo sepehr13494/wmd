@@ -7,20 +7,22 @@ import 'package:wmd/features/asset_detail/core/presentation/manager/asset_summar
 import 'package:wmd/features/assets_overview/assets_overview/presentation/manager/assets_overview_cubit.dart';
 import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_state.dart';
 import 'package:wmd/global_functions.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditAssetBlocHelper{
   static BlocWidgetListener defaultBlocListener({
     required String assetId,
+    required String type,
   }) {
     return BlocHelper.defaultBlocListener(listener: (context, state) {
       if (state is EditAssetSuccess) {
         context.read<AssetSummaryCubit>().getSummary(GetSummaryParams(days: 7, assetId: assetId));
         context.read<AssetsOverviewCubit>().initPage();
-        GlobalFunctions.showSnackBar(context, "Asset Edited",type: "success");
+        GlobalFunctions.showSnackBar(context, AppLocalizations.of(context).assetLiabilityForms_toast_assetEditSuccess.replaceAll("{{assetName}}", type),type: "success");
         context.pop();
       }
       if (state is DeleteAssetSuccess) {
-        GlobalFunctions.showSnackBar(context, "Asset Deleted",type: "success");
+        GlobalFunctions.showSnackBar(context, AppLocalizations.of(context).assetLiabilityForms_toast_assetDeleteSuccess.replaceAll("{{assetName}}", type),type: "success");
         context.goNamed(AppRoutes.main);
       }
     },);
