@@ -10,6 +10,7 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/valuation/data/models/get_all_valuation_params.dart';
 import 'package:wmd/features/asset_detail/valuation/domain/entities/get_all_valuation_entity.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/valuation/presentation/widgets/valuation_delete_modal.dart';
 import 'package:wmd/features/valuation/presentation/widgets/valuation_warning_modal.dart';
 import 'package:wmd/features/valuation/presentation/widgets/valutaion_modal.dart';
@@ -22,11 +23,13 @@ class ValuationWidget extends AppStatelessWidget {
   final String assetId;
   final String assetType;
   final bool isManuallyAdded;
+  final Function updateHoldings;
   const ValuationWidget({
     Key? key,
     required this.assetId,
     required this.assetType,
     required this.isManuallyAdded,
+    required this.updateHoldings,
   }) : super(key: key);
 
   @override
@@ -39,83 +42,80 @@ class ValuationWidget extends AppStatelessWidget {
 
     return Padding(
         padding: EdgeInsets.all(responsiveHelper.biggerGap),
-        child: BlocProvider(
-            create: (context) => sl<ValuationCubit>()
-              ..getAllValuation(GetAllValuationParams(assetId)),
-            child: BlocConsumer<ValuationCubit, ValuationState>(
-                listener: BlocHelper.defaultBlocListener(
-                  listener: (context, state) {},
-                ),
-                builder: (context, state) {
-                  if (state is GetAllValuationLoaded) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+        child: BlocConsumer<ValuationCubit, ValuationState>(
+            listener: BlocHelper.defaultBlocListener(
+              listener: (context, state) {},
+            ),
+            builder: (context, state) {
+              if (state is GetAllValuationLoaded) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              appLocalizations.assets_label_valuation,
-                              style: textTheme.bodyLarge,
-                            ),
-                            if ((AppConstants.publicMvp2Items &&
-                                    isManuallyAdded) ||
-                                assetType == AssetTypes.loanLiability)
-                              TextButton(
-                                  onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        barrierDismissible: false,
-                                        builder: (buildContext) {
-                                          return ValuationModalWidget(
-                                              title: '',
-                                              confirmBtn: appLocalizations
-                                                  .common_button_save,
-                                              cancelBtn: appLocalizations
-                                                  .common_button_cancel,
-                                              assetType: assetType,
-                                              assetId: assetId);
-                                        }).then((value) {
-                                      context
-                                          .read<ValuationCubit>()
-                                          .getAllValuation(
-                                              GetAllValuationParams(assetId));
-                                    });
-
-                                    // context.pushNamed(AppRoutes.forgetPassword);
-                                  },
-                                  child: Text(
-                                    appLocalizations
-                                        .assets_valuationModal_buttons_buttons_addValuation,
-                                    style: textTheme.bodySmall!
-                                        .toLinkStyle(context),
-                                  ))
-                          ],
-                        ),
                         Text(
-                          appLocalizations.assets_label_keepNetWorth,
-                          style: textTheme.bodyMedium,
+                          appLocalizations.assets_label_valuation,
+                          style: textTheme.bodyLarge,
                         ),
-                        const SizedBox(height: 8),
-                        // if (state is GetAllValuationLoaded &&
-                        //     state.getAllValuationEntities.isEmpty)
-                        //   Text(appLocalizations.common_emptyText_emptyState),
-                        if (state is GetAllValuationLoaded)
-                          ValuationTableWidget(
-                            getAllValuationEntities:
-                                state.getAllValuationEntities,
-                            assetType: assetType,
-                            assetId: assetId,
-                            isManuallyAdded: isManuallyAdded,
-                          )
+                        if ((AppConstants.publicMvp2Items && isManuallyAdded) ||
+                            assetType == AssetTypes.loanLiability)
+                          TextButton(
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (buildContext) {
+                                      return ValuationModalWidget(
+                                          title: '',
+                                          confirmBtn: appLocalizations
+                                              .common_button_save,
+                                          cancelBtn: appLocalizations
+                                              .common_button_cancel,
+                                          assetType: assetType,
+                                          assetId: assetId);
+                                    }).then((value) {
+                                  context
+                                      .read<ValuationCubit>()
+                                      .getAllValuation(
+                                          GetAllValuationParams(assetId));
+                                  updateHoldings();
+                                });
 
-                        // return const Center(
-                        //     child: CircularProgressIndicator());
+                                // context.pushNamed(AppRoutes.forgetPassword);
+                              },
+                              child: Text(
+                                appLocalizations
+                                    .assets_valuationModal_buttons_buttons_addValuation,
+                                style:
+                                    textTheme.bodySmall!.toLinkStyle(context),
+                              ))
                       ],
-                    );
-                  }
-                  return const LoadingWidget();
-                })));
+                    ),
+                    Text(
+                      appLocalizations.assets_label_keepNetWorth,
+                      style: textTheme.bodyMedium,
+                    ),
+                    const SizedBox(height: 8),
+                    // if (state is GetAllValuationLoaded &&
+                    //     state.getAllValuationEntities.isEmpty)
+                    //   Text(appLocalizations.common_emptyText_emptyState),
+                    if (state is GetAllValuationLoaded)
+                      ValuationTableWidget(
+                        getAllValuationEntities: state.getAllValuationEntities,
+                        assetType: assetType,
+                        assetId: assetId,
+                        isManuallyAdded: isManuallyAdded,
+                        updateHoldings: updateHoldings,
+                      )
+
+                    // return const Center(
+                    //     child: CircularProgressIndicator());
+                  ],
+                );
+              }
+              return const LoadingWidget();
+            }));
   }
 }
 
@@ -126,11 +126,13 @@ class ValuationTableWidget extends StatefulWidget {
     required this.assetId,
     required this.assetType,
     required this.isManuallyAdded,
+    required this.updateHoldings,
   });
   final List<GetAllValuationEntity> getAllValuationEntities;
   final String assetId;
   final String assetType;
   final bool isManuallyAdded;
+  final Function updateHoldings;
 
   @override
   AppState<ValuationTableWidget> createState() => _ValuationTableWidgetState();
@@ -356,109 +358,127 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
           ),
         ),
         if (AppConstants.publicMvp2Items) const SizedBox.shrink(),
-        if (AppConstants.publicMvp2Items && widget.isManuallyAdded)
-          PopupMenuButton(
-            itemBuilder: (BuildContext context) {
-              final List items = [
-                [
-                  AppLocalizations.of(context).common_button_edit,
-                ],
-                [
-                  AppLocalizations.of(context).common_button_delete,
-                ],
-              ];
-              return List.generate(
-                  items.length,
-                  (index) => PopupMenuItem(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(items[index][0]),
-                          ],
-                        ),
-                        onTap: () async {
-                          if (index == 0) {
-                            debugPrint("working edit");
-                            final res = await Future.delayed(
-                                const Duration(seconds: 0),
-                                () => showDialog(
-                                        context: context,
-                                        barrierDismissible: false,
-                                        builder: (buildContext) {
-                                          return ValuationModalWidget(
-                                            title: '',
-                                            confirmBtn:
-                                                AppLocalizations.of(context)
-                                                    .common_button_save,
-                                            cancelBtn:
-                                                AppLocalizations.of(context)
-                                                    .common_button_cancel,
-                                            assetType: widget.assetType,
-                                            assetId: widget.assetId,
-                                            isEdit: true,
-                                            valuationId: id,
-                                          );
-                                        }).then((isConfirm) {
-                                      context
-                                          .read<ValuationCubit>()
-                                          .getAllValuation(
-                                              GetAllValuationParams(
-                                                  widget.assetId));
-
-                                      if (isConfirm != null &&
-                                          isConfirm == true) {
-                                        // handleFormSubmit(formStateKey, renderSubmitData, context, true);
-                                      }
-                                      return isConfirm;
-                                    }));
-
-                            if (res != null) {
-                              context.read<ValuationCubit>().getAllValuation(
-                                  GetAllValuationParams(widget.assetId));
-                            }
-                          } else {
-                            // delete here
-                            debugPrint("working delete");
-                            Future.delayed(
-                                const Duration(seconds: 0),
-                                () => showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return ValuationDeleteModal(
-                                          title:
-                                              "Are you sure you want to delete this entry?",
-                                          body: "This action cannot be undone",
-                                          confirmBtn: 'Delete',
-                                          cancelBtn: "Cancel",
-                                          valuationId: id,
-                                          assetId: widget.assetId,
-                                        );
-                                      },
-                                    ).then((isConfirm) {
-                                      context
-                                          .read<ValuationCubit>()
-                                          .getAllValuation(
-                                              GetAllValuationParams(
-                                                  widget.assetId));
-                                      if (isConfirm != null &&
-                                          isConfirm == true) {
-                                        // handleFormSubmit(formStateKey, renderSubmitData, context, true);
-                                      }
-                                      return isConfirm;
-                                    }));
-                          }
-                        },
-                      ));
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Icon(
-                Icons.more_horiz,
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
-          )
+        if (AppConstants.publicMvp2Items &&
+            widget.isManuallyAdded &&
+            widget.assetType != AssetTypes.bankAccount)
+          renderPopupMenu(context, id),
+        if (AppConstants.publicMvp2Items &&
+            widget.isManuallyAdded &&
+            widget.assetType == AssetTypes.bankAccount &&
+            index == 0)
+          renderPopupMenu(context, id),
+        if (AppConstants.publicMvp2Items &&
+            widget.isManuallyAdded &&
+            widget.assetType == AssetTypes.bankAccount &&
+            index != 0)
+          Text(
+            "",
+            style: textTheme.bodySmall,
+          ),
       ],
+    );
+  }
+
+  Widget renderPopupMenu(
+    BuildContext context,
+    String id,
+  ) {
+    final textTheme = Theme.of(context).textTheme;
+    return PopupMenuButton(
+      itemBuilder: (BuildContext context) {
+        final List items = [
+          [
+            AppLocalizations.of(context).common_button_edit,
+          ],
+          [
+            AppLocalizations.of(context).common_button_delete,
+          ],
+        ];
+        return List.generate(
+            items.length,
+            (index) => PopupMenuItem(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(items[index][0]),
+                    ],
+                  ),
+                  onTap: () async {
+                    if (index == 0) {
+                      debugPrint("working edit");
+                      final res = await Future.delayed(
+                          const Duration(seconds: 0),
+                          () => showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (buildContext) {
+                                    return ValuationModalWidget(
+                                      title: '',
+                                      confirmBtn: AppLocalizations.of(context)
+                                          .common_button_save,
+                                      cancelBtn: AppLocalizations.of(context)
+                                          .common_button_cancel,
+                                      assetType: widget.assetType,
+                                      assetId: widget.assetId,
+                                      isEdit: true,
+                                      valuationId: id,
+                                    );
+                                  }).then((isConfirm) async {
+                                try {
+                                  WidgetsBinding.instance
+                                      .addPostFrameCallback((_) {
+                                    try {
+                                      widget.updateHoldings();
+                                    } catch (e) {
+                                      debugPrint(
+                                          "on close action failed inside---");
+                                      debugPrint(e.toString());
+                                    }
+                                  });
+                                } catch (e) {
+                                  debugPrint("on close action failed---");
+                                  debugPrint(e.toString());
+                                }
+
+                                return isConfirm;
+                              }));
+                    } else {
+                      // delete here
+                      debugPrint("working delete");
+                      Future.delayed(
+                          const Duration(seconds: 0),
+                          () => showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return ValuationDeleteModal(
+                                    title:
+                                        "Are you sure you want to delete this entry?",
+                                    body: "This action cannot be undone",
+                                    confirmBtn: 'Delete',
+                                    cancelBtn: "Cancel",
+                                    valuationId: id,
+                                    assetId: widget.assetId,
+                                  );
+                                },
+                              ).then((isConfirm) {
+                                context.read<ValuationCubit>().getAllValuation(
+                                    GetAllValuationParams(widget.assetId));
+                                if (isConfirm != null && isConfirm == true) {
+                                  // handleFormSubmit(formStateKey, renderSubmitData, context, true);
+                                }
+                                return isConfirm;
+                              }));
+                    }
+                  },
+                ));
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Icon(
+          Icons.more_horiz,
+          color: Theme.of(context).primaryColor,
+        ),
+      ),
     );
   }
 
