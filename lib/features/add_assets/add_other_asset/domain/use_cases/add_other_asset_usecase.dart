@@ -16,20 +16,22 @@ class AddOtherAssetUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
   @override
   Future<Either<Failure, AddAsset>> call(Map<String, dynamic> params) async {
     try {
-      return await otherAssetRepository.postOtherAsset(getAddOtherAssetObj(params));
+      return await otherAssetRepository
+          .postOtherAsset(getAddOtherAssetObj(params));
     } catch (e) {
       debugPrint("AddOtherAssetUseCase catch : ${e.toString()}");
       return const Left(AppFailure(message: "Something went wrong!"));
     }
   }
 
-  static AddOtherAssetParams getAddOtherAssetObj(Map<String, dynamic> params){
+  static AddOtherAssetParams getAddOtherAssetObj(Map<String, dynamic> params) {
     final acquisitionCost =
-    params['acquisitionCost'].toString().replaceAll(',', '');
-    final valuePerUnit =
-    params['valuePerUnit'].toString().replaceAll(',', '');
+        params['acquisitionCost'].toString().replaceAll(',', '');
+    final valuePerUnit = params['valuePerUnit'] != null
+        ? params['valuePerUnit'].toString().replaceAll(',', '')
+        : params['valuePerUnit'];
     final currentDayValue =
-    params['currentDayValue'].toString().replaceAll(',', '');
+        params['currentDayValue'].toString().replaceAll(',', '');
 
     final newMap = {
       ...params,
