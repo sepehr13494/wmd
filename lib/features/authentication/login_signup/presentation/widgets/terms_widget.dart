@@ -87,186 +87,197 @@ class _TermsWidgetState extends AppState<TermsWidget> {
               textAlign: TextAlign.center,
             ),
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              controller: scrollController,
-              padding: const EdgeInsets.all(16),
-              child: Center(
-                  child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      appLocalizations.termsAndConditions_tou_description_one,
-                    ),
-                    const SizedBox(height: 8),
-                    RichText(
-                        text: TextSpan(
-                            style: const TextStyle(height: 1.3),
-                            children: [
-                          TextSpan(
-                            text: appLocalizations
-                                .termsAndConditions_tou_description_two_1,
-                            style: textTheme.bodyMedium,
-                          ),
-                          TextSpan(
+          Directionality(
+            textDirection: TextDirection.ltr,
+            child: Expanded(
+              child: SingleChildScrollView(
+                controller: scrollController,
+                padding: const EdgeInsets.all(16),
+                child: Center(
+                    child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        appLocalizations.termsAndConditions_tou_description_one,
+                      ),
+                      const SizedBox(height: 8),
+                      RichText(
+                          text: TextSpan(
+                              style: const TextStyle(height: 1.3),
+                              children: [
+                            TextSpan(
                               text: appLocalizations
-                                  .termsAndConditions_tou_description_two_2,
-                              style: textTheme.bodyMedium
-                                  ?.copyWith(fontWeight: FontWeight.bold)),
-                          TextSpan(
-                            text: appLocalizations
-                                .termsAndConditions_tou_description_two_3,
-                            style: textTheme.bodyMedium,
-                          ),
-                          TextSpan(
+                                  .termsAndConditions_tou_description_two_1,
+                              style: textTheme.bodyMedium,
+                            ),
+                            TextSpan(
+                                text: appLocalizations
+                                    .termsAndConditions_tou_description_two_2,
+                                style: textTheme.bodyMedium
+                                    ?.copyWith(fontWeight: FontWeight.bold)),
+                            TextSpan(
                               text: appLocalizations
-                                  .termsAndConditions_tou_description_two_4,
-                              style: textTheme.bodyMedium
-                                  ?.copyWith(fontWeight: FontWeight.bold)),
-                          TextSpan(
-                            text: appLocalizations
-                                .termsAndConditions_tou_description_two_5,
-                            style: textTheme.bodyMedium,
-                          ),
-                        ])),
-                    const SizedBox(height: 8),
-                    Text(
-                      appLocalizations.termsAndConditions_tou_description_three,
-                    ),
-                    const SizedBox(height: 8),
-                    RichText(
-                        text: TextSpan(
-                            style: const TextStyle(height: 1.3),
-                            children: [
-                          TextSpan(
-                              text:
-                                  "${appLocalizations.termsAndConditions_tou_description_four_1} : ",
-                              style: textTheme.bodyMedium
-                                  ?.copyWith(fontWeight: FontWeight.bold)),
-                          TextSpan(
+                                  .termsAndConditions_tou_description_two_3,
+                              style: textTheme.bodyMedium,
+                            ),
+                            TextSpan(
+                                text: appLocalizations
+                                    .termsAndConditions_tou_description_two_4,
+                                style: textTheme.bodyMedium
+                                    ?.copyWith(fontWeight: FontWeight.bold)),
+                            TextSpan(
                               text: appLocalizations
-                                  .termsAndConditions_tou_description_four_2,
-                              style: textTheme.bodyMedium),
-                          TextSpan(
+                                  .termsAndConditions_tou_description_two_5,
+                              style: textTheme.bodyMedium,
+                            ),
+                          ])),
+                      const SizedBox(height: 8),
+                      Text(
+                        appLocalizations
+                            .termsAndConditions_tou_description_three,
+                      ),
+                      const SizedBox(height: 8),
+                      RichText(
+                          text: TextSpan(
+                              style: const TextStyle(height: 1.3),
+                              children: [
+                            TextSpan(
+                                text:
+                                    "${appLocalizations.termsAndConditions_tou_description_four_1} : ",
+                                style: textTheme.bodyMedium
+                                    ?.copyWith(fontWeight: FontWeight.bold)),
+                            TextSpan(
+                                text: appLocalizations
+                                    .termsAndConditions_tou_description_four_2,
+                                style: textTheme.bodyMedium),
+                            TextSpan(
+                                text: appLocalizations
+                                    .termsAndConditions_tou_description_four_3,
+                                style: textTheme.bodyMedium
+                                    ?.copyWith(fontWeight: FontWeight.bold)),
+                            TextSpan(
                               text: appLocalizations
-                                  .termsAndConditions_tou_description_four_3,
-                              style: textTheme.bodyMedium
-                                  ?.copyWith(fontWeight: FontWeight.bold)),
-                          TextSpan(
-                            text: appLocalizations
-                                .termsAndConditions_tou_description_four_4,
-                            style: textTheme.bodyMedium,
-                          ),
-                        ])),
-                    const SizedBox(height: 8),
-                    // ...data.map((e) => Row(
-                    //       crossAxisAlignment: CrossAxisAlignment.start,
-                    //       mainAxisAlignment: MainAxisAlignment.start,
-                    //       children: [
-                    //         Column(
-                    //           children: const [
-                    //             SizedBox(height: 8),
-                    //             Icon(Icons.circle,
-                    //                 color: Colors.white, size: iconSize),
-                    //           ],
-                    //         ),
-                    //         const SizedBox(width: 4),
-                    //         Expanded(child: e.title),
-                    //       ],
-                    //     )),
-                    const SizedBox(height: 8),
-                    ...List.generate(data.length, (index) {
-                      final item = data[index];
-                      final itemIndex = (index + 1).toString();
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 8),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                '$itemIndex. ',
-                                style: textTheme.bodyLarge,
-                              ),
-                              Expanded(child: item.title)
-                            ],
-                          ),
-                          if (item.childrenWidget != null)
-                            ...List.generate(item.childrenWidget!.length,
-                                (index) {
-                              final e = item.childrenWidget![index];
-                              final i = (index + 1).toString();
-                              // ...e.children!.map((e) {
-                              return Column(
+                                  .termsAndConditions_tou_description_four_4,
+                              style: textTheme.bodyMedium,
+                            ),
+                          ])),
+                      const SizedBox(height: 8),
+                      // ...data.map((e) => Row(
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       mainAxisAlignment: MainAxisAlignment.start,
+                      //       children: [
+                      //         Column(
+                      //           children: const [
+                      //             SizedBox(height: 8),
+                      //             Icon(Icons.circle,
+                      //                 color: Colors.white, size: iconSize),
+                      //           ],
+                      //         ),
+                      //         const SizedBox(width: 4),
+                      //         Expanded(child: e.title),
+                      //       ],
+                      //     )),
+                      const SizedBox(height: 8),
+                      ...List.generate(data.length, (index) {
+                        final item = data[index];
+                        final itemIndex = (index + 1).toString();
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 8),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '$itemIndex. ',
+                                  style: textTheme.bodyLarge,
+                                ),
+                                Expanded(child: item.title)
+                              ],
+                            ),
+                            if (item.childrenWidget != null)
+                              ...List.generate(item.childrenWidget!.length,
+                                  (index) {
+                                final e = item.childrenWidget![index];
+                                final i = (index + 1).toString();
+                                // ...e.children!.map((e) {
+                                return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(height: 8),
+                                      e,
+                                    ]);
+                              }),
+                            if (item.children != null)
+                              ...List.generate(item.children!.length, (index) {
+                                final e = item.children![index];
+                                final i = (index + 1).toString();
+                                // ...e.children!.map((e) {
+                                return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const SizedBox(height: 8),
-                                    e,
-                                  ]);
-                            }),
-                          if (item.children != null)
-                            ...List.generate(item.children!.length, (index) {
-                              final e = item.children![index];
-                              final i = (index + 1).toString();
-                              // ...e.children!.map((e) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(height: 8),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '$itemIndex.$i. ',
-                                        style: textTheme.bodyLarge,
-                                      ),
-                                      Expanded(child: e.data!)
-                                    ],
-                                  ),
-                                  if (e.childContent != null)
-                                    ...e.childContent!.map((c) => Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            const SizedBox(width: 48),
-                                            Column(
-                                              children: const [
-                                                SizedBox(height: 8),
-                                                Icon(Icons.circle_outlined,
-                                                    color: Colors.white,
-                                                    size: iconSize),
-                                              ],
-                                            ),
-                                            const SizedBox(width: 4),
-                                            Expanded(
-                                                child: Text(
-                                              c,
-                                              maxLines: 10,
-                                            )),
-                                          ],
-                                        ))
-                                ],
-                              );
-                            }),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            child: Text(appLocalizations
-                                .termsAndConditions_arabicOnly_warning),
-                          )
-                        ],
-                      );
-                    })
-                  ],
-                ),
-              )),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '$itemIndex.$i. ',
+                                          style: textTheme.bodyLarge,
+                                        ),
+                                        Expanded(child: e.data!)
+                                      ],
+                                    ),
+                                    if (e.childContent != null)
+                                      ...e.childContent!.map((c) => Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              const SizedBox(width: 48),
+                                              Column(
+                                                children: const [
+                                                  SizedBox(height: 8),
+                                                  Icon(Icons.circle_outlined,
+                                                      color: Colors.white,
+                                                      size: iconSize),
+                                                ],
+                                              ),
+                                              const SizedBox(width: 4),
+                                              Expanded(
+                                                  child: Text(
+                                                c,
+                                                maxLines: 10,
+                                              )),
+                                            ],
+                                          ))
+                                  ],
+                                );
+                              }),
+                          ],
+                        );
+                      }),
+                      Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          child: Text(
+                              appLocalizations
+                                  .termsAndConditions_arabicOnly_warning,
+                              locale: const Locale('ar')),
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
+              ),
             ),
           ),
           const Divider(),
