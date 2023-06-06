@@ -24,45 +24,23 @@ import 'package:wmd/features/edit_assets/core/presentation/widgets/delete_base_w
 import 'package:wmd/features/edit_assets/edit_private_debt/presentation/manager/edit_private_debt_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
-class AddPrivateDebtPage extends StatefulWidget {
-  final bool edit;
+import '../../../core/presentation/pages/base_add_assest_state.dart';
+import '../../../core/presentation/pages/base_add_asset_stateful_widget.dart';
+
+class AddPrivateDebtPage extends BaseAddAssetStatefulWidget {
   final PrivateDebtMoreEntity? moreEntity;
 
-  const AddPrivateDebtPage({Key? key, this.edit = false, this.moreEntity})
-      : super(key: key);
+  const AddPrivateDebtPage({Key? key, bool edit = false, this.moreEntity})
+      : super(key: key,edit: edit);
 
   @override
   AppState<AddPrivateDebtPage> createState() => _AddPrivateDebtState();
 }
 
-class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
-  final privateDebtFormKey = GlobalKey<FormBuilderState>();
-  bool enableAddAssetButton = false;
+class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
   DateTime? aqusitionDateValue;
   DateTime? valuationDateValue;
 
-  @override
-  void didUpdateWidget(covariant AddPrivateDebtPage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-  }
-
-  void checkFinalValid(value) async {
-    await Future.delayed(const Duration(milliseconds: 100));
-    bool finalValid = privateDebtFormKey.currentState!.isValid;
-    if (finalValid) {
-      if (!enableAddAssetButton) {
-        setState(() {
-          enableAddAssetButton = true;
-        });
-      }
-    } else {
-      if (enableAddAssetButton) {
-        setState(() {
-          enableAddAssetButton = false;
-        });
-      }
-    }
-  }
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -89,10 +67,10 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                 buttonText: edit
                     ? "Save Asset"
                     : appLocalizations.common_button_addAsset,
-                onTap: () {
-                  if (privateDebtFormKey.currentState!.validate()) {
+                onTap: (edit && !enableAddAssetButtonEdit) ? null : () {
+                  if (formKey.currentState!.validate()) {
                     Map<String, dynamic> finalMap = {
-                      ...privateDebtFormKey.currentState!.instantValue,
+                      ...formKey.currentState!.instantValue,
                     };
                     if (edit) {
                       context.read<EditPrivateDebtCubit>().putPrivateDebt(
@@ -167,7 +145,7 @@ class _AddPrivateDebtState extends AppState<AddPrivateDebtPage> {
                                             ? deleteWidget
                                             : const SizedBox(),
                                         FormBuilder(
-                                          key: privateDebtFormKey,
+                                          key: formKey,
                                           initialValue: edit
                                               ? widget.moreEntity!.toFormJson()
                                               : AddAssetConstants
