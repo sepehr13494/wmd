@@ -527,7 +527,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                                                 child: AppTextFields
                                                     .simpleTextField(
                                                         enabled: !edit,
-                                                        required: true,
+                                                        required: false,
                                                         type:
                                                             TextFieldType.money,
                                                         keyboardType:
