@@ -2594,5 +2594,5 @@
     "profile:linkedAccounts.Asset": "Asset",
     "assetLiabilityForms:toast.assetDeleteSuccess": "Your {{assetName}} asset has been deleted successfully.",
     "linkAccount:errors.existingCIF": "The below identification number has already been added.",
-    "termsAndConditions:arabicOnly.warning": "إذا كنت بحاجة إلى ترجمة عربية لشروط الخدمة ، فيرجى الاتصال بنا على support@allinoneplus.com"
+    "termsAndConditions:arabicOnly.warning": "support@allinoneplus.com إذا كنت بحاجة إلى ترجمة عربية لشروط الخدمة ، فيرجى الاتصال بنا على "
 }

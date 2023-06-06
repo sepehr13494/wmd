@@ -2594,5 +2594,5 @@
     "profile:linkedAccounts.Asset": "",
     "assetLiabilityForms:toast.assetDeleteSuccess": "",
     "linkAccount:errors.existingCIF": "سبق أن أُضيف رقم التعريف أدناه.",
-    "termsAndConditions:arabicOnly.warning": ""
+    "termsAndConditions:arabicOnly.warning": "إذا كنت بحاجة إلى ترجمة عربية لشروط الخدمة ، فيرجى الاتصال بنا على support@allinoneplus.com"
 }
