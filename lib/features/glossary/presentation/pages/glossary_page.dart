@@ -31,7 +31,7 @@ class GlossaryPage extends AppStatelessWidget {
                   style: textTheme.titleLarge,
                 ),
                 Text(
-                  appLocalizations.common_glossary_description,
+                  appLocalizations.common_glossary_subheading,
                   style: textTheme.bodyMedium!.copyWith(fontSize: 16),
                 ),
                 SearchTextField(
