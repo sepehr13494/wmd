@@ -16,7 +16,7 @@ class OtherAseetMoreEntity extends GetSeeMoreResponse {
     required this.valuePerUnit,
     required this.currentDayValue,
     required this.name,
-    required this.wealthManager,
+    this.wealthManager,
     required this.acquisitionDate,
     required this.valuationDate,
     required this.id,
@@ -33,7 +33,7 @@ class OtherAseetMoreEntity extends GetSeeMoreResponse {
   });
 
   final String name;
-  final String wealthManager;
+  final String? wealthManager;
   final String category;
   final double units;
   final double acquisitionCost;
