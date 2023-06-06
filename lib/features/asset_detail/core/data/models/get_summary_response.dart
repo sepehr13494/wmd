@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:wmd/features/asset_detail/core/domain/entities/asset_summary_entity.dart';
 
 class AssetSummaryResponse extends AssetSummaryEntitiy {
@@ -12,6 +11,7 @@ class AssetSummaryResponse extends AssetSummaryEntitiy {
     required super.itdPerformance,
     required super.dealContribution,
     required super.netChange,
+    required super.unRealizedProfitLoss,
     required super.totalAssetsAmount,
     required super.isManuallyAdded,
   });
@@ -27,6 +27,7 @@ class AssetSummaryResponse extends AssetSummaryEntitiy {
         itdPerformance: json["itdPerformance"],
         dealContribution: json["dealContribution"],
         netChange: json["netChange"],
+        unRealizedProfitLoss: json["unRealizedProfitLoss"] ?? 0,
         totalAssetsAmount: json["totalAssetsAmount"],
         isManuallyAdded: json["isManuallyAdded"],
       );
