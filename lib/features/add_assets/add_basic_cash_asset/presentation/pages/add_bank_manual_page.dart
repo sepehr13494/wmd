@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,8 @@ import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/manage
 import 'package:wmd/features/add_assets/core/constants.dart';
 import 'package:wmd/features/add_assets/core/data/models/account_type.dart';
 import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_bloc_helper.dart';
+import 'package:wmd/features/add_assets/core/presentation/pages/base_add_assest_state.dart';
+import 'package:wmd/features/add_assets/core/presentation/pages/base_add_asset_stateful_widget.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
@@ -32,26 +35,22 @@ import 'package:wmd/features/edit_assets/edit_bank_manual/presentation/manager/e
 import 'package:wmd/injection_container.dart';
 import 'package:wmd/core/extentions/string_ext.dart';
 
-class AddBankManualPage extends StatefulWidget {
-  final bool edit;
+class AddBankManualPage extends BaseAddAssetStatefulWidget {
   final BankAccountMoreEntity? moreEntity;
 
-  const AddBankManualPage({Key? key, this.edit = false, this.moreEntity})
-      : super(key: key);
+  const AddBankManualPage({Key? key,this.moreEntity,bool edit = false})
+      : super(key: key,edit: edit);
 
   @override
   AppState<AddBankManualPage> createState() => _AddBankManualPageState();
 }
 
-class _AddBankManualPageState extends AppState<AddBankManualPage> {
-  final baseFormKey = GlobalKey<FormBuilderState>();
+class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
 
-  // GlobalKey<FormBuilderState> bottomFormKey = GlobalKey<FormBuilderState>();
   String date = "--/--/--";
   String? accountType;
   String endDateToParse = "";
   DateTime? startDateValue;
-  bool enableAddAssetButton = false;
 
   @override
   void initState() {
@@ -60,25 +59,6 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
       startDateValue = widget.moreEntity!.toFormJson()["startDate"];
     }
     super.initState();
-  }
-
-  void checkFinalValid(value) async {
-    await Future.delayed(const Duration(milliseconds: 100));
-    bool finalValid = (baseFormKey.currentState!.isValid);
-
-    if (finalValid) {
-      if (!enableAddAssetButton) {
-        setState(() {
-          enableAddAssetButton = true;
-        });
-      }
-    } else {
-      if (enableAddAssetButton) {
-        setState(() {
-          enableAddAssetButton = false;
-        });
-      }
-    }
   }
 
   @override
@@ -111,10 +91,10 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
             bottomSheet: AddAssetFooter(
               buttonText:
                   edit ? "Save Asset" : appLocalizations.common_button_addAsset,
-              onTap: () {
-                if (baseFormKey.currentState!.validate()) {
+              onTap: (edit && !enableAddAssetButtonEdit) ? null : () {
+                if (formKey.currentState!.validate()) {
                   Map<String, dynamic> finalMap = {
-                    ...baseFormKey.currentState!.instantValue,
+                    ...formKey.currentState!.instantValue,
                   };
 
                   if (isDepositTerm && endDateToParse.isDate()) {
@@ -193,7 +173,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                             ? deleteWidget
                                             : const SizedBox(),
                                         FormBuilder(
-                                          key: baseFormKey,
+                                          key: formKey,
                                           initialValue: edit
                                               ? widget.moreEntity!.toFormJson()
                                               : AddAssetConstants
@@ -325,6 +305,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
                                                                 : null);
                                                           }
                                                         ],
+                                                    onChanged: checkFinalValid,
                                                         name: "description",
                                                         hint: appLocalizations
                                                             .assetLiabilityForms_forms_bankAccount_inputFields_description_placeholder),
@@ -791,7 +772,7 @@ class _AddBankManualPageState extends AppState<AddBankManualPage> {
   }
 
   void changeDate() {
-    final map = baseFormKey.currentState!.instantValue;
+    final map = formKey.currentState!.instantValue;
     var startDate = map["startDate"];
     if (startDate != null) {
       final int year = int.tryParse(map["years"] ?? "0") ?? 0;

@@ -25,46 +25,23 @@ import 'package:wmd/features/edit_assets/edit_real_estate/presentation/manager/e
 import 'package:wmd/injection_container.dart';
 
 import '../../../../edit_assets/core/presentation/manager/edit_asset_bloc_helper.dart';
+import '../../../core/presentation/pages/base_add_assest_state.dart';
+import '../../../core/presentation/pages/base_add_asset_stateful_widget.dart';
 
-class AddRealEstatePage extends StatefulWidget {
-  final bool edit;
+class AddRealEstatePage extends BaseAddAssetStatefulWidget {
   final RealEstateMoreEntity? moreEntity;
 
-  const AddRealEstatePage({Key? key, this.edit = false, this.moreEntity})
+  const AddRealEstatePage({Key? key, bool edit = false, this.moreEntity})
       : super(key: key);
 
   @override
   AppState<AddRealEstatePage> createState() => _AddRealEstateState();
 }
 
-class _AddRealEstateState extends AppState<AddRealEstatePage> {
-  final privateDebtFormKey = GlobalKey<FormBuilderState>();
-  bool enableAddAssetButton = false;
+class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
+
   DateTime? aqusitionDateValue;
   DateTime? valuationDateValue;
-
-  @override
-  void didUpdateWidget(covariant AddRealEstatePage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-  }
-
-  void checkFinalValid(value) async {
-    await Future.delayed(const Duration(milliseconds: 100));
-    bool finalValid = privateDebtFormKey.currentState!.isValid;
-    if (finalValid) {
-      if (!enableAddAssetButton) {
-        setState(() {
-          enableAddAssetButton = true;
-        });
-      }
-    } else {
-      if (enableAddAssetButton) {
-        setState(() {
-          enableAddAssetButton = false;
-        });
-      }
-    }
-  }
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -89,11 +66,11 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
             appBar: const AddAssetHeader(title: "", showExitModal: true),
             bottomSheet: AddAssetFooter(
                 buttonText: edit ? "Save Asset" : "Add asset",
-                onTap: () {
-                  privateDebtFormKey.currentState?.validate();
+                onTap: (edit && !enableAddAssetButtonEdit) ? null : () {
+                  formKey.currentState?.validate();
                   if (enableAddAssetButton) {
                     Map<String, dynamic> finalMap = {
-                      ...privateDebtFormKey.currentState!.instantValue,
+                      ...formKey.currentState!.instantValue,
                     };
 
                     debugPrint(finalMap.toString());
@@ -171,7 +148,7 @@ class _AddRealEstateState extends AppState<AddRealEstatePage> {
                                             ? deleteWidget
                                             : const SizedBox(),
                                         FormBuilder(
-                                          key: privateDebtFormKey,
+                                          key: formKey,
                                           initialValue: edit
                                               ? widget.moreEntity!.toFormJson()
                                               : AddAssetConstants

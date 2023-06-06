@@ -25,20 +25,21 @@ import 'package:wmd/features/edit_assets/core/presentation/widgets/delete_base_w
 import 'package:wmd/features/edit_assets/edit_other_assets/presentation/manager/edit_other_assets_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
-class AddOtherAssetPage extends StatefulWidget {
-  final bool edit;
+import '../../../core/presentation/pages/base_add_assest_state.dart';
+import '../../../core/presentation/pages/base_add_asset_stateful_widget.dart';
+
+class AddOtherAssetPage extends BaseAddAssetStatefulWidget {
   final OtherAseetMoreEntity? moreEntity;
 
-  const AddOtherAssetPage({Key? key, this.edit = false, this.moreEntity})
-      : super(key: key);
+  const AddOtherAssetPage({Key? key, bool edit = false, this.moreEntity})
+      : super(key: key,edit: edit);
 
   @override
   AppState<AddOtherAssetPage> createState() => _AddOtherAssetState();
 }
 
-class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
-  final formKey = GlobalKey<FormBuilderState>();
-  bool enableAddAssetButton = false;
+class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
+
   String currentDayValue = "--";
   String? noOfUnits = "1";
   String? valuePerUnit = "";
@@ -48,28 +49,6 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
   DateTime? aqusitionDateValue;
   DateTime? valuationDateValue;
 
-  @override
-  void didUpdateWidget(covariant AddOtherAssetPage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-  }
-
-  void checkFinalValid(value) async {
-    await Future.delayed(const Duration(milliseconds: 100));
-    bool finalValid = formKey.currentState!.isValid;
-    if (finalValid) {
-      if (!enableAddAssetButton) {
-        setState(() {
-          enableAddAssetButton = true;
-        });
-      }
-    } else {
-      if (enableAddAssetButton) {
-        setState(() {
-          enableAddAssetButton = false;
-        });
-      }
-    }
-  }
 
   void calculateCurrentValue() {
     const defaultValue = "--";
@@ -156,7 +135,7 @@ class _AddOtherAssetState extends AppState<AddOtherAssetPage> {
                 buttonText: edit
                     ? "Save Asset"
                     : appLocalizations.common_button_addAsset,
-                onTap: () {
+                onTap: (edit && !enableAddAssetButtonEdit) ? null : () {
                   if (formKey.currentState!.validate()) {
                     Map<String, dynamic> finalMap = {
                       ...formKey.currentState!.instantValue,

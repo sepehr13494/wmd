@@ -29,20 +29,21 @@ import 'package:wmd/features/edit_assets/core/presentation/widgets/delete_base_w
 import 'package:wmd/features/edit_assets/edit_listed_asset/presentation/manager/edit_listed_asset_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
-class AddListedSecurityPage extends StatefulWidget {
-  final bool edit;
+import '../../../core/presentation/pages/base_add_assest_state.dart';
+import '../../../core/presentation/pages/base_add_asset_stateful_widget.dart';
+
+class AddListedSecurityPage extends BaseAddAssetStatefulWidget {
   final ListedAssetMoreEntity? moreEntity;
 
-  const AddListedSecurityPage({Key? key, this.edit = false, this.moreEntity})
-      : super(key: key);
+  const AddListedSecurityPage({Key? key, bool edit = false, this.moreEntity})
+      : super(key: key,edit: edit);
 
   @override
   AppState<AddListedSecurityPage> createState() => _AddListedSecurityState();
 }
 
-class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
-  final formKey = GlobalKey<FormBuilderState>();
-  bool enableAddAssetButton = false;
+class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
+
   String currentDayValue = "--";
   String? noOfUnits = "";
   String? valuePerUnit = "";
@@ -50,29 +51,6 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
   bool isFixedIncome = false;
   bool isDisableCategory = false;
   bool isDisableCurrency = false;
-
-  @override
-  void didUpdateWidget(covariant AddListedSecurityPage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-  }
-
-  void checkFinalValid(value) async {
-    await Future.delayed(const Duration(milliseconds: 100));
-    bool finalValid = formKey.currentState!.isValid;
-    if (finalValid) {
-      if (!enableAddAssetButton) {
-        setState(() {
-          enableAddAssetButton = true;
-        });
-      }
-    } else {
-      if (enableAddAssetButton) {
-        setState(() {
-          enableAddAssetButton = false;
-        });
-      }
-    }
-  }
 
   void calculateCurrentValue() {
     const defaultValue = "--";
@@ -137,7 +115,7 @@ class _AddListedSecurityState extends AppState<AddListedSecurityPage> {
             appBar: const AddAssetHeader(title: "", showExitModal: true),
             bottomSheet: AddAssetFooter(
                 buttonText: edit ? "Save Asset" : "Add asset",
-                onTap: () {
+                onTap: (edit && !enableAddAssetButtonEdit) ? null : () {
                   if (formKey.currentState!.validate()) {
                     Map<String, dynamic> finalMap = {
                       ...formKey.currentState!.instantValue,
