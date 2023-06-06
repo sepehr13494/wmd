@@ -25,45 +25,23 @@ import 'package:wmd/features/edit_assets/edit_private_equity/presentation/manage
 import 'package:wmd/injection_container.dart';
 import 'package:wmd/core/extentions/string_ext.dart';
 
-class AddPrivateEquityPage extends StatefulWidget {
-  final bool edit;
+import '../../../core/presentation/pages/base_add_assest_state.dart';
+import '../../../core/presentation/pages/base_add_asset_stateful_widget.dart';
+
+class AddPrivateEquityPage extends BaseAddAssetStatefulWidget {
   final PrivateEquityMoreEntity? moreEntity;
 
-  const AddPrivateEquityPage({Key? key, this.edit = false, this.moreEntity})
-      : super(key: key);
+  const AddPrivateEquityPage({Key? key, bool edit = false, this.moreEntity})
+      : super(key: key,edit: edit);
 
   @override
   AppState<AddPrivateEquityPage> createState() => _AddPrivateEquityState();
 }
 
-class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
-  final privateEquityFormKey = GlobalKey<FormBuilderState>();
+class _AddPrivateEquityState extends BaseAddAssetState<AddPrivateEquityPage> {
+
   DateTime? acquisitionDateValue;
   DateTime? valuationDateValue;
-  bool enableAddAssetButton = false;
-
-  @override
-  void didUpdateWidget(covariant AddPrivateEquityPage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-  }
-
-  void checkFinalValid(value) async {
-    await Future.delayed(const Duration(milliseconds: 100));
-    bool finalValid = privateEquityFormKey.currentState!.isValid;
-    if (finalValid) {
-      if (!enableAddAssetButton) {
-        setState(() {
-          enableAddAssetButton = true;
-        });
-      }
-    } else {
-      if (enableAddAssetButton) {
-        setState(() {
-          enableAddAssetButton = false;
-        });
-      }
-    }
-  }
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -90,10 +68,10 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                 buttonText: edit
                     ? "Save Asset"
                     : appLocalizations.common_button_addAsset,
-                onTap: () {
-                  if (privateEquityFormKey.currentState!.validate()) {
+                onTap: (edit && !enableAddAssetButtonEdit) ? null : () {
+                  if (formKey.currentState!.validate()) {
                     Map<String, dynamic> finalMap = {
-                      ...privateEquityFormKey.currentState!.instantValue,
+                      ...formKey.currentState!.instantValue,
                     };
                     if (edit) {
                       context.read<EditPrivateEquityCubit>().putPrivateEquity(
@@ -170,7 +148,7 @@ class _AddPrivateEquityState extends AppState<AddPrivateEquityPage> {
                                             ? deleteWidget
                                             : const SizedBox(),
                                         FormBuilder(
-                                          key: privateEquityFormKey,
+                                          key: formKey,
                                           initialValue: edit
                                               ? widget.moreEntity!.toFormJson()
                                               : AddAssetConstants
