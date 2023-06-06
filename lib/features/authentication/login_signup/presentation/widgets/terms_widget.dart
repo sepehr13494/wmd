@@ -255,7 +255,12 @@ class _TermsWidgetState extends AppState<TermsWidget> {
                                         ))
                                 ],
                               );
-                            })
+                            }),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            child: Text(appLocalizations
+                                .termsAndConditions_arabicOnly_warning),
+                          )
                         ],
                       );
                     })

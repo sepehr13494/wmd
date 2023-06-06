@@ -1,6 +1,4 @@
 {
-    "@@locale": "ar",
-    "@@last_modified": "2023-06-04T12:04:23+02:00",
     "auth:signup.page.title": "انضمّ إلى منصتنا",
     "auth:signup.page.description": "إنشاء حساب myWMD",
     "auth:signup.heading": "أنشئ حساباً",
@@ -2595,5 +2593,6 @@
     "profile:linkedAccounts.Custodian": "",
     "profile:linkedAccounts.Asset": "",
     "assetLiabilityForms:toast.assetDeleteSuccess": "",
-    "linkAccount:errors.existingCIF": "سبق أن أُضيف رقم التعريف أدناه."
+    "linkAccount:errors.existingCIF": "سبق أن أُضيف رقم التعريف أدناه.",
+    "termsAndConditions:arabicOnly.warning": ""
 }
