@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
-import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
+import 'package:wmd/core/presentation/widgets/app_form_builder_date_picker.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
@@ -427,16 +427,14 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_listedAssets_inputFields_acquisitionDate_label,
                                                 child:
-                                                    FormBuilderDateTimePicker(
+                                                    AppFormBuilderDateTimePicker(
                                                   onChanged: (selectedDate) {
-                                                    checkFinalValid(
-                                                        selectedDate);
+                                                    checkFinalValid(selectedDate);
                                                   },
                                                   enabled: !edit,
                                                   lastDate: DateTime.now(),
                                                   inputType: InputType.date,
-                                                  format:
-                                                      DateFormat("dd/MM/yyyy"),
+                                                  format: DateFormat("dd/MM/yyyy"),
                                                   name: "investmentDate",
                                                   autovalidateMode:
                                                       AutovalidateMode
@@ -615,7 +613,7 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                     title: appLocalizations
                                                         .assetLiabilityForms_forms_listedAssets_inputFields_maturityDate_label,
                                                     child:
-                                                        FormBuilderDateTimePicker(
+                                                        AppFormBuilderDateTimePicker(
                                                       enabled: !edit,
                                                       onChanged:
                                                           (selectedDate) {
