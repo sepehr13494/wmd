@@ -89,6 +89,7 @@ dependencies:
   auth0_flutter: ^1.1.0
   flutter_root_jailbreak: ^2.0.2
   visibility_detector: ^0.4.0+2
+  another_flushbar: ^1.12.30
 
 dev_dependencies:
   flutter_test:
