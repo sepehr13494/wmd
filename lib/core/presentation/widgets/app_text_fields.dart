@@ -956,6 +956,7 @@ class _RadioButtontate<T> extends AppState<RadioButton> {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    final responsiveHelper = ResponsiveHelper(context: context);
     final validators = <String? Function(dynamic?)>[];
 
     if (widget.required) {
@@ -965,7 +966,8 @@ class _RadioButtontate<T> extends AppState<RadioButton> {
     }
 
     return SizedBox(
-      child: Row(children: [
+      width: responsiveHelper.optimalDeviceWidth * 0.8,
+      child: Wrap(alignment: WrapAlignment.start, children: [
         Expanded(
             child: FormBuilderRadioGroup(
                 onChanged: (value) {
@@ -981,7 +983,8 @@ class _RadioButtontate<T> extends AppState<RadioButton> {
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(horizontal: 0),
                 ),
-                orientation: OptionsOrientation.horizontal,
+                // orientation: OptionsOrientation.horizontal,
+                // wrapTextDirection: TextDirection.LTR,
                 name: widget.name,
                 activeColor: Theme.of(context).primaryColor,
                 hoverColor: Theme.of(context).primaryColor,
