@@ -100,6 +100,18 @@ class ListedSecurityName {
         value: json["value"],
       );
 
+  factory ListedSecurityName.fromAPI(Map<String, dynamic> json) =>
+      ListedSecurityName(
+        category: json["assetType"],
+        currencyCode: json["currency"],
+        isin: json["isinNumber"],
+        label: json["companyName"],
+        securityName: json["companyName"],
+        securityShortName: json["primaryExchangeName"],
+        tradedExchange: json["ticker"],
+        value: json["companyName"],
+      );
+
   static final listedSecurityNameList =
       json.map((e) => ListedSecurityName.fromJson(e)).toList();
 }
