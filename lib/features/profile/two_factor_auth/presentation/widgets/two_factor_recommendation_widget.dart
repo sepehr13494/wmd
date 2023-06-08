@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -84,9 +86,11 @@ class TwoFactorRecommendationWidget extends AppStatelessWidget {
                                                   ? responsiveHelper
                                                           .optimalDeviceWidth *
                                                       0.5
-                                                  : responsiveHelper
-                                                          .optimalDeviceWidth *
-                                                      0.4,
+                                                  : min(
+                                                      responsiveHelper
+                                                              .optimalDeviceWidth *
+                                                          0.3,
+                                                      300),
                                               child: Text(
                                                 appLocalizations
                                                     .home_twoFactorRecommendation_title,
@@ -100,9 +104,11 @@ class TwoFactorRecommendationWidget extends AppStatelessWidget {
                                                 ? responsiveHelper
                                                         .optimalDeviceWidth *
                                                     0.5
-                                                : responsiveHelper
-                                                        .optimalDeviceWidth *
-                                                    0.4,
+                                                : min(
+                                                    responsiveHelper
+                                                            .optimalDeviceWidth *
+                                                        0.3,
+                                                    300),
                                             child: Text(
                                               appLocalizations
                                                   .home_twoFactorRecommendation_description,
@@ -118,7 +124,7 @@ class TwoFactorRecommendationWidget extends AppStatelessWidget {
                                 ),
                                 !isMobile
                                     ? SizedBox(
-                                        width: responsiveHelper.bigger16Gap)
+                                        width: responsiveHelper.defaultSmallGap)
                                     : SizedBox(
                                         height: responsiveHelper.bigger16Gap),
                                 ExpandedIf(
