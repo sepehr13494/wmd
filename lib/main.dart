@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -69,6 +70,13 @@ Future<void> main() async {
         RumConfiguration(applicationId: '7cc0a75a-848f-47ee-b6e7-c54a9e9888c4'),
   );
   await DatadogSdk.runApp(configuration, () async {
+    WidgetsFlutterBinding.ensureInitialized();
+    final data = MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
+    if (data.size.shortestSide < 600) {
+      await SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+      ]);
+    }
     runApp(const MyApp());
   });
 }
@@ -97,27 +105,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     late GoRouter router;
-    if(AppConstants.developRoutes){
+    if (AppConstants.developRoutes) {
       router = DeveloperAppRouter.router;
-    }else{
+    } else {
       router = AppRouter().router();
     }
     bool isObsecured = false;
     final allProviders = [
       BlocProvider(
           create: (context) =>
-          sl<ThemeManager>()..changeTheme(sl<LocalStorage>().getTheme())),
+              sl<ThemeManager>()..changeTheme(sl<LocalStorage>().getTheme())),
       BlocProvider(
           create: (context) => sl<LocalizationManager>()
             ..changeLang(sl<LocalStorage>().getLocale())),
       BlocProvider(create: (context) => sl<LocalAuthManager>()),
     ];
-    if(AppConstants.developRoutes){
+    if (AppConstants.developRoutes) {
       final developerProviders = [
-        BlocProvider(
-            create: (context) => sl<AssetChartChooserManager>()),
-        BlocProvider(
-            create: (context) => sl<GeoChartChooserManager>()),
+        BlocProvider(create: (context) => sl<AssetChartChooserManager>()),
+        BlocProvider(create: (context) => sl<GeoChartChooserManager>()),
         BlocProvider(
           create: (context) => sl<TabManager>(),
           lazy: false,
@@ -153,8 +159,7 @@ class MyApp extends StatelessWidget {
           return sl<ClientIndexCubit>()..getClientIndex();
         }),
         BlocProvider(create: (context) {
-          return sl<PerformanceCustodianCubit>()
-            ..getCustodianPerformance();
+          return sl<PerformanceCustodianCubit>()..getCustodianPerformance();
         }),
         BlocProvider(
           create: (context) {
@@ -193,8 +198,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) {
-            return sl<CustodianStatusListCubit>()
-              ..getCustodianStatusList();
+            return sl<CustodianStatusListCubit>()..getCustodianStatusList();
           },
         ),
         BlocProvider(

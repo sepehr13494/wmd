@@ -35,117 +35,122 @@ class PrivacyWidget extends AppStatelessWidget {
         border: Border.all(color: Theme.of(context).dividerColor),
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Scaffold(
-        body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          Align(
-            alignment: Alignment.centerRight,
-            child: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(
-                  Icons.close,
-                  color: Theme.of(context).primaryColor,
-                )),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-            child: Text(
-              appLocalizations.termsAndConditions_privacyPolicy_title,
-              // appLocalizations.auth_signup_tos_title,
-              style: textTheme.headlineSmall,
-              textAlign: TextAlign.center,
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: Scaffold(
+          body:
+              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.close,
+                    color: Theme.of(context).primaryColor,
+                  )),
             ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Center(
-                  child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      appLocalizations
-                          .termsAndConditions_privacyPolicy_tableOfContent,
-                      style: textTheme.bodyLarge,
-                    ),
-                    const SizedBox(height: 8),
-                    ...data.map((e) => Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Column(
-                              children: const [
-                                SizedBox(height: 8),
-                                Icon(Icons.circle,
-                                    color: Colors.white, size: iconSize),
-                              ],
-                            ),
-                            const SizedBox(width: 4),
-                            Expanded(
-                                child: Text(
-                              e.title,
-                              maxLines: 10,
-                            )),
-                          ],
-                        )),
-                    const SizedBox(height: 8),
-                    ...List.generate(data.length, (index) {
-                      final e = data[index];
-                      final i = (index + 1).toString();
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 8),
-                          Text(
-                            '$i. ${e.title}',
-                            style: textTheme.bodyLarge,
-                          ),
-                          if (e.children != null)
-                            ...e.children!.map((e) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(height: 8),
-                                  Text(e.content),
-                                  if (e.childContent != null)
-                                    ...e.childContent!.map((c) => Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            const SizedBox(width: 8),
-                                            Column(
-                                              children: const [
-                                                SizedBox(height: 8),
-                                                Icon(Icons.circle_outlined,
-                                                    color: Colors.white,
-                                                    size: iconSize),
-                                              ],
-                                            ),
-                                            const SizedBox(width: 4),
-                                            Expanded(
-                                                child: Text(
-                                              c,
-                                              maxLines: 10,
-                                            )),
-                                          ],
-                                        ))
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+              child: Text(
+                appLocalizations.termsAndConditions_privacyPolicy_title,
+                // appLocalizations.auth_signup_tos_title,
+                style: textTheme.headlineSmall,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Center(
+                    child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        appLocalizations
+                            .termsAndConditions_privacyPolicy_tableOfContent,
+                        style: textTheme.bodyLarge,
+                      ),
+                      const SizedBox(height: 8),
+                      ...data.map((e) => Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Column(
+                                children: const [
+                                  SizedBox(height: 8),
+                                  Icon(Icons.circle,
+                                      color: Colors.white, size: iconSize),
                                 ],
-                              );
-                            })
-                        ],
-                      );
-                    })
-                  ],
-                ),
-              )),
+                              ),
+                              const SizedBox(width: 4),
+                              Expanded(
+                                  child: Text(
+                                e.title,
+                                maxLines: 10,
+                              )),
+                            ],
+                          )),
+                      const SizedBox(height: 8),
+                      ...List.generate(data.length, (index) {
+                        final e = data[index];
+                        final i = (index + 1).toString();
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 8),
+                            Text(
+                              '$i. ${e.title}',
+                              style: textTheme.bodyLarge,
+                            ),
+                            if (e.children != null)
+                              ...e.children!.map((e) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(height: 8),
+                                    Text(e.content),
+                                    if (e.childContent != null)
+                                      ...e.childContent!.map((c) => Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              const SizedBox(width: 8),
+                                              Column(
+                                                children: const [
+                                                  SizedBox(height: 8),
+                                                  Icon(Icons.circle_outlined,
+                                                      color: Colors.white,
+                                                      size: iconSize),
+                                                ],
+                                              ),
+                                              const SizedBox(width: 4),
+                                              Expanded(
+                                                  child: Text(
+                                                c,
+                                                maxLines: 10,
+                                              )),
+                                            ],
+                                          ))
+                                  ],
+                                );
+                              })
+                          ],
+                        );
+                      })
+                    ],
+                  ),
+                )),
+              ),
             ),
-          ),
-        ]),
+          ]),
+        ),
       ),
     );
   }

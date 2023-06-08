@@ -161,7 +161,7 @@ class _WelcomePageState extends AppState<WelcomePage> {
                       SizedBox(
                         height: responsiveHelper.isMobile
                             ? 80
-                            : responsiveHelper.optimalDeviceWidth * 0.5,
+                            : responsiveHelper.bigger24Gap * 7,
                       ),
                       // Stack(
                       //   alignment: Alignment.center,

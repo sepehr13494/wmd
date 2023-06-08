@@ -15,6 +15,7 @@ import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/domain/u
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/data_sources/bank_list_data_source.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/repository/bank_list_repository_impl.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_bank_list.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_market_data.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentation/manager/bank_list_cubit.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/data/data_sources/bank_details_save_remote_data_source.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/data/repositories/bank_repository_impl.dart';
@@ -439,10 +440,9 @@ Future<void> init(String env) async {
   sl.registerLazySingleton(() => GetPortfolioTabUseCase(sl()));
 
   sl.registerLazySingleton<PortfolioTabRepository>(
-          () => PortfolioTabRepositoryImpl(sl()));
+      () => PortfolioTabRepositoryImpl(sl()));
   sl.registerLazySingleton<PortfolioTabRemoteDataSource>(
-          () => PortfolioTabRemoteDataSourceImpl(sl()));
-
+      () => PortfolioTabRemoteDataSourceImpl(sl()));
 
   // Dashboard - user status dependencies
   sl.registerFactory(() => UserStatusCubit(sl(), sl()));
@@ -461,9 +461,10 @@ Future<void> init(String env) async {
       () => BankSaveRemoteDataSourceImpl(sl()));
 
   // Bank List
-  sl.registerFactory(() => BankListCubit(sl(), sl()));
+  sl.registerFactory(() => BankListCubit(sl(), sl(), sl()));
   sl.registerLazySingleton(() => GetBankListsUseCase(sl()));
   sl.registerLazySingleton(() => GetPopularBankListUseCase(sl()));
+  sl.registerLazySingleton(() => GetMarketDataUseCase(sl()));
   sl.registerLazySingleton<BankListRepository>(
       () => BankListRepositoryImpl(sl()));
   sl.registerLazySingleton<BankListRemoteDataSource>(

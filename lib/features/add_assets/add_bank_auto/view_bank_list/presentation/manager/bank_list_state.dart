@@ -15,3 +15,10 @@ class PopularBankListSuccess extends BankListState {
 
   PopularBankListSuccess(this.banks);
 }
+
+class MarketDataSuccess extends BankListState {
+  final List<ListedSecurityName> entity;
+  final String query;
+
+  MarketDataSuccess(this.entity, this.query);
+}

@@ -72,6 +72,9 @@ class AppUrls {
   static String getLiablilityOverview = "${wealthBase}Liability/All";
   static String getBankList = "${banking}Bank";
   static String getPopularBankList = "${banking}Bank/Popular";
+  static String getMarketData = "${banking}MarketData/search";
+  // static String getMarketData(String identifier, String? resultCount) =>
+  //     "MarketData/search?identifier=$identifier${resultCount != null ? '&resultCount=$resultCount' : ''}";
 
   //preferences
   static String patchPreferenceMobileBanner =

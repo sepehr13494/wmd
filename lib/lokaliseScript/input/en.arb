@@ -1,6 +1,4 @@
 {
-    "@@locale": "en",
-    "@@last_modified": "2023-06-04T12:04:23+02:00",
     "auth:signup.page.title": "Join our Platform",
     "auth:signup.page.description": "Create myWMD account",
     "auth:signup.heading": "Create an account",
@@ -680,7 +678,7 @@
     "assetLiabilityForms:forms.others.inputFields.acquisitionCost.placeholder": "Please enter the purchase price of the asset",
     "assetLiabilityForms:forms.others.inputFields.acquisitionCost.errorMessage": "Please enter the acquisition cost",
     "assetLiabilityForms:forms.others.inputFields.acquisitionCost.tooltip": "This field is to be entered as cost price per unit and is being captured to calculate the performance parameters like returns etc.",
-    "assetLiabilityForms:forms.others.inputFields.acquisitionDate.label": "Acquisition date",
+    "assetLiabilityForms:forms.others.inputFields.acquisitionDate.label": "Acquisition date (optional)",
     "assetLiabilityForms:forms.others.inputFields.acquisitionDate.placeholder": "DD\/MM\/YYYY",
     "assetLiabilityForms:forms.others.inputFields.acquisitionDate.errorMessage": "Please selct acquisition date",
     "assetLiabilityForms:forms.others.inputFields.acquisitionDate.tooltip": "It helps in calculating the performance parameters like returns.",
@@ -1600,7 +1598,7 @@
     "common:linkTFO.modal.oneMandate.title": "Your TFO account has been successfully linked",
     "common:linkTFO.modal.oneMandate.description": "Data will be fetched within the next 1-2 working days. You will be notified via email about the successful data synchronization.",
     "common:linkTFO.modal.multipleMandates.title": "Your TFO account has been successfully linked",
-    "common:linkTFO.modal.multipleMandates.description": "Please review and confirm the mandates you want to integrate below, then click \\\"Confirm\\\". Data will be fetched within the next 1-2 working days.",
+    "common:linkTFO.modal.multipleMandates.description": "Please review and confirm the mandates you want to integrate below, then click \"Confirm\". Data will be fetched within the next 1-2 working days.",
     "common:linkTFO.toast.noMandates.title": "No mandates found",
     "common:linkTFO.toast.noMandates.description": "Please contact your financial advisor to add mandates",
     "common:linkTFO.toast.success.title": "Mandates successfully linked",
@@ -1947,7 +1945,7 @@
     "cookies:content.cookiePreference.t4": "Google Chrome:",
     "cookies:content.cookiePreference.t5": "Apple Safari:",
     "cookies:content.cookiePreference.t6": "Mozilla Firefox:",
-    "cookies:content.cookiePreference.t7": "For other browsers, try searching for \\\"managing cookies in (browser name)",
+    "cookies:content.cookiePreference.t7": "For other browsers, try searching for \"managing cookies in (browser name)\"",
     "cookies:content.cookiePreference.t8": "To opt-out from the Google Analytics cookie, you may download and install the Google Analytics opt-out browser add-on. This add-on instructs the Google Analytics JavaScript to prohibit sending information to Google Analytics.",
     "cookies:content.cookiesOnSite.t1": "Please find below the list of the cookies typically used by our website:",
     "cookies:content.cookiesOnSite.t2": "Strictly Necessary Cookies",
@@ -2595,5 +2593,6 @@
     "profile:linkedAccounts.Custodian": "Custodian",
     "profile:linkedAccounts.Asset": "Asset",
     "assetLiabilityForms:toast.assetDeleteSuccess": "Your {{assetName}} asset has been deleted successfully.",
-    "linkAccount:errors.existingCIF": "The below identification number has already been added."
+    "linkAccount:errors.existingCIF": "The below identification number has already been added.",
+    "termsAndConditions:arabicOnly.warning": "support@allinoneplus.com إذا كنت بحاجة إلى ترجمة عربية لشروط الخدمة ، فيرجى الاتصال بنا على "
 }
