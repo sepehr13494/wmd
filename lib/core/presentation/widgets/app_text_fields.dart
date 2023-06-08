@@ -1,5 +1,7 @@
 // ignore_for_file: unnecessary_new
 
+import 'dart:async';
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -654,16 +656,19 @@ class ListedSecurityTypeAhead extends StatefulWidget {
   final String? title;
   final String hint;
   final String? errorMsg;
-  final List<ListedSecurityName> items;
+  final SuggestionsBoxController suggestionsBoxController;
+  // final List<ListedSecurityName> items;
   final ValueChanged<ListedSecurityName?>? onChange;
   final bool? required;
   final List<String? Function(String?)>? extraValidators;
   final bool enabled;
+  final Function(String)? fetchData;
+  final FutureOr<Iterable<dynamic>> Function(String) suggestionsCallback;
 
   const ListedSecurityTypeAhead({
     Key? key,
     required this.name,
-    required this.items,
+    // required this.items,
     required this.hint,
     this.extraValidators,
     this.required = true,
@@ -671,6 +676,9 @@ class ListedSecurityTypeAhead extends StatefulWidget {
     this.errorMsg,
     this.onChange,
     this.enabled = true,
+    required this.fetchData,
+    required this.suggestionsBoxController,
+    required this.suggestionsCallback,
   }) : super(key: key);
 
   @override
@@ -704,6 +712,7 @@ class _ListedSecurityTypeAheadState extends AppState<ListedSecurityTypeAhead> {
         }
         return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           TypeAheadField(
+            suggestionsBoxController: widget.suggestionsBoxController,
             animationStart: 0,
             animationDuration: Duration.zero,
             textFieldConfiguration: TextFieldConfiguration(
@@ -720,22 +729,19 @@ class _ListedSecurityTypeAheadState extends AppState<ListedSecurityTypeAhead> {
                     : null,
               ),
               controller: typeController,
-              onChanged: (value) {
-                final currentValue = widget.items
-                    .firstWhere((element) => element.securityName == value);
-                state.didChange(currentValue);
-              },
+              onChanged: widget.fetchData,
             ),
-            suggestionsCallback: (pattern) {
-              return widget.items.where((element) =>
-                  element.securityName
-                      .toLowerCase()
-                      .contains(pattern.toLowerCase()) ||
-                  element.securityShortName
-                      .toLowerCase()
-                      .contains(pattern.toLowerCase()) ||
-                  element.isin.toLowerCase().contains(pattern.toLowerCase()));
-            },
+            // suggestionsCallback: (pattern) {
+            //   return widget.items.where((element) =>
+            //       element.securityName
+            //           .toLowerCase()
+            //           .contains(pattern.toLowerCase()) ||
+            //       element.securityShortName
+            //           .toLowerCase()
+            //           .contains(pattern.toLowerCase()) ||
+            //       element.isin.toLowerCase().contains(pattern.toLowerCase()));
+            // },
+            suggestionsCallback: widget.suggestionsCallback,
             itemBuilder: (context, suggestion) {
               return Padding(
                 padding: const EdgeInsets.all(8),
