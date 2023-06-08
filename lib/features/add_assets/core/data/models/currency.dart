@@ -1,8 +1,10 @@
-class Currency {
+import 'package:equatable/equatable.dart';
+
+class Currency extends Equatable{
   final String symbol;
   final String name;
 
-  Currency({
+  const Currency({
     required this.symbol,
     required this.name,
   });
@@ -25,6 +27,12 @@ class Currency {
   String toString() {
     return toJson().toString();
   }
+
+  @override
+  List<Object?> get props => [
+    symbol,
+    name,
+  ];
 
   static final currenciesList = json.map((e) => Currency.fromJson(e)).toList();
 
