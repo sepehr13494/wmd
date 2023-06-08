@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -89,11 +92,26 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
             GetCustodianBankStatusParams(
                 bankId: widget.bankId, custodianBankStatusId: id));
         // sl<CustodianStatusListCubit>().getCustodianStatusList();
+      } else if (state is ErrorState) {
+        Flushbar(
+          message: state.failure.data['title'],
+          duration: const Duration(seconds: 3),
+          margin: const EdgeInsets.all(8),
+          borderRadius: const BorderRadius.only(
+              bottomRight: Radius.circular(8), topRight: Radius.circular(8)),
+          icon: const Icon(
+            Icons.info_outline,
+            size: 14,
+            color: Colors.red,
+          ),
+          leftBarIndicatorColor: Colors.red,
+        ).show(context);
+        context.read<CustodianBankAuthCubit>().getCustodianBankStatus(
+            GetCustodianBankStatusParams(
+                bankId: widget.bankId, custodianBankStatusId: id));
       }
     }, builder: (context, state) {
-      if (state is ErrorState) {
-        return Text(state.failure.message);
-      } else if (state is CustodianBankStateLoaded) {
+      if (state is CustodianBankStateLoaded) {
         final status = state.custodianBankStatusEntity;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
