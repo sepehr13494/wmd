@@ -93,10 +93,15 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                 bankId: widget.bankId, custodianBankStatusId: id));
         // sl<CustodianStatusListCubit>().getCustodianStatusList();
       } else if (state is ErrorState) {
+        final String error = state.failure.data['title'] ==
+                'There is already a custodian bank status with same bank and account for the user'
+            ? appLocalizations.linkAccount_errors_existingCIF
+            : appLocalizations.common_errors_somethingWentWrong;
         Flushbar(
-          message: state.failure.data['title'],
+          message: error,
           duration: const Duration(seconds: 3),
           margin: const EdgeInsets.all(8),
+          
           borderRadius: const BorderRadius.only(
               bottomRight: Radius.circular(8), topRight: Radius.circular(8)),
           icon: const Icon(
