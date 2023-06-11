@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'dart:math';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +45,8 @@ class SuccessModalWidget extends ModalWidget {
       width: double.infinity,
       height: isMobile
           ? MediaQuery.of(context).size.height * 0.8
-          : MediaQuery.of(context).size.height * 0.5,
+          : max(MediaQuery.of(context).size.height * 0.5,
+              min(615, MediaQuery.of(context).size.width)),
       child: Column(
         children: [
           buildModalHeader(context,
