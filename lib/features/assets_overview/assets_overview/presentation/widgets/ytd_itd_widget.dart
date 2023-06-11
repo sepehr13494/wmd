@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/extentions/round_ext.dart';
@@ -23,20 +25,30 @@ class YtdItdWidget extends AppStatelessWidget {
       this.showToolTip = true})
       : super(key: key);
 
+  fixZero(String val) {
+    if (double.parse(val) == 0) {
+      return '0';
+    } else {
+      return val;
+    }
+  }
+
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
+    final ytdFixed = ytd.toStringAsFixedZero(1);
+    final itdFixed = itd.toStringAsFixedZero(1);
     List items = [
       [
         AppLocalizations.of(context).assets_label_ytd,
-        ytd,
-        "${ytd.toStringAsFixedZero(1)}%",
+        double.parse(ytdFixed),
+        "${fixZero(ytdFixed)}%",
         appLocalizations.assets_tooltips_ytd
         // "Year-to-date:the period from the first of\nthe calendar year to date of the\ncommunication."
       ],
       [
         AppLocalizations.of(context).assets_label_itd,
-        itd,
-        "${itd.toStringAsFixedZero(1)}%",
+        double.parse(itdFixed),
+        "${fixZero(itdFixed)}%",
         appLocalizations.assets_tooltips_itd
         // "Incenption-to-date:the period from the\nestablishment of the portfolio/investment to\nthe date of the communication."
       ],
