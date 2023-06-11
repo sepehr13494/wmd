@@ -109,7 +109,10 @@ class _LinkedAccountsPageState extends AppState<LinkedAccountsPage> {
           appLocalizations.profile_tabs_linkedAccounts_name,
           style: textTheme.headlineSmall,
         ),
-        const SizedBox(width: 8),
+        if (ResponsiveHelper(context: context).isMobile)
+          const SizedBox(width: 8)
+        else
+          const Expanded(child: SizedBox(width: 8)),
         Expanded(
           child: Container(
             decoration: BoxDecoration(
