@@ -1,8 +1,7 @@
 import 'dart:ui';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 
 class ModalWidget extends StatelessWidget {
@@ -36,7 +35,7 @@ class ModalWidget extends StatelessWidget {
       width: double.infinity,
       height: isMobile
           ? MediaQuery.of(context).size.height * 0.7
-          : MediaQuery.of(context).size.height * 0.4,
+          : max(MediaQuery.of(context).size.height * 0.4, 550),
       child: Column(
         children: [
           buildModalHeader(context),
