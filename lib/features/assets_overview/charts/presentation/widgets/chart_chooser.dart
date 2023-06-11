@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/chart_chooser_manager.dart';
@@ -111,18 +112,23 @@ class _ChartChooserWidgetState extends AppState<ChartChooserWidget> {
         mainAxisSize: MainAxisSize.min,
         children: [
           const Spacer(),
-          Icon(
-            Icons.bar_chart,
-            size: 15,
-            color: Theme.of(context).primaryColor,
-          ),
+          widget.isGeo
+              ? SvgPicture.asset(
+                  "assets/images/world_map_icon.svg",
+                  height: 15,
+                )
+              : Icon(
+                  Icons.bar_chart,
+                  size: 15,
+                  color: Theme.of(context).primaryColor,
+                ),
           const SizedBox(width: 8),
           Builder(builder: (context) {
             final items =
                 AllChartType.getAllTypes(context, isGeo: widget.isGeo);
             return DropdownButtonHideUnderline(
               child: DropdownButton<AllChartType>(
-                menuMaxHeight: 500,
+                  menuMaxHeight: 500,
                   itemHeight: 120,
                   selectedItemBuilder: (context) => items
                       .map((e) => Text(
@@ -152,8 +158,8 @@ class _ChartChooserWidgetState extends AppState<ChartChooserWidget> {
                               const SizedBox(height: 4),
                               Text(
                                 items[index].name,
-                                style: textTheme.bodyMedium!
-                                    .apply(color: Theme.of(context).primaryColor),
+                                style: textTheme.bodyMedium!.apply(
+                                    color: Theme.of(context).primaryColor),
                               ),
                             ],
                           ),

@@ -9,10 +9,14 @@ import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:wmd/core/domain/usecases/usercase.dart' as _i7;
 import 'package:wmd/core/error_and_success/failures.dart' as _i5;
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/models/get_market_data_params.dart'
+    as _i9;
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/entity/bank_entity.dart'
     as _i6;
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/repository/bank_list_repository.dart'
     as _i3;
+import 'package:wmd/features/add_assets/core/data/models/listed_security_name.dart'
+    as _i8;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -80,4 +84,23 @@ class MockBankListRepository extends _i1.Mock
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, List<_i6.BankEntity>>>);
+  @override
+  _i4.Future<
+      _i2.Either<_i5.Failure, List<_i8.ListedSecurityName>>> getMarketData(
+          _i9.GetMarketDataParams? param) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getMarketData,
+          [param],
+        ),
+        returnValue: _i4.Future<
+                _i2.Either<_i5.Failure, List<_i8.ListedSecurityName>>>.value(
+            _FakeEither_0<_i5.Failure, List<_i8.ListedSecurityName>>(
+          this,
+          Invocation.method(
+            #getMarketData,
+            [param],
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, List<_i8.ListedSecurityName>>>);
 }

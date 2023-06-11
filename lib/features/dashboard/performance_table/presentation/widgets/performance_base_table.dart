@@ -70,8 +70,10 @@ class _PerformanceBaseTableState extends AppState<PerformanceBaseTable> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          appLocalizations.common_emptyText_emptyState,
+                          appLocalizations.common_emptyText_pnlEmptyMessage,
                           textAlign: TextAlign.center,
+                          style: textTheme.bodyMedium!
+                              .apply(color: Theme.of(context).primaryColor),
                         ),
                       ),
                     ),

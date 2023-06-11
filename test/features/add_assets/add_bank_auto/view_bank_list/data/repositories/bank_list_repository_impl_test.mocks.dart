@@ -11,6 +11,10 @@ import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/data_s
     as _i2;
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/models/bank_list_response.dart'
     as _i4;
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/models/get_market_data_params.dart'
+    as _i7;
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/models/get_market_data_response.dart'
+    as _i6;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -52,4 +56,15 @@ class MockBankListRemoteDataSource extends _i1.Mock
         returnValue:
             _i3.Future<List<_i4.BankResponse>>.value(<_i4.BankResponse>[]),
       ) as _i3.Future<List<_i4.BankResponse>>);
+  @override
+  _i3.Future<List<_i6.GetMarketDataResponse>> getMarketData(
+          _i7.GetMarketDataParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getMarketData,
+          [params],
+        ),
+        returnValue: _i3.Future<List<_i6.GetMarketDataResponse>>.value(
+            <_i6.GetMarketDataResponse>[]),
+      ) as _i3.Future<List<_i6.GetMarketDataResponse>>);
 }

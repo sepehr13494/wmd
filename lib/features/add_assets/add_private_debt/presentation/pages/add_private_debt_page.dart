@@ -32,7 +32,7 @@ class AddPrivateDebtPage extends BaseAddAssetStatefulWidget {
   final PrivateDebtMoreEntity? moreEntity;
 
   const AddPrivateDebtPage({Key? key, bool edit = false, this.moreEntity})
-      : super(key: key,edit: edit);
+      : super(key: key, edit: edit);
 
   @override
   AppState<AddPrivateDebtPage> createState() => _AddPrivateDebtState();
@@ -41,7 +41,6 @@ class AddPrivateDebtPage extends BaseAddAssetStatefulWidget {
 class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
   DateTime? aqusitionDateValue;
   DateTime? valuationDateValue;
-
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -68,21 +67,23 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                 buttonText: edit
                     ? "Save Asset"
                     : appLocalizations.common_button_addAsset,
-                onTap: (edit && !enableAddAssetButtonEdit) ? null : () {
-                  if (formKey.currentState!.validate()) {
-                    Map<String, dynamic> finalMap = {
-                      ...formKey.currentState!.instantValue,
-                    };
-                    if (edit) {
-                      context.read<EditPrivateDebtCubit>().putPrivateDebt(
-                          map: finalMap, assetId: widget.moreEntity!.id);
-                    } else {
-                      context
-                          .read<PrivateDebtCubit>()
-                          .postPrivateDebt(map: finalMap);
-                    }
-                  }
-                }),
+                onTap: (edit && !enableAddAssetButtonEdit)
+                    ? null
+                    : () {
+                        if (formKey.currentState!.validate()) {
+                          Map<String, dynamic> finalMap = {
+                            ...formKey.currentState!.instantValue,
+                          };
+                          if (edit) {
+                            context.read<EditPrivateDebtCubit>().putPrivateDebt(
+                                map: finalMap, assetId: widget.moreEntity!.id);
+                          } else {
+                            context
+                                .read<PrivateDebtCubit>()
+                                .postPrivateDebt(map: finalMap);
+                          }
+                        }
+                      }),
             body: Theme(
               data: Theme.of(context).copyWith(),
               child: Builder(builder: (context) {
@@ -220,6 +221,13 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                                     .assetLiabilityForms_forms_privateDebt_inputFields_acquisitionDate_label,
                                                 child:
                                                     AppFormBuilderDateTimePicker(
+                                                  validator:
+                                                      FormBuilderValidators
+                                                          .compose([
+                                                    FormBuilderValidators.required(
+                                                        errorText: appLocalizations
+                                                            .assetLiabilityForms_forms_privateDebt_inputFields_acquisitionDate_errorMessage)
+                                                  ]),
                                                   enabled: !edit,
                                                   onChanged: (selectedDate) {
                                                     checkFinalValid(
@@ -242,12 +250,6 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                                   autovalidateMode:
                                                       AutovalidateMode
                                                           .onUserInteraction,
-                                                  validator:
-                                                      FormBuilderValidators
-                                                          .compose([
-                                                    FormBuilderValidators
-                                                        .required()
-                                                  ]),
                                                   decoration: InputDecoration(
                                                       suffixIcon: Icon(
                                                         Icons.calendar_month,
@@ -270,20 +272,17 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                                 hasInfo: false,
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_privateDebt_inputFields_initialInvestmentAmount_label,
-                                                child: AppTextFields
-                                                    .simpleTextField(
-                                                        enabled: !edit,
-                                                        onChanged:
-                                                            checkFinalValid,
-                                                        type:
-                                                            TextFieldType.money,
-                                                        keyboardType:
-                                                            TextInputType
-                                                                .number,
-                                                        name:
-                                                            "investmentAmount",
-                                                        hint: appLocalizations
-                                                            .assetLiabilityForms_forms_privateDebt_inputFields_initialInvestmentAmount_placeholder),
+                                                child: AppTextFields.simpleTextField(
+                                                    errorMsg: appLocalizations
+                                                        .assetLiabilityForms_forms_privateDebt_inputFields_initialInvestmentAmount_errorMessage,
+                                                    enabled: !edit,
+                                                    onChanged: checkFinalValid,
+                                                    type: TextFieldType.money,
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    name: "investmentAmount",
+                                                    hint: appLocalizations
+                                                        .assetLiabilityForms_forms_privateDebt_inputFields_initialInvestmentAmount_placeholder),
                                               ),
                                               EachTextField(
                                                 title: appLocalizations
@@ -302,8 +301,9 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                                   validator:
                                                       FormBuilderValidators
                                                           .compose([
-                                                    FormBuilderValidators
-                                                        .required()
+                                                    FormBuilderValidators.required(
+                                                        errorText: appLocalizations
+                                                            .assetLiabilityForms_forms_privateDebt_inputFields_valuationDate_errorMessage)
                                                   ]),
                                                   name: "valuationDate",
                                                   onChanged: (val) {
@@ -326,19 +326,17 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                                 hasInfo: false,
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_privateDebt_inputFields_currentValue_label,
-                                                child: AppTextFields
-                                                    .simpleTextField(
-                                                        enabled: !edit,
-                                                        onChanged:
-                                                            checkFinalValid,
-                                                        type:
-                                                            TextFieldType.money,
-                                                        keyboardType:
-                                                            TextInputType
-                                                                .number,
-                                                        name: "marketValue",
-                                                        hint: appLocalizations
-                                                            .assetLiabilityForms_forms_privateDebt_inputFields_currentValue_placeholder),
+                                                child: AppTextFields.simpleTextField(
+                                                    errorMsg: appLocalizations
+                                                        .assetLiabilityForms_forms_privateDebt_inputFields_currentValue_errorMessage,
+                                                    enabled: !edit,
+                                                    onChanged: checkFinalValid,
+                                                    type: TextFieldType.money,
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    name: "marketValue",
+                                                    hint: appLocalizations
+                                                        .assetLiabilityForms_forms_privateDebt_inputFields_currentValue_placeholder),
                                               ),
                                               const SizedBox(height: 60),
                                             ]
