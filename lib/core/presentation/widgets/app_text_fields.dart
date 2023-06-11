@@ -592,24 +592,31 @@ class _FormBuilderTypeAheadState extends AppState<FormBuilderTypeAhead> {
             animationDuration: Duration.zero,
             textFieldConfiguration: TextFieldConfiguration(
               enabled: widget.enabled,
+              style: TextStyle(color: widget.enabled ? null : Theme.of(context).disabledColor),
               decoration: InputDecoration(
                 hintText: widget.hint,
                 prefixIcon: widget.prefixIcon,
                 suffixIcon: widget.suffixIcon,
-                disabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                disabledBorder: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(4)),
                     borderSide: BorderSide(
                       width: 1,
-                      color: Colors.grey,
+                      color: Theme.of(context).disabledColor,
                     )),
                 enabledBorder: state.hasError
                     ? const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4)),
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Colors.red,
-                        ))
-                    : null,
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: Colors.red,
+                    ))
+                    : OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
+                  borderSide: BorderSide(
+                    width: 1,
+                    color: widget.enabled ? Theme.of(context).textTheme.titleMedium!.color! : Theme.of(context).disabledColor,
+                  ),
+                ),
               ),
               controller: typeController,
               onChanged: (value) {
@@ -716,6 +723,7 @@ class _ListedSecurityTypeAheadState extends AppState<ListedSecurityTypeAhead> {
             animationStart: 0,
             animationDuration: Duration.zero,
             textFieldConfiguration: TextFieldConfiguration(
+              style: TextStyle(color: widget.enabled ? null : Theme.of(context).disabledColor),
               enabled: widget.enabled,
               decoration: InputDecoration(
                 hintText: widget.hint,
@@ -726,7 +734,13 @@ class _ListedSecurityTypeAheadState extends AppState<ListedSecurityTypeAhead> {
                           width: 1,
                           color: Colors.red,
                         ))
-                    : null,
+                    : OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(4)),
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: widget.enabled ? Theme.of(context).textTheme.titleMedium!.color! : Theme.of(context).disabledColor,
+                    ),
+                ),
               ),
               controller: typeController,
               onChanged: widget.fetchData,

@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
+import 'package:wmd/core/presentation/routes/app_router.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/features/asset_detail/core/data/models/get_summary_params.dart';
 import 'package:wmd/features/asset_detail/core/presentation/manager/asset_summary_cubit.dart';
@@ -23,6 +24,7 @@ class EditAssetBlocHelper{
       }
       if (state is DeleteAssetSuccess) {
         GlobalFunctions.showSnackBar(context, AppLocalizations.of(context).assetLiabilityForms_toast_assetDeleteSuccess.replaceAll("{{assetName}}", type),type: "success");
+        AppRouter().setMainRefreshKey();
         context.goNamed(AppRoutes.main);
       }
     },);
