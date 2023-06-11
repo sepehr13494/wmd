@@ -37,17 +37,19 @@ class CenterModalWidget extends StatelessWidget {
           width: isMobile ? double.infinity : WIDTH_MOBILE,
           child: Container(
             color: Theme.of(context).scaffoldBackgroundColor,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                buildModalHeader(context),
-                Padding(
-                  padding: contentPadding,
-                  child: body,
-                ),
-                if (actions == null) buildActionContainer(context),
-                if (actions != null) SizedBox(child: actions),
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  buildModalHeader(context),
+                  Padding(
+                    padding: contentPadding,
+                    child: body,
+                  ),
+                  if (actions == null) buildActionContainer(context),
+                  if (actions != null) SizedBox(child: actions),
+                ],
+              ),
             ),
           ),
         ),
