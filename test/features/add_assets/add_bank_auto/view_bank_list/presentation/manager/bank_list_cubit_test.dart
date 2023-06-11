@@ -8,22 +8,26 @@ import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/models/bank_list_response.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_bank_list.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_market_data.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_popular_bank_list.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentation/manager/bank_list_cubit.dart';
 
 import 'bank_list_cubit_test.mocks.dart';
 
-@GenerateMocks([GetBankListsUseCase, GetPopularBankListUseCase])
+@GenerateMocks(
+    [GetBankListsUseCase, GetPopularBankListUseCase, GetMarketDataUseCase])
 void main() {
   late MockGetBankListsUseCase mockGetBankListsUseCase;
   late MockGetPopularBankListUseCase mockGetPopularBankListUseCase;
+  late MockGetMarketDataUseCase mockGetMarketDataUseCase;
   late BankListCubit bankListCubit;
 
   setUp(() {
     mockGetBankListsUseCase = MockGetBankListsUseCase();
     mockGetPopularBankListUseCase = MockGetPopularBankListUseCase();
-    bankListCubit =
-        BankListCubit(mockGetBankListsUseCase, mockGetPopularBankListUseCase);
+    mockGetMarketDataUseCase = MockGetMarketDataUseCase();
+    bankListCubit = BankListCubit(mockGetBankListsUseCase,
+        mockGetPopularBankListUseCase, mockGetMarketDataUseCase);
   });
 
   const int count = 1;

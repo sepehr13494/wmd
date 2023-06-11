@@ -20,19 +20,7 @@ class GetMarketDataUseCase
     final temp = await bankListRepository.getMarketData(params);
     _cache(temp);
     return temp;
-    // if (banks != null && banks!.isNotEmpty) {
-    //   return Right(banks);
-    // } else {
-    //   final temp = await bankListRepository.getMarketData(NoParams());
-    //   _cache(temp);
-    //   return temp;
-    //   // return temp.bimap((l) => l, (r) => _filter(r, params));
-    // }
   }
-
-  // List<ListedSecurityName> _filter(List<ListedSecurityName> list, String text) {
-  //   return list.where((e) => e.name.contains(text)).toList();
-  // }
 
   void _cache(Either<Failure, List<ListedSecurityName>> temp) {
     temp.fold((l) => null, (r) {

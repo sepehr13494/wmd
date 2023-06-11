@@ -68,7 +68,7 @@ class SuccessState extends BaseState {
 class LoadingState extends BaseState {
   final String message;
 
-  LoadingState({this.message = "loading..."});
+  LoadingState({this.message = ""});
 
   @override
   List<Object?> get props => [message];

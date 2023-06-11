@@ -39,15 +39,14 @@ import 'package:wmd/core/extentions/string_ext.dart';
 class AddBankManualPage extends BaseAddAssetStatefulWidget {
   final BankAccountMoreEntity? moreEntity;
 
-  const AddBankManualPage({Key? key,this.moreEntity,bool edit = false})
-      : super(key: key,edit: edit);
+  const AddBankManualPage({Key? key, this.moreEntity, bool edit = false})
+      : super(key: key, edit: edit);
 
   @override
   AppState<AddBankManualPage> createState() => _AddBankManualPageState();
 }
 
 class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
-
   String date = "--/--/--";
   String? accountType;
   String endDateToParse = "";
@@ -92,24 +91,28 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
             bottomSheet: AddAssetFooter(
               buttonText:
                   edit ? "Save Asset" : appLocalizations.common_button_addAsset,
-              onTap: (edit && !enableAddAssetButtonEdit) ? null : () {
-                if (formKey.currentState!.validate()) {
-                  Map<String, dynamic> finalMap = {
-                    ...formKey.currentState!.instantValue,
-                  };
+              onTap: (edit && !enableAddAssetButtonEdit)
+                  ? null
+                  : () {
+                      if (formKey.currentState!.validate()) {
+                        Map<String, dynamic> finalMap = {
+                          ...formKey.currentState!.instantValue,
+                        };
 
-                  if (isDepositTerm && endDateToParse.isDate()) {
-                    finalMap["endDate"] = endDateToParse;
-                  }
+                        if (isDepositTerm && endDateToParse.isDate()) {
+                          finalMap["endDate"] = endDateToParse;
+                        }
 
-                  if (edit) {
-                    context.read<EditBankManualCubit>().putBankManual(
-                        map: finalMap, assetId: widget.moreEntity!.id);
-                  } else {
-                    context.read<BankCubit>().postBankDetails(map: finalMap);
-                  }
-                }
-              },
+                        if (edit) {
+                          context.read<EditBankManualCubit>().putBankManual(
+                              map: finalMap, assetId: widget.moreEntity!.id);
+                        } else {
+                          context
+                              .read<BankCubit>()
+                              .postBankDetails(map: finalMap);
+                        }
+                      }
+                    },
             ),
             body: Theme(
               data: Theme.of(context).copyWith(),
@@ -306,7 +309,8 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                                 : null);
                                                           }
                                                         ],
-                                                    onChanged: checkFinalValid,
+                                                        onChanged:
+                                                            checkFinalValid,
                                                         name: "description",
                                                         hint: appLocalizations
                                                             .assetLiabilityForms_forms_bankAccount_inputFields_description_placeholder),
@@ -404,6 +408,8 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                                 .assetLiabilityForms_forms_bankAccount_inputFields_rate_label,
                                                             child: AppTextFields
                                                                 .simpleTextField(
+                                                                    enabled:
+                                                                        !edit,
                                                                     name:
                                                                         "interestRate",
                                                                     suffixIcon:

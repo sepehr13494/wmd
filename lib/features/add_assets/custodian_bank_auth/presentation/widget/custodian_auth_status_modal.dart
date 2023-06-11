@@ -101,7 +101,6 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
           message: error,
           duration: const Duration(seconds: 3),
           margin: const EdgeInsets.all(8),
-          
           borderRadius: const BorderRadius.only(
               bottomRight: Radius.circular(8), topRight: Radius.circular(8)),
           icon: const Icon(
@@ -139,21 +138,24 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
               trailing: '5 ${appLocalizations.common_labels_mins}',
               subtitle:
                   appLocalizations.linkAccount_stepper_stepOne_action_active,
-              doneSubtitle:
-                  appLocalizations.linkAccount_stepper_stepOne_action_completed,
+              doneSubtitle: appLocalizations
+                  .linkAccount_stepper_stepOne_action_completed,
               isDone: status.signLetter,
               onDone: (val) async {
                 final isDone = downloadPdf(status);
-                context.read<CustodianBankAuthCubit>().postCustodianBankStatus(
-                    PostCustodianBankStatusParams(
+                context
+                    .read<CustodianBankAuthCubit>()
+                    .postCustodianBankStatus(PostCustodianBankStatusParams(
                         bankId: widget.bankId,
                         signLetter: true,
                         shareWithBank: false,
                         bankConfirmation: false));
 
                 await AnalyticsUtils.triggerEvent(
-                    action: AnalyticsUtils.linkBankStep2Action(status.bankName),
-                    params: AnalyticsUtils.linkBankStep2Event(status.bankName));
+                    action:
+                        AnalyticsUtils.linkBankStep2Action(status.bankName),
+                    params:
+                        AnalyticsUtils.linkBankStep2Event(status.bankName));
                 await isDone;
 
                 // ignore: use_build_context_synchronously
@@ -181,7 +183,8 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
               subtitle: status.accountId != null
                   ? appLocalizations
                       .linkAccount_stepper_stepTwo_action_completed
-                  : appLocalizations.linkAccount_stepper_stepTwo_action_active,
+                  : appLocalizations
+                      .linkAccount_stepper_stepTwo_action_active,
               accountId: status.accountId,
               // isDone: status.shareWithBank,
               ready: status.signLetter,
@@ -190,13 +193,14 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                   : (val) async {
                       context
                           .read<CustodianBankAuthCubit>()
-                          .putCustodianBankStatus(PutCustodianBankStatusParams(
-                              bankId: widget.bankId,
-                              id: id,
-                              accountId: val,
-                              signLetter: true,
-                              shareWithBank: true,
-                              bankConfirmation: false));
+                          .putCustodianBankStatus(
+                              PutCustodianBankStatusParams(
+                                  bankId: widget.bankId,
+                                  id: id,
+                                  accountId: val,
+                                  signLetter: true,
+                                  shareWithBank: true,
+                                  bankConfirmation: false));
 
                       await AnalyticsUtils.triggerEvent(
                           action: AnalyticsUtils.linkBankStep3Action(

@@ -9,14 +9,20 @@ import 'package:dartz/dartz.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:wmd/core/domain/usecases/usercase.dart' as _i9;
 import 'package:wmd/core/error_and_success/failures.dart' as _i7;
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/models/get_market_data_params.dart'
+    as _i12;
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/entity/bank_entity.dart'
     as _i5;
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/repository/bank_list_repository.dart'
     as _i2;
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_bank_list.dart'
     as _i4;
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_market_data.dart'
+    as _i10;
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_popular_bank_list.dart'
     as _i8;
+import 'package:wmd/features/add_assets/core/data/models/listed_security_name.dart'
+    as _i11;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -138,4 +144,49 @@ class MockGetPopularBankListUseCase extends _i1.Mock
           ),
         )),
       ) as _i6.Future<_i3.Either<_i7.Failure, List<_i5.BankEntity>>>);
+}
+
+/// A class which mocks [GetMarketDataUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGetMarketDataUseCase extends _i1.Mock
+    implements _i10.GetMarketDataUseCase {
+  MockGetMarketDataUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.BankListRepository get bankListRepository => (super.noSuchMethod(
+        Invocation.getter(#bankListRepository),
+        returnValue: _FakeBankListRepository_0(
+          this,
+          Invocation.getter(#bankListRepository),
+        ),
+      ) as _i2.BankListRepository);
+  @override
+  set banks(List<_i11.ListedSecurityName>? _banks) => super.noSuchMethod(
+        Invocation.setter(
+          #banks,
+          _banks,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  _i6.Future<_i3.Either<_i7.Failure, List<_i11.ListedSecurityName>>> call(
+          _i12.GetMarketDataParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i6.Future<
+                _i3.Either<_i7.Failure, List<_i11.ListedSecurityName>>>.value(
+            _FakeEither_1<_i7.Failure, List<_i11.ListedSecurityName>>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i6.Future<_i3.Either<_i7.Failure, List<_i11.ListedSecurityName>>>);
 }
