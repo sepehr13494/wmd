@@ -28,14 +28,14 @@ class YtdItdWidget extends AppStatelessWidget {
     List items = [
       [
         AppLocalizations.of(context).assets_label_ytd,
-        ytd,
+        double.parse(ytd.toStringAsFixed(1)),
         "${ytd.toStringAsFixedZero(1)}%",
         appLocalizations.assets_tooltips_ytd
         // "Year-to-date:the period from the first of\nthe calendar year to date of the\ncommunication."
       ],
       [
         AppLocalizations.of(context).assets_label_itd,
-        itd,
+        double.parse(itd.toStringAsFixed(1)),
         "${itd.toStringAsFixedZero(1)}%",
         appLocalizations.assets_tooltips_itd
         // "Incenption-to-date:the period from the\nestablishment of the portfolio/investment to\nthe date of the communication."
