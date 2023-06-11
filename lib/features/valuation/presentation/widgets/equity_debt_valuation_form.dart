@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
+import 'package:wmd/core/presentation/widgets/app_form_builder_date_picker.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
@@ -101,7 +102,7 @@ class _EquityDebtValuationFormWidgetState
             EachTextField(
               hasInfo: false,
               title: appLocalizations.assets_valuationModal_labels_date,
-              child: FormBuilderDateTimePicker(
+              child: AppFormBuilderDateTimePicker(
                 onChanged: (selectedDate) {
                   checkFinalValid(selectedDate);
                   setState(() {

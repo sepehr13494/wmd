@@ -7,6 +7,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
+import 'package:wmd/core/presentation/widgets/app_form_builder_date_picker.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
@@ -543,7 +544,7 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                       title: appLocalizations
                                                           .assetLiabilityForms_forms_bankAccount_inputFields_startDate_label,
                                                       child:
-                                                          FormBuilderDateTimePicker(
+                                                          AppFormBuilderDateTimePicker(
                                                         name: "startDate",
                                                         lastDate:
                                                             DateTime.now(),

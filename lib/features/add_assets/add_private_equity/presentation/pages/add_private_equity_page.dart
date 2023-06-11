@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
+import 'package:wmd/core/presentation/widgets/app_form_builder_date_picker.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
@@ -238,7 +239,7 @@ class _AddPrivateEquityState extends BaseAddAssetState<AddPrivateEquityPage> {
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_privateEquity_inputFields_acquisitionDate_label,
                                                 child:
-                                                    FormBuilderDateTimePicker(
+                                                    AppFormBuilderDateTimePicker(
                                                   enabled: !edit,
                                                   inputType: InputType.date,
                                                   format:
@@ -311,7 +312,7 @@ class _AddPrivateEquityState extends BaseAddAssetState<AddPrivateEquityPage> {
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_label,
                                                 child:
-                                                    FormBuilderDateTimePicker(
+                                                    AppFormBuilderDateTimePicker(
                                                   enabled: !edit,
                                                   autovalidateMode:
                                                       AutovalidateMode

@@ -1,6 +1,7 @@
 import 'package:country_picker/country_picker.dart';
+import 'package:equatable/equatable.dart';
 
-class Country {
+class Country extends Equatable{
   final String name;
   final String countryName;
 
@@ -28,6 +29,12 @@ class Country {
   String toString() {
     return toJson().toString();
   }
+
+  @override
+  List<Object?> get props => [
+    name,
+    countryName,
+  ];
 
   static List<Country> getCountryList() {
     List<Country> important = [
@@ -294,4 +301,6 @@ class Country {
     "QA": "Qatar",
     "MZ": "Mozambique"
   };
+
+
 }

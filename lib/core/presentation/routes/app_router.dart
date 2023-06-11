@@ -110,6 +110,11 @@ class AppRouter {
   AssetSummaryCubit _assetSummaryCubit = sl<AssetSummaryCubit>();
   TwoFactorCubit _twoFactorCubit = sl<TwoFactorCubit>();
 
+  Key mainPageRefreshKey = UniqueKey();
+  setMainRefreshKey(){
+    mainPageRefreshKey = UniqueKey();
+  }
+
   GoRouter router() {
     return GoRouter(
       observers: [
@@ -223,6 +228,7 @@ class AppRouter {
             path: "/main",
             builder: (BuildContext context, GoRouterState state) {
               return MultiBlocProvider(
+                key: mainPageRefreshKey,
                 providers: [
                   BlocProvider(
                       create: (context) => sl<AssetChartChooserManager>()),
