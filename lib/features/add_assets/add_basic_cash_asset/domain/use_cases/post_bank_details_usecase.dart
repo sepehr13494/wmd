@@ -20,7 +20,8 @@ class PostBankDetailsUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
   @override
   Future<Either<Failure, AddAsset>> call(Map<String, dynamic> params) async {
     try {
-      final result = await bankRepository.postBankDetails(getBankSaveParamObj(params,localStorage));
+      final result = await bankRepository
+          .postBankDetails(getBankSaveParamObj(params, localStorage));
       return result;
     } catch (e) {
       debugPrint("PostBankDetailsUseCase catch : ${e.toString()}");
@@ -28,7 +29,8 @@ class PostBankDetailsUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
     }
   }
 
-  static BankSaveParams getBankSaveParamObj(Map<String, dynamic> params,localStorage){
+  static BankSaveParams getBankSaveParamObj(
+      Map<String, dynamic> params, localStorage) {
     final currentBal = params['currentBalance'] != null
         ? params['currentBalance'].toString().replaceAll(',', '')
         : params['currentBalance'];
@@ -97,7 +99,7 @@ class BankSaveParams extends Equatable {
       );
 
   Map<String, dynamic> toJson() => {
-        "isActive": isActive ?? false,
+        "isActive": isActive ?? true,
         "owner": owner ?? ".",
         "bankName": bankName,
         "country": country,
@@ -107,7 +109,7 @@ class BankSaveParams extends Equatable {
         "currentBalance": currentBalance,
         "isJointAccount": isJointAccount ?? false,
         "noOfCoOwners": noOfCoOwners ?? 0,
-        "ownershipPercentage": ownershipPercentage ?? 0.0,
+        "ownershipPercentage": ownershipPercentage,
         "interestRate": interestRate ?? 0.0,
         "startDate": startDate?.toIso8601String(),
         "endDate": endDate?.toIso8601String(),

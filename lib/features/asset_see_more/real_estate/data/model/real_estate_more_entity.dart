@@ -60,7 +60,9 @@ class RealEstateMoreEntity extends GetSeeMoreResponse {
         ownershipPercentage:
             double.tryParse(json["ownershipPercentage"].toString()) ?? 0,
         marketValue: double.tryParse(json["marketValue"].toString()) ?? 0,
-        valuationDate: DateTime.parse(json["valuationDate"]),
+        valuationDate: json["valuationDate"] != null
+            ? DateTime.parse(json["valuationDate"])
+            : DateTime.now(),
         id: json["id"],
         type: double.tryParse(json["type"].toString()) ?? 0,
         isActive: json["isActive"],
@@ -107,7 +109,8 @@ class RealEstateMoreEntity extends GetSeeMoreResponse {
         "acquisitionCostPerUnit": acquisitionCostPerUnit.convertMoney(),
         "acquisitionDate": acquisitionDate,
         "ownershipPercentage": ownershipPercentage.toStringAsFixedZero(0),
-        "marketValue": ((marketValue * 100)/ownershipPercentage).convertMoney(),
+        "marketValue":
+            ((marketValue * 100) / ownershipPercentage).convertMoney(),
         "valuationDate": valuationDate,
         "id": id,
         "type": type,
