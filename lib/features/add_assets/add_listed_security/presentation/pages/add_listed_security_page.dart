@@ -275,15 +275,18 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                                     appLocalizations
                                                                         .assetLiabilityForms_forms_listedAssets_inputFields_securityName_errorMessage,
                                                                 name: "name",
-                                                                fetchData: (query) => query
-                                                                            .length >=
+                                                                fetchData: (query) => query.length >=
                                                                         3
                                                                     ? context
                                                                         .read<
                                                                             BankListCubit>()
                                                                         .getMarketData(
                                                                             query)
-                                                                    : null,
+                                                                    : context
+                                                                        .read<
+                                                                            BankListCubit>()
+                                                                        .getMarketData(
+                                                                            ""),
                                                                 onChange: (e) {
                                                                   checkFinalValid(
                                                                       e);
@@ -484,12 +487,14 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                 child:
                                                     AppFormBuilderDateTimePicker(
                                                   onChanged: (selectedDate) {
-                                                    checkFinalValid(selectedDate);
+                                                    checkFinalValid(
+                                                        selectedDate);
                                                   },
                                                   enabled: !edit,
                                                   lastDate: DateTime.now(),
                                                   inputType: InputType.date,
-                                                  format: DateFormat("dd/MM/yyyy"),
+                                                  format:
+                                                      DateFormat("dd/MM/yyyy"),
                                                   name: "investmentDate",
                                                   autovalidateMode:
                                                       AutovalidateMode

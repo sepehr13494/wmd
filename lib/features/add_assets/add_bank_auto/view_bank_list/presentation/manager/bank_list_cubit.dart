@@ -37,6 +37,10 @@ class BankListCubit extends Cubit<BankListState> {
 
   getMarketData(String identifier) async {
     emit(LoadingState());
+    if (identifier == "") {
+      return emit(MarketDataSuccess([], identifier));
+    }
+
     final result = await getMarketDataUseCase(GetMarketDataParams(
         identifier: identifier, resultCount: null)); //number of popular banks
     result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
