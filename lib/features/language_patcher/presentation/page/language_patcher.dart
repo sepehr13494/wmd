@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
@@ -12,17 +14,25 @@ class LanguagePatcher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ln = context.read<LocalizationManager>().state.languageCode;
+    final initialLn = context.read<LocalizationManager>().state.languageCode;
     return BlocProvider(
-      create: (context) => sl<PreferenceCubit>()
-        ..patchPreferenceLanguage(
-            param: PatchPreferenceLanguageParams(language: ln)),
+      create: (context) => sl<PreferenceCubit>()..getPreference(),
       child: BlocConsumer<PreferenceCubit, PreferenceState>(
-          listener:
-              BlocHelper.defaultBlocListener(listener: (context, state) {}),
-          builder: (context, state) {
-            return child;
-          }),
+          listener: BlocHelper.defaultBlocListener(listener: (context, state) {
+        if (state is GetPreferenceLoaded) {
+          final ln = state.entity.language ?? initialLn;
+          log('Mert log $ln');
+          if (initialLn != ln) {
+            context.read<LocalizationManager>().switchLanguage();
+          }
+        }
+      }), builder: (context, state) {
+        return BlocBuilder<LocalizationManager, Locale>(
+          
+            builder: (context, state) {
+          return child;
+        });
+      }),
     );
   }
 }
