@@ -15,10 +15,10 @@ class ValuationActionType {
             label:
                 AppLocalizations.of(context).assets_valuationModal_labels_Sell,
             value: "Sell"),
-        RadioButtonOptions(
-            label: AppLocalizations.of(context)
-                .assets_valuationModal_labels_IncomeCapitalDistribution,
-            value: "Income / Capital Distribution"),
+        // RadioButtonOptions(
+        //     label: AppLocalizations.of(context)
+        //         .assets_valuationModal_labels_IncomeCapitalDistribution,
+        //     value: "Income / Capital Distribution"),
       ];
 
   static valuationActionTypeList(context) => json(context);
