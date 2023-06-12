@@ -33,14 +33,13 @@ class AddPrivateEquityPage extends BaseAddAssetStatefulWidget {
   final PrivateEquityMoreEntity? moreEntity;
 
   const AddPrivateEquityPage({Key? key, bool edit = false, this.moreEntity})
-      : super(key: key,edit: edit);
+      : super(key: key, edit: edit);
 
   @override
   AppState<AddPrivateEquityPage> createState() => _AddPrivateEquityState();
 }
 
 class _AddPrivateEquityState extends BaseAddAssetState<AddPrivateEquityPage> {
-
   DateTime? acquisitionDateValue;
   DateTime? valuationDateValue;
 
@@ -69,21 +68,26 @@ class _AddPrivateEquityState extends BaseAddAssetState<AddPrivateEquityPage> {
                 buttonText: edit
                     ? "Save Asset"
                     : appLocalizations.common_button_addAsset,
-                onTap: (edit && !enableAddAssetButtonEdit) ? null : () {
-                  if (formKey.currentState!.validate()) {
-                    Map<String, dynamic> finalMap = {
-                      ...formKey.currentState!.instantValue,
-                    };
-                    if (edit) {
-                      context.read<EditPrivateEquityCubit>().putPrivateEquity(
-                          map: finalMap, assetId: widget.moreEntity!.id);
-                    } else {
-                      context
-                          .read<PrivateEquityCubit>()
-                          .postPrivateEquity(map: finalMap);
-                    }
-                  }
-                }),
+                onTap: (edit && !enableAddAssetButtonEdit)
+                    ? null
+                    : () {
+                        if (formKey.currentState!.validate()) {
+                          Map<String, dynamic> finalMap = {
+                            ...formKey.currentState!.instantValue,
+                          };
+                          if (edit) {
+                            context
+                                .read<EditPrivateEquityCubit>()
+                                .putPrivateEquity(
+                                    map: finalMap,
+                                    assetId: widget.moreEntity!.id);
+                          } else {
+                            context
+                                .read<PrivateEquityCubit>()
+                                .postPrivateEquity(map: finalMap);
+                          }
+                        }
+                      }),
             body: Theme(
               data: Theme.of(context).copyWith(),
               child: Builder(builder: (context) {
@@ -284,7 +288,9 @@ class _AddPrivateEquityState extends BaseAddAssetState<AddPrivateEquityPage> {
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_privateEquity_inputFields_currency_label,
                                                 child: CurrenciesDropdown(
-                                                  enabled: !edit,
+                                                  enabled: AppConstants
+                                                          .currencyConvertor &&
+                                                      !edit,
                                                   onChanged: checkFinalValid,
                                                 ),
                                               ),
