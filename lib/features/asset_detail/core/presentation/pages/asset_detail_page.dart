@@ -17,12 +17,9 @@ import 'package:wmd/features/asset_detail/valuation/data/models/get_all_valuatio
 import 'package:wmd/features/asset_detail/valuation/data/models/get_valuation_performance_params.dart';
 import 'package:wmd/features/asset_detail/valuation/presentation/manager/performance_chart_cubit.dart';
 import 'package:wmd/features/asset_detail/valuation/presentation/manager/valuation_cubit.dart';
-import 'package:wmd/features/asset_detail/valuation/presentation/widget/performance_chart.dart';
 import 'package:wmd/features/asset_detail/valuation/presentation/widget/performance_chart_v2.dart';
 import 'package:wmd/features/asset_see_more/core/data/models/get_asset_see_more_params.dart';
 import 'package:wmd/features/asset_see_more/core/presentation/manager/asset_see_more_cubit.dart';
-import 'package:wmd/features/blurred_widget/presentation/widget/privacy_blur_warning.dart';
-import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/injection_container.dart';
 import '../manager/asset_summary_cubit.dart';

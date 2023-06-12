@@ -160,7 +160,7 @@ class ContactBusinessWidget extends ModalWidget {
                                                       3),
                                           child: Text(
                                             appLocalizations
-                                                .common_submitEnquiryModal_title,
+                                                .support_card_contactClientService_title,
                                             style: textTheme.titleLarge,
                                             textAlign: TextAlign.center,
                                           )),
