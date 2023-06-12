@@ -46,11 +46,15 @@ class AsssetSummary extends AppStatelessWidget {
           const PrivacyBlurWarning(showCloseButton: false),
           const SizedBox(height: 12),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              PrivacyBlurWidget(
-                  child: Text(summary.assetNameFixed,
-                      style: textTheme.headlineSmall)),
+              Expanded(
+                child: PrivacyBlurWidget(
+                    child: Text(summary.assetNameFixed,
+                        style: textTheme.headlineSmall)),
+              ),
+              const SizedBox(width: 12),
               // if (summary.assetClassName != null) Text(summary.assetClassName),
               if (onEdit != null)
                 Builder(builder: (context) {

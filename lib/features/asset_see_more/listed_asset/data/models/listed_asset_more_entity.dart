@@ -123,8 +123,7 @@ class ListedAssetMoreEntity extends GetSeeMoreResponse {
 
   Map<String, dynamic> toFormJson() {
     final ListedSecurityName listedSecurityName =
-        ListedSecurityName.listedSecurityNameList.firstWhere(
-            (element) => element.securityShortName == securityShortName);
+        ListedSecurityName.listedSecurityNameList.first;
     return {
       "id": id,
       "type": type,
