@@ -122,7 +122,10 @@ class ContactBusinessWidget extends ModalWidget {
           } else {
             return SingleChildScrollView(
                 child: SizedBox(
-                    width: double.infinity,
+                    width: isMobile
+                        ? double.infinity
+                        : max(MediaQuery.of(context).size.width * 0.7,
+                            min(660, MediaQuery.of(context).size.width)),
                     height: isMobile
                         ? min(MediaQuery.of(context).size.height * 0.7, 625)
                         : max(MediaQuery.of(context).size.height * 0.5,

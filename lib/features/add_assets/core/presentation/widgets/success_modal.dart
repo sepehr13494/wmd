@@ -42,7 +42,10 @@ class SuccessModalWidget extends ModalWidget {
     final appLocalizations = AppLocalizations.of(context);
 
     return SizedBox(
-      width: double.infinity,
+      width: isMobile
+          ? double.infinity
+          : max(MediaQuery.of(context).size.width * 0.8,
+              min(700, MediaQuery.of(context).size.width)),
       height: isMobile
           ? MediaQuery.of(context).size.height * 0.8
           : max(MediaQuery.of(context).size.height * 0.5,
