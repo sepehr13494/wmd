@@ -592,7 +592,9 @@ class _FormBuilderTypeAheadState extends AppState<FormBuilderTypeAhead> {
             animationDuration: Duration.zero,
             textFieldConfiguration: TextFieldConfiguration(
               enabled: widget.enabled,
-              style: TextStyle(color: widget.enabled ? null : Theme.of(context).disabledColor),
+              style: TextStyle(
+                  color:
+                      widget.enabled ? null : Theme.of(context).disabledColor),
               decoration: InputDecoration(
                 hintText: widget.hint,
                 prefixIcon: widget.prefixIcon,
@@ -605,18 +607,21 @@ class _FormBuilderTypeAheadState extends AppState<FormBuilderTypeAhead> {
                     )),
                 enabledBorder: state.hasError
                     ? const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
-                    borderSide: BorderSide(
-                      width: 1,
-                      color: Colors.red,
-                    ))
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Colors.red,
+                        ))
                     : OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(4)),
-                  borderSide: BorderSide(
-                    width: 1,
-                    color: widget.enabled ? Theme.of(context).textTheme.titleMedium!.color! : Theme.of(context).disabledColor,
-                  ),
-                ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(4)),
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: widget.enabled
+                              ? Theme.of(context).textTheme.titleMedium!.color!
+                              : Theme.of(context).disabledColor,
+                        ),
+                      ),
               ),
               controller: typeController,
               onChanged: (value) {
@@ -723,7 +728,9 @@ class _ListedSecurityTypeAheadState extends AppState<ListedSecurityTypeAhead> {
             animationStart: 0,
             animationDuration: Duration.zero,
             textFieldConfiguration: TextFieldConfiguration(
-              style: TextStyle(color: widget.enabled ? null : Theme.of(context).disabledColor),
+              style: TextStyle(
+                  color:
+                      widget.enabled ? null : Theme.of(context).disabledColor),
               enabled: widget.enabled,
               decoration: InputDecoration(
                 hintText: widget.hint,
@@ -735,12 +742,15 @@ class _ListedSecurityTypeAheadState extends AppState<ListedSecurityTypeAhead> {
                           color: Colors.red,
                         ))
                     : OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(Radius.circular(4)),
-                    borderSide: BorderSide(
-                      width: 1,
-                      color: widget.enabled ? Theme.of(context).textTheme.titleMedium!.color! : Theme.of(context).disabledColor,
-                    ),
-                ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(4)),
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: widget.enabled
+                              ? Theme.of(context).textTheme.titleMedium!.color!
+                              : Theme.of(context).disabledColor,
+                        ),
+                      ),
               ),
               controller: typeController,
               onChanged: widget.fetchData,
@@ -981,7 +991,7 @@ class _RadioButtontate<T> extends AppState<RadioButton> {
 
     return SizedBox(
       width: responsiveHelper.optimalDeviceWidth * 0.8,
-      child: Wrap(alignment: WrapAlignment.start, children: [
+      child: Row(children: [
         Expanded(
             child: FormBuilderRadioGroup(
                 onChanged: (value) {
