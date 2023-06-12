@@ -32,7 +32,10 @@ class ModalWidget extends StatelessWidget {
     final isMobile = responsiveHelper.isMobile;
 
     return SizedBox(
-      width: double.infinity,
+      width: isMobile
+          ? double.infinity
+          : max(MediaQuery.of(context).size.width * 0.7,
+              min(660, MediaQuery.of(context).size.width)),
       height: isMobile
           ? MediaQuery.of(context).size.height * 0.7
           : max(MediaQuery.of(context).size.height * 0.4, 550),
