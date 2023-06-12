@@ -48,9 +48,17 @@ class AsssetSummary extends AppStatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              PrivacyBlurWidget(
-                  child: Text(summary.assetNameFixed,
-                      style: textTheme.headlineSmall)),
+              Expanded(
+                child: FittedBox(
+                  alignment: Alignment.centerLeft,
+                  fit: BoxFit.scaleDown,
+                  child: PrivacyBlurWidget(
+                    child: Text(summary.assetNameFixed,
+                        style: textTheme.headlineSmall),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 4),
               // if (summary.assetClassName != null) Text(summary.assetClassName),
               if (onEdit != null)
                 Builder(builder: (context) {
