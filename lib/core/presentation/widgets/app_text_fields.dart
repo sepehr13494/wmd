@@ -616,9 +616,9 @@ class _FormBuilderTypeAheadState extends AppState<FormBuilderTypeAhead> {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(4)),
                         borderSide: BorderSide(
-                          width: 1,
+                          width: 0.5,
                           color: widget.enabled
-                              ? Theme.of(context).textTheme.titleMedium!.color!
+                              ? Theme.of(context).hintColor
                               : Theme.of(context).disabledColor,
                         ),
                       ),
@@ -745,9 +745,9 @@ class _ListedSecurityTypeAheadState extends AppState<ListedSecurityTypeAhead> {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(4)),
                         borderSide: BorderSide(
-                          width: 1,
+                          width: 0.5,
                           color: widget.enabled
-                              ? Theme.of(context).textTheme.titleMedium!.color!
+                              ? Theme.of(context).hintColor
                               : Theme.of(context).disabledColor,
                         ),
                       ),
