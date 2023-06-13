@@ -37,7 +37,7 @@ class BankListCubit extends Cubit<BankListState> {
 
   getMarketData(String identifier) async {
     emit(LoadingState());
-    if (identifier == "") {
+    if (identifier.length<3) {
       return emit(MarketDataSuccess([], identifier));
     }
 
