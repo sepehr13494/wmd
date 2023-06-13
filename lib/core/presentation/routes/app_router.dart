@@ -54,6 +54,7 @@ import 'package:wmd/features/force_update/presentation/pages/force_update_page.d
 import 'package:wmd/features/glossary/presentation/pages/glossary_page.dart';
 import 'package:wmd/features/help/support/presentation/pages/schedule_call_page.dart';
 import 'package:wmd/features/help/support/presentation/pages/support_page.dart';
+import 'package:wmd/features/language_patcher/presentation/page/language_patcher.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/features/main_page/presentation/pages/main_page.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
@@ -89,8 +90,7 @@ class AppRouter {
   CurrencyChartCubit _currencyChartCubit = sl<CurrencyChartCubit>();
   AssetsGeographyChartCubit _assetsGeographyChartCubit =
       sl<AssetsGeographyChartCubit>();
-  PortfolioTabCubit _portfolioTabCubit =
-  sl<PortfolioTabCubit>();
+  PortfolioTabCubit _portfolioTabCubit = sl<PortfolioTabCubit>();
   DashboardAllocationCubit _dashboardAllocationCubit =
       sl<DashboardAllocationCubit>();
   DashboardPieCubit _dashboardPieCubit = sl<DashboardPieCubit>();
@@ -111,7 +111,7 @@ class AppRouter {
   TwoFactorCubit _twoFactorCubit = sl<TwoFactorCubit>();
 
   Key mainPageRefreshKey = UniqueKey();
-  setMainRefreshKey(){
+  setMainRefreshKey() {
     mainPageRefreshKey = UniqueKey();
   }
 
@@ -306,8 +306,7 @@ class AppRouter {
                   ),
                   BlocProvider(
                     create: (context) {
-                      _portfolioTabCubit =
-                          sl<PortfolioTabCubit>();
+                      _portfolioTabCubit = sl<PortfolioTabCubit>();
                       return _portfolioTabCubit..getPortfolioTab();
                     },
                   ),
@@ -353,14 +352,16 @@ class AppRouter {
                     },
                   ),
                 ],
-                child: PrivacyBlurWrapper(
-                  child: LocalAuthWrapper(
-                      child: MainPage(
-                          expandCustodian:
-                              state.queryParams['expandCustodian'] != null
-                                  ? state.queryParams['expandCustodian'] ==
-                                      'true'
-                                  : false)),
+                child: LanguagePatcher(
+                  child: PrivacyBlurWrapper(
+                    child: LocalAuthWrapper(
+                        child: MainPage(
+                            expandCustodian:
+                                state.queryParams['expandCustodian'] != null
+                                    ? state.queryParams['expandCustodian'] ==
+                                        'true'
+                                    : false)),
+                  ),
                 ),
               );
             },
