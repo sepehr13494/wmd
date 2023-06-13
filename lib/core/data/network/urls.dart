@@ -140,4 +140,7 @@ class AppUrls {
 
   static String getLinkedAccounts =
       "${wealthBase}CustodianBank/linked-accounts";
+
+  static String getMandateStatus =
+      "${wealthBase}Mandate/Status";
 }

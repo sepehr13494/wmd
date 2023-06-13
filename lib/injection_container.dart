@@ -130,6 +130,11 @@ import 'package:wmd/features/dashboard/main_dashbaord/domain/repositories/main_d
 import 'package:wmd/features/dashboard/main_dashbaord/domain/use_cases/user_net_worth_usecase.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/charts_height_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
+import 'package:wmd/features/dashboard/mandate_status/data/data_sources/mandate_status_remote_datasource.dart';
+import 'package:wmd/features/dashboard/mandate_status/data/repositories/mandate_status_repository_impl.dart';
+import 'package:wmd/features/dashboard/mandate_status/domain/repositories/mandate_status_repository.dart';
+import 'package:wmd/features/dashboard/mandate_status/domain/use_cases/get_mandate_status_usecase.dart';
+import 'package:wmd/features/dashboard/mandate_status/presentation/manager/mandate_status_cubit.dart';
 import 'package:wmd/features/dashboard/performance_table/client_index/data/data_sources/client_index_remote_datasource.dart';
 import 'package:wmd/features/dashboard/performance_table/client_index/data/repositories/client_index_repository_impl.dart';
 import 'package:wmd/features/dashboard/performance_table/client_index/domain/repositories/client_index_repository.dart';
@@ -792,6 +797,15 @@ Future<void> init(String env) async {
       () => LiabilityOverviewRepositoryImpl(sl()));
   sl.registerLazySingleton<LiabilityOverviewRemoteDataSource>(
       () => LiabilityOverviewRemoteDataSourceImpl(sl()));
+
+//MandateStatus
+  sl.registerFactory(() => MandateStatusCubit(sl()));
+  sl.registerLazySingleton(() => GetMandateStatusUseCase(sl()));
+
+  sl.registerLazySingleton<MandateStatusRepository>(
+      () => MandateStatusRepositoryImpl(sl()));
+  sl.registerLazySingleton<MandateStatusRemoteDataSource>(
+      () => MandateStatusRemoteDataSourceImpl(sl()));
 
   await initExternal(env);
   await initUtils();
