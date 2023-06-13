@@ -93,20 +93,21 @@ class _RealEstateValuationFormWidgetState
       return;
     }
 
-    if (ownerShip == "" || ownerShip == null) {
-      setState(() {
-        currentDayValue = defaultValue;
-      });
-      return;
-    }
+    // if (ownerShip == "" || ownerShip == null) {
+    //   setState(() {
+    //     currentDayValue = defaultValue;
+    //   });
+    //   return;
+    // }
 
     final noOfUnitsParsed = noOfUnits != null ? double.tryParse(noOfUnits!) : 0;
     final valuePerUnitParsed = valuePerUnit != null
         ? int.tryParse(valuePerUnit.toString().replaceAll(',', ''))
         : 0;
-    final ownerShipParsed = ownerShip != null
-        ? double.tryParse(ownerShip.toString().replaceAll(',', ''))
-        : 0;
+    // final ownerShipParsed = ownerShip != null
+    //     ? double.tryParse(ownerShip.toString().replaceAll(',', ''))
+    //     : 0;
+    const ownerShipParsed = 100;
 
     setState(() {
       currentDayValue = NumberFormat("#,##0", "en_US").format(
@@ -149,7 +150,9 @@ class _RealEstateValuationFormWidgetState
     return Column(children: [
       FormBuilder(
         key: formKey,
-        initialValue: widget.isEdit ? {} : {'note': "New valuation added"},
+        initialValue: widget.isEdit
+            ? {}
+            : {'note': "New valuation added", "ownershipPercentage": 100},
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -241,39 +244,39 @@ class _RealEstateValuationFormWidgetState
                   hint: appLocalizations
                       .assets_valuationModal_placeholder_valuePerUnit),
             ),
-            EachTextField(
-              hasInfo: false,
-              title: appLocalizations.assets_valuationModal_labels_ownership,
-              child: AppTextFields.simpleTextField(
-                  extraValidators: [
-                    (val) {
-                      return ((int.tryParse(val ?? "0") ?? 0) <= 100)
-                          ? null
-                          : appLocalizations
-                              .assets_valuationModal_errors_ownershipMax;
-                    }
-                  ],
-                  type: TextFieldType.number,
-                  keyboardType: TextInputType.number,
-                  errorMsg: appLocalizations
-                      .assets_valuationModal_errors_ownershipMin,
-                  onChanged: (val) {
-                    setState(() {
-                      ownerShip = val;
-                    });
-                    checkFinalValid(val);
+            // EachTextField(
+            //   hasInfo: false,
+            //   title: appLocalizations.assets_valuationModal_labels_ownership,
+            //   child: AppTextFields.simpleTextField(
+            //       extraValidators: [
+            //         (val) {
+            //           return ((int.tryParse(val ?? "0") ?? 0) <= 100)
+            //               ? null
+            //               : appLocalizations
+            //                   .assets_valuationModal_errors_ownershipMax;
+            //         }
+            //       ],
+            //       type: TextFieldType.number,
+            //       keyboardType: TextInputType.number,
+            //       errorMsg: appLocalizations
+            //           .assets_valuationModal_errors_ownershipMin,
+            //       onChanged: (val) {
+            //         setState(() {
+            //           ownerShip = val;
+            //         });
+            //         checkFinalValid(val);
 
-                    try {
-                      calculateCurrentValue();
-                    } catch (e) {
-                      debugPrint(e.toString());
-                    }
-                  },
-                  name: "ownershipPercentage",
-                  suffixIcon: AppTextFields.rateSuffixIcon(),
-                  hint: appLocalizations
-                      .assets_valuationModal_placeholder_ownership),
-            ),
+            //         try {
+            //           calculateCurrentValue();
+            //         } catch (e) {
+            //           debugPrint(e.toString());
+            //         }
+            //       },
+            //       name: "ownershipPercentage",
+            //       suffixIcon: AppTextFields.rateSuffixIcon(),
+            //       hint: appLocalizations
+            //           .assets_valuationModal_placeholder_ownership),
+            // ),
             if (currentDayValue != "--")
               Container(
                 padding: const EdgeInsets.all(16),

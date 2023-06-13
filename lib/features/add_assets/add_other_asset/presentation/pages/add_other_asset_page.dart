@@ -33,14 +33,13 @@ class AddOtherAssetPage extends BaseAddAssetStatefulWidget {
   final OtherAseetMoreEntity? moreEntity;
 
   const AddOtherAssetPage({Key? key, bool edit = false, this.moreEntity})
-      : super(key: key,edit: edit);
+      : super(key: key, edit: edit);
 
   @override
   AppState<AddOtherAssetPage> createState() => _AddOtherAssetState();
 }
 
 class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
-
   String currentDayValue = "--";
   String? noOfUnits = "1";
   String? valuePerUnit = "";
@@ -50,7 +49,6 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
   DateTime? aqusitionDateValue;
   DateTime? valuationDateValue;
 
-
   void calculateCurrentValue() {
     const defaultValue = "--";
     if (noOfUnits == "" || noOfUnits == null) {
@@ -59,39 +57,40 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
       });
       return;
     }
-    if (acqusitionCost == "" || acqusitionCost == null) {
-      setState(() {
-        currentDayValue = defaultValue;
-      });
-      return;
-    }
-    if (ownerShip == "" || ownerShip == null) {
-      setState(() {
-        currentDayValue = defaultValue;
-      });
-      return;
-    }
+    // if (acqusitionCost == "" || acqusitionCost == null) {
+    //   setState(() {
+    //     currentDayValue = defaultValue;
+    //   });
+    //   return;
+    // }
+    // if (ownerShip == "" || ownerShip == null) {
+    //   setState(() {
+    //     currentDayValue = defaultValue;
+    //   });
+    //   return;
+    // }
 
     final noOfUnitsParsed =
         noOfUnits != null ? ((int.tryParse(noOfUnits!)) ?? 0) : 0;
-    final valuePerUnitParsed = valuePerUnit != null
+    final valuePerUnitParsed = valuePerUnit != null && valuePerUnit != ""
         ? int.tryParse(valuePerUnit!.toString().replaceAll(',', ''))
         : 0;
     final acqusitionCostParsed = acqusitionCost != null
         ? int.tryParse(acqusitionCost!.toString().replaceAll(',', ''))
         : 0;
-    final ownerShipParsed = ownerShip != null
-        ? double.tryParse(ownerShip!.toString().replaceAll(',', ''))
-        : 0;
+    // final ownerShipParsed = ownerShip != null
+    //     ? double.tryParse(ownerShip!.toString().replaceAll(',', ''))
+    //     : 0;
+    const ownerShipParsed = 100;
 
     setState(() {
       if (valuePerUnit != null && valuePerUnit != "") {
         currentDayValue = NumberFormat("#,##0", "en_US").format(
-            (noOfUnitsParsed * valuePerUnitParsed!) * (ownerShipParsed! / 100));
-      } else {
+            (noOfUnitsParsed * valuePerUnitParsed!) * (ownerShipParsed / 100));
+      } else if (acqusitionCost != "" && acqusitionCost != null) {
         currentDayValue = NumberFormat("#,##0", "en_US").format(
             (noOfUnitsParsed * acqusitionCostParsed!) *
-                (ownerShipParsed! / 100));
+                (ownerShipParsed / 100));
       }
     });
   }
@@ -136,23 +135,27 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                 buttonText: edit
                     ? "Save Asset"
                     : appLocalizations.common_button_addAsset,
-                onTap: (edit && !enableAddAssetButtonEdit) ? null : () {
-                  if (formKey.currentState!.validate()) {
-                    Map<String, dynamic> finalMap = {
-                      ...formKey.currentState!.instantValue,
-                      "currentDayValue":
-                          currentDayValue == "--" ? "0" : currentDayValue
-                    };
-                    if (edit) {
-                      context.read<EditOtherAssetsCubit>().putOtherAssets(
-                          map: finalMap, assetId: widget.moreEntity!.id);
-                    } else {
-                      context
-                          .read<OtherAssetCubit>()
-                          .postOtherAsset(map: finalMap);
-                    }
-                  }
-                }),
+                onTap: (edit && !enableAddAssetButtonEdit)
+                    ? null
+                    : () {
+                        if (formKey.currentState!.validate()) {
+                          Map<String, dynamic> finalMap = {
+                            ...formKey.currentState!.instantValue,
+                            "currentDayValue":
+                                currentDayValue == "--" ? "0" : currentDayValue
+                          };
+                          if (edit) {
+                            context.read<EditOtherAssetsCubit>().putOtherAssets(
+                                map: finalMap, assetId: widget.moreEntity!.id);
+                          } else {
+                            context.read<OtherAssetCubit>().postOtherAsset(
+                                map: {
+                                  ...finalMap,
+                                  "ownershipPercentage": "100"
+                                });
+                          }
+                        }
+                      }),
             body: Theme(
               data: Theme.of(context).copyWith(),
               child: Builder(builder: (context) {
@@ -465,42 +468,42 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                                           .assetLiabilityForms_forms_others_inputFields_acquisitionDate_placeholder),
                                                 ),
                                               ),
-                                              EachTextField(
-                                                hasInfo: false,
-                                                title: appLocalizations
-                                                    .assetLiabilityForms_forms_others_inputFields_ownerShip_label,
-                                                child: AppTextFields
-                                                    .simpleTextField(
-                                                        enabled: !edit,
-                                                        extraValidators: [
-                                                          (val) {
-                                                            return ((int.tryParse(val ??
-                                                                            "0") ??
-                                                                        0) <=
-                                                                    100)
-                                                                ? null
-                                                                : "Ownership can't be greater then 100";
-                                                          }
-                                                        ],
-                                                        type: TextFieldType
-                                                            .number,
-                                                        keyboardType:
-                                                            TextInputType
-                                                                .number,
-                                                        onChanged: (val) {
-                                                          setState(() {
-                                                            ownerShip = val;
-                                                          });
-                                                          calculateCurrentValue();
-                                                        },
-                                                        errorMsg: appLocalizations
-                                                            .assetLiabilityForms_forms_others_inputFields_ownerShip_errorMessageRequired,
-                                                        suffixIcon: AppTextFields
-                                                            .rateSuffixIcon(),
-                                                        name: "ownerShip",
-                                                        hint: appLocalizations
-                                                            .assetLiabilityForms_forms_others_inputFields_ownerShip_placeholder),
-                                              ),
+                                              // EachTextField(
+                                              //   hasInfo: false,
+                                              //   title: appLocalizations
+                                              //       .assetLiabilityForms_forms_others_inputFields_ownerShip_label,
+                                              //   child: AppTextFields
+                                              //       .simpleTextField(
+                                              //           enabled: !edit,
+                                              //           extraValidators: [
+                                              //             (val) {
+                                              //               return ((int.tryParse(val ??
+                                              //                               "0") ??
+                                              //                           0) <=
+                                              //                       100)
+                                              //                   ? null
+                                              //                   : "Ownership can't be greater then 100";
+                                              //             }
+                                              //           ],
+                                              //           type: TextFieldType
+                                              //               .number,
+                                              //           keyboardType:
+                                              //               TextInputType
+                                              //                   .number,
+                                              //           onChanged: (val) {
+                                              //             setState(() {
+                                              //               ownerShip = val;
+                                              //             });
+                                              //             calculateCurrentValue();
+                                              //           },
+                                              //           errorMsg: appLocalizations
+                                              //               .assetLiabilityForms_forms_others_inputFields_ownerShip_errorMessageRequired,
+                                              //           suffixIcon: AppTextFields
+                                              //               .rateSuffixIcon(),
+                                              //           name: "ownerShip",
+                                              //           hint: appLocalizations
+                                              //               .assetLiabilityForms_forms_others_inputFields_ownerShip_placeholder),
+                                              // ),
                                               EachTextField(
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_others_inputFields_valuePerUnit_label,
@@ -549,7 +552,7 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                                       Text(appLocalizations
                                                           .assetLiabilityForms_forms_others_inputFields_currentDayValue_label),
                                                       const SizedBox(height: 8),
-                                                      Text(currentDayValue)
+                                                      Text("\$$currentDayValue")
                                                     ],
                                                   ),
                                                 ),
