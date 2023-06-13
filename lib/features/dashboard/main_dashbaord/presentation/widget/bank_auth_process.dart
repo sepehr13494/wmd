@@ -10,9 +10,13 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/stat
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/widget/custodian_auth_status_modal.dart';
 
+import '../../../mandate_status/domain/entities/get_mandate_status_entity.dart';
+
 class BanksAuthorizationProcess extends StatefulWidget {
   final bool initiallyExpanded;
-  const BanksAuthorizationProcess({super.key, required this.initiallyExpanded});
+  final List<GetMandateStatusEntity> mandateList;
+  const BanksAuthorizationProcess(
+      {super.key, required this.initiallyExpanded, required this.mandateList});
 
   @override
   AppState<BanksAuthorizationProcess> createState() =>
@@ -67,10 +71,12 @@ class _BanksAuthorizationProcessState
                     columnWidths: const {
                       0: FractionColumnWidth(0.35),
                       1: FractionColumnWidth(0.4),
-                      3: FractionColumnWidth(0.25),
+                      3: FractionColumnWidth(0.4),
                     },
                     children: [
                       buildTableHeader(textTheme, appLocalizations),
+                      ...widget.mandateList
+                          .map((e) => buildMandateRow(context, e, textTheme)),
                       ...state.statusEntity
                           .map((e) => buildTableRow(context, e, textTheme))
                     ],
@@ -168,6 +174,66 @@ class _BanksAuthorizationProcessState
                     size: 12,
                   )
                 ],
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  TableRow buildMandateRow(
+      BuildContext context, GetMandateStatusEntity e, TextTheme textTheme,
+      {EdgeInsetsGeometry padding =
+          const EdgeInsets.only(top: 8.0, bottom: 8)}) {
+    final appLocalizations = AppLocalizations.of(context);
+    return TableRow(
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(width: 1.0, color: Theme.of(context).disabledColor),
+        ),
+      ),
+      children: [
+        Padding(
+          padding: padding,
+          child: Text(
+            e.dataSource,
+            style: textTheme.bodyLarge,
+          ),
+        ),
+        Padding(
+          padding: padding,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: Text(
+                appLocalizations.home_custodianBankList_statusText_mandateSync
+                    .replaceFirst('{{mandateId}}', e.mandateId.toString()),
+                style: textTheme.bodyLarge),
+          ),
+        ),
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Padding(
+            padding: padding,
+            child: Align(
+              alignment: Alignment.center,
+              child: InkWell(
+                onTap: () async {},
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      appLocalizations.home_custodianBankList_button_deleteSync,
+                      style: textTheme.bodyLarge!
+                          .apply(color: Theme.of(context).primaryColor),
+                    ),
+                    const SizedBox(width: 4),
+                    const Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 12,
+                    )
+                  ],
+                ),
               ),
             ),
           ),
