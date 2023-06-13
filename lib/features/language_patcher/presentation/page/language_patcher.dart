@@ -8,10 +8,16 @@ import 'package:wmd/features/profile/preference/data/models/patch_preference_lan
 import 'package:wmd/features/profile/preference/presentation/manager/preference_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
-class LanguagePatcher extends StatelessWidget {
+class LanguagePatcher extends StatefulWidget {
   final Widget child;
   const LanguagePatcher({super.key, required this.child});
 
+  @override
+  State<LanguagePatcher> createState() => _LanguagePatcherState();
+}
+
+class _LanguagePatcherState extends State<LanguagePatcher> {
+  String? ln;
   @override
   Widget build(BuildContext context) {
     final initialLn = context.read<LocalizationManager>().state.languageCode;
@@ -20,17 +26,21 @@ class LanguagePatcher extends StatelessWidget {
       child: BlocConsumer<PreferenceCubit, PreferenceState>(
           listener: BlocHelper.defaultBlocListener(listener: (context, state) {
         if (state is GetPreferenceLoaded) {
-          final ln = state.entity.language ?? initialLn;
-          log('Mert log $ln');
-          if (initialLn != ln) {
+          ln = state.entity.language;
+          if (ln != null && initialLn != ln) {
             context.read<LocalizationManager>().switchLanguage();
           }
         }
       }), builder: (context, state) {
         return BlocBuilder<LocalizationManager, Locale>(
-          
             builder: (context, state) {
-          return child;
+          if (ln != null && ln != state.languageCode) {
+            context.read<PreferenceCubit>().patchPreferenceLanguage(
+                param: PatchPreferenceLanguageParams(
+                    language: state.languageCode));
+            ln = null;
+          }
+          return widget.child;
         });
       }),
     );
