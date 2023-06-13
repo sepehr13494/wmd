@@ -36,6 +36,7 @@ import 'package:wmd/injection_container.dart';
 
 import '../../../core/presentation/pages/base_add_assest_state.dart';
 import '../../../core/presentation/pages/base_add_asset_stateful_widget.dart';
+import '../widgets/listed_asset_type_ahead.dart';
 
 class AddListedSecurityPage extends BaseAddAssetStatefulWidget {
   final ListedAssetMoreEntity? moreEntity;
@@ -259,91 +260,41 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                         .assetLiabilityForms_forms_listedAssets_title,
                                                     style: textTheme.titleSmall,
                                                   ),
-                                                  BlocProvider(
-                                                      create: (context) =>
-                                                          sl<BankListCubit>(),
-                                                      child: BlocConsumer<
-                                                              BankListCubit,
-                                                              BankListState>(
-                                                          listener: (context,
-                                                              bankState) {
-                                                        if (bankState
-                                                            is MarketDataSuccess) {
-                                                          _typeAheadController
-                                                              .toggle();
+                                                  EachTextField(
+                                                      hasInfo: false,
+                                                      title: appLocalizations
+                                                          .assetLiabilityForms_forms_listedAssets_inputFields_securityName_label,
+                                                      child:
+                                                      ListedSecurityTypeAhead(
+                                                          enabled:
+                                                          !edit,
+                                                          errorMsg:
+                                                          appLocalizations
+                                                              .assetLiabilityForms_forms_listedAssets_inputFields_securityName_errorMessage,
+                                                          name:
+                                                          "name",
+                                                          onChange:
+                                                              (e) {
+                                                            checkFinalValid(
+                                                                e);
+                                                            setState(
+                                                                    () {
+                                                                  securityName =
+                                                                      e;
+                                                                });
+                                                            formKey
+                                                                .currentState!
+                                                                .patchValue({
+                                                              "currencyCode": Currency.currenciesList.firstWhere((curr) =>
+                                                              curr.symbol ==
+                                                                  e?.currencyCode),
+                                                              "category":
+                                                              e?.category
+                                                            });
+                                                          },
 
-                                                          Future.delayed(
-                                                              const Duration(
-                                                                  milliseconds:
-                                                                      100), () {
-                                                            _typeAheadController
-                                                                .open();
-                                                          });
-                                                        }
-                                                      }, builder: (context,
-                                                              bankState) {
-                                                        return EachTextField(
-                                                            hasInfo: false,
-                                                            title: appLocalizations
-                                                                .assetLiabilityForms_forms_listedAssets_inputFields_securityName_label,
-                                                            child:
-                                                                ListedSecurityTypeAhead(
-                                                                    suggestionsBoxController:
-                                                                        _typeAheadController,
-                                                                    enabled:
-                                                                        !edit,
-                                                                    errorMsg:
-                                                                        appLocalizations
-                                                                            .assetLiabilityForms_forms_listedAssets_inputFields_securityName_errorMessage,
-                                                                    name:
-                                                                        "name",
-                                                                    fetchData: (query) => query
-                                                                                .length >=
-                                                                            3
-                                                                        ? context
-                                                                            .read<
-                                                                                BankListCubit>()
-                                                                            .getMarketData(
-                                                                                query)
-                                                                        : context
-                                                                            .read<
-                                                                                BankListCubit>()
-                                                                            .getMarketData(
-                                                                                ""),
-                                                                    onChange:
-                                                                        (e) {
-                                                                      checkFinalValid(
-                                                                          e);
-                                                                      setState(
-                                                                          () {
-                                                                        securityName =
-                                                                            e;
-                                                                      });
-                                                                      formKey
-                                                                          .currentState!
-                                                                          .patchValue({
-                                                                        "currencyCode": Currency.currenciesList.firstWhere((curr) =>
-                                                                            curr.symbol ==
-                                                                            e?.currencyCode),
-                                                                        "category":
-                                                                            e?.category
-                                                                      });
-                                                                    },
-                                                                    suggestionsCallback: bankState
-                                                                            is MarketDataSuccess
-                                                                        ? (p0) async =>
-                                                                            bankState
-                                                                                .entity
-                                                                        : (p0) async =>
-                                                                            [],
-                                                                    // items: bankState
-                                                                    //         is MarketDataSuccess
-                                                                    //     ? bankState
-                                                                    //         .entity
-                                                                    //     : [],
-                                                                    hint: appLocalizations
-                                                                        .assetLiabilityForms_forms_listedAssets_inputFields_securityName_placeholder));
-                                                      })),
+                                                          hint: appLocalizations
+                                                              .assetLiabilityForms_forms_listedAssets_inputFields_securityName_placeholder)),
                                                   Container(
                                                     padding:
                                                         const EdgeInsets.all(
