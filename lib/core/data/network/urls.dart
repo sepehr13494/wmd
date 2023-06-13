@@ -143,4 +143,6 @@ class AppUrls {
 
   static String getMandateStatus =
       "${wealthBase}Mandate/Status";
+  static String deleteMandate =
+      "${wealthBase}Mandate/Status";
 }
