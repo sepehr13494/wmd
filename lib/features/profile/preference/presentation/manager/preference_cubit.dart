@@ -34,10 +34,10 @@ class PreferenceCubit extends Cubit<PreferenceState> {
     });
   }
 
-  patchPreferenceLanguage({required Map<String, dynamic> map}) async {
+  patchPreferenceLanguage({required PatchPreferenceLanguageParams param}) async {
     emit(LoadingState());
     final result =
-        await patchPreferenceLanguageUseCase(PatchPreferenceLanguageParams());
+        await patchPreferenceLanguageUseCase(param);
     result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
       emit(PatchPreferenceLanguageLoaded(entity: entity));
     });

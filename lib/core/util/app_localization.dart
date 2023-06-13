@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:jiffy/jiffy.dart';
 import 'local_storage.dart';
 
 class LocalizationManager extends Cubit<Locale> {
   final LocalStorage localStorage;
   LocalizationManager(this.localStorage)
-      : super(AppLocalizations.supportedLocales.firstWhere((element) => element.languageCode == "en"));
+      : super(AppLocalizations.supportedLocales
+            .firstWhere((element) => element.languageCode == "en"));
 
   changeLang(Locale locale) async {
     await localStorage.setLocale(locale);
@@ -23,8 +23,8 @@ class LocalizationManager extends Cubit<Locale> {
     }
   }
 
-  static getNameFromLocale(Locale locale){
-    switch (locale.languageCode){
+  static getNameFromLocale(Locale locale) {
+    switch (locale.languageCode) {
       case "en":
         return "English";
       case "ar":
@@ -42,12 +42,11 @@ class LocalizationManager extends Cubit<Locale> {
     return (state.languageCode == "en") ? "English" : "عربی";
   }
 
-  switchLanguage(){
-    changeLang(
-    state.languageCode == "en"
-    ? AppLocalizations.supportedLocales
-        .firstWhere((element) => element.languageCode == "ar")
+  switchLanguage() {
+    changeLang(state.languageCode == "en"
+        ? AppLocalizations.supportedLocales
+            .firstWhere((element) => element.languageCode == "ar")
         : AppLocalizations.supportedLocales
-        .firstWhere((element) => element.languageCode == "en"));
+            .firstWhere((element) => element.languageCode == "en"));
   }
 }
