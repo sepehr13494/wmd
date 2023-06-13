@@ -49,6 +49,7 @@ abstract class BaseState extends Equatable
         PreferenceState,
         LiablilityOverviewState,
         PortfolioTabState,
+        MandateStatusState,
         PerformanceChartState {}
 
 class BaseInitialState extends BaseState {

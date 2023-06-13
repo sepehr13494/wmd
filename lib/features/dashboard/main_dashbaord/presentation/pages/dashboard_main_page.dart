@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -17,6 +19,8 @@ import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/dashbo
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/filter_add_widget.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/net_worth_base_chart.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/summery_widget.dart';
+import 'package:wmd/features/dashboard/mandate_status/domain/entities/get_mandate_status_entity.dart';
+import 'package:wmd/features/dashboard/mandate_status/presentation/manager/mandate_status_cubit.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_asset_class_widget.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_benchmark_widget.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_custodian_widget.dart';
@@ -94,157 +98,195 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                   ),
                                   iconTheme: appTheme.iconTheme
                                       .copyWith(color: appTheme.primaryColor)),
-                              child: BlocConsumer<CustodianStatusListCubit,
-                                      CustodianStatusListState>(
-                                  listener: BlocHelper.defaultBlocListener(
-                                      listener: (context, custodianState) {}),
-                                  builder: (context, custodianState) {
-                                    return BlocConsumer<MainDashboardCubit,
-                                        MainDashboardState>(
-                                      listener: BlocHelper.defaultBlocListener(
+                              child: BlocProvider(
+                                create: (context) => sl<MandateStatusCubit>()
+                                  ..getMandateStatus(),
+                                child: BlocConsumer<MandateStatusCubit,
+                                        MandateStatusState>(
+                                    listener: BlocHelper.defaultBlocListener(
+                                        listener: (context, mandateState) {}),
+                                    builder: (context, mandateState) {
+                                      List<GetMandateStatusEntity> mandateList =
+                                          [];
+                                      if (mandateState
+                                          is GetMandateStatusLoaded) {
+                                        mandateList = List.from(mandateState
+                                            .getMandateStatusEntities);
+                                      }
+                                      return BlocConsumer<
+                                              CustodianStatusListCubit,
+                                              CustodianStatusListState>(
                                           listener:
-                                              (context, dashboardState) {}),
-                                      builder: (context, dashboardState) {
-                                        final isCustodianNotEmpty = context
-                                            .read<CustodianStatusListCubit>()
-                                            .statutes
-                                            .isNotEmpty;
-                                        if (dashboardState
-                                            is MainDashboardNetWorthLoaded) {
-                                          final isAssetsNotEmpty =
-                                              dashboardState.netWorthObj.assets
-                                                      .currentValue !=
-                                                  0;
-                                          final isLiabilityNotEmpty =
-                                              dashboardState
-                                                      .netWorthObj
-                                                      .liabilities
-                                                      .currentValue !=
-                                                  0;
+                                              BlocHelper.defaultBlocListener(
+                                                  listener: (context,
+                                                      custodianState) {}),
+                                          builder: (context, custodianState) {
+                                            return BlocConsumer<
+                                                MainDashboardCubit,
+                                                MainDashboardState>(
+                                              listener: BlocHelper
+                                                  .defaultBlocListener(
+                                                      listener: (context,
+                                                          dashboardState) {}),
+                                              builder:
+                                                  (context, dashboardState) {
+                                                final isCustodianNotEmpty = context
+                                                        .read<
+                                                            CustodianStatusListCubit>()
+                                                        .statutes
+                                                        .isNotEmpty ||
+                                                    mandateList.isNotEmpty;
+                                                if (dashboardState
+                                                    is MainDashboardNetWorthLoaded) {
+                                                  final isAssetsNotEmpty =
+                                                      dashboardState
+                                                              .netWorthObj
+                                                              .assets
+                                                              .currentValue !=
+                                                          0;
+                                                  final isLiabilityNotEmpty =
+                                                      dashboardState
+                                                              .netWorthObj
+                                                              .liabilities
+                                                              .currentValue !=
+                                                          0;
 
-                                          if (isAssetsNotEmpty ||
-                                              isCustodianNotEmpty ||
-                                              isLiabilityNotEmpty) {
-                                            const Key tableKey =
-                                                Key("tableKey");
-                                            return Column(
-                                              children: [
-                                                const PrivacyBlurWarning(),
-                                                const FilterAddPart(),
-                                                const SizedBox(height: 12),
-                                                BanksAuthorizationProcess(
-                                                    initiallyExpanded: widget
-                                                            .expandCustodian ||
-                                                        (!isAssetsNotEmpty &&
-                                                            !isLiabilityNotEmpty)),
-                                                if (isAssetsNotEmpty ||
-                                                    isLiabilityNotEmpty)
-                                                  SummeryWidget(
-                                                      netWorthEntity:
-                                                          dashboardState
-                                                              .netWorthObj),
-                                                const NetWorthBaseChart(),
-                                                const SizedBox(height: 8),
-                                                if ((state.userStatus
-                                                            .mobileNumberVerified ==
-                                                        false) &&
-                                                    showTwoFactorReccoment)
-                                                  TwoFactorRecommendationWidget(
-                                                    onClose: () {
-                                                      setState(() {
-                                                        showTwoFactorReccoment =
-                                                            false;
-                                                      });
-                                                    },
-                                                  ),
-                                                const SizedBox(height: 8),
-                                                Align(
-                                                  alignment:
-                                                      AlignmentDirectional
-                                                          .centerStart,
-                                                  child: Text(
-                                                      appLocalizations
-                                                          .home_label_yourAssets,
-                                                      style:
-                                                          textTheme.titleLarge),
-                                                ),
-                                                Center(
-                                                  child: BlocProvider(
-                                                    create: (context) =>
-                                                        sl<ChartsHeightCubit>(),
-                                                    child: BlocConsumer<
-                                                            ChartsHeightCubit,
-                                                            NewChartsHeight>(
-                                                        listener: BlocHelper
-                                                            .defaultBlocListener(
-                                                                listener: (context,
-                                                                    state) {}),
-                                                        builder:
-                                                            (context, state) {
-                                                          return ChartsChildrenCounts(
-                                                            length:
-                                                                state.length,
-                                                            child: RowOrColumn(
-                                                              rowCrossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              showRow:
-                                                                  !isMobile,
-                                                              children: [
-                                                                ExpandedIf(
-                                                                    expanded:
-                                                                        !isMobile,
+                                                  if (isAssetsNotEmpty ||
+                                                      isCustodianNotEmpty ||
+                                                      isLiabilityNotEmpty) {
+                                                    const Key tableKey =
+                                                        Key("tableKey");
+                                                    return Column(
+                                                      children: [
+                                                        const PrivacyBlurWarning(),
+                                                        const FilterAddPart(),
+                                                        const SizedBox(
+                                                            height: 12),
+                                                        BanksAuthorizationProcess(
+                                                          initiallyExpanded: widget
+                                                                  .expandCustodian ||
+                                                              (!isAssetsNotEmpty &&
+                                                                  !isLiabilityNotEmpty),
+                                                          mandateList:
+                                                              mandateList,
+                                                        ),
+                                                        if (isAssetsNotEmpty ||
+                                                            isLiabilityNotEmpty)
+                                                          SummeryWidget(
+                                                              netWorthEntity:
+                                                                  dashboardState
+                                                                      .netWorthObj),
+                                                        const NetWorthBaseChart(),
+                                                        const SizedBox(
+                                                            height: 8),
+                                                        if ((state.userStatus
+                                                                    .mobileNumberVerified ==
+                                                                false) &&
+                                                            showTwoFactorReccoment)
+                                                          TwoFactorRecommendationWidget(
+                                                            onClose: () {
+                                                              setState(() {
+                                                                showTwoFactorReccoment =
+                                                                    false;
+                                                              });
+                                                            },
+                                                          ),
+                                                        const SizedBox(
+                                                            height: 8),
+                                                        Align(
+                                                          alignment:
+                                                              AlignmentDirectional
+                                                                  .centerStart,
+                                                          child: Text(
+                                                              appLocalizations
+                                                                  .home_label_yourAssets,
+                                                              style: textTheme
+                                                                  .titleLarge),
+                                                        ),
+                                                        Center(
+                                                          child: BlocProvider(
+                                                            create: (context) =>
+                                                                sl<ChartsHeightCubit>(),
+                                                            child: BlocConsumer<
+                                                                    ChartsHeightCubit,
+                                                                    NewChartsHeight>(
+                                                                listener: BlocHelper
+                                                                    .defaultBlocListener(
+                                                                        listener:
+                                                                            (context,
+                                                                                state) {}),
+                                                                builder:
+                                                                    (context,
+                                                                        state) {
+                                                                  return ChartsChildrenCounts(
+                                                                    length: state
+                                                                        .length,
                                                                     child:
-                                                                        const PieChartSample2()),
-                                                                ExpandedIf(
-                                                                    expanded:
-                                                                        !isMobile,
-                                                                    child:
-                                                                        const RandomWorldMapGenrator()),
-                                                              ],
-                                                            ),
-                                                          );
-                                                        }),
-                                                  ),
-                                                ),
-                                                Column(
-                                                  key: tableKey,
-                                                  children: [
-                                                    const PerformanceAssetClassWidget(),
-                                                    const PerformanceBenchmarkWidget(),
-                                                    const PerformanceCustodianWidget(),
-                                                  ]
-                                                      .map((e) => Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .symmetric(
-                                                                    vertical:
-                                                                        8),
-                                                            child: e,
-                                                          ))
-                                                      .toList(),
-                                                ),
-                                                const SizedBox(height: 8),
-                                              ]
-                                                  .map((e) => e.key == tableKey
-                                                      ? e
-                                                      : Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .symmetric(
-                                                                  vertical: 8,
-                                                                  horizontal:
-                                                                      16),
-                                                          child: e))
-                                                  .toList(),
+                                                                        RowOrColumn(
+                                                                      rowCrossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      showRow:
+                                                                          !isMobile,
+                                                                      children: [
+                                                                        ExpandedIf(
+                                                                            expanded:
+                                                                                !isMobile,
+                                                                            child:
+                                                                                const PieChartSample2()),
+                                                                        ExpandedIf(
+                                                                            expanded:
+                                                                                !isMobile,
+                                                                            child:
+                                                                                const RandomWorldMapGenrator()),
+                                                                      ],
+                                                                    ),
+                                                                  );
+                                                                }),
+                                                          ),
+                                                        ),
+                                                        Column(
+                                                          key: tableKey,
+                                                          children: [
+                                                            const PerformanceAssetClassWidget(),
+                                                            const PerformanceBenchmarkWidget(),
+                                                            const PerformanceCustodianWidget(),
+                                                          ]
+                                                              .map(
+                                                                  (e) =>
+                                                                      Padding(
+                                                                        padding:
+                                                                            const EdgeInsets.symmetric(vertical: 8),
+                                                                        child:
+                                                                            e,
+                                                                      ))
+                                                              .toList(),
+                                                        ),
+                                                        const SizedBox(
+                                                            height: 8),
+                                                      ]
+                                                          .map((e) => e.key ==
+                                                                  tableKey
+                                                              ? e
+                                                              : Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .symmetric(
+                                                                      vertical:
+                                                                          8,
+                                                                      horizontal:
+                                                                          16),
+                                                                  child: e))
+                                                          .toList(),
+                                                    );
+                                                  }
+                                                  return const DashboardPage();
+                                                }
+                                                return const MainDashboardShimmer();
+                                              },
                                             );
-                                          }
-                                          return const DashboardPage();
-                                        }
-                                        return const MainDashboardShimmer();
-                                      },
-                                    );
-                                  })),
+                                          });
+                                    }),
+                              )),
                         ),
                       ),
                     )
