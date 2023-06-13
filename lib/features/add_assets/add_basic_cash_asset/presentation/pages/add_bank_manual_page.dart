@@ -107,9 +107,8 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                           context.read<EditBankManualCubit>().putBankManual(
                               map: finalMap, assetId: widget.moreEntity!.id);
                         } else {
-                          context
-                              .read<BankCubit>()
-                              .postBankDetails(map: finalMap);
+                          context.read<BankCubit>().postBankDetails(
+                              map: {...finalMap, "ownershipPercentage": "100"});
                         }
                       }
                     },
@@ -456,38 +455,38 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                               if (isDepositTerm)
                                                 Column(
                                                   children: [
-                                                    EachTextField(
-                                                      tooltipText: appLocalizations
-                                                          .assetLiabilityForms_forms_bankAccount_inputFields_ownership_tooltip,
-                                                      title: appLocalizations
-                                                          .assetLiabilityForms_forms_bankAccount_inputFields_ownership_label,
-                                                      child: AppTextFields.simpleTextField(
-                                                          extraValidators: [
-                                                            (val) {
-                                                              return ((int.tryParse(val ??
-                                                                              "0") ??
-                                                                          0) <=
-                                                                      100)
-                                                                  ? null
-                                                                  : "Ownership can't be greater then 100";
-                                                            }
-                                                          ],
-                                                          onChanged:
-                                                              checkFinalValid,
-                                                          name:
-                                                              "ownershipPercentage",
-                                                          errorMsg: appLocalizations
-                                                              .assetLiabilityForms_forms_bankAccount_inputFields_ownership_errorMessage_error,
-                                                          hint: appLocalizations
-                                                              .assetLiabilityForms_forms_bankAccount_inputFields_ownership_placeholder,
-                                                          type: TextFieldType
-                                                              .rate,
-                                                          suffixIcon: AppTextFields
-                                                              .rateSuffixIcon(),
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .number),
-                                                    ),
+                                                    // EachTextField(
+                                                    //   tooltipText: appLocalizations
+                                                    //       .assetLiabilityForms_forms_bankAccount_inputFields_ownership_tooltip,
+                                                    //   title: appLocalizations
+                                                    //       .assetLiabilityForms_forms_bankAccount_inputFields_ownership_label,
+                                                    //   child: AppTextFields.simpleTextField(
+                                                    //       extraValidators: [
+                                                    //         (val) {
+                                                    //           return ((int.tryParse(val ??
+                                                    //                           "0") ??
+                                                    //                       0) <=
+                                                    //                   100)
+                                                    //               ? null
+                                                    //               : "Ownership can't be greater then 100";
+                                                    //         }
+                                                    //       ],
+                                                    //       onChanged:
+                                                    //           checkFinalValid,
+                                                    //       name:
+                                                    //           "ownershipPercentage",
+                                                    //       errorMsg: appLocalizations
+                                                    //           .assetLiabilityForms_forms_bankAccount_inputFields_ownership_errorMessage_error,
+                                                    //       hint: appLocalizations
+                                                    //           .assetLiabilityForms_forms_bankAccount_inputFields_ownership_placeholder,
+                                                    //       type: TextFieldType
+                                                    //           .rate,
+                                                    //       suffixIcon: AppTextFields
+                                                    //           .rateSuffixIcon(),
+                                                    //       keyboardType:
+                                                    //           TextInputType
+                                                    //               .number),
+                                                    // ),
                                                     EachTextField(
                                                       title: appLocalizations
                                                           .assetLiabilityForms_forms_bankAccount_inputFields_principal_label,

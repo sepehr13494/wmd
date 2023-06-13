@@ -129,7 +129,8 @@ class GlobalFunctions {
       required String body,
       Widget? icon,
       String yes = 'Yes',
-      String no = 'No',bool reverse = false}) async {
+      String no = 'No',
+      bool reverse = false}) async {
     bool isConfirm = await showDialog(
       context: context,
       builder: (context) {
@@ -157,7 +158,7 @@ class GlobalFunctions {
                   ),
                 ),
               ),
-              icon??const SizedBox(),
+              icon ?? const SizedBox(),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                 child: Center(
@@ -231,6 +232,7 @@ class GlobalFunctions {
       required VoidCallback onExitClick}) async {
     return await showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
         return ModalWidget(
             title: AppLocalizations.of(context).common_formExitModal_title,

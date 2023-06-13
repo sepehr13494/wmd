@@ -33,14 +33,13 @@ class AddRealEstatePage extends BaseAddAssetStatefulWidget {
   final RealEstateMoreEntity? moreEntity;
 
   const AddRealEstatePage({Key? key, bool edit = false, this.moreEntity})
-      : super(key: key,edit: edit);
+      : super(key: key, edit: edit);
 
   @override
   AppState<AddRealEstatePage> createState() => _AddRealEstateState();
 }
 
 class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
-
   DateTime? aqusitionDateValue;
   DateTime? valuationDateValue;
 
@@ -68,25 +67,29 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
             appBar: const AddAssetHeader(title: "", showExitModal: true),
             bottomSheet: AddAssetFooter(
                 buttonText: edit ? "Save Asset" : "Add asset",
-                onTap: (edit && !enableAddAssetButtonEdit) ? null : () {
-                  formKey.currentState?.validate();
-                  if (enableAddAssetButton) {
-                    Map<String, dynamic> finalMap = {
-                      ...formKey.currentState!.instantValue,
-                    };
+                onTap: (edit && !enableAddAssetButtonEdit)
+                    ? null
+                    : () {
+                        formKey.currentState?.validate();
+                        if (enableAddAssetButton) {
+                          Map<String, dynamic> finalMap = {
+                            ...formKey.currentState!.instantValue,
+                          };
 
-                    debugPrint(finalMap.toString());
+                          debugPrint(finalMap.toString());
 
-                    if (edit) {
-                      context.read<EditRealEstateCubit>().putRealEstate(
-                          map: finalMap, assetId: widget.moreEntity!.id);
-                    } else {
-                      context
-                          .read<RealEstateCubit>()
-                          .postRealEstate(map: finalMap);
-                    }
-                  }
-                }),
+                          if (edit) {
+                            context.read<EditRealEstateCubit>().putRealEstate(
+                                map: finalMap, assetId: widget.moreEntity!.id);
+                          } else {
+                            context.read<RealEstateCubit>().postRealEstate(
+                                map: {
+                                  ...finalMap,
+                                  "ownershipPercentage": "100"
+                                });
+                          }
+                        }
+                      }),
             body: Theme(
               data: Theme.of(context).copyWith(),
               child: Builder(builder: (context) {
@@ -117,7 +120,7 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                             BlocListener<EditRealEstateCubit,
                                 EditAssetBaseState>(
                               listener: EditAssetBlocHelper.defaultBlocListener(
-                                type: AssetTypes.realEstate,
+                                  type: AssetTypes.realEstate,
                                   assetId: edit ? widget.moreEntity!.id : ""),
                             ),
                           ],
@@ -361,37 +364,37 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                                           .assetLiabilityForms_forms_realEstate_inputFields_acquisitionDate_placeholder),
                                                 ),
                                               ),
-                                              EachTextField(
-                                                hasInfo: false,
-                                                title: appLocalizations
-                                                    .assetLiabilityForms_forms_realEstate_inputFields_yourOwnership_label,
-                                                child: AppTextFields
-                                                    .simpleTextField(
-                                                        enabled: !edit,
-                                                        extraValidators: [
-                                                          (val) {
-                                                            return ((int.tryParse(val ??
-                                                                            "0") ??
-                                                                        0) <=
-                                                                    100)
-                                                                ? null
-                                                                : "Ownership can't be greater then 100";
-                                                          }
-                                                        ],
-                                                        type: TextFieldType
-                                                            .number,
-                                                        keyboardType:
-                                                            TextInputType
-                                                                .number,
-                                                        onChanged:
-                                                            checkFinalValid,
-                                                        suffixIcon: AppTextFields
-                                                            .rateSuffixIcon(),
-                                                        name:
-                                                            "ownershipPercentage",
-                                                        hint: appLocalizations
-                                                            .assetLiabilityForms_forms_realEstate_inputFields_yourOwnership_placeholder),
-                                              ),
+                                              // EachTextField(
+                                              //   hasInfo: false,
+                                              //   title: appLocalizations
+                                              //       .assetLiabilityForms_forms_realEstate_inputFields_yourOwnership_label,
+                                              //   child: AppTextFields
+                                              //       .simpleTextField(
+                                              //           enabled: !edit,
+                                              //           extraValidators: [
+                                              //             (val) {
+                                              //               return ((int.tryParse(val ??
+                                              //                               "0") ??
+                                              //                           0) <=
+                                              //                       100)
+                                              //                   ? null
+                                              //                   : "Ownership can't be greater then 100";
+                                              //             }
+                                              //           ],
+                                              //           type: TextFieldType
+                                              //               .number,
+                                              //           keyboardType:
+                                              //               TextInputType
+                                              //                   .number,
+                                              //           onChanged:
+                                              //               checkFinalValid,
+                                              //           suffixIcon: AppTextFields
+                                              //               .rateSuffixIcon(),
+                                              //           name:
+                                              //               "ownershipPercentage",
+                                              //           hint: appLocalizations
+                                              //               .assetLiabilityForms_forms_realEstate_inputFields_yourOwnership_placeholder),
+                                              // ),
                                               EachTextField(
                                                 tooltipText: appLocalizations
                                                     .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_tooltip,
