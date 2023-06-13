@@ -121,10 +121,7 @@ class ListedAssetMoreEntity extends GetSeeMoreResponse {
         "maturityDate": maturityDate,
       };
 
-  Map<String, dynamic> toFormJson() {
-    final ListedSecurityName listedSecurityName =
-        ListedSecurityName.listedSecurityNameList.firstWhere(
-            (element) => element.securityShortName == securityShortName);
+  Map<String, dynamic> toFormJson(ListedSecurityName listedSecurityName) {
     return {
       "id": id,
       "type": type,

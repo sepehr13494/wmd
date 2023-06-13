@@ -46,6 +46,7 @@ class AsssetSummary extends AppStatelessWidget {
           const PrivacyBlurWarning(showCloseButton: false),
           const SizedBox(height: 12),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
