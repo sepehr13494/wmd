@@ -33,9 +33,9 @@ class MandateStatusCubit extends Cubit<MandateStatusState> {
     });
   }
   
-  deleteMandate() async {
+  deleteMandate(DeleteMandateParams param) async {
     emit(LoadingState());
-    final result = await deleteMandateUseCase(DeleteMandateParams());
+    final result = await deleteMandateUseCase(param);
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (appSuccess) {
       emit(SuccessState(appSuccess: appSuccess));

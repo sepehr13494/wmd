@@ -9,6 +9,8 @@ import 'package:wmd/core/util/custom_expansion_tile.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/status_entity.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/widget/custodian_auth_status_modal.dart';
+import 'package:wmd/features/dashboard/mandate_status/data/models/delete_mandate_params.dart';
+import 'package:wmd/features/dashboard/mandate_status/presentation/manager/mandate_status_cubit.dart';
 
 import '../../../mandate_status/domain/entities/get_mandate_status_entity.dart';
 
@@ -218,7 +220,11 @@ class _BanksAuthorizationProcessState
             child: Align(
               alignment: Alignment.center,
               child: InkWell(
-                onTap: () async {},
+                onTap: () async {
+                  context
+                      .read<MandateStatusCubit>()
+                      .deleteMandate(DeleteMandateParams(e.mandateId));
+                },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [

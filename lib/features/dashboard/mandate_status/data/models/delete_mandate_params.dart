@@ -1,18 +1,16 @@
 import 'package:equatable/equatable.dart';
 
-class DeleteMandateParams extends Equatable{
-    const DeleteMandateParams();
+class DeleteMandateParams extends Equatable {
+  final int mandateId;
+  const DeleteMandateParams(this.mandateId);
 
-    factory DeleteMandateParams.fromJson(Map<String, dynamic> json) => const DeleteMandateParams(
-    );
+  factory DeleteMandateParams.fromJson(Map<String, dynamic> json) =>
+      DeleteMandateParams(json['mandateId']);
 
-    Map<String, dynamic> toJson() => {
-    };
+  Map<String, dynamic> toJson() => {};
 
-    @override
-    // TODO: implement props
-    List<Object?> get props => [];
-    
-    static final tParams = DeleteMandateParams();
+  @override
+  List<Object?> get props => [mandateId];
+
+  static const tParams = DeleteMandateParams(1234);
 }
-    
