@@ -11,6 +11,8 @@ import 'package:wmd/features/dashboard/mandate_status/data/models/delete_mandate
 import 'package:wmd/features/dashboard/mandate_status/data/models/get_mandate_status_params.dart';
 import 'package:wmd/features/dashboard/mandate_status/data/models/get_mandate_status_response.dart';
 
+import '../../../../../core/data/network/error_handler_middleware_test.mocks.dart';
+
 Future<void> main() async {
   await dotenv.load(fileName: 'assets/env/.env');
   late MockErrorHandlerMiddleware mockErrorHandlerMiddleware;
