@@ -33,7 +33,7 @@ class AddRealEstatePage extends BaseAddAssetStatefulWidget {
   final RealEstateMoreEntity? moreEntity;
 
   const AddRealEstatePage({Key? key, bool edit = false, this.moreEntity})
-      : super(key: key);
+      : super(key: key,edit: edit);
 
   @override
   AppState<AddRealEstatePage> createState() => _AddRealEstateState();
@@ -48,6 +48,7 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final bool edit = widget.edit;
+    print("edit : $edit");
     return MultiBlocProvider(
       providers: [
         BlocProvider(
