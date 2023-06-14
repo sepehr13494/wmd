@@ -319,6 +319,7 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_bankAccount_inputFields_country_label,
                                                 child: CountriesDropdown(
+                                                  enabled: !edit,
                                                   onChanged: checkFinalValid,
                                                 ),
                                               ),
