@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'dart:math';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -34,10 +34,14 @@ class SuccessModalOnboardingWidget extends ModalWidget {
     final appLocalizations = AppLocalizations.of(context);
 
     return SizedBox(
-      width: double.infinity,
+      width: isMobile
+          ? double.infinity
+          : max(MediaQuery.of(context).size.width * 0.8,
+              min(700, MediaQuery.of(context).size.width)),
       height: isMobile
           ? MediaQuery.of(context).size.height * 0.7
-          : MediaQuery.of(context).size.height * 0.5,
+          : max(MediaQuery.of(context).size.height * 0.5,
+              min(615, MediaQuery.of(context).size.width)),
       child: Column(
         children: [
           buildModalHeader(context,
@@ -115,7 +119,7 @@ class SuccessModalOnboardingWidget extends ModalWidget {
         padding:
             EdgeInsets.symmetric(horizontal: responsiveHelper.bigger16Gap * 5),
         child: RowOrColumn(
-          showRow: !isMobile,
+          showRow: false,
           children: [
             OutlinedButton(
               onPressed: () {
