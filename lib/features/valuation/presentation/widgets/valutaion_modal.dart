@@ -133,6 +133,8 @@ class ValuationModalWidget extends ModalWidget {
             ...formKey.currentState!.instantValue,
             "wealthType": "Asset",
             "assetOrLiabilityId": assetId,
+            "quantity": "1",
+            "ownerShip": "100",
           };
           break;
         case AssetTypes.listedAsset:
@@ -175,6 +177,17 @@ class ValuationModalWidget extends ModalWidget {
             ...formKey.currentState!.instantValue,
             "wealthType": "Asset",
             "assetOrLiabilityId": assetId,
+            "quantity": "1",
+            "ownerShip": "100",
+          };
+          break;
+        case AssetTypes.otherAssets:
+          formMap = {
+            ...formKey.currentState!.instantValue,
+            "wealthType": "Asset",
+            "assetOrLiabilityId": assetId,
+            "quantity": "1",
+            "ownerShip": "100",
           };
           break;
         default:
