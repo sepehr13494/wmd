@@ -570,6 +570,8 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                           debugPrint(
                                                               selectedDate
                                                                   .toString());
+
+                                                          changeDate();
                                                         },
                                                         decoration:
                                                             InputDecoration(
@@ -782,7 +784,10 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
   void changeDate() {
     final map = formKey.currentState!.instantValue;
     var startDate = map["startDate"];
-    if (startDate != null) {
+    if (startDate != null &&
+        (map["years"] != null ||
+            map["months"] != null ||
+            map["days"] != null)) {
       final int year = int.tryParse(map["years"] ?? "0") ?? 0;
       final int month = int.tryParse(map["months"] ?? "0") ?? 0;
       final int day = int.tryParse(map["days"] ?? "0") ?? 0;
