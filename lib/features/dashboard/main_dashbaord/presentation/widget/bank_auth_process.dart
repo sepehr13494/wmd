@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
@@ -11,6 +13,7 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/widget/custodian_auth_status_modal.dart';
 import 'package:wmd/features/dashboard/mandate_status/data/models/delete_mandate_params.dart';
 import 'package:wmd/features/dashboard/mandate_status/presentation/manager/mandate_status_cubit.dart';
+import 'package:wmd/global_functions.dart';
 
 import '../../../mandate_status/domain/entities/get_mandate_status_entity.dart';
 
@@ -52,7 +55,7 @@ class _BanksAuthorizationProcessState
       listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
       builder: (context, state) {
         if (state is StatusListLoaded) {
-          if (state.statusEntity.isEmpty) {
+          if (state.statusEntity.isEmpty || widget.mandateList.isEmpty) {
             return const SizedBox.shrink();
           }
           return Card(
@@ -221,9 +224,20 @@ class _BanksAuthorizationProcessState
               alignment: Alignment.center,
               child: InkWell(
                 onTap: () async {
-                  context
-                      .read<MandateStatusCubit>()
-                      .deleteMandate(DeleteMandateParams(e.mandateId));
+                  GlobalFunctions.showConfirmDialog(
+                    context: context,
+                    title: '',
+                    body: appLocalizations
+                        .linkAccount_deleteCustodianBankModal_description,
+                    confirm: appLocalizations.common_button_yes,
+                    cancel: appLocalizations.common_button_no,
+                    onConfirm: () {
+                      log('Mert log yess');
+                    },
+                  );
+                  // context
+                  //     .read<MandateStatusCubit>()
+                  //     .deleteMandate(DeleteMandateParams(e.mandateId));
                 },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
