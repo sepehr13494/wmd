@@ -385,14 +385,17 @@ class _CurrenciesDropdownState extends AppState<CurrenciesDropdown> {
 
 class CountriesDropdown extends AppStatelessWidget {
   final ValueChanged<Country?>? onChanged;
+  final bool enabled;
 
-  const CountriesDropdown({Key? key, this.onChanged}) : super(key: key);
+  const CountriesDropdown({Key? key, this.onChanged, this.enabled = true})
+      : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     return FormBuilderSearchableDropdown<Country>(
       name: "country",
+      enabled: enabled,
       hint: appLocalizations
           .assetLiabilityForms_forms_bankAccount_inputFields_country_placeholder,
       prefixIcon: const Icon(
