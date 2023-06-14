@@ -232,12 +232,20 @@ class _BanksAuthorizationProcessState
                     confirm: appLocalizations.common_button_yes,
                     cancel: appLocalizations.common_button_no,
                     onConfirm: () {
-                      log('Mert log yess');
+                      context
+                          .read<MandateStatusCubit>()
+                          .deleteMandate(DeleteMandateParams(e.mandateId));
+                      setState(() {});
+                      context.read<MandateStatusCubit>().getMandateStatus();
+                      context
+                          .read<CustodianStatusListCubit>()
+                          .getCustodianStatusList();
+                      GlobalFunctions.showSnackTile(context,
+                          title: appLocalizations
+                              .home_custodianBankList_toast_deleteMandate_title,
+                          color: Colors.green);
                     },
                   );
-                  // context
-                  //     .read<MandateStatusCubit>()
-                  //     .deleteMandate(DeleteMandateParams(e.mandateId));
                 },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,

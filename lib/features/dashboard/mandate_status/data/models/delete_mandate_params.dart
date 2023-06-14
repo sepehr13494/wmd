@@ -7,7 +7,7 @@ class DeleteMandateParams extends Equatable {
   factory DeleteMandateParams.fromJson(Map<String, dynamic> json) =>
       DeleteMandateParams(json['mandateId']);
 
-  Map<String, dynamic> toJson() => {};
+  List<dynamic> toJson() => [mandateId];
 
   @override
   List<Object?> get props => [mandateId];
