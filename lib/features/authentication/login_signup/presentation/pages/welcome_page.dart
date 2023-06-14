@@ -155,13 +155,13 @@ class _WelcomePageState extends AppState<WelcomePage> {
                           },
                           child:
                               Text(appLocalizations.auth_signup_button_join)),
-                      if (kIsWeb) const SizedBox(),
+                      // if (!responsiveHelper.isMobile) const SizedBox(),
                       // else if (Platform.isIOS)
                       //   const ContinueAppleButton(),
                       SizedBox(
                         height: responsiveHelper.isMobile
                             ? 80
-                            : responsiveHelper.bigger24Gap * 7,
+                            : responsiveHelper.bigger24Gap * 4,
                       ),
                       // Stack(
                       //   alignment: Alignment.center,
