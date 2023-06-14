@@ -117,7 +117,7 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
               data: Theme.of(context).copyWith(),
               child: Builder(builder: (context) {
                 final Widget deleteWidget = DeleteAssetBaseWidget(
-                    name: "Bank account",
+                    name: AssetTypes.bankAccount,
                     realAssetName: widget.moreEntity != null
                         ? widget.moreEntity!.bankName
                         : "",

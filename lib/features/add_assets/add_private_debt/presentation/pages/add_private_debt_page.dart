@@ -88,7 +88,7 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
               data: Theme.of(context).copyWith(),
               child: Builder(builder: (context) {
                 final Widget deleteWidget = DeleteAssetBaseWidget(
-                    name: "Private debt",
+                    name: AssetTypes.privateDebt,
                     realAssetName: widget.moreEntity != null
                         ? widget.moreEntity!.investmentName
                         : "",

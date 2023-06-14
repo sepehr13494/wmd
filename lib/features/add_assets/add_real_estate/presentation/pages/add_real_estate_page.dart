@@ -94,7 +94,7 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
               data: Theme.of(context).copyWith(),
               child: Builder(builder: (context) {
                 final Widget deleteWidget = DeleteAssetBaseWidget(
-                    name: "Real estate",
+                    name: AssetTypes.realEstate,
                     realAssetName: widget.moreEntity != null
                         ? widget.moreEntity!.name
                         : "",

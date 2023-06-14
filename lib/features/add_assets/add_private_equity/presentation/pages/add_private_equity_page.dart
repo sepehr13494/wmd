@@ -92,8 +92,7 @@ class _AddPrivateEquityState extends BaseAddAssetState<AddPrivateEquityPage> {
               data: Theme.of(context).copyWith(),
               child: Builder(builder: (context) {
                 final Widget deleteWidget = DeleteAssetBaseWidget(
-                    name: appLocalizations
-                        .assetLiabilityForms_assets_privateEquity,
+                    name: AssetTypes.privateEquity,
                     realAssetName: widget.moreEntity != null
                         ? widget.moreEntity!.investmentName
                         : "",
