@@ -66,7 +66,7 @@ class RealEstateMorePage extends AppStatelessWidget {
             '${entity.portfolioContribution}% of ${netWorth.convertMoney(addDollar: true)}');
     var accountAddded = TitleSubtitle(
         title: appLocalizations.assets_seeMore_labels_accountAdded,
-        subTitle: CustomizableDateTime.localizedDdMmYyyy(entity.valuationDate));
+        subTitle: entity.valuationDate == null ? "" : CustomizableDateTime.localizedDdMmYyyy(entity.valuationDate!));
     var ytd = TitleChangeSubtitle(
       title: appLocalizations.assets_seeMore_labels_ytd,
       subTitle: entity.holdings.convertMoney(addDollar: true),

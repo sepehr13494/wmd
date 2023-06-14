@@ -12,8 +12,8 @@ class RealEstateMoreEntity extends GetSeeMoreResponse {
     required this.acquisitionCostPerUnit,
     required this.acquisitionDate,
     required this.ownershipPercentage,
-    required this.marketValue,
-    required this.valuationDate,
+    this.marketValue,
+    this.valuationDate,
     required this.id,
     required this.type,
     required this.isActive,
@@ -34,8 +34,8 @@ class RealEstateMoreEntity extends GetSeeMoreResponse {
   final double acquisitionCostPerUnit;
   final DateTime acquisitionDate;
   final double ownershipPercentage;
-  final double marketValue;
-  final DateTime valuationDate;
+  final double? marketValue;
+  final DateTime? valuationDate;
   final String id;
   final double type;
   final bool isActive;
@@ -59,10 +59,10 @@ class RealEstateMoreEntity extends GetSeeMoreResponse {
         acquisitionDate: DateTime.parse(json["acquisitionDate"]),
         ownershipPercentage:
             double.tryParse(json["ownershipPercentage"].toString()) ?? 0,
-        marketValue: double.tryParse(json["marketValue"].toString()) ?? 0,
+        marketValue: json["marketValue"] == null ? null : (double.tryParse(json["marketValue"].toString()) ?? 0),
         valuationDate: json["valuationDate"] != null
             ? DateTime.parse(json["valuationDate"])
-            : DateTime.now(),
+            : null,
         id: json["id"],
         type: double.tryParse(json["type"].toString()) ?? 0,
         isActive: json["isActive"],
@@ -87,7 +87,7 @@ class RealEstateMoreEntity extends GetSeeMoreResponse {
         "acquisitionDate": acquisitionDate.toIso8601String(),
         "ownershipPercentage": ownershipPercentage,
         "marketValue": marketValue,
-        "valuationDate": valuationDate.toIso8601String(),
+        "valuationDate": valuationDate?.toIso8601String(),
         "id": id,
         "type": type,
         "isActive": isActive,
@@ -109,8 +109,9 @@ class RealEstateMoreEntity extends GetSeeMoreResponse {
         "acquisitionCostPerUnit": acquisitionCostPerUnit.convertMoney(),
         "acquisitionDate": acquisitionDate,
         "ownershipPercentage": ownershipPercentage.toStringAsFixedZero(0),
-        "marketValue":
-            ((marketValue * 100) / ownershipPercentage).convertMoney(),
+        "marketValue": marketValue == null
+            ? null
+            : ((marketValue! * 100) / ownershipPercentage).convertMoney(),
         "valuationDate": valuationDate,
         "id": id,
         "type": type,
