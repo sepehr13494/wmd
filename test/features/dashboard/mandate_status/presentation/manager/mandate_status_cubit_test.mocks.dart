@@ -8,12 +8,17 @@ import 'dart:async' as _i5;
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:wmd/core/error_and_success/failures.dart' as _i6;
+import 'package:wmd/core/error_and_success/succeses.dart' as _i10;
+import 'package:wmd/features/dashboard/mandate_status/data/models/delete_mandate_params.dart'
+    as _i11;
 import 'package:wmd/features/dashboard/mandate_status/data/models/get_mandate_status_params.dart'
     as _i8;
 import 'package:wmd/features/dashboard/mandate_status/domain/entities/get_mandate_status_entity.dart'
     as _i7;
 import 'package:wmd/features/dashboard/mandate_status/domain/repositories/mandate_status_repository.dart'
     as _i2;
+import 'package:wmd/features/dashboard/mandate_status/domain/use_cases/delete_mandate_usecase.dart'
+    as _i9;
 import 'package:wmd/features/dashboard/mandate_status/domain/use_cases/get_mandate_status_usecase.dart'
     as _i4;
 
@@ -86,4 +91,40 @@ class MockGetMandateStatusUseCase extends _i1.Mock
         )),
       ) as _i5
           .Future<_i3.Either<_i6.Failure, List<_i7.GetMandateStatusEntity>>>);
+}
+
+/// A class which mocks [DeleteMandateUseCase].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockDeleteMandateUseCase extends _i1.Mock
+    implements _i9.DeleteMandateUseCase {
+  MockDeleteMandateUseCase() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.MandateStatusRepository get repository => (super.noSuchMethod(
+        Invocation.getter(#repository),
+        returnValue: _FakeMandateStatusRepository_0(
+          this,
+          Invocation.getter(#repository),
+        ),
+      ) as _i2.MandateStatusRepository);
+  @override
+  _i5.Future<_i3.Either<_i6.Failure, _i10.AppSuccess>> call(
+          _i11.DeleteMandateParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [params],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i10.AppSuccess>>.value(
+            _FakeEither_1<_i6.Failure, _i10.AppSuccess>(
+          this,
+          Invocation.method(
+            #call,
+            [params],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i6.Failure, _i10.AppSuccess>>);
 }
