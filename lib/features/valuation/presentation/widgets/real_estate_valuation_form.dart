@@ -201,31 +201,31 @@ class _RealEstateValuationFormWidgetState
                 enabled: false,
               ),
             ),
-            EachTextField(
-              hasInfo: false,
-              title: appLocalizations.assets_valuationModal_labels_noOfUnits,
-              child: AppTextFields.simpleTextField(
-                  type: TextFieldType.rate,
-                  errorMsg: appLocalizations.assets_valuationModal_errors_value,
-                  keyboardType: TextInputType.number,
-                  onChanged: (val) {
-                    setState(() {
-                      noOfUnits = val;
-                    });
-                    calculateCurrentValue();
-                    checkFinalValid(val);
-                  },
-                  name: "quantity",
-                  extraValidators: [
-                    (val) {
-                      return ((int.tryParse(val ?? "0") ?? 0) <= 100)
-                          ? null
-                          : "${appLocalizations.assets_valuationModal_labels_noOfUnits} can't be greater then 100";
-                    }
-                  ],
-                  hint: appLocalizations
-                      .assets_valuationModal_placeholder_noOfUnits),
-            ),
+            // EachTextField(
+            //   hasInfo: false,
+            //   title: appLocalizations.assets_valuationModal_labels_noOfUnits,
+            //   child: AppTextFields.simpleTextField(
+            //       type: TextFieldType.rate,
+            //       errorMsg: appLocalizations.assets_valuationModal_errors_value,
+            //       keyboardType: TextInputType.number,
+            //       onChanged: (val) {
+            //         setState(() {
+            //           noOfUnits = val;
+            //         });
+            //         calculateCurrentValue();
+            //         checkFinalValid(val);
+            //       },
+            //       name: "quantity",
+            //       extraValidators: [
+            //         (val) {
+            //           return ((int.tryParse(val ?? "0") ?? 0) <= 100)
+            //               ? null
+            //               : "${appLocalizations.assets_valuationModal_labels_noOfUnits} can't be greater then 100";
+            //         }
+            //       ],
+            //       hint: appLocalizations
+            //           .assets_valuationModal_placeholder_noOfUnits),
+            // ),
             EachTextField(
               hasInfo: false,
               title: appLocalizations.assets_valuationModal_labels_valuePerUnit,
