@@ -149,10 +149,7 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                 map: finalMap, assetId: widget.moreEntity!.id);
                           } else {
                             context.read<OtherAssetCubit>().postOtherAsset(
-                                map: {
-                                  ...finalMap,
-                                  "ownershipPercentage": "100"
-                                });
+                                map: {...finalMap, "ownerShip": "100"});
                           }
                         }
                       }),
