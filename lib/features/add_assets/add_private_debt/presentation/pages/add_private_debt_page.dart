@@ -213,6 +213,7 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_privateDebt_inputFields_country_label,
                                                 child: CountriesDropdown(
+                                                  enabled: !widget.edit,
                                                   onChanged: checkFinalValid,
                                                 ),
                                               ),

@@ -44,6 +44,7 @@ class _SupportPageState extends AppState<SupportPage> {
     debugPrint("Open contact working");
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
         return ContactBusinessWidget(
           title: '[Asset] is successfully added to wealth overview',

@@ -21,5 +21,13 @@ class ValuationActionType {
         //     value: "Income / Capital Distribution"),
       ];
 
+  static jsonSell(context) => [
+        RadioButtonOptions(
+            label:
+                AppLocalizations.of(context).assets_valuationModal_labels_Sell,
+            value: "Sell"),
+      ];
+
   static valuationActionTypeList(context) => json(context);
+  static valuationActionTypeListRealEstate(context) => jsonSell(context);
 }
