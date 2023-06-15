@@ -34,7 +34,9 @@ class _LanguagePatcherState extends State<LanguagePatcher> {
       }), builder: (context, state) {
         return BlocBuilder<LocalizationManager, Locale>(
             builder: (context, state) {
+          // log('Mert log check about patch');
           if (ln != null && ln != state.languageCode) {
+            // log('Mert log Will patch to ${state.languageCode}');
             context.read<PreferenceCubit>().patchPreferenceLanguage(
                 param: PatchPreferenceLanguageParams(
                     language: state.languageCode));
