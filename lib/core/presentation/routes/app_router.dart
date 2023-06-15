@@ -2,9 +2,7 @@ import 'package:datadog_flutter_plugin/datadog_flutter_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wmd/core/models/time_filer_obj.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
-import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentation/page/add_bank_auto_page.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/pages/add_bank_manual_page.dart';
 import 'package:wmd/features/add_assets/add_listed_security/presentation/pages/add_listed_security_page.dart';
@@ -54,7 +52,6 @@ import 'package:wmd/features/force_update/presentation/pages/force_update_page.d
 import 'package:wmd/features/glossary/presentation/pages/glossary_page.dart';
 import 'package:wmd/features/help/support/presentation/pages/schedule_call_page.dart';
 import 'package:wmd/features/help/support/presentation/pages/support_page.dart';
-import 'package:wmd/features/language_patcher/presentation/page/language_patcher.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/features/main_page/presentation/pages/main_page.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
@@ -66,7 +63,6 @@ import 'package:wmd/features/profile/verify_phone/presentation/pages/verify_phon
 import 'package:wmd/features/safe_device/presentation/pages/unsafe_device_page.dart';
 import 'package:wmd/features/settings/core/presentation/page/settings_page.dart';
 import 'package:wmd/features/splash/presentation/pages/splash_page.dart';
-import 'package:wmd/features/profile/core/presentation/pages/profile_page.dart';
 import 'package:wmd/injection_container.dart';
 
 import '../widgets/local_auth_wrapper.dart';
@@ -352,16 +348,14 @@ class AppRouter {
                     },
                   ),
                 ],
-                child: LanguagePatcher(
-                  child: PrivacyBlurWrapper(
-                    child: LocalAuthWrapper(
-                        child: MainPage(
-                            expandCustodian:
-                                state.queryParams['expandCustodian'] != null
-                                    ? state.queryParams['expandCustodian'] ==
-                                        'true'
-                                    : false)),
-                  ),
+                child: PrivacyBlurWrapper(
+                  child: LocalAuthWrapper(
+                      child: MainPage(
+                          expandCustodian:
+                              state.queryParams['expandCustodian'] != null
+                                  ? state.queryParams['expandCustodian'] ==
+                                      'true'
+                                  : false)),
                 ),
               );
             },
