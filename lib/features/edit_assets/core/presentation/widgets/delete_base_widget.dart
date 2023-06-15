@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/global_functions.dart';
 
 class DeleteAssetBaseWidget extends AppStatelessWidget {
@@ -25,7 +26,7 @@ class DeleteAssetBaseWidget extends AppStatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Edit $name details",
+            _getTitle(name,appLocalizations),
             style: textTheme.titleLarge,
           ),
           const SizedBox(height: 12),
@@ -63,12 +64,31 @@ class DeleteAssetBaseWidget extends AppStatelessWidget {
               });
             },
             child: Text(
-              "Delete asset",
+              AppLocalizations.of(context).common_button_deleteAsset,
               style: textTheme.bodyMedium!.toLinkStyle(context),
             ),
           ),
         ],
       ),
     );
+  }
+
+  String _getTitle(String name, AppLocalizations appLocalizations) {
+    switch (name){
+      case AssetTypes.bankAccount:
+        return appLocalizations.assetLiabilityForms_heading_edit_bankAccount;
+      case AssetTypes.realEstate:
+        return appLocalizations.assetLiabilityForms_heading_edit_realEstate;
+      case AssetTypes.privateEquity:
+        return appLocalizations.assetLiabilityForms_heading_edit_privateEquity;
+      case AssetTypes.privateDebt:
+        return appLocalizations.assetLiabilityForms_heading_edit_privateDebt;
+      case AssetTypes.otherAsset:
+        return appLocalizations.assetLiabilityForms_heading_edit_otherAssets;
+      case AssetTypes.listedAsset:
+        return appLocalizations.assetLiabilityForms_heading_edit_listedAssets;
+      default:
+        return "";
+    }
   }
 }

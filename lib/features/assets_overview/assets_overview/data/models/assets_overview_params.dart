@@ -1,6 +1,21 @@
-import 'package:wmd/core/domain/usecases/usercase.dart';
+import 'package:equatable/equatable.dart';
 
-class AssetsOverviewParams extends NoParams{
+class AssetsOverviewParams extends Equatable{
 
-  static final tParams = AssetsOverviewParams();
+  final String type;
+
+  const AssetsOverviewParams({required this.type});
+
+  static const tParams = AssetsOverviewParams(type: "TestType");
+
+  factory AssetsOverviewParams.fromJson(Map<String, dynamic> json) => AssetsOverviewParams(
+    type: json["type"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "type":type,
+  };
+
+  @override
+  List<Object?> get props => [type];
 }
