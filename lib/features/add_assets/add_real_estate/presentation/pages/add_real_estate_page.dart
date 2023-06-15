@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_form_builder_date_picker.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -79,14 +80,24 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                           debugPrint(finalMap.toString());
 
                           if (edit) {
-                            context.read<EditRealEstateCubit>().putRealEstate(
-                                map: finalMap, assetId: widget.moreEntity!.id);
+                            context
+                                .read<EditRealEstateCubit>()
+                                .putRealEstate(map: {
+                              ...finalMap,
+                              "ownershipPercentage": widget
+                                  .moreEntity?.ownershipPercentage
+                                  .toStringAsFixedZero(0),
+                              "noOfUnits": widget.moreEntity?.noOfUnits
+                                  .toStringAsFixedZero(0),
+                            }, assetId: widget.moreEntity!.id);
                           } else {
-                            context.read<RealEstateCubit>().postRealEstate(
-                                map: {
-                                  ...finalMap,
-                                  "ownershipPercentage": "100"
-                                });
+                            context
+                                .read<RealEstateCubit>()
+                                .postRealEstate(map: {
+                              ...finalMap,
+                              "ownershipPercentage": "100",
+                              "noOfUnits": "1",
+                            });
                           }
                         }
                       }),
@@ -272,34 +283,34 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                                   onChanged: checkFinalValid,
                                                 ),
                                               ),
-                                              EachTextField(
-                                                hasInfo: false,
-                                                title: appLocalizations
-                                                    .assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_label,
-                                                child: AppTextFields
-                                                    .simpleTextField(
-                                                        enabled: !edit,
-                                                        type: TextFieldType
-                                                            .number,
-                                                        keyboardType:
-                                                            TextInputType
-                                                                .number,
-                                                        onChanged:
-                                                            checkFinalValid,
-                                                        name: "noOfUnits",
-                                                        extraValidators: [
-                                                          (val) {
-                                                            return ((int.tryParse(val ??
-                                                                            "0") ??
-                                                                        0) <=
-                                                                    100)
-                                                                ? null
-                                                                : "\${appLocalizations.assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_label} can't be greater then 100";
-                                                          }
-                                                        ],
-                                                        hint: appLocalizations
-                                                            .assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_placeholder),
-                                              ),
+                                              // EachTextField(
+                                              //   hasInfo: false,
+                                              //   title: appLocalizations
+                                              //       .assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_label,
+                                              //   child: AppTextFields
+                                              //       .simpleTextField(
+                                              //           enabled: !edit,
+                                              //           type: TextFieldType
+                                              //               .number,
+                                              //           keyboardType:
+                                              //               TextInputType
+                                              //                   .number,
+                                              //           onChanged:
+                                              //               checkFinalValid,
+                                              //           name: "noOfUnits",
+                                              //           extraValidators: [
+                                              //             (val) {
+                                              //               return ((int.tryParse(val ??
+                                              //                               "0") ??
+                                              //                           0) <=
+                                              //                       100)
+                                              //                   ? null
+                                              //                   : "\${appLocalizations.assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_label} can't be greater then 100";
+                                              //             }
+                                              //           ],
+                                              //           hint: appLocalizations
+                                              //               .assetLiabilityForms_forms_realEstate_inputFields_numberofUnits_placeholder),
+                                              // ),
                                               EachTextField(
                                                 tooltipText: appLocalizations
                                                     .assetLiabilityForms_forms_realEstate_inputFields_acquisitionCostPerUnit_tooltip,

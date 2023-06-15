@@ -233,6 +233,7 @@ class _AddPrivateEquityState extends BaseAddAssetState<AddPrivateEquityPage> {
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_privateEquity_inputFields_country_label,
                                                 child: CountriesDropdown(
+                                                  enabled: !widget.edit,
                                                   onChanged: checkFinalValid,
                                                 ),
                                               ),

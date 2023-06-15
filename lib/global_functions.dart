@@ -5,6 +5,9 @@ import 'package:wmd/core/util/colors.dart';
 
 import 'package:wmd/core/presentation/widgets/modal_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/features/valuation/presentation/widgets/valuation_warning_modal.dart';
+
+import 'core/presentation/widgets/confirm_modal.dart';
 
 class GlobalFunctions {
   GlobalFunctions._();
@@ -243,6 +246,28 @@ class GlobalFunctions {
     ).then((isConfirm) {
       if (isConfirm != null && isConfirm == true) {
         onExitClick();
+      }
+      return isConfirm;
+    });
+  }
+
+  static showConfirmDialog(
+      {required BuildContext context,
+      required String title,
+      required String body,
+      required String confirm,
+      required String cancel,
+      required VoidCallback onConfirm}) async {
+    return await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return ConfirmModal(
+            title: title, body: body, confirmBtn: confirm, cancelBtn: cancel);
+      },
+    ).then((isConfirm) {
+      if (isConfirm != null && isConfirm == true) {
+        onConfirm();
       }
       return isConfirm;
     });

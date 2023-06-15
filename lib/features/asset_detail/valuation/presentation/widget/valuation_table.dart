@@ -358,18 +358,19 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
           ),
         ),
         if (AppConstants.publicMvp2Items) const SizedBox.shrink(),
+        // Release 1 changes
+        // if (AppConstants.publicMvp2Items &&
+        //     widget.isManuallyAdded &&
+        //     widget.assetType != AssetTypes.bankAccount)
+        //   renderPopupMenu(context, id),
         if (AppConstants.publicMvp2Items &&
             widget.isManuallyAdded &&
-            widget.assetType != AssetTypes.bankAccount)
-          renderPopupMenu(context, id),
-        if (AppConstants.publicMvp2Items &&
-            widget.isManuallyAdded &&
-            widget.assetType == AssetTypes.bankAccount &&
+            // widget.assetType == AssetTypes.bankAccount &&
             index == 0)
           renderPopupMenu(context, id),
         if (AppConstants.publicMvp2Items &&
             widget.isManuallyAdded &&
-            widget.assetType == AssetTypes.bankAccount &&
+            // widget.assetType == AssetTypes.bankAccount &&
             index != 0)
           Text(
             "",

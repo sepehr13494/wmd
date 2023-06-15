@@ -89,7 +89,7 @@ class TwoFactorRecommendationWidget extends AppStatelessWidget {
                                                   : min(
                                                       responsiveHelper
                                                               .optimalDeviceWidth *
-                                                          0.3,
+                                                          0.35,
                                                       300),
                                               child: Text(
                                                 appLocalizations

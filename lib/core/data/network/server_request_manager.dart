@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../../util/constants.dart';
@@ -18,6 +21,8 @@ class ServerRequestManager {
         appRequestOptions.body is Map<String, dynamic>) {
       clearBody = appRequestOptions.body;
       clearBody!.removeWhere((key, value) => value == null);
+    } else if (appRequestOptions.body is List<dynamic>) {
+      clearBody = jsonEncode(appRequestOptions.body);
     }
 
     dynamic options = appRequestOptions.additionalHeaders == null

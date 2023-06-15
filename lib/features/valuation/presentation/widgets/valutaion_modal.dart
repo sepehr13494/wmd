@@ -1,21 +1,18 @@
 import 'dart:math';
-import 'dart:ui';
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
-import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/modal_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 import 'package:wmd/features/asset_see_more/core/data/models/get_asset_see_more_params.dart';
 import 'package:wmd/features/asset_see_more/core/presentation/manager/asset_see_more_cubit.dart';
+import 'package:wmd/features/asset_see_more/real_estate/data/model/real_estate_more_entity.dart';
 import 'package:wmd/features/valuation/presentation/manager/valuation_cubit.dart';
 import 'package:wmd/features/valuation/presentation/widgets/bank_valuation_form.dart';
 import 'package:wmd/features/valuation/presentation/widgets/equity_debt_valuation_form.dart';
@@ -133,6 +130,8 @@ class ValuationModalWidget extends ModalWidget {
             ...formKey.currentState!.instantValue,
             "wealthType": "Asset",
             "assetOrLiabilityId": assetId,
+            "quantity": "1",
+            "ownerShip": "100",
           };
           break;
         case AssetTypes.listedAsset:
@@ -175,6 +174,17 @@ class ValuationModalWidget extends ModalWidget {
             ...formKey.currentState!.instantValue,
             "wealthType": "Asset",
             "assetOrLiabilityId": assetId,
+            "quantity": "1",
+            "ownerShip": "100",
+          };
+          break;
+        case AssetTypes.otherAssets:
+          formMap = {
+            ...formKey.currentState!.instantValue,
+            "wealthType": "Asset",
+            "assetOrLiabilityId": assetId,
+            "quantity": "1",
+            "ownerShip": "100",
           };
           break;
         default:
@@ -235,6 +245,9 @@ class ValuationModalWidget extends ModalWidget {
             if (seeMoreState is GetSeeMoreLoaded) {
               debugPrint("working see more 2");
               debugPrint(seeMoreState.getAssetSeeMoreEntity.toString());
+              debugPrint((seeMoreState.getAssetSeeMoreEntity.runtimeType ==
+                      RealEstateMoreEntity)
+                  .toString());
               dynamic json = seeMoreState.getAssetSeeMoreEntity as dynamic;
 
               // debugPrint(json?.accountType.toString());
@@ -274,6 +287,10 @@ class ValuationModalWidget extends ModalWidget {
                     formDataTemp['isSavingOrCurrentBank'] =
                         isSavingOrCurrentBank;
                   }
+
+                  formDataTemp['isRealEstate'] =
+                      seeMoreState.getAssetSeeMoreEntity.runtimeType ==
+                          RealEstateMoreEntity;
 
                   setFormValues!(formDataTemp);
                 } else {
@@ -429,7 +446,8 @@ class ValuationModalWidget extends ModalWidget {
       width: double.infinity,
       height: isMobile
           ? min(MediaQuery.of(context).size.height * 0.8, 625)
-          : MediaQuery.of(context).size.height * 0.5,
+          : max(MediaQuery.of(context).size.height * 0.5,
+              min(615, MediaQuery.of(context).size.width)),
       child: Column(
         children: [
           buildModalHeader(context, onClose: () {
