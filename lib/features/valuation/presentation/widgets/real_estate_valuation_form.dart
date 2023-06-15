@@ -32,6 +32,8 @@ class _RealEstateValuationFormWidgetState
 
   DateTime? aqusitionDateValue;
 
+  bool haveBuy = false;
+
   String currentDayValue = "--";
   String? noOfUnits = "";
   String? valuePerUnit = "";
@@ -134,6 +136,18 @@ class _RealEstateValuationFormWidgetState
       }
 
       debugPrint(json["acquisitionDate"].toString());
+      debugPrint(json["type"].toString());
+      debugPrint(json["isRealEstate"].toString());
+
+      if (json["type"] == 'Buy') {
+        setState(() {
+          haveBuy = true;
+        });
+      } else if (json["isRealEstate"] == false) {
+        setState(() {
+          haveBuy = true;
+        });
+      }
 
       setState(() {
         aqusitionDateValue = json["acquisitionDate"];
@@ -191,7 +205,10 @@ class _RealEstateValuationFormWidgetState
                 title: appLocalizations.assets_valuationModal_labels_action,
                 child: RadioButton<String>(
                     errorMsg: appLocalizations.common_errors_required,
-                    items: ValuationActionType.valuationActionTypeList(context),
+                    items: haveBuy
+                        ? ValuationActionType.valuationActionTypeList(context)
+                        : ValuationActionType.valuationActionTypeListRealEstate(
+                            context),
                     name: "type")),
             EachTextField(
               hasInfo: false,

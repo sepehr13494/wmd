@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_form_builder_date_picker.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -51,12 +52,12 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
 
   void calculateCurrentValue() {
     const defaultValue = "--";
-    if (noOfUnits == "" || noOfUnits == null) {
-      setState(() {
-        currentDayValue = defaultValue;
-      });
-      return;
-    }
+    // if (noOfUnits == "" || noOfUnits == null) {
+    //   setState(() {
+    //     currentDayValue = defaultValue;
+    //   });
+    //   return;
+    // }
     // if (acqusitionCost == "" || acqusitionCost == null) {
     //   setState(() {
     //     currentDayValue = defaultValue;
@@ -70,8 +71,8 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
     //   return;
     // }
 
-    final noOfUnitsParsed =
-        noOfUnits != null ? ((int.tryParse(noOfUnits!)) ?? 0) : 0;
+    // final noOfUnitsParsed =
+    //     noOfUnits != null ? ((int.tryParse(noOfUnits!)) ?? 0) : 0;
     final valuePerUnitParsed = valuePerUnit != null && valuePerUnit != ""
         ? int.tryParse(valuePerUnit!.toString().replaceAll(',', ''))
         : 0;
@@ -82,6 +83,7 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
     //     ? double.tryParse(ownerShip!.toString().replaceAll(',', ''))
     //     : 0;
     const ownerShipParsed = 100;
+    const noOfUnitsParsed = 1;
 
     setState(() {
       if (valuePerUnit != null && valuePerUnit != "") {
@@ -145,11 +147,23 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                 currentDayValue == "--" ? "0" : currentDayValue
                           };
                           if (edit) {
-                            context.read<EditOtherAssetsCubit>().putOtherAssets(
-                                map: finalMap, assetId: widget.moreEntity!.id);
+                            context
+                                .read<EditOtherAssetsCubit>()
+                                .putOtherAssets(map: {
+                              ...finalMap,
+                              "ownershipPercentage": widget
+                                  .moreEntity?.ownerShip
+                                  .toStringAsFixedZero(0),
+                              "noOfUnits": widget.moreEntity?.units
+                                  .toStringAsFixedZero(0),
+                            }, assetId: widget.moreEntity!.id);
                           } else {
                             context.read<OtherAssetCubit>().postOtherAsset(
-                                map: {...finalMap, "ownerShip": "100"});
+                                map: {
+                                  ...finalMap,
+                                  "ownerShip": "100",
+                                  "units": "1"
+                                });
                           }
                         }
                       }),
@@ -367,6 +381,7 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_others_inputFields_country_label,
                                                 child: CountriesDropdown(
+                                                  enabled: !widget.edit,
                                                   onChanged: checkFinalValid,
                                                 ),
                                               ),
@@ -378,29 +393,29 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                                   onChanged: checkFinalValid,
                                                 ),
                                               ),
-                                              EachTextField(
-                                                hasInfo: false,
-                                                title: appLocalizations
-                                                    .assetLiabilityForms_forms_others_inputFields_units_label,
-                                                child: AppTextFields
-                                                    .simpleTextField(
-                                                        enabled: !edit,
-                                                        type: TextFieldType
-                                                            .number,
-                                                        onChanged: (val) {
-                                                          setState(() {
-                                                            noOfUnits = val;
-                                                          });
-                                                          calculateCurrentValue();
-                                                          checkFinalValid(val);
-                                                        },
-                                                        keyboardType:
-                                                            TextInputType
-                                                                .number,
-                                                        name: "units",
-                                                        hint: appLocalizations
-                                                            .assetLiabilityForms_forms_others_inputFields_units_placeholder),
-                                              ),
+                                              // EachTextField(
+                                              //   hasInfo: false,
+                                              //   title: appLocalizations
+                                              //       .assetLiabilityForms_forms_others_inputFields_units_label,
+                                              //   child: AppTextFields
+                                              //       .simpleTextField(
+                                              //           enabled: !edit,
+                                              //           type: TextFieldType
+                                              //               .number,
+                                              //           onChanged: (val) {
+                                              //             setState(() {
+                                              //               noOfUnits = val;
+                                              //             });
+                                              //             calculateCurrentValue();
+                                              //             checkFinalValid(val);
+                                              //           },
+                                              //           keyboardType:
+                                              //               TextInputType
+                                              //                   .number,
+                                              //           name: "units",
+                                              //           hint: appLocalizations
+                                              //               .assetLiabilityForms_forms_others_inputFields_units_placeholder),
+                                              // ),
                                               EachTextField(
                                                 tooltipText: appLocalizations
                                                     .assetLiabilityForms_forms_others_inputFields_acquisitionCost_tooltip,
@@ -549,7 +564,10 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                                       Text(appLocalizations
                                                           .assetLiabilityForms_forms_others_inputFields_currentDayValue_label),
                                                       const SizedBox(height: 8),
-                                                      Text("\$$currentDayValue")
+                                                      Text(currentDayValue !=
+                                                              "--"
+                                                          ? "\$$currentDayValue"
+                                                          : currentDayValue)
                                                     ],
                                                   ),
                                                 ),

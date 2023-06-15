@@ -4,7 +4,10 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
+import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:wmd/features/dashboard/mandate_status/data/data_sources/mandate_status_remote_datasource.dart';
+import 'package:wmd/features/dashboard/mandate_status/data/models/delete_mandate_params.dart';
+import 'package:wmd/features/dashboard/mandate_status/data/models/delete_mandate_response.dart';
 import 'package:wmd/features/dashboard/mandate_status/data/models/get_mandate_status_params.dart';
 import 'package:wmd/features/dashboard/mandate_status/data/models/get_mandate_status_response.dart';
 import 'package:wmd/features/dashboard/mandate_status/data/repositories/mandate_status_repository_impl.dart';
@@ -65,6 +68,54 @@ void main() {
         final result = await repositoryImpl.getMandateStatus(GetMandateStatusParams.tParams);
         // assert
         verify(remoteDataSource.getMandateStatus(GetMandateStatusParams.tParams));
+
+        expect(result,
+            equals(Left(AppFailure.fromAppException(AppException.tAppException))));
+      },
+    );
+    
+  });
+  group('DeleteMandate', () {
+    test(
+      'should return DeleteMandateResponse when the call to remote data source is successful',
+      () async {
+        // arrange
+        when(remoteDataSource.deleteMandate(any))
+            .thenAnswer((_) async => DeleteMandateResponse.tResponse);
+        // act
+        final result = await repositoryImpl.deleteMandate(DeleteMandateParams.tParams);
+        // assert
+        expect(result, equals(Right(AppSuccess.tAppSuccess)));
+        verify(remoteDataSource.deleteMandate(DeleteMandateParams.tParams));
+      },
+    );
+
+    test(
+      'should return server failure on server exception',
+      () async {
+        // arrange
+        when(remoteDataSource.deleteMandate(any))
+            .thenThrow(ServerException.tServerException);
+        // act
+        final result = await repositoryImpl.deleteMandate(DeleteMandateParams.tParams);
+        // assert
+        verify(remoteDataSource.deleteMandate(DeleteMandateParams.tParams));
+
+        expect(result,
+            equals(Left(ServerFailure.fromServerException(ServerException.tServerException))));
+      },
+    );
+    
+    test(
+      'should return app failure on app exception',
+          () async {
+        // arrange
+        when(remoteDataSource.deleteMandate(any))
+            .thenThrow(AppException.tAppException);
+        // act
+        final result = await repositoryImpl.deleteMandate(DeleteMandateParams.tParams);
+        // assert
+        verify(remoteDataSource.deleteMandate(DeleteMandateParams.tParams));
 
         expect(result,
             equals(Left(AppFailure.fromAppException(AppException.tAppException))));

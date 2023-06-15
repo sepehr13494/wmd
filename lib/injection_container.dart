@@ -133,6 +133,7 @@ import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_
 import 'package:wmd/features/dashboard/mandate_status/data/data_sources/mandate_status_remote_datasource.dart';
 import 'package:wmd/features/dashboard/mandate_status/data/repositories/mandate_status_repository_impl.dart';
 import 'package:wmd/features/dashboard/mandate_status/domain/repositories/mandate_status_repository.dart';
+import 'package:wmd/features/dashboard/mandate_status/domain/use_cases/delete_mandate_usecase.dart';
 import 'package:wmd/features/dashboard/mandate_status/domain/use_cases/get_mandate_status_usecase.dart';
 import 'package:wmd/features/dashboard/mandate_status/presentation/manager/mandate_status_cubit.dart';
 import 'package:wmd/features/dashboard/performance_table/client_index/data/data_sources/client_index_remote_datasource.dart';
@@ -799,9 +800,9 @@ Future<void> init(String env) async {
       () => LiabilityOverviewRemoteDataSourceImpl(sl()));
 
 //MandateStatus
-  sl.registerFactory(() => MandateStatusCubit(sl()));
+  sl.registerFactory(() => MandateStatusCubit(sl(), sl()));
   sl.registerLazySingleton(() => GetMandateStatusUseCase(sl()));
-
+  sl.registerLazySingleton(() => DeleteMandateUseCase(sl()));
   sl.registerLazySingleton<MandateStatusRepository>(
       () => MandateStatusRepositoryImpl(sl()));
   sl.registerLazySingleton<MandateStatusRemoteDataSource>(

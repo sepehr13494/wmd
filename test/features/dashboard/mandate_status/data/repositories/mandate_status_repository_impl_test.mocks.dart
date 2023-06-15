@@ -3,21 +3,26 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
+import 'dart:async' as _i5;
 
-import 'package:dartz/dartz.dart' as _i2;
+import 'package:dartz/dartz.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:wmd/core/error_and_success/failures.dart' as _i8;
+import 'package:wmd/core/error_and_success/failures.dart' as _i10;
+import 'package:wmd/core/error_and_success/succeses.dart' as _i12;
 import 'package:wmd/features/dashboard/mandate_status/data/data_sources/mandate_status_remote_datasource.dart'
-    as _i3;
+    as _i4;
+import 'package:wmd/features/dashboard/mandate_status/data/models/delete_mandate_params.dart'
+    as _i8;
+import 'package:wmd/features/dashboard/mandate_status/data/models/delete_mandate_response.dart'
+    as _i2;
 import 'package:wmd/features/dashboard/mandate_status/data/models/get_mandate_status_params.dart'
-    as _i6;
-import 'package:wmd/features/dashboard/mandate_status/data/models/get_mandate_status_response.dart'
-    as _i5;
-import 'package:wmd/features/dashboard/mandate_status/domain/entities/get_mandate_status_entity.dart'
-    as _i9;
-import 'package:wmd/features/dashboard/mandate_status/domain/repositories/mandate_status_repository.dart'
     as _i7;
+import 'package:wmd/features/dashboard/mandate_status/data/models/get_mandate_status_response.dart'
+    as _i6;
+import 'package:wmd/features/dashboard/mandate_status/domain/entities/get_mandate_status_entity.dart'
+    as _i11;
+import 'package:wmd/features/dashboard/mandate_status/domain/repositories/mandate_status_repository.dart'
+    as _i9;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -30,8 +35,19 @@ import 'package:wmd/features/dashboard/mandate_status/domain/repositories/mandat
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
-  _FakeEither_0(
+class _FakeDeleteMandateResponse_0 extends _i1.SmartFake
+    implements _i2.DeleteMandateResponse {
+  _FakeDeleteMandateResponse_0(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeEither_1<L, R> extends _i1.SmartFake implements _i3.Either<L, R> {
+  _FakeEither_1(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -44,51 +60,86 @@ class _FakeEither_0<L, R> extends _i1.SmartFake implements _i2.Either<L, R> {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockMandateStatusRemoteDataSource extends _i1.Mock
-    implements _i3.MandateStatusRemoteDataSource {
+    implements _i4.MandateStatusRemoteDataSource {
   MockMandateStatusRemoteDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<List<_i5.GetMandateStatusResponse>> getMandateStatus(
-          _i6.GetMandateStatusParams? params) =>
+  _i5.Future<List<_i6.GetMandateStatusResponse>> getMandateStatus(
+          _i7.GetMandateStatusParams? params) =>
       (super.noSuchMethod(
         Invocation.method(
           #getMandateStatus,
           [params],
         ),
-        returnValue: _i4.Future<List<_i5.GetMandateStatusResponse>>.value(
-            <_i5.GetMandateStatusResponse>[]),
-      ) as _i4.Future<List<_i5.GetMandateStatusResponse>>);
+        returnValue: _i5.Future<List<_i6.GetMandateStatusResponse>>.value(
+            <_i6.GetMandateStatusResponse>[]),
+      ) as _i5.Future<List<_i6.GetMandateStatusResponse>>);
+  @override
+  _i5.Future<_i2.DeleteMandateResponse> deleteMandate(
+          _i8.DeleteMandateParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteMandate,
+          [params],
+        ),
+        returnValue: _i5.Future<_i2.DeleteMandateResponse>.value(
+            _FakeDeleteMandateResponse_0(
+          this,
+          Invocation.method(
+            #deleteMandate,
+            [params],
+          ),
+        )),
+      ) as _i5.Future<_i2.DeleteMandateResponse>);
 }
 
 /// A class which mocks [MandateStatusRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockMandateStatusRepository extends _i1.Mock
-    implements _i7.MandateStatusRepository {
+    implements _i9.MandateStatusRepository {
   MockMandateStatusRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.Either<_i8.Failure, List<_i9.GetMandateStatusEntity>>>
-      getMandateStatus(_i6.GetMandateStatusParams? params) =>
+  _i5.Future<_i3.Either<_i10.Failure, List<_i11.GetMandateStatusEntity>>>
+      getMandateStatus(_i7.GetMandateStatusParams? params) =>
           (super.noSuchMethod(
             Invocation.method(
               #getMandateStatus,
               [params],
             ),
-            returnValue: _i4.Future<
-                    _i2.Either<_i8.Failure,
-                        List<_i9.GetMandateStatusEntity>>>.value(
-                _FakeEither_0<_i8.Failure, List<_i9.GetMandateStatusEntity>>(
+            returnValue: _i5.Future<
+                    _i3.Either<_i10.Failure,
+                        List<_i11.GetMandateStatusEntity>>>.value(
+                _FakeEither_1<_i10.Failure, List<_i11.GetMandateStatusEntity>>(
               this,
               Invocation.method(
                 #getMandateStatus,
                 [params],
               ),
             )),
-          ) as _i4.Future<
-              _i2.Either<_i8.Failure, List<_i9.GetMandateStatusEntity>>>);
+          ) as _i5.Future<
+              _i3.Either<_i10.Failure, List<_i11.GetMandateStatusEntity>>>);
+  @override
+  _i5.Future<_i3.Either<_i10.Failure, _i12.AppSuccess>> deleteMandate(
+          _i8.DeleteMandateParams? params) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteMandate,
+          [params],
+        ),
+        returnValue:
+            _i5.Future<_i3.Either<_i10.Failure, _i12.AppSuccess>>.value(
+                _FakeEither_1<_i10.Failure, _i12.AppSuccess>(
+          this,
+          Invocation.method(
+            #deleteMandate,
+            [params],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i10.Failure, _i12.AppSuccess>>);
 }
