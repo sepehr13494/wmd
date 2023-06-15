@@ -55,7 +55,7 @@ class _BanksAuthorizationProcessState
       listener: BlocHelper.defaultBlocListener(listener: (context, state) {}),
       builder: (context, state) {
         if (state is StatusListLoaded) {
-          if (state.statusEntity.isEmpty || widget.mandateList.isEmpty) {
+          if (state.statusEntity.isEmpty && widget.mandateList.isEmpty) {
             return const SizedBox.shrink();
           }
           return Card(
