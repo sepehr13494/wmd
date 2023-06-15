@@ -57,6 +57,9 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
     if (widget.edit) {
       accountType = widget.moreEntity!.toFormJson()["accountType"];
       startDateValue = widget.moreEntity!.toFormJson()["startDate"];
+      Future.delayed(const Duration(seconds: 1),(){
+        changeDate();
+      });
     }
     super.initState();
   }
@@ -783,6 +786,8 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
     final map = formKey.currentState!.instantValue;
     var startDate = map["startDate"];
     if (startDate != null) {
+      print("map[years]");
+      print(map["years"]);
       final int year = int.tryParse(map["years"] ?? "0") ?? 0;
       final int month = int.tryParse(map["months"] ?? "0") ?? 0;
       final int day = int.tryParse(map["days"] ?? "0") ?? 0;
