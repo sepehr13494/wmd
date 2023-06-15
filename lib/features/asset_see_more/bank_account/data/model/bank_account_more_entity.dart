@@ -2,7 +2,9 @@
 //
 //     final realEstateMoreEntity = realEstateMoreEntityFromJson(jsonString);
 
+import 'package:jiffy/jiffy.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/core/util/date_difference_calculator.dart';
 import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 import 'package:wmd/features/asset_see_more/core/data/models/get_asset_see_more_response.dart';
@@ -81,6 +83,9 @@ class BankAccountMoreEntity extends GetSeeMoreResponse {
         startDate: json["startDate"] == null
             ? null
             : DateTime.parse(json["startDate"]),
+        endDate: json["endDate"] == null
+            ? null
+            : DateTime.parse(json["endDate"]),
         isJointAccount: json["isJointAccount"] ?? false,
         noOfCoOwners: json["noOfCoOwners"] ?? 0,
         ownershipPercentage:
@@ -112,7 +117,12 @@ class BankAccountMoreEntity extends GetSeeMoreResponse {
         "subType": subType,
       };
 
-  Map<String, dynamic> toFormJson() => {
+  Map<String, dynamic> toFormJson() {
+    var differenceList;
+    if(endDate != null && startDate!=null){
+      differenceList = DateDifferenceCalculator.calculateDifference(startDate!, endDate!);
+    }
+    return {
         "bankName": bankName,
         "description": description,
         "accountType": accountType,
@@ -135,5 +145,9 @@ class BankAccountMoreEntity extends GetSeeMoreResponse {
         "inceptionToDate": inceptionToDate,
         "asOfDate": asOfDate,
         "subType": subType,
+        "years": differenceList == null ? null : differenceList[0].toString(),
+        "months": differenceList == null ? null : differenceList[1].toString(),
+        "days": differenceList == null ? null : differenceList[2].toString(),
       };
+  }
 }

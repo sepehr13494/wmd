@@ -171,7 +171,7 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
               data: Theme.of(context).copyWith(),
               child: Builder(builder: (context) {
                 final Widget deleteWidget = DeleteAssetBaseWidget(
-                    name: "Other asset",
+                    name: AssetTypes.otherAsset,
                     realAssetName: widget.moreEntity != null
                         ? widget.moreEntity!.name
                         : "",

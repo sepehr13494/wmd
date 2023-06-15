@@ -141,7 +141,7 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
               data: Theme.of(context).copyWith(),
               child: Builder(builder: (context) {
                 final Widget deleteWidget = DeleteAssetBaseWidget(
-                    name: "Listed asset",
+                    name: AssetTypes.listedAsset,
                     realAssetName: widget.moreEntity != null
                         ? widget.moreEntity!.securityShortName
                         : "",

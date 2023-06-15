@@ -57,6 +57,9 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
     if (widget.edit) {
       accountType = widget.moreEntity!.toFormJson()["accountType"];
       startDateValue = widget.moreEntity!.toFormJson()["startDate"];
+      Future.delayed(const Duration(seconds: 1),(){
+        changeDate();
+      });
     }
     super.initState();
   }
@@ -117,7 +120,7 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
               data: Theme.of(context).copyWith(),
               child: Builder(builder: (context) {
                 final Widget deleteWidget = DeleteAssetBaseWidget(
-                    name: "Bank account",
+                    name: AssetTypes.bankAccount,
                     realAssetName: widget.moreEntity != null
                         ? widget.moreEntity!.bankName
                         : "",
