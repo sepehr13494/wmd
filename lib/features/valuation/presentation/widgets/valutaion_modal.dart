@@ -264,9 +264,16 @@ class ValuationModalWidget extends ModalWidget {
 
                   bool isAcquisitionDateAvailable = false;
                   bool isSavingOrCurrentBank = false;
+                  bool isListedQuantity = false;
 
                   try {
                     isAcquisitionDateAvailable = json?.acquisitionDate != null;
+                  } catch (e) {
+                    // Handle the exception if the variable is not available
+                  }
+
+                  try {
+                    isListedQuantity = json?.quantity != null;
                   } catch (e) {
                     // Handle the exception if the variable is not available
                   }
@@ -286,6 +293,11 @@ class ValuationModalWidget extends ModalWidget {
                   if (isSavingOrCurrentBank) {
                     formDataTemp['isSavingOrCurrentBank'] =
                         isSavingOrCurrentBank;
+                  }
+
+                  if (isListedQuantity) {
+                    final tempQuantity = json?.quantity as double;
+                    formDataTemp['assetQuantity'] = tempQuantity;
                   }
 
                   formDataTemp['isRealEstate'] =
