@@ -118,7 +118,9 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
           child: Scaffold(
             appBar: const AddAssetHeader(title: "", showExitModal: true),
             bottomSheet: AddAssetFooter(
-                buttonText: edit ? "Save Asset" : "Add asset",
+                buttonText: edit
+                    ? appLocalizations.common_button_save
+                    : appLocalizations.common_button_addAsset,
                 onTap: (edit && !enableAddAssetButtonEdit)
                     ? null
                     : () {
@@ -334,8 +336,8 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                                       CrossAxisAlignment
                                                                           .start,
                                                                   children: [
-                                                                    const Text(
-                                                                        "Security details"),
+                                                                    Text(appLocalizations
+                                                                        .assetLiabilityForms_forms_listedAssets_inputFields_securityDetails_label),
                                                                     const SizedBox(
                                                                         height:
                                                                             8),
@@ -654,8 +656,8 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                                       CrossAxisAlignment
                                                                           .start,
                                                                   children: [
-                                                                    const Text(
-                                                                        "Total cost"),
+                                                                    Text(appLocalizations
+                                                                        .assetLiabilityForms_forms_listedAssets_inputFields_totalCost_label),
                                                                     const SizedBox(
                                                                         height:
                                                                             8),
