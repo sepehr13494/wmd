@@ -67,7 +67,9 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
           child: Scaffold(
             appBar: const AddAssetHeader(title: "", showExitModal: true),
             bottomSheet: AddAssetFooter(
-                buttonText: edit ? "Save Asset" : "Add asset",
+                buttonText: edit
+                    ? appLocalizations.common_button_save
+                    : appLocalizations.common_button_addAsset,
                 onTap: (edit && !enableAddAssetButtonEdit)
                     ? null
                     : () {

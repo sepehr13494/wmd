@@ -65,7 +65,7 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
             appBar: const AddAssetHeader(title: "", showExitModal: true),
             bottomSheet: AddAssetFooter(
                 buttonText: edit
-                    ? "Save Asset"
+                    ? appLocalizations.common_button_save
                     : appLocalizations.common_button_addAsset,
                 onTap: (edit && !enableAddAssetButtonEdit)
                     ? null

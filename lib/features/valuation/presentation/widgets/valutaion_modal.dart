@@ -47,11 +47,16 @@ class ValuationModalWidget extends ModalWidget {
     showDialog(
       context: context,
       builder: (context) {
-        return const ValuationWarningModal(
-            title: "All changes will be discarded",
-            body: "This action cannot be undone",
-            confirmBtn: 'Discard changes',
-            cancelBtn: "Go back to form");
+        return ValuationWarningModal(
+          title: AppLocalizations.of(context)
+              .assets_valuationModal_edit_messages_discard,
+          body: AppLocalizations.of(context)
+              .assets_valuationModal_edit_messages_undone,
+          confirmBtn: AppLocalizations.of(context)
+              .assets_valuationModal_edit_buttons_discard,
+          cancelBtn: AppLocalizations.of(context)
+              .assets_valuationModal_edit_buttons_goBack,
+        );
       },
     ).then((isConfirm) {
       if (isConfirm != null && isConfirm == true) {
@@ -82,11 +87,15 @@ class ValuationModalWidget extends ModalWidget {
     showDialog(
       context: context,
       builder: (context) {
-        return const ValuationWarningModal(
-            title: "Save new data entry?",
-            body: "This action cannot be undone",
-            confirmBtn: 'Save',
-            cancelBtn: "Cancel");
+        return ValuationWarningModal(
+            title: AppLocalizations.of(context)
+                .assets_valuationModal_edit_messages_save,
+            body: AppLocalizations.of(context)
+                .assets_valuationModal_edit_messages_undone,
+            confirmBtn: AppLocalizations.of(context)
+                .assets_valuationModal_edit_buttons_save,
+            cancelBtn: AppLocalizations.of(context)
+                .assets_valuationModal_edit_buttons_cancel);
       },
     ).then((isConfirm) {
       if (isConfirm != null && isConfirm == true) {
@@ -105,10 +114,6 @@ class ValuationModalWidget extends ModalWidget {
     final responsiveHelper = ResponsiveHelper(context: context);
     final isMobile = responsiveHelper.isMobile;
 
-    debugPrint("enableAddAssetButton");
-    debugPrint("enableAddAssetButton");
-    debugPrint(enableAddAssetButton.toString());
-    debugPrint("enableAddAssetButton");
     // bool enableAddAssetButton = false;
 
     Map<String, dynamic> renderSubmitData(

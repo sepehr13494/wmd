@@ -452,11 +452,14 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                                 context: context,
                                 builder: (context) {
                                   return ValuationDeleteModal(
-                                    title:
-                                        "Are you sure you want to delete this entry?",
-                                    body: "This action cannot be undone",
-                                    confirmBtn: 'Delete',
-                                    cancelBtn: "Cancel",
+                                    title: AppLocalizations.of(context)
+                                        .assets_valuationModal_deleteTransactionHeading,
+                                    body: AppLocalizations.of(context)
+                                        .assets_valuationModal_deleteTransactionDescription,
+                                    confirmBtn: AppLocalizations.of(context)
+                                        .common_button_delete,
+                                    cancelBtn: AppLocalizations.of(context)
+                                        .common_button_cancel,
                                     valuationId: id,
                                     assetId: widget.assetId,
                                   );
