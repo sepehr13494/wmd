@@ -269,6 +269,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
                                 showErrorInput = false;
                                 resetTimer = true;
                                 resendCodeCount = resendCodeCount + 1;
+                                _otpExpired = false;
                               });
 
                               // ignore: invalid_use_of_protected_member

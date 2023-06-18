@@ -29,6 +29,7 @@ class _ListedEquityValuationFormWidgettState
   Map<String, dynamic>? lastValue;
   bool hasTimeLineSelected = false;
   DateTime? availableDateValue;
+  double? assetQuantity;
 
   String currentDayValue = "--";
   String? noOfUnits = "";
@@ -98,7 +99,7 @@ class _ListedEquityValuationFormWidgettState
 
     final noOfUnitsParsed = noOfUnits != null ? double.tryParse(noOfUnits!) : 0;
     final valuePerUnitParsed = valuePerUnit != null
-        ? int.tryParse(valuePerUnit!.toString().replaceAll(',', ''))
+        ? double.tryParse(valuePerUnit!.toString().replaceAll(',', ''))
         : 0;
 
     setState(() {
@@ -121,6 +122,12 @@ class _ListedEquityValuationFormWidgettState
         setState(() {
           lastValue = lastValue != null ? {...?lastValue, ...json} : json;
         });
+
+        if (json["assetQuantity"] != null) {
+          setState(() {
+            assetQuantity = json["assetQuantity"];
+          });
+        }
       } catch (e) {
         debugPrint("patchValue failed");
         debugPrint(e.toString());
@@ -203,9 +210,15 @@ class _ListedEquityValuationFormWidgettState
                   name: "quantity",
                   extraValidators: [
                     (val) {
-                      return ((int.tryParse(val ?? "0") ?? 0) <= 100)
+                      return ((double.tryParse(val ?? "0") ?? 0) <= 100)
                           ? null
                           : "${appLocalizations.assets_valuationModal_labels_noOfUnits} can't be greater then 100";
+                    },
+                    (val) {
+                      return ((double.tryParse(val ?? "0") ?? 0) <=
+                              (assetQuantity ?? 0))
+                          ? null
+                          : "${appLocalizations.assets_valuationModal_labels_noOfUnits} can't be greater then asset quantity";
                     }
                   ],
                   hint: appLocalizations
@@ -215,7 +228,7 @@ class _ListedEquityValuationFormWidgettState
               hasInfo: false,
               title: appLocalizations.assets_valuationModal_labels_costPerUnit,
               child: AppTextFields.simpleTextField(
-                  type: TextFieldType.money,
+                  type: TextFieldType.rate,
                   keyboardType: TextInputType.number,
                   onChanged: (val) {
                     setState(() {

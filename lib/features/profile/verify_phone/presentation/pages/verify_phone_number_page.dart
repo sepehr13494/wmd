@@ -194,7 +194,9 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                             )),
 
                         SizedBox(height: responsiveHelper.defaultGap),
-                        if (showError && (3 - failedAttampts > 0))
+                        if (showError &&
+                            (3 - failedAttampts > 0) &&
+                            !_otpExpired)
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 32),
                             child: Text(
@@ -207,7 +209,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                               textAlign: TextAlign.center,
                             ),
                           ),
-                        if (3 - failedAttampts <= 0)
+                        if (3 - failedAttampts <= 0 && !_otpExpired)
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 32),
                             child: Text(
@@ -218,7 +220,8 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                               textAlign: TextAlign.center,
                             ),
                           ),
-                        if (showError || (3 - failedAttampts <= 0))
+                        if (showError ||
+                            (3 - failedAttampts <= 0) && !_otpExpired)
                           const SizedBox(
                             height: 30,
                           ),
@@ -268,6 +271,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                                     showErrorInput = false;
                                     resetTimer = true;
                                     failedAttampts = 0;
+                                    _otpExpired = false;
                                   });
                                 })
                           ],
