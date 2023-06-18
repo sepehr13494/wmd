@@ -287,6 +287,7 @@ import 'features/add_assets/custodian_bank_auth/presentation/manager/custodian_b
 import 'features/add_assets/pam_login/data/data_sources/pam_login_remote_datasource.dart';
 import 'features/add_assets/pam_login/data/repositories/pam_login_repository_impl.dart';
 import 'features/add_assets/pam_login/domain/repositories/pam_login_repository.dart';
+import 'features/add_assets/pam_login/domain/use_cases/get_mandates_usecase.dart';
 import 'features/add_assets/tfo_login/data/data_sources/tfo_login_remote_datasource.dart';
 import 'features/add_assets/tfo_login/data/repositories/tfo_login_repository_impl.dart';
 import 'features/add_assets/tfo_login/domain/repositories/tfo_login_repository.dart';
@@ -775,10 +776,10 @@ Future<void> init(String env) async {
       () => TfoLoginRepositoryImpl(sl()));
   sl.registerLazySingleton<TfoLoginRemoteDataSource>(
       () => TfoLoginRemoteDataSourceImpl(sl()));
-      
+
   //PamLogin
   sl.registerFactory(() => PamLoginCubit(sl(), sl()));
-  sl.registerLazySingleton(() => GetMandatesUseCase(sl()));
+  sl.registerLazySingleton(() => GetPamMandatesUseCase(sl()));
   sl.registerLazySingleton(() => LoginPamAccountUseCase(sl()));
 
   sl.registerLazySingleton<PamLoginRepository>(
