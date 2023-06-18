@@ -74,7 +74,8 @@ void main() {
       setUp: () => when(mockDeleteMandateUseCase(any)).thenAnswer(
           (realInvocation) async =>
               Right(AppSuccess(message: "Successfully done"))),
-      act: (bloc) async => await bloc.deleteMandate(),
+      act: (bloc) async =>
+          await bloc.deleteMandate(DeleteMandateParams.tParams),
       expect: () => [
         isA<LoadingState>(),
         SuccessState(appSuccess: AppSuccess.tAppSuccess)
@@ -89,7 +90,8 @@ void main() {
       build: () => mandateStatusCubit,
       setUp: () => when(mockDeleteMandateUseCase(any)).thenAnswer(
           (realInvocation) async => const Left(ServerFailure.tServerFailure)),
-      act: (bloc) async => await bloc.deleteMandate(),
+      act: (bloc) async =>
+          await bloc.deleteMandate(DeleteMandateParams.tParams),
       expect: () => [
         isA<LoadingState>(),
         ErrorState(failure: ServerFailure.tServerFailure)
