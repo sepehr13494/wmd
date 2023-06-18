@@ -240,7 +240,8 @@ class GlobalFunctions {
         return ModalWidget(
             title: AppLocalizations.of(context).common_formExitModal_title,
             body: AppLocalizations.of(context).common_formExitModal_description,
-            confirmBtn: 'Exit',
+            confirmBtn: AppLocalizations.of(context)
+                .common_formExitModal_buttons_exitForm,
             cancelBtn: AppLocalizations.of(context).common_button_cancel);
       },
     ).then((isConfirm) {

@@ -307,7 +307,8 @@ class _RealEstateValuationFormWidgetState
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text("Total cost"),
+                      Text(appLocalizations
+                          .assets_valuationModal_labels_totalCost),
                       const SizedBox(height: 8),
                       Text(currentDayValue == "--"
                           ? currentDayValue

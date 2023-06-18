@@ -57,7 +57,7 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
     if (widget.edit) {
       accountType = widget.moreEntity!.toFormJson()["accountType"];
       startDateValue = widget.moreEntity!.toFormJson()["startDate"];
-      Future.delayed(const Duration(seconds: 1),(){
+      Future.delayed(const Duration(seconds: 1), () {
         changeDate();
       });
     }
@@ -92,8 +92,9 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
           child: Scaffold(
             appBar: const AddAssetHeader(title: "", showExitModal: true),
             bottomSheet: AddAssetFooter(
-              buttonText:
-                  edit ? "Save Asset" : appLocalizations.common_button_addAsset,
+              buttonText: edit
+                  ? appLocalizations.common_button_save
+                  : appLocalizations.common_button_addAsset,
               onTap: (edit && !enableAddAssetButtonEdit)
                   ? null
                   : () {
@@ -614,8 +615,8 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                                       EachTextField(
                                                                     hasInfo:
                                                                         false,
-                                                                    title:
-                                                                        "Years",
+                                                                    title: appLocalizations
+                                                                        .assetLiabilityForms_forms_bankAccount_inputFields_tenureYears_label,
                                                                     child: AppTextFields.simpleTextField(
                                                                         required: false,
                                                                         customInputFormatters: <TextInputFormatter>[
