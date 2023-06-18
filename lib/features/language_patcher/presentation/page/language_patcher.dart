@@ -27,7 +27,7 @@ class _LanguagePatcherState extends State<LanguagePatcher> {
           listener: BlocHelper.defaultBlocListener(listener: (context, state) {
         if (state is GetPreferenceLoaded) {
           ln = state.entity.language;
-          if (ln != null && initialLn != ln) {
+          if (ln != null && ln!.isNotEmpty && initialLn != ln) {
             context.read<LocalizationManager>().switchLanguage();
           }
         }
