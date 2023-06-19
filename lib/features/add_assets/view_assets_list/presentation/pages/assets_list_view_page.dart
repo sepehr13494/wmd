@@ -42,15 +42,16 @@ class AssetsListViewPage extends AppStatelessWidget {
           return AddAssetFooter(
               buttonText: state == null
                   ? appLocalizations.common_button_addAsset
-                  : (state as EachAssetModel).pageRoute ==
-                          AppRoutes.addLiability
+                  : (state is AddTabIndex && state.tabIndex == 1) ||
+                          (state as EachAssetModel).pageRoute ==
+                              AppRoutes.addLiability
                       ? appLocalizations.common_button_addLiability
                       : appLocalizations.common_button_addAsset,
-              onTap: state == null
-                  ? null
-                  : () {
-                      context.pushNamed((state as EachAssetModel).pageRoute);
-                    });
+              onTap: state is EachAssetModel
+                  ? () {
+                      context.pushNamed(state.pageRoute);
+                    }
+                  : null);
         }),
         body: Stack(
           children: [
@@ -133,6 +134,11 @@ class _AssetTabWrapperState extends AppState<AssetTabWrapper>
         context.read<AssetViewCubit>().selectCustodian();
       } else {
         context.read<AssetViewCubit>().empty();
+      }
+      // for liability tab selection
+      if (_tabController.index == 1) {
+        // debugPrint("awdadaw test 1");
+        context.read<AssetViewCubit>().selectTab(1);
       }
     });
   }
