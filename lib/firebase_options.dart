@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '332478051043',
     projectId: 'wmdproject-5cb71',
     storageBucket: 'wmdproject-5cb71.appspot.com',
-    iosClientId: '332478051043-e2vqllv5cu7dar76h2uel33jbntfvr7n.apps.googleusercontent.com',
+    iosClientId:
+        '332478051043-e2vqllv5cu7dar76h2uel33jbntfvr7n.apps.googleusercontent.com',
     iosBundleId: 'com.tfo.wmd',
   );
 }

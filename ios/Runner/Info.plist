@@ -76,7 +76,7 @@
             <string>auth0</string>
             <key>CFBundleURLSchemes</key>
             <array>
-                <string>com.tfo.wmd</string>
+                <string>com.aiop.aio</string>
             </array>
         </dict>
     </array>
