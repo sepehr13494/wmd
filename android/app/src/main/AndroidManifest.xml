@@ -99,6 +99,26 @@
                 <data android:scheme="https" android:host="allinoneplus.com" android:path="/password/update"/>
             </intent-filter>
         </activity>
+
+        <activity android:name="com.auth0.android.provider.RedirectActivity"
+            android:exported="true"
+            tools:node="replace">
+            <intent-filter android:autoVerify="true"
+                        tools:targetApi="m">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:host="tfo-uat.eu.auth0.com"
+                    android:pathPrefix="/android/com.tfo.wmd/callback"
+                    android:scheme="https" />
+                <data android:host="tfo-uat.eu.auth0.com"
+                    android:pathPrefix="/android/com.tfo.wmd/callback"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+
             <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->        
              <meta-data
