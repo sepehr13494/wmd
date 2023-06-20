@@ -27,7 +27,7 @@ class PamLoginCubit extends Cubit<PamLoginState> {
     });
   }
 
-  loginTfoAccount() async {
+  loginPamAccount() async {
     emit(LoadingState());
     final result = await loginPamAccountUseCase(LoginPamAccountParams());
     result.fold((failure) => emit(ErrorState(failure: failure)), (appSuccess) {
