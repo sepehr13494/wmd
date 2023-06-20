@@ -11,6 +11,7 @@ import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/util/loading/loading_screen.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/manager/forget_password_cubit.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
 import 'package:wmd/injection_container.dart';
@@ -27,14 +28,23 @@ class ForgetPasswordPage extends AppStatelessWidget {
       child: Scaffold(
         appBar: const CustomAuthAppBar(),
         body: BlocListener<ForgetPasswordCubit, BaseState>(
-          listener: BlocHelper.defaultBlocListener(listener: (context, state) {
+          listener: (context, state) {
             if (state is SuccessState) {
+              LoadingOverlay().hide();
               context.goNamed(AppRoutes.verifyEmail, queryParams: {
                 "email": formKey.currentState!.instantValue["emailOrUserName"],
                 "forgotPassword": "true"
               });
+            } else if (state is ErrorState) {
+              LoadingOverlay().hide();
+              context.goNamed(AppRoutes.verifyEmail, queryParams: {
+                "email": formKey.currentState!.instantValue["emailOrUserName"],
+                "forgotPassword": "true"
+              });
+            } else if (state is ForgetPasswordLoading) {
+              LoadingOverlay().show(context: context, text: "");
             }
-          }),
+          },
           child: Builder(builder: (context) {
             return WidthLimiterWidget(
               child: SingleChildScrollView(
