@@ -49,7 +49,7 @@ class AddBankManualPage extends BaseAddAssetStatefulWidget {
 class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
   String date = "--/--/--";
   String? accountType;
-  String endDateToParse = "";
+  DateTime? endDateToParse;
   DateTime? startDateValue;
 
   @override
@@ -102,11 +102,9 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                         Map<String, dynamic> finalMap = {
                           ...formKey.currentState!.instantValue,
                         };
-
-                        if (isDepositTerm && endDateToParse.isDate()) {
+                        if (isDepositTerm && endDateToParse != null) {
                           finalMap["endDate"] = endDateToParse;
                         }
-
                         if (edit) {
                           context.read<EditBankManualCubit>().putBankManual(
                               map: finalMap, assetId: widget.moreEntity!.id);
@@ -805,8 +803,7 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
         startDate =
             DateTime(startDate.year + year, startDate.month, startDate.day);
         date = "${startDate.day}/${startDate.month}/${startDate.year}";
-        endDateToParse =
-            "${startDate.year}-${startDate.month}-${startDate.day}";
+        endDateToParse = startDate;
       });
     }
   }

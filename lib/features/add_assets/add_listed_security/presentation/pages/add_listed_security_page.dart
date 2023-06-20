@@ -75,11 +75,12 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
       return;
     }
 
-    final noOfUnitsParsed = noOfUnits != null ? int.tryParse(noOfUnits!) : 0;
+
+    final noOfUnitsParsed = noOfUnits != null ? int.tryParse(noOfUnits!.toString().replaceAll(',', '')) : 0;
+    print(noOfUnitsParsed);
     final valuePerUnitParsed = valuePerUnit != null
         ? int.tryParse(valuePerUnit!.toString().replaceAll(',', ''))
         : 0;
-
     setState(() {
       currentDayValue = NumberFormat("#,##0", "en_US")
           .format(noOfUnitsParsed! * valuePerUnitParsed!);
@@ -200,25 +201,32 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                     if (edit && state.entity.isNotEmpty) {
                                       final formJson = widget.moreEntity!
                                           .toFormJson(state.entity.first);
-                                      securityName = formJson["name"];
-                                      noOfUnits = formJson["quantity"];
-                                      valuePerUnit = formJson["marketValue"];
-                                      isFixedIncome = securityName?.category ==
-                                          "FixedIncome";
-                                      isDisableCurrency = true;
-                                      isDisableCategory = true;
-                                      calculateCurrentValue();
+                                      try{
+                                        securityName = formJson["name"];
+                                        noOfUnits = formJson["quantity"];
+                                        valuePerUnit = formJson["marketValue"];
+                                        if(securityName != null){
+                                          isFixedIncome = securityName!.category ==
+                                              "FixedIncome";
+                                        }
+                                        isDisableCurrency = true;
+                                        isDisableCategory = true;
+                                      }catch (e){
+                                        debugPrint("errrrrr");
+                                        debugPrint(e.toString());
+                                      }
                                       Future.delayed(
                                           const Duration(milliseconds: 500),
                                           () {
+                                            calculateCurrentValue();
                                         starterJson =
                                             formKey.currentState!.instantValue;
+
                                       });
                                     }
                                   }
                                 }),
                                 builder: (context, state) {
-                                  print(state);
                                   return state is MarketDataSuccess
                                       ? (state.entity.isEmpty && edit)
                                           ? const NoDataWidget()
