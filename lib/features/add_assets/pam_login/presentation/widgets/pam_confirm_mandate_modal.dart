@@ -25,7 +25,8 @@ Future<bool> showPamConfirmMandateModal({required BuildContext context}) async {
             ),
             const SizedBox(height: 16),
             Text(
-              'Please review and confirm the mandates you want to integrate below, then click "Confirm". Data will be fetched within the next 1-2 working days.',
+              appLocalizations
+                  .common_linkTFO_modal_multipleMandates_description,
               style: textTheme.bodySmall,
               textAlign: TextAlign.center,
             ),

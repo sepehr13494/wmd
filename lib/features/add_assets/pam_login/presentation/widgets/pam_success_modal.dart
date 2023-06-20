@@ -25,7 +25,7 @@ Future<bool> showPamSuccessModal({required BuildContext context}) async {
             ),
             const SizedBox(height: 16),
             Text(
-              'Data will be fetched within the next 1-2 working days. You will be notified via email about the successful data synchronization.',
+              appLocalizations.common_linkTFO_modal_oneMandate_description,
               style: textTheme.bodySmall,
               textAlign: TextAlign.center,
             ),
