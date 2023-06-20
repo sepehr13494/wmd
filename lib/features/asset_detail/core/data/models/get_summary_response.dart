@@ -14,6 +14,7 @@ class AssetSummaryResponse extends AssetSummaryEntitiy {
     required super.unRealizedProfitLoss,
     required super.totalAssetsAmount,
     required super.isManuallyAdded,
+    required super.totalQuantity,
   });
 
   factory AssetSummaryResponse.fromJson(Map<String, dynamic> json) =>
@@ -30,5 +31,6 @@ class AssetSummaryResponse extends AssetSummaryEntitiy {
         unRealizedProfitLoss: json["unRealizedProfitLoss"] ?? 0,
         totalAssetsAmount: json["totalAssetsAmount"],
         isManuallyAdded: json["isManuallyAdded"],
+        totalQuantity: json["totalQuantity"] ?? 0,
       );
 }
