@@ -113,7 +113,7 @@
                 <data android:host="tfo-uat.eu.auth0.com"
                     android:pathPrefix="/android/com.tfo.wmd/callback"
                     android:scheme="https" />
-                <data android:host="tfo-uat.eu.auth0.com"
+                <data android:host="pam-uat.eu.auth0.com"
                     android:pathPrefix="/android/com.tfo.wmd/callback"
                     android:scheme="https" />
             </intent-filter>

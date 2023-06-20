@@ -34,8 +34,8 @@ class PamLoginRepositoryImpl implements PamLoginRepository {
   Future<Either<Failure, AppSuccess>> loginPamAccount(
       LoginPamAccountParams params) async {
     try {
-      final auth0 =
-          Auth0(AppConstants.auth0IssuerBaseUrl, AppConstants.auth0ClientId);
+      final auth0 = Auth0(
+          AppConstants.pamAuth0IssuerBaseUrl, AppConstants.pamAuth0ClientId);
       final Credentials credentials = await auth0.webAuthentication().login();
       final result = await remoteDataSource.loginTfoAccount(params);
       return const Right(AppSuccess(message: "successfully done"));
