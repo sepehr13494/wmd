@@ -19,7 +19,7 @@ Future<bool> showPamConfirmMandateModal({required BuildContext context}) async {
             const Icon(Icons.check_circle, color: AppColors.green),
             const SizedBox(height: 16),
             Text(
-              'Your TFO account has been successfully linked',
+              appLocalizations.common_linkPAM_modal_oneMandate_title,
               style: textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
