@@ -14,7 +14,7 @@ class ForgetPasswordCubit extends Cubit<BaseState> {
       : super(BaseInitialState());
 
   forgetPassword({required Map<String, dynamic> map}) async {
-    emit(LoadingState());
+    emit(ForgetPasswordLoading());
 
     final verifyEmailParams = ForgetPasswordParams.fromJson(map);
     final result = await forgetPasswordUseCase(verifyEmailParams);

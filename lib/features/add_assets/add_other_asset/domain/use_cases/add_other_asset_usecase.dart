@@ -115,8 +115,8 @@ class AddOtherAssetParams extends Equatable {
         "currencyCode": currencyCode,
         "units": units,
         "acquisitionCost": acquisitionCost,
-        "acquisitionDate": acquisitionDate?.toUtc().toIso8601String(),
-        "valuationDate": valuationDate?.toUtc().toIso8601String(),
+        "acquisitionDate": acquisitionDate?.toIso8601String(),
+        "valuationDate": valuationDate?.toIso8601String(),
         "ownerShip": ownerShip,
         "valuePerUnit": valuePerUnit,
         "currentDayValue": currentDayValue == 0 ? null : currentDayValue
