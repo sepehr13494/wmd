@@ -846,7 +846,7 @@ class _RadioButtontate<T> extends AppState<RadioButton> {
                 onChanged: (value) {
                   // String paymentMethod = value.toString();
                   // paymentViewModel.setPaymentMethod(paymentMethod);
-
+                  if (widget.onChange != null) widget.onChange!(value);
                   debugPrint(value.toString());
                 },
                 initialValue: widget.initialValue,
