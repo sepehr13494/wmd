@@ -26,7 +26,7 @@ void main() {
   setUp(() {
     mockGetAssetsOverviewUseCase = MockGetAssetsOverviewUseCase();
     assetsOverviewCubit =
-        AssetsOverviewCubit(mockGetAssetsOverviewUseCase);
+        AssetsOverviewCubit(mockGetAssetsOverviewUseCase,"");
   });
 
 

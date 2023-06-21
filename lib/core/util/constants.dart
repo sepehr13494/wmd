@@ -13,8 +13,10 @@ class AppConstants {
   static const String contactEmail = "developer@allinoneplus.com";
   // developMode ? "developer@allinoneplus.com" : "n.albasri@tfoco.com";
 
-  static String auth0IssuerBaseUrl = dotenv.env['AUTH0_ISSUER_BASE_URL']!;
-  static String auth0ClientId = dotenv.env['AUTH0_CLIENT_ID']!;
+  static String tfoAuth0IssuerBaseUrl = dotenv.env['TFO_AUTH0_ISSUER_BASE_URL']!;
+  static String tfoAuth0ClientId = dotenv.env['TFO_AUTH0_CLIENT_ID']!;
+  static String pamAuth0IssuerBaseUrl = dotenv.env['PAM_AUTH0_ISSUER_BASE_URL']!;
+  static String pamAuth0ClientId = dotenv.env['PAM_AUTH0_CLIENT_ID']!;
 
   static String getCertificate(env) {
     switch (env) {

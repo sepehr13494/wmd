@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
@@ -34,9 +36,10 @@ class TfoLoginRepositoryImpl implements TfoLoginRepository {
   Future<Either<Failure, AppSuccess>> loginTfoAccount(
       LoginTfoAccountParams params) async {
     try {
-      final auth0 =
-          Auth0(AppConstants.auth0IssuerBaseUrl, AppConstants.auth0ClientId);
+      final auth0 = Auth0(
+          AppConstants.tfoAuth0IssuerBaseUrl, AppConstants.tfoAuth0ClientId);
       final Credentials credentials = await auth0.webAuthentication().login();
+      log('Mert log $credentials');
       final result = await remoteDataSource.loginTfoAccount(params);
       return const Right(AppSuccess(message: "successfully done"));
     } on ServerException catch (error) {

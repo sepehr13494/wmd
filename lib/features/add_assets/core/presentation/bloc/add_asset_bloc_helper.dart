@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
+import 'package:wmd/core/presentation/routes/app_router.dart';
 import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_base_state.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal_onboarding.dart';
@@ -22,13 +23,13 @@ class AssetBlocHelper extends BlocHelper {
       listener: (context, state) {
         final appLocalizations = AppLocalizations.of(context);
         if (state is AddAssetState) {
-          context.read<MainDashboardCubit>().initPage();
+          /*context.read<MainDashboardCubit>().initPage();
           context.read<AssetsOverviewCubit>().initPage();
           context.read<DashboardAllocationCubit>().getAllocation(
               dateTime: context.read<MainDashboardCubit>().dateTimeRange);
           context.read<DashboardGoeCubit>().getGeographic();
-          context.read<DashboardPieCubit>().getPie();
-
+          context.read<DashboardPieCubit>().getPie();*/
+          AppRouter().setMainRefreshKey();
           final successValue = state.addAsset;
           showDialog(
             context: context,
@@ -50,7 +51,8 @@ class AssetBlocHelper extends BlocHelper {
                 return SuccessModalWidget(
                   assetId: successValue.id,
                   assetType: assetType,
-                  title: '$asset is successfully added to wealth overview',
+                  title: appLocalizations.common_formSuccessModal_title
+                      .replaceAll('{{assetType}}', asset),
                   confirmBtn: appLocalizations
                       .common_formSuccessModal_buttons_viewAsset,
                   cancelBtn:

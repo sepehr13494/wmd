@@ -19,13 +19,14 @@ Future<bool> showTfoConfirmMandateModal({required BuildContext context}) async {
             const Icon(Icons.check_circle, color: AppColors.green),
             const SizedBox(height: 16),
             Text(
-              'Your TFO account has been successfully linked',
+              appLocalizations.common_linkTFO_modal_multipleMandates_title,
               style: textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
             Text(
-              'Please review and confirm the mandates you want to integrate below, then click "Confirm". Data will be fetched within the next 1-2 working days.',
+              appLocalizations
+                  .common_linkTFO_modal_multipleMandates_description,
               style: textTheme.bodySmall,
               textAlign: TextAlign.center,
             ),

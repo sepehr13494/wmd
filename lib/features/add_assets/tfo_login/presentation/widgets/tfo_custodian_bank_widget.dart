@@ -9,7 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/features/add_assets/tfo_login/presentation/widgets/tfo_confirm_mandate_modal.dart';
-import 'package:wmd/features/add_assets/tfo_login/presentation/widgets/tfo_initial_modal.dart';
+import 'package:wmd/features/add_assets/tfo_login/presentation/widgets/initial_modal.dart';
 import 'package:wmd/features/add_assets/tfo_login/presentation/widgets/tfo_success_modal.dart';
 import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
@@ -71,8 +71,11 @@ class TfoCustodianBankWidget extends AppStatelessWidget {
                                         'The Office Family custodian'),
                                     params: AnalyticsUtils.linkBankEvent(
                                         'The Office Family custodian'));
-                                final result =
-                                    await showTfoInitialModal(context: context);
+                                final result = await showInitialModal(
+                                  context: context,
+                                  title:
+                                      'Do you want to load you existing TFO portfolio?',
+                                );
                                 if (result) {
                                   // ignore: use_build_context_synchronously
                                   context

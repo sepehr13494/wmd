@@ -9,8 +9,11 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_blur_warning.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/charts_height_inherited.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/charts_height_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
@@ -172,10 +175,31 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                                         ),
                                                         if (isAssetsNotEmpty ||
                                                             isLiabilityNotEmpty)
-                                                          SummeryWidget(
-                                                              netWorthEntity:
-                                                                  dashboardState
-                                                                      .netWorthObj),
+                                                          BlocBuilder<
+                                                                  DashboardPieCubit,
+                                                                  DashboardChartsState>(
+                                                              builder: (context,
+                                                                  state) {
+                                                            bool
+                                                                isBankNotEmpty =
+                                                                false;
+                                                            if (state
+                                                                is GetPieLoaded) {
+                                                              isBankNotEmpty = state
+                                                                  .getPieEntity
+                                                                  .where((e) =>
+                                                                      e.name ==
+                                                                      AssetTypes
+                                                                          .bankAccount)
+                                                                  .isNotEmpty;
+                                                            }
+                                                            return SummeryWidget(
+                                                                netWorthEntity:
+                                                                    dashboardState
+                                                                        .netWorthObj,
+                                                                isBankNotEmpty:
+                                                                    isBankNotEmpty);
+                                                          }),
                                                         const NetWorthBaseChart(),
                                                         const SizedBox(
                                                             height: 8),
