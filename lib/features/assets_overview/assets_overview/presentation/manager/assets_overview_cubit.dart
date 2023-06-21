@@ -21,26 +21,14 @@ class AssetsOverviewCubit extends Cubit<AssetsOverviewState> {
 
   getAssetsOverview() async {
     emit(LoadingState());
-    List<AssetsOverviewEntity> assetOverViewsOverall = [];
-    sortAndAdd(List<AssetsOverviewEntity> entities){
-      assetOverViewsOverall.addAll(entities);
-      assetOverViewsOverall.sort((a, b) {
+    final result = await assetsOverviewUseCase(AssetsOverviewParams());
+    result.fold((failure) => emit(ErrorState(failure: failure)),
+        (assetsOverviews) {
+      assetsOverviews.sort((a, b) {
         return (b.totalAmount - a.totalAmount).toInt();
       },);
-      emit(AssetsOverviewLoaded(assetsOverviews: assetOverViewsOverall));
-    }
-    List<String> types = [
-      "BankAccount",
-      //"ListedAssetEquity",
-    ];
-    for (var element in types) {
-      assetsOverviewUseCase(AssetsOverviewParams(type: element)).then((result) {
-        result.fold((failure) => emit(ErrorState(failure: failure)),
-                (assetsOverviews) {
-              sortAndAdd(assetsOverviews);
-            });
-      });
-    }
+      emit(AssetsOverviewLoaded(assetsOverviews: assetsOverviews));
+    });
 
 
   }
