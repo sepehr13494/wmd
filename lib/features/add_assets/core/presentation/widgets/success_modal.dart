@@ -124,7 +124,8 @@ class SuccessModalWidget extends ModalWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Net Worth',
+                                    appLocalizations
+                                        .common_formSuccessModal_netWorth,
                                     textAlign: TextAlign.center,
                                     style: appTextTheme.bodyMedium,
                                   ),
@@ -180,7 +181,7 @@ class SuccessModalWidget extends ModalWidget {
                                   "${appLocalizations.common_help_needSupport} ",
                               style: appTextTheme.titleMedium),
                           TextSpan(
-                            text: "Get in touch",
+                            text: appLocalizations.common_help_link_support,
                             style: appTextTheme.titleMedium!
                                 .toLinkStyleSecondary(context),
                             recognizer: TapGestureRecognizer()

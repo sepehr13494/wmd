@@ -50,7 +50,8 @@ class AssetBlocHelper extends BlocHelper {
                 return SuccessModalWidget(
                   assetId: successValue.id,
                   assetType: assetType,
-                  title: '$asset is successfully added to wealth overview',
+                  title: appLocalizations.common_formSuccessModal_title
+                      .replaceAll('{{assetName}}', asset),
                   confirmBtn: appLocalizations
                       .common_formSuccessModal_buttons_viewAsset,
                   cancelBtn:
