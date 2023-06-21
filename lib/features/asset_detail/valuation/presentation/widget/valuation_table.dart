@@ -23,12 +23,14 @@ class ValuationWidget extends AppStatelessWidget {
   final String assetId;
   final String assetType;
   final bool isManuallyAdded;
+  final double totalQuantity;
   final Function updateHoldings;
   const ValuationWidget({
     Key? key,
     required this.assetId,
     required this.assetType,
     required this.isManuallyAdded,
+    required this.totalQuantity,
     required this.updateHoldings,
   }) : super(key: key);
 
@@ -36,8 +38,9 @@ class ValuationWidget extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
 
-    debugPrint("assetId");
-    debugPrint(assetId);
+    debugPrint("totalQuantity");
+    debugPrint(totalQuantity.toString());
+    debugPrint((totalQuantity > 0).toString());
     debugPrint(assetType);
 
     return Padding(
@@ -58,7 +61,9 @@ class ValuationWidget extends AppStatelessWidget {
                           appLocalizations.assets_label_valuation,
                           style: textTheme.bodyLarge,
                         ),
-                        if ((AppConstants.publicMvp2Items && isManuallyAdded) ||
+                        if ((AppConstants.publicMvp2Items &&
+                                isManuallyAdded &&
+                                totalQuantity > 0.0) ||
                             assetType == AssetTypes.loanLiability)
                           TextButton(
                               onPressed: () {
@@ -92,6 +97,7 @@ class ValuationWidget extends AppStatelessWidget {
                               ))
                       ],
                     ),
+                    const SizedBox(height: 8),
                     Text(
                       appLocalizations.assets_label_keepNetWorth,
                       style: textTheme.bodyMedium,
@@ -106,6 +112,7 @@ class ValuationWidget extends AppStatelessWidget {
                         assetType: assetType,
                         assetId: assetId,
                         isManuallyAdded: isManuallyAdded,
+                        totalQuantity: totalQuantity,
                         updateHoldings: updateHoldings,
                       )
 
@@ -126,12 +133,14 @@ class ValuationTableWidget extends StatefulWidget {
     required this.assetId,
     required this.assetType,
     required this.isManuallyAdded,
+    required this.totalQuantity,
     required this.updateHoldings,
   });
   final List<GetAllValuationEntity> getAllValuationEntities;
   final String assetId;
   final String assetType;
   final bool isManuallyAdded;
+  final double totalQuantity;
   final Function updateHoldings;
 
   @override
@@ -172,6 +181,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                     isSystemGenerated: e.isSystemGenerated,
                     index: index,
                     id: e.id,
+                    isLast: e.isLast,
                   );
                 }),
             ],
@@ -225,6 +235,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                 isSystemGenerated: e.isSystemGenerated,
                 index: index,
                 id: e.id,
+                isLast: e.isLast,
               );
             }),
         ],
@@ -288,7 +299,9 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
           ),
         ),
         if (AppConstants.publicMvp2Items) const SizedBox.shrink(),
-        if (AppConstants.publicMvp2Items && widget.isManuallyAdded)
+        if (AppConstants.publicMvp2Items &&
+            widget.isManuallyAdded &&
+            widget.totalQuantity > 0)
           Padding(
             padding: padding,
             child: Text(
@@ -311,6 +324,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
     required bool isSystemGenerated,
     required int index,
     required String id,
+    required bool isLast,
   }) {
     final textTheme = Theme.of(context).textTheme;
     return TableRow(
@@ -366,12 +380,14 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
         if (AppConstants.publicMvp2Items &&
             widget.isManuallyAdded &&
             // widget.assetType == AssetTypes.bankAccount &&
-            index == 0)
+            isLast &&
+            widget.totalQuantity > 0)
           renderPopupMenu(context, id),
         if (AppConstants.publicMvp2Items &&
             widget.isManuallyAdded &&
             // widget.assetType == AssetTypes.bankAccount &&
-            index != 0)
+            !isLast &&
+            widget.totalQuantity > 0)
           Text(
             "",
             style: textTheme.bodySmall,

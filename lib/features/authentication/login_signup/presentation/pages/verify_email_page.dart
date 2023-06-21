@@ -99,22 +99,7 @@ class VerifyEmailPage extends AppStatelessWidget {
                               ? TextSpan(children: [
                                   TextSpan(
                                     text: appLocalizations
-                                        .auth_forgot_emailSentSuccess_subheading_mobile
-                                        .split('%s')
-                                        .first,
-                                    style: textTheme.bodyMedium!
-                                        .copyWith(height: 1.3, fontSize: 14),
-                                  ),
-                                  TextSpan(
-                                    text: verifyMap["email"],
-                                    style: textTheme.bodyLarge!.copyWith(
-                                      height: 1.3,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: appLocalizations
-                                        .auth_forgot_emailSentSuccess_subheading_mobile
-                                        .split('%s')[1],
+                                        .auth_forgot_emailSentSuccess_subheading_0,
                                     style: textTheme.bodyMedium!
                                         .copyWith(height: 1.3, fontSize: 14),
                                   ),

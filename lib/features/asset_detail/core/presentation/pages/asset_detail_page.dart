@@ -235,7 +235,13 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                                     (assetSummeryState is AssetLoaded)
                                         ? assetSummeryState
                                             .assetSummaryEntity.isManuallyAdded
-                                        : false),
+                                        : false,
+                                totalQuantity:
+                                    // true
+                                    (assetSummeryState is AssetLoaded)
+                                        ? assetSummeryState
+                                            .assetSummaryEntity.totalQuantity
+                                        : 0),
                             SizedBox(height: responsiveHelper.biggerGap),
                           ],
                         ),
