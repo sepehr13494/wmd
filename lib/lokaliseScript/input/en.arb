@@ -582,7 +582,7 @@
     "manage:assetAndLiability.assetAndLiabilityList.realEstate.title": "Real estate",
     "manage:assetAndLiability.assetAndLiabilityList.realEstate.description": "Investment in a residential, commercial or land real estate.",
     "manage:assetAndLiability.assetAndLiabilityList.listedAssets.title": "Listed assets",
-    "manage:assetAndLiability.assetAndLiabilityList.listedAssets.description": "Investment in stocks, bonds, ETFs or mutual funds.",
+    "manage:assetAndLiability.assetAndLiabilityList.listedAssets.description": "Investment in stocks.",
     "manage:assetAndLiability.assetAndLiabilityList.privateEquity.title": "Private equity",
     "manage:assetAndLiability.assetAndLiabilityList.privateEquity.description": "Investment in a company that is not publicly listed or traded.",
     "manage:assetAndLiability.assetAndLiabilityList.privateDebt.title": "Private debt",
@@ -1599,8 +1599,8 @@
     "common:linkTFO.modal.oneMandate.description": "Data will be fetched within the next 1-2 working days. You will be notified via email about the successful data synchronization.",
     "common:linkTFO.modal.multipleMandates.title": "Your TFO account has been successfully linked",
     "common:linkTFO.modal.multipleMandates.description": "Please review and confirm the mandates you want to integrate below, then click \"Confirm\". Data will be fetched within the next 1-2 working days.",
-    "common:linkTFO.toast.noMandates.title": "Problem with linking your account",
-    "common:linkTFO.toast.noMandates.description": "Please contact our customer support",
+    "common:linkTFO.toast.noMandates.title": "No mandates found",
+    "common:linkTFO.toast.noMandates.description": "Please contact your financial advisor to add mandates",
     "common:linkTFO.toast.success.title": "Mandates successfully linked",
     "common:linkTFO.toast.success.description": "Data will be fetched within the next 1-2 working days.",
     "common:linkTFO.error.alteastOneMandate": "Please select at least one mandate",
@@ -2609,5 +2609,9 @@
     "assets:valuationModal.success.add": "Valuation added",
     "assets:valuationModal.success.edit": "Valuation updated",
     "assets:valuationModal.success.delete": "Valuation deleted",
-    "common:linkPAM.modal.oneMandate.title": "Your PAM account has been successfully linked"
+    "common:linkPAM.modal.oneMandate.title": "Your PAM account has been successfully linked",
+    "common:linkPAM.text.pam": "Petiole Asset Management",
+    "common:linkPAM.text.mandateId": "Mandate Id#",
+    "common:linkPAM.modal.multipleMandates.title": "Your PAM account has been successfully linked",
+    "assets:tooltip.bankAccountException": "The gain or loss in the given period (excludes the bank account balance changes)"
 }

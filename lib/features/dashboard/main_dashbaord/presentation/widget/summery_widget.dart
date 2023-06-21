@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/text_with_info.dart';
+import 'package:wmd/core/presentation/widgets/tooltip_bank_exception.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
@@ -18,7 +19,8 @@ import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart
 
 class SummeryWidget extends StatefulWidget {
   final NetWorthEntity netWorthEntity;
-  const SummeryWidget({Key? key, required this.netWorthEntity})
+  final bool isBankNotEmpty;
+  const SummeryWidget({Key? key, required this.netWorthEntity, this.isBankNotEmpty = false})
       : super(key: key);
 
   @override
@@ -131,10 +133,13 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
                           fit: BoxFit.scaleDown,
                           child: Row(
                             children: [
-                              Text(
-                                item[2],
-                                style: textTheme.bodySmall!.apply(
-                                    color: AppColors.dashBoardGreyTextColor),
+                              BankTooltip(
+                                child: Text(
+                                  item[2],
+                                  style: textTheme.bodySmall!.apply(
+                                      color: AppColors.dashBoardGreyTextColor),
+                                ),
+                                showTooltip: index < 2 && widget.isBankNotEmpty,
                               ),
                               const SizedBox(width: 8),
                               PrivacyBlurWidget(

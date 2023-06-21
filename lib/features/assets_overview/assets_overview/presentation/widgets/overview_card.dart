@@ -7,9 +7,12 @@ import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/presentation/widgets/tooltip_bank_exception.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/as_of_date_widget.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 
 import 'ytd_itd_widget.dart';
@@ -94,11 +97,25 @@ class OverViewCard extends AppStatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              appLocalizations.assets_label_netChange,
-                              style: textTheme.titleSmall
-                                  ?.apply(fontSizeDelta: 1.28),
-                            ),
+                            BlocBuilder<DashboardPieCubit,
+                                    DashboardChartsState>(
+                                builder: (context, state) {
+                              bool isBankNotEmpty = false;
+                              if (state is GetPieLoaded) {
+                                isBankNotEmpty = state.getPieEntity
+                                    .where(
+                                        (e) => e.name == AssetTypes.bankAccount)
+                                    .isNotEmpty;
+                              }
+                              return BankTooltip(
+                                showTooltip: isBankNotEmpty,
+                                child: Text(
+                                  appLocalizations.assets_label_netChange,
+                                  style: textTheme.titleSmall
+                                      ?.apply(fontSizeDelta: 1.28),
+                                ),
+                              );
+                            }),
                             SizedBox(height: responsiveHelper.bigger16Gap),
                             RowOrColumn(
                               showRow: !isMobile,
