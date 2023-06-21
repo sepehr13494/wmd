@@ -582,7 +582,7 @@
     "manage:assetAndLiability.assetAndLiabilityList.realEstate.title": "عقار",
     "manage:assetAndLiability.assetAndLiabilityList.realEstate.description": "استثمار في عقار سكني أو تجاري أو في أرض.",
     "manage:assetAndLiability.assetAndLiabilityList.listedAssets.title": "أصول مدرجة",
-    "manage:assetAndLiability.assetAndLiabilityList.listedAssets.description": "استثمار في أسهم أو سندات أو صناديق استثمارية متداولة في البورصة أو صناديق استثمارية مشتركة.",
+    "manage:assetAndLiability.assetAndLiabilityList.listedAssets.description": "استثمار في الأسهم.",
     "manage:assetAndLiability.assetAndLiabilityList.privateEquity.title": "أسهم خاصة",
     "manage:assetAndLiability.assetAndLiabilityList.privateEquity.description": "استثمار في شركة غير مدرجة أو متداولة في البورصة.",
     "manage:assetAndLiability.assetAndLiabilityList.privateDebt.title": "ائتمان خاص",
@@ -2609,5 +2609,9 @@
     "assets:valuationModal.success.add": "",
     "assets:valuationModal.success.edit": "",
     "assets:valuationModal.success.delete": "",
-    "common:linkPAM.modal.oneMandate.title": ""
+    "common:linkPAM.modal.oneMandate.title": "",
+    "common:linkPAM.text.pam": "",
+    "common:linkPAM.text.mandateId": "",
+    "common:linkPAM.modal.multipleMandates.title": "",
+    "assets:tooltip.bankAccountException": ""
 }
