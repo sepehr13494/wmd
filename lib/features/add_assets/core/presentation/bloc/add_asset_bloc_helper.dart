@@ -51,7 +51,7 @@ class AssetBlocHelper extends BlocHelper {
                   assetId: successValue.id,
                   assetType: assetType,
                   title: appLocalizations.common_formSuccessModal_title
-                      .replaceAll('{{assetName}}', asset),
+                      .replaceAll('{{assetType}}', asset),
                   confirmBtn: appLocalizations
                       .common_formSuccessModal_buttons_viewAsset,
                   cancelBtn:
