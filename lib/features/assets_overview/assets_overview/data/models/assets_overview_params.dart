@@ -2,9 +2,9 @@ import 'package:equatable/equatable.dart';
 
 class AssetsOverviewParams extends Equatable{
 
-  final String type;
+  final String? type;
 
-  const AssetsOverviewParams({required this.type});
+  const AssetsOverviewParams({this.type});
 
   static const tParams = AssetsOverviewParams(type: "TestType");
 
