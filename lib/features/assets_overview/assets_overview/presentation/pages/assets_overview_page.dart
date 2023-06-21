@@ -15,7 +15,6 @@ import 'package:wmd/features/assets_overview/assets_geography_chart/presentation
 import 'package:wmd/features/assets_overview/assets_overview/domain/entities/assets_overview_entity.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/chart_chooser_manager.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_manager.dart';
-import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_manager.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/chart_chooser.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 import 'package:wmd/features/assets_overview/core/presentataion/models/assets_overview_base_widget_model.dart';
