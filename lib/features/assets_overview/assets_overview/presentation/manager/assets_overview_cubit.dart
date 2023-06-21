@@ -11,7 +11,8 @@ part 'assets_overview_state.dart';
 
 class AssetsOverviewCubit extends Cubit<AssetsOverviewState> {
   final GetAssetsOverviewUseCase assetsOverviewUseCase;
-  AssetsOverviewCubit(this.assetsOverviewUseCase) : super(LoadingState());
+  final String type;
+  AssetsOverviewCubit(this.assetsOverviewUseCase, this.type) : super(LoadingState());
 
 
 
@@ -21,15 +22,48 @@ class AssetsOverviewCubit extends Cubit<AssetsOverviewState> {
 
   getAssetsOverview() async {
     emit(LoadingState());
-    final result = await assetsOverviewUseCase(AssetsOverviewParams());
+    final result = await assetsOverviewUseCase(AssetsOverviewParams(type: type));
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (assetsOverviews) {
-      assetsOverviews.sort((a, b) {
+      /*assetsOverviews.sort((a, b) {
         return (b.totalAmount - a.totalAmount).toInt();
-      },);
+      },);*/
       emit(AssetsOverviewLoaded(assetsOverviews: assetsOverviews));
     });
 
 
   }
 }
+
+class AssetsOverviewCubitBankAccount extends AssetsOverviewCubit{
+  AssetsOverviewCubitBankAccount(GetAssetsOverviewUseCase assetsOverviewUseCase) : super(assetsOverviewUseCase, 'BankAccount');
+}
+
+class AssetsOverviewCubitListedAssetEquity extends AssetsOverviewCubit{
+  AssetsOverviewCubitListedAssetEquity(GetAssetsOverviewUseCase assetsOverviewUseCase) : super(assetsOverviewUseCase, 'ListedAssetEquity');
+}
+
+class AssetsOverviewCubitListedAssetOther extends AssetsOverviewCubit{
+  AssetsOverviewCubitListedAssetOther(GetAssetsOverviewUseCase assetsOverviewUseCase) : super(assetsOverviewUseCase, 'ListedAssetOther');
+}
+
+class AssetsOverviewCubitListedAssetFixedIncome extends AssetsOverviewCubit{
+  AssetsOverviewCubitListedAssetFixedIncome(GetAssetsOverviewUseCase assetsOverviewUseCase) : super(assetsOverviewUseCase, 'ListedAssetFixedIncome');
+}
+
+class AssetsOverviewCubitRealEstate extends AssetsOverviewCubit{
+  AssetsOverviewCubitRealEstate(GetAssetsOverviewUseCase assetsOverviewUseCase) : super(assetsOverviewUseCase, 'RealEstate');
+}
+
+class AssetsOverviewCubitPrivateEquity extends AssetsOverviewCubit{
+  AssetsOverviewCubitPrivateEquity(GetAssetsOverviewUseCase assetsOverviewUseCase) : super(assetsOverviewUseCase, 'PrivateEquity');
+}
+
+class AssetsOverviewCubitPrivateDebt extends AssetsOverviewCubit{
+  AssetsOverviewCubitPrivateDebt(GetAssetsOverviewUseCase assetsOverviewUseCase) : super(assetsOverviewUseCase, 'PrivateDebt');
+}
+
+class AssetsOverviewCubitOtherAssets extends AssetsOverviewCubit{
+  AssetsOverviewCubitOtherAssets(GetAssetsOverviewUseCase assetsOverviewUseCase) : super(assetsOverviewUseCase, 'OtherAssets');
+}
+

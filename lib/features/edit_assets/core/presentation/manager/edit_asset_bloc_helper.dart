@@ -18,7 +18,7 @@ class EditAssetBlocHelper{
     return BlocHelper.defaultBlocListener(listener: (context, state) {
       if (state is EditAssetSuccess) {
         context.read<AssetSummaryCubit>().getSummary(GetSummaryParams(days: 7, assetId: assetId));
-        context.read<AssetsOverviewCubit>().initPage();
+        AppRouter().setMainRefreshKey();
         GlobalFunctions.showSnackBar(context, AppLocalizations.of(context).assetLiabilityForms_toast_assetEditSuccess.replaceAll("{{assetName}}", type),type: "success");
         context.pop();
       }

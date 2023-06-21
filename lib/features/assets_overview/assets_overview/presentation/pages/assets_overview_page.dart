@@ -25,6 +25,9 @@ import 'package:wmd/features/assets_overview/portfolio_tab/domain/entities/get_p
 import 'package:wmd/features/assets_overview/portfolio_tab/presentation/manager/portfolio_tab_cubit.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_blur_warning.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_geographic_entity.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_pie_entity.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/inside_world_map_widget.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/dashboard_app_bar.dart';
@@ -136,7 +139,39 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                   late List<Cubit> blocs;
                                   switch (state) {
                                     case 0:
-                                      blocs = [context.read<AssetsOverviewCubit>()];
+                                      blocs = [];
+                                      DashboardPieCubit pieCubit = context.read<DashboardPieCubit>();
+                                      if(pieCubit.state is GetPieLoaded){
+                                        List<GetPieEntity> assets = (pieCubit.state as GetPieLoaded).getPieEntity;
+                                        for (var element in assets) {
+                                          switch (element.name){
+                                            case "BankAccount":
+                                              blocs.add(context.read<AssetsOverviewCubitBankAccount>());
+                                              break;
+                                            case "ListedAssetEquity":
+                                              blocs.add(context.read<AssetsOverviewCubitListedAssetEquity>());
+                                              break;
+                                            case "ListedAssetOther":
+                                              blocs.add(context.read<AssetsOverviewCubitListedAssetOther>());
+                                              break;
+                                            case "ListedAssetFixedIncome":
+                                              blocs.add(context.read<AssetsOverviewCubitListedAssetFixedIncome>());
+                                              break;
+                                            case "RealEstate":
+                                              blocs.add(context.read<AssetsOverviewCubitRealEstate>());
+                                              break;
+                                            case "PrivateEquity":
+                                              blocs.add(context.read<AssetsOverviewCubitPrivateEquity>());
+                                              break;
+                                            case "PrivateDebt":
+                                              blocs.add(context.read<AssetsOverviewCubitPrivateDebt>());
+                                              break;
+                                            case "OtherAssets":
+                                              blocs.add(context.read<AssetsOverviewCubitOtherAssets>());
+                                              break;
+                                          }
+                                        }
+                                      }
                                       break;
                                     case 1:
                                       blocs = [context.read<AssetsGeographyChartCubit>()];
@@ -147,8 +182,6 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                     case 3:
                                       blocs = [context.read<PortfolioTabCubit>()];
                                       break;
-                                    default:
-                                      blocs = [context.read<AssetsOverviewCubit>()];
                                   }
                                   return Column(
                                     children: List.generate(blocs.length, (index) {

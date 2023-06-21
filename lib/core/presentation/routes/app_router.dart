@@ -81,7 +81,14 @@ class AppRouter {
   MainDashboardCubit _mainDashboardCubit = sl<MainDashboardCubit>();
   MainPageCubit _mainPageCubit = sl<MainPageCubit>();
   SummeryWidgetCubit _summeryWidgetCubit = sl<SummeryWidgetCubit>();
-  AssetsOverviewCubit _assetsOverviewCubit = sl<AssetsOverviewCubit>();
+  AssetsOverviewCubitBankAccount _assetsOverviewCubitBankAccount = sl<AssetsOverviewCubitBankAccount>();
+  AssetsOverviewCubitListedAssetEquity _assetsOverviewCubitListedAssetEquity = sl<AssetsOverviewCubitListedAssetEquity>();
+  AssetsOverviewCubitListedAssetOther _assetsOverviewCubitListedAssetOther = sl<AssetsOverviewCubitListedAssetOther>();
+  AssetsOverviewCubitListedAssetFixedIncome _assetsOverviewCubitListedAssetFixedIncome = sl<AssetsOverviewCubitListedAssetFixedIncome>();
+  AssetsOverviewCubitPrivateEquity _assetsOverviewCubitPrivateEquity = sl<AssetsOverviewCubitPrivateEquity>();
+  AssetsOverviewCubitPrivateDebt _assetsOverviewCubitPrivateDebt = sl<AssetsOverviewCubitPrivateDebt>();
+  AssetsOverviewCubitRealEstate _assetsOverviewCubitRealEstate = sl<AssetsOverviewCubitRealEstate>();
+  AssetsOverviewCubitOtherAssets _assetsOverviewCubitOtherAsset = sl<AssetsOverviewCubitOtherAssets>();
   ChartsCubit _chartsCubit = sl<ChartsCubit>();
   CurrencyChartCubit _currencyChartCubit = sl<CurrencyChartCubit>();
   AssetsGeographyChartCubit _assetsGeographyChartCubit =
@@ -258,8 +265,36 @@ class AppRouter {
                     return _summeryWidgetCubit..initPage();
                   }),
                   BlocProvider(create: (context) {
-                    _assetsOverviewCubit = sl<AssetsOverviewCubit>();
-                    return _assetsOverviewCubit..getAssetsOverview();
+                    _assetsOverviewCubitBankAccount = sl<AssetsOverviewCubitBankAccount>();
+                    return _assetsOverviewCubitBankAccount..getAssetsOverview();
+                  }),
+                  BlocProvider(create: (context) {
+                    _assetsOverviewCubitListedAssetEquity = sl<AssetsOverviewCubitListedAssetEquity>();
+                    return _assetsOverviewCubitListedAssetEquity..getAssetsOverview();
+                  }),
+                  BlocProvider(create: (context) {
+                    _assetsOverviewCubitListedAssetOther = sl<AssetsOverviewCubitListedAssetOther>();
+                    return _assetsOverviewCubitListedAssetOther..getAssetsOverview();
+                  }),
+                  BlocProvider(create: (context) {
+                    _assetsOverviewCubitListedAssetFixedIncome = sl<AssetsOverviewCubitListedAssetFixedIncome>();
+                    return _assetsOverviewCubitListedAssetFixedIncome..getAssetsOverview();
+                  }),
+                  BlocProvider(create: (context) {
+                    _assetsOverviewCubitRealEstate = sl<AssetsOverviewCubitRealEstate>();
+                    return _assetsOverviewCubitRealEstate..getAssetsOverview();
+                  }),
+                  BlocProvider(create: (context) {
+                    _assetsOverviewCubitPrivateDebt = sl<AssetsOverviewCubitPrivateDebt>();
+                    return _assetsOverviewCubitPrivateDebt..getAssetsOverview();
+                  }),
+                  BlocProvider(create: (context) {
+                    _assetsOverviewCubitPrivateEquity = sl<AssetsOverviewCubitPrivateEquity>();
+                    return _assetsOverviewCubitPrivateEquity..getAssetsOverview();
+                  }),
+                  BlocProvider(create: (context) {
+                    _assetsOverviewCubitOtherAsset = sl<AssetsOverviewCubitOtherAssets>();
+                    return _assetsOverviewCubitOtherAsset..getAssetsOverview();
                   }),
                   BlocProvider(create: (context) {
                     _performanceAssetClassCubit =
@@ -656,9 +691,6 @@ class AppRouter {
         value: _summeryWidgetCubit,
       ),
       BlocProvider.value(
-        value: _assetsOverviewCubit,
-      ),
-      BlocProvider.value(
         value: _chartsCubit,
       ),
       BlocProvider.value(
@@ -687,9 +719,6 @@ class AppRouter {
 
   Widget editAssetMainBlocProvider({required Widget child}) {
     return MultiBlocProvider(providers: [
-      BlocProvider.value(
-        value: _assetsOverviewCubit,
-      ),
       BlocProvider.value(
         value: _assetSummaryCubit,
       ),

@@ -410,7 +410,15 @@ Future<void> init(String env) async {
       () => DashboardChartsRemoteDataSourceImpl(sl()));
 
   //AssetOverview
-  sl.registerFactory(() => AssetsOverviewCubit(sl()));
+  sl.registerFactory(() => AssetsOverviewCubit(sl(),""));
+  sl.registerFactory(() => AssetsOverviewCubitBankAccount(sl()));
+  sl.registerFactory(() => AssetsOverviewCubitListedAssetEquity(sl()));
+  sl.registerFactory(() => AssetsOverviewCubitListedAssetOther(sl()));
+  sl.registerFactory(() => AssetsOverviewCubitListedAssetFixedIncome(sl()));
+  sl.registerFactory(() => AssetsOverviewCubitRealEstate(sl()));
+  sl.registerFactory(() => AssetsOverviewCubitPrivateEquity(sl()));
+  sl.registerFactory(() => AssetsOverviewCubitPrivateDebt(sl()));
+  sl.registerFactory(() => AssetsOverviewCubitOtherAssets(sl()));
   sl.registerLazySingleton(() => GetAssetsOverviewUseCase(sl()));
   sl.registerLazySingleton<AssetsOverviewRepository>(
       () => AssetsOverviewRepositoryImpl(sl()));
