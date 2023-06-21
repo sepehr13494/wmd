@@ -4,7 +4,7 @@ import 'package:wmd/core/presentation/widgets/bottom_modal_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
 
-Future<bool> showTfoConfirmMandateModal({required BuildContext context}) async {
+Future<bool> showPamSuccessModal({required BuildContext context}) async {
   final appLocalizations = AppLocalizations.of(context);
   final textTheme = Theme.of(context).textTheme;
   final primaryColor = Theme.of(context).primaryColor;
@@ -19,27 +19,16 @@ Future<bool> showTfoConfirmMandateModal({required BuildContext context}) async {
             const Icon(Icons.check_circle, color: AppColors.green),
             const SizedBox(height: 16),
             Text(
-              appLocalizations.common_linkTFO_modal_multipleMandates_title,
+              appLocalizations.common_linkPAM_modal_oneMandate_title,
               style: textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
             Text(
-              appLocalizations
-                  .common_linkTFO_modal_multipleMandates_description,
+              appLocalizations.common_linkTFO_modal_oneMandate_description,
               style: textTheme.bodySmall,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 16),
-            CheckMandate(
-                title: 'Mandate title goes here 1', onChange: (val) {}),
-            CheckMandate(
-              title: 'Mandate title goes here 2',
-              onChange: (val) {},
-              initialValue: false,
-            ),
-            CheckMandate(
-                title: 'Mandate title goes here 3', onChange: (val) {}),
           ],
         ),
         actions: Padding(
@@ -69,47 +58,4 @@ Future<bool> showTfoConfirmMandateModal({required BuildContext context}) async {
     }
     return false;
   });
-}
-
-class CheckMandate extends StatefulWidget {
-  final String title;
-  final bool initialValue;
-  final Function(bool) onChange;
-  const CheckMandate({
-    Key? key,
-    required this.title,
-    this.initialValue = true,
-    required this.onChange,
-  }) : super(key: key);
-
-  @override
-  State<CheckMandate> createState() => _CheckMandateState();
-}
-
-class _CheckMandateState extends State<CheckMandate> {
-  late bool value;
-  @override
-  void initState() {
-    super.initState();
-    value = widget.initialValue;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Checkbox(
-            value: value,
-            onChanged: (val) {
-              if (val != null) {
-                setState(() {
-                  value = val;
-                });
-                widget.onChange(value);
-              }
-            }),
-        Text(widget.title)
-      ],
-    );
-  }
 }

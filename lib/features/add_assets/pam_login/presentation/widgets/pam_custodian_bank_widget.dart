@@ -1,12 +1,10 @@
 import 'dart:developer';
-import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/features/add_assets/tfo_login/presentation/widgets/tfo_confirm_mandate_modal.dart';
 import 'package:wmd/features/add_assets/tfo_login/presentation/widgets/initial_modal.dart';
@@ -14,10 +12,10 @@ import 'package:wmd/features/add_assets/tfo_login/presentation/widgets/tfo_succe
 import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 
-import '../manager/tfo_login_cubit.dart';
+import '../manager/pam_login_cubit.dart';
 
-class TfoCustodianBankWidget extends AppStatelessWidget {
-  const TfoCustodianBankWidget(
+class PamCustodianBankWidget extends AppStatelessWidget {
+  const PamCustodianBankWidget(
       {super.key, required this.isSelected, required this.onActive});
 
   final bool isSelected;
@@ -29,8 +27,8 @@ class TfoCustodianBankWidget extends AppStatelessWidget {
     final primaryColor = Theme.of(context).primaryColor;
 
     return BlocProvider(
-      create: (context) => sl<TfoLoginCubit>(),
-      child: BlocConsumer<TfoLoginCubit, TfoLoginState>(
+      create: (context) => sl<PamLoginCubit>(),
+      child: BlocConsumer<PamLoginCubit, PamLoginState>(
           listener: BlocHelper.defaultBlocListener(listener: (context, state) {
         if (state is SuccessState) {
           // showTfoConfirmMandateModal(context: context);
@@ -55,7 +53,7 @@ class TfoCustodianBankWidget extends AppStatelessWidget {
               onTap: () {
                 onActive();
               },
-              title: const Text('The Family Office'),
+              title: const Text('Petiole Asset Management'),
               leading: Icon(Icons.account_balance, color: primaryColor),
               trailing: isDone
                   ? _buildButton(context,
@@ -68,19 +66,19 @@ class TfoCustodianBankWidget extends AppStatelessWidget {
                               onTap: () async {
                                 await AnalyticsUtils.triggerEvent(
                                     action: AnalyticsUtils.linkBankAction(
-                                        'The Office Family custodian'),
+                                        'Pam custodian'),
                                     params: AnalyticsUtils.linkBankEvent(
-                                        'The Office Family custodian'));
+                                        'Pam custodian'));
                                 final result = await showInitialModal(
                                   context: context,
                                   title:
-                                      'Do you want to load you existing TFO portfolio?',
+                                      'Do you want to load you existing PAM portfolio?',
                                 );
                                 if (result) {
                                   // ignore: use_build_context_synchronously
                                   context
-                                      .read<TfoLoginCubit>()
-                                      .loginTfoAccount();
+                                      .read<PamLoginCubit>()
+                                      .loginPamAccount();
                                 }
                               },
                               child: _buildButton(context,

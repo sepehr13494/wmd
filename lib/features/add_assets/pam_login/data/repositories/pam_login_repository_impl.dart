@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
@@ -9,15 +7,15 @@ import 'package:wmd/core/util/constants.dart';
 
 import '../models/get_mandates_params.dart';
 
-import '../models/login_tfo_account_params.dart';
+import '../models/login_pam_account_params.dart';
 
-import '../../domain/repositories/tfo_login_repository.dart';
-import '../data_sources/tfo_login_remote_datasource.dart';
+import '../../domain/repositories/pam_login_repository.dart';
+import '../data_sources/pam_login_remote_datasource.dart';
 
-class TfoLoginRepositoryImpl implements TfoLoginRepository {
-  final TfoLoginRemoteDataSource remoteDataSource;
+class PamLoginRepositoryImpl implements PamLoginRepository {
+  final PamLoginRemoteDataSource remoteDataSource;
 
-  TfoLoginRepositoryImpl(this.remoteDataSource);
+  PamLoginRepositoryImpl(this.remoteDataSource);
 
   @override
   Future<Either<Failure, AppSuccess>> getMandates(
@@ -33,13 +31,12 @@ class TfoLoginRepositoryImpl implements TfoLoginRepository {
   }
 
   @override
-  Future<Either<Failure, AppSuccess>> loginTfoAccount(
-      LoginTfoAccountParams params) async {
+  Future<Either<Failure, AppSuccess>> loginPamAccount(
+      LoginPamAccountParams params) async {
     try {
       final auth0 = Auth0(
-          AppConstants.tfoAuth0IssuerBaseUrl, AppConstants.tfoAuth0ClientId);
+          AppConstants.pamAuth0IssuerBaseUrl, AppConstants.pamAuth0ClientId);
       final Credentials credentials = await auth0.webAuthentication().login();
-      log('Mert log $credentials');
       final result = await remoteDataSource.loginTfoAccount(params);
       return const Right(AppSuccess(message: "successfully done"));
     } on ServerException catch (error) {

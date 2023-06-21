@@ -4,7 +4,7 @@ import 'package:wmd/core/presentation/widgets/bottom_modal_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
 
-Future<bool> showTfoConfirmMandateModal({required BuildContext context}) async {
+Future<bool> showPamConfirmMandateModal({required BuildContext context}) async {
   final appLocalizations = AppLocalizations.of(context);
   final textTheme = Theme.of(context).textTheme;
   final primaryColor = Theme.of(context).primaryColor;
@@ -19,7 +19,7 @@ Future<bool> showTfoConfirmMandateModal({required BuildContext context}) async {
             const Icon(Icons.check_circle, color: AppColors.green),
             const SizedBox(height: 16),
             Text(
-              appLocalizations.common_linkTFO_modal_multipleMandates_title,
+              appLocalizations.common_linkPAM_modal_oneMandate_title,
               style: textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
