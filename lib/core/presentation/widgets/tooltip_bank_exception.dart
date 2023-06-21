@@ -22,6 +22,7 @@ class BankTooltip extends AppStatelessWidget {
           Tooltip(
             message: appLocalizations.assets_tooltip_bankAccountException,
             triggerMode: TooltipTriggerMode.tap,
+            margin: const EdgeInsets.symmetric(horizontal: 8),
             child: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 4.0),
               child: InfoIcon(),
