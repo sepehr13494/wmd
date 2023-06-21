@@ -7,13 +7,18 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/delete_custodian_bank_status_params.dart';
 import 'package:wmd/features/asset_see_more/core/presentation/widget/title_subtitle.dart';
+import 'package:wmd/features/dashboard/mandate_status/domain/entities/get_mandate_status_entity.dart';
 import 'package:wmd/features/settings/linked_accounts/domain/entities/get_linked_accounts_entity.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/settings/linked_accounts/presentation/manager/linked_accounts_cubit.dart';
 
 class LinkedTableMobile extends AppStatelessWidget {
   final List<GetLinkedAccountsEntity> getLinkedAccountsEntities;
-  const LinkedTableMobile({required this.getLinkedAccountsEntities, super.key});
+  final List<GetMandateStatusEntity> mandateList;
+  const LinkedTableMobile(
+      {required this.getLinkedAccountsEntities,
+      required this.mandateList,
+      super.key});
 
   static const columnWidths = {
     0: IntrinsicColumnWidth(),
@@ -23,7 +28,7 @@ class LinkedTableMobile extends AppStatelessWidget {
   @override
   Widget buildWidget(
       BuildContext context, textTheme, AppLocalizations appLocalizations) {
-    if (getLinkedAccountsEntities.isEmpty) {
+    if (getLinkedAccountsEntities.isEmpty && mandateList.isEmpty) {
       return Text(appLocalizations.common_glossary_noDataFoundHeading);
     }
     return Table(
@@ -34,6 +39,9 @@ class LinkedTableMobile extends AppStatelessWidget {
         ...List.generate(getLinkedAccountsEntities.length, (index) {
           return _buildTableRow(
               context, index, getLinkedAccountsEntities[index]);
+        }),
+        ...List.generate(mandateList.length, (index) {
+          return _buildTableRowMandate(context, index, mandateList[index]);
         }),
       ],
     );
@@ -71,6 +79,35 @@ class LinkedTableMobile extends AppStatelessWidget {
             icon: Icon(
               Icons.navigate_next,
               color: Theme.of(context).primaryColor,
+            ))
+      ],
+    );
+  }
+
+  TableRow _buildTableRowMandate(
+      BuildContext context, int index, GetMandateStatusEntity e) {
+    return TableRow(
+      key: UniqueKey(),
+      decoration: BoxDecoration(
+        color: index % 2 != 0
+            ? Theme.of(context).cardColor.withOpacity(0.6)
+            : Theme.of(context).cardColor,
+      ),
+      children: [
+        ListTile(
+          // leading: Icon(Icons.food_bank),
+          title: Text(e.dataSource),
+          // subtitle: Text('Name of real estate'),
+        ),
+        ListTile(
+          title: Text(e.dataSource),
+          subtitle: Text(e.dataSource),
+        ),
+        IconButton(
+            onPressed: null,
+            icon: Icon(
+              Icons.navigate_next,
+              color: Theme.of(context).disabledColor,
             ))
       ],
     );
