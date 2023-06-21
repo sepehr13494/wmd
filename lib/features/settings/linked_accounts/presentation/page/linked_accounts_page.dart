@@ -9,6 +9,8 @@ import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import 'package:wmd/features/dashboard/mandate_status/domain/entities/get_mandate_status_entity.dart';
+import 'package:wmd/features/dashboard/mandate_status/presentation/manager/mandate_status_cubit.dart';
 import 'package:wmd/features/settings/linked_accounts/domain/entities/get_linked_accounts_entity.dart';
 import 'package:wmd/injection_container.dart';
 import '../manager/linked_accounts_cubit.dart';
@@ -35,64 +37,77 @@ class _LinkedAccountsPageState extends AppState<LinkedAccountsPage> {
     final primaryColor = Theme.of(context).primaryColor;
     final isMobile = ResponsiveHelper(context: context).isMobile;
 
-    return BlocProvider<LinkedAccountsCubit>(
-      create: (context) => sl<LinkedAccountsCubit>()..getLinkedAccounts(),
-      child: BlocConsumer<LinkedAccountsCubit, LinkedAccountsState>(
-          listener:
-              BlocHelper.defaultBlocListener(listener: (context, state) {}),
-          builder: (context, state) {
-            if (state is LoadingState) {
-              return const LoadingWidget();
-            }
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildHeader(appLocalizations, textTheme, context, primaryColor),
+            const SizedBox(height: 8),
+            BlocProvider(
+              create: (context) => sl<MandateStatusCubit>()..getMandateStatus(),
+              child: BlocConsumer<MandateStatusCubit, MandateStatusState>(
+                  listener: BlocHelper.defaultBlocListener(
+                      listener: (context, mandateState) {}),
+                  builder: (context, mandateState) {
+                    List<GetMandateStatusEntity> mandateList = [];
+                    if (mandateState is GetMandateStatusLoaded) {
+                      mandateList = List.from(mandateState
+                          .getMandateStatusEntities
+                          .where((e) => e.synced));
+                    }
+                    return BlocProvider<LinkedAccountsCubit>(
+                      create: (context) =>
+                          sl<LinkedAccountsCubit>()..getLinkedAccounts(),
+                      child: BlocConsumer<LinkedAccountsCubit,
+                              LinkedAccountsState>(
+                          listener: BlocHelper.defaultBlocListener(
+                              listener: (context, state) {}),
+                          builder: (context, state) {
+                            List<GetLinkedAccountsEntity> bankValues = [];
 
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    _buildHeader(
-                        appLocalizations, textTheme, context, primaryColor),
-                    const SizedBox(height: 8),
-                    Builder(builder: (context) {
-                      if (state is GetLinkedAccountsLoaded) {
-                        List<GetLinkedAccountsEntity> values =
-                            state.getLinkedAccountsEntities;
-                        if (isFiveOnly) {
-                          if (values.length > 5) {
-                            values = List.from(values.sublist(
-                                values.length - 5, values.length));
-                          }
-                        }
-                        return isMobile
-                            ? LinkedTableMobile(
-                                getLinkedAccountsEntities: values)
-                            : LinkedTableTablet(
-                                getLinkedAccountsEntities: values);
-                      } else if (state is ErrorState) {
-                        return Text(state.failure.message);
-                      } else {
-                        return const SizedBox();
-                      }
-                    }),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        OutlinedButton(
-                          onPressed: () {
-                            context.pushNamed(AppRoutes.addAssetsView,
-                                queryParams: {'initial': '2'});
-                          },
-                          child: Text(appLocalizations
-                              .profile_linkedAccounts_buttons_link),
-                        ),
-                      ],
-                    ),
-                  ],
+                            if (state is GetLinkedAccountsLoaded) {
+                              List<GetLinkedAccountsEntity> values =
+                                  state.getLinkedAccountsEntities;
+                              if (isFiveOnly) {
+                                if (values.length > 5 - mandateList.length) {
+                                  bankValues = List.from(values.sublist(
+                                      values.length - 5 + mandateList.length,
+                                      values.length));
+                                }
+                              }
+                            }
+
+                            return isMobile
+                                ? LinkedTableMobile(
+                                    getLinkedAccountsEntities: bankValues,
+                                    mandateList: mandateList,
+                                  )
+                                : LinkedTableTablet(
+                                    getLinkedAccountsEntities: bankValues,
+                                    mandateList: mandateList,
+                                  );
+                          }),
+                    );
+                  }),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                OutlinedButton(
+                  onPressed: () {
+                    context.pushNamed(AppRoutes.addAssetsView,
+                        queryParams: {'initial': '2'});
+                  },
+                  child: Text(
+                      appLocalizations.profile_linkedAccounts_buttons_link),
                 ),
-              ),
-            );
-          }),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 
