@@ -30,6 +30,7 @@ class _ListedEquityValuationFormWidgettState
   bool hasTimeLineSelected = false;
   DateTime? availableDateValue;
   double? assetQuantity;
+  String? actionValue;
 
   String currentDayValue = "--";
   String? noOfUnits = "";
@@ -183,7 +184,14 @@ class _ListedEquityValuationFormWidgettState
                 hasInfo: false,
                 title: appLocalizations.assets_valuationModal_labels_action,
                 child: RadioButton<String>(
-                    items: ValuationActionType.valuationActionTypeList(context),
+                    onChange: (val) {
+                      setState(() {
+                        actionValue = val;
+                      });
+                    },
+                    items: (assetQuantity ?? 1) < 1
+                        ? ValuationActionType.jsonBuy(context)
+                        : ValuationActionType.valuationActionTypeList(context),
                     name: "type")),
             EachTextField(
               hasInfo: false,
@@ -215,11 +223,15 @@ class _ListedEquityValuationFormWidgettState
                           : "${appLocalizations.assets_valuationModal_labels_noOfUnits} can't be greater then 100";
                     },
                     (val) {
-                      return ((double.tryParse(val ?? "0") ?? 0) <=
-                              (assetQuantity ?? 0))
-                          ? null
-                          : "${appLocalizations.assets_valuationModal_labels_noOfUnits} can't be greater then asset quantity";
-                    }
+                      if (actionValue == "Sell") {
+                        return ((double.tryParse(val ?? "0") ?? 0) <=
+                                (assetQuantity ?? 0))
+                            ? null
+                            : "${appLocalizations.assets_valuationModal_labels_noOfUnits} can't be greater then asset quantity";
+                      } else {
+                        return null;
+                      }
+                    },
                   ],
                   hint: appLocalizations
                       .assets_valuationModal_placeholder_noOfUnits),
