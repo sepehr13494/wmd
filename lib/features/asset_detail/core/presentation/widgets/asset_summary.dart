@@ -4,6 +4,7 @@ import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import 'package:wmd/core/presentation/widgets/tooltip_bank_exception.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/core/domain/entities/asset_summary_entity.dart';
 import 'package:wmd/features/asset_see_more/core/presentation/page/see_more_page.dart';
@@ -232,9 +233,12 @@ class SummaryCardWidget extends AppStatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
-          appLocalizations.assets_label_netChange,
-          style: textTheme.titleSmall,
+        BankTooltip(
+          showTooltip: summary.assetClassName == AssetTypes.bankAccount,
+          child: Text(
+            appLocalizations.assets_label_netChange,
+            style: textTheme.titleSmall,
+          ),
         ),
         Builder(builder: (context) {
           // return const SizedBox();
