@@ -555,6 +555,7 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                           .assetLiabilityForms_forms_bankAccount_inputFields_startDate_label,
                                                       child:
                                                           AppFormBuilderDateTimePicker(
+                                                            enabled: !edit,
                                                         name: "startDate",
                                                         lastDate:
                                                             DateTime.now(),
@@ -616,6 +617,7 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                                     title: appLocalizations
                                                                         .assetLiabilityForms_forms_bankAccount_inputFields_tenureYears_label,
                                                                     child: AppTextFields.simpleTextField(
+                                                                        enabled: !edit,
                                                                         required: false,
                                                                         customInputFormatters: <TextInputFormatter>[
                                                                           FilteringTextInputFormatter.allow(
@@ -650,6 +652,7 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                                     title: appLocalizations
                                                                         .assetLiabilityForms_forms_bankAccount_inputFields_tenureMonths_label,
                                                                     child: AppTextFields.simpleTextField(
+                                                                        enabled: !edit,
                                                                         name: "months",
                                                                         customInputFormatters: <TextInputFormatter>[
                                                                           FilteringTextInputFormatter.allow(
@@ -682,6 +685,7 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                                     title: appLocalizations
                                                                         .assetLiabilityForms_forms_bankAccount_inputFields_tenureDays_label,
                                                                     child: AppTextFields.simpleTextField(
+                                                                        enabled: !edit,
                                                                         required: false,
                                                                         customInputFormatters: <TextInputFormatter>[
                                                                           FilteringTextInputFormatter.allow(
