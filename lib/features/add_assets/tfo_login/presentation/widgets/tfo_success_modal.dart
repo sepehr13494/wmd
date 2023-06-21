@@ -19,13 +19,13 @@ Future<bool> showTfoSuccessModal({required BuildContext context}) async {
             const Icon(Icons.check_circle, color: AppColors.green),
             const SizedBox(height: 16),
             Text(
-              'Your TFO account has been successfully linked',
+              appLocalizations.common_linkTFO_modal_oneMandate_title,
               style: textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
             Text(
-              'Data will be fetched within the next 1-2 working days. You will be notified via email about the successful data synchronization.',
+              appLocalizations.common_linkTFO_modal_oneMandate_description,
               style: textTheme.bodySmall,
               textAlign: TextAlign.center,
             ),

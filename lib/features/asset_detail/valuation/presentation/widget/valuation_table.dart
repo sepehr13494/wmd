@@ -181,6 +181,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                     isSystemGenerated: e.isSystemGenerated,
                     index: index,
                     id: e.id,
+                    isLast: e.isLast,
                   );
                 }),
             ],
@@ -234,6 +235,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                 isSystemGenerated: e.isSystemGenerated,
                 index: index,
                 id: e.id,
+                isLast: e.isLast,
               );
             }),
         ],
@@ -322,6 +324,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
     required bool isSystemGenerated,
     required int index,
     required String id,
+    required bool isLast,
   }) {
     final textTheme = Theme.of(context).textTheme;
     return TableRow(
@@ -377,13 +380,13 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
         if (AppConstants.publicMvp2Items &&
             widget.isManuallyAdded &&
             // widget.assetType == AssetTypes.bankAccount &&
-            index == 0 &&
+            isLast &&
             widget.totalQuantity > 0)
           renderPopupMenu(context, id),
         if (AppConstants.publicMvp2Items &&
             widget.isManuallyAdded &&
             // widget.assetType == AssetTypes.bankAccount &&
-            index != 0 &&
+            !isLast &&
             widget.totalQuantity > 0)
           Text(
             "",

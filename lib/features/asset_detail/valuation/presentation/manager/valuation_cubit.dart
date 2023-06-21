@@ -31,8 +31,8 @@ class ValuationCubit extends Cubit<ValuationState> {
         (List<GetAllValuationEntity> entities) {
       if (entities.isNotEmpty) {
         try {
-          // entities.removeAt(0);
-          entities = entities.where((i) => i.note != "").toList();
+          entities.removeLast();
+          // entities = entities.where((i) => i.note != "").toList();
         } catch (e) {
           debugPrint("weroor");
           debugPrint(e.toString());
