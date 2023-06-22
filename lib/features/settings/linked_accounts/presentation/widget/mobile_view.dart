@@ -7,10 +7,13 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/delete_custodian_bank_status_params.dart';
 import 'package:wmd/features/asset_see_more/core/presentation/widget/title_subtitle.dart';
+import 'package:wmd/features/dashboard/mandate_status/data/models/delete_mandate_params.dart';
 import 'package:wmd/features/dashboard/mandate_status/domain/entities/get_mandate_status_entity.dart';
+import 'package:wmd/features/dashboard/mandate_status/presentation/manager/mandate_status_cubit.dart';
 import 'package:wmd/features/settings/linked_accounts/domain/entities/get_linked_accounts_entity.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/settings/linked_accounts/presentation/manager/linked_accounts_cubit.dart';
+import 'package:wmd/global_functions.dart';
 
 class LinkedTableMobile extends AppStatelessWidget {
   final List<GetLinkedAccountsEntity> getLinkedAccountsEntities;
@@ -42,7 +45,8 @@ class LinkedTableMobile extends AppStatelessWidget {
               context, index, getLinkedAccountsEntities[index]);
         }),
         ...List.generate(mandateList.length, (index) {
-          return _buildTableRowMandate(context, index, mandateList[index]);
+          return _buildTableRowMandate(
+              context, index, mandateList[index], appLocalizations);
         }),
       ],
     );
@@ -85,8 +89,8 @@ class LinkedTableMobile extends AppStatelessWidget {
     );
   }
 
-  TableRow _buildTableRowMandate(
-      BuildContext context, int index, GetMandateStatusEntity e) {
+  TableRow _buildTableRowMandate(BuildContext context, int index,
+      GetMandateStatusEntity e, AppLocalizations appLocalizations) {
     return TableRow(
       key: UniqueKey(),
       decoration: BoxDecoration(
@@ -105,10 +109,29 @@ class LinkedTableMobile extends AppStatelessWidget {
           subtitle: Text(e.dataSource),
         ),
         IconButton(
-            onPressed: null,
+            onPressed: () {
+              GlobalFunctions.showConfirmDialog(
+                context: context,
+                title: '',
+                body: appLocalizations
+                    .linkAccount_deleteCustodianBankModal_description,
+                confirm: appLocalizations.common_button_yes,
+                cancel: appLocalizations.common_button_no,
+                onConfirm: () {
+                  context
+                      .read<MandateStatusCubit>()
+                      .deleteMandate(DeleteMandateParams(e.mandateId));
+                  context.read<MandateStatusCubit>().getMandateStatus();
+                  GlobalFunctions.showSnackTile(context,
+                      title: appLocalizations
+                          .home_custodianBankList_toast_deleteMandate_title,
+                      color: Colors.green);
+                },
+              );
+            },
             icon: Icon(
               Icons.navigate_next,
-              color: Theme.of(context).disabledColor,
+              color: Theme.of(context).primaryColor,
             ))
       ],
     );
