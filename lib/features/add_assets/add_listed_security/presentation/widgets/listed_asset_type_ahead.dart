@@ -126,13 +126,18 @@ class _ListedSecurityTypeAheadState extends AppState<ListedSecurityTypeAhead> {
                       ),
                       keepSuggestionsOnLoading: false,
                       suggestionsCallback: (p0) async {
-                        await Future.delayed(Duration(seconds: waitingTime,milliseconds: 100));
-                        if(readyToSend){
-                          // ignore: use_build_context_synchronously
-                          await context.read<BankListCubit>().getMarketData(p0);
-                          await Future.delayed(const Duration(milliseconds: 200));
+                        if(p0.length<3){
+                          return [];
+                        }else{
+                          await Future.delayed(Duration(seconds: waitingTime,milliseconds: 100));
+                          if(readyToSend){
+                            // ignore: use_build_context_synchronously
+                            await context.read<BankListCubit>().getMarketData(p0);
+                            await Future.delayed(const Duration(milliseconds: 200));
+                          }
+                          return items;
                         }
-                        return items;
+
                       },
                       loadingBuilder: (context) => const LoadingWidget(),
                       itemBuilder: (context, suggestion) {

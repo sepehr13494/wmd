@@ -17,6 +17,7 @@ abstract class BaseAddAssetState<T extends BaseAddAssetStatefulWidget> extends A
     if(widget.edit){
       Future.delayed(const Duration(milliseconds: 500),(){
         starterJson = formKey.currentState!.instantValue;
+        setState(() {});
       });
     }
     super.initState();

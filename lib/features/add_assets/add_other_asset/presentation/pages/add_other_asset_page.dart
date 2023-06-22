@@ -73,7 +73,7 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
 
     // final noOfUnitsParsed =
     //     noOfUnits != null ? ((int.tryParse(noOfUnits!)) ?? 0) : 0;
-    final valuePerUnitParsed = valuePerUnit != null && valuePerUnit != ""
+    final valuePerUnitParsed = (valuePerUnit != null && valuePerUnit != "")
         ? int.tryParse(valuePerUnit!.toString().replaceAll(',', ''))
         : 0;
     final acqusitionCostParsed = acqusitionCost != null
@@ -349,6 +349,7 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                                       .assetLiabilityForms_forms_others_inputFields_valuationDate_label,
                                                   child:
                                                       AppFormBuilderDateTimePicker(
+                                                        enabled: !(edit && starterJson["assetType"] == 'Painting'),
                                                     onChanged: (val) {
                                                       setState(() {
                                                         valuationDateValue =
@@ -393,29 +394,29 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                                   onChanged: checkFinalValid,
                                                 ),
                                               ),
-                                              // EachTextField(
-                                              //   hasInfo: false,
-                                              //   title: appLocalizations
-                                              //       .assetLiabilityForms_forms_others_inputFields_units_label,
-                                              //   child: AppTextFields
-                                              //       .simpleTextField(
-                                              //           enabled: !edit,
-                                              //           type: TextFieldType
-                                              //               .number,
-                                              //           onChanged: (val) {
-                                              //             setState(() {
-                                              //               noOfUnits = val;
-                                              //             });
-                                              //             calculateCurrentValue();
-                                              //             checkFinalValid(val);
-                                              //           },
-                                              //           keyboardType:
-                                              //               TextInputType
-                                              //                   .number,
-                                              //           name: "units",
-                                              //           hint: appLocalizations
-                                              //               .assetLiabilityForms_forms_others_inputFields_units_placeholder),
-                                              // ),
+                                              /* EachTextField(
+                                                 hasInfo: false,
+                                                 title: appLocalizations
+                                                     .assetLiabilityForms_forms_others_inputFields_units_label,
+                                                 child: AppTextFields
+                                                     .simpleTextField(
+                                                         enabled: !edit,
+                                                         type: TextFieldType
+                                                             .number,
+                                                         onChanged: (val) {
+                                                           setState(() {
+                                                             noOfUnits = val;
+                                                           });
+                                                           calculateCurrentValue();
+                                                           checkFinalValid(val);
+                                                         },
+                                                         keyboardType:
+                                                             TextInputType
+                                                                 .number,
+                                                         name: "units",
+                                                         hint: appLocalizations
+                                                             .assetLiabilityForms_forms_others_inputFields_units_placeholder),
+                                               ),*/
                                               EachTextField(
                                                 tooltipText: appLocalizations
                                                     .assetLiabilityForms_forms_others_inputFields_acquisitionCost_tooltip,
@@ -480,42 +481,42 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                                           .assetLiabilityForms_forms_others_inputFields_acquisitionDate_placeholder),
                                                 ),
                                               ),
-                                              // EachTextField(
-                                              //   hasInfo: false,
-                                              //   title: appLocalizations
-                                              //       .assetLiabilityForms_forms_others_inputFields_ownerShip_label,
-                                              //   child: AppTextFields
-                                              //       .simpleTextField(
-                                              //           enabled: !edit,
-                                              //           extraValidators: [
-                                              //             (val) {
-                                              //               return ((int.tryParse(val ??
-                                              //                               "0") ??
-                                              //                           0) <=
-                                              //                       100)
-                                              //                   ? null
-                                              //                   : "Ownership can't be greater then 100";
-                                              //             }
-                                              //           ],
-                                              //           type: TextFieldType
-                                              //               .number,
-                                              //           keyboardType:
-                                              //               TextInputType
-                                              //                   .number,
-                                              //           onChanged: (val) {
-                                              //             setState(() {
-                                              //               ownerShip = val;
-                                              //             });
-                                              //             calculateCurrentValue();
-                                              //           },
-                                              //           errorMsg: appLocalizations
-                                              //               .assetLiabilityForms_forms_others_inputFields_ownerShip_errorMessageRequired,
-                                              //           suffixIcon: AppTextFields
-                                              //               .rateSuffixIcon(),
-                                              //           name: "ownerShip",
-                                              //           hint: appLocalizations
-                                              //               .assetLiabilityForms_forms_others_inputFields_ownerShip_placeholder),
-                                              // ),
+                                              /*EachTextField(
+                                                hasInfo: false,
+                                                title: appLocalizations
+                                                    .assetLiabilityForms_forms_others_inputFields_ownerShip_label,
+                                                child: AppTextFields
+                                                    .simpleTextField(
+                                                        enabled: !edit,
+                                                        extraValidators: [
+                                                          (val) {
+                                                            return ((int.tryParse(val ??
+                                                                            "0") ??
+                                                                        0) <=
+                                                                    100)
+                                                                ? null
+                                                                : "Ownership can't be greater then 100";
+                                                          }
+                                                        ],
+                                                        type: TextFieldType
+                                                            .number,
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .number,
+                                                        onChanged: (val) {
+                                                          setState(() {
+                                                            ownerShip = val;
+                                                          });
+                                                          calculateCurrentValue();
+                                                        },
+                                                        errorMsg: appLocalizations
+                                                            .assetLiabilityForms_forms_others_inputFields_ownerShip_errorMessageRequired,
+                                                        suffixIcon: AppTextFields
+                                                            .rateSuffixIcon(),
+                                                        name: "ownerShip",
+                                                        hint: appLocalizations
+                                                            .assetLiabilityForms_forms_others_inputFields_ownerShip_placeholder),
+                                              ),*/
                                               EachTextField(
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_others_inputFields_valuePerUnit_label,

@@ -85,8 +85,7 @@ class AddOtherAssetParams extends Equatable {
         assetType: json["assetType"],
         country: (json["country"] as Country).name,
         currencyCode: (json["currencyCode"] as Currency).symbol,
-        units:
-            json["units"] != null ? int.tryParse(json["units"]) : json["units"],
+        units: json["units"] != null ? (int.tryParse(json["units"])??1) : 1,
         acquisitionCost: json["acquisitionCost"] != null
             ? double.tryParse(json["acquisitionCost"])
             : json["acquisitionCost"],
@@ -97,13 +96,13 @@ class AddOtherAssetParams extends Equatable {
             ? DateTime.parse(json["valuationDate"].toString())
             : json["valuationDate"],
         ownerShip: json["ownerShip"] != null
-            ? double.tryParse(json["ownerShip"])
-            : json["ownerShip"],
+            ? (double.tryParse(json["ownerShip"])??100)
+            : 100,
         valuePerUnit: json["valuePerUnit"] != null
-            ? double.tryParse(json["valuePerUnit"])
+            ? double.tryParse(json["valuePerUnit"].toString())
             : json["valuePerUnit"],
         currentDayValue: json["currentDayValue"] != null
-            ? double.tryParse(json["currentDayValue"])
+            ? double.tryParse(json["currentDayValue"].toString())
             : json["currentDayValue"],
       );
 
