@@ -24,7 +24,7 @@ class LinkedTableTablet extends AppStatelessWidget {
     1: IntrinsicColumnWidth(),
     2: FlexColumnWidth(),
     3: IntrinsicColumnWidth(),
-    4: IntrinsicColumnWidth(),
+    // 4: IntrinsicColumnWidth(),
   };
 
   @override
@@ -70,12 +70,12 @@ class LinkedTableTablet extends AppStatelessWidget {
           subtitle: Text(e.subType),
         ),
         const Text(' '),
-        TextButton(
-            onPressed: () {
-              context.read<LinkedAccountsCubit>().deleteLinkedAccounts(
-                  DeleteCustodianBankStatusParams(id: e.id));
-            },
-            child: Text(appLocalizations.common_button_delete)),
+        // TextButton(
+        //     onPressed: () {
+        //       context.read<LinkedAccountsCubit>().deleteLinkedAccounts(
+        //           DeleteCustodianBankStatusParams(id: e.id));
+        //     },
+        //     child: Text(appLocalizations.common_button_delete)),
       ],
     );
   }
@@ -92,37 +92,37 @@ class LinkedTableTablet extends AppStatelessWidget {
       children: [
         ListTile(
           // leading: Icon(Icons.food_bank),
-          title: Text(e.dataSource),
+          title: Text('${e.dataSource} (${e.mandateId})'),
           // subtitle: Text('Name of real estate'),
         ),
-        Text(CustomizableDateTime.ddMmYyyyWithSlash(DateTime.now())),
+        const Text(' '),
         ListTile(
           title: Text(e.dataSource),
           subtitle: Text(e.dataSource),
         ),
         const Text(' '),
-        TextButton(
-            onPressed: () {
-              GlobalFunctions.showConfirmDialog(
-                context: context,
-                title: '',
-                body: appLocalizations
-                    .linkAccount_deleteCustodianBankModal_description,
-                confirm: appLocalizations.common_button_yes,
-                cancel: appLocalizations.common_button_no,
-                onConfirm: () {
-                  context
-                      .read<MandateStatusCubit>()
-                      .deleteMandate(DeleteMandateParams(e.mandateId));
-                  context.read<MandateStatusCubit>().getMandateStatus();
-                  GlobalFunctions.showSnackTile(context,
-                      title: appLocalizations
-                          .home_custodianBankList_toast_deleteMandate_title,
-                      color: Colors.green);
-                },
-              );
-            },
-            child: Text(appLocalizations.common_button_delete)),
+        // TextButton(
+        //     onPressed: () {
+        //       GlobalFunctions.showConfirmDialog(
+        //         context: context,
+        //         title: '',
+        //         body: appLocalizations
+        //             .linkAccount_deleteCustodianBankModal_description,
+        //         confirm: appLocalizations.common_button_yes,
+        //         cancel: appLocalizations.common_button_no,
+        //         onConfirm: () {
+        //           context
+        //               .read<MandateStatusCubit>()
+        //               .deleteMandate(DeleteMandateParams(e.mandateId));
+        //           context.read<MandateStatusCubit>().getMandateStatus();
+        //           GlobalFunctions.showSnackTile(context,
+        //               title: appLocalizations
+        //                   .home_custodianBankList_toast_deleteMandate_title,
+        //               color: Colors.green);
+        //         },
+        //       );
+        //     },
+        //     child: Text(appLocalizations.common_button_delete)),
       ],
     );
   }
@@ -151,7 +151,7 @@ class LinkedTableTablet extends AppStatelessWidget {
         //       style: textTheme.bodyLarge!.apply(color: primaryColor)),
         // ),
         const SizedBox(),
-        const SizedBox(),
+        // const SizedBox(),
       ],
     );
   }
