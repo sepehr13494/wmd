@@ -21,8 +21,9 @@ class LinkedTableMobile extends AppStatelessWidget {
       super.key});
 
   static const columnWidths = {
-    0: IntrinsicColumnWidth(),
-    1: IntrinsicColumnWidth(),
+    0: FlexColumnWidth(0.4),
+    1: FlexColumnWidth(0.4),
+    2: FlexColumnWidth(0.2),
   };
 
   @override
