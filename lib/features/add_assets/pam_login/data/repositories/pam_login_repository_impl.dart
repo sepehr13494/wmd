@@ -39,7 +39,8 @@ class PamLoginRepositoryImpl implements PamLoginRepository {
     try {
       final auth0 = Auth0(
           AppConstants.pamAuth0IssuerBaseUrl, AppConstants.pamAuth0ClientId);
-      final Credentials credentials = await auth0.webAuthentication().login();
+      final Credentials credentials =
+          await auth0.webAuthentication(scheme: 'app').login();
       final claims = parseJwt(credentials.idToken);
       log('Mert log Pam $claims');
       final mandates = claims['mandate'];
