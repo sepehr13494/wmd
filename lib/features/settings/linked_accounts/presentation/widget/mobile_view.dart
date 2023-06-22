@@ -24,8 +24,8 @@ class LinkedTableMobile extends AppStatelessWidget {
       super.key});
 
   static const columnWidths = {
-    0: FlexColumnWidth(0.4),
-    1: FlexColumnWidth(0.4),
+    0: FlexColumnWidth(0.5),
+    1: FlexColumnWidth(0.5),
     2: FlexColumnWidth(0.2),
   };
 
@@ -101,38 +101,39 @@ class LinkedTableMobile extends AppStatelessWidget {
       children: [
         ListTile(
           // leading: Icon(Icons.food_bank),
-          title: Text(e.dataSource),
+          title: Text('${e.dataSource} (${e.mandateId})'),
           // subtitle: Text('Name of real estate'),
         ),
         ListTile(
           title: Text(e.dataSource),
           subtitle: Text(e.dataSource),
         ),
-        IconButton(
-            onPressed: () {
-              GlobalFunctions.showConfirmDialog(
-                context: context,
-                title: '',
-                body: appLocalizations
-                    .linkAccount_deleteCustodianBankModal_description,
-                confirm: appLocalizations.common_button_yes,
-                cancel: appLocalizations.common_button_no,
-                onConfirm: () {
-                  context
-                      .read<MandateStatusCubit>()
-                      .deleteMandate(DeleteMandateParams(e.mandateId));
-                  context.read<MandateStatusCubit>().getMandateStatus();
-                  GlobalFunctions.showSnackTile(context,
-                      title: appLocalizations
-                          .home_custodianBankList_toast_deleteMandate_title,
-                      color: Colors.green);
-                },
-              );
-            },
-            icon: Icon(
-              Icons.navigate_next,
-              color: Theme.of(context).primaryColor,
-            ))
+        const SizedBox(),
+        // IconButton(
+        //     onPressed: () {
+        //       GlobalFunctions.showConfirmDialog(
+        //         context: context,
+        //         title: '',
+        //         body: appLocalizations
+        //             .linkAccount_deleteCustodianBankModal_description,
+        //         confirm: appLocalizations.common_button_yes,
+        //         cancel: appLocalizations.common_button_no,
+        //         onConfirm: () {
+        //           context
+        //               .read<MandateStatusCubit>()
+        //               .deleteMandate(DeleteMandateParams(e.mandateId));
+        //           context.read<MandateStatusCubit>().getMandateStatus();
+        //           GlobalFunctions.showSnackTile(context,
+        //               title: appLocalizations
+        //                   .home_custodianBankList_toast_deleteMandate_title,
+        //               color: Colors.green);
+        //         },
+        //       );
+        //     },
+        //     icon: Icon(
+        //       Icons.navigate_next,
+        //       color: Theme.of(context).primaryColor,
+        //     ))
       ],
     );
   }
@@ -240,17 +241,20 @@ Future<bool?> showDetailModal(
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Expanded(
-                            child: OutlinedButton(
-                                onPressed: () {
-                                  onDelete();
-                                  Navigator.pop(context);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    fixedSize: const Size(double.infinity, 50)),
-                                child: Text(
-                                    appLocalizations.common_button_delete)),
+                          const Expanded(
+                            child: SizedBox.shrink(),
                           ),
+                          // Expanded(
+                          //   child: OutlinedButton(
+                          //       onPressed: () {
+                          //         onDelete();
+                          //         Navigator.pop(context);
+                          //       },
+                          //       style: ElevatedButton.styleFrom(
+                          //           fixedSize: const Size(double.infinity, 50)),
+                          //       child: Text(
+                          //           appLocalizations.common_button_delete)),
+                          // ),
                           const SizedBox(width: 16),
                           Expanded(
                             child: ElevatedButton(
