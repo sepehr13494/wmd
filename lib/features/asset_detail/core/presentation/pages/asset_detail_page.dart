@@ -152,7 +152,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                                           ),
                                           child: AsssetSummary(
                                             onEdit:
-                                            !state.assetSummaryEntity.isManuallyAdded ? null : () {
+                                            (!state.assetSummaryEntity.isManuallyAdded || state.assetSummaryEntity.totalQuantity == 0) ? null : () {
                                               context
                                                   .read<AssetSeeMoreCubit>()
                                                   .getAssetSeeMore(

@@ -332,6 +332,7 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                     .assetLiabilityForms_forms_bankAccount_inputFields_accountType_label,
                                                 child: AppTextFields
                                                     .dropDownTextField(
+                                                  enabled: !(edit && isDepositTerm),
                                                   errorMsg: appLocalizations
                                                       .assetLiabilityForms_forms_bankAccount_inputFields_accountType_errorMessage,
                                                   onChanged: (val) async {
@@ -367,7 +368,7 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                     return DropdownMenuItem(
                                                       enabled: enabled,
                                                       value: e.value,
-                                                      child: Text(e.name),
+                                                      child: Text(e.name,style: TextStyle(color: !enabled ? Theme.of(context).disabledColor : null),),
                                                     );
                                                   }).toList(),
                                                 ),

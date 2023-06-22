@@ -13,7 +13,7 @@ class OtherAseetMoreEntity extends GetSeeMoreResponse {
     required this.units,
     required this.acquisitionCost,
     required this.ownerShip,
-    required this.valuePerUnit,
+    this.valuePerUnit,
     required this.currentDayValue,
     required this.name,
     this.wealthManager,
@@ -40,7 +40,7 @@ class OtherAseetMoreEntity extends GetSeeMoreResponse {
   final DateTime? acquisitionDate;
   final DateTime valuationDate;
   final double ownerShip;
-  final double valuePerUnit;
+  final double? valuePerUnit;
   final double currentDayValue;
   final String id;
   final String type;
@@ -54,8 +54,15 @@ class OtherAseetMoreEntity extends GetSeeMoreResponse {
   final double inceptionToDate;
   final DateTime asOfDate;
 
-  factory OtherAseetMoreEntity.fromJson(Map<String, dynamic> json) =>
-      OtherAseetMoreEntity(
+  factory OtherAseetMoreEntity.fromJson(Map<String, dynamic> json) {
+    double? valuePerUnit;
+    if(json["valuePerUnit"] != null){
+      final x = (double.tryParse(json["valuePerUnit"].toString()) ?? 0);
+      if(x==0){
+        valuePerUnit = null;
+      }
+    }
+    return OtherAseetMoreEntity(
         name: json["name"],
         acquisitionDate: json["acquisitionDate"] == null ? null : DateTime.parse(json["acquisitionDate"]),
         valuationDate: DateTime.parse(json["valuationDate"]),
@@ -75,10 +82,11 @@ class OtherAseetMoreEntity extends GetSeeMoreResponse {
         units: double.tryParse(json["units"].toString()) ?? 0,
         acquisitionCost: json["acquisitionCost"],
         ownerShip: double.tryParse(json["ownership"].toString()) ?? 0,
-        valuePerUnit: double.tryParse(json["valuePerUnit"].toString()) ?? 0,
+        valuePerUnit: json["valuePerUnit"] == null ? null : valuePerUnit,
         currentDayValue:
             double.tryParse(json["currentDayValue"].toString()) ?? 0,
       );
+  }
 
   Map<String, dynamic> toJson() => {
         "name": name,
@@ -113,7 +121,7 @@ class OtherAseetMoreEntity extends GetSeeMoreResponse {
     "acquisitionDate": acquisitionDate,
     "valuationDate": valuationDate,
     "ownerShip": ownerShip.toStringAsFixedZero(0),
-    "valuePerUnit": valuePerUnit.convertMoney(),
+    "valuePerUnit": valuePerUnit == null ? null : valuePerUnit!.convertMoney(),
     "currentDayValue": ((currentDayValue * 100)/ownerShip).convertMoney(),
     "id": id,
     "type": type,
