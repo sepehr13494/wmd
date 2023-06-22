@@ -1,6 +1,7 @@
 import 'package:wmd/core/data/network/server_request_manager.dart';
 import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/data/repository/app_data_source.dart';
+import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/models/app_request_options.dart';
 
 import '../models/assets_overview_params.dart';
@@ -16,13 +17,32 @@ class AssetsOverviewRemoteDataSourceImpl extends AppServerDataSource
 
   @override
   Future<List<AssetsOverviewResponse>> getAssetsOverview(AssetsOverviewParams params) async {
-    final appRequestOptions =
-        AppRequestOptions(RequestTypes.get, AppUrls.getAssetsOverview, params.toJson());
-    final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
-    final result = (response as List<dynamic>)
-                .map((e) => AssetsOverviewResponse.fromJson(e))
-                .toList();
-    return result;
+    try{
+      final appRequestOptions1 = AppRequestOptions(RequestTypes.get, AppUrls.getAssetsOverviewByType, params.toJson());
+      final appRequestOptions2 = AppRequestOptions(RequestTypes.get, AppUrls.getAssetsByType, params.toJson());
+      late Map<String,dynamic> response1;
+      late List<dynamic> response2;
+      await Future.wait([
+        errorHandlerMiddleware.sendRequest(appRequestOptions1).then((value) {
+          response1 = value;
+        }),
+        errorHandlerMiddleware.sendRequest(appRequestOptions2).then((value) {
+          response2 = value;
+        }),
+      ]);
+      final response = {
+        ...response1,
+        "assetList":response2
+      };
+      final result = [AssetsOverviewResponse.fromJson(response)];
+      return result;
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw AppException(
+          message: "format Exception", type: ExceptionType.format,data: e.toString(),stackTrace: e is TypeError ? e.stackTrace.toString() : null);
+    }
+
   }
 }
 

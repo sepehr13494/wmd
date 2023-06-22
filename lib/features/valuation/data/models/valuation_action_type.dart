@@ -28,6 +28,13 @@ class ValuationActionType {
             value: "Sell"),
       ];
 
+  static jsonBuy(context) => [
+        RadioButtonOptions(
+            label:
+                AppLocalizations.of(context).assets_valuationModal_labels_Buy,
+            value: "Buy"),
+      ];
+
   static valuationActionTypeList(context) => json(context);
   static valuationActionTypeListRealEstate(context) => jsonSell(context);
 }

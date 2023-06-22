@@ -147,7 +147,28 @@ class MyApp extends StatelessWidget {
           return sl<SummeryWidgetCubit>()..initPage();
         }),
         BlocProvider(create: (context) {
-          return sl<AssetsOverviewCubit>()..getAssetsOverview();
+          return sl<AssetsOverviewCubitBankAccount>()..getAssetsOverview();
+        }),
+        BlocProvider(create: (context) {
+          return sl<AssetsOverviewCubitListedAssetEquity>()..getAssetsOverview();
+        }),
+        BlocProvider(create: (context) {
+          return sl<AssetsOverviewCubitListedAssetOther>()..getAssetsOverview();
+        }),
+        BlocProvider(create: (context) {
+          return sl<AssetsOverviewCubitListedAssetFixedIncome>()..getAssetsOverview();
+        }),
+        BlocProvider(create: (context) {
+          return sl<AssetsOverviewCubitRealEstate>()..getAssetsOverview();
+        }),
+        BlocProvider(create: (context) {
+          return sl<AssetsOverviewCubitPrivateEquity>()..getAssetsOverview();
+        }),
+        BlocProvider(create: (context) {
+          return sl<AssetsOverviewCubitPrivateDebt>()..getAssetsOverview();
+        }),
+        BlocProvider(create: (context) {
+          return sl<AssetsOverviewCubitOtherAssets>()..getAssetsOverview();
         }),
         BlocProvider(create: (context) {
           return sl<PerformanceAssetClassCubit>()..getAssetClass();

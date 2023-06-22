@@ -55,6 +55,8 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/domain/use_cases/del
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_bank_list_usecase.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_auth_cubit.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
+import 'package:wmd/features/add_assets/pam_login/domain/use_cases/login_pam_account_usecase.dart';
+import 'package:wmd/features/add_assets/pam_login/presentation/manager/pam_login_cubit.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/manager/asset_view_cubit.dart';
 import 'package:wmd/features/asset_detail/core/data/repositories/asset_summary_repository_impl.dart';
 import 'package:wmd/features/asset_detail/core/presentation/manager/asset_summary_cubit.dart';
@@ -282,6 +284,10 @@ import 'features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_s
 import 'features/add_assets/custodian_bank_auth/domain/use_cases/post_custodian_bank_status_usecase.dart';
 import 'features/add_assets/custodian_bank_auth/domain/use_cases/put_custodian_bank_status_usecase.dart';
 import 'features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_list_cubit.dart';
+import 'features/add_assets/pam_login/data/data_sources/pam_login_remote_datasource.dart';
+import 'features/add_assets/pam_login/data/repositories/pam_login_repository_impl.dart';
+import 'features/add_assets/pam_login/domain/repositories/pam_login_repository.dart';
+import 'features/add_assets/pam_login/domain/use_cases/get_mandates_usecase.dart';
 import 'features/add_assets/tfo_login/data/data_sources/tfo_login_remote_datasource.dart';
 import 'features/add_assets/tfo_login/data/repositories/tfo_login_repository_impl.dart';
 import 'features/add_assets/tfo_login/domain/repositories/tfo_login_repository.dart';
@@ -404,7 +410,15 @@ Future<void> init(String env) async {
       () => DashboardChartsRemoteDataSourceImpl(sl()));
 
   //AssetOverview
-  sl.registerFactory(() => AssetsOverviewCubit(sl()));
+  sl.registerFactory(() => AssetsOverviewCubit(sl(),""));
+  sl.registerFactory(() => AssetsOverviewCubitBankAccount(sl()));
+  sl.registerFactory(() => AssetsOverviewCubitListedAssetEquity(sl()));
+  sl.registerFactory(() => AssetsOverviewCubitListedAssetOther(sl()));
+  sl.registerFactory(() => AssetsOverviewCubitListedAssetFixedIncome(sl()));
+  sl.registerFactory(() => AssetsOverviewCubitRealEstate(sl()));
+  sl.registerFactory(() => AssetsOverviewCubitPrivateEquity(sl()));
+  sl.registerFactory(() => AssetsOverviewCubitPrivateDebt(sl()));
+  sl.registerFactory(() => AssetsOverviewCubitOtherAssets(sl()));
   sl.registerLazySingleton(() => GetAssetsOverviewUseCase(sl()));
   sl.registerLazySingleton<AssetsOverviewRepository>(
       () => AssetsOverviewRepositoryImpl(sl()));
@@ -770,6 +784,16 @@ Future<void> init(String env) async {
       () => TfoLoginRepositoryImpl(sl()));
   sl.registerLazySingleton<TfoLoginRemoteDataSource>(
       () => TfoLoginRemoteDataSourceImpl(sl()));
+
+  //PamLogin
+  sl.registerFactory(() => PamLoginCubit(sl(), sl()));
+  sl.registerLazySingleton(() => GetPamMandatesUseCase(sl()));
+  sl.registerLazySingleton(() => LoginPamAccountUseCase(sl()));
+
+  sl.registerLazySingleton<PamLoginRepository>(
+      () => PamLoginRepositoryImpl(sl()));
+  sl.registerLazySingleton<PamLoginRemoteDataSource>(
+      () => PamLoginRemoteDataSourceImpl(sl()));
 
   //SafeDevice
   sl.registerFactory(() => SafeDeviceCubit(sl()));
