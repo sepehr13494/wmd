@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wmd/core/models/time_filer_obj.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
+import 'package:wmd/core/presentation/routes/app_router.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -151,19 +152,26 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                                             },
                                           ),
                                           child: AsssetSummary(
-                                            onEdit:
-                                            (!state.assetSummaryEntity.isManuallyAdded || state.assetSummaryEntity.totalQuantity == 0) ? null : () {
-                                              context
-                                                  .read<AssetSeeMoreCubit>()
-                                                  .getAssetSeeMore(
-                                                    GetSeeMoreParams(
-                                                      type: state
-                                                          .assetSummaryEntity
-                                                          .assetClassName,
-                                                      assetId: widget.assetId,
-                                                    ),
-                                                  );
-                                            },
+                                            onEdit: (!state.assetSummaryEntity
+                                                        .isManuallyAdded ||
+                                                    state.assetSummaryEntity
+                                                            .totalQuantity ==
+                                                        0)
+                                                ? null
+                                                : () {
+                                                    context
+                                                        .read<
+                                                            AssetSeeMoreCubit>()
+                                                        .getAssetSeeMore(
+                                                          GetSeeMoreParams(
+                                                            type: state
+                                                                .assetSummaryEntity
+                                                                .assetClassName,
+                                                            assetId:
+                                                                widget.assetId,
+                                                          ),
+                                                        );
+                                                  },
                                             summary: state.assetSummaryEntity,
                                             days: selectedTimeFilter.value,
                                             assetId: widget.assetId,
@@ -194,14 +202,18 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                                 // values.add(MapEntry(
                                 //     DateTime.now().add(const Duration(days: 1)),
                                 //     -12312312));
-                                return Padding(
-                                  padding: EdgeInsets.all(
-                                      responsiveHelper.biggerGap),
-                                  child: PerformanceLineChartV2(
-                                    values: values,
-                                    days: selectedTimeFilter.value,
-                                  ),
-                                );
+                                if (values.isNotEmpty) {
+                                  return Padding(
+                                    padding: EdgeInsets.all(
+                                        responsiveHelper.biggerGap),
+                                    child: PerformanceLineChartV2(
+                                      values: values,
+                                      days: selectedTimeFilter.value,
+                                    ),
+                                  );
+                                }
+
+                                return const SizedBox();
                               }),
                             SizedBox(height: responsiveHelper.biggerGap),
                             ValuationWidget(
@@ -225,6 +237,8 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                                         .read<ValuationCubit>()
                                         .getAllValuation(GetAllValuationParams(
                                             widget.assetId));
+
+                                    AppRouter().setMainRefreshKey();
                                   } catch (e) {
                                     debugPrint(
                                         "callback working. gfailed.....");
