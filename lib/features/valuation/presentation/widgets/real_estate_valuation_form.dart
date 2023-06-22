@@ -143,11 +143,12 @@ class _RealEstateValuationFormWidgetState
         setState(() {
           haveBuy = true;
         });
-      } else if (json["isRealEstate"] == false) {
-        setState(() {
-          haveBuy = true;
-        });
       }
+      //  else if (json["isRealEstate"] == false) {
+      //   setState(() {
+      //     haveBuy = true;
+      //   });
+      // }
 
       setState(() {
         aqusitionDateValue = json["acquisitionDate"];
