@@ -218,11 +218,6 @@ class _ListedEquityValuationFormWidgettState
                   name: "quantity",
                   extraValidators: [
                     (val) {
-                      return ((double.tryParse(val ?? "0") ?? 0) <= 100)
-                          ? null
-                          : "${appLocalizations.assets_valuationModal_labels_noOfUnits} can't be greater then 100";
-                    },
-                    (val) {
                       if (actionValue == "Sell") {
                         return ((double.tryParse(val ?? "0") ?? 0) <=
                                 (assetQuantity ?? 0))
