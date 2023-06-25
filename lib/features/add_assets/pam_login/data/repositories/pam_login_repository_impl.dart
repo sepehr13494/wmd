@@ -1,9 +1,12 @@
+import 'dart:developer';
+import 'dart:io';
 import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:dartz/dartz.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/core/util/jwt_parser.dart';
 
 import '../models/get_mandates_params.dart';
 
@@ -36,8 +39,21 @@ class PamLoginRepositoryImpl implements PamLoginRepository {
     try {
       final auth0 = Auth0(
           AppConstants.pamAuth0IssuerBaseUrl, AppConstants.pamAuth0ClientId);
-      final Credentials credentials = await auth0.webAuthentication().login();
-      final result = await remoteDataSource.loginTfoAccount(params);
+      late final Credentials credentials;
+      if (Platform.isAndroid) {
+        credentials =
+            await auth0.webAuthentication(scheme: AppConstants.appId).login();
+      } else {
+        credentials = await auth0.webAuthentication().login();
+      }
+      final claims = parseJwt(credentials.idToken);
+      log('Mert log Pam $claims');
+      final mandates = claims['mandate'];
+      log('Mert log Pam $mandates');
+      if (mandates == null) {
+        throw Exception('No mandates found');
+      }
+      final result = await remoteDataSource.loginPamAccount(mandates);
       return const Right(AppSuccess(message: "successfully done"));
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
