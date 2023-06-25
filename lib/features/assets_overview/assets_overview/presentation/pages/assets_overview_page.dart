@@ -13,6 +13,7 @@ import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/features/assets_overview/assets_geography_chart/domain/entities/get_assets_geography_entity.dart';
 import 'package:wmd/features/assets_overview/assets_geography_chart/presentation/manager/assets_geography_chart_cubit.dart';
 import 'package:wmd/features/assets_overview/assets_overview/domain/entities/assets_overview_entity.dart';
+import 'package:wmd/features/assets_overview/assets_overview/presentation/widgets/shimmers/each_asset_shimmer.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/chart_chooser_manager.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_manager.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/chart_chooser.dart';
@@ -346,7 +347,7 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                                         );
                                                       });
                                                     } else {
-                                                      return const LoadingWidget();
+                                                      return const EachAssetShimmer();
                                                     }
                                                   }),
                                                 );
@@ -354,7 +355,9 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                             );
                                           },
                                         )
-                                      : const LoadingWidget();
+                                      : Column(
+                                    children: List.generate(4, (index) => const EachAssetShimmer()),
+                                  );
                                 },
                               )
                             ]

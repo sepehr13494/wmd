@@ -25,9 +25,9 @@ class AssetsOverviewCubit extends Cubit<AssetsOverviewState> {
     final result = await assetsOverviewUseCase(AssetsOverviewParams(type: type));
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (assetsOverviews) {
-      /*assetsOverviews.sort((a, b) {
+      assetsOverviews.sort((a, b) {
         return (b.totalAmount - a.totalAmount).toInt();
-      },);*/
+      },);
       emit(AssetsOverviewLoaded(assetsOverviews: assetsOverviews));
     });
 

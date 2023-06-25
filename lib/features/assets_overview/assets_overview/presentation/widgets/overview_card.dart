@@ -10,6 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/tooltip_bank_exception.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/as_of_date_widget.dart';
+import 'package:wmd/features/assets_overview/assets_overview/presentation/widgets/shimmers/over_view_card_shimmer.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
@@ -181,7 +182,7 @@ class OverViewCard extends AppStatelessWidget {
             ],
           );
         } else {
-          return const LoadingWidget();
+          return const OverviewCardShimmer();
         }
       },
     );
