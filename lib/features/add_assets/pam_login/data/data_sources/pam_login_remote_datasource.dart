@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:wmd/core/data/network/server_request_manager.dart';
@@ -10,10 +11,11 @@ import '../models/get_mandates_params.dart';
 import '../models/get_mandates_response.dart';
 import '../models/login_pam_account_params.dart';
 import '../models/login_pam_account_response.dart';
+import '../models/mandate_param.dart';
 
 abstract class PamLoginRemoteDataSource {
   Future<GetMandatesResponse> getMandates(GetMandatesParams params);
-  Future<LoginPamAccountResponse> loginTfoAccount(LoginPamAccountParams params);
+  Future<LoginPamAccountResponse> loginPamAccount(List<Mandate> params);
 }
 
 class PamLoginRemoteDataSourceImpl extends AppServerDataSource
@@ -41,11 +43,10 @@ class PamLoginRemoteDataSourceImpl extends AppServerDataSource
   }
 
   @override
-  Future<LoginPamAccountResponse> loginTfoAccount(
-      LoginPamAccountParams params) async {
+  Future<LoginPamAccountResponse> loginPamAccount(List<Mandate> params) async {
     try {
       final appRequestOptions = AppRequestOptions(
-          RequestTypes.get, AppUrls.postMandates, params.toJson());
+          RequestTypes.get, AppUrls.postMandates, jsonEncode(params));
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = LoginPamAccountResponse.fromJson(response);
