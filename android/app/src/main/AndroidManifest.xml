@@ -98,12 +98,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https" android:host="allinoneplus.com" android:path="/password/update"/>
             </intent-filter>
-            <intent-filter android:autoVerify="true">          
-                <action android:name="android.intent.action.VIEW"/>     
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="app" android:host="pam-uat.eu.auth0.com" android:pathPrefix="/android/com.tfo.wmd/callback"/> 
-            </intent-filter>
+           
         </activity>
 
         <activity android:name="com.auth0.android.provider.RedirectActivity"
@@ -118,10 +113,10 @@
 
                 <data android:host="tfo-uat.eu.auth0.com"
                     android:pathPrefix="/android/com.tfo.wmd/callback"
-                    android:scheme="https" />
+                    android:scheme="com.tfo.wmd" />
                 <data android:host="pam-uat.eu.auth0.com"
                     android:pathPrefix="/android/com.tfo.wmd/callback"
-                    android:scheme="app" />
+                    android:scheme="com.tfo.wmd" />
             </intent-filter>
         </activity>
 
