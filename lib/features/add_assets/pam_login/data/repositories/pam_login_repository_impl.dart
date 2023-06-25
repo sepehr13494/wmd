@@ -41,8 +41,9 @@ class PamLoginRepositoryImpl implements PamLoginRepository {
           AppConstants.pamAuth0IssuerBaseUrl, AppConstants.pamAuth0ClientId);
       late final Credentials credentials;
       if (Platform.isAndroid) {
-        credentials =
-            await auth0.webAuthentication(scheme: AppConstants.appId).login();
+        credentials = await auth0
+            .webAuthentication(scheme: AppConstants.bundleId)
+            .login();
       } else {
         credentials = await auth0.webAuthentication().login();
       }
