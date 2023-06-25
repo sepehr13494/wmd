@@ -81,14 +81,23 @@ class AppRouter {
   MainDashboardCubit _mainDashboardCubit = sl<MainDashboardCubit>();
   MainPageCubit _mainPageCubit = sl<MainPageCubit>();
   SummeryWidgetCubit _summeryWidgetCubit = sl<SummeryWidgetCubit>();
-  AssetsOverviewCubitBankAccount _assetsOverviewCubitBankAccount = sl<AssetsOverviewCubitBankAccount>();
-  AssetsOverviewCubitListedAssetEquity _assetsOverviewCubitListedAssetEquity = sl<AssetsOverviewCubitListedAssetEquity>();
-  AssetsOverviewCubitListedAssetOther _assetsOverviewCubitListedAssetOther = sl<AssetsOverviewCubitListedAssetOther>();
-  AssetsOverviewCubitListedAssetFixedIncome _assetsOverviewCubitListedAssetFixedIncome = sl<AssetsOverviewCubitListedAssetFixedIncome>();
-  AssetsOverviewCubitPrivateEquity _assetsOverviewCubitPrivateEquity = sl<AssetsOverviewCubitPrivateEquity>();
-  AssetsOverviewCubitPrivateDebt _assetsOverviewCubitPrivateDebt = sl<AssetsOverviewCubitPrivateDebt>();
-  AssetsOverviewCubitRealEstate _assetsOverviewCubitRealEstate = sl<AssetsOverviewCubitRealEstate>();
-  AssetsOverviewCubitOtherAssets _assetsOverviewCubitOtherAsset = sl<AssetsOverviewCubitOtherAssets>();
+  AssetsOverviewCubitBankAccount _assetsOverviewCubitBankAccount =
+      sl<AssetsOverviewCubitBankAccount>();
+  AssetsOverviewCubitListedAssetEquity _assetsOverviewCubitListedAssetEquity =
+      sl<AssetsOverviewCubitListedAssetEquity>();
+  AssetsOverviewCubitListedAssetOther _assetsOverviewCubitListedAssetOther =
+      sl<AssetsOverviewCubitListedAssetOther>();
+  AssetsOverviewCubitListedAssetFixedIncome
+      _assetsOverviewCubitListedAssetFixedIncome =
+      sl<AssetsOverviewCubitListedAssetFixedIncome>();
+  AssetsOverviewCubitPrivateEquity _assetsOverviewCubitPrivateEquity =
+      sl<AssetsOverviewCubitPrivateEquity>();
+  AssetsOverviewCubitPrivateDebt _assetsOverviewCubitPrivateDebt =
+      sl<AssetsOverviewCubitPrivateDebt>();
+  AssetsOverviewCubitRealEstate _assetsOverviewCubitRealEstate =
+      sl<AssetsOverviewCubitRealEstate>();
+  AssetsOverviewCubitOtherAssets _assetsOverviewCubitOtherAsset =
+      sl<AssetsOverviewCubitOtherAssets>();
   ChartsCubit _chartsCubit = sl<ChartsCubit>();
   CurrencyChartCubit _currencyChartCubit = sl<CurrencyChartCubit>();
   AssetsGeographyChartCubit _assetsGeographyChartCubit =
@@ -114,6 +123,7 @@ class AppRouter {
   TwoFactorCubit _twoFactorCubit = sl<TwoFactorCubit>();
 
   Key mainPageRefreshKey = UniqueKey();
+
   setMainRefreshKey() {
     mainPageRefreshKey = UniqueKey();
   }
@@ -230,167 +240,185 @@ class AppRouter {
             name: AppRoutes.main,
             path: "/main",
             builder: (BuildContext context, GoRouterState state) {
-              return MultiBlocProvider(
-                key: mainPageRefreshKey,
-                providers: [
-                  BlocProvider(
-                      create: (context) => sl<AssetChartChooserManager>()),
-                  BlocProvider(
-                      create: (context) => sl<GeoChartChooserManager>()),
-                  BlocProvider(
-                    create: (context) => sl<TabManager>(),
-                    lazy: false,
+              return BlocProvider(
+                create: (context) {
+                  _mainPageCubit = sl<MainPageCubit>();
+                  return _mainPageCubit;
+                },
+                child: MultiBlocProvider(
+                  key: mainPageRefreshKey,
+                  providers: [
+                    BlocProvider(
+                        create: (context) => sl<AssetChartChooserManager>()),
+                    BlocProvider(
+                        create: (context) => sl<GeoChartChooserManager>()),
+                    BlocProvider(
+                      create: (context) => sl<TabManager>(),
+                      lazy: false,
+                    ),
+                    BlocProvider(
+                      create: (context) => sl<TabScrollManager>(),
+                    ),
+                    BlocProvider(create: (context) {
+                      _userStatusCubit = sl<UserStatusCubit>();
+                      return _userStatusCubit;
+                    }),
+                    BlocProvider(create: (context) {
+                      _mainDashboardCubit = sl<MainDashboardCubit>();
+                      return _mainDashboardCubit..initPage();
+                    }),
+                    BlocProvider(create: (context) {
+                      _blurredPrivacyCubit = sl<BlurredPrivacyCubit>();
+                      return _blurredPrivacyCubit..getIsBlurred();
+                    }),
+                    BlocProvider(create: (context) {
+                      _summeryWidgetCubit = sl<SummeryWidgetCubit>();
+                      return _summeryWidgetCubit..initPage();
+                    }),
+                    BlocProvider(create: (context) {
+                      _assetsOverviewCubitBankAccount =
+                          sl<AssetsOverviewCubitBankAccount>();
+                      return _assetsOverviewCubitBankAccount
+                        ..getAssetsOverview();
+                    }),
+                    BlocProvider(create: (context) {
+                      _assetsOverviewCubitListedAssetEquity =
+                          sl<AssetsOverviewCubitListedAssetEquity>();
+                      return _assetsOverviewCubitListedAssetEquity
+                        ..getAssetsOverview();
+                    }),
+                    BlocProvider(create: (context) {
+                      _assetsOverviewCubitListedAssetOther =
+                          sl<AssetsOverviewCubitListedAssetOther>();
+                      return _assetsOverviewCubitListedAssetOther
+                        ..getAssetsOverview();
+                    }),
+                    BlocProvider(create: (context) {
+                      _assetsOverviewCubitListedAssetFixedIncome =
+                          sl<AssetsOverviewCubitListedAssetFixedIncome>();
+                      return _assetsOverviewCubitListedAssetFixedIncome
+                        ..getAssetsOverview();
+                    }),
+                    BlocProvider(create: (context) {
+                      _assetsOverviewCubitRealEstate =
+                          sl<AssetsOverviewCubitRealEstate>();
+                      return _assetsOverviewCubitRealEstate
+                        ..getAssetsOverview();
+                    }),
+                    BlocProvider(create: (context) {
+                      _assetsOverviewCubitPrivateDebt =
+                          sl<AssetsOverviewCubitPrivateDebt>();
+                      return _assetsOverviewCubitPrivateDebt
+                        ..getAssetsOverview();
+                    }),
+                    BlocProvider(create: (context) {
+                      _assetsOverviewCubitPrivateEquity =
+                          sl<AssetsOverviewCubitPrivateEquity>();
+                      return _assetsOverviewCubitPrivateEquity
+                        ..getAssetsOverview();
+                    }),
+                    BlocProvider(create: (context) {
+                      _assetsOverviewCubitOtherAsset =
+                          sl<AssetsOverviewCubitOtherAssets>();
+                      return _assetsOverviewCubitOtherAsset
+                        ..getAssetsOverview();
+                    }),
+                    BlocProvider(create: (context) {
+                      _performanceAssetClassCubit =
+                          sl<PerformanceAssetClassCubit>();
+                      return _performanceAssetClassCubit..getAssetClass();
+                    }),
+                    BlocProvider(create: (context) {
+                      _performanceBenchmarkCubit =
+                          sl<PerformanceBenchmarkCubit>();
+                      return _performanceBenchmarkCubit..getBenchmark();
+                    }),
+                    BlocProvider(create: (context) {
+                      _clientIndexCubit = sl<ClientIndexCubit>();
+                      return _clientIndexCubit..getClientIndex();
+                    }),
+                    BlocProvider(create: (context) {
+                      _performanceCustodianCubit =
+                          sl<PerformanceCustodianCubit>();
+                      return _performanceCustodianCubit
+                        ..getCustodianPerformance();
+                    }),
+                    BlocProvider(
+                      create: (context) {
+                        _chartsCubit = sl<ChartsCubit>();
+                        return _chartsCubit..getChart();
+                      },
+                    ),
+                    BlocProvider(
+                      create: (context) {
+                        _currencyChartCubit = sl<CurrencyChartCubit>();
+                        return _currencyChartCubit..getCurrency();
+                      },
+                    ),
+                    BlocProvider(
+                      create: (context) {
+                        _assetsGeographyChartCubit =
+                            sl<AssetsGeographyChartCubit>();
+                        return _assetsGeographyChartCubit..getAssetsGeography();
+                      },
+                    ),
+                    BlocProvider(
+                      create: (context) {
+                        _portfolioTabCubit = sl<PortfolioTabCubit>();
+                        return _portfolioTabCubit..getPortfolioTab();
+                      },
+                    ),
+                    BlocProvider(
+                      create: (context) {
+                        _dashboardAllocationCubit =
+                            sl<DashboardAllocationCubit>();
+                        return _dashboardAllocationCubit..getAllocation();
+                      },
+                    ),
+                    BlocProvider(
+                      create: (context) {
+                        _dashboardPieCubit = sl<DashboardPieCubit>();
+                        return _dashboardPieCubit..getPie();
+                      },
+                    ),
+                    BlocProvider(
+                      create: (context) {
+                        _dashboardGoeCubit = sl<DashboardGoeCubit>();
+                        return _dashboardGoeCubit..getGeographic();
+                      },
+                    ),
+                    BlocProvider(
+                      create: (context) {
+                        _custodianStatusListCubit =
+                            sl<CustodianStatusListCubit>();
+                        return _custodianStatusListCubit
+                          ..getCustodianStatusList();
+                      },
+                    ),
+                    BlocProvider(
+                      lazy: false,
+                      create: (context) {
+                        _personalInformationCubit =
+                            sl<PersonalInformationCubit>();
+                        return _personalInformationCubit..getName();
+                      },
+                    ),
+                    BlocProvider(
+                      create: (context) {
+                        _twoFactorCubit = sl<TwoFactorCubit>();
+                        return _twoFactorCubit..getTwoFactor();
+                      },
+                    ),
+                  ],
+                  child: PrivacyBlurWrapper(
+                    child: LocalAuthWrapper(
+                        child: MainPage(
+                            expandCustodian:
+                                state.queryParams['expandCustodian'] != null
+                                    ? state.queryParams['expandCustodian'] ==
+                                        'true'
+                                    : false)),
                   ),
-                  BlocProvider(
-                    create: (context) => sl<TabScrollManager>(),
-                  ),
-                  BlocProvider(create: (context) {
-                    _mainPageCubit = sl<MainPageCubit>();
-                    return _mainPageCubit;
-                  }),
-                  BlocProvider(create: (context) {
-                    _userStatusCubit = sl<UserStatusCubit>();
-                    return _userStatusCubit;
-                  }),
-                  BlocProvider(create: (context) {
-                    _mainDashboardCubit = sl<MainDashboardCubit>();
-                    return _mainDashboardCubit..initPage();
-                  }),
-                  BlocProvider(create: (context) {
-                    _blurredPrivacyCubit = sl<BlurredPrivacyCubit>();
-                    return _blurredPrivacyCubit..getIsBlurred();
-                  }),
-                  BlocProvider(create: (context) {
-                    _summeryWidgetCubit = sl<SummeryWidgetCubit>();
-                    return _summeryWidgetCubit..initPage();
-                  }),
-                  BlocProvider(create: (context) {
-                    _assetsOverviewCubitBankAccount = sl<AssetsOverviewCubitBankAccount>();
-                    return _assetsOverviewCubitBankAccount..getAssetsOverview();
-                  }),
-                  BlocProvider(create: (context) {
-                    _assetsOverviewCubitListedAssetEquity = sl<AssetsOverviewCubitListedAssetEquity>();
-                    return _assetsOverviewCubitListedAssetEquity..getAssetsOverview();
-                  }),
-                  BlocProvider(create: (context) {
-                    _assetsOverviewCubitListedAssetOther = sl<AssetsOverviewCubitListedAssetOther>();
-                    return _assetsOverviewCubitListedAssetOther..getAssetsOverview();
-                  }),
-                  BlocProvider(create: (context) {
-                    _assetsOverviewCubitListedAssetFixedIncome = sl<AssetsOverviewCubitListedAssetFixedIncome>();
-                    return _assetsOverviewCubitListedAssetFixedIncome..getAssetsOverview();
-                  }),
-                  BlocProvider(create: (context) {
-                    _assetsOverviewCubitRealEstate = sl<AssetsOverviewCubitRealEstate>();
-                    return _assetsOverviewCubitRealEstate..getAssetsOverview();
-                  }),
-                  BlocProvider(create: (context) {
-                    _assetsOverviewCubitPrivateDebt = sl<AssetsOverviewCubitPrivateDebt>();
-                    return _assetsOverviewCubitPrivateDebt..getAssetsOverview();
-                  }),
-                  BlocProvider(create: (context) {
-                    _assetsOverviewCubitPrivateEquity = sl<AssetsOverviewCubitPrivateEquity>();
-                    return _assetsOverviewCubitPrivateEquity..getAssetsOverview();
-                  }),
-                  BlocProvider(create: (context) {
-                    _assetsOverviewCubitOtherAsset = sl<AssetsOverviewCubitOtherAssets>();
-                    return _assetsOverviewCubitOtherAsset..getAssetsOverview();
-                  }),
-                  BlocProvider(create: (context) {
-                    _performanceAssetClassCubit =
-                        sl<PerformanceAssetClassCubit>();
-                    return _performanceAssetClassCubit..getAssetClass();
-                  }),
-                  BlocProvider(create: (context) {
-                    _performanceBenchmarkCubit =
-                        sl<PerformanceBenchmarkCubit>();
-                    return _performanceBenchmarkCubit..getBenchmark();
-                  }),
-                  BlocProvider(create: (context) {
-                    _clientIndexCubit = sl<ClientIndexCubit>();
-                    return _clientIndexCubit..getClientIndex();
-                  }),
-                  BlocProvider(create: (context) {
-                    _performanceCustodianCubit =
-                        sl<PerformanceCustodianCubit>();
-                    return _performanceCustodianCubit
-                      ..getCustodianPerformance();
-                  }),
-                  BlocProvider(
-                    create: (context) {
-                      _chartsCubit = sl<ChartsCubit>();
-                      return _chartsCubit..getChart();
-                    },
-                  ),
-                  BlocProvider(
-                    create: (context) {
-                      _currencyChartCubit = sl<CurrencyChartCubit>();
-                      return _currencyChartCubit..getCurrency();
-                    },
-                  ),
-                  BlocProvider(
-                    create: (context) {
-                      _assetsGeographyChartCubit =
-                          sl<AssetsGeographyChartCubit>();
-                      return _assetsGeographyChartCubit..getAssetsGeography();
-                    },
-                  ),
-                  BlocProvider(
-                    create: (context) {
-                      _portfolioTabCubit = sl<PortfolioTabCubit>();
-                      return _portfolioTabCubit..getPortfolioTab();
-                    },
-                  ),
-                  BlocProvider(
-                    create: (context) {
-                      _dashboardAllocationCubit =
-                          sl<DashboardAllocationCubit>();
-                      return _dashboardAllocationCubit..getAllocation();
-                    },
-                  ),
-                  BlocProvider(
-                    create: (context) {
-                      _dashboardPieCubit = sl<DashboardPieCubit>();
-                      return _dashboardPieCubit..getPie();
-                    },
-                  ),
-                  BlocProvider(
-                    create: (context) {
-                      _dashboardGoeCubit = sl<DashboardGoeCubit>();
-                      return _dashboardGoeCubit..getGeographic();
-                    },
-                  ),
-                  BlocProvider(
-                    create: (context) {
-                      _custodianStatusListCubit =
-                          sl<CustodianStatusListCubit>();
-                      return _custodianStatusListCubit
-                        ..getCustodianStatusList();
-                    },
-                  ),
-                  BlocProvider(
-                    lazy: false,
-                    create: (context) {
-                      _personalInformationCubit =
-                          sl<PersonalInformationCubit>();
-                      return _personalInformationCubit..getName();
-                    },
-                  ),
-                  BlocProvider(
-                    create: (context) {
-                      _twoFactorCubit = sl<TwoFactorCubit>();
-                      return _twoFactorCubit..getTwoFactor();
-                    },
-                  ),
-                ],
-                child: PrivacyBlurWrapper(
-                  child: LocalAuthWrapper(
-                      child: MainPage(
-                          expandCustodian:
-                              state.queryParams['expandCustodian'] != null
-                                  ? state.queryParams['expandCustodian'] ==
-                                      'true'
-                                  : false)),
                 ),
               );
             },
