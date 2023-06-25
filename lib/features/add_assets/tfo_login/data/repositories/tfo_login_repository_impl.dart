@@ -41,7 +41,9 @@ class TfoLoginRepositoryImpl implements TfoLoginRepository {
       late final Credentials credentials;
       if (Platform.isAndroid) {
         credentials =
-            await auth0.webAuthentication(scheme: AppConstants.appId).login();
+            await auth0.webAuthentication(scheme: AppConstants.bundleId).login(
+                // audience: 'https://tfo-uat.eu.auth0.com/api/v2/',
+                );
       } else {
         credentials = await auth0.webAuthentication().login();
       }

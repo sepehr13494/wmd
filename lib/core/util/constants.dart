@@ -9,7 +9,7 @@ class AppConstants {
   static bool developRoutes = dotenv.env['DEVELOPING_ROUTES']! == 'true';
   static bool isRelease1 = dotenv.env['IS_RELEASE_ONE']! == 'true';
   static bool currencyConvertor = dotenv.env['CURRENCY_CONVERTOR']! == 'true';
-  static String appId = "com.${dotenv.env['APP_ID']}";
+  static String bundleId = dotenv.env['BUNDLE_ID']!;
 
   static const String contactEmail = "developer@allinoneplus.com";
   // developMode ? "developer@allinoneplus.com" : "n.albasri@tfoco.com";
