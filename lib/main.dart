@@ -71,11 +71,13 @@ Future<void> main() async {
   );
   await DatadogSdk.runApp(configuration, () async {
     WidgetsFlutterBinding.ensureInitialized();
-    final data = MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
-    if (data.size.shortestSide < 600) {
-      await SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-      ]);
+    if(!AppConstants.developMode){
+      final data = MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
+      if (data.size.shortestSide < 600) {
+        await SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitUp,
+        ]);
+      }
     }
     runApp(const MyApp());
   });
