@@ -20,6 +20,7 @@ import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentation/manager/bank_list_cubit.dart';
 import 'package:wmd/features/add_assets/add_listed_security/presentation/manager/listed_security_cubit.dart';
 import 'package:wmd/features/add_assets/core/constants.dart';
+import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 import 'package:wmd/features/add_assets/core/data/models/listed_security_name.dart';
 import 'package:wmd/features/add_assets/core/data/models/listed_security_type.dart';
@@ -75,8 +76,9 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
       return;
     }
 
-
-    final noOfUnitsParsed = noOfUnits != null ? int.tryParse(noOfUnits!.toString().replaceAll(',', '')) : 0;
+    final noOfUnitsParsed = noOfUnits != null
+        ? int.tryParse(noOfUnits!.toString().replaceAll(',', ''))
+        : 0;
     print(noOfUnitsParsed);
     final valuePerUnitParsed = valuePerUnit != null
         ? int.tryParse(valuePerUnit!.toString().replaceAll(',', ''))
@@ -131,12 +133,20 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                             "totalCost": currentDayValue,
                           };
                           if (edit) {
-                            context.read<EditListedAssetCubit>().putListedAsset(
-                                map: finalMap, assetId: widget.moreEntity!.id);
+                            context
+                                .read<EditListedAssetCubit>()
+                                .putListedAsset(map: {
+                              ...finalMap,
+                              "country": widget.moreEntity?.country,
+                            }, assetId: widget.moreEntity!.id);
                           } else {
                             context
                                 .read<ListedSecurityCubit>()
-                                .postListedSecurity(map: finalMap);
+                                .postListedSecurity(map: {
+                              ...finalMap,
+                              "country":
+                                  Country(name: "XO", countryName: "Other")
+                            });
                           }
                         }
                       }),
@@ -201,27 +211,27 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                     if (edit && state.entity.isNotEmpty) {
                                       final formJson = widget.moreEntity!
                                           .toFormJson(state.entity.first);
-                                      try{
+                                      try {
                                         securityName = formJson["name"];
                                         noOfUnits = formJson["quantity"];
                                         valuePerUnit = formJson["marketValue"];
-                                        if(securityName != null){
-                                          isFixedIncome = securityName!.category ==
-                                              "FixedIncome";
+                                        if (securityName != null) {
+                                          isFixedIncome =
+                                              securityName!.category ==
+                                                  "FixedIncome";
                                         }
                                         isDisableCurrency = true;
                                         isDisableCategory = true;
-                                      }catch (e){
+                                      } catch (e) {
                                         debugPrint("errrrrr");
                                         debugPrint(e.toString());
                                       }
                                       Future.delayed(
                                           const Duration(milliseconds: 500),
                                           () {
-                                            calculateCurrentValue();
+                                        calculateCurrentValue();
                                         starterJson =
                                             formKey.currentState!.instantValue;
-
                                       });
                                     }
                                   }
@@ -524,18 +534,18 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                                             appLocalizations.assetLiabilityForms_forms_listedAssets_inputFields_acquisitionDate_placeholder),
                                                               ),
                                                             ),
-                                                            EachTextField(
-                                                              hasInfo: false,
-                                                              title: appLocalizations
-                                                                  .assetLiabilityForms_forms_listedAssets_inputFields_country_label,
-                                                              child:
-                                                                  CountriesDropdown(
-                                                                enabled: !widget
-                                                                    .edit,
-                                                                onChanged:
-                                                                    checkFinalValid,
-                                                              ),
-                                                            ),
+                                                            // EachTextField(
+                                                            //   hasInfo: false,
+                                                            //   title: appLocalizations
+                                                            //       .assetLiabilityForms_forms_listedAssets_inputFields_country_label,
+                                                            //   child:
+                                                            //       CountriesDropdown(
+                                                            //     enabled: !widget
+                                                            //         .edit,
+                                                            //     onChanged:
+                                                            //         checkFinalValid,
+                                                            //   ),
+                                                            // ),
                                                             EachTextField(
                                                               hasInfo: false,
                                                               title: appLocalizations
