@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
+import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
@@ -50,78 +51,79 @@ class ValuationWidget extends AppStatelessWidget {
               listener: (context, state) {},
             ),
             builder: (context, state) {
-              if (state is GetAllValuationLoaded) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          appLocalizations.assets_label_valuation,
-                          style: textTheme.bodyLarge,
-                        ),
-                        if ((AppConstants.publicMvp2Items &&
-                                isManuallyAdded &&
-                                totalQuantity > 0.0) ||
-                            assetType == AssetTypes.loanLiability)
-                          TextButton(
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    barrierDismissible: false,
-                                    builder: (buildContext) {
-                                      return ValuationModalWidget(
-                                          title: '',
-                                          confirmBtn: appLocalizations
-                                              .common_button_save,
-                                          cancelBtn: appLocalizations
-                                              .common_button_cancel,
-                                          assetType: assetType,
-                                          assetId: assetId);
-                                    }).then((value) {
-                                  context
-                                      .read<ValuationCubit>()
-                                      .getAllValuation(
-                                          GetAllValuationParams(assetId));
-                                  updateHoldings();
-                                });
-
-                                // context.pushNamed(AppRoutes.forgetPassword);
-                              },
-                              child: Text(
-                                appLocalizations
-                                    .assets_valuationModal_buttons_buttons_addValuation,
-                                style:
-                                    textTheme.bodySmall!.toLinkStyle(context),
-                              ))
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      appLocalizations.assets_label_keepNetWorth,
-                      style: textTheme.bodyMedium,
-                    ),
-                    const SizedBox(height: 8),
-                    // if (state is GetAllValuationLoaded &&
-                    //     state.getAllValuationEntities.isEmpty)
-                    //   Text(appLocalizations.common_emptyText_emptyState),
-                    if (state is GetAllValuationLoaded)
-                      ValuationTableWidget(
-                        getAllValuationEntities: state.getAllValuationEntities,
-                        assetType: assetType,
-                        assetId: assetId,
-                        isManuallyAdded: isManuallyAdded,
-                        totalQuantity: totalQuantity,
-                        updateHoldings: updateHoldings,
-                      )
-
-                    // return const Center(
-                    //     child: CircularProgressIndicator());
-                  ],
-                );
+              if (state is LoadingState) {
+                return const LoadingWidget();
               }
-              return const LoadingWidget();
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        appLocalizations.assets_label_valuation,
+                        style: textTheme.bodyLarge,
+                      ),
+                      if ((AppConstants.publicMvp2Items &&
+                              isManuallyAdded &&
+                              totalQuantity > 0.0) ||
+                          assetType == AssetTypes.loanLiability)
+                        TextButton(
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (buildContext) {
+                                    return ValuationModalWidget(
+                                        title: '',
+                                        confirmBtn:
+                                            appLocalizations.common_button_save,
+                                        cancelBtn: appLocalizations
+                                            .common_button_cancel,
+                                        assetType: assetType,
+                                        assetId: assetId);
+                                  }).then((value) {
+                                context.read<ValuationCubit>().getAllValuation(
+                                    GetAllValuationParams(assetId));
+                                updateHoldings();
+                              });
+
+                              // context.pushNamed(AppRoutes.forgetPassword);
+                            },
+                            child: Text(
+                              appLocalizations
+                                  .assets_valuationModal_buttons_buttons_addValuation,
+                              style: textTheme.bodySmall!.toLinkStyle(context),
+                            ))
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    appLocalizations.assets_label_keepNetWorth,
+                    style: textTheme.bodyMedium,
+                  ),
+                  const SizedBox(height: 8),
+                  // if (state is GetAllValuationLoaded &&
+                  //     state.getAllValuationEntities.isEmpty)
+                  //   Text(appLocalizations.common_emptyText_emptyState),
+                  // if (state is GetAllValuationLoaded)
+                  ValuationTableWidget(
+                    getAllValuationEntities: state is GetAllValuationLoaded
+                        ? state.getAllValuationEntities
+                        : [],
+                    assetType: assetType,
+                    assetId: assetId,
+                    isManuallyAdded: isManuallyAdded,
+                    totalQuantity: totalQuantity,
+                    updateHoldings: updateHoldings,
+                  )
+
+                  // return const Center(
+                  //     child: CircularProgressIndicator());
+                ],
+              );
+              // }
+              // return const LoadingWidget();
             }));
   }
 }
