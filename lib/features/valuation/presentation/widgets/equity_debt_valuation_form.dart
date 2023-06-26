@@ -129,7 +129,7 @@ class _EquityDebtValuationFormWidgetState
                 hasInfo: false,
                 title: appLocalizations.assets_valuationModal_labels_action,
                 child: RadioButton<String>(
-                    items: ValuationActionType.valuationActionTypeList(context),
+                    items: ValuationActionType.jsonInvestment(context),
                     name: "type")),
             EachTextField(
               hasInfo: false,
