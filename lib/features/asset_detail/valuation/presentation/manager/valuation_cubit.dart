@@ -29,16 +29,6 @@ class ValuationCubit extends Cubit<ValuationState> {
     final result = await getAllValuationUseCase(params);
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (List<GetAllValuationEntity> entities) {
-      if (entities.isNotEmpty) {
-        try {
-          entities.removeLast();
-          // entities = entities.where((i) => i.note != "").toList();
-        } catch (e) {
-          debugPrint("weroor");
-          debugPrint(e.toString());
-        }
-      }
-
       emit(GetAllValuationLoaded(getAllValuationEntities: entities));
     });
   }
