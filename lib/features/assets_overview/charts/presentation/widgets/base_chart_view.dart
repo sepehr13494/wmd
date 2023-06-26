@@ -9,6 +9,7 @@ import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/chart_chooser.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/widgets/shimmers/bar_chart_shimmer.dart';
 
 import '../manager/chart_chooser_manager.dart';
 import '../models/color_title_obj.dart';
@@ -111,7 +112,7 @@ class BaseAssetsOverviewChartsWidget extends AppStatelessWidget {
                 );
               }
           )
-              : const LoadingWidget();
+              : const BarChartShimmer();
         }),
       ),
     );

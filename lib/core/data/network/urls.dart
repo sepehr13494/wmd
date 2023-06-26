@@ -69,7 +69,8 @@ class AppUrls {
   static String getPortfolioTab = "${wealthBase}Assets/Portfolio";
   static String getPie = "${wealthBase}Assets";
   static String getAssetsOverview = "${wealthBase}Assets/All";
-  static String getAssetsOverviewByType = "${wealthBase}Assets/AssetTypeOverview";
+  static String getAssetsOverviewByType =
+      "${wealthBase}Assets/AssetTypeOverview";
   static String getAssetsByType = "${wealthBase}Assets/type/all";
   static String getLiablilityOverview = "${wealthBase}Liability/All";
   static String getBankList = "${banking}Bank";
@@ -123,7 +124,7 @@ class AppUrls {
   static String postValuation = "${wealthBase}Transaction";
   static String postAddValuation = "${wealthBase}Transaction";
   static String getValuationPerformance(String id) =>
-      "${wealthBase}Transaction/$id/performance";
+      "${wealthBase}Valuation/$id/performance";
   static String settings = "${userBase}Setting";
   static String getForceUpdate = "wmo/version";
 

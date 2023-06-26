@@ -13,6 +13,7 @@ import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/features/assets_overview/assets_geography_chart/domain/entities/get_assets_geography_entity.dart';
 import 'package:wmd/features/assets_overview/assets_geography_chart/presentation/manager/assets_geography_chart_cubit.dart';
 import 'package:wmd/features/assets_overview/assets_overview/domain/entities/assets_overview_entity.dart';
+import 'package:wmd/features/assets_overview/assets_overview/presentation/widgets/shimmers/each_asset_shimmer.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/chart_chooser_manager.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_manager.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/chart_chooser.dart';
@@ -133,175 +134,229 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                               const OverViewCard(),
                               const SizedBox(height: 16),
                               const ChartsWrapper(),
-                              BlocBuilder<TabManager, int>(
-                                builder: (context, state) {
-                                  late List<Cubit> blocs;
-                                  switch (state) {
-                                    case 0:
-                                      blocs = [];
-                                      DashboardPieCubit pieCubit = context.read<DashboardPieCubit>();
-                                      if(pieCubit.state is GetPieLoaded){
-                                        List<GetPieEntity> assets = (pieCubit.state as GetPieLoaded).getPieEntity;
-                                        for (var element in assets) {
-                                          switch (element.name){
-                                            case "BankAccount":
-                                              blocs.add(context.read<AssetsOverviewCubitBankAccount>());
-                                              break;
-                                            case "ListedAssetEquity":
-                                              blocs.add(context.read<AssetsOverviewCubitListedAssetEquity>());
-                                              break;
-                                            case "ListedAssetOther":
-                                              blocs.add(context.read<AssetsOverviewCubitListedAssetOther>());
-                                              break;
-                                            case "ListedAssetFixedIncome":
-                                              blocs.add(context.read<AssetsOverviewCubitListedAssetFixedIncome>());
-                                              break;
-                                            case "RealEstate":
-                                              blocs.add(context.read<AssetsOverviewCubitRealEstate>());
-                                              break;
-                                            case "PrivateEquity":
-                                              blocs.add(context.read<AssetsOverviewCubitPrivateEquity>());
-                                              break;
-                                            case "PrivateDebt":
-                                              blocs.add(context.read<AssetsOverviewCubitPrivateDebt>());
-                                              break;
-                                            case "OtherAssets":
-                                              blocs.add(context.read<AssetsOverviewCubitOtherAssets>());
-                                              break;
-                                          }
-                                        }
-                                      }
-                                      break;
-                                    case 1:
-                                      blocs = [context.read<AssetsGeographyChartCubit>()];
-                                      break;
-                                    case 2:
-                                      blocs = [context.read<CurrencyChartCubit>()];
-                                      break;
-                                    case 3:
-                                      blocs = [context.read<PortfolioTabCubit>()];
-                                      break;
-                                  }
-                                  return Column(
-                                    children: List.generate(blocs.length, (index) {
-                                      Cubit bloc = blocs[index];
-                                      return BlocConsumer(
-                                        bloc: bloc,
-                                        listener: BlocHelper.defaultBlocListener(
-                                          listener: (context, state) {},
-                                        ),
-                                        builder: BlocHelper.errorHandlerBlocBuilder(
-                                            builder: (context, state) {
-                                              if (state is BaseAssetsOverviewLoaded) {
-                                                itemKeys = [];
-                                                List<GetGeographicEntity> otherList =
-                                                [];
-                                                final bool isMapGeo = (state
-                                                is GetAssetsGeographyLoaded &&
-                                                    (context
-                                                        .watch<
-                                                        GeoChartChooserManager>()
-                                                        .state
-                                                        ?.barType ??
-                                                        GeoBarType.map) ==
-                                                        GeoBarType.map);
-                                                if (isMapGeo) {
-                                                  double sum = 0;
-                                                  for (var element in state
-                                                      .assetsOverviewBaseModels) {
-                                                    sum += element.totalAmount;
-                                                  }
-                                                  otherList = state
-                                                      .assetsOverviewBaseModels
-                                                      .map((e) => GetGeographicEntity(
-                                                      continent: e.geography,
-                                                      amount: e.totalAmount,
-                                                      percentage:
-                                                      (e.totalAmount / sum) *
-                                                          100))
-                                                      .toList();
-                                                }
-                                                double sum = 0;
-                                                for (var element
-                                                in state.assetsOverviewBaseModels) {
-                                                  sum += element.totalAmount;
-                                                }
-                                                return Builder(
-                                                    builder: (context) {
-                                                      Future.delayed(
-                                                          const Duration(seconds: 1), () {
-                                                        if (itemKeys.isNotEmpty) {
-                                                          int? scrollToIndex = context
-                                                              .read<TabScrollManager>()
-                                                              .state;
-                                                          if (scrollToIndex != null) {
-                                                            Scrollable.ensureVisible(
-                                                                itemKeys[scrollToIndex]
-                                                                    .currentContext!,
-                                                                duration: const Duration(
-                                                                    milliseconds: 700));
-                                                            context
-                                                                .read<TabScrollManager>()
-                                                                .changeIndex(null);
-                                                          }
-                                                        }
-                                                      });
-                                                      return ListView.builder(
-                                                        physics:
-                                                        const NeverScrollableScrollPhysics(),
-                                                        shrinkWrap: true,
-                                                        itemCount: state
-                                                            .assetsOverviewBaseModels
-                                                            .length,
-                                                        itemBuilder: (context, index) {
-                                                          final item = state
-                                                              .assetsOverviewBaseModels[
-                                                          index];
-                                                          final key = GlobalKey();
-                                                          itemKeys.add(key);
-                                                          return state
-                                                              .assetsOverviewBaseModels[
-                                                          index]
-                                                              .assetList
-                                                              .isEmpty
-                                                              ? const SizedBox()
-                                                              : EachAssetType(
-                                                            key: key,
-                                                            assetsOverviewBaseWidgetModel:
-                                                            AssetsOverviewBaseWidgetModel(
-                                                              allocation:
-                                                              (item.totalAmount *
-                                                                  100) /
-                                                                  sum,
-                                                              title: _getTitle(item,
-                                                                  appLocalizations),
-                                                              color: isMapGeo
-                                                                  ? InsideWorldMapWidgetState
-                                                                  .getColorByList(
-                                                                  (item as GetAssetsGeographyEntity)
-                                                                      .geography,
-                                                                  otherList)
-                                                                  : _getColor(
-                                                                  item,
-                                                                  index,
-                                                                  state.assetsOverviewBaseModels[
-                                                                  index]),
-                                                              assetsOverviewType:
-                                                              _getType(item),
-                                                              assetsOverviewBaseModel:
-                                                              item,
-                                                            ),
-                                                          );
-                                                        },
-                                                      );
+                              BlocBuilder<DashboardPieCubit,
+                                  DashboardChartsState>(
+                                builder: (context, pieState) {
+                                  return pieState is GetPieLoaded
+                                      ? BlocBuilder<TabManager, int>(
+                                          builder: (context, state) {
+                                            late List<Cubit> blocs;
+                                            switch (state) {
+                                              case 0:
+                                                blocs = [];
+                                                DashboardPieCubit pieCubit =
+                                                    context.read<
+                                                        DashboardPieCubit>();
+                                                if (pieCubit.state
+                                                    is GetPieLoaded) {
+                                                  List<GetPieEntity> assets =
+                                                      (pieCubit.state
+                                                              as GetPieLoaded)
+                                                          .getPieEntity;
+                                                  for (var element in assets) {
+                                                    switch (element.name) {
+                                                      case "BankAccount":
+                                                        blocs.add(context.read<
+                                                            AssetsOverviewCubitBankAccount>());
+                                                        break;
+                                                      case "ListedAssetEquity":
+                                                        blocs.add(context.read<
+                                                            AssetsOverviewCubitListedAssetEquity>());
+                                                        break;
+                                                      case "ListedAssetOther":
+                                                        blocs.add(context.read<
+                                                            AssetsOverviewCubitListedAssetOther>());
+                                                        break;
+                                                      case "ListedAssetFixedIncome":
+                                                        blocs.add(context.read<
+                                                            AssetsOverviewCubitListedAssetFixedIncome>());
+                                                        break;
+                                                      case "RealEstate":
+                                                        blocs.add(context.read<
+                                                            AssetsOverviewCubitRealEstate>());
+                                                        break;
+                                                      case "PrivateEquity":
+                                                        blocs.add(context.read<
+                                                            AssetsOverviewCubitPrivateEquity>());
+                                                        break;
+                                                      case "PrivateDebt":
+                                                        blocs.add(context.read<
+                                                            AssetsOverviewCubitPrivateDebt>());
+                                                        break;
+                                                      case "OtherAssets":
+                                                        blocs.add(context.read<
+                                                            AssetsOverviewCubitOtherAssets>());
+                                                        break;
                                                     }
+                                                  }
+                                                }
+                                                break;
+                                              case 1:
+                                                blocs = [
+                                                  context.read<
+                                                      AssetsGeographyChartCubit>()
+                                                ];
+                                                break;
+                                              case 2:
+                                                blocs = [
+                                                  context.read<
+                                                      CurrencyChartCubit>()
+                                                ];
+                                                break;
+                                              case 3:
+                                                blocs = [
+                                                  context
+                                                      .read<PortfolioTabCubit>()
+                                                ];
+                                                break;
+                                            }
+                                            return Column(
+                                              children: List.generate(
+                                                  blocs.length, (index) {
+                                                Cubit bloc = blocs[index];
+                                                return BlocConsumer(
+                                                  bloc: bloc,
+                                                  listener: BlocHelper
+                                                      .defaultBlocListener(
+                                                    listener:
+                                                        (context, state) {},
+                                                  ),
+                                                  builder: BlocHelper
+                                                      .errorHandlerBlocBuilder(
+                                                          builder:
+                                                              (context, state) {
+                                                    if (state
+                                                        is BaseAssetsOverviewLoaded) {
+                                                      itemKeys = [];
+                                                      List<GetGeographicEntity>
+                                                          otherList = [];
+                                                      final bool isMapGeo = (state
+                                                              is GetAssetsGeographyLoaded &&
+                                                          (context
+                                                                      .watch<
+                                                                          GeoChartChooserManager>()
+                                                                      .state
+                                                                      ?.barType ??
+                                                                  GeoBarType
+                                                                      .map) ==
+                                                              GeoBarType.map);
+                                                      if (isMapGeo) {
+                                                        double sum = 0;
+                                                        for (var element in state
+                                                            .assetsOverviewBaseModels) {
+                                                          sum += element
+                                                              .totalAmount;
+                                                        }
+                                                        otherList = state
+                                                            .assetsOverviewBaseModels
+                                                            .map((e) => GetGeographicEntity(
+                                                                continent:
+                                                                    e.geography,
+                                                                amount: e
+                                                                    .totalAmount,
+                                                                percentage:
+                                                                    (e.totalAmount /
+                                                                            sum) *
+                                                                        100))
+                                                            .toList();
+                                                      }
+                                                      double sum = 0;
+                                                      for (var element in state
+                                                          .assetsOverviewBaseModels) {
+                                                        sum +=
+                                                            element.totalAmount;
+                                                      }
+                                                      return Builder(
+                                                          builder: (context) {
+                                                        Future.delayed(
+                                                            const Duration(
+                                                                seconds: 1),
+                                                            () {
+                                                          if (itemKeys
+                                                              .isNotEmpty) {
+                                                            int? scrollToIndex =
+                                                                context
+                                                                    .read<
+                                                                        TabScrollManager>()
+                                                                    .state;
+                                                            if (scrollToIndex !=
+                                                                null) {
+                                                              Scrollable.ensureVisible(
+                                                                  itemKeys[
+                                                                          scrollToIndex]
+                                                                      .currentContext!,
+                                                                  duration: const Duration(
+                                                                      milliseconds:
+                                                                          700));
+                                                              context
+                                                                  .read<
+                                                                      TabScrollManager>()
+                                                                  .changeIndex(
+                                                                      null);
+                                                            }
+                                                          }
+                                                        });
+                                                        return ListView.builder(
+                                                          physics:
+                                                              const NeverScrollableScrollPhysics(),
+                                                          shrinkWrap: true,
+                                                          itemCount: state
+                                                              .assetsOverviewBaseModels
+                                                              .length,
+                                                          itemBuilder:
+                                                              (context, index) {
+                                                            final item = state
+                                                                    .assetsOverviewBaseModels[
+                                                                index];
+                                                            final key =
+                                                                GlobalKey();
+                                                            itemKeys.add(key);
+                                                            return state
+                                                                    .assetsOverviewBaseModels[
+                                                                        index]
+                                                                    .assetList
+                                                                    .isEmpty
+                                                                ? const SizedBox()
+                                                                : EachAssetType(
+                                                                    key: key,
+                                                                    assetsOverviewBaseWidgetModel:
+                                                                        AssetsOverviewBaseWidgetModel(
+                                                                      allocation:
+                                                                          (item.totalAmount * 100) /
+                                                                              sum,
+                                                                      title: _getTitle(
+                                                                          item,
+                                                                          appLocalizations),
+                                                                      color: isMapGeo
+                                                                          ? InsideWorldMapWidgetState.getColorByList(
+                                                                              (item as GetAssetsGeographyEntity)
+                                                                                  .geography,
+                                                                              otherList)
+                                                                          : _getColor(
+                                                                              item,
+                                                                              index,
+                                                                              state.assetsOverviewBaseModels[index]),
+                                                                      assetsOverviewType:
+                                                                          _getType(
+                                                                              item),
+                                                                      assetsOverviewBaseModel:
+                                                                          item,
+                                                                    ),
+                                                                  );
+                                                          },
+                                                        );
+                                                      });
+                                                    } else {
+                                                      return const EachAssetShimmer();
+                                                    }
+                                                  }),
                                                 );
-                                              } else {
-                                                return const LoadingWidget();
-                                              }
-                                            }),
-                                      );
-                                    }),
+                                              }),
+                                            );
+                                          },
+                                        )
+                                      : Column(
+                                    children: List.generate(4, (index) => const EachAssetShimmer()),
                                   );
                                 },
                               )
@@ -338,7 +393,7 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
       return item.currencyCode;
     } else if (item is GetPortfolioTabEntity) {
       return item.portfolioName;
-    }else {
+    } else {
       return "";
     }
   }
@@ -363,7 +418,7 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
       return AssetsOverviewBaseType.currency;
     } else if (item is GetPortfolioTabEntity) {
       return AssetsOverviewBaseType.portfolio;
-    }else {
+    } else {
       return AssetsOverviewBaseType.assetType;
     }
   }

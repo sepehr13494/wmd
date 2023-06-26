@@ -98,6 +98,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https" android:host="allinoneplus.com" android:path="/password/update"/>
             </intent-filter>
+           
         </activity>
 
         <activity android:name="com.auth0.android.provider.RedirectActivity"
@@ -111,11 +112,11 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:host="tfo-uat.eu.auth0.com"
-                    android:pathPrefix="/android/com.aiop.aiod/callback"
-                    android:scheme="https" />
+                    android:pathPrefix="/android/com.aiop.aio/callback"
+                    android:scheme="com.aiop.aio" />
                 <data android:host="pam-uat.eu.auth0.com"
                     android:pathPrefix="/android/com.aiop.aio/callback"
-                    android:scheme="https" />
+                    android:scheme="com.aiop.aio" />
             </intent-filter>
         </activity>
 

@@ -114,7 +114,8 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                       if (mandateState
                                           is GetMandateStatusLoaded) {
                                         mandateList = List.from(mandateState
-                                            .getMandateStatusEntities);
+                                            .getMandateStatusEntities
+                                            .where((e) => !e.synced));
                                       }
                                       return BlocConsumer<
                                               CustodianStatusListCubit,
