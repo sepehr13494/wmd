@@ -385,7 +385,7 @@ class _ExpansionPanelListState extends State<CustomExpansionPanelList> {
         children: <Widget>[
           Expanded(
             child: AnimatedContainer(
-              duration: widget.animationDuration,
+              duration: const Duration(milliseconds: 5),
               curve: Curves.fastOutSlowIn,
               margin: _isChildExpanded(index)
                   ? widget.expandedHeaderPadding
@@ -416,18 +416,17 @@ class _ExpansionPanelListState extends State<CustomExpansionPanelList> {
             children: <Widget>[
               header,
               AnimatedCrossFade(
-                firstChild: Container(height: 0.0),
-                secondChild: child.body,
-                firstCurve:
-                    const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
-                secondCurve:
-                    const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
-                sizeCurve: Curves.fastOutSlowIn,
-                crossFadeState: _isChildExpanded(index)
-                    ? CrossFadeState.showSecond
-                    : CrossFadeState.showFirst,
-                duration: widget.animationDuration,
-              ),
+                  firstChild: Container(height: 0.0),
+                  secondChild: child.body,
+                  firstCurve:
+                      const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
+                  secondCurve:
+                      const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
+                  sizeCurve: Curves.fastOutSlowIn,
+                  crossFadeState: _isChildExpanded(index)
+                      ? CrossFadeState.showSecond
+                      : CrossFadeState.showFirst,
+                  duration: const Duration(milliseconds: 5)),
             ],
           ),
         ),
