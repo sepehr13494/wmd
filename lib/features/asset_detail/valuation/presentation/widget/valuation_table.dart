@@ -151,6 +151,7 @@ class ValuationTableWidget extends StatefulWidget {
 
 class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
   bool isSummary = true;
+  bool isFirstTransRemoved = false;
   final limit = 5;
   static const columnWidths = {
     0: IntrinsicColumnWidth(),
@@ -161,6 +162,34 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
     // 3: IntrinsicColumnWidth(),
     // 4: FlexColumnWidth(1),
   };
+
+  @override
+  void didUpdateWidget(ValuationTableWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.isManuallyAdded && !isFirstTransRemoved) {
+      widget.getAllValuationEntities.removeLast();
+
+      setState(() {
+        isFirstTransRemoved = true;
+      });
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+
+    if (widget.isManuallyAdded && !isFirstTransRemoved) {
+      widget.getAllValuationEntities.removeLast();
+
+      setState(() {
+        isFirstTransRemoved = true;
+      });
+    }
+  }
+
   @override
   Widget buildWidget(BuildContext context, texttheme, appLocalizations) {
     final length = widget.getAllValuationEntities.length;
