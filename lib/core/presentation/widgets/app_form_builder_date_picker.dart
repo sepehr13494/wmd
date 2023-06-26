@@ -331,7 +331,7 @@ class _FormBuilderDateTimePickerState
       selectableDayPredicate: widget.selectableDayPredicate,
       initialDatePickerMode: widget.initialDatePickerMode,
       initialDate: currentValue ?? widget.initialDate ?? DateTime.now(),
-      firstDate: widget.firstDate ?? DateTime(1900),
+      firstDate: widget.firstDate ?? DateTime(2000),
       lastDate: widget.lastDate ?? DateTime(2100),
       locale: widget.locale,
       textDirection: widget.textDirection,
