@@ -232,7 +232,8 @@ class ValuationModalWidget extends ModalWidget {
         child: BlocConsumer<AssetValuationCubit, AssetValuationState>(listener:
             BlocHelper.defaultBlocListener(listener: (context, state) {
           if (state is SuccessState) {
-            GlobalFunctions.showSnackBar(context, 'Valuation added',
+            GlobalFunctions.showSnackBar(context,
+                AppLocalizations.of(context).assets_valuationModal_success_add,
                 type: "success");
 
             Navigator.of(context, rootNavigator: true).pop();

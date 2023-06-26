@@ -75,7 +75,10 @@ class ValuationDeleteModal extends ModalWidget {
         child: BlocConsumer<AssetValuationCubit, AssetValuationState>(listener:
             BlocHelper.defaultBlocListener(listener: (context, state) {
           if (state is SuccessState) {
-            GlobalFunctions.showSnackBar(context, 'Valuation deleted',
+            GlobalFunctions.showSnackBar(
+                context,
+                AppLocalizations.of(context)
+                    .assets_valuationModal_success_delete,
                 type: "success");
 
             Navigator.pop(context, true);
