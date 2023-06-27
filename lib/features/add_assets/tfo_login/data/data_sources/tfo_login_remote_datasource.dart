@@ -45,9 +45,12 @@ class TfoLoginRemoteDataSourceImpl extends AppServerDataSource
       LoginTfoAccountParams params) async {
     try {
       final appRequestOptions = AppRequestOptions(
-          RequestTypes.get, AppUrls.postMandates, params.toJson());
+          RequestTypes.post, AppUrls.postMandates, params.toJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
+      if (response == true) {
+        return LoginTfoAccountResponse();
+      }
       final result = LoginTfoAccountResponse.fromJson(response);
       return result;
     } on ServerException {
