@@ -348,7 +348,7 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                     return DropdownMenuItem(
                                                       enabled: enabled,
                                                       value: e.value,
-                                                      child: Text(e.name,
+                                                      child: Text(_accountTypeName(e.value,appLocalizations),
                                                         style: TextStyle(
                                                             color: !enabled
                                                                 ? Theme
@@ -858,6 +858,19 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
         date = "${startDate.day}/${startDate.month}/${startDate.year}";
         endDateToParse = startDate;
       });
+    }
+  }
+
+  String _accountTypeName(String value, AppLocalizations appLocalizations) {
+    switch (value){
+      case "SavingAccount":
+        return appLocalizations.assetLiabilityForms_forms_bankAccount_inputFields_accountType_options_savingAccount;
+      case "CurrentAccount":
+        return appLocalizations.assetLiabilityForms_forms_bankAccount_inputFields_accountType_options_currentAccount;
+      case "TermDeposit":
+        return appLocalizations.assetLiabilityForms_forms_bankAccount_inputFields_accountType_options_termDeposit;
+      default:
+        return "";
     }
   }
 }
