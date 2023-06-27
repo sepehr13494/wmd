@@ -23,6 +23,8 @@ class ServerRequestManager {
       clearBody!.removeWhere((key, value) => value == null);
     } else if (appRequestOptions.body is List<dynamic>) {
       clearBody = jsonEncode(appRequestOptions.body);
+    } else if (appRequestOptions.body is String) {
+      clearBody = appRequestOptions.body;
     }
 
     dynamic options = appRequestOptions.additionalHeaders == null

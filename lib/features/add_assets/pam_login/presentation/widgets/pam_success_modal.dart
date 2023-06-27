@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/bottom_modal_widget.dart';
@@ -12,6 +14,7 @@ Future<bool> showPamSuccessModal({required BuildContext context}) async {
   return await showDialog(
     context: context,
     builder: (context) {
+      log('MErt log starts here');
       final content = CenterModalWidget(
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -40,17 +43,17 @@ Future<bool> showPamSuccessModal({required BuildContext context}) async {
           ),
         ),
       );
-      if (isMobile) {
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: content,
-        );
-      }
       return Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width / 2),
+        padding: const EdgeInsets.all(16.0),
         child: content,
       );
+      // if (isMobile) {
+      // }
+      // return Padding(
+      //   padding: EdgeInsets.symmetric(
+      //       horizontal: MediaQuery.of(context).size.width / 2),
+      //   child: content,
+      // );
     },
   ).then((isConfirm) {
     if (isConfirm != null && isConfirm == true) {

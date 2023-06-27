@@ -15,7 +15,7 @@ import '../models/mandate_param.dart';
 
 abstract class PamLoginRemoteDataSource {
   Future<GetMandatesResponse> getMandates(GetMandatesParams params);
-  Future<LoginPamAccountResponse> loginPamAccount(List<Mandate> params);
+  Future<LoginPamAccountResponse> loginPamAccount(LoginPamAccountParams params);
 }
 
 class PamLoginRemoteDataSourceImpl extends AppServerDataSource
@@ -43,12 +43,16 @@ class PamLoginRemoteDataSourceImpl extends AppServerDataSource
   }
 
   @override
-  Future<LoginPamAccountResponse> loginPamAccount(List<Mandate> params) async {
+  Future<LoginPamAccountResponse> loginPamAccount(
+      LoginPamAccountParams params) async {
     try {
       final appRequestOptions = AppRequestOptions(
-          RequestTypes.get, AppUrls.postMandates, jsonEncode(params));
+          RequestTypes.post, AppUrls.postMandates, params.toJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
+      if (response == true) {
+        return LoginPamAccountResponse();
+      }
       final result = LoginPamAccountResponse.fromJson(response);
       return result;
     } on ServerException {
