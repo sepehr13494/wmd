@@ -8,23 +8,24 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentation/manager/bank_list_cubit.dart';
+import 'package:wmd/features/add_assets/add_basic_cash_asset/manual_bank_list/presentation/manager/manual_bank_list_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
 import '../../../core/data/models/listed_security_name.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class ListedSecurityTypeAhead extends StatefulWidget {
+class BankNameTypeAhead extends StatefulWidget {
   final String name;
   final String? title;
   final String hint;
   final String? errorMsg;
-  final ValueChanged<ListedSecurityName?>? onChange;
+  final ValueChanged<String?>? onChange;
   final bool? required;
   final List<String? Function(String?)>? extraValidators;
   final bool enabled;
 
-  const ListedSecurityTypeAhead({
+  const BankNameTypeAhead({
     Key? key,
     required this.name,
     // required this.items,
@@ -38,23 +39,22 @@ class ListedSecurityTypeAhead extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  AppState<ListedSecurityTypeAhead> createState() =>
-      _ListedSecurityTypeAheadState();
+  AppState<BankNameTypeAhead> createState() =>
+      _BankNameTypeAheadState();
 }
 
-class _ListedSecurityTypeAheadState extends AppState<ListedSecurityTypeAhead> {
+class _BankNameTypeAheadState extends AppState<BankNameTypeAhead> {
   TextEditingController typeController = TextEditingController();
-  final validators = <String? Function(ListedSecurityName?)>[];
+  final validators = <String? Function(String?)>[];
   Timer? timer;
-  bool readyToSend = false;
-  List<ListedSecurityName> items = [];
+  bool readyToSend = true;
+  List<String> items = [];
   int waitingTime = 1;
 
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    final appTextTheme = Theme.of(context).textTheme;
 
     if (widget.required ?? false) {
       validators.add(FormBuilderValidators.required(
@@ -64,21 +64,27 @@ class _ListedSecurityTypeAheadState extends AppState<ListedSecurityTypeAhead> {
                   : appLocalizations.common_errors_required)));
     }
 
-    return FormBuilderField<ListedSecurityName?>(
+    return FormBuilderField<String?>(
+      decoration: const InputDecoration(
+        prefixIcon:
+        Icon(
+          Icons.search,
+        ),
+      ),
       builder: (state) {
         if (typeController.text.isEmpty) {
           if (state.value != null) {
-            typeController.text = state.value!.securityName ?? "";
+            typeController.text = state.value! ?? "";
           }
         }
         return BlocProvider(
-          create: (context) => sl<BankListCubit>(),
+          create: (context) => sl<ManualBankListCubit>(),
           child: Builder(
             builder: (context) {
-              return BlocConsumer<BankListCubit, BankListState>(
+              return BlocConsumer<ManualBankListCubit, ManualBankListState>(
                 listener: (context, bankState) {
-                  if (bankState is MarketDataSuccess) {
-                      items = bankState.entity;
+                  if (bankState is GetManualListLoaded) {
+                    items = bankState.getManualListEntities.map((e) => e.bankName).toList();
                   }
                 },
                 builder: (context, bankState) {
@@ -107,34 +113,35 @@ class _ListedSecurityTypeAheadState extends AppState<ListedSecurityTypeAhead> {
                               hintText: widget.hint,
                               enabledBorder: state.hasError
                                   ? const OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(4)),
-                                      borderSide: BorderSide(
-                                        width: 1,
-                                        color: Colors.red,
-                                      ))
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
+                                  borderSide: BorderSide(
+                                    width: 1,
+                                    color: Colors.red,
+                                  ))
                                   : OutlineInputBorder(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(4)),
-                                      borderSide: BorderSide(
-                                        width: 0.5,
-                                        color: widget.enabled
-                                            ? Theme.of(context).hintColor
-                                            : Theme.of(context).disabledColor,
-                                      ),
-                                    ),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(4)),
+                                borderSide: BorderSide(
+                                  width: 0.5,
+                                  color: widget.enabled
+                                      ? Theme.of(context).hintColor
+                                      : Theme.of(context).disabledColor,
+                                ),
+                              ),
                             ),
                             controller: typeController,
                           ),
                           keepSuggestionsOnLoading: false,
                           suggestionsCallback: (p0) async {
-                            if(p0.length<3){
+                            print("umad");
+                            if(p0.length<3 && p0.isNotEmpty){
                               return [];
                             }else{
                               await Future.delayed(Duration(seconds: waitingTime,milliseconds: 100));
                               if(readyToSend){
                                 // ignore: use_build_context_synchronously
-                                await context.read<BankListCubit>().getMarketData(p0);
+                                await context.read<ManualBankListCubit>().getManualList(text: p0);
                                 await Future.delayed(const Duration(milliseconds: 200));
                               }
                               return items;
@@ -145,39 +152,11 @@ class _ListedSecurityTypeAheadState extends AppState<ListedSecurityTypeAhead> {
                           itemBuilder: (context, suggestion) {
                             return Padding(
                               padding: const EdgeInsets.all(8),
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                            child: Text(suggestion.securityName)),
-                                        const SizedBox(width: 24),
-                                        Expanded(
-                                            child: Text(
-                                                suggestion.currencyCode ?? "")),
-                                        Expanded(child: Text(suggestion.category)),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Row(
-                                      children: [
-                                        Text(suggestion.securityShortName,
-                                            style: appTextTheme.bodySmall),
-                                        const Text(" . "),
-                                        Text(suggestion.tradedExchange,
-                                            style: appTextTheme.bodySmall),
-                                      ],
-                                    ),
-                                    Text(suggestion.isin,
-                                        style: appTextTheme.bodySmall)
-                                  ]),
+                              child: Text(suggestion),
                             );
                           },
                           onSuggestionSelected: (suggestion) {
-                            typeController.text = suggestion.securityName;
+                            typeController.text = suggestion;
                             state.didChange(suggestion);
                           },
                         ),
@@ -188,7 +167,7 @@ class _ListedSecurityTypeAheadState extends AppState<ListedSecurityTypeAhead> {
                             child: Text(
                               state.errorText ?? "",
                               style:
-                                  TextStyle(fontSize: 12, color: Colors.red[600]),
+                              TextStyle(fontSize: 12, color: Colors.red[600]),
                             ),
                           ),
                         ]

@@ -21,6 +21,11 @@ import 'package:wmd/features/add_assets/add_basic_cash_asset/data/data_sources/b
 import 'package:wmd/features/add_assets/add_basic_cash_asset/data/repositories/bank_repository_impl.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/repositories/bank_repository.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/use_cases/post_bank_details_usecase.dart';
+import 'package:wmd/features/add_assets/add_basic_cash_asset/manual_bank_list/data/data_sources/manual_bank_list_remote_datasource.dart';
+import 'package:wmd/features/add_assets/add_basic_cash_asset/manual_bank_list/data/repositories/manual_bank_list_repository_impl.dart';
+import 'package:wmd/features/add_assets/add_basic_cash_asset/manual_bank_list/domain/repositories/manual_bank_list_repository.dart';
+import 'package:wmd/features/add_assets/add_basic_cash_asset/manual_bank_list/domain/use_cases/get_manual_list_usecase.dart';
+import 'package:wmd/features/add_assets/add_basic_cash_asset/manual_bank_list/presentation/manager/manual_bank_list_cubit.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/manager/bank_cubit.dart';
 import 'package:wmd/features/add_assets/add_listed_security/data/data_sources/listed_security_remote_data_source.dart';
 import 'package:wmd/features/add_assets/add_listed_security/data/repositories/listed_security_repository_impl.dart';
@@ -628,6 +633,15 @@ Future<void> init(String env) async {
       () => CustodianBankAuthRepositoryImpl(sl()));
   sl.registerLazySingleton<CustodianBankAuthRemoteDataSource>(
       () => CustodianBankAuthRemoteDataSourceImpl(sl()));
+
+  //ManualBankList
+  sl.registerFactory(() => ManualBankListCubit(sl()));
+  sl.registerLazySingleton(() => GetManualListUseCase(sl()));
+
+  sl.registerLazySingleton<ManualBankListRepository>(
+          () => ManualBankListRepositoryImpl(sl()));
+  sl.registerLazySingleton<ManualBankListRemoteDataSource>(
+          () => ManualBankListRemoteDataSourceImpl(sl()));
 
   //help FAQ
   sl.registerFactory(() => FaqCubit(sl()));

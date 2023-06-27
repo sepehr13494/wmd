@@ -5,14 +5,14 @@ class Country extends Equatable{
   final String name;
   final String countryName;
 
-  Country({
+  const Country({
     required this.name,
     required this.countryName,
   });
 
   static Country getCountryFromString(String country) {
     return getCountryList()
-        .firstWhere((element) => element.name == country);
+        .firstWhere((element) => element.name == country,orElse: () => const Country(name: "not fount",countryName: "not fount"),);
   }
 
   factory Country.fromJson(Map<String, dynamic> json) => Country(

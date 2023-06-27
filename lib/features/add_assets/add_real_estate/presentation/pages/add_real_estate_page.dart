@@ -48,7 +48,6 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final bool edit = widget.edit;
-    print("edit : $edit");
     return MultiBlocProvider(
       providers: [
         BlocProvider(
