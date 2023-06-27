@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/bottom_modal_widget.dart';
-import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
 
 Future<bool> showPamSuccessModal({required BuildContext context}) async {
   final appLocalizations = AppLocalizations.of(context);
   final textTheme = Theme.of(context).textTheme;
-  final primaryColor = Theme.of(context).primaryColor;
-  final isMobile = ResponsiveHelper(context: context).isMobile;
   return await showDialog(
     context: context,
     builder: (context) {
@@ -40,17 +37,17 @@ Future<bool> showPamSuccessModal({required BuildContext context}) async {
           ),
         ),
       );
-      if (isMobile) {
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: content,
-        );
-      }
       return Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width / 2),
+        padding: const EdgeInsets.all(16.0),
         child: content,
       );
+      // if (isMobile) {
+      // }
+      // return Padding(
+      //   padding: EdgeInsets.symmetric(
+      //       horizontal: MediaQuery.of(context).size.width / 2),
+      //   child: content,
+      // );
     },
   ).then((isConfirm) {
     if (isConfirm != null && isConfirm == true) {
