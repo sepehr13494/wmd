@@ -10,7 +10,7 @@ class Currency extends Equatable{
   });
 
   static Currency getCurrencyFromString(String currencyCode){
-    return Currency.currenciesList.firstWhere((element) => element.symbol == currencyCode);
+    return Currency.currenciesList.firstWhere((element) => element.symbol == currencyCode,orElse: () => const Currency(symbol: "not found", name: "not found"),);
   }
 
   factory Currency.fromJson(Map<String, dynamic> json) => Currency(

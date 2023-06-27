@@ -12,19 +12,12 @@ class GetMarketDataUseCase
 
   GetMarketDataUseCase(this.bankListRepository);
 
-  List<ListedSecurityName>? banks;
 
   @override
   Future<Either<Failure, List<ListedSecurityName>>> call(
       GetMarketDataParams params) async {
     final temp = await bankListRepository.getMarketData(params);
-    _cache(temp);
     return temp;
   }
 
-  void _cache(Either<Failure, List<ListedSecurityName>> temp) {
-    temp.fold((l) => null, (r) {
-      banks = List.from(r);
-    });
-  }
 }

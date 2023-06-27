@@ -1,5 +1,4 @@
 import 'package:wmd/features/add_assets/core/data/models/listed_security_name.dart';
-import 'package:wmd/features/valuation/domain/entities/get_valuation_entity.dart';
 
 class GetMarketDataResponse extends ListedSecurityName {
   GetMarketDataResponse({
@@ -15,14 +14,14 @@ class GetMarketDataResponse extends ListedSecurityName {
 
   factory GetMarketDataResponse.fromJson(Map<String, dynamic> json) =>
       GetMarketDataResponse(
-        category: json["assetType"],
+        category: json["assetType"]??"",
         currencyCode: json["currency"],
-        isin: json["isinNumber"],
+        isin: json["isinNumber"]??"",
         label: json["companyName"],
-        securityName: json["companyName"],
-        securityShortName: json["primaryExchangeName"],
-        tradedExchange: json["ticker"],
-        value: json["companyName"],
+        securityName: json["companyName"]??"",
+        securityShortName: json["primaryExchangeName"]??"",
+        tradedExchange: json["ticker"]??"",
+        value: json["value"],
       );
 
   // static final tResponse = [GetAllValuationResponse()];
