@@ -53,7 +53,6 @@ class PamLoginCubit extends Cubit<PamLoginState> {
               const AppException(message: 'No mandates found'))));
     } else {
       final e = mandates.map((e) => Mandate(e, 'PAM')).toList();
-      log('Mert log emit $e');
       emit(MandatesLoaded(e));
     }
   }

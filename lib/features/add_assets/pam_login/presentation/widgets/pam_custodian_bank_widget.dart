@@ -11,6 +11,7 @@ import 'package:wmd/features/add_assets/pam_login/presentation/widgets/pam_confi
 import 'package:wmd/features/add_assets/pam_login/presentation/widgets/pam_success_modal.dart';
 import 'package:wmd/features/add_assets/tfo_login/presentation/widgets/initial_modal.dart';
 import 'package:wmd/features/add_assets/tfo_login/presentation/widgets/tfo_success_modal.dart';
+import 'package:wmd/features/dashboard/mandate_status/presentation/manager/mandate_status_cubit.dart';
 import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 
@@ -33,19 +34,25 @@ class PamCustodianBankWidget extends AppStatelessWidget {
       child: BlocConsumer<PamLoginCubit, PamLoginState>(listener:
           BlocHelper.defaultBlocListener(listener: (context, state) async {
         if (state is SuccessState) {
-          // showTfoConfirmMandateModal(context: context);
-          // showTfoSuccessModal(context: context);
+          context.read<MandateStatusCubit>().getMandateStatus();
         } else if (state is MandatesLoaded) {
           if (state.mandates.length == 1) {
             final res = await showPamSuccessModal(context: context);
             if (res) {
+              // ignore: use_build_context_synchronously
               context
                   .read<PamLoginCubit>()
                   .postMandates(LoginPamAccountParams(state.mandates));
             }
           } else {
-            showPamConfirmMandateModal(
+            final selected = await showPamConfirmMandateModal(
                 context: context, mandates: state.mandates);
+            if (selected != null && selected.isNotEmpty) {
+              // ignore: use_build_context_synchronously
+              context
+                  .read<PamLoginCubit>()
+                  .postMandates(LoginPamAccountParams(selected));
+            }
           }
         } else if (state is ErrorState) {
           GlobalFunctions.showSnackTile(context,
