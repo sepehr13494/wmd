@@ -128,30 +128,32 @@ class PerformanceLineChartV2 extends AppStatelessWidget {
 
   _getSeries() {
     final stops = calculateStops(values);
-    final gradient = calculateStopsV(values);
-    double stopsY = calculateHipo(stops, gradient);
+    Color? borderColor;
+    if(stops == 1){
+      borderColor = AppColors.chartColor.withOpacity(0.5);
+    }else if(stops == 0){
+      Colors.red;
+    }
     return [
       AreaSeries<MapEntry<DateTime, double>, String>(
         color: AppColors.chartColor.withOpacity(0.3),
-        borderColor: AppColors.chartColor.withOpacity(0.5),
-        // borderGradient: LinearGradient(
-        //   begin: Alignment.centerLeft,
-        //   end: Alignment.centerRight,
-        //   stops: [
-        //     0,
-        //     stopsY,
-        //     stopsY,
-        //     1,
-        //   ],
-        //   colors: [
-        //     // AppColors.chartColor.withOpacity(0.3),
-        //     AppColors.chartColor.withOpacity(0.5),
-        //     AppColors.chartColor.withOpacity(0.3),
-        //     Colors.red.withOpacity(0.05),
-        //     Colors.red.withOpacity(0.5),
-        //     // AppColors.redChartColor.withOpacity(0.3),
-        //   ],
-        // ),
+        borderColor: borderColor,
+        borderGradient: (stops == 0 || stops == 1) ? null : LinearGradient(
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
+          stops: [
+            0,
+            stops,
+            stops,
+            1,
+          ],
+          colors: [
+            Colors.red.withOpacity(0.5),
+            Colors.red.withOpacity(0.5),
+            AppColors.chartColor.withOpacity(0.5),
+            AppColors.chartColor.withOpacity(0.5),
+          ],
+        ),
         borderWidth: 2,
         dataSource: values,
         animationDuration: 2500,

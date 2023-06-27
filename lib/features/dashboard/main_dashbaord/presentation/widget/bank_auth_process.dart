@@ -216,51 +216,55 @@ class _BanksAuthorizationProcessState
                 style: textTheme.bodyLarge),
           ),
         ),
-        FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Padding(
-            padding: padding,
-            child: Align(
-              alignment: Alignment.center,
-              child: InkWell(
-                onTap: () async {
-                  GlobalFunctions.showConfirmDialog(
-                    context: context,
-                    title: '',
-                    body: appLocalizations
-                        .linkAccount_deleteCustodianBankModal_description,
-                    confirm: appLocalizations.common_button_yes,
-                    cancel: appLocalizations.common_button_no,
-                    onConfirm: () {
-                      context
-                          .read<MandateStatusCubit>()
-                          .deleteMandate(DeleteMandateParams(e.mandateId));
-                      setState(() {});
-                      context.read<MandateStatusCubit>().getMandateStatus();
-                      context
-                          .read<CustodianStatusListCubit>()
-                          .getCustodianStatusList();
-                      GlobalFunctions.showSnackTile(context,
-                          title: appLocalizations
-                              .home_custodianBankList_toast_deleteMandate_title,
-                          color: Colors.green);
-                    },
-                  );
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      appLocalizations.home_custodianBankList_button_deleteSync,
-                      style: textTheme.bodyLarge!
-                          .apply(color: Theme.of(context).primaryColor),
-                    ),
-                    const SizedBox(width: 4),
-                    const Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: 12,
-                    )
-                  ],
+        Visibility(
+          visible: false,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Padding(
+              padding: padding,
+              child: Align(
+                alignment: Alignment.center,
+                child: InkWell(
+                  onTap: () async {
+                    GlobalFunctions.showConfirmDialog(
+                      context: context,
+                      title: '',
+                      body: appLocalizations
+                          .linkAccount_deleteCustodianBankModal_description,
+                      confirm: appLocalizations.common_button_yes,
+                      cancel: appLocalizations.common_button_no,
+                      onConfirm: () {
+                        context
+                            .read<MandateStatusCubit>()
+                            .deleteMandate(DeleteMandateParams(e.mandateId));
+                        setState(() {});
+                        context.read<MandateStatusCubit>().getMandateStatus();
+                        context
+                            .read<CustodianStatusListCubit>()
+                            .getCustodianStatusList();
+                        GlobalFunctions.showSnackTile(context,
+                            title: appLocalizations
+                                .home_custodianBankList_toast_deleteMandate_title,
+                            color: Colors.green);
+                      },
+                    );
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        appLocalizations
+                            .home_custodianBankList_button_deleteSync,
+                        style: textTheme.bodyLarge!
+                            .apply(color: Theme.of(context).primaryColor),
+                      ),
+                      const SizedBox(width: 4),
+                      const Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 12,
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

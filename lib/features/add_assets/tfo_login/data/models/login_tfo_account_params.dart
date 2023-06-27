@@ -1,18 +1,17 @@
 import 'package:equatable/equatable.dart';
-import 'package:wmd/core/domain/usecases/usercase.dart';
+import 'package:wmd/features/add_assets/pam_login/data/models/mandate_param.dart';
+import 'dart:convert';
 
-class LoginTfoAccountParams extends NoParams {
-  // const LoginTfoAccountParams();
+class LoginTfoAccountParams extends Equatable {
+  final List<Mandate> mandates;
+  const LoginTfoAccountParams(this.mandates);
 
-  // factory LoginTfoAccountParams.fromJson(Map<String, dynamic> json) => const LoginTfoAccountParams(
-  // );
+  String toJson() => jsonEncode(mandates);
 
-  // Map<String, dynamic> toJson() => {
-  // };
+  @override
+  List<Object?> get props => [
+        mandates,
+      ];
 
-  // @override
-  // // TODO: implement props
-  // List<Object?> get props => [];
-
-  static final tParams = LoginTfoAccountParams();
+  static final tParams = LoginTfoAccountParams([Mandate(1234, 'Pam')]);
 }

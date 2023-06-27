@@ -4,11 +4,15 @@ import 'package:wmd/core/presentation/widgets/bottom_modal_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
 
-Future<bool> showPamConfirmMandateModal({required BuildContext context}) async {
+import '../../data/models/mandate_param.dart';
+
+Future<List<Mandate>?> showPamConfirmMandateModal(
+    {required BuildContext context, required List<Mandate> mandates}) async {
   final appLocalizations = AppLocalizations.of(context);
   final textTheme = Theme.of(context).textTheme;
   final primaryColor = Theme.of(context).primaryColor;
   final isMobile = ResponsiveHelper(context: context).isMobile;
+  List<Mandate> selected = List.from(mandates);
   return await showDialog(
     context: context,
     builder: (context) {
@@ -31,43 +35,36 @@ Future<bool> showPamConfirmMandateModal({required BuildContext context}) async {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
-            CheckMandate(
-                title: 'Mandate title goes here 1', onChange: (val) {}),
-            CheckMandate(
-              title: 'Mandate title goes here 2',
-              onChange: (val) {},
-              initialValue: false,
-            ),
-            CheckMandate(
-                title: 'Mandate title goes here 3', onChange: (val) {}),
+            ...mandates.map((e) => CheckMandate(
+                title: e.mandateId.toString(),
+                onChange: (val) {
+                  if (val) {
+                    selected.add(e);
+                  } else {
+                    selected.remove(e);
+                  }
+                })),
           ],
         ),
         actions: Padding(
           padding: const EdgeInsets.all(16.0),
           child: ElevatedButton(
-            onPressed: () => Navigator.pop(context, true),
+            onPressed: () => Navigator.pop(context, selected),
             style: ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
             child: Text(appLocalizations.common_button_continue),
           ),
         ),
       );
-      if (isMobile) {
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: content,
-        );
-      }
       return Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width / 2),
+        padding: const EdgeInsets.all(16.0),
         child: content,
       );
     },
   ).then((isConfirm) {
-    if (isConfirm != null && isConfirm == true) {
-      return true;
+    if (isConfirm != null) {
+      return selected;
     }
-    return false;
+    return null;
   });
 }
 

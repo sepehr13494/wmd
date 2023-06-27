@@ -53,5 +53,4 @@ openssl s_client -showcerts -servername apigw-wmd-prod-01.azure-api.net -connect
 # Setting up auth0 console
 This is official sdk, https://pub.dev/packages/auth0_flutter
 
-- edit .env domain(with https) and clientID
-- add domain(without https) in auth0.properties file 
+- edit .env domain(with https), clientID and bundleID

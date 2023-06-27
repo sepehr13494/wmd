@@ -1,16 +1,15 @@
-import 'dart:developer';
-import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/core/util/firebase_analytics.dart';
+import 'package:wmd/features/add_assets/tfo_login/data/models/login_tfo_account_params.dart';
 import 'package:wmd/features/add_assets/tfo_login/presentation/widgets/tfo_confirm_mandate_modal.dart';
 import 'package:wmd/features/add_assets/tfo_login/presentation/widgets/initial_modal.dart';
 import 'package:wmd/features/add_assets/tfo_login/presentation/widgets/tfo_success_modal.dart';
+import 'package:wmd/features/dashboard/mandate_status/presentation/manager/mandate_status_cubit.dart';
 import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 
@@ -30,13 +29,30 @@ class TfoCustodianBankWidget extends AppStatelessWidget {
 
     return BlocProvider(
       create: (context) => sl<TfoLoginCubit>(),
-      child: BlocConsumer<TfoLoginCubit, TfoLoginState>(
-          listener: BlocHelper.defaultBlocListener(listener: (context, state) {
+      child: BlocConsumer<TfoLoginCubit, TfoLoginState>(listener:
+          BlocHelper.defaultBlocListener(listener: (context, state) async {
         if (state is SuccessState) {
-          // showTfoConfirmMandateModal(context: context);
-          showTfoSuccessModal(context: context);
+          context.read<MandateStatusCubit>().getMandateStatus();
+        } else if (state is TfoMandatesLoaded) {
+          if (state.mandates.length == 1) {
+            final res = await showTfoSuccessModal(context: context);
+            if (res) {
+              // ignore: use_build_context_synchronously
+              context
+                  .read<TfoLoginCubit>()
+                  .postMandates(LoginTfoAccountParams(state.mandates));
+            }
+          } else {
+            final selected = await showTfoConfirmMandateModal(
+                context: context, mandates: state.mandates);
+            if (selected != null && selected.isNotEmpty) {
+              // ignore: use_build_context_synchronously
+              context
+                  .read<TfoLoginCubit>()
+                  .postMandates(LoginTfoAccountParams(selected));
+            }
+          }
         } else if (state is ErrorState) {
-          log('login error: ${state.failure}');
           GlobalFunctions.showSnackTile(context,
               title: appLocalizations.common_toast_generic_error_title,
               color: Colors.red);
