@@ -10,6 +10,7 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/widget/custodian_auth_status_modal.dart';
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
+import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
 class CustodianBankWidgetV2 extends AppStatelessWidget {
@@ -72,7 +73,10 @@ class CustodianBankWidgetV2 extends AppStatelessWidget {
                             context
                                 .read<CustodianStatusListCubit>()
                                 .getCustodianStatusList();
-                            context.goNamed(AppRoutes.main);
+                            context.goNamed(AppRoutes.main,
+                                queryParams: {'expandCustodian': "true"});
+
+                            context.read<MainPageCubit>().onItemTapped(0);
                           },
                         );
                       },

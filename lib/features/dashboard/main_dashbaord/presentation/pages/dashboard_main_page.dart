@@ -168,9 +168,7 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                                             height: 12),
                                                         BanksAuthorizationProcess(
                                                           initiallyExpanded: widget
-                                                                  .expandCustodian ||
-                                                              (!isAssetsNotEmpty &&
-                                                                  !isLiabilityNotEmpty),
+                                                              .expandCustodian,
                                                           mandateList:
                                                               mandateList,
                                                         ),
