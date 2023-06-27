@@ -101,6 +101,16 @@
            
         </activity>
 
+        <activity android:name="com.linusu.flutter_web_auth.CallbackActivity"
+            android:exported="true">
+            <intent-filter android:label="flutter_web_auth" android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="com.tfo.wmd" />
+            </intent-filter>
+        </activity>
+
         <activity android:name="com.auth0.android.provider.RedirectActivity"
             android:exported="true"
             tools:node="replace">
@@ -111,9 +121,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:host="tfo-uat.eu.auth0.com"
+                <!-- <data android:host="tfo-uat.eu.auth0.com"
                     android:pathPrefix="/android/com.tfo.wmd/callback"
-                    android:scheme="com.tfo.wmd" />
+                    android:scheme="com.tfo.wmd" /> -->
                 <data android:host="pam-uat.eu.auth0.com"
                     android:pathPrefix="/android/com.tfo.wmd/callback"
                     android:scheme="com.tfo.wmd" />

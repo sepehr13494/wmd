@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
-
 import 'mandate_param.dart';
 
 class LoginPamAccountParams extends Equatable {
