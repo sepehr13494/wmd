@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:wmd/core/data/network/server_request_manager.dart';
 import 'package:wmd/core/data/network/urls.dart';
 import 'package:wmd/core/data/repository/app_data_source.dart';
@@ -47,13 +48,12 @@ class PreferenceRemoteDataSourceImpl extends AppServerDataSource
     try {
       final appRequestOptions = AppRequestOptions(
           RequestTypes.patch, AppUrls.patchPreferenceLanguage, params.toJson());
-      final response =
-          await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = PatchPreferenceLanguageResponse.fromJson(response);
-      return result;
+      await errorHandlerMiddleware.sendRequest(appRequestOptions);
+      return PatchPreferenceLanguageResponse();
     } on ServerException {
       rethrow;
     } catch (e) {
+      debugPrint("patchPreferenceLanguage " + e.toString());
       throw AppException(
           message: "format Exception", type: ExceptionType.format);
     }

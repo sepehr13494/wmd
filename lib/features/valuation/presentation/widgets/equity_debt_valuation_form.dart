@@ -110,6 +110,7 @@ class _EquityDebtValuationFormWidgetState
                   });
                 },
                 lastDate: DateTime.now(),
+
                 inputType: InputType.date,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: FormBuilderValidators.compose(

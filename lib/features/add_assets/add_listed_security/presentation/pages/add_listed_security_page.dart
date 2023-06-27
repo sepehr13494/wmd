@@ -58,8 +58,6 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
   bool isDisableCategory = false;
   bool isDisableCurrency = false;
 
-  final SuggestionsBoxController _typeAheadController =
-      SuggestionsBoxController();
 
   void calculateCurrentValue() {
     const defaultValue = "--";
@@ -79,7 +77,6 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
     final noOfUnitsParsed = noOfUnits != null
         ? int.tryParse(noOfUnits!.toString().replaceAll(',', ''))
         : 0;
-    print(noOfUnitsParsed);
     final valuePerUnitParsed = valuePerUnit != null
         ? int.tryParse(valuePerUnit!.toString().replaceAll(',', ''))
         : 0;
@@ -209,9 +206,9 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                     listener: (context, state) {
                                   if (state is MarketDataSuccess) {
                                     if (edit && state.entity.isNotEmpty) {
+                                      try {
                                       final formJson = widget.moreEntity!
                                           .toFormJson(state.entity.first);
-                                      try {
                                         securityName = formJson["name"];
                                         noOfUnits = formJson["quantity"];
                                         valuePerUnit = formJson["marketValue"];
