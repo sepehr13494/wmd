@@ -86,18 +86,9 @@ class TfoCustodianBankWidget extends AppStatelessWidget {
                                     action: AnalyticsUtils.linkBankAction(
                                         'The Office Family custodian'),
                                     params: AnalyticsUtils.linkBankEvent(
-                                        'The Office Family custodian'));
-                                final result = await showInitialModal(
-                                  context: context,
-                                  title:
-                                      'Do you want to load you existing TFO portfolio?',
-                                );
-                                if (result) {
-                                  // ignore: use_build_context_synchronously
-                                  context
-                                      .read<TfoLoginCubit>()
-                                      .loginTfoAccount();
-                                }
+                                        'The Office Family custodian')); // ignore: use_build_context_synchronously
+                                // ignore: use_build_context_synchronously
+                                context.read<TfoLoginCubit>().loginTfoAccount();
                               },
                               child: _buildButton(context,
                                   appLocalizations.common_button_connect),

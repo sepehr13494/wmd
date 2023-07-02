@@ -90,17 +90,8 @@ class PamCustodianBankWidget extends AppStatelessWidget {
                                         'Pam custodian'),
                                     params: AnalyticsUtils.linkBankEvent(
                                         'Pam custodian'));
-                                final result = await showInitialModal(
-                                  context: context,
-                                  title:
-                                      'Do you want to load you existing PAM portfolio?',
-                                );
-                                if (result) {
-                                  // ignore: use_build_context_synchronously
-                                  context
-                                      .read<PamLoginCubit>()
-                                      .loginPamAccount();
-                                }
+                                // ignore: use_build_context_synchronously
+                                context.read<PamLoginCubit>().loginPamAccount();
                               },
                               child: _buildButton(context,
                                   appLocalizations.common_button_connect),
