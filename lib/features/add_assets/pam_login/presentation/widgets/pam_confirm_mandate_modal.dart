@@ -36,7 +36,7 @@ Future<List<Mandate>?> showPamConfirmMandateModal(
             ),
             const SizedBox(height: 16),
             ...mandates.map((e) => CheckMandate(
-                title: e.mandateId.toString(),
+                title: 'Account ID# ' + e.mandateId.toString(),
                 onChange: (val) {
                   if (val) {
                     selected.add(e);
