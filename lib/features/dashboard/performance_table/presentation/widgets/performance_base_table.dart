@@ -236,33 +236,33 @@ class _PerformanceBaseTableState extends AppState<PerformanceBaseTable> {
                                                             .shouldBlur,
                                                         child: Row(
                                                           children: [
-                                                            Text(
-                                                              insideValue.value,
-                                                              style: textTheme
-                                                                  .bodySmall,
+                                                            Expanded(
+                                                              child: Align(
+                                                                alignment: AlignmentDirectional.centerStart,
+                                                                child: Text(
+                                                                  insideValue.value,
+                                                                  style: textTheme
+                                                                      .bodySmall,
+                                                                ),
+                                                              ),
                                                             ),
                                                             if (insideValue
                                                                 .showTooltip)
-                                                              InkWell(
-                                                                onTap: () {
-                                                                  debugPrint(
-                                                                      "hi");
-                                                                },
-                                                                child: Tooltip(
-                                                                  triggerMode:
-                                                                      TooltipTriggerMode
-                                                                          .tap,
-                                                                  message: AppLocalizations.of(
-                                                                          context)
-                                                                      .assets_tooltips_percentageAbsurd,
+                                                              Tooltip(
+                                                                showDuration: const Duration(seconds: 5),
+                                                                triggerMode:
+                                                                TooltipTriggerMode
+                                                                    .tap,
+                                                                message: AppLocalizations.of(
+                                                                    context)
+                                                                    .assets_tooltips_percentageAbsurd,
+                                                                child:
+                                                                const Padding(
+                                                                  padding: EdgeInsets.symmetric(
+                                                                      horizontal:
+                                                                      4.0),
                                                                   child:
-                                                                      const Padding(
-                                                                    padding: EdgeInsets.symmetric(
-                                                                        horizontal:
-                                                                            4.0),
-                                                                    child:
-                                                                        InfoIcon(),
-                                                                  ),
+                                                                  InfoIcon(),
                                                                 ),
                                                               ),
                                                           ],

@@ -273,4 +273,8 @@ class GlobalFunctions {
       return isConfirm;
     });
   }
+
+  static bool showPercentageTooltip(double value){
+    return (value >= 99900 || value <= -100);
+  }
 }
