@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 
 void main() async {
-  await readFileAndConvert("input/en.arb", '../l10n/app_en.arb');
-  await readFileAndConvert("input/ar.arb", '../l10n/app_ar.arb');
+  // await readFileAndConvert("input/en.arb", '../l10n/app_en.arb');
+  // await readFileAndConvert("input/ar.arb", '../l10n/app_ar.arb');
 
   // direct copy page lokalise download folders
-  // await readFileAndConvert(
-  //     "inputDirect/en/no_filename.arb", '../l10n/app_en.arb');
-  // await readFileAndConvert(
-  //     "inputDirect/ar/no_filename.arb", '../l10n/app_ar.arb');
+  await readFileAndConvert(
+      "inputDirect/en/no_filename.arb", '../l10n/app_en.arb');
+  await readFileAndConvert(
+      "inputDirect/ar/no_filename.arb", '../l10n/app_ar.arb');
 
   // windows
   // await readFileAndConvert("C:/Users/DearUser/StudioProjects/wmd/lib/lokaliseScript/input/en.arb", 'C:/Users/DearUser/StudioProjects/wmd/lib/lokaliseScript/output/app_en.arb');
