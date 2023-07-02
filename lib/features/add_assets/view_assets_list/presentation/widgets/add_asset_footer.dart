@@ -29,10 +29,10 @@ class AddAssetFooter extends AppStatelessWidget {
 
     return Container(
       width: double.maxFinite,
-      height: 60,
+      height: 76,
       color: Theme.of(context).cardColor,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.only(right: 16,left: 16,bottom: 16),
         child: Row(
           children: [
             isMobile

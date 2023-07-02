@@ -142,7 +142,7 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
                                 showTooltip: index < 2 && widget.isBankNotEmpty,
                               ),
                               const SizedBox(width: 8),
-                              PrivacyBlurWidget(
+                              PrivacyBlurWidgetClickable(
                                 child: ChangeWidget(
                                   number: item[3],
                                   text: (item[3] as double)
