@@ -107,7 +107,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="com.tfo.wmd" />
+                <data android:host="tfo-uat.eu.auth0.com" android:scheme="com.tfo.wmd" />
             </intent-filter>
         </activity>
 
