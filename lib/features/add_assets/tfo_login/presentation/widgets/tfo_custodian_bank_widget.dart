@@ -15,6 +15,7 @@ import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 
 import '../manager/tfo_login_cubit.dart';
+import 'mandate_wrapper.dart';
 
 class TfoCustodianBankWidget extends AppStatelessWidget {
   const TfoCustodianBankWidget(
@@ -28,88 +29,105 @@ class TfoCustodianBankWidget extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     final primaryColor = Theme.of(context).primaryColor;
 
-    return BlocProvider(
-      create: (context) => sl<TfoLoginCubit>(),
-      child: BlocConsumer<TfoLoginCubit, TfoLoginState>(listener:
-          BlocHelper.defaultBlocListener(listener: (context, state) async {
-        if (state is SuccessState) {
-          GlobalFunctions.showSnackTile(context,
-              title: appLocalizations.common_linkTFO_toast_success_title,
-              subtitle:
-                  appLocalizations.common_linkTFO_toast_success_description,
-              color: Colors.green);
-          context.goNamed(AppRoutes.main,
-              queryParams: {'expandCustodian': "true"});
-          context.read<MandateStatusCubit>().getMandateStatus();
-        } else if (state is TfoMandatesLoaded) {
-          if (state.mandates.length == 1) {
-            final res = await showTfoSuccessModal(context: context);
-            if (res) {
-              // ignore: use_build_context_synchronously
-              context
-                  .read<TfoLoginCubit>()
-                  .postMandates(LoginTfoAccountParams(state.mandates));
+    return MandateWrapper(builder: (context, mandateList) {
+      return BlocProvider(
+        create: (context) => sl<TfoLoginCubit>(),
+        child: BlocConsumer<TfoLoginCubit, TfoLoginState>(listener:
+            BlocHelper.defaultBlocListener(listener: (context, state) async {
+          if (state is SuccessState) {
+            GlobalFunctions.showSnackTile(context,
+                title: appLocalizations.common_linkTFO_toast_success_title,
+                subtitle:
+                    appLocalizations.common_linkTFO_toast_success_description,
+                color: Colors.green);
+            context.goNamed(AppRoutes.main,
+                queryParams: {'expandCustodian': "true"});
+            context.read<MandateStatusCubit>().getMandateStatus();
+          } else if (state is TfoMandatesLoaded) {
+            final filteredList = state.mandates
+                .where((e) =>
+                    !mandateList.map((e) => e.mandateId).contains(e.mandateId))
+                .toList();
+            if (filteredList.isEmpty) {
+              GlobalFunctions.showSnackTile(context,
+                  title:
+                      appLocalizations.common_linkTFO_toast_alreadyLinked_title,
+                  subtitle: appLocalizations
+                      .common_linkTFO_toast_alreadyLinked_description,
+                  color: Colors.green);
+              context.goNamed(AppRoutes.main,
+                  queryParams: {'expandCustodian': "true"});
+            } else if (filteredList.length == 1) {
+              final res = await showTfoSuccessModal(context: context);
+              if (res) {
+                // ignore: use_build_context_synchronously
+                context
+                    .read<TfoLoginCubit>()
+                    .postMandates(LoginTfoAccountParams(filteredList));
+              }
+            } else {
+              final selected = await showTfoConfirmMandateModal(
+                  context: context, mandates: filteredList);
+              if (selected != null && selected.isNotEmpty) {
+                // ignore: use_build_context_synchronously
+                context
+                    .read<TfoLoginCubit>()
+                    .postMandates(LoginTfoAccountParams(selected));
+              }
             }
-          } else {
-            final selected = await showTfoConfirmMandateModal(
-                context: context, mandates: state.mandates);
-            if (selected != null && selected.isNotEmpty) {
-              // ignore: use_build_context_synchronously
-              context
-                  .read<TfoLoginCubit>()
-                  .postMandates(LoginTfoAccountParams(selected));
-            }
+          } else if (state is ErrorState) {
+            GlobalFunctions.showSnackTile(context,
+                title: appLocalizations.common_toast_generic_error_title,
+                color: Colors.red);
           }
-        } else if (state is ErrorState) {
-          GlobalFunctions.showSnackTile(context,
-              title: appLocalizations.common_toast_generic_error_title,
-              color: Colors.red);
-        }
-      }), builder: (context, state) {
-        bool isLoading = state is LoadingState;
-        bool isDone = state is SuccessState;
-        return AnimatedSwitcher(
-          duration: const Duration(seconds: 1),
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(6),
+        }), builder: (context, state) {
+          bool isLoading = state is LoadingState;
+          bool isDone = state is SuccessState;
+          return AnimatedSwitcher(
+            duration: const Duration(seconds: 1),
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6),
+              ),
+              color: isSelected ? primaryColor.withOpacity(0.2) : null,
+              child: ListTile(
+                onTap: () {
+                  onActive();
+                },
+                title: const Text('The Family Office'),
+                leading: Icon(Icons.account_balance, color: primaryColor),
+                trailing: isDone
+                    ? _buildButton(context,
+                        appLocalizations.linkAccount_stepper_label_completed)
+                    : !isSelected
+                        ? null
+                        : Builder(
+                            builder: (context) {
+                              return InkWell(
+                                onTap: () async {
+                                  await AnalyticsUtils.triggerEvent(
+                                      action: AnalyticsUtils.linkBankAction(
+                                          'The Office Family custodian'),
+                                      params: AnalyticsUtils.linkBankEvent(
+                                          'The Office Family custodian')); // ignore: use_build_context_synchronously
+                                  // ignore: use_build_context_synchronously
+                                  context
+                                      .read<TfoLoginCubit>()
+                                      .loginTfoAccount();
+                                },
+                                child: _buildButton(context,
+                                    appLocalizations.common_button_connect),
+                              );
+                            },
+                          ),
+                selected: isSelected,
+                selectedColor: null,
+              ),
             ),
-            color: isSelected ? primaryColor.withOpacity(0.2) : null,
-            child: ListTile(
-              onTap: () {
-                onActive();
-              },
-              title: const Text('The Family Office'),
-              leading: Icon(Icons.account_balance, color: primaryColor),
-              trailing: isDone
-                  ? _buildButton(context,
-                      appLocalizations.linkAccount_stepper_label_completed)
-                  : !isSelected
-                      ? null
-                      : Builder(
-                          builder: (context) {
-                            return InkWell(
-                              onTap: () async {
-                                await AnalyticsUtils.triggerEvent(
-                                    action: AnalyticsUtils.linkBankAction(
-                                        'The Office Family custodian'),
-                                    params: AnalyticsUtils.linkBankEvent(
-                                        'The Office Family custodian')); // ignore: use_build_context_synchronously
-                                // ignore: use_build_context_synchronously
-                                context.read<TfoLoginCubit>().loginTfoAccount();
-                              },
-                              child: _buildButton(context,
-                                  appLocalizations.common_button_connect),
-                            );
-                          },
-                        ),
-              selected: isSelected,
-              selectedColor: null,
-            ),
-          ),
-        );
-      }),
-    );
+          );
+        }),
+      );
+    });
   }
 
   Container _buildButton(BuildContext context, String text) {
