@@ -66,7 +66,7 @@ class ContactBusinessWidget extends ModalWidget {
             return SingleChildScrollView(
                 child: Container(
                     decoration:
-                        BoxDecoration(border: Border.all(color: Colors.grey)),
+                        BoxDecoration(border: Border.all(color: Colors.grey),borderRadius: BorderRadius.circular(4)),
                     width: MediaQuery.of(context).size.width * 0.9,
                     height: isMobile
                         ? min(MediaQuery.of(context).size.height * 0.7, 625)

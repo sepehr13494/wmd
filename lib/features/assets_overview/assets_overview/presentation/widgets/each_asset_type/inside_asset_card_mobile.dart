@@ -9,6 +9,7 @@ import 'package:wmd/features/assets_overview/assets_overview/presentation/widget
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 import 'package:wmd/features/assets_overview/core/presentataion/models/assets_overview_base_widget_model.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
+import 'package:wmd/global_functions.dart';
 
 import '../../../../core/domain/entities/assets_list_entity.dart';
 import '../../../domain/entities/assets_overview_entity.dart';
@@ -87,8 +88,7 @@ class InsideAssetCardMobile extends AppStatelessWidget {
                   ChangeWidget(
                     number: asset.inceptionToDate,
                     text: "${asset.inceptionToDate.toStringAsFixedZero(1)}%",
-                    tooltipMessage: (asset.inceptionToDate >= 99900 ||
-                            asset.inceptionToDate <= -100)
+                    tooltipMessage: GlobalFunctions.showPercentageTooltip(asset.inceptionToDate)
                         ? appLocalizations.assets_tooltips_percentageAbsurd
                         : null,
                   ),

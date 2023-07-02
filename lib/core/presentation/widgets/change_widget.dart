@@ -47,6 +47,7 @@ class ChangeWidget extends AppStatelessWidget {
             if (tooltipMessage != null)
               WidgetSpan(
                 child: Tooltip(
+                  showDuration: const Duration(seconds: 5),
                   triggerMode: TooltipTriggerMode.tap,
                   message: AppLocalizations.of(context)
                       .assets_tooltips_percentageAbsurd,

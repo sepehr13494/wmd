@@ -9,6 +9,7 @@ import 'package:wmd/features/dashboard/performance_table/domain/entities/get_ben
 import 'package:wmd/features/dashboard/performance_table/presentation/models/performance_value_obj.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_base_table.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/widgets/performance_dropdown.dart';
+import 'package:wmd/global_functions.dart';
 
 import '../../client_index/domain/entities/get_client_index_entity.dart';
 import '../manager/performance_table_cubit.dart';
@@ -109,7 +110,9 @@ class PerformanceBenchmarkWidget extends AppStatelessWidget {
                                         PerformanceValueObj(
                                             value:
                                                 "${e.performancePa.toStringAsFixedZero(1)} %",
-                                            shouldBlur: false),
+                                            shouldBlur: false,
+                                          showTooltip: GlobalFunctions.showPercentageTooltip(e.performancePa)
+                                        ),
                                         PerformanceValueObj(
                                             value:
                                                 "${e.riskPa.toStringAsFixedZero(1)} %",
@@ -117,7 +120,8 @@ class PerformanceBenchmarkWidget extends AppStatelessWidget {
                                         PerformanceValueObj(
                                             value: e.sharpeRatio
                                                 .toStringAsFixedZero(1),
-                                            shouldBlur: true),
+                                            shouldBlur: true,
+                                        ),
                                       ])
                                   .toList());
                         },
