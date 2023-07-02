@@ -40,10 +40,12 @@ class PamLoginCubit extends Cubit<PamLoginState> {
         AppConstants.pamAuth0IssuerBaseUrl, AppConstants.pamAuth0ClientId);
     late final Credentials credentials;
     if (Platform.isAndroid) {
-      credentials =
-          await auth0.webAuthentication(scheme: AppConstants.bundleId).login();
+      credentials = await auth0
+          .webAuthentication(scheme: AppConstants.bundleId)
+          .login(useEphemeralSession: true);
     } else {
-      credentials = await auth0.webAuthentication().login();
+      credentials =
+          await auth0.webAuthentication().login(useEphemeralSession: true);
     }
     final claims = parseJwt(credentials.idToken);
     final List<dynamic>? mandates = claims['https://wmd.com/mandate_list'];

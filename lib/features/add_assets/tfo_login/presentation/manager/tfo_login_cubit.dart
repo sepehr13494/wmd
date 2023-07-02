@@ -35,11 +35,13 @@ class TfoLoginCubit extends Cubit<TfoLoginState> {
   }
 
   loginTfoAccount() async {
-   emit(LoadingState());
+    emit(LoadingState());
 
     final url = getMandatesConnectUrl(Nonce.generate(16));
     final result = await FlutterWebAuth.authenticate(
-        url: url, callbackUrlScheme: AppConstants.bundleId);
+        url: url,
+        callbackUrlScheme: AppConstants.bundleId,
+        preferEphemeral: true);
     final uri = Uri.parse(result);
     if (!uri.hasFragment) {
       emit(ErrorState(
@@ -66,7 +68,8 @@ class TfoLoginCubit extends Cubit<TfoLoginState> {
       emit(TfoMandatesLoaded(e));
     }
   }
-   postMandates(LoginTfoAccountParams param) async {
+
+  postMandates(LoginTfoAccountParams param) async {
     final result = await loginTfoAccountUseCase(param);
     result.fold((failure) => emit(ErrorState(failure: failure)), (appSuccess) {
       emit(SuccessState(appSuccess: appSuccess));
