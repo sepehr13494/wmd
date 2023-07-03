@@ -490,10 +490,13 @@ class ValuationModalWidget extends ModalWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                isEdit!
-                                    ? "Edit Valuation"
-                                    : appLocalizations
-                                        .assets_valuationModal_heading,
+                                assetType == AssetTypes.bankAccount
+                                    ? appLocalizations
+                                        .assets_valuationModal_updateTheBalance
+                                    : isEdit!
+                                        ? "Edit Valuation"
+                                        : appLocalizations
+                                            .assets_valuationModal_heading,
                                 style: appTextTheme.headlineSmall,
                                 textAlign: TextAlign.center,
                               )

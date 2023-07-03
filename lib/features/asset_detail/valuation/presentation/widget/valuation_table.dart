@@ -91,8 +91,11 @@ class ValuationWidget extends AppStatelessWidget {
                               // context.pushNamed(AppRoutes.forgetPassword);
                             },
                             child: Text(
-                              appLocalizations
-                                  .assets_valuationModal_buttons_buttons_addValuation,
+                              assetType == AssetTypes.bankAccount
+                                  ? appLocalizations
+                                      .assets_valuationModal_updateTheBalance
+                                  : appLocalizations
+                                      .assets_valuationModal_buttons_buttons_addValuation,
                               style: textTheme.bodySmall!.toLinkStyle(context),
                             ))
                     ],
@@ -167,7 +170,10 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
   void didUpdateWidget(ValuationTableWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (widget.isManuallyAdded && !isFirstTransRemoved) {
+    if (widget.isManuallyAdded &&
+        (!isFirstTransRemoved ||
+            (oldWidget.getAllValuationEntities !=
+                widget.getAllValuationEntities))) {
       widget.getAllValuationEntities.removeLast();
 
       setState(() {
@@ -412,13 +418,15 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             widget.isManuallyAdded &&
             // widget.assetType == AssetTypes.bankAccount &&
             isLast &&
-            widget.totalQuantity > 0)
+            widget.totalQuantity > 0 &&
+            widget.assetType != AssetTypes.bankAccount)
           renderPopupMenu(context, id),
         if (AppConstants.publicMvp2Items &&
-            widget.isManuallyAdded &&
-            // widget.assetType == AssetTypes.bankAccount &&
-            !isLast &&
-            widget.totalQuantity > 0)
+                widget.isManuallyAdded &&
+                // widget.assetType == AssetTypes.bankAccount &&
+                !isLast &&
+                widget.totalQuantity > 0 ||
+            widget.assetType == AssetTypes.bankAccount)
           Text(
             "",
             style: textTheme.bodySmall,
