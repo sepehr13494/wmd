@@ -2625,5 +2625,6 @@
     "assets:valuationModal.labels.currentBalanceValue": "",
     "assets:valuationModal.placeholder.currentBalanceValue": "",
     "common:help.contactSupportText": "على النسخة العربية، يرجى التواصل معنا على",
-    "common:help.supportEmail": "support@allinoneplus.com"
+    "common:help.supportEmail": "support@allinoneplus.com",
+    "assetLiabilityForms:forms.realEstate.inputFields.valuePerUnit.initialMarketValueLabel": ""
 }

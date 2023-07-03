@@ -178,7 +178,7 @@
     "assetLiabilityForms:forms.bankAccount.inputFields.principal.label": "Principal Amount",
     "assetLiabilityForms:forms.bankAccount.inputFields.principal.placeholder": "Enter principal amount",
     "assetLiabilityForms:forms.bankAccount.inputFields.principal.errorMessage": "Please enter principal amount",
-    "assetLiabilityForms:forms.bankAccount.inputFields.principal.tooltip": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "assetLiabilityForms:forms.bankAccount.inputFields.principal.tooltip": "Initial deposit amount",
     "assetLiabilityForms:forms.bankAccount.inputFields.rate.label": "Interest Rate (optional)",
     "assetLiabilityForms:forms.bankAccount.inputFields.rate.placeholder": "Please enter interest rate",
     "assetLiabilityForms:forms.bankAccount.inputFields.rate.tooltip": "The annual rate of return for the deposit.",
@@ -2625,5 +2625,6 @@
     "assets:valuationModal.labels.currentBalanceValue": "Current balance value",
     "assets:valuationModal.placeholder.currentBalanceValue": "Current balance value",
     "common:help.contactSupportText": "",
-    "common:help.supportEmail": ""
+    "common:help.supportEmail": "",
+    "assetLiabilityForms:forms.realEstate.inputFields.valuePerUnit.initialMarketValueLabel": "Initial market value"
 }
