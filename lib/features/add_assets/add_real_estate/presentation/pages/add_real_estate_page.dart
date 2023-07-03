@@ -410,8 +410,11 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                               EachTextField(
                                                 tooltipText: appLocalizations
                                                     .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_tooltip,
-                                                title: appLocalizations
-                                                    .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_label,
+                                                title: widget.edit
+                                                    ? appLocalizations
+                                                        .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_initialMarketValueLabel
+                                                    : appLocalizations
+                                                        .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_label,
                                                 child: AppTextFields
                                                     .simpleTextField(
                                                         enabled: !edit,
