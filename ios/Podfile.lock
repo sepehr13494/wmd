@@ -107,6 +107,8 @@ PODS:
     - Flutter
   - flutter_root_jailbreak (0.0.1):
     - Flutter
+  - flutter_web_auth_2 (1.1.1):
+    - Flutter
   - google_sign_in_ios (0.0.1):
     - Flutter
     - GoogleSignIn (~> 6.2)
@@ -207,6 +209,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
   - flutter_root_jailbreak (from `.symlinks/plugins/flutter_root_jailbreak/ios`)
+  - flutter_web_auth_2 (from `.symlinks/plugins/flutter_web_auth_2/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/ios`)
   - local_auth_ios (from `.symlinks/plugins/local_auth_ios/ios`)
   - network_info_plus (from `.symlinks/plugins/network_info_plus/ios`)
@@ -269,6 +272,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_keyboard_visibility/ios"
   flutter_root_jailbreak:
     :path: ".symlinks/plugins/flutter_root_jailbreak/ios"
+  flutter_web_auth_2:
+    :path: ".symlinks/plugins/flutter_web_auth_2/ios"
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/ios"
   local_auth_ios:
@@ -317,6 +322,7 @@ SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
   flutter_root_jailbreak: 0117e16bde16aa04a798c35f162b6fc2efd70e4f
+  flutter_web_auth_2: a1bc00762c408a8f80b72a538cd7ff5b601c3e71
   google_sign_in_ios: 63e49658400eb806dd30054dc56f8baee3025508
   GoogleAppMeasurement: c7d6fff39bf2d829587d74088d582e32d75133c3
   GoogleSignIn: 5651ce3a61e56ca864160e79b484cd9ed3f49b7a

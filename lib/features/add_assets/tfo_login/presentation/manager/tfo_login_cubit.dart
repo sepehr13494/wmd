@@ -1,6 +1,7 @@
+import 'dart:developer';
+import 'dart:io';
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter_web_auth/flutter_web_auth.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:nonce/nonce.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
@@ -37,35 +38,41 @@ class TfoLoginCubit extends Cubit<TfoLoginState> {
   loginTfoAccount() async {
     emit(LoadingState());
 
-    final url = getMandatesConnectUrl(Nonce.generate(16));
-    final result = await FlutterWebAuth.authenticate(
-        url: url,
-        callbackUrlScheme: AppConstants.bundleId,
-        preferEphemeral: true);
-    final uri = Uri.parse(result);
-    if (!uri.hasFragment) {
-      emit(ErrorState(
-          failure: AppFailure.fromAppException(
-              const AppException(message: 'No mandates found'))));
-    }
-    late final String token;
     try {
-      token = uri.fragment.split('=').last;
-    } on Exception catch (e) {
-      emit(ErrorState(
-          failure: AppFailure.fromAppException(
-              const AppException(message: 'No mandates found'))));
-    }
+      final url = getMandatesConnectUrl(Nonce.generate(16));
+      final result = await FlutterWebAuth2.authenticate(
+          url: url,
+          callbackUrlScheme: AppConstants.bundleId,
+          preferEphemeral: true);
+      final uri = Uri.parse(result);
+      if (!uri.hasFragment) {
+        emit(ErrorState(
+            failure: AppFailure.fromAppException(
+                const AppException(message: 'No mandates found'))));
+      }
+      late final String token;
+      try {
+        token = uri.fragment.split('=').last;
+      } on Exception catch (e) {
+        emit(ErrorState(
+            failure: AppFailure.fromAppException(
+                const AppException(message: 'No mandates found'))));
+      }
 
-    final claims = parseJwt(token);
-    final List<dynamic>? mandates = claims['https://wmd.com/mandate_list'];
-    if (mandates == null) {
+      final claims = parseJwt(token);
+      final List<dynamic>? mandates = claims['https://wmd.com/mandate_list'];
+      if (mandates == null) {
+        emit(ErrorState(
+            failure: AppFailure.fromAppException(
+                const AppException(message: 'No mandates found'))));
+      } else {
+        final e = mandates.map((e) => Mandate(e, 'TFO')).toList();
+        emit(TfoMandatesLoaded(e));
+      }
+    } on Exception catch (e) {
+      log('MErt log $e');
       emit(ErrorState(
-          failure: AppFailure.fromAppException(
-              const AppException(message: 'No mandates found'))));
-    } else {
-      final e = mandates.map((e) => Mandate(e, 'TFO')).toList();
-      emit(TfoMandatesLoaded(e));
+          failure: AppFailure.fromAppException(AppException(message: '$e'))));
     }
   }
 
@@ -78,5 +85,10 @@ class TfoLoginCubit extends Cubit<TfoLoginState> {
 }
 
 String getMandatesConnectUrl(String nonce) {
-  return "${AppConstants.tfoAuth0IssuerBaseUrl}/authorize?response_type=id_token&client_id=${AppConstants.tfoAuth0ClientId}&redirect_uri=${AppConstants.tfoAuth0Redirection}&scope openid&nonce=$nonce&audience=${AppConstants.tfoAuth0Audience}";
+  final redirection = Platform.isAndroid
+      ? AppConstants.tfoAuth0RedirectionAndroid
+      : AppConstants.tfoAuth0RedirectionIos;
+  final str =
+      "${AppConstants.tfoAuth0IssuerBaseUrl}/authorize?response_type=id_token&client_id=${AppConstants.tfoAuth0ClientId}&redirect_uri=$redirection&scope openid&nonce=$nonce&audience=${AppConstants.tfoAuth0Audience}";
+  return Uri.parse(str).toString();
 }
