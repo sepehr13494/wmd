@@ -1,5 +1,6 @@
-import 'dart:developer';
+import 'dart:developer' as d;
 import 'dart:io';
+import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:nonce/nonce.dart';
@@ -70,7 +71,6 @@ class TfoLoginCubit extends Cubit<TfoLoginState> {
         emit(TfoMandatesLoaded(e));
       }
     } on Exception catch (e) {
-      log('MErt log $e');
       emit(ErrorState(
           failure: AppFailure.fromAppException(AppException(message: '$e'))));
     }
@@ -85,11 +85,10 @@ class TfoLoginCubit extends Cubit<TfoLoginState> {
 }
 
 String getMandatesConnectUrl(String nonce) {
-  final redirection = Platform.isAndroid
+  final String redirection = Platform.isAndroid
       ? AppConstants.tfoAuth0RedirectionAndroid
       : AppConstants.tfoAuth0RedirectionIos;
   final str =
-      "${AppConstants.tfoAuth0IssuerBaseUrl}/authorize?response_type=id_token&client_id=${AppConstants.tfoAuth0ClientId}&redirect_uri=$redirection&scope openid&nonce=$nonce&audience=${AppConstants.tfoAuth0Audience}";
-
-  return Platform.isAndroid ? str : Uri.parse(str).toString();
+      "${AppConstants.tfoAuth0IssuerBaseUrl}/authorize?response_type=id_token&client_id=${AppConstants.tfoAuth0ClientId}&redirect_uri=$redirection&scope=openid&nonce=$nonce&audience=${AppConstants.tfoAuth0Audience}";
+  return Uri.parse(str).toString();
 }
