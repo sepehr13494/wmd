@@ -53,9 +53,9 @@ class PamCustodianBankWidget extends AppStatelessWidget {
                       appLocalizations.common_linkTFO_toast_alreadyLinked_title,
                   subtitle: appLocalizations
                       .common_linkTFO_toast_alreadyLinked_description,
-                  color: Colors.green);
-              context.goNamed(AppRoutes.main,
-                  queryParams: {'expandCustodian': "true"});
+                  color: Colors.red);
+              // context.goNamed(AppRoutes.main,
+              //     queryParams: {'expandCustodian': "true"});
             } else if (filteredList.length == 1) {
               final res = await showPamSuccessModal(context: context);
               if (res) {

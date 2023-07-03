@@ -611,13 +611,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.1.1"
-  flutter_web_auth:
+  flutter_web_auth_2:
     dependency: "direct main"
     description:
-      name: flutter_web_auth
+      name: flutter_web_auth_2
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.0"
+    version: "2.1.5"
+  flutter_web_auth_2_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_web_auth_2_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.4"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -1573,6 +1580,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.6.1"
+  window_to_front:
+    dependency: transitive
+    description:
+      name: window_to_front
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.3"
   xdg_directories:
     dependency: transitive
     description:
