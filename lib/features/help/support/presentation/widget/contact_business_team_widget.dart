@@ -65,11 +65,12 @@ class ContactBusinessWidget extends ModalWidget {
           } else if (state is SuccessState) {
             return SingleChildScrollView(
                 child: Container(
-                    decoration:
-                        BoxDecoration(border: Border.all(color: Colors.grey),borderRadius: BorderRadius.circular(4)),
+                    decoration: BoxDecoration(
+                        // border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(4)),
                     width: MediaQuery.of(context).size.width * 0.9,
                     height: isMobile
-                        ? min(MediaQuery.of(context).size.height * 0.7, 625)
+                        ? min(MediaQuery.of(context).size.height * 0.55, 625)
                         : MediaQuery.of(context).size.height * 0.5,
                     child: Center(
                         child: Column(children: [
@@ -92,7 +93,7 @@ class ContactBusinessWidget extends ModalWidget {
                               ),
                             ),
                             const SizedBox(
-                              height: 50,
+                              height: 35,
                             ),
                             Text(
                               appLocalizations
