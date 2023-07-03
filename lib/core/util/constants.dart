@@ -14,12 +14,15 @@ class AppConstants {
   static const String contactEmail = "developer@allinoneplus.com";
   // developMode ? "developer@allinoneplus.com" : "n.albasri@tfoco.com";
 
-  static String tfoAuth0IssuerBaseUrl =
-      dotenv.env['TFO_AUTH0_ISSUER_BASE_URL']!;
+  static String tfoAuth0Base = dotenv.env['TFO_AUTH0_ISSUER_BASE_URL']!;
+  static String tfoAuth0IssuerBaseUrl = "https://$tfoAuth0Base";
   static String tfoAuth0ClientId = dotenv.env['TFO_AUTH0_CLIENT_ID']!;
-  static String tfoAuth0Audience = 'https://tfo-uat.eu.auth0.com/api/v2/';
-  static String tfoAuth0Redirection =
-      '$bundleId://tfo-uat.eu.auth0.com/android/$bundleId/callback';
+  static String tfoAuth0Audience = 'https://$tfoAuth0Base/api/v2/';
+  static String tfoAuth0RedirectionAndroid =
+      '$bundleId://$tfoAuth0Base/android/$bundleId/callback';
+  static String tfoAuth0RedirectionIos =
+      '$bundleId://$tfoAuth0Base/ios/$bundleId/callback';
+
   static String pamAuth0IssuerBaseUrl =
       dotenv.env['PAM_AUTH0_ISSUER_BASE_URL']!;
   static String pamAuth0ClientId = dotenv.env['PAM_AUTH0_CLIENT_ID']!;
