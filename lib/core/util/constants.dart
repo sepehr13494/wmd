@@ -15,7 +15,7 @@ class AppConstants {
   // developMode ? "developer@allinoneplus.com" : "n.albasri@tfoco.com";
 
   static String tfoAuth0Base = dotenv.env['TFO_AUTH0_ISSUER_BASE_URL']!;
-  static String tfoAuth0IssuerBaseUrl = "https://$tfoAuth0Base";
+  static String tfoAuth0IssuerBaseUrl = Uri.https(tfoAuth0Base).toString();
   static String tfoAuth0ClientId = dotenv.env['TFO_AUTH0_CLIENT_ID']!;
   static String tfoAuth0Audience = 'https://$tfoAuth0Base/api/v2/';
   static String tfoAuth0RedirectionAndroid =
