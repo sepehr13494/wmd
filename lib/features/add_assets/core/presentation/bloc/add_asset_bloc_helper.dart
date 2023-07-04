@@ -38,13 +38,13 @@ class AssetBlocHelper extends BlocHelper {
                       .read<MainDashboardCubit>()
                       .netWorthObj
                       ?.assets
-                      .currentValue !=
+                      .newAssetCount !=
                   0;
               final isLiabilityNotEmpty = context
                       .read<MainDashboardCubit>()
                       .netWorthObj
                       ?.liabilities
-                      .currentValue !=
+                      .newLiabilityCount !=
                   0;
 
               if (isAssetsNotEmpty || isLiabilityNotEmpty) {
