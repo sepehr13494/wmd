@@ -239,7 +239,7 @@ class _ListedEquityValuationFormWidgettState
               hasInfo: false,
               title: appLocalizations.assets_valuationModal_labels_costPerUnit,
               child: AppTextFields.simpleTextField(
-                  type: TextFieldType.rate,
+                  type: TextFieldType.rateMoney,
                   keyboardType: TextInputType.number,
                   onChanged: (val) {
                     setState(() {
