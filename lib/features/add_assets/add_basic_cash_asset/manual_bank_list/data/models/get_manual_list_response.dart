@@ -14,10 +14,10 @@ class GetManualListResponse extends GetManualListEntity {
     );
 
     factory GetManualListResponse.fromJson(Map<String, dynamic> json) => GetManualListResponse(
-        id: json["id"],
-        bankName: json["bankName"],
-        country: json["country"],
-        countryIso2: json["countryIso2"],
+        id: json["id"]??"",
+        bankName: json["bankName"]??"",
+        country: json["country"]??"",
+        countryIso2: json["countryIso2"]??"",
     );
 
     static final tResponse = [
