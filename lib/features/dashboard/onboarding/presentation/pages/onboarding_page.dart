@@ -33,6 +33,12 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
   int currentPage = 0;
 
   @override
+  void initState() {
+    context.read<UserStatusCubit>().getUserStatus();
+    super.initState();
+  }
+
+  @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final ResponsiveHelper responsiveHelper =
@@ -58,8 +64,6 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
             }
           }),
           builder: (context, state) {
-            context.read<UserStatusCubit>().getUserStatus();
-
             return state is UserStatusLoaded
                 ? CarouselSlider(
                     carouselController: buttonCarouselController,
