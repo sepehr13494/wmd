@@ -239,6 +239,8 @@ class AppRouter {
                   return _userStatusCubit..getUserStatus();
                 },
                 child: const OnBoardingPage());
+
+            // return const OnBoardingPage();
           },
         ),
         GoRoute(

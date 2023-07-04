@@ -58,6 +58,8 @@ class _OnBoardingPageState extends AppState<OnBoardingPage> {
             }
           }),
           builder: (context, state) {
+            context.read<UserStatusCubit>().getUserStatus();
+
             return state is UserStatusLoaded
                 ? CarouselSlider(
                     carouselController: buttonCarouselController,
