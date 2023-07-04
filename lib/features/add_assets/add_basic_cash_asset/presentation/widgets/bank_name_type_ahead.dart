@@ -8,6 +8,8 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentation/manager/bank_list_cubit.dart';
+import 'package:wmd/features/add_assets/add_basic_cash_asset/manual_bank_list/data/models/get_manual_list_response.dart';
+import 'package:wmd/features/add_assets/add_basic_cash_asset/manual_bank_list/domain/entities/get_manual_list_entity.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/manual_bank_list/presentation/manager/manual_bank_list_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
@@ -49,6 +51,7 @@ class _BankNameTypeAheadState extends AppState<BankNameTypeAhead> {
   Timer? timer;
   bool readyToSend = true;
   List<String> items = [];
+  List<GetManualListEntity> banks = [];
   int waitingTime = 1;
 
 
@@ -85,6 +88,7 @@ class _BankNameTypeAheadState extends AppState<BankNameTypeAhead> {
                 listener: (context, bankState) {
                   if (bankState is GetManualListLoaded) {
                     items = bankState.getManualListEntities.map((e) => e.bankName).toList();
+                    banks = bankState.getManualListEntities;
                   }
                 },
                 builder: (context, bankState) {
@@ -134,7 +138,6 @@ class _BankNameTypeAheadState extends AppState<BankNameTypeAhead> {
                           ),
                           keepSuggestionsOnLoading: false,
                           suggestionsCallback: (p0) async {
-                            print("umad");
                             if(p0.length<3 && p0.isNotEmpty){
                               return [];
                             }else{
@@ -152,7 +155,12 @@ class _BankNameTypeAheadState extends AppState<BankNameTypeAhead> {
                           itemBuilder: (context, suggestion) {
                             return Padding(
                               padding: const EdgeInsets.all(8),
-                              child: Text(suggestion),
+                              child: Builder(
+                                builder: (context) {
+                                  final bank = banks.firstWhere((element) => element.bankName == suggestion,orElse: () => GetManualListResponse.fromJson(const {}),);
+                                  return Text("${bank.country} : ${bank.bankName}");
+                                }
+                              ),
                             );
                           },
                           onSuggestionSelected: (suggestion) {
