@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/base_app_bar.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
@@ -344,85 +345,103 @@ class AddAssetTopWidget extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     final primaryColor = Theme.of(context).primaryColor;
 
-    final isAssetsNotEmpty =
-        context.read<MainDashboardCubit>().netWorthObj?.assets.currentValue !=
-            0;
-    final isLiabilityNotEmpty = context
-            .read<MainDashboardCubit>()
-            .netWorthObj
-            ?.liabilities
-            .currentValue !=
-        0;
+    return BlocConsumer<MainDashboardCubit, MainDashboardState>(
+        listener: BlocHelper.defaultBlocListener(
+            listener: (context, dashboardState) {}),
+        builder: (context, dashboardState) {
+          if (dashboardState is MainDashboardNetWorthLoaded) {
+            final isAssetsNotEmpty = context
+                    .read<MainDashboardCubit>()
+                    .netWorthObj
+                    ?.assets
+                    .currentValue !=
+                0;
+            final isLiabilityNotEmpty = context
+                    .read<MainDashboardCubit>()
+                    .netWorthObj
+                    ?.liabilities
+                    .currentValue !=
+                0;
 
-    final isCustodianNotEmpty =
-        context.read<CustodianStatusListCubit>().statutes.isNotEmpty;
+            final isCustodianNotEmpty =
+                context.read<CustodianStatusListCubit>().statutes.isNotEmpty;
 
-    if (isAssetsNotEmpty || isLiabilityNotEmpty || isCustodianNotEmpty) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 16),
-          BlocBuilder<PersonalInformationCubit, PersonalInformationState>(
-            builder: (context, state) {
-              String name = "";
-              if (state is PersonalInformationLoaded) {
-                name = state.getNameEntity.firstName;
-              }
-              return Text(
-                  appLocalizations.manage_heading.replaceFirst("{{name}}", ""),
-                  style: textTheme.headlineSmall);
-            },
-          ),
-          const SizedBox(height: 8),
-          WidthLimiterWidget(
-            width: 350,
-            child: Text(appLocalizations.manage_subHeading),
-          ),
-          const SizedBox(height: 24),
-          Container(
-            padding: const EdgeInsets.all(16),
-            width: double.maxFinite,
-            decoration: BoxDecoration(
-                border: Border.all(color: primaryColor),
-                borderRadius: BorderRadius.circular(8)),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Image.asset(
-                      "assets/images/add_asset_view.png",
-                      width: 100,
-                      height: 100,
+            if (isAssetsNotEmpty ||
+                isLiabilityNotEmpty ||
+                isCustodianNotEmpty) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 16),
+                  BlocBuilder<PersonalInformationCubit,
+                      PersonalInformationState>(
+                    builder: (context, state) {
+                      String name = "";
+                      if (state is PersonalInformationLoaded) {
+                        name = state.getNameEntity.firstName;
+                      }
+                      return Text(
+                          appLocalizations.manage_heading
+                              .replaceFirst("{{name}}", ""),
+                          style: textTheme.headlineSmall);
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  WidthLimiterWidget(
+                    width: 350,
+                    child: Text(appLocalizations.manage_subHeading),
+                  ),
+                  const SizedBox(height: 24),
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: primaryColor),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Image.asset(
+                              "assets/images/add_asset_view.png",
+                              width: 100,
+                              height: 100,
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                appLocalizations
+                                    .manage_securityInfoWidget_title,
+                                style: textTheme.titleMedium!
+                                    .apply(color: primaryColor),
+                              ),
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                appLocalizations
+                                    .manage_securityInfoWidget_description,
+                                style: textTheme.bodyMedium!.apply(
+                                    color: AppColors.dashBoardGreyTextColor),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        appLocalizations.manage_securityInfoWidget_title,
-                        style:
-                            textTheme.titleMedium!.apply(color: primaryColor),
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        appLocalizations.manage_securityInfoWidget_description,
-                        style: textTheme.bodyMedium!
-                            .apply(color: AppColors.dashBoardGreyTextColor),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          )
-        ],
-      );
-    } else {
-      return const AddAssetOnBoarding();
-    }
+                  )
+                ],
+              );
+            } else {
+              return const AddAssetOnBoarding();
+            }
+          } else {
+            return const AddAssetOnBoarding();
+          }
+        });
   }
 }
