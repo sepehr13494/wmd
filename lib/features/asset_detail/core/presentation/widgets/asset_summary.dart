@@ -205,7 +205,7 @@ class SummaryCardWidget extends AppStatelessWidget {
                               return const SizedBox.shrink();
                             }),
                           ),
-                          TitleSubtitle(
+                          AppConstants.isRelease1 ? const SizedBox() : TitleSubtitle(
                             title: appLocalizations.assets_label_unrelaizedGain,
                             subTitle: summary.unRealizedProfitLoss
                                 .convertMoney(addDollar: true),
