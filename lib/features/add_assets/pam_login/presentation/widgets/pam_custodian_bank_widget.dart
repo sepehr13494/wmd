@@ -32,8 +32,8 @@ class PamCustodianBankWidget extends AppStatelessWidget {
     return MandateWrapper(builder: (context, mandateList) {
       return BlocProvider(
         create: (context) => sl<PamLoginCubit>(),
-        child: BlocConsumer<PamLoginCubit, PamLoginState>(listener:
-            BlocHelper.defaultBlocListener(listener: (context, state) async {
+        child: BlocConsumer<PamLoginCubit, PamLoginState>(
+            listener: (context, state) async {
           if (state is SuccessState) {
             GlobalFunctions.showSnackTile(context,
                 title: appLocalizations.common_linkTFO_toast_success_title,
@@ -76,10 +76,10 @@ class PamCustodianBankWidget extends AppStatelessWidget {
             }
           } else if (state is ErrorState) {
             GlobalFunctions.showSnackTile(context,
-                title: appLocalizations.common_toast_generic_error_title,
+                title: appLocalizations.common_linkAuth0_userCancelled,
                 color: Colors.red);
           }
-        }), builder: (context, state) {
+        }, builder: (context, state) {
           bool isLoading = state is LoadingState;
           bool isDone = state is SuccessState;
           // bool isDone = state is SuccessState || state is MandatesLoaded;

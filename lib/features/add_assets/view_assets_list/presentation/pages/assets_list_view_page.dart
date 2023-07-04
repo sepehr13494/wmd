@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/base_app_bar.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
@@ -9,6 +8,7 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/util/check_is_new_user.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
@@ -16,7 +16,6 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/page/cu
 import 'package:wmd/features/add_assets/view_assets_list/presentation/manager/asset_view_cubit.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/each_asset_widget.dart';
-import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/support_widget.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/add_asset_onboarding_view.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
@@ -415,25 +414,23 @@ class AddAssetTopWidget extends AppStatelessWidget {
         listener: (context, dashboardState) {},
         builder: (context, dashboardState) {
           if (dashboardState is MainDashboardNetWorthLoaded) {
-            final isAssetsNotEmpty = context
-                    .read<MainDashboardCubit>()
-                    .netWorthObj
-                    ?.assets
-                    .currentValue !=
-                0;
-            final isLiabilityNotEmpty = context
-                    .read<MainDashboardCubit>()
-                    .netWorthObj
-                    ?.liabilities
-                    .currentValue !=
-                0;
+            // final isAssetsNotEmpty = context
+            //         .read<MainDashboardCubit>()
+            //         .netWorthObj
+            //         ?.assets
+            //         .currentValue !=
+            //     0;
+            // final isLiabilityNotEmpty = context
+            //         .read<MainDashboardCubit>()
+            //         .netWorthObj
+            //         ?.liabilities
+            //         .currentValue !=
+            //     0;
 
             final isCustodianNotEmpty =
                 context.read<CustodianStatusListCubit>().statutes.isNotEmpty;
 
-            if (isAssetsNotEmpty ||
-                isLiabilityNotEmpty ||
-                isCustodianNotEmpty) {
+            if (checkNotNewUser(dashboardState) || isCustodianNotEmpty) {
               return renderTopWIdget(context, textTheme, appLocalizations);
             } else {
               return const AddAssetOnBoarding();
