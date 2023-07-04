@@ -233,7 +233,12 @@ class AppRouter {
           name: AppRoutes.onboarding,
           path: "/onboarding",
           builder: (BuildContext context, GoRouterState state) {
-            return const OnBoardingPage();
+            return BlocProvider(
+                create: (context) {
+                  _userStatusCubit = sl<UserStatusCubit>();
+                  return _userStatusCubit..getUserStatus();
+                },
+                child: const OnBoardingPage());
           },
         ),
         GoRoute(
