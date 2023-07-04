@@ -9,6 +9,7 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
+import 'package:wmd/core/util/check_is_new_user.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_blur_warning.dart';
@@ -142,22 +143,9 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                                     mandateList.isNotEmpty;
                                                 if (dashboardState
                                                     is MainDashboardNetWorthLoaded) {
-                                                  final isAssetsNotEmpty =
-                                                      dashboardState
-                                                              .netWorthObj
-                                                              .assets
-                                                              .currentValue !=
-                                                          0;
-                                                  final isLiabilityNotEmpty =
-                                                      dashboardState
-                                                              .netWorthObj
-                                                              .liabilities
-                                                              .currentValue !=
-                                                          0;
-
-                                                  if (isAssetsNotEmpty ||
-                                                      isCustodianNotEmpty ||
-                                                      isLiabilityNotEmpty) {
+                                                  if (checkNotNewUser(
+                                                          dashboardState) ||
+                                                      isCustodianNotEmpty) {
                                                     const Key tableKey =
                                                         Key("tableKey");
                                                     return Column(
@@ -172,8 +160,8 @@ class _DashboardMainPageState extends AppState<DashboardMainPage> {
                                                           mandateList:
                                                               mandateList,
                                                         ),
-                                                        if (isAssetsNotEmpty ||
-                                                            isLiabilityNotEmpty)
+                                                        if (checkNotNewUser(
+                                                            dashboardState))
                                                           BlocBuilder<
                                                                   DashboardPieCubit,
                                                                   DashboardChartsState>(
