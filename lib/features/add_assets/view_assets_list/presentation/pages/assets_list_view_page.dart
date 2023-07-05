@@ -130,15 +130,16 @@ class _AssetTabWrapperState extends AppState<AssetTabWrapper>
     _tabController.addListener(() {
       if (_tabController.index == 1 && isReleaseOne) {
         context.read<AssetViewCubit>().selectCustodian();
+      } else if (_tabController.index == 1 && isReleaseOne) {
+        context.read<AssetViewCubit>().selectCustodian();
       } else if (_tabController.index == 2 && !isReleaseOne) {
         context.read<AssetViewCubit>().selectCustodian();
+      } else if (_tabController.index == 1 && !isReleaseOne) {
+        context.read<AssetViewCubit>().selectTab(1);
+      } else if (_tabController.index == 0 && !isReleaseOne) {
+        context.read<AssetViewCubit>().empty();
       } else {
         context.read<AssetViewCubit>().empty();
-      }
-      // for liability tab selection
-      if (_tabController.index == 1) {
-        // debugPrint("awdadaw test 1");
-        context.read<AssetViewCubit>().selectTab(1);
       }
     });
   }
