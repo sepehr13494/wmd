@@ -46,8 +46,16 @@ class AssetBlocHelper extends BlocHelper {
                       ?.liabilities
                       .newLiabilityCount !=
                   0;
+              final isCurrentValueNotEmpty = context
+                      .read<MainDashboardCubit>()
+                      .netWorthObj
+                      ?.totalNetWorth
+                      ?.currentValue !=
+                  0;
 
-              if (isAssetsNotEmpty || isLiabilityNotEmpty) {
+              if (isAssetsNotEmpty ||
+                  isLiabilityNotEmpty ||
+                  isCurrentValueNotEmpty) {
                 return SuccessModalWidget(
                   assetId: successValue.id,
                   assetType: assetType,
