@@ -48,6 +48,7 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final bool edit = widget.edit;
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -59,6 +60,7 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
       ],
       child: Builder(builder: (context) {
         final bool isMobile = ResponsiveHelper(context: context).isMobile;
+
         return WillPopScope(
           onWillPop: () {
             return handleAssetBackButton(context);
@@ -219,8 +221,10 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                                                 : null;
                                                           }
                                                         ],
-                                                        hint: appLocalizations
-                                                            .assetLiabilityForms_forms_realEstate_inputFields_name_placeholder),
+                                                        hint: isMobile
+                                                            ? "${appLocalizations.assetLiabilityForms_forms_realEstate_inputFields_name_placeholder.substring(0, 38)}..."
+                                                            : appLocalizations
+                                                                .assetLiabilityForms_forms_realEstate_inputFields_name_placeholder),
                                               ),
                                               EachTextField(
                                                 hasInfo: false,
