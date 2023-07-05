@@ -76,6 +76,7 @@ class AppUrls {
   static String getBankList = "${banking}Bank";
   static String getPopularBankList = "${banking}Bank/Popular";
   static String getMarketData = "${banking}MarketData/search";
+  static String getManualList = "${wealthBase}Bank/list";
   // static String getMarketData(String identifier, String? resultCount) =>
   //     "MarketData/search?identifier=$identifier${resultCount != null ? '&resultCount=$resultCount' : ''}";
 

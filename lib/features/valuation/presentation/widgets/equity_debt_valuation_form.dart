@@ -31,6 +31,8 @@ class _EquityDebtValuationFormWidgetState
   DateTime? availableDateValue;
   FormBuilderState? formState;
 
+  DateTime? aqusitionDateValue;
+
   @override
   void didUpdateWidget(covariant EquityDebtValuationFormWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -83,6 +85,14 @@ class _EquityDebtValuationFormWidgetState
       setState(() {
         lastValue = lastValue != null ? {...?lastValue, ...json} : json;
       });
+
+      debugPrint(json["acquisitionDate"].toString());
+
+      debugPrint(json["acquisitionDate"].toString());
+
+      setState(() {
+        aqusitionDateValue = json["acquisitionDate"];
+      });
     }
   }
 
@@ -109,6 +119,7 @@ class _EquityDebtValuationFormWidgetState
                     availableDateValue = selectedDate;
                   });
                 },
+                firstDate: aqusitionDateValue,
                 lastDate: DateTime.now(),
                 inputType: InputType.date,
                 autovalidateMode: AutovalidateMode.onUserInteraction,

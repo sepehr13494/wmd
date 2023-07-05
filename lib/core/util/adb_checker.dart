@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AdbChecker {
@@ -10,7 +11,7 @@ class AdbChecker {
       final int result = await platform.invokeMethod('adbChecking');
       return result == 1 ? true : false;
     } on PlatformException catch (e) {
-      print(e.message);
+      debugPrint(e.message);
       rethrow;
     }
   }

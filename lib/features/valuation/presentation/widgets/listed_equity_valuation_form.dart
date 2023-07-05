@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
@@ -10,6 +11,7 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/map_utils.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
+import 'package:wmd/features/asset_detail/core/presentation/manager/asset_summary_cubit.dart';
 import 'package:wmd/features/valuation/data/models/valuation_action_type.dart';
 
 class ListedEquityValuationFormWidget extends StatefulWidget {
@@ -32,6 +34,8 @@ class _ListedEquityValuationFormWidgettState
   DateTime? availableDateValue;
   double? assetQuantity;
   String? actionValue;
+
+  DateTime? aqusitionDateValue;
 
   String currentDayValue = "--";
   String? noOfUnits = "";
@@ -130,6 +134,10 @@ class _ListedEquityValuationFormWidgettState
             assetQuantity = json["assetQuantity"];
           });
         }
+
+        setState(() {
+          aqusitionDateValue = json["acquisitionDate"];
+        });
       } catch (e) {
         debugPrint("patchValue failed");
         debugPrint(e.toString());
@@ -148,6 +156,9 @@ class _ListedEquityValuationFormWidgettState
     final responsiveHelper = ResponsiveHelper(context: context);
     final isMobile = responsiveHelper.isMobile;
 
+    final AssetSummaryState assetSummeryState =
+        context.watch<AssetSummaryCubit>().state;
+
     return Column(children: [
       FormBuilder(
         key: formKey,
@@ -165,6 +176,7 @@ class _ListedEquityValuationFormWidgettState
                     availableDateValue = selectedDate;
                   });
                 },
+                firstDate: aqusitionDateValue,
                 lastDate: DateTime.now(),
                 inputType: InputType.date,
                 format: DateFormat("dd/MM/yyyy"),
@@ -193,7 +205,11 @@ class _ListedEquityValuationFormWidgettState
                         actionValue = val;
                       });
                     },
-                    items: (assetQuantity ?? 1) < 1
+                    items: ((assetSummeryState is AssetLoaded)
+                                ? assetSummeryState
+                                    .assetSummaryEntity.totalQuantity
+                                : 0) <
+                            1
                         ? ValuationActionType.jsonBuy(context)
                         : ValuationActionType.valuationActionTypeList(context),
                     name: "type")),
@@ -211,7 +227,8 @@ class _ListedEquityValuationFormWidgettState
               child: AppTextFields.simpleTextField(
                   type: TextFieldType.rate,
                   errorMsg: appLocalizations.assets_valuationModal_errors_value,
-                  keyboardType: TextInputType.number,
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                   onChanged: (val) {
                     setState(() {
                       noOfUnits = val;
@@ -224,9 +241,21 @@ class _ListedEquityValuationFormWidgettState
                     (val) {
                       if (actionValue == "Sell") {
                         return ((double.tryParse(val ?? "0") ?? 0) <=
-                                (assetQuantity ?? 0))
+                                ((assetSummeryState is AssetLoaded)
+                                    ? assetSummeryState
+                                        .assetSummaryEntity.totalQuantity
+                                    : 0))
                             ? null
-                            : "${appLocalizations.assets_valuationModal_labels_noOfUnits} can't be greater then asset quantity";
+                            : appLocalizations
+                                .assets_valuationModal_errors_quantityExceedError
+                                .replaceAll(
+                                    '{{totalQuantity}}',
+                                    ((assetSummeryState is AssetLoaded)
+                                            ? assetSummeryState
+                                                .assetSummaryEntity
+                                                .totalQuantity
+                                            : 0)
+                                        .toString());
                       } else {
                         return null;
                       }
@@ -239,7 +268,7 @@ class _ListedEquityValuationFormWidgettState
               hasInfo: false,
               title: appLocalizations.assets_valuationModal_labels_costPerUnit,
               child: AppTextFields.simpleTextField(
-                  type: TextFieldType.rate,
+                  type: TextFieldType.rateMoney,
                   keyboardType: TextInputType.number,
                   onChanged: (val) {
                     setState(() {

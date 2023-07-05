@@ -36,24 +36,31 @@ class PamLoginCubit extends Cubit<PamLoginState> {
 
   loginPamAccount() async {
     emit(LoadingState());
-    final auth0 = Auth0(
-        AppConstants.pamAuth0IssuerBaseUrl, AppConstants.pamAuth0ClientId);
-    late final Credentials credentials;
-    if (Platform.isAndroid) {
-      credentials =
-          await auth0.webAuthentication(scheme: AppConstants.bundleId).login();
-    } else {
-      credentials = await auth0.webAuthentication().login();
-    }
-    final claims = parseJwt(credentials.idToken);
-    final List<dynamic>? mandates = claims['https://wmd.com/mandate_list'];
-    if (mandates == null) {
+    try {
+      final auth0 = Auth0(
+          AppConstants.pamAuth0IssuerBaseUrl, AppConstants.pamAuth0ClientId);
+      late final Credentials credentials;
+      if (Platform.isAndroid) {
+        credentials = await auth0
+            .webAuthentication(scheme: AppConstants.bundleId)
+            .login(useEphemeralSession: true);
+      } else {
+        credentials =
+            await auth0.webAuthentication().login(useEphemeralSession: true);
+      }
+      final claims = parseJwt(credentials.idToken);
+      final List<dynamic>? mandates = claims['https://wmd.com/mandate_list'];
+      if (mandates == null) {
+        emit(ErrorState(
+            failure: AppFailure.fromAppException(
+                const AppException(message: 'No mandates found'))));
+      } else {
+        final e = mandates.map((e) => Mandate(e, 'PAM')).toList();
+        emit(MandatesLoaded(e));
+      }
+    } on Exception catch (e) {
       emit(ErrorState(
-          failure: AppFailure.fromAppException(
-              const AppException(message: 'No mandates found'))));
-    } else {
-      final e = mandates.map((e) => Mandate(e, 'PAM')).toList();
-      emit(MandatesLoaded(e));
+          failure: AppFailure.fromAppException(AppException(message: '$e'))));
     }
   }
 

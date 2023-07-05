@@ -246,6 +246,10 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
               message = appLocalizations.linkAccount_stepper_cif_label_ubs;
               tooltip = appLocalizations.linkAccount_stepper_cif_tooltip_ubs;
               break;
+            case 'pictet':
+              message = appLocalizations.linkAccount_stepper_cif_label_pictet;
+              tooltip = appLocalizations.linkAccount_stepper_cif_tooltip_pictet;
+              break;
             default:
           }
 

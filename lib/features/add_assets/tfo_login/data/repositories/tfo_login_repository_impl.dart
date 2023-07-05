@@ -1,14 +1,8 @@
 import 'dart:developer';
-import 'dart:io';
-import 'package:auth0_flutter/auth0_flutter.dart';
-import 'package:flutter_web_auth/flutter_web_auth.dart';
-import 'package:nonce/nonce.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:dartz/dartz.dart';
-import 'package:wmd/core/util/constants.dart';
-import 'package:wmd/core/util/jwt_parser.dart';
 import '../models/get_mandates_params.dart';
 
 import '../models/login_tfo_account_params.dart';
@@ -38,7 +32,6 @@ class TfoLoginRepositoryImpl implements TfoLoginRepository {
   Future<Either<Failure, AppSuccess>> loginTfoAccount(
       LoginTfoAccountParams params) async {
     try {
-      
       final resp = await remoteDataSource.loginTfoAccount(params);
       return const Right(AppSuccess(message: "successfully done"));
     } on ServerException catch (error) {
@@ -56,4 +49,3 @@ class TfoLoginRepositoryImpl implements TfoLoginRepository {
     }
   }
 }
-

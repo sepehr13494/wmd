@@ -58,9 +58,6 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
   bool isDisableCategory = false;
   bool isDisableCurrency = false;
 
-  final SuggestionsBoxController _typeAheadController =
-      SuggestionsBoxController();
-
   void calculateCurrentValue() {
     const defaultValue = "--";
     if (noOfUnits == "" || noOfUnits == null) {
@@ -77,14 +74,13 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
     }
 
     final noOfUnitsParsed = noOfUnits != null
-        ? int.tryParse(noOfUnits!.toString().replaceAll(',', ''))
+        ? double.tryParse(noOfUnits!.toString().replaceAll(',', ''))
         : 0;
-    print(noOfUnitsParsed);
     final valuePerUnitParsed = valuePerUnit != null
-        ? int.tryParse(valuePerUnit!.toString().replaceAll(',', ''))
+        ? double.tryParse(valuePerUnit!.toString().replaceAll(',', ''))
         : 0;
     setState(() {
-      currentDayValue = NumberFormat("#,##0", "en_US")
+      currentDayValue = NumberFormat("#,##0.##########", "en_US")
           .format(noOfUnitsParsed! * valuePerUnitParsed!);
     });
   }
@@ -144,8 +140,8 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                 .read<ListedSecurityCubit>()
                                 .postListedSecurity(map: {
                               ...finalMap,
-                              "country":
-                                  Country(name: "XO", countryName: "Other")
+                              "country": const Country(
+                                  name: "XO", countryName: "Other")
                             });
                           }
                         }
@@ -209,9 +205,9 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                     listener: (context, state) {
                                   if (state is MarketDataSuccess) {
                                     if (edit && state.entity.isNotEmpty) {
-                                      final formJson = widget.moreEntity!
-                                          .toFormJson(state.entity.first);
                                       try {
+                                        final formJson = widget.moreEntity!
+                                            .toFormJson(state.entity.first);
                                         securityName = formJson["name"];
                                         noOfUnits = formJson["quantity"];
                                         valuePerUnit = formJson["marketValue"];
@@ -607,7 +603,7 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                                         calculateCurrentValue();
                                                                       },
                                                                       type: TextFieldType
-                                                                          .money,
+                                                                          .rateMoney,
                                                                       keyboardType:
                                                                           TextInputType
                                                                               .number,

@@ -29,8 +29,8 @@ class ValuationActionType {
       ];
 
   static jsonInvestment(context) => [
-        RadioButtonOptions(
-            label: "Increase the investment", value: "Increase the investment"),
+        /*RadioButtonOptions(
+            label: "Increase the investment", value: "Increase the investment"),*/
         RadioButtonOptions(
             label:
                 AppLocalizations.of(context).assets_valuationModal_labels_Sell,

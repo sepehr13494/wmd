@@ -36,6 +36,8 @@ import 'package:wmd/features/edit_assets/edit_bank_manual/presentation/manager/e
 import 'package:wmd/injection_container.dart';
 import 'package:wmd/core/extentions/string_ext.dart';
 
+import '../widgets/bank_name_type_ahead.dart';
+
 class AddBankManualPage extends BaseAddAssetStatefulWidget {
   final BankAccountMoreEntity? moreEntity;
 
@@ -74,10 +76,6 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
       providers: [
         BlocProvider(
           create: (context) => sl<BankCubit>(),
-        ),
-        BlocProvider(
-          create: (context) => sl<BankListCubit>()..getBankList(""),
-          lazy: false,
         ),
         BlocProvider(
           create: (context) => sl<EditBankManualCubit>(),
@@ -215,84 +213,59 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                     .assetLiabilityForms_forms_bankAccount_title,
                                                 style: textTheme.titleSmall,
                                               ),
-                                              BlocBuilder<BankListCubit,
-                                                  BankListState>(
-                                                builder: (context, state) {
-                                                  return EachTextField(
-                                                      hasInfo: false,
-                                                      title: appLocalizations
-                                                          .assetLiabilityForms_forms_bankAccount_inputFields_bankName_label,
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          FormBuilderTypeAhead(
-                                                              enabled: !edit,
-                                                              errorMsg:
-                                                                  appLocalizations
-                                                                      .assetLiabilityForms_forms_bankAccount_inputFields_bankName_errorMessage,
-                                                              extraValidators: [
-                                                                (val) {
-                                                                  return (val !=
-                                                                              null &&
-                                                                          val.length >
-                                                                              100)
-                                                                      ? "BankName must be at most 100 characters"
-                                                                      : null;
-                                                                }
-                                                              ],
-                                                              name: "bankName",
-                                                              onChange: (e) {
-                                                                // debugPrint(e);
-                                                                if (e != null) {
-                                                                  checkFinalValid(
-                                                                      e);
-                                                                }
-                                                              },
-                                                              prefixIcon:
-                                                                  const Icon(
-                                                                Icons.search,
-                                                              ),
-                                                              hint: appLocalizations
-                                                                  .assetLiabilityForms_forms_bankAccount_inputFields_bankName_placeholder,
-                                                              items: state
-                                                                      is BankListSuccess
-                                                                  ? (state.banks
-                                                                          .isEmpty
-                                                                      ? [
-                                                                          "No bank found"
-                                                                        ]
-                                                                      : state
-                                                                          .banks
-                                                                          .map((e) => e
-                                                                              .name)
-                                                                          .toList())
-                                                                  : [
-                                                                      "loading banks"
-                                                                    ]),
-                                                          if (!AppConstants
-                                                              .isRelease1)
-                                                            TextButton(
-                                                              onPressed: () {
-                                                                context.goNamed(
-                                                                    AppRoutes
-                                                                        .autoManualPage);
-                                                              },
-                                                              child: Text(
-                                                                appLocalizations
-                                                                    .linkAccount_automaticLink_title,
-                                                                style: textTheme
-                                                                    .titleSmall!
-                                                                    .apply(
-                                                                        color: Theme.of(context)
-                                                                            .primaryColor),
-                                                              ),
-                                                            )
+                                              EachTextField(
+                                                  hasInfo: false,
+                                                  title: appLocalizations
+                                                      .assetLiabilityForms_forms_bankAccount_inputFields_bankName_label,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      BankNameTypeAhead(
+                                                        enabled: !edit,
+                                                        hint: appLocalizations
+                                                            .assetLiabilityForms_forms_bankAccount_inputFields_bankName_placeholder,
+                                                        errorMsg: appLocalizations
+                                                            .assetLiabilityForms_forms_bankAccount_inputFields_bankName_errorMessage,
+                                                        extraValidators: [
+                                                          (val) {
+                                                            return (val !=
+                                                                        null &&
+                                                                    val.length >
+                                                                        100)
+                                                                ? "BankName must be at most 100 characters"
+                                                                : null;
+                                                          }
                                                         ],
-                                                      ));
-                                                },
-                                              ),
+                                                        name: "bankName",
+                                                        onChange: (e) {
+                                                          if (e != null) {
+                                                            checkFinalValid(e);
+                                                          }
+                                                        },
+                                                      ),
+                                                      if (!AppConstants
+                                                          .isRelease1)
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            context.goNamed(
+                                                                AppRoutes
+                                                                    .autoManualPage);
+                                                          },
+                                                          child: Text(
+                                                            appLocalizations
+                                                                .linkAccount_automaticLink_title,
+                                                            style: textTheme
+                                                                .titleSmall!
+                                                                .apply(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .primaryColor),
+                                                          ),
+                                                        )
+                                                    ],
+                                                  )),
                                               EachTextField(
                                                 hasInfo: false,
                                                 title: appLocalizations
@@ -332,7 +305,8 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                     .assetLiabilityForms_forms_bankAccount_inputFields_accountType_label,
                                                 child: AppTextFields
                                                     .dropDownTextField(
-                                                  enabled: !(edit && isDepositTerm),
+                                                  enabled:
+                                                      !(edit && isDepositTerm),
                                                   errorMsg: appLocalizations
                                                       .assetLiabilityForms_forms_bankAccount_inputFields_accountType_errorMessage,
                                                   onChanged: (val) async {
@@ -368,7 +342,17 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                     return DropdownMenuItem(
                                                       enabled: enabled,
                                                       value: e.value,
-                                                      child: Text(e.name,style: TextStyle(color: !enabled ? Theme.of(context).disabledColor : null),),
+                                                      child: Text(
+                                                        _accountTypeName(
+                                                            e.value,
+                                                            appLocalizations),
+                                                        style: TextStyle(
+                                                            color: !enabled
+                                                                ? Theme.of(
+                                                                        context)
+                                                                    .disabledColor
+                                                                : null),
+                                                      ),
                                                     );
                                                   }).toList(),
                                                 ),
@@ -492,6 +476,8 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                     //               .number),
                                                     // ),
                                                     EachTextField(
+                                                      tooltipText: appLocalizations
+                                                          .assetLiabilityForms_forms_bankAccount_inputFields_principal_tooltip,
                                                       title: appLocalizations
                                                           .assetLiabilityForms_forms_bankAccount_inputFields_principal_label,
                                                       child: AppTextFields
@@ -542,8 +528,9 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                         type:
                                                             TextFieldType.rate,
                                                         keyboardType:
-                                                            TextInputType
-                                                                .number,
+                                                            const TextInputType
+                                                                    .numberWithOptions(
+                                                                decimal: true),
                                                         suffixIcon: AppTextFields
                                                             .rateSuffixIcon(),
                                                         required: false,
@@ -556,7 +543,7 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                           .assetLiabilityForms_forms_bankAccount_inputFields_startDate_label,
                                                       child:
                                                           AppFormBuilderDateTimePicker(
-                                                            enabled: !edit,
+                                                        enabled: !edit,
                                                         name: "startDate",
                                                         lastDate:
                                                             DateTime.now(),
@@ -810,6 +797,22 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
         date = "${startDate.day}/${startDate.month}/${startDate.year}";
         endDateToParse = startDate;
       });
+    }
+  }
+
+  String _accountTypeName(String value, AppLocalizations appLocalizations) {
+    switch (value) {
+      case "SavingAccount":
+        return appLocalizations
+            .assetLiabilityForms_forms_bankAccount_inputFields_accountType_options_savingAccount;
+      case "CurrentAccount":
+        return appLocalizations
+            .assetLiabilityForms_forms_bankAccount_inputFields_accountType_options_currentAccount;
+      case "TermDeposit":
+        return appLocalizations
+            .assetLiabilityForms_forms_bankAccount_inputFields_accountType_options_termDeposit;
+      default:
+        return "";
     }
   }
 }

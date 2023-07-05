@@ -9,6 +9,7 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/asset_detail/core/presentation/manager/asset_summary_cubit.dart';
 import 'package:wmd/features/asset_detail/valuation/data/models/get_all_valuation_params.dart';
 import 'package:wmd/features/asset_detail/valuation/domain/entities/get_all_valuation_entity.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
@@ -66,7 +67,14 @@ class ValuationWidget extends AppStatelessWidget {
                       ),
                       if ((AppConstants.publicMvp2Items &&
                               isManuallyAdded &&
-                              totalQuantity > 0.0) ||
+                              (totalQuantity > 0.0 ||
+                                  [
+                                    AssetTypes.listedAssetEquity,
+                                    AssetTypes.listedAsset,
+                                    AssetTypes.listedAssetFixedIncome,
+                                    AssetTypes.listedAssetOther,
+                                    AssetTypes.listedAssetOtherAsset
+                                  ].contains(assetType))) ||
                           assetType == AssetTypes.loanLiability)
                         TextButton(
                             onPressed: () {
@@ -74,14 +82,18 @@ class ValuationWidget extends AppStatelessWidget {
                                   context: context,
                                   barrierDismissible: false,
                                   builder: (buildContext) {
-                                    return ValuationModalWidget(
-                                        title: '',
-                                        confirmBtn:
-                                            appLocalizations.common_button_save,
-                                        cancelBtn: appLocalizations
-                                            .common_button_cancel,
-                                        assetType: assetType,
-                                        assetId: assetId);
+                                    return BlocProvider.value(
+                                        value:
+                                            BlocProvider.of<AssetSummaryCubit>(
+                                                context),
+                                        child: ValuationModalWidget(
+                                            title: '',
+                                            confirmBtn: appLocalizations
+                                                .common_button_save,
+                                            cancelBtn: appLocalizations
+                                                .common_button_cancel,
+                                            assetType: assetType,
+                                            assetId: assetId));
                                   }).then((value) {
                                 context.read<ValuationCubit>().getAllValuation(
                                     GetAllValuationParams(assetId));
@@ -91,8 +103,11 @@ class ValuationWidget extends AppStatelessWidget {
                               // context.pushNamed(AppRoutes.forgetPassword);
                             },
                             child: Text(
-                              appLocalizations
-                                  .assets_valuationModal_buttons_buttons_addValuation,
+                              assetType == AssetTypes.bankAccount
+                                  ? appLocalizations
+                                      .assets_valuationModal_updateTheBalance
+                                  : appLocalizations
+                                      .assets_valuationModal_buttons_buttons_addValuation,
                               style: textTheme.bodySmall!.toLinkStyle(context),
                             ))
                     ],
@@ -167,7 +182,10 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
   void didUpdateWidget(ValuationTableWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (widget.isManuallyAdded && !isFirstTransRemoved) {
+    if (widget.isManuallyAdded &&
+        (!isFirstTransRemoved ||
+            (oldWidget.getAllValuationEntities !=
+                widget.getAllValuationEntities))) {
       widget.getAllValuationEntities.removeLast();
 
       setState(() {
@@ -412,13 +430,15 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             widget.isManuallyAdded &&
             // widget.assetType == AssetTypes.bankAccount &&
             isLast &&
-            widget.totalQuantity > 0)
+            widget.totalQuantity > 0 &&
+            widget.assetType != AssetTypes.bankAccount)
           renderPopupMenu(context, id),
         if (AppConstants.publicMvp2Items &&
-            widget.isManuallyAdded &&
-            // widget.assetType == AssetTypes.bankAccount &&
-            !isLast &&
-            widget.totalQuantity > 0)
+                widget.isManuallyAdded &&
+                // widget.assetType == AssetTypes.bankAccount &&
+                !isLast &&
+                widget.totalQuantity > 0 ||
+            widget.assetType == AssetTypes.bankAccount)
           Text(
             "",
             style: textTheme.bodySmall,
@@ -460,17 +480,23 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                                   context: context,
                                   barrierDismissible: false,
                                   builder: (buildContext) {
-                                    return ValuationModalWidget(
-                                      title: '',
-                                      confirmBtn: AppLocalizations.of(context)
-                                          .common_button_save,
-                                      cancelBtn: AppLocalizations.of(context)
-                                          .common_button_cancel,
-                                      assetType: widget.assetType,
-                                      assetId: widget.assetId,
-                                      isEdit: true,
-                                      valuationId: id,
-                                    );
+                                    return BlocProvider.value(
+                                        value:
+                                            BlocProvider.of<AssetSummaryCubit>(
+                                                context),
+                                        child: ValuationModalWidget(
+                                          title: '',
+                                          confirmBtn:
+                                              AppLocalizations.of(context)
+                                                  .common_button_save,
+                                          cancelBtn:
+                                              AppLocalizations.of(context)
+                                                  .common_button_cancel,
+                                          assetType: widget.assetType,
+                                          assetId: widget.assetId,
+                                          isEdit: true,
+                                          valuationId: id,
+                                        ));
                                   }).then((isConfirm) async {
                                 try {
                                   WidgetsBinding.instance

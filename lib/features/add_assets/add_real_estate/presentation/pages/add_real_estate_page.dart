@@ -48,7 +48,7 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final bool edit = widget.edit;
-    print("edit : $edit");
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -60,6 +60,7 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
       ],
       child: Builder(builder: (context) {
         final bool isMobile = ResponsiveHelper(context: context).isMobile;
+
         return WillPopScope(
           onWillPop: () {
             return handleAssetBackButton(context);
@@ -220,8 +221,10 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                                                 : null;
                                                           }
                                                         ],
-                                                        hint: appLocalizations
-                                                            .assetLiabilityForms_forms_realEstate_inputFields_name_placeholder),
+                                                        hint: isMobile
+                                                            ? "${appLocalizations.assetLiabilityForms_forms_realEstate_inputFields_name_placeholder.substring(0, 38)}..."
+                                                            : appLocalizations
+                                                                .assetLiabilityForms_forms_realEstate_inputFields_name_placeholder),
                                               ),
                                               EachTextField(
                                                 hasInfo: false,
@@ -411,8 +414,11 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                               EachTextField(
                                                 tooltipText: appLocalizations
                                                     .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_tooltip,
-                                                title: appLocalizations
-                                                    .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_label,
+                                                title: widget.edit
+                                                    ? appLocalizations
+                                                        .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_initialMarketValueLabel
+                                                    : appLocalizations
+                                                        .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_label,
                                                 child: AppTextFields
                                                     .simpleTextField(
                                                         enabled: !edit,

@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
@@ -32,9 +33,13 @@ class UserStatusCubit extends Cubit<UserStatusState> {
 
     getUserStatusUseCase.cache(result);
 
-    result.fold(
-        (failure) => {emit(ErrorState(failure: failure))},
-        (userStatusSuccess) =>
-            {emit(UserStatusLoaded(userStatus: userStatusSuccess))});
+    result.fold((failure) => {emit(ErrorState(failure: failure))},
+        (userStatusSuccess) {
+      try {
+        emit(UserStatusLoaded(userStatus: userStatusSuccess));
+      } catch (e) {
+        debugPrint("UserStatusLoaded emit failed!.... ");
+      }
+    });
   }
 }
