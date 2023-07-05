@@ -6,8 +6,10 @@ bool checkNotNewUser(MainDashboardState state) {
     final isAssetsNotEmpty = state.netWorthObj.assets.newAssetCount != 0;
     final isLiabilityNotEmpty =
         state.netWorthObj.liabilities.newLiabilityCount != 0;
+    final isCurrentValueNotEmpty =
+        state.netWorthObj.totalNetWorth?.currentValue != 0;
 
-    return isAssetsNotEmpty || isLiabilityNotEmpty;
+    return isAssetsNotEmpty || isLiabilityNotEmpty || isCurrentValueNotEmpty;
   } else {
     return false;
   }
