@@ -267,6 +267,7 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
                     // const InfoIcon(),
                     const SizedBox(width: 4),
                     Tooltip(
+                      showDuration: const Duration(seconds: 5),
                       triggerMode: TooltipTriggerMode.tap,
                       textAlign: TextAlign.center,
                       message: tooltip,
