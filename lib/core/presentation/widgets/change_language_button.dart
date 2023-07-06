@@ -16,13 +16,7 @@ class ChangeLanguageButton extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
-              child: Text(
-                context.read<LocalizationManager>().getOtherName(),
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .apply(color: Theme.of(context).primaryColor),
-              ),
+              child: context.read<LocalizationManager>().getOtherName(context),
             ),
           ),
         );
