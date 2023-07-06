@@ -52,7 +52,7 @@ Future<void> main() async {
 
   const String envFor = String.fromEnvironment(
     'env',
-    defaultValue: 'developer',
+    defaultValue: 'prod',
   );
   final envFile = envInitConfig(envFor);
   await dotenv.load(fileName: envFile);
@@ -71,7 +71,7 @@ Future<void> main() async {
   );
   await DatadogSdk.runApp(configuration, () async {
     WidgetsFlutterBinding.ensureInitialized();
-    if(!AppConstants.developMode){
+    if (!AppConstants.developMode) {
       final data = MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
       if (data.size.shortestSide < 600) {
         await SystemChrome.setPreferredOrientations([
@@ -152,13 +152,15 @@ class MyApp extends StatelessWidget {
           return sl<AssetsOverviewCubitBankAccount>()..getAssetsOverview();
         }),
         BlocProvider(create: (context) {
-          return sl<AssetsOverviewCubitListedAssetEquity>()..getAssetsOverview();
+          return sl<AssetsOverviewCubitListedAssetEquity>()
+            ..getAssetsOverview();
         }),
         BlocProvider(create: (context) {
           return sl<AssetsOverviewCubitListedAssetOther>()..getAssetsOverview();
         }),
         BlocProvider(create: (context) {
-          return sl<AssetsOverviewCubitListedAssetFixedIncome>()..getAssetsOverview();
+          return sl<AssetsOverviewCubitListedAssetFixedIncome>()
+            ..getAssetsOverview();
         }),
         BlocProvider(create: (context) {
           return sl<AssetsOverviewCubitRealEstate>()..getAssetsOverview();

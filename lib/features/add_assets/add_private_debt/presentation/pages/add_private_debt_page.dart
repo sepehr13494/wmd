@@ -218,6 +218,7 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                                 ),
                                               ),
                                               EachTextField(
+                                                tooltipText: appLocalizations.assetLiabilityForms_forms_listedAssets_inputFields_acquisitionDate_tooltip,
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_privateDebt_inputFields_acquisitionDate_label,
                                                 child:
@@ -286,6 +287,7 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                                         .assetLiabilityForms_forms_privateDebt_inputFields_initialInvestmentAmount_placeholder),
                                               ),
                                               EachTextField(
+                                                tooltipText: appLocalizations.assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_tooltip,
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_privateDebt_inputFields_valuationDate_label,
                                                 child:

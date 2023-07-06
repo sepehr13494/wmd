@@ -299,6 +299,7 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                 ),
                                               ),
                                               EachTextField(
+                                                hasInfo: false,
                                                 tooltipText: appLocalizations
                                                     .assetLiabilityForms_forms_bankAccount_inputFields_accountType_tooltip,
                                                 title: appLocalizations

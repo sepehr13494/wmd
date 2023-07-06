@@ -23,8 +23,9 @@ class TitleSubtitle extends AppStatelessWidget {
         Row(
           children: [
             Text(title, style: textTheme.bodySmall),
-            if (tooltipMessage!= null)
+            if (tooltipMessage != null)
               Tooltip(
+                showDuration: const Duration(seconds: 5),
                 triggerMode: TooltipTriggerMode.tap,
                 textAlign: TextAlign.center,
                 message: tooltipMessage,

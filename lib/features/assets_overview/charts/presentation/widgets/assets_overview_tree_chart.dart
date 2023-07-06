@@ -10,12 +10,17 @@ import 'package:wmd/features/assets_overview/charts/presentation/widgets/constan
 import '../../domain/entities/get_chart_entity.dart';
 import 'base_tree_chart_widget2.dart';
 
-class AssetTreeChartObj extends TreeChartObj{
+class AssetTreeChartObj extends TreeChartObj {
   final Color color;
   final String type;
   final List<InsideWidget> inside;
 
-  AssetTreeChartObj({required double value,required this.color,required this.type,required this.inside}) : super(value: value);
+  AssetTreeChartObj(
+      {required double value,
+      required this.color,
+      required this.type,
+      required this.inside})
+      : super(value: value);
 
   @override
   List<Object?> get props => [type];
@@ -123,73 +128,70 @@ class AssetsOverviewTreeChart extends AppStatelessWidget {
         return InsideWidget(date: e.date, value: e.others);
       }).toList(),
     ));
-    realItems.removeWhere((element) => element.value==0);
+    realItems.removeWhere((element) => element.value == 0);
     return Column(
       children: [
         Expanded(
-          child: BaseTreeChartWidget2(treeChartObjs: realItems, itemBuilder: (AssetTreeChartObj flexItem,itemIndex){
-            return Container(
-              color: flexItem.color,
-              child: RowOrColumn(
-                showRow: false,
-                children: List.generate(
-                    flexItem.inside.length, (index) {
-                  final item = flexItem.inside[index];
-                  return Expanded(
-                    flex: item.value.ceil(),
-                    child: Align(
-                      child: Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Tooltip(
-                              triggerMode: TooltipTriggerMode.tap,
-                              message:
-                              "${item.date}\n${AssetsOverviewChartsColors.getAssetType(appLocalizations, flexItem.type)}",
-                              child: Padding(
-                                padding:
-                                const EdgeInsets.all(2),
-                                child: Align(
-                                  alignment:
-                                  AlignmentDirectional
-                                      .topStart,
-                                  child: LayoutBuilder(
-                                    builder: (context,snap) {
-                                      return SizedBox(
-                                        width: snap.maxWidth > 50 ? 50 : snap.maxWidth,
-                                        child: FittedBox(
-                                          fit: BoxFit.scaleDown,
-                                          child: Align(
-                                            alignment:
-                                            AlignmentDirectional
-                                                .topStart,
-                                            child: Text(
-                                                item.date /*\n${AssetsOverviewChartsColors.getAssetType(appLocalizations, flexItem.type)}*/),
+          child: BaseTreeChartWidget2(
+              treeChartObjs: realItems,
+              itemBuilder: (AssetTreeChartObj flexItem, itemIndex) {
+                return Container(
+                  color: flexItem.color,
+                  child: RowOrColumn(
+                    showRow: false,
+                    children: List.generate(flexItem.inside.length, (index) {
+                      final item = flexItem.inside[index];
+                      return Expanded(
+                        flex: item.value.ceil(),
+                        child: Align(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Tooltip(
+                                  showDuration: const Duration(seconds: 5),
+                                  triggerMode: TooltipTriggerMode.tap,
+                                  message:
+                                      "${item.date}\n${AssetsOverviewChartsColors.getAssetType(appLocalizations, flexItem.type)}",
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2),
+                                    child: Align(
+                                      alignment: AlignmentDirectional.topStart,
+                                      child: LayoutBuilder(
+                                          builder: (context, snap) {
+                                        return SizedBox(
+                                          width: snap.maxWidth > 50
+                                              ? 50
+                                              : snap.maxWidth,
+                                          child: FittedBox(
+                                            fit: BoxFit.scaleDown,
+                                            child: Align(
+                                              alignment:
+                                                  AlignmentDirectional.topStart,
+                                              child: Text(item
+                                                  .date /*\n${AssetsOverviewChartsColors.getAssetType(appLocalizations, flexItem.type)}*/),
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    }
+                                        );
+                                      }),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
+                              index == flexItem.inside.length - 1
+                                  ? const SizedBox()
+                                  : Divider(
+                                      color: textTheme.bodyMedium!.color!,
+                                      height: 1,
+                                    )
+                            ],
                           ),
-                          index == flexItem.inside.length - 1
-                              ? const SizedBox()
-                              : Divider(
-                            color: textTheme
-                                .bodyMedium!.color!,
-                            height: 1,
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                }),
-              ),
-            );
-          }),
+                        ),
+                      );
+                    }),
+                  ),
+                );
+              }),
         ),
         const SizedBox(height: 12),
       ],
