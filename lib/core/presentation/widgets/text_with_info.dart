@@ -34,6 +34,7 @@ class TextWithInfo extends StatelessWidget {
         const SizedBox(width: 4),
         hasInfo
             ? Tooltip(
+                showDuration: const Duration(seconds: 5),
                 triggerMode: TooltipTriggerMode.tap,
                 decoration: BoxDecoration(
                     color: Theme.of(context).brightness == Brightness.dark
