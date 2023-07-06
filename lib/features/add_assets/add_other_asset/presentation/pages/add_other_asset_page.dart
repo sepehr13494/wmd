@@ -518,6 +518,7 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                                             .assetLiabilityForms_forms_others_inputFields_ownerShip_placeholder),
                                               ),*/
                                               EachTextField(
+                                                hasInfo: false,
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_others_inputFields_valuePerUnit_label,
                                                 child: AppTextFields
