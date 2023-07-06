@@ -401,87 +401,87 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                                   items: AppConstants
                                                                       .custodianList),
                                                             ),
-                                                            EachTextField(
-                                                              hasInfo: false,
-                                                              title: appLocalizations
-                                                                  .assetLiabilityForms_forms_listedAssets_inputFields_assetType_label,
-                                                              child: AppTextFields
-                                                                  .dropDownTextField(
-                                                                errorMsg:
-                                                                    appLocalizations
-                                                                        .assetLiabilityForms_forms_listedAssets_inputFields_assetType_errorMessage,
-                                                                onChanged:
-                                                                    (val) async {
-                                                                  await Future.delayed(
-                                                                      const Duration(
-                                                                          milliseconds:
-                                                                              200));
+                                                            // EachTextField(
+                                                            //   hasInfo: false,
+                                                            //   title: appLocalizations
+                                                            //       .assetLiabilityForms_forms_listedAssets_inputFields_assetType_label,
+                                                            //   child: AppTextFields
+                                                            //       .dropDownTextField(
+                                                            //     errorMsg:
+                                                            //         appLocalizations
+                                                            //             .assetLiabilityForms_forms_listedAssets_inputFields_assetType_errorMessage,
+                                                            //     onChanged:
+                                                            //         (val) async {
+                                                            //       await Future.delayed(
+                                                            //           const Duration(
+                                                            //               milliseconds:
+                                                            //                   200));
 
-                                                                  if (securityName
-                                                                          ?.category ==
-                                                                      val) {
-                                                                    setState(
-                                                                        () {
-                                                                      isDisableCategory =
-                                                                          true;
-                                                                    });
-                                                                  } else {
-                                                                    setState(
-                                                                        () {
-                                                                      isDisableCategory =
-                                                                          false;
-                                                                    });
-                                                                  }
+                                                            //       if (securityName
+                                                            //               ?.category ==
+                                                            //           val) {
+                                                            //         setState(
+                                                            //             () {
+                                                            //           isDisableCategory =
+                                                            //               true;
+                                                            //         });
+                                                            //       } else {
+                                                            //         setState(
+                                                            //             () {
+                                                            //           isDisableCategory =
+                                                            //               false;
+                                                            //         });
+                                                            //       }
 
-                                                                  if (val ==
-                                                                      "FixedIncome") {
-                                                                    setState(
-                                                                        () {
-                                                                      isFixedIncome =
-                                                                          true;
-                                                                    });
-                                                                  } else {
-                                                                    formKey.currentState?.setInternalFieldValue(
-                                                                        "maturityDate",
-                                                                        null,
-                                                                        isSetState:
-                                                                            true);
-                                                                    formKey.currentState?.setInternalFieldValue(
-                                                                        "couponRate",
-                                                                        null,
-                                                                        isSetState:
-                                                                            true);
-                                                                    setState(
-                                                                        () {
-                                                                      isFixedIncome =
-                                                                          false;
-                                                                    });
-                                                                  }
-                                                                  checkFinalValid(
-                                                                      val);
-                                                                  debugPrint(formKey
-                                                                          .currentState!
-                                                                          .instantValue[
-                                                                      "category"]);
-                                                                },
-                                                                enabled:
-                                                                    !isDisableCategory,
-                                                                name:
-                                                                    "category",
-                                                                hint: appLocalizations
-                                                                    .assetLiabilityForms_forms_listedAssets_inputFields_assetType_placeholder,
-                                                                items: ListedSecurityType
-                                                                    .listedSecurityList
-                                                                    .map((e) =>
-                                                                        DropdownMenuItem(
-                                                                          value:
-                                                                              e.value,
-                                                                          child:
-                                                                              Text(e.name),
-                                                                        ))
-                                                                    .toList(),
-                                                              ),
-                                                            ),
+                                                            //       if (val ==
+                                                            //           "FixedIncome") {
+                                                            //         setState(
+                                                            //             () {
+                                                            //           isFixedIncome =
+                                                            //               true;
+                                                            //         });
+                                                            //       } else {
+                                                            //         formKey.currentState?.setInternalFieldValue(
+                                                            //             "maturityDate",
+                                                            //             null,
+                                                            //             isSetState:
+                                                            //                 true);
+                                                            //         formKey.currentState?.setInternalFieldValue(
+                                                            //             "couponRate",
+                                                            //             null,
+                                                            //             isSetState:
+                                                            //                 true);
+                                                            //         setState(
+                                                            //             () {
+                                                            //           isFixedIncome =
+                                                            //               false;
+                                                            //         });
+                                                            //       }
+                                                            //       checkFinalValid(
+                                                            //           val);
+                                                            //       debugPrint(formKey
+                                                            //               .currentState!
+                                                            //               .instantValue[
+                                                            //           "category"]);
+                                                            //     },
+                                                            //     enabled:
+                                                            //         !isDisableCategory,
+                                                            //     name:
+                                                            //         "category",
+                                                            //     hint: appLocalizations
+                                                            //         .assetLiabilityForms_forms_listedAssets_inputFields_assetType_placeholder,
+                                                            //     items: ListedSecurityType
+                                                            //         .listedSecurityList
+                                                            //         .map((e) =>
+                                                            //             DropdownMenuItem(
+                                                            //               value:
+                                                            //                   e.value,
+                                                            //               child:
+                                                            //                   Text(e.name),
+                                                            //             ))
+                                                            //         .toList(),
+                                                            //   ),
+                                                            // ),
                                                             EachTextField(
                                                               tooltipText:
                                                                   appLocalizations
