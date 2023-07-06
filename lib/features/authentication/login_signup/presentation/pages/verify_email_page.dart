@@ -99,7 +99,7 @@ class VerifyEmailPage extends AppStatelessWidget {
                               ? TextSpan(children: [
                                   TextSpan(
                                     text: appLocalizations
-                                        .auth_forgot_emailSentSuccess_subheading_0,
+                                        .auth_forgot_subheading,
                                     style: textTheme.bodyMedium!
                                         .copyWith(height: 1.3, fontSize: 14),
                                   ),

@@ -725,8 +725,8 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: [
-                                                            const Text(
-                                                                "End term"),
+                                                            Text(
+                                                                appLocalizations.assetLiabilityForms_labels_endTerm),
                                                             const SizedBox(
                                                                 height: 8),
                                                             Text(date)
