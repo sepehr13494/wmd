@@ -79,6 +79,7 @@ class YtdItdWidget extends AppStatelessWidget {
                         const SizedBox(width: 4),
                         if (showToolTip)
                           Tooltip(
+                            showDuration: const Duration(seconds: 5),
                             triggerMode: TooltipTriggerMode.tap,
                             textAlign: TextAlign.center,
                             message: item[3],

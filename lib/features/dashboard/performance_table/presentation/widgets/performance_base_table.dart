@@ -238,9 +238,12 @@ class _PerformanceBaseTableState extends AppState<PerformanceBaseTable> {
                                                           children: [
                                                             Expanded(
                                                               child: Align(
-                                                                alignment: AlignmentDirectional.centerStart,
+                                                                alignment:
+                                                                    AlignmentDirectional
+                                                                        .centerStart,
                                                                 child: Text(
-                                                                  insideValue.value,
+                                                                  insideValue
+                                                                      .value,
                                                                   style: textTheme
                                                                       .bodySmall,
                                                                 ),
@@ -249,20 +252,24 @@ class _PerformanceBaseTableState extends AppState<PerformanceBaseTable> {
                                                             if (insideValue
                                                                 .showTooltip)
                                                               Tooltip(
-                                                                showDuration: const Duration(seconds: 5),
+                                                                showDuration:
+                                                                    const Duration(
+                                                                        seconds:
+                                                                            5),
                                                                 triggerMode:
-                                                                TooltipTriggerMode
-                                                                    .tap,
+                                                                    TooltipTriggerMode
+                                                                        .tap,
                                                                 message: AppLocalizations.of(
-                                                                    context)
+                                                                        context)
                                                                     .assets_tooltips_percentageAbsurd,
                                                                 child:
-                                                                const Padding(
-                                                                  padding: EdgeInsets.symmetric(
-                                                                      horizontal:
-                                                                      4.0),
+                                                                    const Padding(
+                                                                  padding: EdgeInsets
+                                                                      .symmetric(
+                                                                          horizontal:
+                                                                              4.0),
                                                                   child:
-                                                                  InfoIcon(),
+                                                                      InfoIcon(),
                                                                 ),
                                                               ),
                                                           ],

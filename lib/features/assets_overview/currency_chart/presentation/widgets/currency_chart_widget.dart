@@ -42,45 +42,55 @@ class CurrencyChartWidget extends AppStatelessWidget {
       ),
       builder: (context, state) {
         return state is GetCurrencyLoaded
-            ? Builder(
-            builder: (context) {
-              double sum = 0;
-              for (var element in state.assetsOverviewBaseModels) {
-                sum += element.totalAmount;
-              }
-              return Column(
-                children: [
-                  Expanded(
-                    child: BaseTreeChartWidget2<CurrencyTreeObj>(
-                      treeChartObjs: state.assetsOverviewBaseModels
-                          .map((e) => CurrencyTreeObj(currencyEntity: e))
-                          .toList(),
-                      itemBuilder: (item,itemIndex) {
-                        return Tooltip(
-                          triggerMode: TooltipTriggerMode.tap,
-                          message: "${item.currencyEntity.currencyCode}: ${((item.value*100)/sum).toStringAsFixed(1)} %",
-                          child: Container(
-                            color: AssetsOverviewChartsColors.treeMapColors[itemIndex],
-                            child: Padding(
-                              padding: const EdgeInsets.all(2),
-                              child: Text(
-                                item.currencyEntity.currencyCode,
+            ? Builder(builder: (context) {
+                double sum = 0;
+                for (var element in state.assetsOverviewBaseModels) {
+                  sum += element.totalAmount;
+                }
+                return Column(
+                  children: [
+                    Expanded(
+                      child: BaseTreeChartWidget2<CurrencyTreeObj>(
+                        treeChartObjs: state.assetsOverviewBaseModels
+                            .map((e) => CurrencyTreeObj(currencyEntity: e))
+                            .toList(),
+                        itemBuilder: (item, itemIndex) {
+                          return Tooltip(
+                            showDuration: const Duration(seconds: 5),
+                            triggerMode: TooltipTriggerMode.tap,
+                            message:
+                                "${item.currencyEntity.currencyCode}: ${((item.value * 100) / sum).toStringAsFixed(1)} %",
+                            child: Container(
+                              color: AssetsOverviewChartsColors
+                                  .treeMapColors[itemIndex],
+                              child: Padding(
+                                padding: const EdgeInsets.all(2),
+                                child: Text(
+                                  item.currencyEntity.currencyCode,
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  ColorsWithTitlesWidget(colorTitles: List.generate(state.assetsOverviewBaseModels.length, (index) {
-                    GetCurrencyEntity item = state.assetsOverviewBaseModels[index];
-                    return ColorTitleObj(title: item.currencyCode,color: AssetsOverviewChartsColors.treeMapColors[index]);
-                  }),axisColumnCount: ResponsiveHelper(context: context).isDesktop ? 5 : 3,)
-                ],
-              );
-            }
-        )
+                    const SizedBox(height: 16),
+                    ColorsWithTitlesWidget(
+                      colorTitles: List.generate(
+                          state.assetsOverviewBaseModels.length, (index) {
+                        GetCurrencyEntity item =
+                            state.assetsOverviewBaseModels[index];
+                        return ColorTitleObj(
+                            title: item.currencyCode,
+                            color: AssetsOverviewChartsColors
+                                .treeMapColors[index]);
+                      }),
+                      axisColumnCount:
+                          ResponsiveHelper(context: context).isDesktop ? 5 : 3,
+                    )
+                  ],
+                );
+              })
             : const LoadingWidget();
       },
     );
