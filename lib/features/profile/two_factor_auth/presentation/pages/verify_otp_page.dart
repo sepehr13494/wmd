@@ -166,7 +166,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
                             ),
                             const SizedBox(height: 16),
                             Text(
-                              appLocalizations.profile_twofactorauthentication_page_otpdescription,
+                              appLocalizations.profile_twofactorauthentication_page_otpdescription.replaceAll("{{authType}}", appLocalizations.auth_login_input_email_placeholder),
                               style: textTheme.bodyMedium,
                               textAlign: TextAlign.center,
                             ),
