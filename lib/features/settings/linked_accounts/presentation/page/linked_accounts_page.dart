@@ -138,15 +138,12 @@ class _LinkedAccountsPageState extends AppState<LinkedAccountsPage> {
                   items: [
                     ...filters.map((e) => DropdownMenuItem<String>(
                           value: e,
-                          child: Row(
-                            children: [
-                              Text(
-                                e,
-                                style: textTheme.bodyMedium!,
-                                // textTheme.bodyMedium!.toLinkStyle(context),
-                              ),
-                              const SizedBox(width: 16),
-                            ],
+                          child: Text(
+                            e,
+                            style: textTheme.bodyMedium!,
+                            softWrap: true,
+                            maxLines: 2,
+                            // textTheme.bodyMedium!.toLinkStyle(context),
                           ),
                         )),
                   ],
