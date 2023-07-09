@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'local_storage.dart';
 
 class LocalizationManager extends Cubit<Locale> {
@@ -34,8 +35,19 @@ class LocalizationManager extends Cubit<Locale> {
     }
   }
 
-  getOtherName() {
-    return (state.languageCode == "en") ? "عربی" : "English";
+  getOtherName(context) {
+    return (state.languageCode == "en")
+        ? SvgPicture.asset(
+            "assets/images/arabic_icon.svg",
+            // height: 50,
+          )
+        : Text(
+            "English",
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .apply(color: Theme.of(context).primaryColor),
+          );
   }
 
   getName() {
