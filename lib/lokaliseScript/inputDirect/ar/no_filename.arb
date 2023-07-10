@@ -1,6 +1,6 @@
 {
     "@@locale": "ar",
-    "@@last_modified": "2023-07-05T15:29:23+02:00",
+    "@@last_modified": "2023-07-10T08:58:41+02:00",
     "auth:signup.page.title": "انضمّ إلى منصتنا",
     "auth:signup.page.description": "إنشاء حساب myWMD",
     "auth:signup.heading": "أنشئ حساباً",
@@ -577,7 +577,7 @@
     "manage:page.description": "إنشاء حسابي",
     "manage:heading": "مرحباً {{name}}!",
     "manage:subHeading": "أضف أصولك والتزاماتك لجمعها في منصة واحدة",
-    "manage:assetAndLiability.title": "أضف الأصول \/ الالتزامات",
+    "manage:assetAndLiability.title": "أضف الأصول",
     "manage:assetAndLiability.description": "يمكنك دائماً إضافة المزيد لاحقاً.",
     "manage:assetAndLiability.assetAndLiabilityList.bankAccount.title": "حساب مصرفي",
     "manage:assetAndLiability.assetAndLiabilityList.bankAccount.description": "حساب جاري أو حساب ادخار أو حساب محدّد الأجل.",
