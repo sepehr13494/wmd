@@ -132,42 +132,20 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
                 height: 0.5,
                 thickness: 0.5,
               ),
-              AspectRatio(
-                aspectRatio:
-                    ResponsiveHelper(context: context).isMobile ? 1 : 1.6,
-                child: Builder(builder: (context) {
-                  List<Widget> children = [
-                    const BaseAssetsOverviewChartsWidget(),
-                    const AssetsOverviewGeoChart(),
-                    const CurrencyChartWidget(),
-                    const PortfolioTabChartWidget(),
-                  ];
+              Builder(builder: (context) {
+                List<Widget> children = [
+                  const BaseAssetsOverviewChartsWidget(),
+                  const AssetsOverviewGeoChart(),
+                  const CurrencyChartWidget(),
+                  const PortfolioTabChartWidget(),
+                ];
 
-                  return TabBarView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    controller: _controller,
-                    children: children
-                        .map(
-                          (e) => Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: ResponsiveHelper(context: context)
-                                    .biggerGap),
-                            child: Card(
-                              color: Theme.of(context).brightness ==
-                                      Brightness.dark
-                                  ? AppColors.darkCardColorForDarkTheme
-                                  : AppColors.darkCardColorForLightTheme,
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: e,
-                              ),
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  );
-                }),
-              )
+                return BlocBuilder<TabManager, int>(
+                  builder: (context, state) {
+                    return children[state];
+                  },
+                );
+              })
             ],
           ),
         ],
