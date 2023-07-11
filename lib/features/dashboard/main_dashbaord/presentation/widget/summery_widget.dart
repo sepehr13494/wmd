@@ -69,7 +69,7 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
         widget.netWorthEntity.totalNetWorth.currentValue,
         date,
         widget.netWorthEntity.totalNetWorth.change,
-        "$assetText\n$liabilitiesText",
+        assetText,
       ],
       [
         appLocalizations.home_label_assets,
