@@ -443,7 +443,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile>
   void didUpdateWidget(covariant CustomExpansionTile oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (_isExpanded != widget.initiallyExpanded) {
+    if (_isExpanded) {
       _controller.forward();
     } else {
       _controller.reverse().then<void>((void value) {

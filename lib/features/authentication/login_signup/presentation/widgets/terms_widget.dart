@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/util/app_localization.dart';
 
 Future<bool?> showTermsModal({
   required BuildContext context,
@@ -264,16 +266,20 @@ class _TermsWidgetState extends AppState<TermsWidget> {
                           ],
                         );
                       }),
-                      Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: Text(
-                              appLocalizations
-                                  .termsAndConditions_arabicOnly_warning,
-                              locale: const Locale('ar')),
+                      if (BlocProvider.of<LocalizationManager>(context)
+                              .state
+                              .languageCode ==
+                          "ar")
+                        Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            child: Text(
+                                appLocalizations
+                                    .termsAndConditions_arabicOnly_warning,
+                                locale: const Locale('ar')),
+                          ),
                         ),
-                      ),
                     ],
                   ),
                 )),
