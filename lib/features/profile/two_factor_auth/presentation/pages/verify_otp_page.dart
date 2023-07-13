@@ -13,6 +13,7 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/basic_timer_widget.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
@@ -53,6 +54,10 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
     super.initState();
 
     context.read<VerifyPhoneCubit>().getSendOtp();
+
+    AnalyticsUtils.triggerEvent(
+        action: AnalyticsUtils.optScreenAction,
+        params: AnalyticsUtils.optScreenEvent);
   }
 
   @override
@@ -166,7 +171,12 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
                             ),
                             const SizedBox(height: 16),
                             Text(
-                              appLocalizations.profile_twofactorauthentication_page_otpdescription.replaceAll("{{authType}}", appLocalizations.auth_login_input_email_placeholder),
+                              appLocalizations
+                                  .profile_twofactorauthentication_page_otpdescription
+                                  .replaceAll(
+                                      "{{authType}}",
+                                      appLocalizations
+                                          .auth_login_input_email_placeholder),
                               style: textTheme.bodyMedium,
                               textAlign: TextAlign.center,
                             ),

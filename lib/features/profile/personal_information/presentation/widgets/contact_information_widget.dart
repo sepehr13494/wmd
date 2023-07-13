@@ -18,6 +18,7 @@ import 'package:wmd/core/presentation/widgets/text_with_info.dart';
 import 'package:wmd/core/util/app_localization.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
@@ -440,6 +441,12 @@ class _ContactInformationWidgetState
                                                                         isPhoneEditable =
                                                                             false;
                                                                       });
+
+                                                                      AnalyticsUtils.triggerEvent(
+                                                                          action: AnalyticsUtils
+                                                                              .updateVerifyPhoneAction,
+                                                                          params:
+                                                                              AnalyticsUtils.updateVerifyPhoneEvent);
                                                                     }
                                                                   },
                                                         style: ElevatedButton

@@ -85,7 +85,8 @@ class _MainPageState extends AppState<MainPage> with WidgetsBindingObserver {
                   return mainState is MainDashboardNetWorthLoaded
                       ? (mainState.netWorthObj.assets.currentValue != 0 ||
                               mainState.netWorthObj.liabilities.currentValue !=
-                                  0)
+                                  0 ||
+                              mainState.netWorthObj.assets.newAssetCount != 0)
                           ? Material(
                               elevation: 10,
                               child: Container(

@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
@@ -62,7 +64,13 @@ class _BanksAuthorizationProcessState
             child: CustomExpansionTile(
               iconColor: AppColors.primary,
               initiallyExpanded: isExpanded,
-              onExpansionChanged: (value) => isExpanded = value,
+              onExpansionChanged: (value) {
+                isExpanded = value;
+                if (value == false && widget.initiallyExpanded) {
+                  context.goNamed(AppRoutes.main,
+                      queryParams: {'expandCustodian': "false"});
+                }
+              },
               title: Text(
                 appLocalizations.home_custodianBankList_title,
                 style: textTheme.labelLarge,
