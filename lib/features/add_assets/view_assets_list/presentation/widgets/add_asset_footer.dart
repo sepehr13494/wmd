@@ -29,10 +29,10 @@ class AddAssetFooter extends AppStatelessWidget {
 
     return Container(
       width: double.maxFinite,
-      height: 60,
+      height: 76,
       color: Theme.of(context).cardColor,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.only(right: 16,left: 16,bottom: 16),
         child: Row(
           children: [
             isMobile
@@ -70,15 +70,20 @@ class AddAssetFooter extends AppStatelessWidget {
                                     context.goNamed(AppRoutes.main);
                                   }
                                 } else {
-                                  GlobalFunctions.showExitDialog(
-                                      context: context,
-                                      onExitClick: () {
-                                        if (Navigator.of(context).canPop()) {
-                                          Navigator.of(context).maybePop();
-                                        } else {
-                                          context.goNamed(AppRoutes.main);
-                                        }
-                                      });
+                                  // GlobalFunctions.showExitDialog(
+                                  //     context: context,
+                                  //     onExitClick: () {
+                                  //       if (Navigator.of(context).canPop()) {
+                                  //         Navigator.of(context).maybePop();
+                                  //       } else {
+                                  //         context.goNamed(AppRoutes.main);
+                                  //       }
+                                  //     });
+                                  if (Navigator.of(context).canPop()) {
+                                    Navigator.of(context).maybePop();
+                                  } else {
+                                    context.goNamed(AppRoutes.main);
+                                  }
                                 }
                               } catch (e) {
                                 debugPrint("footer error$e");
@@ -89,21 +94,25 @@ class AddAssetFooter extends AppStatelessWidget {
                     const SizedBox(width: 12),
                     Expanded(
                         child: ElevatedButton(
-                            onPressed: onTap == null ? null : () {
-                              if (sl<GetUserStatusUseCase>().showOnboarding) {
-                                Map<String, dynamic> map = {
-                                  "email":
-                                      sl<GetUserStatusUseCase>().userEmail ??
-                                          ".",
-                                  "loginAt": DateTime.now().toIso8601String()
-                                };
-                                context
-                                    .read<UserStatusCubit>()
-                                    .postUserStatus(map: map);
-                              }
+                            onPressed: onTap == null
+                                ? null
+                                : () {
+                                    if (sl<GetUserStatusUseCase>()
+                                        .showOnboarding) {
+                                      Map<String, dynamic> map = {
+                                        "email": sl<GetUserStatusUseCase>()
+                                                .userEmail ??
+                                            ".",
+                                        "loginAt":
+                                            DateTime.now().toIso8601String()
+                                      };
+                                      context
+                                          .read<UserStatusCubit>()
+                                          .postUserStatus(map: map);
+                                    }
 
-                              onTap!();
-                            },
+                                    onTap!();
+                                  },
                             child: Text(buttonText))),
                   ],
                 ),

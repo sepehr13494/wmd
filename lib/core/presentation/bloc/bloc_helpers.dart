@@ -3,11 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/util/app_restart.dart';
-import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/global_functions.dart';
-import 'package:wmd/injection_container.dart';
 import 'base_cubit.dart';
-import '../widgets/loading_widget.dart';
 import '../../util/loading/loading_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -33,6 +30,7 @@ class BlocHelper {
 
   static BlocWidgetListener defaultBlocListener({
     required BlocWidgetListener listener,
+    Function(ErrorState)? otherErrors,
   }) {
     return (context, state) {
       if (state is LoadingState) {
@@ -40,7 +38,7 @@ class BlocHelper {
       } else if (state is ErrorState) {
         LoadingOverlay().hide();
         if (state.failure is ServerFailure) {
-          debugPrint(state.failure.data);
+          debugPrint(state.failure.data.toString());
           switch ((state.failure as ServerFailure).type) {
             case ExceptionType.normal:
             case ExceptionType.format:
@@ -86,10 +84,22 @@ class BlocHelper {
                     type: "error");
               }
               break;
+            case ExceptionType.ssl:
+              GlobalFunctions.showSnackBar(
+                context,
+                'SSL pinning error. Please be sure your connection is secure',
+                color: Colors.orange[800],
+              );
+              break;
             case ExceptionType.auth:
               GlobalFunctions.showSnackBar(context,
                   AppLocalizations.of(context).auth_login_toast_wrongToken);
               AppRestart.restart(context);
+              break;
+            case ExceptionType.other:
+              if(otherErrors != null){
+                otherErrors(state);
+              }
               break;
           }
         } else {
@@ -108,12 +118,19 @@ class BlocHelper {
     };
   }
 
-  static BlocWidgetBuilder defaultBlocBuilder({
+  static BlocWidgetBuilder errorHandlerBlocBuilder({
     required BlocWidgetBuilder builder,
+    bool hideError = false,
   }) {
     return (context, state) {
-      if (state is LoadingState) {
-        return const LoadingWidget();
+      if (state is ErrorState) {
+        if (hideError) {
+          return const SizedBox();
+        } else {
+          return Center(
+              child: Text(AppLocalizations.of(context)
+                  .common_errors_somethingWentWrong));
+        }
       } else {
         return builder(context, state);
       }

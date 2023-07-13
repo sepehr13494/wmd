@@ -1,4 +1,5 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:wmd/core/util/constants.dart';
 
 class AppUrls {
   AppUrls._();
@@ -29,10 +30,13 @@ class AppUrls {
   static String faqsContent = "${contentBase}faqs";
   static String postInquiry = "${wealthBase}Inquiry";
   static String postScheduleCall = "portfolio/meetings/schedule";
-  static String postVerifyPhone = "${contentBase}portfolio/meetings/schedule";
-  static String postResendVerifyPhone =
-      "${contentBase}portfolio/meetings/schedule";
+  static String postVerifyPhone = "${userBase}Otp/verify";
+  static String postMobileVerification = "${userBase}Otp/phone-number/verify";
+  static String postResendVerifyPhone = "${userBase}Otp";
+  static String postResendOtp = "${userBase}User/send-otp";
+  static String performLogout = "${authBase}logout";
 
+  //add assets
   static String postBankDetails = "${wealthBase}BankAccount";
   static String postPrivateEquity = "${wealthBase}PrivateEquity";
   static String postPrivateDebt = "${wealthBase}PrivateDebt";
@@ -41,16 +45,47 @@ class AppUrls {
   static String postListedAsset = "${wealthBase}ListedAsset";
   static String getListedSecurity = "${wealthBase}search-security";
   static String postLoanLiability = "${wealthBase}Loans";
+
+  //edit delete assets
+  static String putRealEstate = "${wealthBase}RealEstate";
+  static String deleteRealEstate = "${wealthBase}RealEstate";
+  static String putBankManual = "${wealthBase}BankAccount";
+  static String deleteBankManual = "${wealthBase}BankAccount";
+  static String putOtherAssets = "${wealthBase}OtherAsset";
+  static String deleteOtherAssets = "${wealthBase}OtherAsset";
+  static String putPrivateEquity = "${wealthBase}PrivateEquity";
+  static String deletePrivateEquity = "${wealthBase}PrivateEquity";
+  static String putPrivateDebt = "${wealthBase}PrivateDebt";
+  static String deletePrivateDebt = "${wealthBase}PrivateDebt";
+  static String putListedAsset = "${wealthBase}ListedAsset";
+  static String deleteListedAsset = "${wealthBase}ListedAsset";
+
   static String getUserNetWorth = "${wealthBase}Wealth/totalnetworth";
   static String getAllocation = "${wealthBase}wealth/";
   static String getGeographic = "${wealthBase}Assets/GeographicAllocation";
   static String getChart = "${wealthBase}Assets";
   static String getCurrency = "${wealthBase}assets/";
   static String getAssetsGeography = "${wealthBase}Assets/GeographicalOverview";
+  static String getPortfolioTab = "${wealthBase}Assets/Portfolio";
   static String getPie = "${wealthBase}Assets";
   static String getAssetsOverview = "${wealthBase}Assets/All";
+  static String getAssetsOverviewByType =
+      "${wealthBase}Assets/AssetTypeOverview";
+  static String getAssetsByType = "${wealthBase}Assets/type/all";
+  static String getLiablilityOverview = "${wealthBase}Liability/All";
   static String getBankList = "${banking}Bank";
   static String getPopularBankList = "${banking}Bank/Popular";
+  static String getMarketData = "${banking}MarketData/search";
+  static String getManualList = "${wealthBase}Bank/list";
+  // static String getMarketData(String identifier, String? resultCount) =>
+  //     "MarketData/search?identifier=$identifier${resultCount != null ? '&resultCount=$resultCount' : ''}";
+
+  //preferences
+  static String patchPreferenceMobileBanner =
+      "${userBase}User/preferences/showMobileBanner";
+  static String patchPreferenceLanguage =
+      "${userBase}User/preferences/language";
+  static String getPreference = "${userBase}User/preferences";
 
   //get asset details
   static String getBankAccount = "${wealthBase}BankAccount";
@@ -59,7 +94,22 @@ class AppUrls {
   static String getListedAsset = "${wealthBase}ListedAsset";
   static String getOtherAsset = "${wealthBase}OtherAsset";
   static String getRealEstate = "${wealthBase}RealEstate";
-  static String getSeeMore(String type) => "$wealthBase$type";
+  static String getSeeMore(String type) {
+    switch (type) {
+      case "OtherAssets":
+        return "${wealthBase}OtherAsset";
+      case "ListedAsset":
+      case "ListedAssetEquity":
+      case "ListedAssetFixedIncome":
+      case "ListedAssetOther":
+        return "${wealthBase}ListedAsset";
+      case AssetTypes.loanLiability:
+        return "${wealthBase}loans";
+      default:
+        return "$wealthBase$type";
+    }
+  }
+
   static String getAssetSummary(String id) => "${wealthBase}Assets/$id/summary";
 
   static String linkToken = "${banking}openbanking/link-token";
@@ -71,8 +121,30 @@ class AppUrls {
   static String custodianBank = "${wealthBase}custodianbank";
 
   //valuation
-  static String getAllValuation = "${wealthBase}Valuation/All";
-  static String postValuation = "${wealthBase}Valuation";
+  static String getAllValuation = "${wealthBase}Transaction/all";
+  static String postValuation = "${wealthBase}Transaction";
+  static String postAddValuation = "${wealthBase}Transaction";
   static String getValuationPerformance(String id) =>
       "${wealthBase}Valuation/$id/performance";
+  static String settings = "${userBase}Setting";
+  static String getForceUpdate = "wmo/version";
+
+  //performance table
+  static String getAssetClass = "${wealthBase}Performance/assetclass";
+  static String getClientIndex =
+      "${wealthBase}Performance/assetclasses/mandate";
+  static String getBenchmark = "${wealthBase}Performance/benchmark";
+  static String getCustodianPerformance = "${wealthBase}Performance/custodian";
+
+  //glossary
+  static String getGlossaries = "${contentBase}glossary";
+
+  static String getMandate = "${userBase}User/mandate";
+  static String postMandates = "${userBase}User/mandates";
+
+  static String getLinkedAccounts =
+      "${wealthBase}CustodianBank/linked-accounts";
+
+  static String getMandateStatus = "${wealthBase}Mandate/Status";
+  static String deleteMandate = "${userBase}User/delete-mandate";
 }

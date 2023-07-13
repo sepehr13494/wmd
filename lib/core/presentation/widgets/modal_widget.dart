@@ -1,8 +1,7 @@
 import 'dart:ui';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 
 class ModalWidget extends StatelessWidget {
@@ -33,10 +32,13 @@ class ModalWidget extends StatelessWidget {
     final isMobile = responsiveHelper.isMobile;
 
     return SizedBox(
-      width: double.infinity,
+      width: isMobile
+          ? double.infinity
+          : max(MediaQuery.of(context).size.width * 0.7,
+              min(660, MediaQuery.of(context).size.width)),
       height: isMobile
           ? MediaQuery.of(context).size.height * 0.7
-          : MediaQuery.of(context).size.height * 0.4,
+          : max(MediaQuery.of(context).size.height * 0.4, 550),
       child: Column(
         children: [
           buildModalHeader(context),
@@ -55,14 +57,13 @@ class ModalWidget extends StatelessWidget {
                           Text(
                             title,
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: responsiveHelper.xxLargeFontSize),
+                            style: appTextTheme.titleLarge,
                           ),
                           SizedBox(height: responsiveHelper.defaultGap),
                           Text(
                             body,
                             textAlign: TextAlign.center,
-                            style: appTextTheme.bodySmall,
+                            style: appTextTheme.bodyMedium,
                           ),
                         ],
                       ),
@@ -104,7 +105,7 @@ class ModalWidget extends StatelessWidget {
   /// Modal Header with close button
   Widget buildModalHeader(BuildContext context, {Function? onClose}) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         IconButton(
             onPressed: () {
@@ -116,7 +117,10 @@ class ModalWidget extends StatelessWidget {
               // onClose ?? Navigator.pop(context, false);
               // GoRouter.of(context).goNamed(AppRoutes.dashboard);
             },
-            icon: const Icon(Icons.cancel_rounded)),
+            icon: Icon(
+              Icons.close,
+              color: Theme.of(context).primaryColor,
+            )),
       ],
     );
   }

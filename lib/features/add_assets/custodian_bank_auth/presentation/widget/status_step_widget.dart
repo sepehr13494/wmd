@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/info_icon.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StatusStepWidget extends StatefulWidget {
   final String stepNumber;
@@ -30,100 +31,94 @@ class StatusStepWidget extends StatefulWidget {
 }
 
 class _StatusStepWidgetState extends AppState<StatusStepWidget> {
-  late final TextField input;
-  var isButtonDisable = false;
-
   @override
   void initState() {
     super.initState();
-    input = TextField(
-      controller: TextEditingController()
-        ..addListener(() {
-          setState(() {});
-        }),
-    );
   }
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
-    isButtonDisable = widget.showInput &&
-        input.controller!.text.isEmpty &&
-        widget.onDone != null;
     return ListTile(
-      leading: widget.isDone
-          ? const Icon(Icons.check_circle_outline_rounded)
-          : Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Theme.of(context).primaryColor,
-              ),
-              height: 18,
-              width: 18,
-              child: Center(
-                  child: Text(
-                widget.stepNumber,
-                style: textTheme.bodySmall!
-                    .apply(color: Theme.of(context).backgroundColor),
-                textAlign: TextAlign.center,
-              )),
+      // leading:,
+      title: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          widget.isDone
+              ? const Icon(Icons.check_circle)
+              : Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    height: 20,
+                    width: 20,
+                    child: Center(
+                        child: Text(
+                      widget.stepNumber,
+                      style: textTheme.bodySmall!
+                          .apply(color: Theme.of(context).backgroundColor),
+                      textAlign: TextAlign.center,
+                    )),
+                  ),
+                ),
+          const SizedBox(width: 8),
+          Expanded(
+            flex: 8,
+            child: Text(
+              widget.title,
+              style: textTheme.bodyLarge,
             ),
-      title: Text(widget.title, style: textTheme.bodyLarge),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: Text(widget.trailing, style: textTheme.bodySmall),
+          )
+        ],
+      ),
       subtitle: Builder(
         builder: (context) {
           if (widget.isDone) {
             if (widget.doneSubtitle != null) {
-              return InkWell(
-                onTap: widget.onDoneAgain,
-                child: Text(
-                  widget.doneSubtitle!,
-                  style: textTheme.bodySmall!.apply(
-                      color: Theme.of(context).primaryColor,
-                      decoration: TextDecoration.underline),
+              return Padding(
+                padding: const EdgeInsets.only(left: 32.0),
+                child: InkWell(
+                  onTap: widget.onDoneAgain,
+                  child: Text(
+                    widget.doneSubtitle!,
+                    style: textTheme.bodySmall!.apply(
+                        color: Theme.of(context).primaryColor,
+                        decoration: TextDecoration.underline),
+                  ),
                 ),
               );
             }
           } else {
             if (widget.subtitle != null) {
-              var isButtonDisable = widget.showInput &&
-                  input.controller!.text.isEmpty &&
-                  widget.onDone != null;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (widget.showInput) ...[
-                    Row(
-                      children: [
-                        Text(
-                          'Confirm CIF number',
-                          style: textTheme.bodyMedium,
-                        ),
-                        const InfoIcon(),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    input,
-                    const SizedBox(height: 4),
-                  ],
-                  InkWell(
-                    onTap:
-                        isButtonDisable ? null : () => widget.onDone!('sadf'),
-                    child: Text(
-                      widget.subtitle!,
-                      style: textTheme.bodySmall!.apply(
-                          color: isButtonDisable
-                              ? Theme.of(context).primaryColor.withOpacity(0.4)
-                              : Theme.of(context).primaryColor,
-                          decoration: TextDecoration.underline),
-                    ),
+              return Padding(
+                padding: const EdgeInsets.only(left: 28.0),
+                child: InkWell(
+                  onTap:
+                      widget.onDone == null ? null : () => widget.onDone!(null),
+                  child: Text(
+                    widget.subtitle!,
+                    style: textTheme.bodySmall!.apply(
+                        color: widget.onDone == null
+                            ? Theme.of(context).primaryColor.withOpacity(0.4)
+                            : Theme.of(context).primaryColor,
+                        decoration: TextDecoration.underline),
                   ),
-                ],
+                ),
               );
             }
           }
           return const SizedBox.shrink();
         },
       ),
-      trailing: Text(widget.trailing),
+      // trailing: Text(widget.trailing),
     );
   }
 }
@@ -156,124 +151,167 @@ class CifStatusWidget extends StatefulWidget {
 }
 
 class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
-  late final TextField input;
+  late final TextEditingController input;
   var isButtonDisable = false;
 
   @override
   void initState() {
     super.initState();
-    input = TextField(
-      controller: TextEditingController(text: widget.accountId)
-        ..addListener(() {
-          setState(() {});
-        }),
-      enabled: widget.accountId == null,
-    );
+    input = TextEditingController(text: widget.accountId)
+      ..addListener(() {
+        setState(() {});
+      });
   }
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
-    isButtonDisable = widget.accountId != null &&
-        input.controller!.text.isEmpty &&
-        widget.onDone != null;
+    isButtonDisable =
+        widget.accountId != null && input.text.isEmpty && widget.onDone != null;
     return ListTile(
-      leading: widget.accountId != null
-          ? const Icon(Icons.check_circle_outline_rounded)
-          : Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Theme.of(context).primaryColor,
-              ),
-              height: 18,
-              width: 18,
-              child: Center(
-                  child: Text(
-                widget.stepNumber,
-                style: textTheme.bodySmall!
-                    .apply(color: Theme.of(context).backgroundColor),
-                textAlign: TextAlign.center,
-              )),
-            ),
-      title: Text(widget.title, style: textTheme.bodyLarge),
-      subtitle: Builder(builder: (context) {
-        var isButtonDisable =
-            input.controller!.text.isEmpty || widget.onDone == null;
-        if (!widget.ready) {
-          return const SizedBox();
-        }
-        String message =
-            appLocalizations.linkAccount_stepper_cif_label_creditsuisse;
-        String tooltip =
-            appLocalizations.linkAccount_stepper_cif_tooltip_creditsuisse;
-
-        switch (widget.bankId) {
-          case 'hsbc':
-            message = appLocalizations.linkAccount_stepper_cif_label_hsbc;
-            tooltip = appLocalizations.linkAccount_stepper_cif_tooltip_hsbc;
-            break;
-          case 'juliusbar':
-            message = appLocalizations.linkAccount_stepper_cif_label_juliusbar;
-            tooltip =
-                appLocalizations.linkAccount_stepper_cif_tooltip_juliusbar;
-            break;
-          case 'jpmorgan':
-            message = appLocalizations.linkAccount_stepper_cif_label_jpmorgan;
-            tooltip = appLocalizations.linkAccount_stepper_cif_tooltip_jpmorgan;
-            break;
-          case 'lombardodier':
-            message =
-                appLocalizations.linkAccount_stepper_cif_label_lombardodier;
-            tooltip =
-                appLocalizations.linkAccount_stepper_cif_tooltip_lombardodier;
-            break;
-          case 'ubs':
-            message = appLocalizations.linkAccount_stepper_cif_label_ubs;
-            tooltip = appLocalizations.linkAccount_stepper_cif_tooltip_ubs;
-            break;
-          default:
-        }
-
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            FittedBox(
-              fit: BoxFit.fitWidth,
-              child: Row(
-                children: [
-                  Text(
-                    message,
-                    style: textTheme.bodyMedium,
+      // leading:
+      title: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          widget.accountId != null
+              ? const Icon(
+                  Icons.check_circle,
+                )
+              : Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).primaryColor,
                   ),
-                  // const InfoIcon(),
-                  Tooltip(
-                    triggerMode: TooltipTriggerMode.tap,
+                  height: 20,
+                  width: 20,
+                  child: Center(
+                      child: Text(
+                    widget.stepNumber,
+                    style: textTheme.bodySmall!
+                        .apply(color: Theme.of(context).backgroundColor),
                     textAlign: TextAlign.center,
-                    message: tooltip,
-                    child: const InfoIcon(),
+                  )),
+                ),
+          const SizedBox(width: 8),
+          Expanded(
+            flex: 8,
+            child: Text(
+              widget.title,
+              style: textTheme.bodyLarge,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: Text(widget.trailing, style: textTheme.bodySmall),
+          )
+        ],
+      ),
+      subtitle: Padding(
+        padding: const EdgeInsets.only(left: 26.0),
+        child: Builder(builder: (context) {
+          var isButtonDisable = input.text.isEmpty || widget.onDone == null;
+          // if (!widget.ready) {
+          //   return const SizedBox();
+          // }
+          String message =
+              appLocalizations.linkAccount_stepper_cif_label_creditsuisse;
+          String tooltip =
+              appLocalizations.linkAccount_stepper_cif_tooltip_creditsuisse;
+
+          switch (widget.bankId) {
+            case 'hsbc':
+              message = appLocalizations.linkAccount_stepper_cif_label_hsbc;
+              tooltip = appLocalizations.linkAccount_stepper_cif_tooltip_hsbc;
+              break;
+            case 'juliusbar':
+              message =
+                  appLocalizations.linkAccount_stepper_cif_label_juliusbar;
+              tooltip =
+                  appLocalizations.linkAccount_stepper_cif_tooltip_juliusbar;
+              break;
+            case 'jpmorgan':
+              message = appLocalizations.linkAccount_stepper_cif_label_jpmorgan;
+              tooltip =
+                  appLocalizations.linkAccount_stepper_cif_tooltip_jpmorgan;
+              break;
+            case 'lombardodier':
+              message =
+                  appLocalizations.linkAccount_stepper_cif_label_lombardodier;
+              tooltip =
+                  appLocalizations.linkAccount_stepper_cif_tooltip_lombardodier;
+              break;
+            case 'ubs':
+              message = appLocalizations.linkAccount_stepper_cif_label_ubs;
+              tooltip = appLocalizations.linkAccount_stepper_cif_tooltip_ubs;
+              break;
+            case 'pictet':
+              message = appLocalizations.linkAccount_stepper_cif_label_pictet;
+              tooltip = appLocalizations.linkAccount_stepper_cif_tooltip_pictet;
+              break;
+            default:
+          }
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FittedBox(
+                fit: BoxFit.fitWidth,
+                child: Row(
+                  children: [
+                    Text(
+                      message,
+                      style: textTheme.bodyMedium,
+                    ),
+                    // const InfoIcon(),
+                    const SizedBox(width: 4),
+                    Tooltip(
+                      showDuration: const Duration(seconds: 5),
+                      triggerMode: TooltipTriggerMode.tap,
+                      textAlign: TextAlign.center,
+                      message: tooltip,
+                      child: const InfoIcon(),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 4),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                          hintText: appLocalizations
+                              .linkAccount_stepper_cif_placeholder),
+                      controller: input,
+                      enabled: widget.accountId == null && widget.ready,
+                    ),
                   ),
+                  const SizedBox(width: 50),
                 ],
               ),
-            ),
-            const SizedBox(height: 4),
-            input,
-            const SizedBox(height: 4),
-            InkWell(
-              onTap: isButtonDisable
-                  ? null
-                  : () => widget.onDone!(input.controller!.text),
-              child: Text(
-                widget.subtitle ?? '',
-                style: textTheme.bodySmall!.apply(
-                    color: isButtonDisable
-                        ? Theme.of(context).cardColor
-                        : Theme.of(context).primaryColor,
-                    decoration: TextDecoration.underline),
+              const SizedBox(height: 4),
+              InkWell(
+                onTap:
+                    isButtonDisable ? null : () => widget.onDone!(input.text),
+                child: Text(
+                  widget.subtitle ?? '',
+                  style: textTheme.bodySmall!.apply(
+                      color: isButtonDisable
+                          ? Theme.of(context).disabledColor
+                          : Theme.of(context).primaryColor,
+                      decoration: TextDecoration.underline),
+                ),
               ),
-            ),
-          ],
-        );
-      }),
-      trailing: Text(widget.trailing),
+            ],
+          );
+        }),
+      ),
+      // trailing: Text(widget.trailing),
     );
   }
 }

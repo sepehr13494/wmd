@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 
 import '../../data/models/get_all_valuation_params.dart';
@@ -26,7 +27,8 @@ class ValuationCubit extends Cubit<ValuationState> {
   getAllValuation(GetAllValuationParams params) async {
     emit(LoadingState());
     final result = await getAllValuationUseCase(params);
-    result.fold((failure) => emit(ErrorState(failure: failure)), (entities) {
+    result.fold((failure) => emit(ErrorState(failure: failure)),
+        (List<GetAllValuationEntity> entities) {
       emit(GetAllValuationLoaded(getAllValuationEntities: entities));
     });
   }

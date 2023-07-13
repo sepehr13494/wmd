@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -62,11 +65,12 @@ class ContactBusinessWidget extends ModalWidget {
           } else if (state is SuccessState) {
             return SingleChildScrollView(
                 child: Container(
-                    decoration:
-                        BoxDecoration(border: Border.all(color: Colors.grey)),
+                    decoration: BoxDecoration(
+                        // border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(4)),
                     width: MediaQuery.of(context).size.width * 0.9,
                     height: isMobile
-                        ? MediaQuery.of(context).size.height * 0.7
+                        ? min(MediaQuery.of(context).size.height * 0.55, 625)
                         : MediaQuery.of(context).size.height * 0.5,
                     child: Center(
                         child: Column(children: [
@@ -89,7 +93,7 @@ class ContactBusinessWidget extends ModalWidget {
                               ),
                             ),
                             const SizedBox(
-                              height: 50,
+                              height: 35,
                             ),
                             Text(
                               appLocalizations
@@ -119,10 +123,14 @@ class ContactBusinessWidget extends ModalWidget {
           } else {
             return SingleChildScrollView(
                 child: SizedBox(
-                    width: double.infinity,
+                    width: isMobile
+                        ? double.infinity
+                        : max(MediaQuery.of(context).size.width * 0.7,
+                            min(660, MediaQuery.of(context).size.width)),
                     height: isMobile
-                        ? MediaQuery.of(context).size.height * 0.85
-                        : MediaQuery.of(context).size.height * 0.5,
+                        ? min(MediaQuery.of(context).size.height * 0.7, 625)
+                        : max(MediaQuery.of(context).size.height * 0.5,
+                            min(525, MediaQuery.of(context).size.width)),
                     child: Column(children: [
                       buildModalHeader(context),
                       SingleChildScrollView(
@@ -153,7 +161,7 @@ class ContactBusinessWidget extends ModalWidget {
                                                       3),
                                           child: Text(
                                             appLocalizations
-                                                .common_submitEnquiryModal_title,
+                                                .support_card_contactClientService_title,
                                             style: textTheme.titleLarge,
                                             textAlign: TextAlign.center,
                                           )),
@@ -176,23 +184,40 @@ class ContactBusinessWidget extends ModalWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          FormBuilderSearchableDropdown<
-                                              ContactReason>(
-                                            name: "reason",
-                                            hint: "Select",
-                                            showSearchBox: false,
-                                            items: contactReasonList,
-                                            itemAsString: (ContactReason val) =>
-                                                val.name,
-                                            itemBuilder:
-                                                (context, currency, _) {
-                                              return Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(currency.name),
-                                              );
-                                            },
-                                          ),
+                                          // AppTextFields.simpleTextField(
+                                          //   required: false,
+                                          //   title: "reason",
+                                          //   name: "reason",
+                                          //   minLines: 1,
+                                          //   onChanged: checkFinalValid,
+                                          //   extraValidators: [
+                                          //     (val) {
+                                          //       return (val != null &&
+                                          //               val.length > 100)
+                                          //           ? "Inquiry cannot be more than 100 characters"
+                                          //           : null;
+                                          //     }
+                                          //   ],
+                                          //   hint: appLocalizations
+                                          //       .common_submitEnquiryModal_subject_placeholder,
+                                          // ),
+                                          // FormBuilderSearchableDropdown<
+                                          //     ContactReason>(
+                                          //   name: "reason",
+                                          //   hint: "Select",
+                                          //   showSearchBox: false,
+                                          //   items: contactReasonList,
+                                          //   itemAsString: (ContactReason val) =>
+                                          //       val.name,
+                                          //   itemBuilder:
+                                          //       (context, currency, _) {
+                                          //     return Padding(
+                                          //       padding:
+                                          //           const EdgeInsets.all(8.0),
+                                          //       child: Text(currency.name),
+                                          //     );
+                                          //   },
+                                          // ),
                                           // AppTextFields.dropDownTextField(
                                           //     name: "reason",
                                           //     hint: appLocalizations
@@ -221,7 +246,7 @@ class ContactBusinessWidget extends ModalWidget {
                                             height: 16,
                                           ),
                                           AppTextFields.simpleTextField(
-                                              name: "enquiryText",
+                                              name: "reason",
                                               minLines: 5,
                                               onChanged: checkFinalValid,
                                               extraValidators: [
@@ -256,11 +281,8 @@ class ContactBusinessWidget extends ModalWidget {
                                               Map<String, dynamic> finalMap = {
                                                 ...formKey
                                                     .currentState!.instantValue,
+                                                "enquiryText": ""
                                               };
-
-                                              print(finalMap);
-                                              print(formKey
-                                                  .currentState!.isValid);
 
                                               context
                                                   .read<GeneralInquiryCubit>()

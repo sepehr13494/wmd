@@ -3,8 +3,11 @@ class AppRoutes {
 
   //authentication
   static const String splash = "splash";
+  static const String forceUpdate = "force_update";
+  static const String unsafe_device = "unsafe_device";
   static const String welcome = "welcome";
   static const String login = "login";
+  static const String authCheck = "auth-check";
   static const String register = "register";
   static const String verifyEmail = "verify_email";
   static const String verifySuccess = "verify_success";
@@ -18,12 +21,20 @@ class AppRoutes {
   static const String onboarding = "onboarding";
   static const String settings = "settings";
   static const String verifyPhone = "verify-phone";
+  static const String verifyOtp = "verify-otp";
+  static const String twoFactorAuth = "two-factor-auth";
   static const String support = "support";
   static const String scheduleCall = "schedule-meeting";
 
   //asset details
   static const String bankAccountDetails = "bank_account_details";
   static const String assetDetailPage = "asset_detail_page";
+  static const String editRealEstate = "edit_real_estate";
+  static const String editBankManual = "edit_bank_manual";
+  static const String editListedAsset = "edit_listed_asset";
+  static const String editPrivateDebt = "edit_private_debt";
+  static const String editPrivateEquity = "edit_private_equity";
+  static const String editOtherAsset = "edit_other_asset";
 
   //add assets
   static const String addAssetsView = "add_assets_view";
@@ -36,4 +47,7 @@ class AppRoutes {
   static const String addPrivateDebt = "add_private_debt";
   static const String addOther = "add_other";
   static const String addLiability = "add_liability";
+
+  //glossary
+  static const String glossary = "glossary";
 }

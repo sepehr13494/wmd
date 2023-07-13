@@ -6,6 +6,45 @@ import 'package:wmd/core/models/time_filer_obj.dart';
 class AppConstants {
   static bool publicMvp2Items = dotenv.env['NEXT_PUBLIC_MVP2_ITEM']! == 'true';
   static bool developMode = dotenv.env['DEVELOPING_MODE']! == 'true';
+  static bool developRoutes = dotenv.env['DEVELOPING_ROUTES']! == 'true';
+  static bool isRelease1 = dotenv.env['IS_RELEASE_ONE']! == 'true';
+  static bool currencyConvertor = dotenv.env['CURRENCY_CONVERTOR']! == 'true';
+  static String bundleId = dotenv.env['BUNDLE_ID']!;
+
+  static const String contactEmail = "developer@allinoneplus.com";
+  // developMode ? "developer@allinoneplus.com" : "n.albasri@tfoco.com";
+
+  static String tfoAuth0Base = dotenv.env['TFO_AUTH0_ISSUER_BASE_URL']!;
+  static String tfoAuth0IssuerBaseUrl = Uri.https(tfoAuth0Base).toString();
+  static String tfoAuth0ClientId = dotenv.env['TFO_AUTH0_CLIENT_ID']!;
+  static String tfoAuth0Audience = 'https://$tfoAuth0Base/api/v2/';
+  static String tfoAuth0RedirectionAndroid =
+      '$bundleId://$tfoAuth0Base/android/$bundleId/callback';
+  static String tfoAuth0RedirectionIos =
+      '$bundleId://$tfoAuth0Base/ios/$bundleId/callback';
+
+  static String pamAuth0IssuerBaseUrl =
+      dotenv.env['PAM_AUTH0_ISSUER_BASE_URL']!;
+  static String pamAuth0ClientId = dotenv.env['PAM_AUTH0_CLIENT_ID']!;
+
+  static String getCertificate(env) {
+    switch (env) {
+      case "uat":
+        return "assets/certificates/uat.crt";
+      case "qa":
+        return "assets/certificates/qa.crt";
+      case "oldqa":
+        return "assets/certificates/qa.crt";
+      case "prod":
+        return "assets/certificates/prod.crt";
+      case "dev":
+        return "assets/certificates/dev.crt";
+      case "developer":
+        return "assets/certificates/qa.crt";
+      default:
+        return "assets/certificates/dev.crt";
+    }
+  }
 
   static const custodianList = [
     "Abbot Downing",
@@ -356,6 +395,21 @@ class AppConstants {
           key: appLocalization.home_select_duration_options_thirty, value: 30),
     ];
   }
+
+  static List<TimeFilterObj> timeFilterForAssetPerformance(
+      BuildContext context) {
+    final appLocalization = AppLocalizations.of(context);
+    return [
+      TimeFilterObj(key: appLocalization.assets_label_itd, value: "ITD"),
+      TimeFilterObj(key: appLocalization.assets_label_ytd, value: "YTD"),
+      TimeFilterObj(
+          key: appLocalization.home_select_duration_options_seven,
+          value: "Last7days"),
+      TimeFilterObj(
+          key: appLocalization.home_select_duration_options_thirty,
+          value: "Last30days"),
+    ];
+  }
 }
 
 class BankProviders {
@@ -375,4 +429,5 @@ class AssetTypes {
   static const String privateEquity = 'PrivateEquity';
   static const String otherAsset = 'OtherAsset';
   static const String otherAssets = 'OtherAssets';
+  static const String loanLiability = 'LoanLiability';
 }

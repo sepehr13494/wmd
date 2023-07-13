@@ -2,6 +2,11 @@
 //
 //     final realEstateMoreEntity = realEstateMoreEntityFromJson(jsonString);
 
+import 'package:jiffy/jiffy.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/core/util/date_difference_calculator.dart';
+import 'package:wmd/features/add_assets/core/data/models/country.dart';
+import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 import 'package:wmd/features/asset_see_more/core/data/models/get_asset_see_more_response.dart';
 
 class BankAccountMoreEntity extends GetSeeMoreResponse {
@@ -32,16 +37,16 @@ class BankAccountMoreEntity extends GetSeeMoreResponse {
 
   final String bankName;
   final String description;
-  final int accountType;
+  final String accountType;
   final double currentBalance;
   final bool isJointAccount;
   final int noOfCoOwners;
   final double ownershipPercentage;
-  final double interestRate;
+  final double? interestRate;
   final DateTime? startDate;
   final DateTime? endDate;
   final String id;
-  final int type;
+  final String type;
   final bool isActive;
   final String country;
   final String region;
@@ -72,9 +77,17 @@ class BankAccountMoreEntity extends GetSeeMoreResponse {
             double.tryParse(json["inceptionToDate"].toString()) ?? 0,
         asOfDate: DateTime.parse(json["asOfDate"]),
         currentBalance: double.tryParse(json["currentBalance"].toString()) ?? 0,
-        interestRate: double.tryParse(json["interestRate"].toString()) ?? 0,
-        isJointAccount: json["isJointAccount"],
-        noOfCoOwners: json["noOfCoOwners"],
+        interestRate: json["interestRate"] == null
+            ? null
+            : double.tryParse(json["interestRate"].toString()) ?? 0,
+        startDate: json["startDate"] == null
+            ? null
+            : DateTime.parse(json["startDate"]),
+        endDate: json["endDate"] == null
+            ? null
+            : DateTime.parse(json["endDate"]),
+        isJointAccount: json["isJointAccount"] ?? false,
+        noOfCoOwners: json["noOfCoOwners"] ?? 0,
         ownershipPercentage:
             double.tryParse(json["ownershipPercentage"].toString()) ?? 0,
       );
@@ -103,4 +116,38 @@ class BankAccountMoreEntity extends GetSeeMoreResponse {
         "asOfDate": asOfDate.toIso8601String(),
         "subType": subType,
       };
+
+  Map<String, dynamic> toFormJson() {
+    var differenceList;
+    if(endDate != null && startDate!=null){
+      differenceList = DateDifferenceCalculator.calculateDifference(startDate!, endDate!);
+    }
+    return {
+        "bankName": bankName,
+        "description": description,
+        "accountType": accountType,
+        "currentBalance": currentBalance.convertMoney(),
+        "isJointAccount": isJointAccount,
+        "noOfCoOwners": noOfCoOwners.toString(),
+        "ownershipPercentage": ownershipPercentage.toString(),
+        "interestRate": interestRate.toString(),
+        "startDate": startDate,
+        "endDate": endDate,
+        "id": id,
+        "type": type,
+        "isActive": isActive,
+        "country": Country.getCountryFromString(country),
+        "region": region,
+        "currencyCode": Currency.getCurrencyFromString(currencyCode),
+        "portfolioContribution": portfolioContribution,
+        "holdings": holdings.convertMoney(),
+        "yearToDate": yearToDate,
+        "inceptionToDate": inceptionToDate,
+        "asOfDate": asOfDate,
+        "subType": subType,
+        "years": differenceList == null ? null : differenceList[0].toString(),
+        "months": differenceList == null ? null : differenceList[1].toString(),
+        "days": differenceList == null ? null : differenceList[2].toString(),
+      };
+  }
 }

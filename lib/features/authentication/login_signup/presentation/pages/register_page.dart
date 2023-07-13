@@ -14,6 +14,7 @@ import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/util/local_auth_manager.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/manager/login_sign_up_cubit.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/password_validation.dart';
@@ -82,6 +83,7 @@ class _RegisterPageState extends AppState<RegisterPage> {
             listener: BlocHelper.defaultBlocListener(
               listener: (context, state) {
                 if (state is SuccessState) {
+                  context.read<LocalAuthManager>().setLocalAuth(false, context,askUser: false);
                   if (state.appSuccess.message == "true") {
                     context.goNamed(AppRoutes.onboarding);
                   } else {

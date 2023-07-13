@@ -1,9 +1,12 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:wmd/core/data/network/error_handler_middleware.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/core/util/local_auth_manager.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/data/data_sources/plaid_data_source.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/data/repository/plaid_repository_impl.dart';
@@ -12,11 +15,17 @@ import 'package:wmd/features/add_assets/add_bank_auto/plaid_integration/domain/u
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/data_sources/bank_list_data_source.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/data/repository/bank_list_repository_impl.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_bank_list.dart';
+import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/domain/usecase/get_market_data.dart';
 import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentation/manager/bank_list_cubit.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/data/data_sources/bank_details_save_remote_data_source.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/data/repositories/bank_repository_impl.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/repositories/bank_repository.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/domain/use_cases/post_bank_details_usecase.dart';
+import 'package:wmd/features/add_assets/add_basic_cash_asset/manual_bank_list/data/data_sources/manual_bank_list_remote_datasource.dart';
+import 'package:wmd/features/add_assets/add_basic_cash_asset/manual_bank_list/data/repositories/manual_bank_list_repository_impl.dart';
+import 'package:wmd/features/add_assets/add_basic_cash_asset/manual_bank_list/domain/repositories/manual_bank_list_repository.dart';
+import 'package:wmd/features/add_assets/add_basic_cash_asset/manual_bank_list/domain/use_cases/get_manual_list_usecase.dart';
+import 'package:wmd/features/add_assets/add_basic_cash_asset/manual_bank_list/presentation/manager/manual_bank_list_cubit.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/manager/bank_cubit.dart';
 import 'package:wmd/features/add_assets/add_listed_security/data/data_sources/listed_security_remote_data_source.dart';
 import 'package:wmd/features/add_assets/add_listed_security/data/repositories/listed_security_repository_impl.dart';
@@ -51,6 +60,8 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/domain/use_cases/del
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_bank_list_usecase.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_auth_cubit.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
+import 'package:wmd/features/add_assets/pam_login/domain/use_cases/login_pam_account_usecase.dart';
+import 'package:wmd/features/add_assets/pam_login/presentation/manager/pam_login_cubit.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/manager/asset_view_cubit.dart';
 import 'package:wmd/features/asset_detail/core/data/repositories/asset_summary_repository_impl.dart';
 import 'package:wmd/features/asset_detail/core/presentation/manager/asset_summary_cubit.dart';
@@ -83,6 +94,11 @@ import 'package:wmd/features/assets_overview/currency_chart/data/repositories/cu
 import 'package:wmd/features/assets_overview/currency_chart/domain/repositories/currency_chart_repository.dart';
 import 'package:wmd/features/assets_overview/currency_chart/domain/use_cases/get_currency_usecase.dart';
 import 'package:wmd/features/assets_overview/currency_chart/presentation/manager/currency_chart_cubit.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab/data/data_sources/portfolio_tab_remote_datasource.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab/data/repositories/portfolio_tab_repository_impl.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab/domain/repositories/portfolio_tab_repository.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab/domain/use_cases/get_portfolio_tab_usecase.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab/presentation/manager/portfolio_tab_cubit.dart';
 import 'package:wmd/features/authentication/forget_password/data/data_sources/forget_password_server_datasource.dart';
 import 'package:wmd/features/authentication/forget_password/data/repositories/forget_password_repository_impl.dart';
 import 'package:wmd/features/authentication/forget_password/domain/repositories/forget_password_repository.dart';
@@ -96,6 +112,11 @@ import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_r
 import 'package:wmd/features/authentication/login_signup/domain/use_cases/resend_email_usecase.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/manager/login_sign_up_cubit.dart';
 import 'package:wmd/features/authentication/login_signup/domain/use_cases/post_login_usecase.dart';
+import 'package:wmd/features/authentication/logout/data/data_sources/logout_remote_datasource.dart';
+import 'package:wmd/features/authentication/logout/data/repositories/logout_repository_impl.dart';
+import 'package:wmd/features/authentication/logout/domain/repositories/logout_repository.dart';
+import 'package:wmd/features/authentication/logout/domain/use_cases/perform_logout_usecase.dart';
+import 'package:wmd/features/authentication/logout/presentation/manager/logout_cubit.dart';
 import 'package:wmd/features/authentication/verify_email/data/data_sources/verify_email_server_datasource.dart';
 import 'package:wmd/features/authentication/verify_email/data/repositories/verify_email_repository_impl.dart';
 import 'package:wmd/features/authentication/verify_email/domain/repositories/verify_email_repository.dart';
@@ -108,20 +129,84 @@ import 'package:wmd/features/dashboard/dashboard_charts/domain/use_cases/get_all
 import 'package:wmd/features/dashboard/dashboard_charts/domain/use_cases/get_geographic_usecase.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/use_cases/get_pie_usecase.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
-import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_goe_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/data/data_sources/main_dashboard_remote_data_source.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/data/repositories/main_dashboard_respository_impl.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/domain/repositories/main_dashboard_repository.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/domain/use_cases/user_net_worth_usecase.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/charts_height_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
+import 'package:wmd/features/dashboard/mandate_status/data/data_sources/mandate_status_remote_datasource.dart';
+import 'package:wmd/features/dashboard/mandate_status/data/repositories/mandate_status_repository_impl.dart';
+import 'package:wmd/features/dashboard/mandate_status/domain/repositories/mandate_status_repository.dart';
+import 'package:wmd/features/dashboard/mandate_status/domain/use_cases/delete_mandate_usecase.dart';
+import 'package:wmd/features/dashboard/mandate_status/domain/use_cases/get_mandate_status_usecase.dart';
+import 'package:wmd/features/dashboard/mandate_status/presentation/manager/mandate_status_cubit.dart';
+import 'package:wmd/features/dashboard/performance_table/client_index/data/data_sources/client_index_remote_datasource.dart';
+import 'package:wmd/features/dashboard/performance_table/client_index/data/repositories/client_index_repository_impl.dart';
+import 'package:wmd/features/dashboard/performance_table/client_index/domain/repositories/client_index_repository.dart';
+import 'package:wmd/features/dashboard/performance_table/client_index/domain/use_cases/get_client_index_usecase.dart';
+import 'package:wmd/features/dashboard/performance_table/client_index/presentation/manager/client_index_cubit.dart';
+import 'package:wmd/features/dashboard/performance_table/data/data_sources/performance_table_remote_datasource.dart';
+import 'package:wmd/features/dashboard/performance_table/data/repositories/performance_table_repository_impl.dart';
+import 'package:wmd/features/dashboard/performance_table/domain/repositories/performance_table_repository.dart';
+import 'package:wmd/features/dashboard/performance_table/domain/use_cases/get_asset_class_usecase.dart';
+import 'package:wmd/features/dashboard/performance_table/domain/use_cases/get_benchmark_usecase.dart';
+import 'package:wmd/features/dashboard/performance_table/domain/use_cases/get_custodian_performance_usecase.dart';
+import 'package:wmd/features/dashboard/performance_table/presentation/manager/performance_table_cubit.dart';
 import 'package:wmd/features/dashboard/user_status/data/data_sources/user_status_remote_data_source.dart';
 import 'package:wmd/features/dashboard/user_status/data/repositories/user_status_respository_impl.dart';
 import 'package:wmd/features/dashboard/user_status/domain/repositories/user_status_repository.dart';
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/put_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
+import 'package:wmd/features/edit_assets/edit_bank_manual/data/data_sources/edit_bank_manual_remote_datasource.dart';
+import 'package:wmd/features/edit_assets/edit_bank_manual/data/repositories/edit_bank_manual_repository_impl.dart';
+import 'package:wmd/features/edit_assets/edit_bank_manual/domain/repositories/edit_bank_manual_repository.dart';
+import 'package:wmd/features/edit_assets/edit_bank_manual/domain/use_cases/delete_bank_manual_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_bank_manual/domain/use_cases/put_bank_manual_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_bank_manual/presentation/manager/edit_bank_manual_cubit.dart';
+import 'package:wmd/features/edit_assets/edit_listed_asset/data/data_sources/edit_listed_asset_remote_datasource.dart';
+import 'package:wmd/features/edit_assets/edit_listed_asset/data/repositories/edit_listed_asset_repository_impl.dart';
+import 'package:wmd/features/edit_assets/edit_listed_asset/domain/repositories/edit_listed_asset_repository.dart';
+import 'package:wmd/features/edit_assets/edit_listed_asset/domain/use_cases/delete_listed_asset_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_listed_asset/domain/use_cases/put_listed_asset_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_listed_asset/presentation/manager/edit_listed_asset_cubit.dart';
+import 'package:wmd/features/edit_assets/edit_other_assets/data/data_sources/edit_other_assets_remote_datasource.dart';
+import 'package:wmd/features/edit_assets/edit_other_assets/data/repositories/edit_other_assets_repository_impl.dart';
+import 'package:wmd/features/edit_assets/edit_other_assets/domain/repositories/edit_other_assets_repository.dart';
+import 'package:wmd/features/edit_assets/edit_other_assets/domain/use_cases/delete_other_assets_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_other_assets/domain/use_cases/put_other_assets_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_other_assets/presentation/manager/edit_other_assets_cubit.dart';
+import 'package:wmd/features/edit_assets/edit_private_debt/data/data_sources/edit_private_debt_remote_datasource.dart';
+import 'package:wmd/features/edit_assets/edit_private_debt/data/repositories/edit_private_debt_repository_impl.dart';
+import 'package:wmd/features/edit_assets/edit_private_debt/domain/repositories/edit_private_debt_repository.dart';
+import 'package:wmd/features/edit_assets/edit_private_debt/domain/use_cases/delete_private_debt_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_private_debt/domain/use_cases/put_private_debt_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_private_debt/presentation/manager/edit_private_debt_cubit.dart';
+import 'package:wmd/features/edit_assets/edit_private_equity/data/data_sources/edit_private_equity_remote_datasource.dart';
+import 'package:wmd/features/edit_assets/edit_private_equity/data/repositories/edit_private_equity_repository_impl.dart';
+import 'package:wmd/features/edit_assets/edit_private_equity/domain/repositories/edit_private_equity_repository.dart';
+import 'package:wmd/features/edit_assets/edit_private_equity/domain/use_cases/delete_private_equity_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_private_equity/domain/use_cases/put_private_equity_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_private_equity/presentation/manager/edit_private_equity_cubit.dart';
+import 'package:wmd/features/edit_assets/edit_real_estate/data/data_sources/edit_real_estate_remote_datasource.dart';
+import 'package:wmd/features/edit_assets/edit_real_estate/data/repositories/edit_real_estate_repository_impl.dart';
+import 'package:wmd/features/edit_assets/edit_real_estate/domain/repositories/edit_real_estate_repository.dart';
+import 'package:wmd/features/edit_assets/edit_real_estate/domain/use_cases/delete_real_estate_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_real_estate/domain/use_cases/put_real_estate_usecase.dart';
+import 'package:wmd/features/edit_assets/edit_real_estate/presentation/manager/edit_real_estate_cubit.dart';
+import 'package:wmd/features/force_update/data/data_sources/force_update_remote_datasource.dart';
+import 'package:wmd/features/force_update/data/repositories/force_update_repository_impl.dart';
+import 'package:wmd/features/force_update/domain/repositories/force_update_repository.dart';
+import 'package:wmd/features/force_update/domain/use_cases/get_force_update_usecase.dart';
+import 'package:wmd/features/force_update/presentation/manager/force_update_cubit.dart';
+import 'package:wmd/features/glossary/data/data_sources/glossary_remote_datasource.dart';
+import 'package:wmd/features/glossary/data/repositories/glossary_repository_impl.dart';
+import 'package:wmd/features/glossary/domain/repositories/glossary_repository.dart';
+import 'package:wmd/features/glossary/domain/use_cases/get_glossaries_usecase.dart';
+import 'package:wmd/features/glossary/presentation/manager/glossary_cubit.dart';
 import 'package:wmd/features/help/faq/data/data_sources/faq_remote_data_source.dart';
 import 'package:wmd/features/help/faq/data/repositories/faq_respository_impl.dart';
 import 'package:wmd/features/help/faq/domain/repositories/faq_repository.dart';
@@ -136,6 +221,11 @@ import 'package:wmd/features/help/support/domain/repositories/schedule_call_repo
 import 'package:wmd/features/help/support/domain/use_cases/post_general_inquiry_usecase.dart';
 import 'package:wmd/features/help/support/domain/use_cases/post_schedule_call_usecase.dart';
 import 'package:wmd/features/help/support/presentation/manager/general_inquiry_cubit.dart';
+import 'package:wmd/features/liability_overview/data/data_sources/liablility_overview_remote_datasource.dart';
+import 'package:wmd/features/liability_overview/data/repositories/liablility_overview_repository_impl.dart';
+import 'package:wmd/features/liability_overview/domain/repositories/liablility_overview_repository.dart';
+import 'package:wmd/features/liability_overview/domain/use_cases/get_liablility_overview_usecase.dart';
+import 'package:wmd/features/liability_overview/presentation/manager/liablility_overview_cubit.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/features/profile/personal_information/data/data_sources/personal_information_remote_datasource.dart';
 import 'package:wmd/features/profile/personal_information/data/repositories/personal_information_repository_impl.dart';
@@ -144,17 +234,47 @@ import 'package:wmd/features/profile/personal_information/domain/use_cases/get_n
 import 'package:wmd/features/profile/personal_information/domain/use_cases/set_name_usecase.dart';
 import 'package:wmd/features/profile/personal_information/domain/use_cases/set_number_usecase.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
+import 'package:wmd/features/profile/preference/data/data_sources/preference_remote_datasource.dart';
+import 'package:wmd/features/profile/preference/data/repositories/preference_repository_impl.dart';
+import 'package:wmd/features/profile/preference/domain/repositories/preference_repository.dart';
+import 'package:wmd/features/profile/preference/domain/use_cases/get_preference_usecase.dart';
+import 'package:wmd/features/profile/preference/domain/use_cases/patch_preference_language_usecase.dart';
+import 'package:wmd/features/profile/preference/domain/use_cases/patch_preference_mobile_banner_usecase.dart';
+import 'package:wmd/features/profile/preference/presentation/manager/preference_cubit.dart';
 import 'package:wmd/features/profile/profile_reset_password/data/data_sources/profile_reset_password_remote_datasource.dart';
 import 'package:wmd/features/profile/profile_reset_password/data/repositories/profile_reset_password_repository_impl.dart';
 import 'package:wmd/features/profile/profile_reset_password/domain/repositories/profile_reset_password_repository.dart';
 import 'package:wmd/features/profile/profile_reset_password/domain/use_cases/reset_usecase.dart';
 import 'package:wmd/features/profile/profile_reset_password/presentation/manager/profile_reset_password_cubit.dart';
+import 'package:wmd/features/profile/two_factor_auth/manager/two_factor_cubit.dart';
 import 'package:wmd/features/profile/verify_phone/data/data_sources/verify_phone_remote_datasource.dart';
 import 'package:wmd/features/profile/verify_phone/data/repositories/verify_phone_repository_impl.dart';
 import 'package:wmd/features/profile/verify_phone/domain/repositories/verify_phone_repository.dart';
+import 'package:wmd/features/profile/verify_phone/domain/use_cases/get_send_otp_usecase.dart';
+import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_mobile_verification_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_resend_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_verify_phone_usecase.dart';
 import 'package:wmd/features/profile/verify_phone/presentation/manager/verify_phone_cubit.dart';
+import 'package:wmd/features/safe_device/data/data_sources/safe_device_local_datasource.dart';
+import 'package:wmd/features/safe_device/data/repositories/safe_device_repository_impl.dart';
+import 'package:wmd/features/safe_device/domain/repositories/safe_device_repository.dart';
+import 'package:wmd/features/safe_device/domain/use_cases/is_safe_device_usecase.dart';
+import 'package:wmd/features/safe_device/presentation/manager/safe_device_cubit.dart';
+import 'package:wmd/features/settings/core/data/data_sources/settings_remote_datasource.dart';
+import 'package:wmd/features/settings/linked_accounts/data/data_sources/linked_accounts_remote_datasource.dart';
+import 'package:wmd/features/settings/linked_accounts/data/repositories/linked_accounts_repository_impl.dart';
+import 'package:wmd/features/settings/linked_accounts/domain/repositories/linked_accounts_repository.dart';
+import 'package:wmd/features/settings/linked_accounts/domain/use_cases/delete_linked_accounts_usecase.dart';
+import 'package:wmd/features/settings/linked_accounts/domain/use_cases/get_linked_accounts_usecase.dart';
+import 'package:wmd/features/settings/linked_accounts/presentation/manager/linked_accounts_cubit.dart';
+import 'package:wmd/features/valuation/data/data_sources/valuation_remote_datasource.dart';
+import 'package:wmd/features/valuation/data/repositories/valuation_repository_impl.dart';
+import 'package:wmd/features/valuation/domain/repositories/valuation_repository.dart';
+import 'package:wmd/features/valuation/domain/use_cases/delete_valuation_usecase.dart';
+import 'package:wmd/features/valuation/domain/use_cases/get_valudation_usecase.dart';
+import 'package:wmd/features/valuation/domain/use_cases/post_valuation_usecase.dart';
+import 'package:wmd/features/valuation/domain/use_cases/update_valuation_usecase.dart';
+import 'package:wmd/features/valuation/presentation/manager/valuation_cubit.dart';
 import 'core/data/network/network_helper.dart';
 import 'core/data/network/server_request_manager.dart';
 import 'core/util/app_localization.dart';
@@ -169,6 +289,16 @@ import 'features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_s
 import 'features/add_assets/custodian_bank_auth/domain/use_cases/post_custodian_bank_status_usecase.dart';
 import 'features/add_assets/custodian_bank_auth/domain/use_cases/put_custodian_bank_status_usecase.dart';
 import 'features/add_assets/custodian_bank_auth/presentation/manager/custodian_bank_list_cubit.dart';
+import 'features/add_assets/pam_login/data/data_sources/pam_login_remote_datasource.dart';
+import 'features/add_assets/pam_login/data/repositories/pam_login_repository_impl.dart';
+import 'features/add_assets/pam_login/domain/repositories/pam_login_repository.dart';
+import 'features/add_assets/pam_login/domain/use_cases/get_mandates_usecase.dart';
+import 'features/add_assets/tfo_login/data/data_sources/tfo_login_remote_datasource.dart';
+import 'features/add_assets/tfo_login/data/repositories/tfo_login_repository_impl.dart';
+import 'features/add_assets/tfo_login/domain/repositories/tfo_login_repository.dart';
+import 'features/add_assets/tfo_login/domain/use_cases/get_mandates_usecase.dart';
+import 'features/add_assets/tfo_login/domain/use_cases/login_tfo_account_usecase.dart';
+import 'features/add_assets/tfo_login/presentation/manager/tfo_login_cubit.dart';
 import 'features/asset_detail/core/data/data_sources/asset_summary_datasource.dart';
 import 'features/asset_detail/core/domain/repositories/asset_summary_repository.dart';
 import 'features/asset_detail/core/domain/use_cases/get_summary_usecase.dart';
@@ -183,6 +313,16 @@ import 'features/asset_detail/valuation/presentation/manager/valuation_cubit.dar
 import 'features/asset_see_more/core/data/data_sources/asset_see_more_remote_datasource.dart';
 import 'features/asset_see_more/core/data/repositories/asset_see_more_repository_impl.dart';
 import 'features/asset_see_more/core/domain/use_cases/get_asset_see_more_usecase.dart';
+
+import 'features/blurred_widget/data/repositories/blurred_privacy_repository_impl.dart';
+import 'features/blurred_widget/domain/repositories/blurred_privacy_repository.dart';
+import 'features/blurred_widget/domain/use_cases/get_is_blurred_usecase.dart';
+import 'features/blurred_widget/domain/use_cases/set_blurred_usecase.dart';
+import 'features/blurred_widget/presentation/manager/blurred_privacy_cubit.dart';
+import 'features/settings/core/data/repositories/settings_repository_impl.dart';
+import 'features/settings/core/domain/repositories/settings_repository.dart';
+import 'features/settings/core/domain/use_cases/get_settings_usecase.dart';
+import 'features/settings/core/domain/use_cases/put_settings_usecase.dart';
 import 'features/splash/data/repositories/splash_repository_impl.dart';
 import 'features/splash/domain/repositories/splash_repository.dart';
 import 'features/splash/domain/use_cases/check_login_usecase.dart';
@@ -190,7 +330,7 @@ import 'features/splash/presentation/manager/splash_cubit.dart';
 
 final sl = GetIt.instance;
 
-Future<void> init() async {
+Future<void> init(String env) async {
   //repository_and_cubits
   // Splash dependency
   sl.registerFactory(() => SplashCubit(sl()));
@@ -226,6 +366,14 @@ Future<void> init() async {
       () => ForgetPasswordRepositoryImpl(sl()));
   sl.registerLazySingleton<ForgetPasswordServerDataSource>(
       () => ForgetPasswordServerDataSourceImpl(sl()));
+
+  //Logout
+  sl.registerFactory(() => LogoutCubit(sl()));
+  sl.registerLazySingleton(() => PerformLogoutUseCase(sl()));
+
+  sl.registerLazySingleton<LogoutRepository>(() => LogoutRepositoryImpl(sl()));
+  sl.registerLazySingleton<LogoutRemoteDataSource>(
+      () => LogoutRemoteDataSourceImpl(sl()));
 
   //PersonalInformation
   sl.registerFactory(() => PersonalInformationCubit(sl(), sl(), sl()));
@@ -267,7 +415,15 @@ Future<void> init() async {
       () => DashboardChartsRemoteDataSourceImpl(sl()));
 
   //AssetOverview
-  sl.registerFactory(() => AssetsOverviewCubit(sl()));
+  sl.registerFactory(() => AssetsOverviewCubit(sl(),""));
+  sl.registerFactory(() => AssetsOverviewCubitBankAccount(sl()));
+  sl.registerFactory(() => AssetsOverviewCubitListedAssetEquity(sl()));
+  sl.registerFactory(() => AssetsOverviewCubitListedAssetOther(sl()));
+  sl.registerFactory(() => AssetsOverviewCubitListedAssetFixedIncome(sl()));
+  sl.registerFactory(() => AssetsOverviewCubitRealEstate(sl()));
+  sl.registerFactory(() => AssetsOverviewCubitPrivateEquity(sl()));
+  sl.registerFactory(() => AssetsOverviewCubitPrivateDebt(sl()));
+  sl.registerFactory(() => AssetsOverviewCubitOtherAssets(sl()));
   sl.registerLazySingleton(() => GetAssetsOverviewUseCase(sl()));
   sl.registerLazySingleton<AssetsOverviewRepository>(
       () => AssetsOverviewRepositoryImpl(sl()));
@@ -281,6 +437,7 @@ Future<void> init() async {
   sl.registerFactory(() => AssetChartChooserManager());
   sl.registerFactory(() => GeoChartChooserManager());
   sl.registerFactory(() => TabManager());
+  sl.registerFactory(() => TabScrollManager());
 
   sl.registerLazySingleton<ChartsRepository>(() => ChartsRepositoryImpl(sl()));
   sl.registerLazySingleton<ChartsRemoteDataSource>(
@@ -303,6 +460,15 @@ Future<void> init() async {
   sl.registerLazySingleton<AssetsGeographyChartRemoteDataSource>(
       () => AssetsGeographyChartRemoteDataSourceImpl(sl()));
 
+  //PortfolioTab
+  sl.registerFactory(() => PortfolioTabCubit(sl()));
+  sl.registerLazySingleton(() => GetPortfolioTabUseCase(sl()));
+
+  sl.registerLazySingleton<PortfolioTabRepository>(
+      () => PortfolioTabRepositoryImpl(sl()));
+  sl.registerLazySingleton<PortfolioTabRemoteDataSource>(
+      () => PortfolioTabRemoteDataSourceImpl(sl()));
+
   // Dashboard - user status dependencies
   sl.registerFactory(() => UserStatusCubit(sl(), sl()));
   sl.registerLazySingleton(() => GetUserStatusUseCase(sl()));
@@ -320,9 +486,10 @@ Future<void> init() async {
       () => BankSaveRemoteDataSourceImpl(sl()));
 
   // Bank List
-  sl.registerFactory(() => BankListCubit(sl(), sl()));
+  sl.registerFactory(() => BankListCubit(sl(), sl(), sl()));
   sl.registerLazySingleton(() => GetBankListsUseCase(sl()));
   sl.registerLazySingleton(() => GetPopularBankListUseCase(sl()));
+  sl.registerLazySingleton(() => GetMarketDataUseCase(sl()));
   sl.registerLazySingleton<BankListRepository>(
       () => BankListRepositoryImpl(sl()));
   sl.registerLazySingleton<BankListRemoteDataSource>(
@@ -384,6 +551,66 @@ Future<void> init() async {
   sl.registerLazySingleton<LoanLiabilityRemoteDataSource>(
       () => LoanLiabilityRemoteDataSourceImpl(sl()));
 
+  //EditRealEstate
+  sl.registerFactory(() => EditRealEstateCubit(sl(), sl()));
+  sl.registerLazySingleton(() => PutRealEstateUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteRealEstateUseCase(sl()));
+
+  sl.registerLazySingleton<EditRealEstateRepository>(
+      () => EditRealEstateRepositoryImpl(sl()));
+  sl.registerLazySingleton<EditRealEstateRemoteDataSource>(
+      () => EditRealEstateRemoteDataSourceImpl(sl()));
+
+  //EditBankManual
+  sl.registerFactory(() => EditBankManualCubit(sl(), sl()));
+  sl.registerLazySingleton(() => PutBankManualUseCase(sl(), sl()));
+  sl.registerLazySingleton(() => DeleteBankManualUseCase(sl()));
+
+  sl.registerLazySingleton<EditBankManualRepository>(
+      () => EditBankManualRepositoryImpl(sl()));
+  sl.registerLazySingleton<EditBankManualRemoteDataSource>(
+      () => EditBankManualRemoteDataSourceImpl(sl()));
+
+  //EditOtherAssets
+  sl.registerFactory(() => EditOtherAssetsCubit(sl(), sl()));
+  sl.registerLazySingleton(() => PutOtherAssetsUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteOtherAssetsUseCase(sl()));
+
+  sl.registerLazySingleton<EditOtherAssetsRepository>(
+      () => EditOtherAssetsRepositoryImpl(sl()));
+  sl.registerLazySingleton<EditOtherAssetsRemoteDataSource>(
+      () => EditOtherAssetsRemoteDataSourceImpl(sl()));
+
+  //EditPrivateEquity
+  sl.registerFactory(() => EditPrivateEquityCubit(sl(), sl()));
+  sl.registerLazySingleton(() => PutPrivateEquityUseCase(sl(), sl()));
+  sl.registerLazySingleton(() => DeletePrivateEquityUseCase(sl()));
+
+  sl.registerLazySingleton<EditPrivateEquityRepository>(
+      () => EditPrivateEquityRepositoryImpl(sl()));
+  sl.registerLazySingleton<EditPrivateEquityRemoteDataSource>(
+      () => EditPrivateEquityRemoteDataSourceImpl(sl()));
+
+  //EditPrivateDebt
+  sl.registerFactory(() => EditPrivateDebtCubit(sl(), sl()));
+  sl.registerLazySingleton(() => PutPrivateDebtUseCase(sl(), sl()));
+  sl.registerLazySingleton(() => DeletePrivateDebtUseCase(sl()));
+
+  sl.registerLazySingleton<EditPrivateDebtRepository>(
+      () => EditPrivateDebtRepositoryImpl(sl()));
+  sl.registerLazySingleton<EditPrivateDebtRemoteDataSource>(
+      () => EditPrivateDebtRemoteDataSourceImpl(sl()));
+
+  //EditListedAsset
+  sl.registerFactory(() => EditListedAssetCubit(sl(), sl()));
+  sl.registerLazySingleton(() => PutListedAssetUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteListedAssetUseCase(sl()));
+
+  sl.registerLazySingleton<EditListedAssetRepository>(
+      () => EditListedAssetRepositoryImpl(sl()));
+  sl.registerLazySingleton<EditListedAssetRemoteDataSource>(
+      () => EditListedAssetRemoteDataSourceImpl(sl()));
+
   //AssetDetail
   sl.registerFactory(() => AssetSummaryCubit(sl()));
   sl.registerLazySingleton(() => GetSummaryUseCase(sl()));
@@ -407,6 +634,15 @@ Future<void> init() async {
   sl.registerLazySingleton<CustodianBankAuthRemoteDataSource>(
       () => CustodianBankAuthRemoteDataSourceImpl(sl()));
 
+  //ManualBankList
+  sl.registerFactory(() => ManualBankListCubit(sl()));
+  sl.registerLazySingleton(() => GetManualListUseCase(sl()));
+
+  sl.registerLazySingleton<ManualBankListRepository>(
+          () => ManualBankListRepositoryImpl(sl()));
+  sl.registerLazySingleton<ManualBankListRemoteDataSource>(
+          () => ManualBankListRemoteDataSourceImpl(sl()));
+
   //help FAQ
   sl.registerFactory(() => FaqCubit(sl()));
   sl.registerLazySingleton(() => GetFaqUseCase(sl()));
@@ -414,10 +650,22 @@ Future<void> init() async {
   sl.registerLazySingleton<FaqRemoteDataSource>(
       () => FaqRemoteDataSourceImpl(sl()));
 
+  //Preference
+  sl.registerFactory(() => PreferenceCubit(sl(), sl(), sl()));
+  sl.registerLazySingleton(() => PatchPreferenceMobileBannerUseCase(sl()));
+  sl.registerLazySingleton(() => PatchPreferenceLanguageUseCase(sl()));
+  sl.registerLazySingleton(() => GetPreferenceUseCase(sl()));
+  sl.registerLazySingleton<PreferenceRepository>(
+      () => PreferenceRepositoryImpl(sl()));
+  sl.registerLazySingleton<PreferenceRemoteDataSource>(
+      () => PreferenceRemoteDataSourceImpl(sl()));
+
   //profile phone verify
-  sl.registerFactory(() => VerifyPhoneCubit(sl(), sl()));
+  sl.registerFactory(() => VerifyPhoneCubit(sl(), sl(), sl(), sl()));
   sl.registerLazySingleton(() => PostVerifyPhoneUseCase(sl()));
+  sl.registerLazySingleton(() => PostMobileVerificationUseCase(sl()));
   sl.registerLazySingleton(() => PostResendVerifyPhoneUseCase(sl()));
+  sl.registerLazySingleton(() => GetSendOtpUseCase(sl()));
   sl.registerLazySingleton<VerifyPhoneRepository>(
       () => VerifyPhoneRepositoryImpl(sl()));
   sl.registerLazySingleton<VerifyPhoneRemoteDataSource>(
@@ -466,7 +714,139 @@ Future<void> init() async {
   sl.registerLazySingleton<AssetSeeMoreRemoteDataSource>(
       () => AssetSeeMoreRemoteDataSourceImpl(sl()));
 
-  await initExternal();
+  //ForceUpdate
+  sl.registerFactory(() => ForceUpdateCubit(sl()));
+  sl.registerLazySingleton(() => GetForceUpdateUseCase(sl(), sl()));
+
+  sl.registerLazySingleton<ForceUpdateRepository>(
+      () => ForceUpdateRepositoryImpl(sl()));
+  sl.registerLazySingleton<ForceUpdateRemoteDataSource>(
+      () => ForceUpdateRemoteDataSourceImpl(sl()));
+
+  //BlurredPrivacy
+  sl.registerFactory(() => BlurredPrivacyCubit(sl(), sl()));
+  sl.registerLazySingleton(() => GetIsBlurredUseCase(sl()));
+  sl.registerLazySingleton(() => SetBlurredUseCase(sl()));
+  sl.registerLazySingleton<BlurredPrivacyRepository>(
+      () => BlurredPrivacyRepositoryImpl(sl()));
+  // sl.registerLazySingleton<BlurredPrivacyRemoteDataSource>(
+  //     () => BlurredPrivacyRemoteDataSourceImpl(sl()));
+
+  //PerformanceTable
+  sl.registerFactory(() => PerformanceTableCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => PerformanceAssetClassCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => PerformanceBenchmarkCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => PerformanceCustodianCubit(sl(), sl(), sl()));
+  sl.registerLazySingleton(() => GetAssetClassUseCase(sl()));
+  sl.registerLazySingleton(() => GetBenchmarkUseCase(sl()));
+  sl.registerLazySingleton(() => GetCustodianPerformanceUseCase(sl()));
+
+  sl.registerLazySingleton<PerformanceTableRepository>(
+      () => PerformanceTableRepositoryImpl(sl()));
+  sl.registerLazySingleton<PerformanceTableRemoteDataSource>(
+      () => PerformanceTableRemoteDataSourceImpl(sl()));
+
+  //ClientIndex
+  sl.registerFactory(() => ClientIndexCubit(sl()));
+  sl.registerLazySingleton(() => GetClientIndexUseCase(sl()));
+
+  sl.registerLazySingleton<ClientIndexRepository>(
+      () => ClientIndexRepositoryImpl(sl()));
+  sl.registerLazySingleton<ClientIndexRemoteDataSource>(
+      () => ClientIndexRemoteDataSourceImpl(sl()));
+
+  //Glossary
+  sl.registerFactory(() => GlossaryCubit(sl()));
+  sl.registerLazySingleton(() => GetGlossariesUseCase(sl()));
+
+  sl.registerLazySingleton<GlossaryRepository>(
+      () => GlossaryRepositoryImpl(sl()));
+  sl.registerLazySingleton<GlossaryRemoteDataSource>(
+      () => GlossaryRemoteDataSourceImpl(sl()));
+
+  //Settings
+  sl.registerFactory(() => TwoFactorCubit(sl(), sl()));
+  sl.registerLazySingleton(() => GetSettingsUseCase(sl()));
+  sl.registerLazySingleton(() => PutSettingsUseCase(sl()));
+
+  sl.registerLazySingleton<SettingsRepository>(
+      () => SettingsRepositoryImpl(sl()));
+  sl.registerLazySingleton<SettingsRemoteDataSource>(
+      () => SettingsRemoteDataSourceImpl(sl()));
+
+  //ChartsHeigth
+  sl.registerFactory(() => ChartsHeightCubit());
+
+  //Settings
+  sl.registerFactory(() => AssetValuationCubit(sl(), sl(), sl(), sl()));
+  sl.registerLazySingleton(() => AssetPostValuationUseCase(sl()));
+  sl.registerLazySingleton(() => UpdateValuationUseCase(sl()));
+  sl.registerLazySingleton(() => AssetDeleteValuationUseCase(sl()));
+  sl.registerLazySingleton(() => AssetGetValuationUseCase(sl()));
+
+  sl.registerLazySingleton<AssetValuationRepository>(
+      () => AssetValuationRepositoryImpl(sl()));
+  sl.registerLazySingleton<AssetValuationRemoteDataSource>(
+      () => AssetValuationRemoteDataSourceImpl(sl()));
+
+  //TfoLogin
+  sl.registerFactory(() => TfoLoginCubit(sl(), sl()));
+  sl.registerLazySingleton(() => GetMandatesUseCase(sl()));
+  sl.registerLazySingleton(() => LoginTfoAccountUseCase(sl()));
+
+  sl.registerLazySingleton<TfoLoginRepository>(
+      () => TfoLoginRepositoryImpl(sl()));
+  sl.registerLazySingleton<TfoLoginRemoteDataSource>(
+      () => TfoLoginRemoteDataSourceImpl(sl()));
+
+  //PamLogin
+  sl.registerFactory(() => PamLoginCubit(sl(), sl()));
+  sl.registerLazySingleton(() => GetPamMandatesUseCase(sl()));
+  sl.registerLazySingleton(() => LoginPamAccountUseCase(sl()));
+
+  sl.registerLazySingleton<PamLoginRepository>(
+      () => PamLoginRepositoryImpl(sl()));
+  sl.registerLazySingleton<PamLoginRemoteDataSource>(
+      () => PamLoginRemoteDataSourceImpl(sl()));
+
+  //SafeDevice
+  sl.registerFactory(() => SafeDeviceCubit(sl()));
+  sl.registerLazySingleton(() => IsSafeDeviceUseCase(sl()));
+
+  sl.registerLazySingleton<SafeDeviceRepository>(
+      () => SafeDeviceRepositoryImpl(sl()));
+  sl.registerLazySingleton<SafeDeviceLocalDataSource>(
+      () => SafeDeviceLocalDataSourceImpl());
+
+  //LinkedAccounts
+  sl.registerFactory(() => LinkedAccountsCubit(sl(), sl()));
+  sl.registerLazySingleton(() => GetLinkedAccountsUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteLinkedAccountsUseCase(sl()));
+
+  sl.registerLazySingleton<LinkedAccountsRepository>(
+      () => LinkedAccountsRepositoryImpl(sl()));
+  sl.registerLazySingleton<LinkedAccountsRemoteDataSource>(
+      () => LinkedAccountsRemoteDataSourceImpl(sl()));
+
+  //LiablilityOverview
+  sl.registerFactory(() => LiabilityOverviewCubit(sl()));
+  sl.registerLazySingleton(() => GetLiabilityOverviewUseCase(sl()));
+
+  sl.registerLazySingleton<LiabilityOverviewRepository>(
+      () => LiabilityOverviewRepositoryImpl(sl()));
+  sl.registerLazySingleton<LiabilityOverviewRemoteDataSource>(
+      () => LiabilityOverviewRemoteDataSourceImpl(sl()));
+
+//MandateStatus
+  sl.registerFactory(() => MandateStatusCubit(sl(), sl()));
+  sl.registerLazySingleton(() => GetMandateStatusUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteMandateUseCase(sl()));
+  sl.registerLazySingleton<MandateStatusRepository>(
+      () => MandateStatusRepositoryImpl(sl()));
+  sl.registerLazySingleton<MandateStatusRemoteDataSource>(
+      () => MandateStatusRemoteDataSourceImpl(sl()));
+
+  await initExternal(env);
   await initUtils();
 }
 
@@ -487,8 +867,10 @@ Future<void> initUtils() async {
   sl.registerFactory(() => LocalAuthManager(sl()));
 }
 
-Future<void> initExternal() async {
-  sl.registerFactory<Dio>(() => NetworkHelper(sl()).getDio());
+Future<void> initExternal(String env) async {
+  final sslCert = await rootBundle.load(AppConstants.getCertificate(env));
+  // final sslCert = await rootBundle.load('assets/certt.cer');
+  sl.registerFactory<Dio>(() => NetworkHelper(sl()).getDio(sslCert));
 
   sl.registerLazySingleton<DeviceInfoPlugin>(() => DeviceInfoPlugin());
 
@@ -496,4 +878,7 @@ Future<void> initExternal() async {
   sl.registerLazySingleton<Box>(() => authBox);
 
   sl.registerLazySingleton<LocalAuthentication>(() => LocalAuthentication());
+
+  final packageInfo = await PackageInfo.fromPlatform();
+  sl.registerLazySingleton<PackageInfo>(() => packageInfo);
 }

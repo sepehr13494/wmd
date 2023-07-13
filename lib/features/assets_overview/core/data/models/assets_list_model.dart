@@ -32,6 +32,6 @@ class AssetListResponse extends AssetList {
     inceptionToDate: double.tryParse(json["inceptionToDate"].toString()) ?? 0,
     yearToDate: double.tryParse(json["yearToDate"].toString()) ?? 0,
     geography: json["geography"] ?? "",
-    type: json["type"] ?? "",
+    type: (json["type"] ?? "").toString(),
   );
 }

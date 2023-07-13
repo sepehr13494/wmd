@@ -16,35 +16,36 @@ class AddOtherAssetUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
   @override
   Future<Either<Failure, AddAsset>> call(Map<String, dynamic> params) async {
     try {
-      final acquisitionCost =
-          params['acquisitionCost'].toString().replaceAll(',', '');
-      final valuePerUnit =
-          params['valuePerUnit'].toString().replaceAll(',', '');
-      final currentDayValue =
-          params['currentDayValue'].toString().replaceAll(',', '');
-
-      final newMap = {
-        ...params,
-        "acquisitionCost": acquisitionCost,
-        "valuePerUnit": valuePerUnit,
-        "currentDayValue": currentDayValue,
-        "valuationDate": (params['valuationDate']) != null
-            ? params['valuationDate']
-            : DateTime.now(),
-      };
-
-      debugPrint(newMap.toString());
-
-      final privateDebtAssetParam = AddOtherAssetParams.fromJson(newMap);
-
-      debugPrint(privateDebtAssetParam.toString());
-      debugPrint(AddOtherAssetParams.tAddOtherAssetParams.toString());
-
-      return await otherAssetRepository.postOtherAsset(privateDebtAssetParam);
+      return await otherAssetRepository
+          .postOtherAsset(getAddOtherAssetObj(params));
     } catch (e) {
       debugPrint("AddOtherAssetUseCase catch : ${e.toString()}");
       return const Left(AppFailure(message: "Something went wrong!"));
     }
+  }
+
+  static AddOtherAssetParams getAddOtherAssetObj(Map<String, dynamic> params) {
+    final acquisitionCost =
+        params['acquisitionCost'].toString().replaceAll(',', '');
+    final valuePerUnit = params['valuePerUnit'] != null
+        ? params['valuePerUnit'].toString().replaceAll(',', '')
+        : params['valuePerUnit'];
+    final currentDayValue =
+        params['currentDayValue'].toString().replaceAll(',', '');
+
+    final newMap = {
+      ...params,
+      "acquisitionCost": acquisitionCost,
+      "valuePerUnit": valuePerUnit,
+      "currentDayValue": currentDayValue,
+      "valuationDate": (params['valuationDate']) != null
+          ? params['valuationDate']
+          : DateTime.now(),
+    };
+
+    debugPrint(newMap.toString());
+
+    return AddOtherAssetParams.fromJson(newMap);
   }
 }
 
@@ -84,23 +85,24 @@ class AddOtherAssetParams extends Equatable {
         assetType: json["assetType"],
         country: (json["country"] as Country).name,
         currencyCode: (json["currencyCode"] as Currency).symbol,
-        units:
-            json["units"] != null ? int.tryParse(json["units"]) : json["units"],
+        units: json["units"] != null ? (int.tryParse(json["units"])??1) : 1,
         acquisitionCost: json["acquisitionCost"] != null
             ? double.tryParse(json["acquisitionCost"])
             : json["acquisitionCost"],
         acquisitionDate: json["acquisitionDate"] != null
             ? DateTime.parse(json["acquisitionDate"].toString())
             : json["acquisitionDate"],
-        valuationDate: DateTime.parse(json["valuationDate"].toString()),
+        valuationDate: json["valuationDate"] != null
+            ? DateTime.parse(json["valuationDate"].toString())
+            : json["valuationDate"],
         ownerShip: json["ownerShip"] != null
-            ? double.tryParse(json["ownerShip"])
-            : json["ownerShip"],
+            ? (double.tryParse(json["ownerShip"])??100)
+            : 100,
         valuePerUnit: json["valuePerUnit"] != null
-            ? double.tryParse(json["valuePerUnit"])
+            ? double.tryParse(json["valuePerUnit"].toString())
             : json["valuePerUnit"],
         currentDayValue: json["currentDayValue"] != null
-            ? double.tryParse(json["currentDayValue"])
+            ? double.tryParse(json["currentDayValue"].toString())
             : json["currentDayValue"],
       );
 
@@ -113,7 +115,7 @@ class AddOtherAssetParams extends Equatable {
         "units": units,
         "acquisitionCost": acquisitionCost,
         "acquisitionDate": acquisitionDate?.toIso8601String(),
-        "valuationDate": valuationDate?.toString().substring(0, 10),
+        "valuationDate": valuationDate?.toIso8601String(),
         "ownerShip": ownerShip,
         "valuePerUnit": valuePerUnit,
         "currentDayValue": currentDayValue == 0 ? null : currentDayValue

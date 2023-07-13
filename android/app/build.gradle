@@ -34,6 +34,12 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
+def auth0Properties = new Properties()
+def auth0PropertiesFile = rootProject.file('auth0.properties')
+if (auth0PropertiesFile.exists()) {
+    auth0Properties.load(new FileInputStream(auth0PropertiesFile))
+}
+
 android {
     compileSdkVersion 33
     ndkVersion flutter.ndkVersion
@@ -60,6 +66,7 @@ android {
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        manifestPlaceholders += [auth0Domain: auth0Properties['domain'], auth0Scheme: "com.tfo.wmd"]
     }
 
     flavorDimensions "default"
@@ -83,6 +90,7 @@ android {
 
     signingConfigs {
        release {
+           enableV4Signing = true
            keyAlias keystoreProperties['keyAlias']
            keyPassword keystoreProperties['keyPassword']
            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null

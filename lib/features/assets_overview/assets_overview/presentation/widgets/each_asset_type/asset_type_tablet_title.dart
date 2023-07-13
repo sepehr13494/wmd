@@ -7,23 +7,25 @@ import '../../../../core/presentataion/models/assets_overview_base_widget_model.
 import '../assets_overview_inherit.dart';
 
 class AssetTypeTabletTableTitle extends AppStatelessWidget {
-
   const AssetTypeTabletTableTitle({super.key});
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final flexList = AssetsOverviewInherit.of(context).flexList;
-    final assetOverviewType = AssetsOverviewInherit.of(context).assetOverviewBaseType;
+    final assetOverviewType =
+        AssetsOverviewInherit.of(context).assetOverviewBaseType;
     List texts = [
       appLocalizations.assets_table_header_assetName,
       appLocalizations.assets_table_header_currentValue,
       appLocalizations.assets_table_header_itd,
       appLocalizations.assets_table_header_ytd,
     ];
-    switch (assetOverviewType){
+    switch (assetOverviewType) {
       case AssetsOverviewBaseType.assetType:
-        texts.add(appLocalizations.assets_table_header_geography,);
+        texts.add(
+          appLocalizations.assets_table_header_geography,
+        );
         break;
       case AssetsOverviewBaseType.currency:
       case AssetsOverviewBaseType.geography:
@@ -38,7 +40,8 @@ class AssetTypeTabletTableTitle extends AppStatelessWidget {
           child: SizedBox(
             width: AssetsOverviewInherit.of(context).nonExpandedWidth,
             child: Align(
-              alignment: index == texts.length-1 ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
+              // alignment: AlignmentDirectional.centerEnd,
+              alignment: _getAlignment(index),
               child: Text(
                 texts[index],
                 style: textTheme.bodySmall,
@@ -48,5 +51,18 @@ class AssetTypeTabletTableTitle extends AppStatelessWidget {
         );
       }),
     );
+  }
+
+  AlignmentDirectional _getAlignment(int index) {
+    switch (index) {
+      case 4:
+        return AlignmentDirectional.centerEnd;
+      case 3:
+        return AlignmentDirectional.center;
+      case 2:
+        return AlignmentDirectional.center;
+      default:
+        return AlignmentDirectional.centerStart;
+    }
   }
 }

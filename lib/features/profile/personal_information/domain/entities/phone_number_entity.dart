@@ -20,6 +20,9 @@ class PhoneNumberEntity extends Equatable {
         "number": number,
       };
 
+  String toNumber() => countryCode + number;
+  String toFormattedNumber() => '$countryCode-$number';
+
   @override
   List<Object?> get props => [
         countryCode,

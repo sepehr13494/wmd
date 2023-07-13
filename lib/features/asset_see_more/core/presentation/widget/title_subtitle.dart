@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
+import 'package:wmd/core/presentation/widgets/info_icon.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/widgets/ytd_itd_widget.dart';
 
 class TitleSubtitle extends AppStatelessWidget {
   final String title;
   final String subTitle;
-  const TitleSubtitle({super.key, required this.title, required this.subTitle});
+  final String? tooltipMessage;
+  const TitleSubtitle(
+      {super.key,
+      required this.title,
+      required this.subTitle,
+      this.tooltipMessage});
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
@@ -14,7 +20,19 @@ class TitleSubtitle extends AppStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(title, style: textTheme.bodySmall),
+        Row(
+          children: [
+            Text(title, style: textTheme.bodySmall),
+            if (tooltipMessage != null)
+              Tooltip(
+                showDuration: const Duration(seconds: 5),
+                triggerMode: TooltipTriggerMode.tap,
+                textAlign: TextAlign.center,
+                message: tooltipMessage,
+                child: const InfoIcon(),
+              ),
+          ],
+        ),
         Text(subTitle, style: textTheme.bodyLarge),
       ],
     );

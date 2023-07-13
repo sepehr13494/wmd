@@ -9,6 +9,7 @@ import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_man
 import 'package:wmd/features/assets_overview/assets_geography_chart/presentation/widgets/assets_overview_geo_chart.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/base_chart_view.dart';
 import 'package:wmd/features/assets_overview/currency_chart/presentation/widgets/currency_chart_widget.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab/presentation/widgets/portfolio_chart_widget.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 
 class ChartsWrapper extends StatefulWidget {
@@ -26,7 +27,17 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
 
   @override
   void initState() {
-    _controller = TabController(length: 3, vsync: this,initialIndex: context.read<TabManager>().state);
+    if (AppConstants.isRelease1) {
+      _controller = TabController(
+          length: 2,
+          vsync: this,
+          initialIndex: context.read<TabManager>().state);
+    } else {
+      _controller = TabController(
+          length: 4,
+          vsync: this,
+          initialIndex: context.read<TabManager>().state);
+    }
     _controller.addListener(() {
       context.read<TabManager>().changeTab(_controller.index);
     });
@@ -43,46 +54,54 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
     return BlocBuilder<SummeryWidgetCubit, MainDashboardState>(
         builder: (context, state) {
-          return Column(
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    appLocalizations.assets_charts_title,
-                    style: textTheme.bodyLarge,
-                  ),
-                  const SizedBox(width: 8),
-                  BlocBuilder<TabManager, int>(
-                    builder: (context, state) {
-                      return state == 0 ? Text(
-                        '(${(context
-                            .read<SummeryWidgetCubit>()
-                            .dateTimeRange ?? AppConstants
-                            .timeFilter(context)
-                            .first).key})',
-                        style: textTheme.bodySmall,
-                      ) : BlocBuilder<SummeryWidgetCubit, MainDashboardState>(
-                        builder: (context, state) {
-                          return state is MainDashboardNetWorthLoaded ? AsOfDateWidget(shownDate: DateTime.parse(state.netWorthObj.lastUpdated)) : const SizedBox();
-                        },
-                      );
-                    },
-                  ),
-                ],
+              Text(
+                appLocalizations.assets_charts_title,
+                style: textTheme.titleLarge,
               ),
-              const SizedBox(height: 24),
-              Column(
-                children: [
-                  Builder(builder: (context) {
-                    final isMobile = ResponsiveHelper(context: context)
-                        .isMobile;
-                    return Row(
-                      children: [
-                        SizedBox(
-                          width: isMobile ? null : 400,
+              const SizedBox(width: 8),
+              BlocBuilder<TabManager, int>(
+                builder: (context, state) {
+                  return state == 0
+                      ? Text(
+                          '(${(context.read<SummeryWidgetCubit>().dateTimeRange ?? AppConstants.timeFilter(context).first).key})',
+                          style: textTheme.bodySmall,
+                        )
+                      : BlocBuilder<SummeryWidgetCubit, MainDashboardState>(
+                          builder: (context, state) {
+                            return state is MainDashboardNetWorthLoaded
+                                ? AsOfDateWidget(
+                                    shownDate: DateTime.parse(
+                                        state.netWorthObj.lastUpdated),
+                                    asOf: true,
+                                  )
+                                : const SizedBox();
+                          },
+                        );
+                },
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          Column(
+            children: [
+              Builder(builder: (context) {
+                final isMobile = ResponsiveHelper(context: context).isMobile;
+                return LayoutBuilder(builder: (context, snap) {
+                  return Row(
+                    children: [
+                      SizedBox(
+                        width: isMobile ? snap.maxWidth : 400,
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
                           child: TabBar(
+                            labelStyle: textTheme.titleSmall,
                             controller: _controller,
                             tabs: [
                               Tab(
@@ -91,64 +110,47 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
                               Tab(
                                   text: appLocalizations
                                       .assets_charts_tabs_geography),
-                              Tab(
-                                  text:
-                                  appLocalizations.assets_charts_tabs_currency),
+                              if (!AppConstants.isRelease1)
+                                Tab(
+                                    text: appLocalizations
+                                        .assets_charts_tabs_currency),
+                              if (!AppConstants.isRelease1)
+                                Tab(
+                                    text: appLocalizations
+                                        .assets_charts_tabs_portfolio),
                             ],
                             isScrollable: true,
                           ),
                         ),
-                        isMobile ? const SizedBox() : const Spacer(),
-                      ],
-                    );
-                  }),
-                  const Divider(
-                    height: 0.5,
-                    thickness: 0.5,
-                  ),
-                  AspectRatio(
-                    aspectRatio:
-                    ResponsiveHelper(context: context).isMobile ? 1 : 1.6,
-                    child: Builder(builder: (context) {
-                      List<Widget> children = [
-                        const BaseAssetsOverviewChartsWidget(),
-                        const AssetsOverviewGeoChart(),
-                        const CurrencyChartWidget(),
-                      ];
-
-                      return TabBarView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        controller: _controller,
-                        children: children
-                            .map(
-                              (e) =>
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: ResponsiveHelper(context: context)
-                                        .biggerGap),
-                                child: Card(
-                                  color: Theme
-                                      .of(context)
-                                      .brightness ==
-                                      Brightness.dark
-                                      ? AppColors.darkCardColorForDarkTheme
-                                      : AppColors.darkCardColorForLightTheme,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: e,
-                                  ),
-                                ),
-                              ),
-                        )
-                            .toList(),
-                      );
-                    }),
-                  )
-                ],
+                      ),
+                      isMobile ? const SizedBox() : const Spacer(),
+                    ],
+                  );
+                });
+              }),
+              const Divider(
+                height: 0.5,
+                thickness: 0.5,
               ),
+              Builder(builder: (context) {
+                List<Widget> children = [
+                  const BaseAssetsOverviewChartsWidget(),
+                  const AssetsOverviewGeoChart(),
+                  const CurrencyChartWidget(),
+                  const PortfolioTabChartWidget(),
+                ];
+
+                return BlocBuilder<TabManager, int>(
+                  builder: (context, state) {
+                    return children[state];
+                  },
+                );
+              })
             ],
-          );
-        });
+          ),
+        ],
+      );
+    });
   }
 }
 
@@ -173,16 +175,12 @@ class ChartPicker extends AppStatelessWidget {
                 children: [
                   Icon(
                     Icons.bar_chart,
-                    color: Theme
-                        .of(context)
-                        .primaryColor,
+                    color: Theme.of(context).primaryColor,
                   ),
                   Text(
                     'Bar Chart',
                     style: textTheme.bodyMedium!
-                        .apply(color: Theme
-                        .of(context)
-                        .primaryColor),
+                        .apply(color: Theme.of(context).primaryColor),
                     // textTheme.bodyMedium!.toLinkStyle(context),
                   ),
                 ],
@@ -193,9 +191,7 @@ class ChartPicker extends AppStatelessWidget {
         icon: Icon(
           Icons.keyboard_arrow_down,
           size: 15,
-          color: Theme
-              .of(context)
-              .primaryColor,
+          color: Theme.of(context).primaryColor,
         ),
         // style: textTheme.labelLarge,
       ),

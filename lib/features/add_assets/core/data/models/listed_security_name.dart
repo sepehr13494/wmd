@@ -90,14 +90,26 @@ class ListedSecurityName {
 
   factory ListedSecurityName.fromJson(Map<String, dynamic> json) =>
       ListedSecurityName(
-        category: json["category"],
+        category: json["category"]??"",
         currencyCode: json["currencyCode"],
-        isin: json["isin"],
+        isin: json["isin"]??"",
         label: json["label"],
-        securityName: json["securityName"],
-        securityShortName: json["securityShortName"],
-        tradedExchange: json["tradedExchange"],
+        securityName: json["securityName"]??"",
+        securityShortName: json["securityShortName"]??"",
+        tradedExchange: json["tradedExchange"]??"",
         value: json["value"],
+      );
+
+  factory ListedSecurityName.fromAPI(Map<String, dynamic> json) =>
+      ListedSecurityName(
+        category: json["assetType"]??"",
+        currencyCode: json["currency"]??"",
+        isin: json["isinNumber"]??"",
+        label: json["companyName"]??"",
+        securityName: json["companyName"]??"",
+        securityShortName: json["primaryExchangeName"]??"",
+        tradedExchange: json["ticker"]??"",
+        value: json["companyName"]??"",
       );
 
   static final listedSecurityNameList =

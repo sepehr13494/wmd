@@ -7,11 +7,11 @@ class OtherAssetType {
   static const json = [
     {"value": "Automobile", "name": "Automobile"},
     {"value": "Yacht", "name": "Yacht"},
-    {"value": "Private Jet", "name": "Private Jet"},
+    {"value": "PrivateJet", "name": "Private Jet"},
     {"value": "Watch", "name": "Watch"},
     {"value": "Painting", "name": "Painting"},
-    {"value": "Jewelary", "name": "Jewelary"},
-    {"value": "Other", "name": "Other"},
+    {"value": "Jewelry", "name": "Jewelry"},
+    {"value": "OtherAsset", "name": "Other"},
   ];
 
   @override

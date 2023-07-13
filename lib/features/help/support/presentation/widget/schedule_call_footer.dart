@@ -63,7 +63,7 @@ class _ScheduleCallFooterState extends AppState<ScheduleCallFooter> {
                                   onPressed: () {
                                     widget.onTap!();
                                   },
-                                  child: const Text("Schedule a call"))),
+                                  child: Text(appLocalizations.scheduleMeeting_header_title))),
                         ],
                       ),
                     ),

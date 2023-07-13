@@ -68,15 +68,15 @@ class SocialAuthBar extends StatelessWidget {
                       clientId: "clientId",
                       clientSecret: "clientSecret",
                       onGetUserProfile: (UserSucceededAction linkedInUser) {
-                        print(
+                        debugPrint(
                             'Access token ${linkedInUser.user.token.accessToken}');
-                        print(
+                        debugPrint(
                             'First name: ${linkedInUser.user.firstName?.localized?.label}');
-                        print(
+                        debugPrint(
                             'Last name: ${linkedInUser.user.lastName?.localized?.label}');
                       },
                       onError: (UserFailedAction e) {
-                        print('Error: ${e.toString()}');
+                        debugPrint('Error: ${e.toString()}');
                       },
                     ),
                   ),
@@ -92,7 +92,7 @@ class SocialAuthBar extends StatelessWidget {
         ],
       );
       final result = await googleSignIn.signIn();
-      print(result.toString());
+      debugPrint(result.toString());
     } catch (error) {
       debugPrint(error.toString());
     }

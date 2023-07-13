@@ -47,4 +47,6 @@ class AssetList extends Equatable{
     geography,
     type,
   ];
+  
+  String get assetNameFixed => assetName.replaceAll(RegExp(r"\s+"), " ");
 }

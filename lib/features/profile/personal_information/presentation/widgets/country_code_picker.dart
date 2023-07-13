@@ -1,12 +1,18 @@
+import 'dart:developer';
+
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
+import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 
 class CountryCodePicker extends StatefulWidget {
   final ValueChanged<Country?>? onChange;
-  const CountryCodePicker({Key? key, required this.onChange}) : super(key: key);
+  final bool enabled;
+  const CountryCodePicker(
+      {Key? key, required this.onChange, this.enabled = true})
+      : super(key: key);
 
   @override
   State<CountryCodePicker> createState() => _CountryCodePickerState();
@@ -27,6 +33,9 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
 
   @override
   Widget build(BuildContext context) {
+    final responsiveHelper = ResponsiveHelper(context: context);
+    final isTablet = !responsiveHelper.isMobile;
+
     return FormBuilderField<Country>(
       builder: ((field) {
         if (field.value != null) {
@@ -34,12 +43,13 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
               "${field.value!.flagEmoji} ${field.value!.countryCode} +${field.value!.phoneCode}";
         }
         return SizedBox(
-          width: 125,
-          height: 60,
+          width: isTablet ? 100 : 115,
+          // height: 80,
           child: TextField(
             controller: controller,
             style: Theme.of(context).textTheme.bodySmall,
             readOnly: true,
+            enabled: widget.enabled,
             onTap: () {
               showCountryPicker(
                 context: context,
@@ -47,7 +57,7 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
                 showPhoneCode:
                     true, // optional. Shows phone code before the country name.
                 onSelect: (Country country) {
-                  print('Select country: ${country.displayName}');
+                  log('Select country: ${country.displayName}');
 
                   String code = country.phoneCode;
 

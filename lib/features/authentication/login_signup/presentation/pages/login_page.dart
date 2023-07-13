@@ -17,7 +17,6 @@ import 'package:wmd/core/util/local_auth_manager.dart';
 import 'package:wmd/core/util/local_storage.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/manager/login_sign_up_cubit.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
-import 'package:wmd/features/authentication/login_signup/presentation/widgets/social_auth_bar.dart';
 import 'package:wmd/features/splash/presentation/manager/splash_cubit.dart';
 import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
@@ -38,7 +37,8 @@ class LoginPage extends AppStatelessWidget {
             listener:
                 BlocHelper.defaultBlocListener(listener: (context, state) {
               if (state is SuccessState) {
-                context.goNamed(AppRoutes.onboarding);
+                context.read<LocalAuthManager>().setLocalAuth(false, context,askUser: false);
+                context.goNamed(AppRoutes.authCheck);
               }
             }),
             builder: (context, state) {

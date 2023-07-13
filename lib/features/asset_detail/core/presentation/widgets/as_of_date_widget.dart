@@ -4,9 +4,11 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 
 class AsOfDateWidget extends AppStatelessWidget {
+  final bool asOf;
   final DateTime shownDate;
   const AsOfDateWidget({
     required this.shownDate,
+    this.asOf = false,
     super.key,
   });
 
@@ -16,11 +18,10 @@ class AsOfDateWidget extends AppStatelessWidget {
     return Align(
       alignment: Alignment.bottomRight,
       child: Padding(
-        padding: EdgeInsets.all(responsiveHelper.biggerGap),
+        padding: EdgeInsets.all(asOf ? 0 : responsiveHelper.biggerGap),
         child: Text(
-          "${appLocalizations.assets_label_lastUpdatedOn} ${CustomizableDateTime.dateLocalizedV2(shownDate)}",
+          "${asOf ? ('(${appLocalizations.assetsOverview_asOf}') : appLocalizations.assets_label_lastUpdatedOn} ${CustomizableDateTime.dmyV2(shownDate, context)}${asOf ? ')':''}",
           style: textTheme.bodySmall,
-          textDirection: TextDirection.ltr,
         ),
       ),
     );

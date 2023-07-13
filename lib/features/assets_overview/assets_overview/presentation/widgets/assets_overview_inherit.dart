@@ -7,7 +7,7 @@ import '../../../core/domain/entities/assets_list_entity.dart';
 class AssetsOverviewInherit extends InheritedWidget {
   const AssetsOverviewInherit({
     super.key,
-    this.flexList = const [6, 4, 0, 0, 3],
+    this.flexList = const [6, 4, 0, 0, 4],
     this.nonExpandedWidth = 80,
     required this.assetList,
     required this.assetOverviewBaseType,

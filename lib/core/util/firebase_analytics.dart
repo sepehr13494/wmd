@@ -14,6 +14,12 @@ class AnalyticsUtils {
   static const String helpSupportAction =
       "Entered_help_page_from_top_navigation";
   static const String changeDashboardFilterAction = "Dashboard_Filter_CTA";
+  static const String privacyOnAction = "Privacy_switch_on";
+  static const String privacyOffAction = "Privacy_switch_off";
+  static const String updateVerifyPhoneAction = "Update_and_verify_CTA";
+  static const String optScreenAction = "Sent_verify_OTP";
+  static const String enable2FAAction = "2FA_switch_on";
+  static const String disable2FAAction = "2FA_switch_off";
 
 // dynamic
   static String viewIndividualAssetAction(String asset) =>
@@ -188,6 +194,36 @@ class AnalyticsUtils {
     "category": "Social sign up using LinkedIn",
     "action": "LinkedIn sign up option in the sign up page",
     "label": "LinkedIn Signup option in the Signup page",
+  };
+  static const privacyOnEvent = {
+    "category": "Privacy mode has been turned on",
+    "action": privacyOnAction,
+    "label": "Privacy mode has been turned on",
+  };
+  static const privacyOffEvent = {
+    "category": "Privacy mode has been turned off",
+    "action": privacyOffAction,
+    "label": "Privacy mode has been turned off",
+  };
+  static const updateVerifyPhoneEvent = {
+    "category": "Update and Verify",
+    "action": updateVerifyPhoneAction,
+    "label": "Update and Verify in the profile page",
+  };
+  static const optScreenEvent = {
+    "category": "Sent Verify OTP ",
+    "action": optScreenAction,
+    "label": "Sent OTP to verify",
+  };
+  static const enable2FAEvent = {
+    "category": "2FA has been turned on",
+    "action": enable2FAAction,
+    "label": "2FA has been turned on",
+  };
+  static const disable2FAEvent = {
+    "category": "2FA has been turned off",
+    "action": disable2FAAction,
+    "label": "2FA has been turned off",
   };
 
   static triggerEvent({action, params}) async {

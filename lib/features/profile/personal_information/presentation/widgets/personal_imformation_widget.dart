@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 import 'package:wmd/global_functions.dart';
 
@@ -21,11 +22,20 @@ class _PersonalInformationWidgetState
   bool enableSubmitButton = false;
   final formKey = GlobalKey<FormBuilderState>();
   late Map<String, dynamic> lastValue;
+
   void checkFinalValid(value) async {
     await Future.delayed(const Duration(milliseconds: 100));
     bool finalValid = formKey.currentState!.isValid;
     Map<String, dynamic> instantValue = formKey.currentState!.instantValue;
-    if (finalValid && lastValue.toString() != instantValue.toString()) {
+
+    if (finalValid &&
+                ((lastValue["lastName"] ?? "") !=
+                    (instantValue["lastName"] ?? "")) ||
+            ((lastValue["firstName"] ?? "") !=
+                (instantValue["firstName"] ?? ""))
+
+        // lastValue.toString() != instantValue.toString()
+        ) {
       if (!enableSubmitButton) {
         setState(() {
           enableSubmitButton = true;
@@ -50,7 +60,7 @@ class _PersonalInformationWidgetState
       listener: (context, state) {
         if (state is PersonalInformationLoaded) {
           var json = state.getNameEntity.toJson();
-          json.removeWhere((key, value) => value == "");
+          json.removeWhere((key, value) => value == "" || value == ' ');
           formKey.currentState!.patchValue(json);
           lastValue = formKey.currentState!.instantValue;
         }

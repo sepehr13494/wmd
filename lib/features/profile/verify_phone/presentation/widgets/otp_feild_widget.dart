@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 class OtpInput extends StatelessWidget {
   final TextEditingController controller;
   final bool autoFocus;
-  const OtpInput(this.controller, this.autoFocus, {Key? key}) : super(key: key);
+  final bool isDisabled;
+  const OtpInput(this.controller, this.autoFocus, this.isDisabled, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +17,7 @@ class OtpInput extends StatelessWidget {
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,
         controller: controller,
+        enabled: !isDisabled,
         maxLength: 1,
         cursorColor: Theme.of(context).primaryColor,
         decoration: const InputDecoration(
@@ -24,6 +27,8 @@ class OtpInput extends StatelessWidget {
         onChanged: (value) {
           if (value.length == 1) {
             FocusScope.of(context).nextFocus();
+          } else {
+            FocusScope.of(context).previousFocus();
           }
         },
       ),

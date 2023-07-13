@@ -1,11 +1,17 @@
-class Currency {
+import 'package:equatable/equatable.dart';
+
+class Currency extends Equatable{
   final String symbol;
   final String name;
 
-  Currency({
+  const Currency({
     required this.symbol,
     required this.name,
   });
+
+  static Currency getCurrencyFromString(String currencyCode){
+    return Currency.currenciesList.firstWhere((element) => element.symbol == currencyCode,orElse: () => const Currency(symbol: "not found", name: "not found"),);
+  }
 
   factory Currency.fromJson(Map<String, dynamic> json) => Currency(
         symbol: json["value"],
@@ -21,6 +27,12 @@ class Currency {
   String toString() {
     return toJson().toString();
   }
+
+  @override
+  List<Object?> get props => [
+    symbol,
+    name,
+  ];
 
   static final currenciesList = json.map((e) => Currency.fromJson(e)).toList();
 

@@ -16,7 +16,6 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
-import 'package:wmd/features/help/support/data/models/call_reason.dart';
 import 'package:wmd/features/help/support/data/models/meeting_type.dart';
 import 'package:wmd/features/help/support/data/models/time_zones.dart';
 import 'package:wmd/features/help/support/presentation/manager/general_inquiry_cubit.dart';
@@ -24,6 +23,7 @@ import 'package:wmd/features/help/support/presentation/widget/call_summary_wideg
 import 'package:wmd/features/help/support/presentation/widget/schedule_call_footer.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 import 'package:wmd/global_functions.dart';
+import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/injection_container.dart';
 
 class ScheduleCallPage extends StatefulWidget {
@@ -151,15 +151,16 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
         } else {
           return Scaffold(
             appBar: const AddAssetHeader(
-              title: "",
-            ),
+                title: "", goToRoute: AppRoutes.support, showExitModal: false),
             bottomSheet: !responsiveHelper.isMobile
                 ? null
                 : ScheduleCallFooter(
                     formState: formState,
                     onTap: () {
                       formKey.currentState?.validate();
-                      if (enableAddAssetButton) {
+
+                      if (formKey.currentState!.isValid &&
+                          formKey.currentState?.value["subject"] != null) {
                         Map<String, dynamic> finalMap = {
                           ...formKey.currentState!.instantValue,
                           "email": (personalState is PersonalInformationLoaded)
@@ -174,9 +175,6 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                                   ? personalState.getNameEntity.lastName
                                   : "",
                         };
-
-                        print(finalMap);
-
                         context
                             .read<GeneralInquiryCubit>()
                             .postScheduleCall(map: finalMap);
@@ -234,24 +232,32 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                                                                     formState),
                                                             ElevatedButton(
                                                                 onPressed: () {
-                                                                  Map<String,
-                                                                          dynamic>
-                                                                      finalMap =
-                                                                      {
-                                                                    ...formKey
-                                                                        .currentState!
-                                                                        .instantValue,
-                                                                  };
+                                                                  formKey
+                                                                      .currentState
+                                                                      ?.validate();
+                                                                  if (formKey
+                                                                      .currentState!
+                                                                      .isValid) {
+                                                                    Map<String,
+                                                                            dynamic>
+                                                                        finalMap =
+                                                                        {
+                                                                      ...formKey
+                                                                          .currentState!
+                                                                          .instantValue,
+                                                                    };
 
-                                                                  print(
-                                                                      finalMap);
+                                                                    debugPrint(
+                                                                        finalMap
+                                                                            .toString());
 
-                                                                  context
-                                                                      .read<
-                                                                          GeneralInquiryCubit>()
-                                                                      .postScheduleCall(
-                                                                          map:
-                                                                              finalMap);
+                                                                    context
+                                                                        .read<
+                                                                            GeneralInquiryCubit>()
+                                                                        .postScheduleCall(
+                                                                            map:
+                                                                                finalMap);
+                                                                  }
                                                                 },
                                                                 child: Text(
                                                                     appLocalizations
@@ -284,16 +290,22 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
 
   Widget renderForm(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    final initialTimeZone = TimeZones.getTimezoneByDevice(appLocalizations);
+    if (initialTimeZone != null) {
+      hasTimeLineSelected = true;
+      // await Future.delayed(const Duration(milliseconds: 200));
+      checkFinalValid(initialTimeZone);
+    }
     final responsiveHelper = ResponsiveHelper(context: context);
     return Builder(builder: (context) {
       final PersonalInformationState personalState =
           context.watch<PersonalInformationCubit>().state;
-
+      // log('Mert log: ${DateTime.now().timeZoneName} and ${DateTime.now().timeZoneOffset}');
       return Column(children: [
         FormBuilder(
           key: formKey,
           initialValue: {
-            "type": "Virtual Meeting",
+            "type": MeetingType.meetingTypeList.first.name,
             "email": (personalState is PersonalInformationLoaded)
                 ? personalState.getNameEntity.email
                 : ""
@@ -312,15 +324,16 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
               ),
               EachTextField(
                 hasInfo: false,
-                showRequired: true,
                 title: appLocalizations.scheduleMeeting_timeZone_label,
                 child: FormBuilderSearchableDropdown<TimeZones>(
                   name: "timeZone",
-                  hint: "Select",
+                  hint: "",
                   prefixIcon: const Icon(
                     Icons.search,
                   ),
-                  items: TimeZones.timezonesList,
+                  initialValue: initialTimeZone,
+                  items: TimeZones.getTimeZones(appLocalizations),
+                  // initialValue: ,
                   onChanged: (val) async {
                     // setState(() {
                     //   bottomFormKey =
@@ -356,9 +369,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
               ),
               EachTextField(
                 hasInfo: false,
-                showRequired: true,
-                title:
-                    appLocalizations.scheduleMeeting_availableTimeSlots_label,
+                title: appLocalizations.scheduleMeeting_availableDate_label,
                 child: FormBuilderDateTimePicker(
                   onChanged: (selectedDate) {
                     checkFinalValid(selectedDate);
@@ -384,7 +395,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                   name: "date",
                   decoration: InputDecoration(
                       suffixIcon: Icon(
-                        Icons.calendar_today_outlined,
+                        Icons.calendar_month,
                         color: Theme.of(context).primaryColor,
                       ),
                       hintText: appLocalizations
@@ -394,11 +405,12 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
               if (availableDateValue != null)
                 EachTextField(
                     hasInfo: false,
-                    showRequired: true,
-                    title: appLocalizations.scheduleMeeting_availableDate_label,
-                    child: const TimeslotsSelector<String>(
+                    title: appLocalizations
+                        .scheduleMeeting_availableTimeSlots_label,
+                    child: TimeslotsSelector<String>(
                       name: "time",
-                      // onChanged: (val) => checkFinalValid(val),
+                      isToday: availableDateValue?.isToday(),
+                      onChanged: (val) => checkFinalValid(val),
                     )),
               EachTextField(
                 hasInfo: false,
@@ -409,9 +421,10 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                     checkFinalValid(val);
                   },
                   fontSize: 13.5,
-                  name: "type",
                   enabled: false,
-                  hint: "Select",
+                  name: "type",
+                  hint: "",
+                  initial: MeetingType.meetingTypeList.first.value,
                   items: MeetingType.meetingTypeList
                       .map((e) => DropdownMenuItem(
                             value: e.value,
@@ -422,7 +435,6 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
               ),
               EachTextField(
                 hasInfo: false,
-                showRequired: true,
                 title: appLocalizations.auth_forgot_input_email_label,
                 child: TextField(
                   enabled: false,
@@ -442,22 +454,36 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
               ),
               EachTextField(
                 hasInfo: false,
-                showRequired: true,
                 title: appLocalizations.scheduleMeeting_callReason_label,
-                child: FormBuilderSearchableDropdown<CallReason>(
+                child: AppTextFields.simpleTextField(
+                  errorMsg: appLocalizations.common_errors_required,
+                  title: "subject",
                   name: "subject",
-                  hint: "Select",
-                  showSearchBox: false,
+                  minLines: 1,
                   onChanged: checkFinalValid,
-                  items: CallReason.callReasonList(context),
-                  itemAsString: (CallReason val) => val.name,
-                  itemBuilder: (context, currency, _) {
-                    return Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Text(currency.name),
-                    );
-                  },
+                  extraValidators: [
+                    (val) {
+                      return (val != null && val.length > 100)
+                          ? "Inquiry cannot be more than 100 characters"
+                          : null;
+                    }
+                  ],
+                  hint: '',
                 ),
+                // child: FormBuilderSearchableDropdown<CallReason>(
+                //   name: "subject",
+                //   hint: "",
+                //   showSearchBox: false,
+                //   onChanged: checkFinalValid,
+                //   items: CallReason.callReasonList(context),
+                //   itemAsString: (CallReason val) => val.name,
+                //   itemBuilder: (context, currency, _) {
+                //     return Padding(
+                //       padding: const EdgeInsets.all(12.0),
+                //       child: Text(currency.name),
+                //     );
+                //   },
+                // ),
               ),
               EachTextField(
                 hasInfo: false,

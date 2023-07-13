@@ -30,11 +30,28 @@ abstract class BaseState extends Equatable
         BankListState,
         ChartsState,
         ValuationState,
+        AssetValuationState,
         VerifyPhoneState,
         ProfileResetPasswordState,
         AssetSeeMoreState,
         CurrencyChartState,
         AssetsGeographyChartState,
+        ForceUpdateState,
+        BlurredPrivacyState,
+        PerformanceTableState,
+        TwoFactorState,
+        GlossaryState,
+        EditAssetBaseState,
+        TfoLoginState,
+        SafeDeviceState,
+        ClientIndexState,
+        LinkedAccountsState,
+        PreferenceState,
+        LiablilityOverviewState,
+        PortfolioTabState,
+        MandateStatusState,
+        PamLoginState,
+        ManualBankListState,
         PerformanceChartState {}
 
 class BaseInitialState extends BaseState {
@@ -54,7 +71,7 @@ class SuccessState extends BaseState {
 class LoadingState extends BaseState {
   final String message;
 
-  LoadingState({this.message = "loading..."});
+  LoadingState({this.message = ""});
 
   @override
   List<Object?> get props => [message];

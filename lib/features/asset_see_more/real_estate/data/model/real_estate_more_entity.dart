@@ -1,8 +1,6 @@
-// To parse this JSON data, do
-//
-//     final realEstateMoreEntity = realEstateMoreEntityFromJson(jsonString);
-
-import 'dart:convert';
+import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/features/add_assets/core/data/models/country.dart';
+import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 import 'package:wmd/features/asset_see_more/core/data/models/get_asset_see_more_response.dart';
 
 class RealEstateMoreEntity extends GetSeeMoreResponse {
@@ -14,8 +12,8 @@ class RealEstateMoreEntity extends GetSeeMoreResponse {
     required this.acquisitionCostPerUnit,
     required this.acquisitionDate,
     required this.ownershipPercentage,
-    required this.marketValue,
-    required this.valuationDate,
+    this.marketValue,
+    this.valuationDate,
     required this.id,
     required this.type,
     required this.isActive,
@@ -30,14 +28,14 @@ class RealEstateMoreEntity extends GetSeeMoreResponse {
   });
 
   final String name;
-  final int realEstateType;
+  final String realEstateType;
   final String address;
   final double noOfUnits;
   final double acquisitionCostPerUnit;
   final DateTime acquisitionDate;
   final double ownershipPercentage;
-  final double marketValue;
-  final DateTime valuationDate;
+  final double? marketValue;
+  final DateTime? valuationDate;
   final String id;
   final double type;
   final bool isActive;
@@ -54,15 +52,17 @@ class RealEstateMoreEntity extends GetSeeMoreResponse {
       RealEstateMoreEntity(
         name: json["name"],
         realEstateType: json["realEstateType"],
-        address: json["address"],
+        address: json["address"] ?? "",
         noOfUnits: double.tryParse(json["noOfUnits"].toString()) ?? 0,
         acquisitionCostPerUnit:
             double.tryParse(json["acquisitionCostPerUnit"].toString()) ?? 0,
         acquisitionDate: DateTime.parse(json["acquisitionDate"]),
         ownershipPercentage:
             double.tryParse(json["ownershipPercentage"].toString()) ?? 0,
-        marketValue: double.tryParse(json["marketValue"].toString()) ?? 0,
-        valuationDate: DateTime.parse(json["valuationDate"]),
+        marketValue: json["marketValue"] == null ? null : (double.tryParse(json["marketValue"].toString()) ?? 0),
+        valuationDate: json["valuationDate"] != null
+            ? DateTime.parse(json["valuationDate"])
+            : null,
         id: json["id"],
         type: double.tryParse(json["type"].toString()) ?? 0,
         isActive: json["isActive"],
@@ -87,7 +87,7 @@ class RealEstateMoreEntity extends GetSeeMoreResponse {
         "acquisitionDate": acquisitionDate.toIso8601String(),
         "ownershipPercentage": ownershipPercentage,
         "marketValue": marketValue,
-        "valuationDate": valuationDate.toIso8601String(),
+        "valuationDate": valuationDate?.toIso8601String(),
         "id": id,
         "type": type,
         "isActive": isActive,
@@ -99,5 +99,30 @@ class RealEstateMoreEntity extends GetSeeMoreResponse {
         "yearToDate": yearToDate,
         "inceptionToDate": inceptionToDate,
         "asOfDate": asOfDate.toIso8601String(),
+      };
+
+  Map<String, dynamic> toFormJson() => {
+        "name": name,
+        "realEstateType": realEstateType,
+        "address": address,
+        "noOfUnits": noOfUnits.toStringAsFixed(0),
+        "acquisitionCostPerUnit": acquisitionCostPerUnit.convertMoney(),
+        "acquisitionDate": acquisitionDate,
+        "ownershipPercentage": ownershipPercentage.toStringAsFixedZero(0),
+        "marketValue": marketValue == null
+            ? null
+            : ((marketValue! * 100) / ownershipPercentage).convertMoney(),
+        "valuationDate": valuationDate,
+        "id": id,
+        "type": type,
+        "isActive": isActive,
+        "country": Country.getCountryFromString(country),
+        "region": region,
+        "currencyCode": Currency.getCurrencyFromString(currencyCode),
+        "portfolioContribution": portfolioContribution,
+        "holdings": holdings,
+        "yearToDate": yearToDate,
+        "inceptionToDate": inceptionToDate,
+        "asOfDate": asOfDate,
       };
 }

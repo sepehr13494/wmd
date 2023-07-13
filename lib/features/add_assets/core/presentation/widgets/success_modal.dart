@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'dart:math';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +8,7 @@ import 'package:wmd/core/presentation/widgets/modal_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/util/constants.dart';
 
 class SuccessModalWidget extends ModalWidget {
   final String startingBalance,
@@ -41,14 +42,18 @@ class SuccessModalWidget extends ModalWidget {
     final appLocalizations = AppLocalizations.of(context);
 
     return SizedBox(
-      width: double.infinity,
+      width: isMobile
+          ? double.infinity
+          : max(MediaQuery.of(context).size.width * 0.8,
+              min(700, MediaQuery.of(context).size.width)),
       height: isMobile
           ? MediaQuery.of(context).size.height * 0.8
-          : MediaQuery.of(context).size.height * 0.5,
+          : max(MediaQuery.of(context).size.height * 0.5,
+              min(615, MediaQuery.of(context).size.width)),
       child: Column(
         children: [
           buildModalHeader(context,
-              onClose: () => context.goNamed(AppRoutes.addAssetsView)),
+              onClose: () => context.goNamed(AppRoutes.main)),
           Expanded(
               flex: 2,
               child: Column(
@@ -92,25 +97,35 @@ class SuccessModalWidget extends ModalWidget {
                                   ),
                                   SizedBox(
                                       height: responsiveHelper.defaultSmallGap),
-                                  Text(
-                                    "$currencyCode  \$$startingBalance",
-                                    textAlign: TextAlign.center,
-                                    style: appTextTheme.bodyLarge,
-                                  ),
-                                  SizedBox(
-                                      height: responsiveHelper.defaultSmallGap),
-                                  Text(
-                                    '$currencyRate $currencyCode = 1 USD',
-                                    textAlign: TextAlign.center,
-                                    style: appTextTheme.bodySmall,
-                                  ),
+                                  if (AppConstants.isRelease1)
+                                    Text(
+                                      "USD $startingBalance",
+                                      textAlign: TextAlign.center,
+                                      style: appTextTheme.bodyLarge,
+                                    ),
+                                  if (!AppConstants.isRelease1) ...[
+                                    Text(
+                                      "$currencyCode  \$$startingBalance",
+                                      textAlign: TextAlign.center,
+                                      style: appTextTheme.bodyLarge,
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            responsiveHelper.defaultSmallGap),
+                                    Text(
+                                      '${currencyRate.toInt()} $currencyCode = 1 USD',
+                                      textAlign: TextAlign.center,
+                                      style: appTextTheme.bodySmall,
+                                    ),
+                                  ]
                                 ],
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Net Worth',
+                                    appLocalizations
+                                        .common_formSuccessModal_netWorth,
                                     textAlign: TextAlign.center,
                                     style: appTextTheme.bodyMedium,
                                   ),
@@ -125,16 +140,24 @@ class SuccessModalWidget extends ModalWidget {
                                       height: responsiveHelper.defaultSmallGap),
                                   Row(
                                     children: [
-                                      Icon(
-                                        Icons.arrow_drop_up,
-                                        color: Colors.green[400],
-                                      ),
+                                      if (assetType != "LoanLiability")
+                                        Icon(
+                                          Icons.arrow_drop_up,
+                                          color: Colors.green[400],
+                                        ),
+                                      if (assetType == "LoanLiability")
+                                        Icon(
+                                          Icons.arrow_drop_down,
+                                          color: Colors.red[800],
+                                        ),
                                       Text(
                                         '\$$netWorthChange',
                                         textAlign: TextAlign.center,
                                         style: appTextTheme.bodySmall
                                             ?.merge(TextStyle(
-                                          color: Colors.green[400],
+                                          color: assetType == "LoanLiability"
+                                              ? Colors.red[800]
+                                              : Colors.green[400],
                                         )),
                                       )
                                     ],
@@ -158,7 +181,7 @@ class SuccessModalWidget extends ModalWidget {
                                   "${appLocalizations.common_help_needSupport} ",
                               style: appTextTheme.titleMedium),
                           TextSpan(
-                            text: "Get in touch",
+                            text: appLocalizations.common_help_link_support,
                             style: appTextTheme.titleMedium!
                                 .toLinkStyleSecondary(context),
                             recognizer: TapGestureRecognizer()
@@ -181,6 +204,7 @@ class SuccessModalWidget extends ModalWidget {
   Widget buildActionContainer(BuildContext context) {
     final responsiveHelper = ResponsiveHelper(context: context);
     final isMobile = responsiveHelper.isMobile;
+    final appLocalizations = AppLocalizations.of(context);
 
     return Padding(
         padding:
@@ -214,7 +238,10 @@ class SuccessModalWidget extends ModalWidget {
                   },
                   style: ElevatedButton.styleFrom(
                       minimumSize: const Size(100, 50)),
-                  child: Text(confirmBtn),
+                  child: Text(assetType == "LoanLiability"
+                      ? appLocalizations
+                          .common_formSuccessModal_buttons_viewLiability
+                      : confirmBtn),
                 ))
           ],
         ));

@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/features/help/support/data/models/meeting_type.dart';
 import 'package:wmd/features/help/support/data/models/time_zones.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 
@@ -25,13 +26,13 @@ class CallSummaryWidget extends AppStatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CallSummarySection(
-              title: "Call details",
+              title: appLocalizations.scheduleMeeting_labels_callDetails,
               child: Column(
                 children: [
                   CallSummaryRow(
-                      label: "Time Zone*",
+                      label: appLocalizations.scheduleMeeting_labels_timeZone,
                       value: formState != null
-                          ? TimeZones.timezonesList
+                          ? TimeZones.getTimeZones(appLocalizations)
                               .firstWhere(
                                   (element) =>
                                       element.value ==
@@ -44,7 +45,7 @@ class CallSummaryWidget extends AppStatelessWidget {
                           // formState!.value["timeZoneOffset"].toString()
                           : "null"),
                   CallSummaryRow(
-                    label: "Date*",
+                    label: appLocalizations.scheduleMeeting_labels_date,
                     value: formState != null
                         ? formState!.instantValue["date"] != null
                             ? DateFormat('dd/MM/yyyy')
@@ -53,20 +54,22 @@ class CallSummaryWidget extends AppStatelessWidget {
                         : "null",
                   ),
                   CallSummaryRow(
-                      label: "Time*",
+                      label: appLocalizations.scheduleMeeting_labels_time,
                       value: formState != null
                           ? formState!.instantValue["time"]
                               .toString()
                               .split(" ")[0]
                           : "null"),
                   CallSummaryRow(
-                    label: "Meeting type",
-                    value: formState != null
-                        ? formState!.instantValue["type"]
-                        : "Virtual Meeting",
+                    label: appLocalizations.scheduleMeeting_labels_meetingType,
+                    value: appLocalizations
+                        .scheduleMeeting_meetingType_options_virtualMeeting,
+                    // value: formState != null
+                    //     ? formState!.instantValue["type"]
+                    //     : "Virtual Meeting",
                   ),
                   CallSummaryRow(
-                    label: "Email*",
+                    label: appLocalizations.scheduleMeeting_labels_email,
                     value: (personalState is PersonalInformationLoaded)
                         ? personalState.getNameEntity.email
                         : "null",
@@ -77,14 +80,15 @@ class CallSummaryWidget extends AppStatelessWidget {
             height: 20,
           ),
           CallSummarySection(
-            title: "Call specification",
+            title: appLocalizations.scheduleMeeting_labels_callSpecifications,
             child: CallSummaryRow(
-              label: "Reason",
+              label: appLocalizations.scheduleMeeting_labels_reason,
               value: formState != null
                   ? formState!.value["subject"] != null
-                      ? formState!.value["subject"]?.name ?? "Not specified"
-                      : "Not specified"
-                  : "Not specified",
+                      ? formState!.value["subject"] ??
+                          appLocalizations.scheduleMeeting_text_notSpecified
+                      : appLocalizations.scheduleMeeting_text_notSpecified
+                  : appLocalizations.scheduleMeeting_text_notSpecified,
             ),
           ),
           const SizedBox(
@@ -164,7 +168,8 @@ class CallSummaryRow extends AppStatelessWidget {
                 style: textTheme.titleSmall,
                 textAlign: TextAlign.end,
               ),
-            if (value == "null") const Text("Missing"),
+            if (value == "null")
+              Text(appLocalizations.scheduleMeeting_text_missing),
           ],
         ),
         const SizedBox(

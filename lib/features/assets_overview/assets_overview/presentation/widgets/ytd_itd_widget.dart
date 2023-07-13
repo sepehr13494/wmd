@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/core/extentions/round_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/info_icon.dart';
@@ -21,20 +25,30 @@ class YtdItdWidget extends AppStatelessWidget {
       this.showToolTip = true})
       : super(key: key);
 
+  fixZero(String val) {
+    if (double.parse(val) == 0) {
+      return '0';
+    } else {
+      return val;
+    }
+  }
+
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
+    final ytdFixed = ytd.toStringAsFixedZero(1);
+    final itdFixed = itd.toStringAsFixedZero(1);
     List items = [
       [
         AppLocalizations.of(context).assets_label_ytd,
-        ytd,
-        "${ytd.toStringAsFixed(1)}%",
+        double.parse(ytdFixed),
+        "${fixZero(ytdFixed)}%",
         appLocalizations.assets_tooltips_ytd
         // "Year-to-date:the period from the first of\nthe calendar year to date of the\ncommunication."
       ],
       [
         AppLocalizations.of(context).assets_label_itd,
-        itd,
-        "${itd.toStringAsFixed(1)}%",
+        double.parse(itdFixed),
+        "${fixZero(itdFixed)}%",
         appLocalizations.assets_tooltips_itd
         // "Incenption-to-date:the period from the\nestablishment of the portfolio/investment to\nthe date of the communication."
       ],
@@ -43,6 +57,7 @@ class YtdItdWidget extends AppStatelessWidget {
       items = items.reversed.toList();
     }
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: List.generate(2, (index) {
         final item = items[index];
         return ExpandedIf(
@@ -55,6 +70,7 @@ class YtdItdWidget extends AppStatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           item[0],
@@ -63,6 +79,7 @@ class YtdItdWidget extends AppStatelessWidget {
                         const SizedBox(width: 4),
                         if (showToolTip)
                           Tooltip(
+                            showDuration: const Duration(seconds: 5),
                             triggerMode: TooltipTriggerMode.tap,
                             textAlign: TextAlign.center,
                             message: item[3],
@@ -70,7 +87,20 @@ class YtdItdWidget extends AppStatelessWidget {
                           ),
                       ],
                     ),
-                    ChangeWidget(number: item[1], text: item[2],tooltipMessage: (item[1] >= 99900 || item[1] <= -100) ? "" : null),
+                    Container(
+                      constraints: const BoxConstraints(maxWidth: 100),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.center,
+                        child: ChangeWidget(
+                            number: item[1],
+                            text: item[2],
+                            tooltipMessage:
+                                (item[1] >= 99900 || item[1] <= -100)
+                                    ? ""
+                                    : null),
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -80,5 +110,4 @@ class YtdItdWidget extends AppStatelessWidget {
       }),
     );
   }
-
 }

@@ -1,7 +1,11 @@
+import 'dart:developer';
+
+import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:dartz/dartz.dart';
+import 'package:wmd/features/profile/verify_phone/domain/entities/otp_sent_entity.dart';
 
 import '../models/post_verify_phone_params.dart';
 
@@ -22,6 +26,8 @@ class VerifyPhoneRepositoryImpl implements VerifyPhoneRepository {
       final result = await remoteDataSource.postVerifyPhone(params);
       return const Right(AppSuccess(message: "successfully done"));
     } on ServerException catch (error) {
+      log(error.message);
+
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error) {
       return Left(AppFailure.fromAppException(error));
@@ -29,11 +35,38 @@ class VerifyPhoneRepositoryImpl implements VerifyPhoneRepository {
   }
 
   @override
-  Future<Either<Failure, AppSuccess>> postResendVerifyPhone(
+  Future<Either<Failure, AppSuccess>> postMobileVerification(
+      PostVerifyPhoneParams params) async {
+    try {
+      final result = await remoteDataSource.postMobileVerification(params);
+      return const Right(AppSuccess(message: "successfully done"));
+    } on ServerException catch (error) {
+      log(error.message);
+
+      return Left(ServerFailure.fromServerException(error));
+    } on AppException catch (error) {
+      return Left(AppFailure.fromAppException(error));
+    }
+  }
+
+  @override
+  Future<Either<Failure, OtpSentEntity>> postResendVerifyPhone(
       PostResendVerifyPhoneParams params) async {
     try {
       final result = await remoteDataSource.postResendVerifyPhone(params);
-      return const Right(AppSuccess(message: "successfully done"));
+      return Right(result);
+    } on ServerException catch (error) {
+      return Left(ServerFailure.fromServerException(error));
+    } on AppException catch (error) {
+      return Left(AppFailure.fromAppException(error));
+    }
+  }
+
+  @override
+  Future<Either<Failure, OtpSentEntity>> getSendOtp(NoParams params) async {
+    try {
+      final result = await remoteDataSource.getSendOtp(params);
+      return Right(result);
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error) {

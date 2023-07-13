@@ -1,7 +1,7 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'server_request_manager.dart';
 import 'urls.dart';
 import '../../error_and_success/exeptions.dart';
@@ -23,7 +23,7 @@ class ErrorHandlerMiddleware {
             type: ExceptionType.auth,
             data: response.data);
       } else {
-        if (appRequestOptions.showLog) {
+        if (appRequestOptions.showLog && AppConstants.developMode) {
           if (response.requestOptions.data is FormData) {
             debugPrint(
                 (response.requestOptions.data as FormData).fields.toString());
@@ -31,7 +31,7 @@ class ErrorHandlerMiddleware {
             debugPrint(response.requestOptions.data.toString());
           }
           debugPrint(appRequestOptions.type.toString());
-          log("response : $response");
+          log("response for ${appRequestOptions.url} : $response");
         }
         if (appRequestOptions.checkResponse) {
           if ((response.statusCode ?? 600) < 300) {
@@ -53,6 +53,11 @@ class ErrorHandlerMiddleware {
     } on ServerException catch (e) {
       debugPrint(e.toString());
       rethrow;
+    } on DioError catch (e) {
+      debugPrint(e.toString());
+      if (e.message.contains('CERTIFICATE_VERIFY_FAILED')) {
+        throw ServerException(message: e.message, type: ExceptionType.ssl);
+      }
     } catch (e) {
       debugPrint(e.toString());
       throw ServerException(

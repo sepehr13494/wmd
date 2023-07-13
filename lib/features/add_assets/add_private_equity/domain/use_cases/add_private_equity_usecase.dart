@@ -18,23 +18,26 @@ class AddPrivateEquityUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
   @override
   Future<Either<Failure, AddAsset>> call(Map<String, dynamic> params) async {
     try {
-      final ownerId = localStorage.getOwnerId();
-      final investmentAmount =
-          params['investmentAmount'].toString().replaceAll(',', '');
-      final marketValue = params['marketValue'].toString().replaceAll(',', '');
-      final newMap = {
-        ...params,
-        "owner": ownerId,
-        "investmentAmount": investmentAmount,
-        "marketValue": marketValue
-      };
-      final privateEquityParams = AddPrivateEquityParams.fromJson(newMap);
       return await privateEquityRepository
-          .postPrivateEquity(privateEquityParams);
+          .postPrivateEquity(getAddPrivateEquityObj(params,localStorage));
     } catch (e) {
       debugPrint("AddPrivateEquityUseCase catch : ${e.toString()}");
       return const Left(AppFailure(message: "Something went wrong!"));
     }
+  }
+
+  static getAddPrivateEquityObj(Map<String, dynamic> params,LocalStorage localStorage){
+    final ownerId = localStorage.getOwnerId();
+    final investmentAmount =
+    params['investmentAmount'].toString().replaceAll(',', '');
+    final marketValue = params['marketValue'].toString().replaceAll(',', '');
+    final Map<String,dynamic> newMap = {
+      ...params,
+      "owner": ownerId,
+      "investmentAmount": investmentAmount,
+      "marketValue": marketValue
+    };
+    return AddPrivateEquityParams.fromJson(newMap);
   }
 }
 

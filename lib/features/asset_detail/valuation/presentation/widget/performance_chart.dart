@@ -233,7 +233,7 @@ class PerformanceLineChart extends AppStatelessWidget {
             ];
           },
           maxContentWidth: 200,
-          tooltipBgColor: const Color.fromARGB(255, 38, 49, 52),
+          tooltipBgColor: AppColors.blueCardColor,
         ),
       ),
       lineBarsData: [

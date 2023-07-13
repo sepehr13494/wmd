@@ -1,11 +1,19 @@
-class Country {
+import 'package:country_picker/country_picker.dart';
+import 'package:equatable/equatable.dart';
+
+class Country extends Equatable{
   final String name;
   final String countryName;
 
-  Country({
+  const Country({
     required this.name,
     required this.countryName,
   });
+
+  static Country getCountryFromString(String country) {
+    return getCountryList()
+        .firstWhere((element) => element.name == country,orElse: () => const Country(name: "not fount",countryName: "not fount"),);
+  }
 
   factory Country.fromJson(Map<String, dynamic> json) => Country(
         name: json["name"],
@@ -22,15 +30,31 @@ class Country {
     return toJson().toString();
   }
 
-  static final List<Country> countriesList = List.from(
-      json.entries.map((e) => Country(name: e.key, countryName: e.value)));
+  @override
+  List<Object?> get props => [
+    name,
+    countryName,
+  ];
+
+  static List<Country> getCountryList() {
+    List<Country> important = [
+      Country(name: "BH", countryName: "Bahrain"),
+      Country(name: "KW", countryName: "Kuwait"),
+      Country(name: "OM", countryName: "Oman"),
+      Country(name: "SA", countryName: "Saudi Arabia"),
+      Country(name: "AE", countryName: "United Arab Emirates"),
+    ];
+    final List<Country> others = List.from(
+      json.entries.map(
+            (e) => Country(name: e.key, countryName: e.value),
+      ),
+    );
+    others.sort((a, b) => a.countryName.compareTo(b.countryName));
+    important.addAll(others);
+    return important;
+  }
 
   static const json = {
-    "BH": "Bahrain",
-    "KW": "Kuwait",
-    "OM": "Oman",
-    "SA": "Saudi Arabia",
-    "AE": "United Arab Emirates",
     "BD": "Bangladesh",
     "BE": "Belgium",
     "BF": "Burkina Faso",
@@ -277,4 +301,6 @@ class Country {
     "QA": "Qatar",
     "MZ": "Mozambique"
   };
+
+
 }

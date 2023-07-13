@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:chewie/chewie.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:linkedin_login/linkedin_login.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:twitter_login/twitter_login.dart';
+import 'package:video_player/video_player.dart';
+import 'package:visibility_detector/visibility_detector.dart';
+import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
@@ -18,9 +22,31 @@ import 'package:go_router/go_router.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/util/app_localization.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/custom_app_bar.dart';
+import 'package:wmd/features/authentication/login_signup/presentation/widgets/video_player_widget/video_player_widget.dart';
+import 'package:wmd/features/authentication/login_signup/presentation/widgets/video_player_widget/bloc/video_controller_cubit.dart';
 
-class WelcomePage extends AppStatelessWidget {
+class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
+
+  @override
+  AppState<WelcomePage> createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends AppState<WelcomePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   String getBackgroundImage(BuildContext context, isMobile) {
     String targetImage = "";
@@ -80,7 +106,7 @@ class WelcomePage extends AppStatelessWidget {
                       const Expanded(
                         flex: 6,
                         /*child: WelcomeVideoPlayerWidget(),*/
-                        child: SizedBox(),
+                        child: WelcomeVideoPlayerWidget(),
                       ),
                       Container(
                         color: Theme.of(context)
@@ -112,7 +138,8 @@ class WelcomePage extends AppStatelessWidget {
                                         children: [
                                           TextSpan(
                                               text: i,
-                                              style: textTheme.headlineSmall),
+                                              style: textTheme.headlineSmall
+                                                  ?.apply(fontSizeDelta: 0.91)),
                                         ],
                                       ),
                                     ));
@@ -128,13 +155,13 @@ class WelcomePage extends AppStatelessWidget {
                           },
                           child:
                               Text(appLocalizations.auth_signup_button_join)),
-                      if (kIsWeb) const SizedBox(),
+                      // if (!responsiveHelper.isMobile) const SizedBox(),
                       // else if (Platform.isIOS)
                       //   const ContinueAppleButton(),
                       SizedBox(
                         height: responsiveHelper.isMobile
                             ? 80
-                            : responsiveHelper.optimalDeviceWidth * 0.5,
+                            : responsiveHelper.bigger24Gap * 4,
                       ),
                       // Stack(
                       //   alignment: Alignment.center,
@@ -242,15 +269,15 @@ class WelcomePage extends AppStatelessWidget {
                       clientId: "clientId",
                       clientSecret: "clientSecret",
                       onGetUserProfile: (UserSucceededAction linkedInUser) {
-                        print(
+                        debugPrint(
                             'Access token ${linkedInUser.user.token.accessToken}');
-                        print(
+                        debugPrint(
                             'First name: ${linkedInUser.user.firstName?.localized?.label}');
-                        print(
+                        debugPrint(
                             'Last name: ${linkedInUser.user.lastName?.localized?.label}');
                       },
                       onError: (UserFailedAction e) {
-                        print('Error: ${e.toString()}');
+                        debugPrint('Error: ${e.toString()}');
                       },
                     ),
                   ),
@@ -266,7 +293,7 @@ class WelcomePage extends AppStatelessWidget {
         ],
       );
       final result = await googleSignIn.signIn();
-      print(result.toString());
+      debugPrint(result.toString());
     } catch (error) {
       debugPrint(error.toString());
     }
@@ -325,6 +352,6 @@ class ContinueAppleButton extends StatelessWidget {
       ],
     );
 
-    print(credential);
+    debugPrint(credential.toString());
   }
 }

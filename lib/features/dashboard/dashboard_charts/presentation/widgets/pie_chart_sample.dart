@@ -6,15 +6,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
-import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_manager.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_pie_entity.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/base_asset_view.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/shimmer/pie_chart_shimmer.dart';
 
 import '../manager/dashboard_pie_cubit.dart';
 import '../models/each_asset_model.dart';
+import 'inside_pie_chart.dart';
 
 class PieChartSample2 extends StatefulWidget {
   const PieChartSample2({super.key});
@@ -26,7 +29,15 @@ class PieChartSample2 extends StatefulWidget {
 class PieChart2State extends AppState {
   int touchedIndex = -1;
 
-  late Timer timer;
+  Timer? timer;
+
+  @override
+  void dispose() {
+    if (timer != null) {
+      timer!.cancel();
+    }
+    super.dispose();
+  }
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -62,128 +73,16 @@ class PieChart2State extends AppState {
                         );
                       },
                     ),
-              onMoreTap: () {},
+              onMoreTap: () {
+                context.read<TabManager>().changeTab(0);
+              },
               emptyChild: _buildEmptyChart(appLocalizations, textTheme),
-              child: LayoutBuilder(builder: (context, snap) {
-                final double height = snap.maxWidth * 0.65;
-                final inside = height / 5;
-                return SizedBox(
-                  height: height,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      if (isEmpty)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: PieChart(PieChartData(sections: [
-                            PieChartSectionData(
-                              color: Colors.white12,
-                              value: 100,
-                              title: '',
-                              radius: (height - inside) / 4,
-                            )
-                          ])),
-                        ),
-                      PieChart(
-                        PieChartData(
-                          pieTouchData: PieTouchData(
-                            touchCallback:
-                                (FlTouchEvent event, pieTouchResponse) {
-                              setState(() {
-                                if (!event.isInterestedForInteractions ||
-                                    pieTouchResponse == null ||
-                                    pieTouchResponse.touchedSection == null) {
-                                  touchedIndex = -1;
-                                  return;
-                                }
-                                touchedIndex = pieTouchResponse
-                                    .touchedSection!.touchedSectionIndex;
-                              });
-                            },
-                          ),
-                          borderData: FlBorderData(
-                            show: false,
-                          ),
-                          sectionsSpace: 0,
-                          centerSpaceRadius: inside,
-                          sections: showingSections(
-                              (height - inside) / 4, state.getPieEntity),
-                        ),
-                      ),
-                      touchedIndex != -1
-                          ? Builder(builder: (context) {
-                              GetPieEntity pieEntity =
-                                  state.getPieEntity[touchedIndex];
-                              return Container(
-                                margin: const EdgeInsets.only(bottom: 12),
-                                padding: const EdgeInsets.all(12),
-                                decoration: BoxDecoration(
-                                  color: AppColors.anotherCardColorForDarkTheme,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                        AssetsOverviewChartsColors.getAssetType(
-                                            appLocalizations, pieEntity.name),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium),
-                                    const SizedBox(height: 8),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          pieEntity.value
-                                              .convertMoney(addDollar: true),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium!,
-                                        ),
-                                        const SizedBox(width: 24),
-                                        Text(
-                                          "${pieEntity.percentage.toStringAsFixed(1)} %",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall!
-                                              .apply(
-                                                  color: AppColors.chartColor),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              );
-                            })
-                          : const SizedBox()
-                    ],
-                  ),
-                );
-              }),
+              child: InsidePieChart(eachAssetViewModels: state.getPieEntity.map((e) => EachAssetViewModel.fromPieEntity(e,appLocalizations)).toList()),
             );
           } else {
-            return const LoadingWidget();
+            return const PieChartShimmer();
           }
         },
-      );
-    });
-  }
-
-  List<PieChartSectionData> showingSections(
-      double outside, List<GetPieEntity> getPieEntity) {
-    return List.generate(getPieEntity.length, (index) {
-      final pieStrokeWidth = outside;
-      final isTouched = index == touchedIndex;
-      final radius = isTouched ? pieStrokeWidth + 10 : pieStrokeWidth;
-      GetPieEntity pieEntity = getPieEntity[index];
-      return PieChartSectionData(
-        color: AssetsOverviewChartsColors.colorsMapPie[pieEntity.name] ??
-            Colors.brown,
-        value: pieEntity.percentage,
-        title: '',
-        radius: radius,
       );
     });
   }

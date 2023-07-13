@@ -8,6 +8,7 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/util/check_is_new_user.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
@@ -15,16 +16,16 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/page/cu
 import 'package:wmd/features/add_assets/view_assets_list/presentation/manager/asset_view_cubit.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/each_asset_widget.dart';
-import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/support_widget.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
-import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/dashboard_app_bar.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/add_asset_onboarding_view.dart';
-import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
+const double _padding = 16;
+
 class AssetsListViewPage extends AppStatelessWidget {
-  const AssetsListViewPage({Key? key}) : super(key: key);
+  final int initial;
+  const AssetsListViewPage({this.initial = 0, Key? key}) : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -32,31 +33,37 @@ class AssetsListViewPage extends AppStatelessWidget {
     return BlocProvider(
       create: (context) => sl<AssetViewCubit>(),
       child: Scaffold(
-        appBar: const BaseAppBar(),
+        appBar: const BaseAppBar(enableActions: false),
         bottomSheet: Builder(builder: (context) {
           final state = context.watch<AssetViewCubit>().state;
           if (state is CustodianPage) {
             return const SizedBox.shrink();
           }
           return AddAssetFooter(
-              buttonText: appLocalizations.common_button_addAsset,
-              onTap: state == null
-                  ? null
-                  : () {
-                      context.pushNamed((state as EachAssetModel).pageRoute);
-                    });
+              buttonText: state == null
+                  ? appLocalizations.common_button_addAsset
+                  : (state is AddTabIndex && state.tabIndex == 1) ||
+                          (state as EachAssetModel).pageRoute ==
+                              AppRoutes.addLiability
+                      ? appLocalizations.common_button_addLiability
+                      : appLocalizations.common_button_addAsset,
+              onTap: state is EachAssetModel
+                  ? () {
+                      context.pushNamed(state.pageRoute);
+                    }
+                  : null);
         }),
         body: Stack(
-          children: const [
-            LeafBackground(
+          children: [
+            const LeafBackground(
               opacity: 0.5,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: _padding),
               child: ResponsiveWidget(
-                mobile: AssetTabWrapper(),
-                desktop: AddAssetTabletView(),
-                tablet: AddAssetTabletView(),
+                mobile: AssetTabWrapper(initial: initial),
+                desktop: AddAssetTabletView(initial: initial),
+                tablet: AddAssetTabletView(initial: initial),
               ),
             ),
           ],
@@ -67,7 +74,8 @@ class AssetsListViewPage extends AppStatelessWidget {
 }
 
 class AddAssetTabletView extends StatelessWidget {
-  const AddAssetTabletView({Key? key}) : super(key: key);
+  final int initial;
+  const AddAssetTabletView({Key? key, required this.initial}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -85,14 +93,15 @@ class AddAssetTabletView extends StatelessWidget {
         const SizedBox(width: 16),
         Expanded(
             flex: ResponsiveHelper(context: context).isDesktop ? 6 : 4,
-            child: const AssetTabWrapper())
+            child: AssetTabWrapper(initial: initial))
       ],
     );
   }
 }
 
 class AssetTabWrapper extends StatefulWidget {
-  const AssetTabWrapper({Key? key}) : super(key: key);
+  final int initial;
+  const AssetTabWrapper({Key? key, required this.initial}) : super(key: key);
 
   @override
   AppState<AssetTabWrapper> createState() => _AssetTabWrapperState();
@@ -101,37 +110,50 @@ class AssetTabWrapper extends StatefulWidget {
 class _AssetTabWrapperState extends AppState<AssetTabWrapper>
     with TickerProviderStateMixin {
   late TabController _tabController;
-  bool showMvp2 = AppConstants.publicMvp2Items;
+  bool isReleaseOne = AppConstants.isRelease1;
 
   @override
   void initState() {
     super.initState();
 
-    _tabController = TabController(length: showMvp2 ? 3 : 1, vsync: this);
-    if (showMvp2) {
-      _tabController.addListener(() {
-        if (_tabController.index == 2) {
-          context.read<AssetViewCubit>().selectCustodian();
-        } else {
-          context.read<AssetViewCubit>().empty();
-        }
-      });
-    } else {
+    _tabController = TabController(
+        length: !isReleaseOne ? 3 : 2,
+        vsync: this,
+        initialIndex: isReleaseOne
+            ? (widget.initial == 2)
+                ? 1
+                : 0
+            : widget.initial);
+    if (widget.initial != 0) {
       context.read<AssetViewCubit>().selectCustodian();
     }
+    _tabController.addListener(() {
+      if (_tabController.index == 1 && isReleaseOne) {
+        context.read<AssetViewCubit>().selectCustodian();
+      } else if (_tabController.index == 1 && isReleaseOne) {
+        context.read<AssetViewCubit>().selectCustodian();
+      } else if (_tabController.index == 2 && !isReleaseOne) {
+        context.read<AssetViewCubit>().selectCustodian();
+      } else if (_tabController.index == 1 && !isReleaseOne) {
+        context.read<AssetViewCubit>().selectTab(1);
+      } else if (_tabController.index == 0 && !isReleaseOne) {
+        context.read<AssetViewCubit>().empty();
+      } else {
+        context.read<AssetViewCubit>().empty();
+      }
+    });
   }
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
+    var isMobile = ResponsiveHelper(context: context).isMobile;
     return NestedScrollView(
         headerSliverBuilder: (context, isInnerScroll) {
           return [
             SliverList(
                 delegate: SliverChildListDelegate([
-              ResponsiveHelper(context: context).isMobile
-                  ? const AddAssetTopWidget()
-                  : const SizedBox(),
+              isMobile ? const AddAssetTopWidget() : const SizedBox(),
               const ChooseAssetWidget(),
             ]))
           ];
@@ -141,19 +163,21 @@ class _AssetTabWrapperState extends AppState<AssetTabWrapper>
             Row(
               children: [
                 SizedBox(
-                  width: 300,
+                  width: isMobile
+                      ? MediaQuery.of(context).size.width - (_padding * 2)
+                      : MediaQuery.of(context).size.width / 2,
                   child: TabBar(
                     controller: _tabController,
                     tabs: [
-                      if (showMvp2)
-                        Tab(text: appLocalizations.assets_breadCrumb_assets),
-                      if (showMvp2)
+                      Tab(text: appLocalizations.assets_breadCrumb_assets),
+                      if (!isReleaseOne)
                         Tab(
                             text: appLocalizations
                                 .liabilities_breadCrumb_liabilities),
                       Tab(text: appLocalizations.common_labels_custodianBank),
                     ],
                     isScrollable: true,
+                    // labelStyle: textTheme.bodySmall,
                   ),
                 ),
                 const Spacer(),
@@ -167,8 +191,8 @@ class _AssetTabWrapperState extends AppState<AssetTabWrapper>
                 child: TabBarView(
               controller: _tabController,
               children: [
-                if (showMvp2) const AssetsPart(isLiability: false),
-                if (showMvp2)
+                const AssetsPart(isLiability: false),
+                if (!isReleaseOne)
                   const AssetsPart(
                     isLiability: true,
                   ),
@@ -303,9 +327,9 @@ class AssetsPart extends AppStatelessWidget {
               );
             },
           ),
-          ResponsiveHelper(context: context).isMobile
-              ? const SupportWidget()
-              : const SizedBox(),
+          // !ResponsiveHelper(context: context).isMobile
+          //     ? const SupportWidget()
+          //     : const SizedBox(),
           const SizedBox(height: 84),
         ],
       ),
@@ -316,90 +340,105 @@ class AssetsPart extends AppStatelessWidget {
 class AddAssetTopWidget extends AppStatelessWidget {
   const AddAssetTopWidget({Key? key}) : super(key: key);
 
-  @override
-  Widget buildWidget(BuildContext context, TextTheme textTheme,
+  Widget renderTopWIdget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final primaryColor = Theme.of(context).primaryColor;
 
-    final isAssetsNotEmpty =
-        context.read<MainDashboardCubit>().netWorthObj?.assets.currentValue !=
-            0;
-    final isLiabilityNotEmpty = context
-            .read<MainDashboardCubit>()
-            .netWorthObj
-            ?.liabilities
-            .currentValue !=
-        0;
-
-    final isCustodianNotEmpty =
-        context.read<CustodianStatusListCubit>().statutes.isNotEmpty;
-
-    if (isAssetsNotEmpty || isLiabilityNotEmpty || isCustodianNotEmpty) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 16),
-          BlocBuilder<PersonalInformationCubit, PersonalInformationState>(
-            builder: (context, state) {
-              String name = "";
-              if (state is PersonalInformationLoaded) {
-                name = state.getNameEntity.firstName;
-              }
-              return Text(
-                  appLocalizations.manage_heading.replaceFirst("{{name}}", ""),
-                  style: textTheme.headlineSmall);
-            },
-          ),
-          const SizedBox(height: 8),
-          WidthLimiterWidget(
-            width: 350,
-            child: Text(appLocalizations.manage_subHeading),
-          ),
-          const SizedBox(height: 24),
-          Container(
-            padding: const EdgeInsets.all(16),
-            width: double.maxFinite,
-            decoration: BoxDecoration(
-                border: Border.all(color: primaryColor),
-                borderRadius: BorderRadius.circular(8)),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Image.asset(
-                      "assets/images/add_asset_view.png",
-                      width: 100,
-                      height: 100,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 16),
+        BlocBuilder<PersonalInformationCubit, PersonalInformationState>(
+          builder: (context, state) {
+            String name = "";
+            if (state is PersonalInformationLoaded) {
+              name = state.getNameEntity.firstName;
+            }
+            return Text(
+                appLocalizations.manage_heading.replaceFirst("{{name}}", ""),
+                style: textTheme.headlineSmall);
+          },
+        ),
+        const SizedBox(height: 8),
+        WidthLimiterWidget(
+          width: 350,
+          child: Text(appLocalizations.manage_subHeading),
+        ),
+        const SizedBox(height: 24),
+        Container(
+          padding: const EdgeInsets.all(16),
+          width: double.maxFinite,
+          decoration: BoxDecoration(
+              border: Border.all(color: primaryColor),
+              borderRadius: BorderRadius.circular(8)),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Image.asset(
+                    "assets/images/add_asset_view.png",
+                    width: 100,
+                    height: 100,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      appLocalizations.manage_securityInfoWidget_title,
+                      style: textTheme.titleMedium!.apply(color: primaryColor),
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        appLocalizations.manage_securityInfoWidget_title,
-                        style:
-                            textTheme.titleMedium!.apply(color: primaryColor),
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        appLocalizations.manage_securityInfoWidget_description,
-                        style: textTheme.bodyMedium!
-                            .apply(color: AppColors.dashBoardGreyTextColor),
-                      ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      appLocalizations.manage_securityInfoWidget_description,
+                      style: textTheme.bodyMedium!
+                          .apply(color: AppColors.dashBoardGreyTextColor),
                     ),
-                  ],
-                ),
-              ],
-            ),
-          )
-        ],
-      );
-    } else {
-      return const AddAssetOnBoarding();
-    }
+                  ),
+                ],
+              ),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
+  @override
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
+    return BlocConsumer<MainDashboardCubit, MainDashboardState>(
+        listener: (context, dashboardState) {},
+        builder: (context, dashboardState) {
+          if (dashboardState is MainDashboardNetWorthLoaded) {
+            // final isAssetsNotEmpty = context
+            //         .read<MainDashboardCubit>()
+            //         .netWorthObj
+            //         ?.assets
+            //         .currentValue !=
+            //     0;
+            // final isLiabilityNotEmpty = context
+            //         .read<MainDashboardCubit>()
+            //         .netWorthObj
+            //         ?.liabilities
+            //         .currentValue !=
+            //     0;
+
+            final isCustodianNotEmpty =
+                context.read<CustodianStatusListCubit>().statutes.isNotEmpty;
+
+            if (checkNotNewUser(dashboardState) || isCustodianNotEmpty) {
+              return renderTopWIdget(context, textTheme, appLocalizations);
+            } else {
+              return const AddAssetOnBoarding();
+            }
+          } else {
+            return renderTopWIdget(context, textTheme, appLocalizations);
+          }
+        });
   }
 }

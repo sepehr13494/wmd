@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -89,11 +92,30 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
             GetCustodianBankStatusParams(
                 bankId: widget.bankId, custodianBankStatusId: id));
         // sl<CustodianStatusListCubit>().getCustodianStatusList();
+      } else if (state is ErrorState) {
+        final String error = state.failure.data['title'] ==
+                'There is already a custodian bank status with same bank and account for the user'
+            ? appLocalizations.linkAccount_errors_existingCIF
+            : appLocalizations.common_errors_somethingWentWrong;
+        Flushbar(
+          message: error,
+          duration: const Duration(seconds: 3),
+          margin: const EdgeInsets.all(8),
+          borderRadius: const BorderRadius.only(
+              bottomRight: Radius.circular(8), topRight: Radius.circular(8)),
+          icon: const Icon(
+            Icons.info_outline,
+            size: 14,
+            color: Colors.red,
+          ),
+          leftBarIndicatorColor: Colors.red,
+        ).show(context);
+        context.read<CustodianBankAuthCubit>().getCustodianBankStatus(
+            GetCustodianBankStatusParams(
+                bankId: widget.bankId, custodianBankStatusId: id));
       }
     }, builder: (context, state) {
-      if (state is ErrorState) {
-        return Text(state.failure.message);
-      } else if (state is CustodianBankStateLoaded) {
+      if (state is CustodianBankStateLoaded) {
         final status = state.custodianBankStatusEntity;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,6 +155,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                     params: AnalyticsUtils.linkBankStep2Event(status.bankName));
                 await isDone;
 
+                // ignore: use_build_context_synchronously
                 context.goNamed(AppRoutes.main,
                     queryParams: {'expandCustodian': "true"});
               },
@@ -154,8 +177,10 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
               title: appLocalizations.linkAccount_stepper_stepTwo_title,
               trailing: '2 ${appLocalizations.assets_charts_days}',
               // showInput: true,
-              subtitle:
-                  appLocalizations.linkAccount_stepper_stepTwo_action_active,
+              subtitle: status.accountId != null
+                  ? appLocalizations
+                      .linkAccount_stepper_stepTwo_action_completed
+                  : appLocalizations.linkAccount_stepper_stepTwo_action_active,
               accountId: status.accountId,
               // isDone: status.shareWithBank,
               ready: status.signLetter,
@@ -227,31 +252,35 @@ class ActionContainer extends AppStatelessWidget {
             // mainAxisSize: MainAxisSize.min,
             children: [
               if (status.signLetter)
-                TextButton(
-                    onPressed: () async {
-                      final result = await GlobalFunctions.confirmProcess(
-                          context: context,
-                          title: appLocalizations
-                              .linkAccount_deleteCustodianBankModal_description,
-                          yes: appLocalizations
-                              .linkAccount_deleteCustodianBankModal_yes,
-                          no: appLocalizations
-                              .linkAccount_deleteCustodianBankModal_no,
-                          body: "");
+                Visibility(
+                  visible: false,
+                  child: TextButton(
+                      onPressed: () async {
+                        final result = await GlobalFunctions.confirmProcess(
+                            context: context,
+                            title: appLocalizations
+                                .linkAccount_deleteCustodianBankModal_description,
+                            yes: appLocalizations
+                                .linkAccount_deleteCustodianBankModal_yes,
+                            no: appLocalizations
+                                .linkAccount_deleteCustodianBankModal_no,
+                            body: "");
 
-                      if (result) {
-                        context
-                            .read<CustodianBankAuthCubit>()
-                            .deleteCustodianBankStatus(
-                                DeleteCustodianBankStatusParams(id: status.id));
-                      }
+                        if (result) {
+                          context
+                              .read<CustodianBankAuthCubit>()
+                              .deleteCustodianBankStatus(
+                                  DeleteCustodianBankStatusParams(
+                                      id: status.id));
+                        }
 
-                      // context.pushNamed(AppRoutes.forgetPassword);
-                    },
-                    child: Text(
-                      appLocalizations.common_button_delete,
-                      style: textTheme.bodySmall!.toLinkStyle(context),
-                    )),
+                        // context.pushNamed(AppRoutes.forgetPassword);
+                      },
+                      child: Text(
+                        appLocalizations.common_button_delete,
+                        style: textTheme.bodySmall!.toLinkStyle(context),
+                      )),
+                ),
               const SizedBox(width: 16),
               ElevatedButton(
                 onPressed: () => Navigator.pop(context, true),
@@ -263,22 +292,23 @@ class ActionContainer extends AppStatelessWidget {
           ),
         );
       } else {
-        return Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            // mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(width: 16),
-              ElevatedButton(
-                onPressed: () => Navigator.pop(context, true),
-                style:
-                    ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
-                child: Text(appLocalizations.common_button_ok),
-              ),
-            ],
-          ),
-        );
+        return const SizedBox();
+        // return Padding(
+        //   padding: const EdgeInsets.all(24.0),
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.end,
+        //     // mainAxisSize: MainAxisSize.min,
+        //     children: [
+        //       const SizedBox(width: 16),
+        //       ElevatedButton(
+        //         onPressed: () => Navigator.pop(context, true),
+        //         style:
+        //             ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
+        //         child: Text(appLocalizations.common_button_ok),
+        //       ),
+        //     ],
+        //   ),
+        // );
       }
     });
   }

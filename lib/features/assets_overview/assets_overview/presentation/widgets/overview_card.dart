@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/core/extentions/round_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/presentation/widgets/tooltip_bank_exception.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/as_of_date_widget.dart';
+import 'package:wmd/features/assets_overview/assets_overview/presentation/widgets/shimmers/over_view_card_shimmer.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 
 import 'ytd_itd_widget.dart';
@@ -49,17 +55,20 @@ class OverViewCard extends AppStatelessWidget {
                             children: [
                               Text(
                                 appLocalizations.assets_label_yourHoldings,
-                                style: textTheme.titleSmall,
+                                style: textTheme.titleSmall
+                                    ?.apply(fontSizeDelta: 1.28),
                               ),
                               SizedBox(height: responsiveHelper.bigger16Gap),
                               FittedBox(
                                 fit: BoxFit.scaleDown,
-                                child: Text(
-                                  state.netWorthObj.assets.currentValue
-                                      .convertMoney(addDollar: true),
-                                  style: const TextStyle(
-                                      fontSize: 28,
-                                      fontWeight: FontWeight.w300),
+                                child: PrivacyBlurWidget(
+                                  child: Text(
+                                    state.netWorthObj.assets.currentValue
+                                        .convertMoney(addDollar: true),
+                                    style: const TextStyle(
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.w300),
+                                  ),
                                 ),
                               ),
                             ],
@@ -89,10 +98,25 @@ class OverViewCard extends AppStatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              appLocalizations.assets_label_netChange,
-                              style: textTheme.titleSmall,
-                            ),
+                            BlocBuilder<DashboardPieCubit,
+                                    DashboardChartsState>(
+                                builder: (context, state) {
+                              bool isBankNotEmpty = false;
+                              if (state is GetPieLoaded) {
+                                isBankNotEmpty = state.getPieEntity
+                                    .where(
+                                        (e) => e.name == AssetTypes.bankAccount)
+                                    .isNotEmpty;
+                              }
+                              return BankTooltip(
+                                showTooltip: isBankNotEmpty,
+                                child: Text(
+                                  appLocalizations.assets_label_netChange,
+                                  style: textTheme.titleSmall
+                                      ?.apply(fontSizeDelta: 1.28),
+                                ),
+                              );
+                            }),
                             SizedBox(height: responsiveHelper.bigger16Gap),
                             RowOrColumn(
                               showRow: !isMobile,
@@ -115,17 +139,20 @@ class OverViewCard extends AppStatelessWidget {
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                            state.netWorthObj.assets.change
-                                                .convertMoney(addDollar: true),
-                                            style: textTheme.bodyLarge,
+                                          PrivacyBlurWidget(
+                                            child: Text(
+                                              state.netWorthObj.assets.change
+                                                  .convertMoney(
+                                                      addDollar: true),
+                                              style: textTheme.bodyLarge,
+                                            ),
                                           ),
                                           const SizedBox(width: 4),
                                           ChangeWidget(
                                               number: state.netWorthObj.assets
                                                   .changePercentage,
                                               text:
-                                                  "${state.netWorthObj.assets.changePercentage.toStringAsFixed(1)}%"),
+                                                  "${state.netWorthObj.assets.changePercentage.toStringFixedZeroless()}%"),
                                         ],
                                       ),
                                     ],
@@ -155,7 +182,7 @@ class OverViewCard extends AppStatelessWidget {
             ],
           );
         } else {
-          return const LoadingWidget();
+          return const OverviewCardShimmer();
         }
       },
     );

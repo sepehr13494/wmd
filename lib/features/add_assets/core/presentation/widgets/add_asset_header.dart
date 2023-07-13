@@ -13,10 +13,13 @@ class AddAssetHeader extends StatelessWidget with PreferredSizeWidget {
   final String title;
   final bool considerFirstTime;
   final bool showExitModal;
+  final String? goToRoute;
+
   const AddAssetHeader(
       {Key? key,
       required this.title,
       this.considerFirstTime = true,
+      this.goToRoute,
       this.showExitModal = false})
       : super(key: key);
 
@@ -39,22 +42,31 @@ class AddAssetHeader extends StatelessWidget with PreferredSizeWidget {
                     context.goNamed(AppRoutes.main);
                   }
                 } else {
-                  GlobalFunctions.showExitDialog(
-                      context: context,
-                      onExitClick: () {
-                        if (Navigator.of(context).canPop()) {
-                          Navigator.of(context).maybePop();
-                        } else {
-                          context.goNamed(AppRoutes.main);
-                        }
-                      });
+                  // GlobalFunctions.showExitDialog(
+                  //     context: context,
+                  //     onExitClick: () {
+                  //       if (Navigator.of(context).canPop()) {
+                  //         Navigator.of(context).maybePop();
+                  //       } else {
+                  //         context.goNamed(AppRoutes.main);
+                  //       }
+                  //     });
+                  if (Navigator.of(context).canPop()) {
+                    Navigator.of(context).maybePop();
+                  } else {
+                    context.goNamed(AppRoutes.main);
+                  }
                 }
               } catch (e) {
                 debugPrint("footer error$e");
                 context.goNamed(AppRoutes.main);
               }
             } else {
-              Navigator.of(context).pop();
+              if (goToRoute != null) {
+                context.goNamed(goToRoute ?? "");
+              } else {
+                Navigator.of(context).pop();
+              }
             }
           },
           child: Padding(
