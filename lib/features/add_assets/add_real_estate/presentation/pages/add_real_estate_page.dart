@@ -216,13 +216,17 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                                             return (val !=
                                                                         null &&
                                                                     val.length >
-                                                                        100)
-                                                                ? "Name cannot be more than 100 characters"
+                                                                        50)
+                                                                ? appLocalizations
+                                                                    .common_errors_maxChar
+                                                                    .replaceAll(
+                                                                        "{{maxChar}}",
+                                                                        "50")
                                                                 : null;
                                                           }
                                                         ],
                                                         hint: isMobile
-                                                            ? appLocalizations.assetLiabilityForms_forms_realEstate_inputFields_name_placeholder
+                                                            ? "${appLocalizations.assetLiabilityForms_forms_realEstate_inputFields_name_placeholder.substring(0, 39)}..."
                                                             : appLocalizations
                                                                 .assetLiabilityForms_forms_realEstate_inputFields_name_placeholder),
                                               ),
@@ -249,7 +253,8 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                                   hint: appLocalizations
                                                       .assetLiabilityForms_forms_realEstate_inputFields_typeOfRealEstate_placeholder,
                                                   items: RealEstateType
-                                                      .realEstateList
+                                                          .realEstateList(
+                                                              context)
                                                       .map((e) =>
                                                           DropdownMenuItem(
                                                             value: e.value,

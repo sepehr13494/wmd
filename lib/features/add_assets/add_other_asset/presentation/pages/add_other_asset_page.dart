@@ -283,8 +283,12 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                                             return (val !=
                                                                         null &&
                                                                     val.length >
-                                                                        100)
-                                                                ? "Name cannot be more than 100 characters"
+                                                                        50)
+                                                                ? appLocalizations
+                                                                    .common_errors_maxChar
+                                                                    .replaceAll(
+                                                                        "{{maxChar}}",
+                                                                        "50")
                                                                 : null;
                                                           }
                                                         ],
@@ -332,7 +336,8 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                                   hint: appLocalizations
                                                       .assetLiabilityForms_forms_others_inputFields_assetType_placeholder,
                                                   items: OtherAssetType
-                                                      .otherAssetList
+                                                          .otherAssetList(
+                                                              context)
                                                       .map((e) =>
                                                           DropdownMenuItem(
                                                             value: e.value,
@@ -349,7 +354,10 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                                       .assetLiabilityForms_forms_others_inputFields_valuationDate_label,
                                                   child:
                                                       AppFormBuilderDateTimePicker(
-                                                        enabled: !(edit && starterJson["assetType"] == 'Painting'),
+                                                    enabled: !(edit &&
+                                                        starterJson[
+                                                                "assetType"] ==
+                                                            'Painting'),
                                                     onChanged: (val) {
                                                       setState(() {
                                                         valuationDateValue =

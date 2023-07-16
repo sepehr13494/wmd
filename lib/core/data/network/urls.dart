@@ -29,7 +29,7 @@ class AppUrls {
   static String setNumber = "${userBase}user/phone-number";
   static String faqsContent = "${contentBase}faqs";
   static String postInquiry = "${wealthBase}Inquiry";
-  static String postScheduleCall = "portfolio/meetings/schedule";
+  static String postScheduleCall = "${wealthBase}meeting/schedule/call";
   static String postVerifyPhone = "${userBase}Otp/verify";
   static String postMobileVerification = "${userBase}Otp/phone-number/verify";
   static String postResendVerifyPhone = "${userBase}Otp";
