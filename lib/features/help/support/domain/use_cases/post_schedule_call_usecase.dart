@@ -60,6 +60,8 @@ class ScheduleCallParams extends Equatable {
     required this.timeZone,
     required this.location,
     this.isOnlineMeeting = true,
+    this.firstName,
+    this.lastName,
   });
 
   final String? contactEmail;
@@ -70,6 +72,8 @@ class ScheduleCallParams extends Equatable {
   final String timeZone;
   final String location;
   final bool? isOnlineMeeting;
+  final String? firstName;
+  final String? lastName;
 
   factory ScheduleCallParams.fromJson(Map<String, dynamic> json) =>
       ScheduleCallParams(
@@ -81,6 +85,8 @@ class ScheduleCallParams extends Equatable {
         timeZone: json["timeZone"],
         location: json["location"],
         isOnlineMeeting: json["isOnlineMeeting"] ?? true,
+        firstName: json["firstName"],
+        lastName: json["lastName"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -93,6 +99,8 @@ class ScheduleCallParams extends Equatable {
         "location": location,
         "isOnlineMeeting": isOnlineMeeting,
         "userEmail": location,
+        "firstName": firstName,
+        "lastName": lastName,
       };
 
   static final tScheduleCallMap = {
@@ -103,6 +111,8 @@ class ScheduleCallParams extends Equatable {
     "endTime": DateTime.parse('2022-10-05T21:00:00.000Z'),
     "timeZone": "enquiryText",
     "location": "reason",
+    "firstName": "reason",
+    "lastName": "reason",
     "isOnlineMeeting": true,
   };
 
@@ -114,6 +124,8 @@ class ScheduleCallParams extends Equatable {
     endTime: DateTime.parse('2022-10-05T21:00:00.000Z'),
     timeZone: "timeZone",
     location: "location",
+    firstName: "location",
+    lastName: "location",
     isOnlineMeeting: true,
   );
 
@@ -126,6 +138,8 @@ class ScheduleCallParams extends Equatable {
         endTime,
         timeZone,
         location,
-        isOnlineMeeting
+        isOnlineMeeting,
+        firstName,
+        lastName,
       ];
 }
