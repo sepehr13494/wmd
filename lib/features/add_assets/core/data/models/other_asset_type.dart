@@ -1,18 +1,48 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class OtherAssetType {
   final String name;
   final String value;
 
   OtherAssetType({required this.name, required this.value});
 
-  static const json = [
-    {"value": "Automobile", "name": "Automobile"},
-    {"value": "Yacht", "name": "Yacht"},
-    {"value": "PrivateJet", "name": "Private Jet"},
-    {"value": "Watch", "name": "Watch"},
-    {"value": "Painting", "name": "Painting"},
-    {"value": "Jewelry", "name": "Jewelry"},
-    {"value": "OtherAsset", "name": "Other"},
-  ];
+  static List<Map<String, dynamic>> json(context) => [
+        {
+          "value": "Automobile",
+          "name": AppLocalizations.of(context)
+              .assetLiabilityForms_forms_others_inputFields_assetType_options_autoMobile
+        },
+        {
+          "value": "Yacht",
+          "name": AppLocalizations.of(context)
+              .assetLiabilityForms_forms_others_inputFields_assetType_options_yacht
+        },
+        {
+          "value": "PrivateJet",
+          "name": AppLocalizations.of(context)
+              .assetLiabilityForms_forms_others_inputFields_assetType_options_privateJet
+        },
+        {
+          "value": "Watch",
+          "name": AppLocalizations.of(context)
+              .assetLiabilityForms_forms_others_inputFields_assetType_options_watch
+        },
+        {
+          "value": "Painting",
+          "name": AppLocalizations.of(context)
+              .assetLiabilityForms_forms_others_inputFields_assetType_options_painting
+        },
+        {
+          "value": "Jewelry",
+          "name": AppLocalizations.of(context)
+              .assetLiabilityForms_forms_others_inputFields_assetType_options_jewelry
+        },
+        {
+          "value": "OtherAsset",
+          "name": AppLocalizations.of(context)
+              .assetLiabilityForms_forms_others_inputFields_assetType_options_other
+        },
+      ];
 
   @override
   String toString() {
@@ -29,6 +59,6 @@ class OtherAssetType {
         name: json["name"],
       );
 
-  static final otherAssetList =
-      json.map((e) => OtherAssetType.fromJson(e)).toList();
+  static List<OtherAssetType> otherAssetList(context) =>
+      json(context).map((e) => OtherAssetType.fromJson(e)).toList();
 }
