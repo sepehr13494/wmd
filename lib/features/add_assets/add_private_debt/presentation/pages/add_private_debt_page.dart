@@ -186,8 +186,12 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                                             return (val !=
                                                                         null &&
                                                                     val.length >
-                                                                        100)
-                                                                ? "Name cannot be more than 100 characters"
+                                                                        50)
+                                                                ? appLocalizations
+                                                                    .common_errors_maxChar
+                                                                    .replaceAll(
+                                                                        "{{maxChar}}",
+                                                                        "50")
                                                                 : null;
                                                           }
                                                         ],
@@ -218,7 +222,8 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                                 ),
                                               ),
                                               EachTextField(
-                                                tooltipText: appLocalizations.assetLiabilityForms_forms_listedAssets_inputFields_acquisitionDate_tooltip,
+                                                tooltipText: appLocalizations
+                                                    .assetLiabilityForms_forms_listedAssets_inputFields_acquisitionDate_tooltip,
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_privateDebt_inputFields_acquisitionDate_label,
                                                 child:
@@ -287,7 +292,8 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                                         .assetLiabilityForms_forms_privateDebt_inputFields_initialInvestmentAmount_placeholder),
                                               ),
                                               EachTextField(
-                                                tooltipText: appLocalizations.assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_tooltip,
+                                                tooltipText: appLocalizations
+                                                    .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_tooltip,
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_privateDebt_inputFields_valuationDate_label,
                                                 child:
