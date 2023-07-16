@@ -1,6 +1,6 @@
 {
     "@@locale": "en",
-    "@@last_modified": "2023-07-16T07:59:46+02:00",
+    "@@last_modified": "2023-07-16T10:46:00+02:00",
     "auth:signup.page.title": "Join our Platform",
     "auth:signup.page.description": "Create myWMD account",
     "auth:signup.heading": "Create an account",
@@ -12,7 +12,7 @@
     "auth:signup.text.social": "or sign up with",
     "auth:signup.text.alreadyHaveAnAccount": "Already have an account?",
     "auth:signup.input.email.placeholder": "Enter your email address",
-    "auth:signup.input.password.placeholder": "Add password",
+    "auth:signup.input.password.placeholder": "Enter password",
     "auth:signup.input.validation.heading": "Your password must contain:",
     "auth:signup.input.validation.lowercase": "Lowercase letters (a-z)",
     "auth:signup.input.validation.uppercase": "Uppercase letters (A-Z)",
@@ -2630,5 +2630,6 @@
     "common:help.supportEmail": "",
     "assetLiabilityForms:forms.realEstate.inputFields.valuePerUnit.initialMarketValueLabel": "Initial market value",
     "common:linkAuth0.userCancelled": "User cancelled authentication request.",
-    "profile:linkedAccounts.pam": "PAM"
+    "profile:linkedAccounts.pam": "PAM",
+    "auth:verifyOtp.clearAll": "Clear all"
 }

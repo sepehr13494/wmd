@@ -83,9 +83,8 @@ class BankAccountMoreEntity extends GetSeeMoreResponse {
         startDate: json["startDate"] == null
             ? null
             : DateTime.parse(json["startDate"]),
-        endDate: json["endDate"] == null
-            ? null
-            : DateTime.parse(json["endDate"]),
+        endDate:
+            json["endDate"] == null ? null : DateTime.parse(json["endDate"]),
         isJointAccount: json["isJointAccount"] ?? false,
         noOfCoOwners: json["noOfCoOwners"] ?? 0,
         ownershipPercentage:
@@ -117,37 +116,38 @@ class BankAccountMoreEntity extends GetSeeMoreResponse {
         "subType": subType,
       };
 
-  Map<String, dynamic> toFormJson() {
+  Map<String, dynamic> toFormJson(context) {
     var differenceList;
-    if(endDate != null && startDate!=null){
-      differenceList = DateDifferenceCalculator.calculateDifference(startDate!, endDate!);
+    if (endDate != null && startDate != null) {
+      differenceList =
+          DateDifferenceCalculator.calculateDifference(startDate!, endDate!);
     }
     return {
-        "bankName": bankName,
-        "description": description,
-        "accountType": accountType,
-        "currentBalance": currentBalance.convertMoney(),
-        "isJointAccount": isJointAccount,
-        "noOfCoOwners": noOfCoOwners.toString(),
-        "ownershipPercentage": ownershipPercentage.toString(),
-        "interestRate": interestRate.toString(),
-        "startDate": startDate,
-        "endDate": endDate,
-        "id": id,
-        "type": type,
-        "isActive": isActive,
-        "country": Country.getCountryFromString(country),
-        "region": region,
-        "currencyCode": Currency.getCurrencyFromString(currencyCode),
-        "portfolioContribution": portfolioContribution,
-        "holdings": holdings.convertMoney(),
-        "yearToDate": yearToDate,
-        "inceptionToDate": inceptionToDate,
-        "asOfDate": asOfDate,
-        "subType": subType,
-        "years": differenceList == null ? null : differenceList[0].toString(),
-        "months": differenceList == null ? null : differenceList[1].toString(),
-        "days": differenceList == null ? null : differenceList[2].toString(),
-      };
+      "bankName": bankName,
+      "description": description,
+      "accountType": accountType,
+      "currentBalance": currentBalance.convertMoney(),
+      "isJointAccount": isJointAccount,
+      "noOfCoOwners": noOfCoOwners.toString(),
+      "ownershipPercentage": ownershipPercentage.toString(),
+      "interestRate": interestRate.toString(),
+      "startDate": startDate,
+      "endDate": endDate,
+      "id": id,
+      "type": type,
+      "isActive": isActive,
+      "country": Country.getCountryFromString(country, context),
+      "region": region,
+      "currencyCode": Currency.getCurrencyFromString(currencyCode),
+      "portfolioContribution": portfolioContribution,
+      "holdings": holdings.convertMoney(),
+      "yearToDate": yearToDate,
+      "inceptionToDate": inceptionToDate,
+      "asOfDate": asOfDate,
+      "subType": subType,
+      "years": differenceList == null ? null : differenceList[0].toString(),
+      "months": differenceList == null ? null : differenceList[1].toString(),
+      "days": differenceList == null ? null : differenceList[2].toString(),
+    };
   }
 }

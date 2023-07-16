@@ -4,7 +4,7 @@ import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 
 import '../../../core/data/models/get_asset_see_more_response.dart';
 
-class PrivateDebtMoreEntity extends GetSeeMoreResponse{
+class PrivateDebtMoreEntity extends GetSeeMoreResponse {
   PrivateDebtMoreEntity({
     required this.id,
     required this.type,
@@ -45,66 +45,74 @@ class PrivateDebtMoreEntity extends GetSeeMoreResponse{
   final double marketValue;
   final DateTime valuationDate;
 
-  factory PrivateDebtMoreEntity.fromJson(Map<String, dynamic> json) => PrivateDebtMoreEntity(
-    id: json["id"]??"",
-    type: json["type"]??"",
-    isActive: json["isActive"]??false,
-    country: json["country"]??"",
-    region: json["region"]??"",
-    currencyCode: json["currencyCode"]??"",
-    percentage: double.tryParse((json["percentage"] ?? "0").toString())??0,
-    holdings: double.tryParse((json["holdings"] ?? "0").toString())??0,
-    yearToDate: double.tryParse((json["yearToDate"] ?? "0").toString())??0,
-    inceptionToDate: double.tryParse((json["inceptionToDate"] ?? "0").toString())??0,
-    asOfDate: DateTime.tryParse(json["asOfDate"]) ?? DateTime.now(),
-    subType: json["subType"]??"",
-    investmentName: json["investmentName"]??"",
-    investmentAmount: double.tryParse((json["investmentAmount"] ?? "0").toString())??0,
-    investmentDate: DateTime.tryParse(json["investmentDate"]) ?? DateTime.now(),
-    wealthManager: json["wealthManager"]??"",
-    marketValue: double.tryParse((json["marketValue"] ?? "0").toString())??0,
-    valuationDate: DateTime.tryParse(json["valuationDate"]) ?? DateTime.now(),
-  );
+  factory PrivateDebtMoreEntity.fromJson(Map<String, dynamic> json) =>
+      PrivateDebtMoreEntity(
+        id: json["id"] ?? "",
+        type: json["type"] ?? "",
+        isActive: json["isActive"] ?? false,
+        country: json["country"] ?? "",
+        region: json["region"] ?? "",
+        currencyCode: json["currencyCode"] ?? "",
+        percentage:
+            double.tryParse((json["percentage"] ?? "0").toString()) ?? 0,
+        holdings: double.tryParse((json["holdings"] ?? "0").toString()) ?? 0,
+        yearToDate:
+            double.tryParse((json["yearToDate"] ?? "0").toString()) ?? 0,
+        inceptionToDate:
+            double.tryParse((json["inceptionToDate"] ?? "0").toString()) ?? 0,
+        asOfDate: DateTime.tryParse(json["asOfDate"]) ?? DateTime.now(),
+        subType: json["subType"] ?? "",
+        investmentName: json["investmentName"] ?? "",
+        investmentAmount:
+            double.tryParse((json["investmentAmount"] ?? "0").toString()) ?? 0,
+        investmentDate:
+            DateTime.tryParse(json["investmentDate"]) ?? DateTime.now(),
+        wealthManager: json["wealthManager"] ?? "",
+        marketValue:
+            double.tryParse((json["marketValue"] ?? "0").toString()) ?? 0,
+        valuationDate:
+            DateTime.tryParse(json["valuationDate"]) ?? DateTime.now(),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "type": type,
-    "isActive": isActive,
-    "country": country,
-    "region": region,
-    "currencyCode": currencyCode,
-    "percentage": percentage,
-    "holdings": holdings,
-    "yearToDate": yearToDate,
-    "inceptionToDate": inceptionToDate,
-    "asOfDate": asOfDate.toIso8601String(),
-    "subType": subType,
-    "investmentName": investmentName,
-    "investmentAmount": investmentAmount,
-    "investmentDate": investmentDate.toIso8601String(),
-    "wealthManager": wealthManager,
-    "marketValue": marketValue,
-    "valuationDate": valuationDate.toIso8601String(),
-  };
+        "id": id,
+        "type": type,
+        "isActive": isActive,
+        "country": country,
+        "region": region,
+        "currencyCode": currencyCode,
+        "percentage": percentage,
+        "holdings": holdings,
+        "yearToDate": yearToDate,
+        "inceptionToDate": inceptionToDate,
+        "asOfDate": asOfDate.toIso8601String(),
+        "subType": subType,
+        "investmentName": investmentName,
+        "investmentAmount": investmentAmount,
+        "investmentDate": investmentDate.toIso8601String(),
+        "wealthManager": wealthManager,
+        "marketValue": marketValue,
+        "valuationDate": valuationDate.toIso8601String(),
+      };
 
-  Map<String, dynamic> toFormJson() => {
-    "id": id,
-    "type": type,
-    "isActive": isActive,
-    "country": Country.getCountryFromString(country),
-    "region": region,
-    "currencyCode": Currency.getCurrencyFromString(currencyCode),
-    "percentage": percentage.toString(),
-    "holdings": holdings.convertMoney(),
-    "yearToDate": yearToDate,
-    "inceptionToDate": inceptionToDate,
-    "asOfDate": asOfDate,
-    "subType": subType,
-    "investmentName": investmentName,
-    "investmentAmount": investmentAmount.convertMoney(),
-    "investmentDate": investmentDate,
-    "wealthManager": wealthManager,
-    "marketValue": marketValue.convertMoney(),
-    "valuationDate": valuationDate,
-  };
+  Map<String, dynamic> toFormJson(context) => {
+        "id": id,
+        "type": type,
+        "isActive": isActive,
+        "country": Country.getCountryFromString(country, context),
+        "region": region,
+        "currencyCode": Currency.getCurrencyFromString(currencyCode),
+        "percentage": percentage.toString(),
+        "holdings": holdings.convertMoney(),
+        "yearToDate": yearToDate,
+        "inceptionToDate": inceptionToDate,
+        "asOfDate": asOfDate,
+        "subType": subType,
+        "investmentName": investmentName,
+        "investmentAmount": investmentAmount.convertMoney(),
+        "investmentDate": investmentDate,
+        "wealthManager": wealthManager,
+        "marketValue": marketValue.convertMoney(),
+        "valuationDate": valuationDate,
+      };
 }

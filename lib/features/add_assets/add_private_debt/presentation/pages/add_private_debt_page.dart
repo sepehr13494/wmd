@@ -149,7 +149,8 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                         FormBuilder(
                                           key: formKey,
                                           initialValue: edit
-                                              ? widget.moreEntity!.toFormJson()
+                                              ? widget.moreEntity!
+                                                  .toFormJson(context)
                                               : AddAssetConstants
                                                   .initialJsonForAddAsset,
                                           child: Column(
