@@ -79,7 +79,7 @@ class FailedOtpAuthBottomSheet extends AppStatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                           minimumSize: const Size(100, 50)),
-                      child: Text("Okay"),
+                      child: Text(appLocalizations.common_button_ok),
                     ),
                   ],
                 )

@@ -154,7 +154,8 @@ class _AddPrivateEquityState extends BaseAddAssetState<AddPrivateEquityPage> {
                                         FormBuilder(
                                           key: formKey,
                                           initialValue: edit
-                                              ? widget.moreEntity!.toFormJson()
+                                              ? widget.moreEntity!
+                                                  .toFormJson(context)
                                               : AddAssetConstants
                                                   .initialJsonForAddAsset,
                                           child: Column(
