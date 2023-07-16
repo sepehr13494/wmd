@@ -251,7 +251,8 @@ class SimpleTextField extends AppStatelessWidget {
       validators.add((val) {
         return (val != null &&
                 (double.tryParse(val.replaceAll(",", "")) ?? 0) > 1000000000)
-            ? "Amount should be less than 1,000,000,000"
+            ? appLocalizations
+                .assetLiabilityForms_forms_bankAccount_inputFields_balance_maxValueError
             : null;
       });
     }
@@ -274,6 +275,8 @@ class SimpleTextField extends AppStatelessWidget {
       case TextFieldType.rate:
         break;
       case TextFieldType.minusMoney:
+        break;
+      case TextFieldType.rateMoney:
         break;
     }
 

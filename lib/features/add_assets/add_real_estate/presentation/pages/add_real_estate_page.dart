@@ -222,7 +222,8 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                                           }
                                                         ],
                                                         hint: isMobile
-                                                            ? appLocalizations.assetLiabilityForms_forms_realEstate_inputFields_name_placeholder
+                                                            ? appLocalizations
+                                                                .assetLiabilityForms_forms_realEstate_inputFields_name_placeholder
                                                             : appLocalizations
                                                                 .assetLiabilityForms_forms_realEstate_inputFields_name_placeholder),
                                               ),
@@ -249,7 +250,8 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                                   hint: appLocalizations
                                                       .assetLiabilityForms_forms_realEstate_inputFields_typeOfRealEstate_placeholder,
                                                   items: RealEstateType
-                                                      .realEstateList
+                                                          .realEstateList(
+                                                              context)
                                                       .map((e) =>
                                                           DropdownMenuItem(
                                                             value: e.value,

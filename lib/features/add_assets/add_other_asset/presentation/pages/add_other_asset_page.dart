@@ -332,7 +332,8 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                                   hint: appLocalizations
                                                       .assetLiabilityForms_forms_others_inputFields_assetType_placeholder,
                                                   items: OtherAssetType
-                                                      .otherAssetList
+                                                          .otherAssetList(
+                                                              context)
                                                       .map((e) =>
                                                           DropdownMenuItem(
                                                             value: e.value,
@@ -349,7 +350,10 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                                       .assetLiabilityForms_forms_others_inputFields_valuationDate_label,
                                                   child:
                                                       AppFormBuilderDateTimePicker(
-                                                        enabled: !(edit && starterJson["assetType"] == 'Painting'),
+                                                    enabled: !(edit &&
+                                                        starterJson[
+                                                                "assetType"] ==
+                                                            'Painting'),
                                                     onChanged: (val) {
                                                       setState(() {
                                                         valuationDateValue =

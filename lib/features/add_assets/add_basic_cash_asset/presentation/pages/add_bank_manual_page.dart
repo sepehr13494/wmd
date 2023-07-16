@@ -322,8 +322,10 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                   name: "accountType",
                                                   hint: appLocalizations
                                                       .assetLiabilityForms_forms_bankAccount_inputFields_accountType_placeholder,
-                                                  items: AccountType.accountList
-                                                      .map((e) {
+                                                  items:
+                                                      AccountType.accountList(
+                                                              context)
+                                                          .map((e) {
                                                     bool enabled = true;
                                                     if (edit) {
                                                       if (isDepositTerm) {
@@ -725,8 +727,8 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: [
-                                                            Text(
-                                                                appLocalizations.assetLiabilityForms_labels_endTerm),
+                                                            Text(appLocalizations
+                                                                .assetLiabilityForms_labels_endTerm),
                                                             const SizedBox(
                                                                 height: 8),
                                                             Text(date)
