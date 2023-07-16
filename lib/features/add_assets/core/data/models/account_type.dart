@@ -1,14 +1,28 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class AccountType {
   final String name;
   final String value;
 
   AccountType({required this.name, required this.value});
 
-  static const json = [
-    {"value": "SavingAccount", "name": "Savings account"},
-    {"value": "CurrentAccount", "name": "Current account"},
-    {"value": "TermDeposit", "name": "Term deposit"},
-  ];
+  static List<Map<String, dynamic>> json(context) => [
+        {
+          "value": "SavingAccount",
+          "name": AppLocalizations.of(context)
+              .assetLiabilityForms_forms_bankAccount_inputFields_accountType_options_savingAccount
+        },
+        {
+          "value": "CurrentAccount",
+          "name": AppLocalizations.of(context)
+              .assetLiabilityForms_forms_bankAccount_inputFields_accountType_options_currentAccount
+        },
+        {
+          "value": "TermDeposit",
+          "name": AppLocalizations.of(context)
+              .assetLiabilityForms_forms_bankAccount_inputFields_accountType_options_termDeposit
+        },
+      ];
 
   @override
   String toString() {
@@ -25,5 +39,6 @@ class AccountType {
         name: json["name"],
       );
 
-  static final accountList = json.map((e) => AccountType.fromJson(e)).toList();
+  static List<AccountType> accountList(context) =>
+      json(context).map((e) => AccountType.fromJson(e)).toList();
 }

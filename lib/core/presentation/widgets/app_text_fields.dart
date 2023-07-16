@@ -276,6 +276,8 @@ class SimpleTextField extends AppStatelessWidget {
         break;
       case TextFieldType.minusMoney:
         break;
+      case TextFieldType.rateMoney:
+        break;
     }
 
     List<TextInputFormatter>? getFormatter(type) {
