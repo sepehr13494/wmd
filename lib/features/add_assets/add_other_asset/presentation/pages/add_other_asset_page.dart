@@ -100,13 +100,14 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
   @override
   void initState() {
     if (widget.edit) {
-      if (widget.moreEntity!.toFormJson()["assetType"] == "Painting") {
+      if (widget.moreEntity!.toFormJson(context)["assetType"] == "Painting") {
         isPainting = true;
       }
-      noOfUnits = widget.moreEntity!.toFormJson()["units"];
-      acqusitionCost = widget.moreEntity!.toFormJson()["acquisitionCost"];
-      ownerShip = widget.moreEntity!.toFormJson()["ownerShip"];
-      valuePerUnit = widget.moreEntity!.toFormJson()["valuePerUnit"];
+      noOfUnits = widget.moreEntity!.toFormJson(context)["units"];
+      acqusitionCost =
+          widget.moreEntity!.toFormJson(context)["acquisitionCost"];
+      ownerShip = widget.moreEntity!.toFormJson(context)["ownerShip"];
+      valuePerUnit = widget.moreEntity!.toFormJson(context)["valuePerUnit"];
       calculateCurrentValue();
     }
     super.initState();
@@ -231,7 +232,8 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                         FormBuilder(
                                           key: formKey,
                                           initialValue: edit
-                                              ? widget.moreEntity!.toFormJson()
+                                              ? widget.moreEntity!
+                                                  .toFormJson(context)
                                               : AddAssetConstants
                                                   .initialJsonForAddOtherAsset,
                                           child: Column(

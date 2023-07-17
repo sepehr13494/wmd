@@ -57,8 +57,8 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
   @override
   void initState() {
     if (widget.edit) {
-      accountType = widget.moreEntity!.toFormJson()["accountType"];
-      startDateValue = widget.moreEntity!.toFormJson()["startDate"];
+      accountType = widget.moreEntity!.toFormJson(context)["accountType"];
+      startDateValue = widget.moreEntity!.toFormJson(context)["startDate"];
       Future.delayed(const Duration(seconds: 1), () {
         changeDate();
       });
@@ -178,7 +178,8 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                         FormBuilder(
                                           key: formKey,
                                           initialValue: edit
-                                              ? widget.moreEntity!.toFormJson()
+                                              ? widget.moreEntity!
+                                                  .toFormJson(context)
                                               : AddAssetConstants
                                                   .initialJsonForAddAsset,
                                           child: Column(

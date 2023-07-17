@@ -219,7 +219,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyOtpPage> {
                           });
                         },
                         child: Text(
-                          "Clear all",
+                          appLocalizations.auth_verifyOtp_clearAll,
                           style: TextStyle(
                               color: Colors.grey[600],
                               decoration: TextDecoration.underline),

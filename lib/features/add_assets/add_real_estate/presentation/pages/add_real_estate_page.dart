@@ -169,7 +169,8 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                         FormBuilder(
                                           key: formKey,
                                           initialValue: edit
-                                              ? widget.moreEntity!.toFormJson()
+                                              ? widget.moreEntity!
+                                                  .toFormJson(context)
                                               : AddAssetConstants
                                                   .initialJsonForAddAsset,
                                           child: Column(
