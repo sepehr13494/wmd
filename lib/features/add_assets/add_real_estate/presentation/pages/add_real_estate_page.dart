@@ -226,10 +226,9 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                                                 : null;
                                                           }
                                                         ],
-                                                        hint: isMobile
-                                                            ? appLocalizations.assetLiabilityForms_forms_realEstate_inputFields_name_placeholder
-                                                            : appLocalizations
-                                                                .assetLiabilityForms_forms_realEstate_inputFields_name_placeholder),
+                                                        hint: appLocalizations
+                                                            .assetLiabilityForms_forms_realEstate_inputFields_name_placeholder,
+                                                ),
                                               ),
                                               EachTextField(
                                                 hasInfo: false,
