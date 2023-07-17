@@ -282,6 +282,7 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_realEstate_inputFields_country_label,
                                                 child: CountriesDropdown(
+                                                  enabled: !edit,
                                                   onChanged: checkFinalValid,
                                                 ),
                                               ),
