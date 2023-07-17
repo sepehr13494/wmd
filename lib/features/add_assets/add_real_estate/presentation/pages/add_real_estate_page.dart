@@ -227,7 +227,7 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                                           }
                                                         ],
                                                         hint: isMobile
-                                                            ? "${appLocalizations.assetLiabilityForms_forms_realEstate_inputFields_name_placeholder.substring(0, 39)}..."
+                                                            ? appLocalizations.assetLiabilityForms_forms_realEstate_inputFields_name_placeholder
                                                             : appLocalizations
                                                                 .assetLiabilityForms_forms_realEstate_inputFields_name_placeholder),
                                               ),
