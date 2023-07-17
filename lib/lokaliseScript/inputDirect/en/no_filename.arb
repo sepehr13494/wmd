@@ -1,6 +1,6 @@
 {
     "@@locale": "en",
-    "@@last_modified": "2023-07-10T08:58:41+02:00",
+    "@@last_modified": "2023-07-16T21:25:37+02:00",
     "auth:signup.page.title": "Join our Platform",
     "auth:signup.page.description": "Create myWMD account",
     "auth:signup.heading": "Create an account",
@@ -12,7 +12,7 @@
     "auth:signup.text.social": "or sign up with",
     "auth:signup.text.alreadyHaveAnAccount": "Already have an account?",
     "auth:signup.input.email.placeholder": "Enter your email address",
-    "auth:signup.input.password.placeholder": "Add password",
+    "auth:signup.input.password.placeholder": "Enter password",
     "auth:signup.input.validation.heading": "Your password must contain:",
     "auth:signup.input.validation.lowercase": "Lowercase letters (a-z)",
     "auth:signup.input.validation.uppercase": "Uppercase letters (A-Z)",
@@ -1366,7 +1366,7 @@
     "linkAccount:stepper.cif.label.juliusbar": "Confirm your account number",
     "linkAccount:stepper.cif.placeholder": "Enter the number",
     "linkAccount:stepper.cif.tooltip.default": "Customer Identification File (CIF)",
-    "linkAccount:stepper.cif.tooltip.ubs": "This is the same account number provided under \"Banking Relationship\" in the letter of authorization.",
+    "linkAccount:stepper.cif.tooltip.ubs": "Same account number provided under \"Banking Relationship\" in the letter of authorization.",
     "linkAccount:stepper.cif.tooltip.hsbc": "The field `Heading of account` is found in the top section of the first page",
     "linkAccount:stepper.cif.tooltip.creditsuisse": "You can access the number of your Customer Identification File (CIF) on page 1 - section 1 under \"Details of the Client\"",
     "linkAccount:stepper.cif.tooltip.lombardodier": "Customer Identification File (CIF)",
@@ -1873,7 +1873,7 @@
     "auth:signup.slides.2.a": "Analyze your data ",
     "auth:signup.slides.2.b": "and plan for your financial goals.",
     "auth:verify.description": "To verify your email, please click the link in the message we sent to ",
-    "auth:forgot.emailSentSuccess.subheading.0": "We have sent a message to the given email with instructions to reset the password",
+    "auth:forgot.emailSentSuccess.subheading.0": "Instructions to reset your password have been sent to your email address.",
     "home:widget.summaryCard.tooltip.assets.0": "Includes ",
     "home:widget.summaryCard.tooltip.assets.1": " new assets worth ",
     "home:widget.summaryCard.tooltip.liabilities.0": "Includes ",
@@ -2615,7 +2615,7 @@
     "common:linkPAM.text.pam": "Petiole Asset Management",
     "common:linkPAM.text.mandateId": "Account ID#",
     "common:linkPAM.modal.multipleMandates.title": "Your Petiole account has been successfully linked",
-    "assets:tooltip.bankAccountException": "The gain or loss in the given period (excludes the bank account balance changes)",
+    "assets:tooltip.bankAccountException": "The gain or loss in the given period (excluding changes in the bank account balance)",
     "assets:valuationModal.errors.quantityExceedError": "The value can't exceed {{totalQuantity}}",
     "common:button.viewDetails": "View details",
     "assets:valuationModal.labels.increaseInvestment": "Increase the investment",
@@ -2630,5 +2630,6 @@
     "common:help.supportEmail": "",
     "assetLiabilityForms:forms.realEstate.inputFields.valuePerUnit.initialMarketValueLabel": "Initial market value",
     "common:linkAuth0.userCancelled": "User cancelled authentication request.",
-    "profile:linkedAccounts.pam": "PAM"
+    "profile:linkedAccounts.pam": "PAM",
+    "auth:verifyOtp.clearAll": "Clear all"
 }

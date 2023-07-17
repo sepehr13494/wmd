@@ -57,8 +57,8 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
   @override
   void initState() {
     if (widget.edit) {
-      accountType = widget.moreEntity!.toFormJson()["accountType"];
-      startDateValue = widget.moreEntity!.toFormJson()["startDate"];
+      accountType = widget.moreEntity!.toFormJson(context)["accountType"];
+      startDateValue = widget.moreEntity!.toFormJson(context)["startDate"];
       Future.delayed(const Duration(seconds: 1), () {
         changeDate();
       });
@@ -178,7 +178,8 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                         FormBuilder(
                                           key: formKey,
                                           initialValue: edit
-                                              ? widget.moreEntity!.toFormJson()
+                                              ? widget.moreEntity!
+                                                  .toFormJson(context)
                                               : AddAssetConstants
                                                   .initialJsonForAddAsset,
                                           child: Column(
@@ -233,8 +234,12 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                             return (val !=
                                                                         null &&
                                                                     val.length >
-                                                                        100)
-                                                                ? "BankName must be at most 100 characters"
+                                                                        50)
+                                                                ? appLocalizations
+                                                                    .common_errors_maxChar
+                                                                    .replaceAll(
+                                                                        "{{maxChar}}",
+                                                                        "50")
                                                                 : null;
                                                           }
                                                         ],
@@ -322,8 +327,10 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                   name: "accountType",
                                                   hint: appLocalizations
                                                       .assetLiabilityForms_forms_bankAccount_inputFields_accountType_placeholder,
-                                                  items: AccountType.accountList
-                                                      .map((e) {
+                                                  items:
+                                                      AccountType.accountList(
+                                                              context)
+                                                          .map((e) {
                                                     bool enabled = true;
                                                     if (edit) {
                                                       if (isDepositTerm) {
@@ -725,8 +732,8 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: [
-                                                            Text(
-                                                                appLocalizations.assetLiabilityForms_labels_endTerm),
+                                                            Text(appLocalizations
+                                                                .assetLiabilityForms_labels_endTerm),
                                                             const SizedBox(
                                                                 height: 8),
                                                             Text(date)

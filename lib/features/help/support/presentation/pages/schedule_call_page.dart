@@ -305,7 +305,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
         FormBuilder(
           key: formKey,
           initialValue: {
-            "type": MeetingType.meetingTypeList.first.name,
+            "type": MeetingType.meetingTypeList(context).first.value,
             "email": (personalState is PersonalInformationLoaded)
                 ? personalState.getNameEntity.email
                 : ""
@@ -424,8 +424,8 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                   enabled: false,
                   name: "type",
                   hint: "",
-                  initial: MeetingType.meetingTypeList.first.value,
-                  items: MeetingType.meetingTypeList
+                  initial: MeetingType.meetingTypeList(context).first.value,
+                  items: MeetingType.meetingTypeList(context)
                       .map((e) => DropdownMenuItem(
                             value: e.value,
                             child: Text(e.name),
