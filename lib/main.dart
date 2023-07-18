@@ -96,7 +96,7 @@ envInitConfig(env) {
     case "developer":
       return "assets/env/developer.env";
     default:
-      return "assets/env/.env";
+      return "assets/env/prod.env";
   }
 }
 

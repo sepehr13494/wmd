@@ -226,10 +226,9 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                                                 : null;
                                                           }
                                                         ],
-                                                        hint: isMobile
-                                                            ? "${appLocalizations.assetLiabilityForms_forms_realEstate_inputFields_name_placeholder.substring(0, 39)}..."
-                                                            : appLocalizations
-                                                                .assetLiabilityForms_forms_realEstate_inputFields_name_placeholder),
+                                                        hint: appLocalizations
+                                                            .assetLiabilityForms_forms_realEstate_inputFields_name_placeholder,
+                                                ),
                                               ),
                                               EachTextField(
                                                 hasInfo: false,
@@ -283,6 +282,7 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_realEstate_inputFields_country_label,
                                                 child: CountriesDropdown(
+                                                  enabled: !edit,
                                                   onChanged: checkFinalValid,
                                                 ),
                                               ),
