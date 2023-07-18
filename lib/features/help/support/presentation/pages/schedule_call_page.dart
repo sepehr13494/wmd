@@ -175,6 +175,8 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                                   ? personalState.getNameEntity.lastName
                                   : "",
                         };
+
+                        debugPrint(finalMap.toString());
                         context
                             .read<GeneralInquiryCubit>()
                             .postScheduleCall(map: finalMap);
@@ -236,8 +238,11 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                                                                       .currentState
                                                                       ?.validate();
                                                                   if (formKey
-                                                                      .currentState!
-                                                                      .isValid) {
+                                                                          .currentState!
+                                                                          .isValid &&
+                                                                      formKey.currentState
+                                                                              ?.value["subject"] !=
+                                                                          null) {
                                                                     Map<String,
                                                                             dynamic>
                                                                         finalMap =
@@ -245,6 +250,24 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                                                                       ...formKey
                                                                           .currentState!
                                                                           .instantValue,
+                                                                      "email": (personalState
+                                                                              is PersonalInformationLoaded)
+                                                                          ? personalState
+                                                                              .getNameEntity
+                                                                              .email
+                                                                          : "",
+                                                                      "firstName": (personalState
+                                                                              is PersonalInformationLoaded)
+                                                                          ? personalState
+                                                                              .getNameEntity
+                                                                              .firstName
+                                                                          : "",
+                                                                      "lastName": (personalState
+                                                                              is PersonalInformationLoaded)
+                                                                          ? personalState
+                                                                              .getNameEntity
+                                                                              .lastName
+                                                                          : "",
                                                                     };
 
                                                                     debugPrint(
