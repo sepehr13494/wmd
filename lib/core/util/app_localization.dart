@@ -24,8 +24,19 @@ class LocalizationManager extends Cubit<Locale> {
     }
   }
 
-  static getNameFromLocale(Locale locale) {
+  static String getNameFromLocale(Locale locale) {
     switch (locale.languageCode) {
+      case "en":
+        return "English";
+      case "ar":
+        return "عربی";
+      default:
+        return "English";
+    }
+  }
+
+  static String getNameFromShortName(String shortName) {
+    switch (shortName) {
       case "en":
         return "English";
       case "ar":
