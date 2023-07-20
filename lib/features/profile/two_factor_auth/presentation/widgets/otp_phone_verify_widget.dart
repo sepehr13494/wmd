@@ -208,7 +208,8 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyWidget> {
                                     },
                               style: ElevatedButton.styleFrom(
                                   minimumSize: const Size(100, 50)),
-                              child: const Text("Send code"),
+                              child: Text(appLocalizations
+                                  .profile_twofactorauthentication_button_sendCode_mobile),
                             );
                           })
                         ],
