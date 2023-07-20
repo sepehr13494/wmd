@@ -180,6 +180,8 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                                     .simpleTextField(
                                                         title: "Name",
                                                         name: "investmentName",
+                                                        errorMsg: appLocalizations
+                                                            .assetLiabilityForms_forms_privateDebt_inputFields_name_errorMessage,
                                                         onChanged:
                                                             checkFinalValid,
                                                         extraValidators: [
