@@ -28,7 +28,7 @@ class _ScheduleCallFooterState extends AppState<ScheduleCallFooter> {
 
     return Container(
       width: double.maxFinite,
-      height: isExpandedFooter ? 500 : 120,
+      height: isExpandedFooter ? 512 : 120,
       color: Theme.of(context).cardColor,
       child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -63,13 +63,17 @@ class _ScheduleCallFooterState extends AppState<ScheduleCallFooter> {
                                   onPressed: () {
                                     widget.onTap!();
                                   },
-                                  child: Text(appLocalizations.scheduleMeeting_header_title))),
+                                  child: Text(appLocalizations
+                                      .scheduleMeeting_header_title))),
                         ],
                       ),
                     ),
                   )
                 ],
               ),
+              const SizedBox(
+                height: 12,
+              )
             ],
           )),
     );
