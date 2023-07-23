@@ -152,7 +152,7 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                               ? widget.moreEntity!
                                                   .toFormJson(context)
                                               : AddAssetConstants
-                                                  .initialJsonForAddAsset,
+                                                  .initialJsonForAddAsset(context),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,

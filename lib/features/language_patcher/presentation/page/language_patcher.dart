@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/util/app_localization.dart';
-import 'package:wmd/features/profile/preference/data/models/patch_preference_language_params.dart';
 import 'package:wmd/features/profile/preference/presentation/manager/preference_cubit.dart';
-import 'package:wmd/injection_container.dart';
 
 class LanguagePatcher extends StatefulWidget {
   final Widget child;

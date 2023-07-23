@@ -124,7 +124,7 @@ class _AddLoanLiabilityState extends AppState<AddLoanLiabilityPage> {
                                 FormBuilder(
                                   key: privateDebtFormKey,
                                   initialValue:
-                                      AddAssetConstants.initialJsonForAddAsset,
+                                      AddAssetConstants.initialJsonForAddAsset(context),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,

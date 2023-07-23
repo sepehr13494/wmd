@@ -132,7 +132,7 @@ class OtherAseetMoreEntity extends GetSeeMoreResponse {
         "isActive": isActive,
         "country": Country.getCountryFromString(country, context),
         "region": region,
-        "currencyCode": Currency.getCurrencyFromString(currencyCode),
+        "currencyCode": Currency.getCurrencyFromString(currencyCode, context),
         "portfolioContribution": portfolioContribution,
         "holdings": holdings,
         "yearToDate": yearToDate,

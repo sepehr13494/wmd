@@ -101,7 +101,7 @@ class PrivateDebtMoreEntity extends GetSeeMoreResponse {
         "isActive": isActive,
         "country": Country.getCountryFromString(country, context),
         "region": region,
-        "currencyCode": Currency.getCurrencyFromString(currencyCode),
+        "currencyCode": Currency.getCurrencyFromString(currencyCode, context),
         "percentage": percentage.toString(),
         "holdings": holdings.convertMoney(),
         "yearToDate": yearToDate,
