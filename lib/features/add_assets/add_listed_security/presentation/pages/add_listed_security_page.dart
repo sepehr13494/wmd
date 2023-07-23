@@ -256,7 +256,7 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                                         .first,
                                                                     context)
                                                             : AddAssetConstants
-                                                                .initialJsonForAddAsset,
+                                                                .initialJsonForAddAsset(context),
                                                         child: Column(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
@@ -317,7 +317,7 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                                           formKey
                                                                               .currentState!
                                                                               .patchValue({
-                                                                            "currencyCode": Currency.currenciesList.firstWhere((curr) =>
+                                                                            "currencyCode": Currency.getCurrencyList(context).firstWhere((curr) =>
                                                                                 curr.symbol ==
                                                                                 e?.currencyCode),
                                                                             "category":

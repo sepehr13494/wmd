@@ -181,7 +181,7 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                               ? widget.moreEntity!
                                                   .toFormJson(context)
                                               : AddAssetConstants
-                                                  .initialJsonForAddAsset,
+                                                  .initialJsonForAddAsset(context),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,

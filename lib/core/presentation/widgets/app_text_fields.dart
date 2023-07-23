@@ -387,7 +387,7 @@ class _CurrenciesDropdownState extends AppState<CurrenciesDropdown> {
           name: "currencyCode",
           hint: appLocalization
               .assetLiabilityForms_forms_bankAccount_inputFields_country_placeholder,
-          items: Currency.currenciesList,
+          items: Currency.getCurrencyList(context),
           enabled: widget.enabled,
           prefixIcon: const Icon(
             Icons.search,
