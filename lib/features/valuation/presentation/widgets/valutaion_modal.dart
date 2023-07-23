@@ -244,7 +244,7 @@ class ValuationModalWidget extends ModalWidget {
           }
 
           if (state is GetValuationLoaded) {
-            var json = state.entity.toFormJson();
+            var json = state.entity.toFormJson(context);
 
             setFormValues!(json);
           }
@@ -268,7 +268,7 @@ class ValuationModalWidget extends ModalWidget {
 
                   if (isEdit == null || isEdit == false) {
                     formDataTemp['currencyCode'] =
-                        Currency.getCurrencyFromString(json?.currencyCode);
+                        Currency.getCurrencyFromString(json?.currencyCode,context);
                   }
 
                   bool isAcquisitionDateAvailable = false;
@@ -324,7 +324,7 @@ class ValuationModalWidget extends ModalWidget {
                   setFormValues!(formDataTemp);
                 } else {
                   setFormValues!(
-                      {'currencyCode': Currency.getCurrencyFromString('USD')});
+                      {'currencyCode': Currency.getCurrencyFromString('USD',context)});
                 }
               } catch (e) {
                 debugPrint('Format erro detail:');
