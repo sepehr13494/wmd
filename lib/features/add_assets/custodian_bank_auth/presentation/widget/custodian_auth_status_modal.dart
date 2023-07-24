@@ -155,9 +155,9 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                     params: AnalyticsUtils.linkBankStep2Event(status.bankName));
                 await isDone;
 
-                // ignore: use_build_context_synchronously
-                context.goNamed(AppRoutes.main,
-                    queryParams: {'expandCustodian': "true"});
+                // // ignore: use_build_context_synchronously
+                // context.goNamed(AppRoutes.main,
+                //     queryParams: {'expandCustodian': "true"});
               },
               onDoneAgain: () {
                 downloadPdf(status);
