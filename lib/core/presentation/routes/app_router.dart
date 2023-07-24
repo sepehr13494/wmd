@@ -29,7 +29,7 @@ import 'package:wmd/features/assets_overview/charts/presentation/manager/chart_c
 import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_manager.dart';
 import 'package:wmd/features/assets_overview/currency_chart/presentation/manager/currency_chart_cubit.dart';
-import 'package:wmd/features/assets_overview/portfolio_tab/presentation/manager/portfolio_tab_cubit.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_tab2_cubit.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/forget_password_page.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/reset_password_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/auth_checker_page.dart';
@@ -103,7 +103,8 @@ class AppRouter {
   CurrencyChartCubit _currencyChartCubit = sl<CurrencyChartCubit>();
   AssetsGeographyChartCubit _assetsGeographyChartCubit =
   sl<AssetsGeographyChartCubit>();
-  PortfolioTabCubit _portfolioTabCubit = sl<PortfolioTabCubit>();
+  PortfolioTab2Cubit _portfolioTabAllocationsCubit = sl<PortfolioTab2Cubit>();
+  PortfolioTab2CubitForTab _portfolioTabCubit = sl<PortfolioTab2CubitForTab>();
   DashboardAllocationCubit _dashboardAllocationCubit =
   sl<DashboardAllocationCubit>();
   DashboardPieCubit _dashboardPieCubit = sl<DashboardPieCubit>();
@@ -383,8 +384,14 @@ class AppRouter {
                     ),
                     BlocProvider(
                       create: (context) {
-                        _portfolioTabCubit = sl<PortfolioTabCubit>();
-                        return _portfolioTabCubit..getPortfolioTab();
+                        _portfolioTabAllocationsCubit = sl<PortfolioTab2Cubit>();
+                        return _portfolioTabAllocationsCubit..getPortfolioAllocation();
+                      },
+                    ),
+                    BlocProvider(
+                      create: (context) {
+                        _portfolioTabCubit = sl<PortfolioTab2CubitForTab>();
+                        return _portfolioTabCubit;
                       },
                     ),
                     BlocProvider(
@@ -750,7 +757,7 @@ class AppRouter {
         value: _assetsGeographyChartCubit,
       ),
       BlocProvider.value(
-        value: _portfolioTabCubit,
+        value: _portfolioTabAllocationsCubit,
       ),
       BlocProvider.value(
         value: _dashboardAllocationCubit,

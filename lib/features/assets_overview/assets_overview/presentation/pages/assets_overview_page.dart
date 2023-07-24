@@ -21,8 +21,8 @@ import 'package:wmd/features/assets_overview/charts/presentation/widgets/constan
 import 'package:wmd/features/assets_overview/core/presentataion/models/assets_overview_base_widget_model.dart';
 import 'package:wmd/features/assets_overview/currency_chart/domain/entities/get_currency_entity.dart';
 import 'package:wmd/features/assets_overview/currency_chart/presentation/manager/currency_chart_cubit.dart';
-import 'package:wmd/features/assets_overview/portfolio_tab/domain/entities/get_portfolio_tab_entity.dart';
-import 'package:wmd/features/assets_overview/portfolio_tab/presentation/manager/portfolio_tab_cubit.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab2/domain/entities/get_portfolio_tab_entity.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_tab2_cubit.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_blur_warning.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_geographic_entity.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_pie_entity.dart';
@@ -206,7 +206,7 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                               case 3:
                                                 blocs = [
                                                   context
-                                                      .read<PortfolioTabCubit>()
+                                                      .read<PortfolioTab2Cubit>()
                                                 ];
                                                 break;
                                             }
