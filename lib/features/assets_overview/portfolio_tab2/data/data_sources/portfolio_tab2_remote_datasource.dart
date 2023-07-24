@@ -43,11 +43,9 @@ class PortfolioTab2RemoteDataSourceImpl extends AppServerDataSource
   Future<List<GetPortfolioTabResponse>> getPortfolioTab(GetPortfolioTabParams params) async {
     try{
       final appRequestOptions =
-          AppRequestOptions(RequestTypes.get, "${AppUrls.getPortfolioTab}${params.ownerId}/portfolio/${params.portfolioId}", params.toJson());
+          AppRequestOptions(RequestTypes.get, "${AppUrls.getPortfolioTab}${params.ownerId}/portfolio/${params.portfolioId}", null);
       final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = (response as List<dynamic>)
-                  .map((e) => GetPortfolioTabResponse.fromJson(e))
-                  .toList();
+      final result = [GetPortfolioTabResponse.fromJson(response)];
       return result;
     } on ServerException {
       rethrow;

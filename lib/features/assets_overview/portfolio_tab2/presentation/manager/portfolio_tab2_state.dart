@@ -17,20 +17,14 @@ class GetPortfolioAllocationLoaded extends Equatable with PortfolioTab2State{
     
   ];
 }
-class GetPortfolioTabLoaded extends Equatable with PortfolioTab2State{
-  final List<GetPortfolioTabEntity> getPortfolioTabEntities;
-  
+
+
+class GetPortfolioTabLoaded extends BaseAssetsOverviewLoaded<GetPortfolioTabEntity>{
 
   GetPortfolioTabLoaded({
-    required this.getPortfolioTabEntities,
-    
-  });
+    required List<GetPortfolioTabEntity> getPortfolioTabEntity,
+  }) : super(assetsOverviewBaseModels: getPortfolioTabEntity);
 
-  @override
-  List<Object?> get props => [
-    getPortfolioTabEntities,
-    
-  ];
 }
 
     

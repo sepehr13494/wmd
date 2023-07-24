@@ -19,7 +19,12 @@ class PortfolioTabChartWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChartWrapperBox(
-      child: BlocBuilder<PortfolioTab2Cubit, PortfolioTab2State>(
+      child: BlocConsumer<PortfolioTab2Cubit, PortfolioTab2State>(
+        listener: (context, state) {
+          if(state is GetPortfolioAllocationLoaded){
+            context.read<PortfolioTab2CubitForTab>().getPortfolioTab(portfolioIds: state.getPortfolioAllocationEntities.map((e) => e.portfolioName).toList());
+          }
+        },
         builder: (context, state) {
           return state is GetPortfolioAllocationLoaded
               ? Column(

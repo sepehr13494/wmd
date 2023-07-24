@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
+import 'package:wmd/features/assets_overview/core/presentataion/manager/base_assets_overview_state.dart';
 
 import '../../data/models/get_portfolio_allocation_params.dart';
 import '../../domain/use_cases/get_portfolio_allocation_usecase.dart';
@@ -34,14 +35,16 @@ class PortfolioTab2Cubit extends Cubit<PortfolioTab2State> {
     });
   }
   
-  getPortfolioTab({required String portfolioId}) async {
-    emit(LoadingState());
-    final result = await getPortfolioTabUseCase(portfolioId);
-    result.fold((failure) => emit(ErrorState(failure: failure)),
-        (entities) {
-      
-      emit(GetPortfolioTabLoaded(getPortfolioTabEntities: entities));
-    });
+  getPortfolioTab({required List<String> portfolioIds}) async {
+    List<GetPortfolioTabEntity> finalEntities = [];
+    for (var element in portfolioIds) {
+      final result = await getPortfolioTabUseCase(element);
+      result.fold((failure) => emit(ErrorState(failure: failure)),
+              (entities) {
+        finalEntities.addAll(entities);
+            emit(GetPortfolioTabLoaded(getPortfolioTabEntity: finalEntities));
+          });
+    }
   }
 
 }
