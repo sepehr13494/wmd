@@ -28,6 +28,7 @@ import 'package:wmd/features/dashboard/performance_table/presentation/manager/pe
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
+import 'package:wmd/features/profile/preference/presentation/manager/preference_cubit.dart';
 import 'package:wmd/features/profile/two_factor_auth/manager/two_factor_cubit.dart';
 import 'package:wmd/features/safe_device/presentation/pages/unsafe_device_page.dart';
 import 'package:wmd/firebase_options.dart';
@@ -131,6 +132,9 @@ class MyApp extends StatelessWidget {
           lazy: false,
         ),
         BlocProvider(
+          create: (context) => sl<PreferenceCubit>()..getPreference(),
+        ),
+        BlocProvider(
           create: (context) => sl<TabScrollManager>(),
         ),
         BlocProvider(create: (context) {
@@ -204,6 +208,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) {
             return sl<PortfolioTab2Cubit>()..getPortfolioAllocation();
+          },
+        ),
+        BlocProvider(
+          create: (context) {
+            return sl<PortfolioTab2CubitForTab>();
           },
         ),
         BlocProvider(
