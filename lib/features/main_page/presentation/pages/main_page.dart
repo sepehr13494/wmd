@@ -65,7 +65,7 @@ class _MainPageState extends AppState<MainPage> with WidgetsBindingObserver {
             body: state == 0
                 ? DoubleBackToCloseApp(
                     snackBar: const SnackBar(
-                      content: Text('for exit click again'),
+                      content: Text('For exit click again'),
                     ),
                     child: Center(
                       child: widgetOptions.elementAt(state),
