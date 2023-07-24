@@ -9,7 +9,7 @@ import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_man
 import 'package:wmd/features/assets_overview/assets_geography_chart/presentation/widgets/assets_overview_geo_chart.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/base_chart_view.dart';
 import 'package:wmd/features/assets_overview/currency_chart/presentation/widgets/currency_chart_widget.dart';
-import 'package:wmd/features/assets_overview/portfolio_tab/presentation/widgets/portfolio_chart_widget.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/widgets/portfolio_chart_widget.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 
 class ChartsWrapper extends StatefulWidget {
