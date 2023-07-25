@@ -132,47 +132,8 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
               style: textTheme.labelMedium,
             ),
             const SizedBox(height: 8),
-            StatusStepWidget(
-              stepNumber: '1',
-              title: appLocalizations.linkAccount_stepper_stepOne_title,
-              trailing: '5 ${appLocalizations.common_labels_mins}',
-              subtitle:
-                  appLocalizations.linkAccount_stepper_stepOne_action_active,
-              doneSubtitle:
-                  appLocalizations.linkAccount_stepper_stepOne_action_completed,
-              isDone: status.signLetter,
-              onDone: (val) async {
-                final isDone = downloadPdf(status);
-                context.read<CustodianBankAuthCubit>().postCustodianBankStatus(
-                    PostCustodianBankStatusParams(
-                        bankId: widget.bankId,
-                        signLetter: true,
-                        shareWithBank: false,
-                        bankConfirmation: false));
-
-                await AnalyticsUtils.triggerEvent(
-                    action: AnalyticsUtils.linkBankStep2Action(status.bankName),
-                    params: AnalyticsUtils.linkBankStep2Event(status.bankName));
-                await isDone;
-
-                // // ignore: use_build_context_synchronously
-                // context.goNamed(AppRoutes.main,
-                //     queryParams: {'expandCustodian': "true"});
-              },
-              onDoneAgain: () {
-                downloadPdf(status);
-
-                // context
-                //     .read<CustodianBankAuthCubit>()
-                //     .postCustodianBankStatus(PostCustodianBankStatusParams(
-                //         bankId: widget.bankId,
-                //         signLetter: false,
-                //         shareWithBank: false,
-                //         bankConfirmation: false));
-              },
-            ),
             CifStatusWidget(
-              stepNumber: '2',
+              stepNumber: '1',
               bankId: widget.bankId,
               title: appLocalizations.linkAccount_stepper_stepTwo_title,
               trailing: '2 ${appLocalizations.assets_charts_days}',
@@ -203,6 +164,37 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                           params: AnalyticsUtils.linkBankStep3Event(
                               status.bankName));
                     },
+            ),
+            StatusStepWidget(
+              stepNumber: '2',
+              title: appLocalizations.linkAccount_stepper_stepOne_title,
+              // trailing: '5 ${appLocalizations.common_labels_mins}',
+              subtitle:
+                  appLocalizations.linkAccount_stepper_stepOne_action_active,
+              doneSubtitle:
+                  appLocalizations.linkAccount_stepper_stepOne_action_completed,
+              isDone: status.signLetter,
+              onDone: (val) async {
+                final isDone = downloadPdf(status);
+                context.read<CustodianBankAuthCubit>().postCustodianBankStatus(
+                    PostCustodianBankStatusParams(
+                        bankId: widget.bankId,
+                        signLetter: true,
+                        shareWithBank: false,
+                        bankConfirmation: false));
+
+                await AnalyticsUtils.triggerEvent(
+                    action: AnalyticsUtils.linkBankStep2Action(status.bankName),
+                    params: AnalyticsUtils.linkBankStep2Event(status.bankName));
+                await isDone;
+
+                // // ignore: use_build_context_synchronously
+                // context.goNamed(AppRoutes.main,
+                //     queryParams: {'expandCustodian': "true"});
+              },
+              onDoneAgain: () {
+                downloadPdf(status);
+              },
             ),
             StatusStepWidget(
               stepNumber: '3',

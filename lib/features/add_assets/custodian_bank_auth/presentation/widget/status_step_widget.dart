@@ -10,13 +10,13 @@ class StatusStepWidget extends StatefulWidget {
   final bool showInput;
   final String? subtitle;
   final String? doneSubtitle;
-  final String trailing;
+  final String? trailing;
   final void Function(String? val)? onDone;
   final void Function()? onDoneAgain;
   const StatusStepWidget({
     required this.title,
     required this.stepNumber,
-    required this.trailing,
+    this.trailing,
     this.isDone = false,
     this.showInput = false,
     this.doneSubtitle,
@@ -45,26 +45,27 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          widget.isDone
-              ? const Icon(Icons.check_circle)
-              : Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    height: 20,
-                    width: 20,
-                    child: Center(
-                        child: Text(
-                      widget.stepNumber,
-                      style: textTheme.bodySmall!
-                          .apply(color: Theme.of(context).backgroundColor),
-                      textAlign: TextAlign.center,
-                    )),
-                  ),
-                ),
+          // widget.isDone
+          //     ? const Icon(Icons.check_circle)
+          //     :
+          Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Theme.of(context).primaryColor,
+              ),
+              height: 20,
+              width: 20,
+              child: Center(
+                  child: Text(
+                widget.stepNumber,
+                style: textTheme.bodySmall!
+                    .apply(color: Theme.of(context).backgroundColor),
+                textAlign: TextAlign.center,
+              )),
+            ),
+          ),
           const SizedBox(width: 8),
           Expanded(
             flex: 8,
@@ -75,7 +76,12 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 4),
-            child: Text(widget.trailing, style: textTheme.bodySmall),
+            child: widget.trailing != null
+                ? Text(widget.trailing!, style: textTheme.bodySmall)
+                : Icon(
+                    Icons.check_circle_outline,
+                    color: Theme.of(context).primaryColor,
+                  ),
           )
         ],
       ),
