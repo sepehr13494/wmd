@@ -8,9 +8,9 @@ class StatusStepWidget extends StatefulWidget {
   final String title;
   final bool isDone;
   final bool showInput;
-  final String? subtitle;
+  final Widget? subtitle;
   final String? doneSubtitle;
-  final String? trailing;
+  final Widget? trailing;
   final void Function(String? val)? onDone;
   final void Function()? onDoneAgain;
   const StatusStepWidget({
@@ -71,17 +71,20 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
             flex: 8,
             child: Text(
               widget.title,
-              style: textTheme.bodyLarge,
+              style: textTheme.bodySmall?.copyWith(color: Colors.white),
             ),
           ),
+
           Padding(
             padding: const EdgeInsets.only(left: 4),
             child: widget.trailing != null
-                ? Text(widget.trailing!, style: textTheme.bodySmall)
-                : Icon(
-                    Icons.check_circle_outline,
-                    color: Theme.of(context).primaryColor,
-                  ),
+                ? widget.trailing!
+                : widget.isDone
+                    ? Icon(
+                        Icons.check_circle_outline,
+                        color: Theme.of(context).primaryColor,
+                      )
+                    : const SizedBox.shrink(),
           )
         ],
       ),
@@ -109,14 +112,7 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
                 child: InkWell(
                   onTap:
                       widget.onDone == null ? null : () => widget.onDone!(null),
-                  child: Text(
-                    widget.subtitle!,
-                    style: textTheme.bodySmall!.apply(
-                        color: widget.onDone == null
-                            ? Theme.of(context).primaryColor.withOpacity(0.4)
-                            : Theme.of(context).primaryColor,
-                        decoration: TextDecoration.underline),
-                  ),
+                  child: widget.subtitle!,
                 ),
               );
             }
@@ -205,7 +201,7 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
             flex: 8,
             child: Text(
               widget.title,
-              style: textTheme.bodyLarge,
+              style: textTheme.bodySmall?.copyWith(color: Colors.white),
             ),
           ),
           Padding(
@@ -262,26 +258,26 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FittedBox(
-                fit: BoxFit.fitWidth,
-                child: Row(
-                  children: [
-                    Text(
-                      message,
-                      style: textTheme.bodyMedium,
-                    ),
-                    // const InfoIcon(),
-                    const SizedBox(width: 4),
-                    Tooltip(
-                      showDuration: const Duration(seconds: 5),
-                      triggerMode: TooltipTriggerMode.tap,
-                      textAlign: TextAlign.center,
-                      message: tooltip,
-                      child: const InfoIcon(),
-                    ),
-                  ],
-                ),
-              ),
+              // FittedBox(
+              //   fit: BoxFit.fitWidth,
+              //   child: Row(
+              //     children: [
+              //       Text(
+              //         message,
+              //         style: textTheme.bodyMedium,
+              //       ),
+              //       // const InfoIcon(),
+              //       const SizedBox(width: 4),
+              //       Tooltip(
+              //         showDuration: const Duration(seconds: 5),
+              //         triggerMode: TooltipTriggerMode.tap,
+              //         textAlign: TextAlign.center,
+              //         message: tooltip,
+              //         child: const InfoIcon(),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               const SizedBox(height: 4),
               Row(
                 mainAxisSize: MainAxisSize.max,
@@ -297,22 +293,35 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
                       enabled: widget.accountId == null && widget.ready,
                     ),
                   ),
-                  const SizedBox(width: 50),
+                  const SizedBox(width: 8),
+                  OutlinedButton(
+                    onPressed: () => widget.onDone!(input.text),
+                    style: OutlinedButton.styleFrom(
+                      minimumSize: const Size(50, 40),
+                      // maximumSize: const Size(130, 80)
+                    ),
+                    child: Text(
+                      widget.subtitle ?? '',
+                      style: textTheme.bodySmall?.copyWith(
+                          color: Theme.of(context).primaryColor, fontSize: 10),
+                    ),
+                  ),
                 ],
               ),
-              const SizedBox(height: 4),
-              InkWell(
-                onTap:
-                    isButtonDisable ? null : () => widget.onDone!(input.text),
-                child: Text(
-                  widget.subtitle ?? '',
-                  style: textTheme.bodySmall!.apply(
-                      color: isButtonDisable
-                          ? Theme.of(context).disabledColor
-                          : Theme.of(context).primaryColor,
-                      decoration: TextDecoration.underline),
+              // const SizedBox(height: 4),
+              if (widget.accountId != null)
+                InkWell(
+                  onTap:
+                      isButtonDisable ? null : () => widget.onDone!(input.text),
+                  child: Text(
+                    appLocalizations.common_button_edit,
+                    style: textTheme.bodySmall!.apply(
+                        color: isButtonDisable
+                            ? Theme.of(context).disabledColor
+                            : Theme.of(context).primaryColor,
+                        decoration: TextDecoration.underline),
+                  ),
                 ),
-              ),
             ],
           );
         }),

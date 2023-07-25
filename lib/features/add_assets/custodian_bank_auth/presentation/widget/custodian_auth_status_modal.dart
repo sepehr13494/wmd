@@ -128,10 +128,10 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
             ),
             const SizedBox(height: 8),
             Text(
-              appLocalizations.linkAccount_stepper_description,
+              'Complete the following steps to link your bank account',
               style: textTheme.labelMedium,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 24),
             CifStatusWidget(
               stepNumber: '1',
               bankId: widget.bankId,
@@ -141,7 +141,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
               subtitle: status.accountId != null
                   ? appLocalizations
                       .linkAccount_stepper_stepTwo_action_completed
-                  : appLocalizations.linkAccount_stepper_stepTwo_action_active,
+                  : 'Mark as done',
               accountId: status.accountId,
               // isDone: status.shareWithBank,
               ready: status.signLetter,
@@ -169,8 +169,12 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
               stepNumber: '2',
               title: appLocalizations.linkAccount_stepper_stepOne_title,
               // trailing: '5 ${appLocalizations.common_labels_mins}',
-              subtitle:
-                  appLocalizations.linkAccount_stepper_stepOne_action_active,
+              subtitle: Text(
+                appLocalizations.linkAccount_stepper_stepOne_action_active,
+                style: textTheme.bodySmall!.apply(
+                    color: Theme.of(context).primaryColor,
+                    decoration: TextDecoration.underline),
+              ),
               doneSubtitle:
                   appLocalizations.linkAccount_stepper_stepOne_action_completed,
               isDone: status.signLetter,
@@ -198,8 +202,32 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
             ),
             StatusStepWidget(
               stepNumber: '3',
-              title: appLocalizations.linkAccount_stepper_stepThree_title,
-              trailing: '5-10 ${appLocalizations.assets_charts_days}',
+              title: 'Print, fill and sign authorization letter',
+              // trailing: '5-10 ${appLocalizations.assets_charts_days}',
+              isDone: status.bankConfirmation,
+            ),
+            StatusStepWidget(
+              stepNumber: '4',
+              title: 'Share the letter with your custodian bank',
+              trailing: Column(
+                children: [
+                  Text('shared on',
+                      style: textTheme.bodySmall?.copyWith(
+                          fontSize: 10, color: Theme.of(context).primaryColor)),
+                  Text(' 05/12/23',
+                      style: textTheme.bodySmall?.copyWith(
+                          fontSize: 10, color: Theme.of(context).primaryColor)),
+                ],
+              ),
+              isDone: status.bankConfirmation,
+            ),
+            StatusStepWidget(
+              stepNumber: '5',
+              title: 'Awaiting data from your custodian bank',
+              subtitle: Text(
+                'It may take up to 10 working days. You will be emailed when the data is received.',
+                style: textTheme.bodySmall,
+              ),
               isDone: status.bankConfirmation,
             ),
           ],
@@ -273,13 +301,13 @@ class ActionContainer extends AppStatelessWidget {
                         style: textTheme.bodySmall!.toLinkStyle(context),
                       )),
                 ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                onPressed: () => Navigator.pop(context, true),
-                style:
-                    ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
-                child: Text(appLocalizations.common_button_ok),
-              ),
+              // const SizedBox(width: 16),
+              // ElevatedButton(
+              //   onPressed: () => Navigator.pop(context, true),
+              //   style:
+              //       ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
+              //   child: Text(appLocalizations.common_button_ok),
+              // ),
             ],
           ),
         );
