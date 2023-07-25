@@ -39,11 +39,13 @@ Future<bool> showCustodianBankStatus({
             ..getCustodianBankStatus(GetCustodianBankStatusParams(
                 bankId: bankId, custodianBankStatusId: id)),
           child: CenterModalWidget(
-            confirmBtn: appLocalization.common_button_ok,
-            body: BankStatusModalBody(bankId: bankId, id: id),
-            actions: const ActionContainer(),
-            // cancelBtn: 'Cancel',
-          ));
+              confirmBtn: appLocalization.common_button_ok,
+              body: BankStatusModalBody(bankId: bankId, id: id),
+              actions: const ActionContainer(),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 0)
+              // cancelBtn: 'Cancel',
+              ));
     },
   ).then((isConfirm) {
     if (isConfirm != null && isConfirm == true) {
@@ -124,18 +126,18 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
               appLocalizations.linkAccount_stepper_heading.replaceFirstMapped(
                   '{{bankName}}', (match) => status.bankName),
               // 'Link your ${status.bankName} bank account',
-              style: textTheme.titleSmall,
+              style: textTheme.titleMedium,
             ),
             const SizedBox(height: 8),
             Text(
               'Complete the following steps to link your bank account',
-              style: textTheme.labelMedium,
+              style: textTheme.bodySmall,
             ),
             const SizedBox(height: 24),
             CifStatusWidget(
               stepNumber: '1',
               bankId: widget.bankId,
-              title: appLocalizations.linkAccount_stepper_stepTwo_title,
+              title: 'Enter the custodian account number',
               trailing: '2 ${appLocalizations.assets_charts_days}',
               // showInput: true,
               subtitle: status.accountId != null
@@ -167,7 +169,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
             ),
             StatusStepWidget(
               stepNumber: '2',
-              title: appLocalizations.linkAccount_stepper_stepOne_title,
+              title: 'Download the authorization letter',
               // trailing: '5 ${appLocalizations.common_labels_mins}',
               subtitle: Text(
                 appLocalizations.linkAccount_stepper_stepOne_action_active,

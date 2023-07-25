@@ -78,7 +78,20 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
           Padding(
             padding: const EdgeInsets.only(left: 4),
             child: widget.trailing != null
-                ? widget.trailing!
+                ?
+                // widget.trailing!
+                OutlinedButton(
+                    onPressed: () => widget.onDone!("ad"),
+                    style: OutlinedButton.styleFrom(
+                      minimumSize: const Size(50, 40),
+                      // maximumSize: const Size(130, 80)
+                    ),
+                    child: Text(
+                      'Mark as done',
+                      style: textTheme.bodySmall?.copyWith(
+                          color: Theme.of(context).primaryColor, fontSize: 10),
+                    ),
+                  )
                 : widget.isDone
                     ? Icon(
                         Icons.check_circle_outline,
@@ -204,10 +217,10 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
               style: textTheme.bodySmall?.copyWith(color: Colors.white),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 4),
-            child: Text(widget.trailing, style: textTheme.bodySmall),
-          )
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 4),
+          //   child: Text(widget.trailing, style: textTheme.bodySmall),
+          // )
         ],
       ),
       subtitle: Padding(
