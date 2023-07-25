@@ -80,17 +80,25 @@ class EachAssetType extends AppStatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 16),
-                      child: Row(
-                        children: [
-                          DotWidget(color: assetsOverviewBaseWidgetModel.color),
-                          const SizedBox(width: 8),
-                          Text(assetsOverviewBaseWidgetModel.title,
-                              style: textTheme.titleMedium)
-                        ],
+                  Expanded(
+                    child: Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 16),
+                            child: Row(
+                              children: [
+                                DotWidget(color: assetsOverviewBaseWidgetModel.color),
+                                const SizedBox(width: 8),
+                                Text(assetsOverviewBaseWidgetModel.title,
+                                    style: textTheme.titleMedium)
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
