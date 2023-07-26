@@ -1,6 +1,6 @@
 {
     "@@locale": "en",
-    "@@last_modified": "2023-07-20T14:28:41+02:00",
+    "@@last_modified": "2023-07-26T06:15:33+02:00",
     "auth:signup.page.title": "Join our Platform",
     "auth:signup.page.description": "Create myWMD account",
     "auth:signup.heading": "Create an account",
@@ -968,13 +968,13 @@
     "linkAccount:automaticLink.input.bank.placeholder": "Your Bank Name",
     "linkAccount:stepper.heading": "Link your {{bankName}} bank account",
     "linkAccount:stepper.description": "Follow the below steps to link your bank account:",
-    "linkAccount:stepper.stepOne.title": "Sign the letter of authorization",
-    "linkAccount:stepper.stepOne.action.active": "View the form and signature letter",
+    "linkAccount:stepper.stepOne.title": "View the letter of authorization, then fill with your data, download, print and sign",
+    "linkAccount:stepper.stepOne.action.active": "See the letter of authorization",
     "linkAccount:stepper.stepOne.action.completed": "View again",
     "linkAccount:stepper.stepTwo.title": "Share the letter with your bank",
     "linkAccount:stepper.stepTwo.action.active": "Mark as \"Completed\"",
     "linkAccount:stepper.stepTwo.action.completed": "Completed",
-    "linkAccount:stepper.stepThree.title": "Your authorization request is being processed",
+    "linkAccount:stepper.stepThree.title": "Awaiting data from your custodian bank",
     "linkAccount:stepper.label.completed": "Completed",
     "manage:assetDetail.title": "Asset Detail",
     "manage:assetDetail.description": "Asset Description Details",
@@ -2745,5 +2745,10 @@
     "home:widget.summaryCard.tooltip.changeInfo": "The gain or loss in the given period (excluding changes in the bank account balance)",
     "assets:geography.Other": "Other",
     "profile:localAuth.errorToast": "Please enable biometrics on your device",
-    "profile:twofactorauthentication.button.sendCode.mobile": "Send code"
+    "profile:twofactorauthentication.button.sendCode.mobile": "Send code",
+    "common:dashboard.backExit": "For exit click again",
+    "assets:geography.OtherNotApplicable": "Other \/ Not Applicable",
+    "assets:label.YourAggregatedPortfolio": "Your Aggregated Portfolio",
+    "common:logoutConfirmationModal.title": "Are you sure you would like to log out?",
+    "common:button.logout": "Log out"
 }
