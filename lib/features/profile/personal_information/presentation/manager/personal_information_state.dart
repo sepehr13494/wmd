@@ -16,6 +16,19 @@ class PersonalInformationLoaded extends Equatable
       ];
 }
 
+class UserMandateLoaded extends Equatable with PersonalInformationState {
+  final List<UserMandateEntity> entity;
+
+  UserMandateLoaded({
+    required this.entity,
+  });
+
+  @override
+  List<Object> get props => [
+        entity,
+      ];
+}
+
 class SuccessStatePhone extends BaseState {
   final AppSuccess appSuccess;
 

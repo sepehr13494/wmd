@@ -1,6 +1,6 @@
 {
     "@@locale": "ar",
-    "@@last_modified": "2023-07-20T14:28:41+02:00",
+    "@@last_modified": "2023-07-26T06:15:33+02:00",
     "auth:signup.page.title": "انضمّ إلى منصتنا",
     "auth:signup.page.description": "إنشاء حساب myWMD",
     "auth:signup.heading": "أنشئ حساباً",
@@ -2745,5 +2745,10 @@
     "home:widget.summaryCard.tooltip.changeInfo": "الربح أو الخسارة في الفترة المحددة (باستثناء التغييرات في رصيد حساب البنك)",
     "assets:geography.Other": "غيرها",
     "profile:localAuth.errorToast": "يُرجى إتاحة تسجيل الدخول بالمقاييس الحيوية عبر جهازك",
-    "profile:twofactorauthentication.button.sendCode.mobile": "إرسال الرمز"
+    "profile:twofactorauthentication.button.sendCode.mobile": "إرسال الرمز",
+    "common:dashboard.backExit": "",
+    "assets:geography.OtherNotApplicable": "",
+    "assets:label.YourAggregatedPortfolio": "",
+    "common:logoutConfirmationModal.title": "",
+    "common:button.logout": ""
 }

@@ -1,7 +1,10 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
+import 'package:wmd/features/profile/personal_information/domain/entities/user_mandata_entity.dart';
+import 'package:wmd/features/profile/personal_information/domain/use_cases/get_user_mandata_usecase.dart';
 
 import '../../data/models/get_name_params.dart';
 import '../../domain/use_cases/get_name_usecase.dart';
@@ -16,11 +19,13 @@ class PersonalInformationCubit extends Cubit<PersonalInformationState> {
   final GetNameUseCase getNameUseCase;
   final SetNameUseCase setNameUseCase;
   final SetNumberUseCase setNumberUseCase;
+  final GetUserMandataUseCase getUserMandataUseCase;
 
   PersonalInformationCubit(
     this.getNameUseCase,
     this.setNameUseCase,
     this.setNumberUseCase,
+    this.getUserMandataUseCase,
   ) : super(LoadingState());
 
   getName() async {
@@ -47,6 +52,14 @@ class PersonalInformationCubit extends Cubit<PersonalInformationState> {
     result.fold((failure) => emit(ErrorState(failure: failure)), (appSuccess) {
       emit(SuccessStatePhone(appSuccess: appSuccess));
       getName();
+    });
+  }
+
+  getUserMandate() async {
+    emit(LoadingState());
+    final result = await getUserMandataUseCase(NoParams());
+    result.fold((failure) => emit(ErrorState(failure: failure)), (appSuccess) {
+      emit(UserMandateLoaded(entity: appSuccess));
     });
   }
 }
