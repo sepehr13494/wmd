@@ -22,6 +22,7 @@ class _ProfilePageState extends AppStateAlive<ProfilePage> {
   void initState() {
     super.initState();
     context.read<PersonalInformationCubit>().getName();
+    context.read<PersonalInformationCubit>().getUserMandate();
   }
 
   @override

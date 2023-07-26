@@ -22,6 +22,7 @@ class _PersonalInformationWidgetState
   bool enableSubmitButton = false;
   final formKey = GlobalKey<FormBuilderState>();
   late Map<String, dynamic> lastValue;
+  int? mandateId;
 
   void checkFinalValid(value) async {
     await Future.delayed(const Duration(milliseconds: 100));
@@ -65,6 +66,14 @@ class _PersonalInformationWidgetState
           lastValue = formKey.currentState!.instantValue;
         }
 
+        if (state is UserMandateLoaded) {
+          final mandate = state.entity.firstWhere((x) => x.dataSource == 'WMD');
+
+          setState(() {
+            mandateId = mandate.mandateId;
+          });
+        }
+
         if (state is SuccessStateName) {
           setState(() {
             lastValue = formKey.currentState!.instantValue;
@@ -83,6 +92,21 @@ class _PersonalInformationWidgetState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Row(
+                  children: [
+                    Text(
+                      "ID ",
+                      style: textTheme.bodyMedium,
+                    ),
+                    Text(
+                      mandateId.toString(),
+                      style: textTheme.bodyMedium,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
                 Text(
                   appLocalizations.profile_tabs_personal_headings_personalInfo,
                   style: textTheme.titleMedium,
