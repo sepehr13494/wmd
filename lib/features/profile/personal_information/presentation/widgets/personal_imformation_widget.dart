@@ -69,9 +69,11 @@ class _PersonalInformationWidgetState
         if (state is UserMandateLoaded) {
           final mandate = state.entity.firstWhere((x) => x.dataSource == 'WMD');
 
-          setState(() {
-            mandateId = mandate.mandateId;
-          });
+          if (mandateId != null) {
+            setState(() {
+              mandateId = mandate.mandateId;
+            });
+          }
         }
 
         if (state is SuccessStateName) {
@@ -92,21 +94,26 @@ class _PersonalInformationWidgetState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Text(
-                      "ID ",
-                      style: textTheme.bodyMedium,
-                    ),
-                    Text(
-                      mandateId.toString(),
-                      style: textTheme.bodyMedium,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+                if (mandateId != null)
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            "ID ",
+                            style: textTheme.bodyMedium,
+                          ),
+                          Text(
+                            mandateId.toString(),
+                            style: textTheme.bodyMedium,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                    ],
+                  ),
                 Text(
                   appLocalizations.profile_tabs_personal_headings_personalInfo,
                   style: textTheme.titleMedium,
