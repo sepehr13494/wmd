@@ -66,7 +66,8 @@ class AppUrls {
   static String getChart = "${wealthBase}Assets";
   static String getCurrency = "${wealthBase}assets/";
   static String getAssetsGeography = "${wealthBase}Assets/GeographicalOverview";
-  static String getPortfolioAllocation = "${wealthBase}Assets/portfolio-allocation";
+  static String getPortfolioAllocation =
+      "${wealthBase}Assets/portfolio-allocation";
   static String getPortfolioTab = "${wealthBase}Assets/";
   static String getPie = "${wealthBase}Assets";
   static String getAssetsOverview = "${wealthBase}Assets/All";
@@ -142,6 +143,7 @@ class AppUrls {
 
   static String getMandate = "${userBase}User/mandate";
   static String postMandates = "${userBase}User/mandates";
+  static String getUserMandates = "${wealthBase}mandate/status";
 
   static String getLinkedAccounts =
       "${wealthBase}CustodianBank/linked-accounts";
