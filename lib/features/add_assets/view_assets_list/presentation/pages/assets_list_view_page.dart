@@ -369,7 +369,7 @@ class AddAssetTopWidget extends AppStatelessWidget {
           padding: const EdgeInsets.all(16),
           width: double.maxFinite,
           decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey[700]!),
+              // border: Border.all(color: Colors.grey[700]!),
               borderRadius: BorderRadius.circular(8)),
           child: Column(
             children: [
