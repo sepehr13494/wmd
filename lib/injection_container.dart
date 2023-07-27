@@ -232,6 +232,7 @@ import 'package:wmd/features/profile/personal_information/data/data_sources/pers
 import 'package:wmd/features/profile/personal_information/data/repositories/personal_information_repository_impl.dart';
 import 'package:wmd/features/profile/personal_information/domain/repositories/personal_information_repository.dart';
 import 'package:wmd/features/profile/personal_information/domain/use_cases/get_name_usecase.dart';
+import 'package:wmd/features/profile/personal_information/domain/use_cases/get_user_mandata_usecase.dart';
 import 'package:wmd/features/profile/personal_information/domain/use_cases/set_name_usecase.dart';
 import 'package:wmd/features/profile/personal_information/domain/use_cases/set_number_usecase.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
@@ -377,10 +378,11 @@ Future<void> init(String env) async {
       () => LogoutRemoteDataSourceImpl(sl()));
 
   //PersonalInformation
-  sl.registerFactory(() => PersonalInformationCubit(sl(), sl(), sl()));
+  sl.registerFactory(() => PersonalInformationCubit(sl(), sl(), sl(), sl()));
   sl.registerLazySingleton(() => GetNameUseCase(sl()));
   sl.registerLazySingleton(() => SetNameUseCase(sl()));
   sl.registerLazySingleton(() => SetNumberUseCase(sl()));
+  sl.registerLazySingleton(() => GetUserMandataUseCase(sl()));
 
   sl.registerLazySingleton<PersonalInformationRepository>(
       () => PersonalInformationRepositoryImpl(sl()));
@@ -416,7 +418,7 @@ Future<void> init(String env) async {
       () => DashboardChartsRemoteDataSourceImpl(sl()));
 
   //AssetOverview
-  sl.registerFactory(() => AssetsOverviewCubit(sl(),""));
+  sl.registerFactory(() => AssetsOverviewCubit(sl(), ""));
   sl.registerFactory(() => AssetsOverviewCubitBankAccount(sl()));
   sl.registerFactory(() => AssetsOverviewCubitListedAssetEquity(sl()));
   sl.registerFactory(() => AssetsOverviewCubitListedAssetOther(sl()));
@@ -462,15 +464,15 @@ Future<void> init(String env) async {
       () => AssetsGeographyChartRemoteDataSourceImpl(sl()));
 
 //PortfolioTab2
-  sl.registerFactory(() => PortfolioTab2Cubit(sl(),sl()));
-  sl.registerFactory(() => PortfolioTab2CubitForTab(sl(),sl()));
-  sl.registerLazySingleton(() => GetPortfolioAllocationUseCase(sl(),sl()));
-  sl.registerLazySingleton(() => GetPortfolioTabUseCase(sl(),sl()));
+  sl.registerFactory(() => PortfolioTab2Cubit(sl(), sl()));
+  sl.registerFactory(() => PortfolioTab2CubitForTab(sl(), sl()));
+  sl.registerLazySingleton(() => GetPortfolioAllocationUseCase(sl(), sl()));
+  sl.registerLazySingleton(() => GetPortfolioTabUseCase(sl(), sl()));
 
   sl.registerLazySingleton<PortfolioTab2Repository>(
-          () => PortfolioTab2RepositoryImpl(sl()));
+      () => PortfolioTab2RepositoryImpl(sl()));
   sl.registerLazySingleton<PortfolioTab2RemoteDataSource>(
-          () => PortfolioTab2RemoteDataSourceImpl(sl()));
+      () => PortfolioTab2RemoteDataSourceImpl(sl()));
 
   // Dashboard - user status dependencies
   sl.registerFactory(() => UserStatusCubit(sl(), sl()));
@@ -642,9 +644,9 @@ Future<void> init(String env) async {
   sl.registerLazySingleton(() => GetManualListUseCase(sl()));
 
   sl.registerLazySingleton<ManualBankListRepository>(
-          () => ManualBankListRepositoryImpl(sl()));
+      () => ManualBankListRepositoryImpl(sl()));
   sl.registerLazySingleton<ManualBankListRemoteDataSource>(
-          () => ManualBankListRemoteDataSourceImpl(sl()));
+      () => ManualBankListRemoteDataSourceImpl(sl()));
 
   //help FAQ
   sl.registerFactory(() => FaqCubit(sl()));
