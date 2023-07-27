@@ -5,9 +5,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StatusStepWidget extends StatefulWidget {
   final String stepNumber;
-  final String title;
+  final Widget title;
   final bool isDone;
-  final bool showInput;
+  final bool isActive;
+  final bool showAction;
   final Widget? subtitle;
   final String? doneSubtitle;
   final Widget? trailing;
@@ -18,7 +19,8 @@ class StatusStepWidget extends StatefulWidget {
     required this.stepNumber,
     this.trailing,
     this.isDone = false,
-    this.showInput = false,
+    this.isActive = false,
+    this.showAction = false,
     this.doneSubtitle,
     this.subtitle,
     this.onDone,
@@ -53,7 +55,9 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
             child: Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Theme.of(context).primaryColor,
+                color: widget.isActive == true
+                    ? Theme.of(context).primaryColor
+                    : Colors.grey[500],
               ),
               height: 20,
               width: 20,
@@ -67,36 +71,32 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
             ),
           ),
           const SizedBox(width: 8),
-          Expanded(
-            flex: 8,
-            child: Text(
-              widget.title,
-              style: textTheme.bodySmall?.copyWith(color: Colors.white),
-            ),
-          ),
+          Expanded(flex: 8, child: widget.title),
 
           Padding(
             padding: const EdgeInsets.only(left: 4),
-            child: widget.trailing != null
-                ?
-                // widget.trailing!
-                OutlinedButton(
-                    onPressed: () => widget.onDone!("ad"),
-                    style: OutlinedButton.styleFrom(
-                      minimumSize: const Size(50, 40),
-                      // maximumSize: const Size(130, 80)
-                    ),
-                    child: Text(
-                      'Mark as done',
-                      style: textTheme.bodySmall?.copyWith(
-                          color: Theme.of(context).primaryColor, fontSize: 10),
-                    ),
-                  )
-                : widget.isDone
-                    ? Icon(
-                        Icons.check_circle_outline,
-                        color: Theme.of(context).primaryColor,
+            child: (widget.showAction == true && !widget.isDone)
+                ? widget.isActive
+                    ? OutlinedButton(
+                        onPressed: () => widget.onDone!(""),
+                        style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(50, 40),
+                          // maximumSize: const Size(130, 80)
+                        ),
+                        child: Text(
+                          appLocalizations.common_button_markAsDone,
+                          style: textTheme.bodySmall?.copyWith(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 10),
+                        ),
                       )
+                    : const SizedBox.shrink()
+                : widget.isDone
+                    ? widget.trailing ??
+                        Icon(
+                          Icons.check_circle_outline,
+                          color: Theme.of(context).primaryColor,
+                        )
                     : const SizedBox.shrink(),
           )
         ],
@@ -144,7 +144,8 @@ class CifStatusWidget extends StatefulWidget {
   final String bankId;
   final String? accountId;
   final String? subtitle;
-  final bool ready;
+  final bool isActive;
+  final bool? isDone;
   final String trailing;
   final void Function(String? val)? onDone;
   final void Function()? onDoneAgain;
@@ -153,7 +154,8 @@ class CifStatusWidget extends StatefulWidget {
     required this.stepNumber,
     required this.trailing,
     required this.bankId,
-    this.ready = true,
+    this.isActive = true,
+    this.isDone,
     this.accountId,
     this.subtitle,
     this.onDone,
@@ -189,26 +191,24 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          widget.accountId != null
-              ? const Icon(
-                  Icons.check_circle,
-                )
-              : Container(
-                  padding: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  height: 20,
-                  width: 20,
-                  child: Center(
-                      child: Text(
-                    widget.stepNumber,
-                    style: textTheme.bodySmall!
-                        .apply(color: Theme.of(context).backgroundColor),
-                    textAlign: TextAlign.center,
-                  )),
-                ),
+          Container(
+            padding: const EdgeInsets.all(2),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: widget.isActive == true
+                  ? Theme.of(context).primaryColor
+                  : Colors.grey[500],
+            ),
+            height: 20,
+            width: 20,
+            child: Center(
+                child: Text(
+              widget.stepNumber,
+              style: textTheme.bodySmall!
+                  .apply(color: Theme.of(context).backgroundColor),
+              textAlign: TextAlign.center,
+            )),
+          ),
           const SizedBox(width: 8),
           Expanded(
             flex: 8,
@@ -221,6 +221,13 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
           //   padding: const EdgeInsets.only(left: 4),
           //   child: Text(widget.trailing, style: textTheme.bodySmall),
           // )
+          if (widget.isDone == true)
+            Padding(
+                padding: const EdgeInsets.only(left: 4),
+                child: Icon(
+                  Icons.check_circle_outline,
+                  color: Theme.of(context).primaryColor,
+                ))
         ],
       ),
       subtitle: Padding(
@@ -271,26 +278,6 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // FittedBox(
-              //   fit: BoxFit.fitWidth,
-              //   child: Row(
-              //     children: [
-              //       Text(
-              //         message,
-              //         style: textTheme.bodyMedium,
-              //       ),
-              //       // const InfoIcon(),
-              //       const SizedBox(width: 4),
-              //       Tooltip(
-              //         showDuration: const Duration(seconds: 5),
-              //         triggerMode: TooltipTriggerMode.tap,
-              //         textAlign: TextAlign.center,
-              //         message: tooltip,
-              //         child: const InfoIcon(),
-              //       ),
-              //     ],
-              //   ),
-              // ),
               const SizedBox(height: 4),
               Row(
                 mainAxisSize: MainAxisSize.max,
@@ -303,38 +290,43 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
                           hintText: appLocalizations
                               .linkAccount_stepper_cif_placeholder),
                       controller: input,
-                      enabled: widget.accountId == null && widget.ready,
+                      enabled: widget.accountId == null && widget.isActive,
                     ),
                   ),
                   const SizedBox(width: 8),
-                  OutlinedButton(
-                    onPressed: () => widget.onDone!(input.text),
-                    style: OutlinedButton.styleFrom(
-                      minimumSize: const Size(50, 40),
-                      // maximumSize: const Size(130, 80)
+                  if (widget.isDone != true)
+                    OutlinedButton(
+                      onPressed: () => widget.onDone!(input.text),
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: const Size(50, 40),
+                        // maximumSize: const Size(130, 80)
+                      ),
+                      child: Text(
+                        widget.subtitle ?? '',
+                        style: textTheme.bodySmall?.copyWith(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 10),
+                      ),
                     ),
-                    child: Text(
-                      widget.subtitle ?? '',
-                      style: textTheme.bodySmall?.copyWith(
-                          color: Theme.of(context).primaryColor, fontSize: 10),
-                    ),
-                  ),
+                  if (widget.accountId != null)
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 4, top: 8, right: 40),
+                      child: InkWell(
+                        onTap: widget.isDone == true
+                            ? null
+                            : () => widget.onDone!(input.text),
+                        child: Text(
+                          appLocalizations.common_button_edit,
+                          style: textTheme.bodySmall!.apply(
+                              color: Theme.of(context).primaryColor,
+                              decoration: TextDecoration.underline),
+                        ),
+                      ),
+                    )
                 ],
               ),
               // const SizedBox(height: 4),
-              if (widget.accountId != null)
-                InkWell(
-                  onTap:
-                      isButtonDisable ? null : () => widget.onDone!(input.text),
-                  child: Text(
-                    appLocalizations.common_button_edit,
-                    style: textTheme.bodySmall!.apply(
-                        color: isButtonDisable
-                            ? Theme.of(context).disabledColor
-                            : Theme.of(context).primaryColor,
-                        decoration: TextDecoration.underline),
-                  ),
-                ),
             ],
           );
         }),
