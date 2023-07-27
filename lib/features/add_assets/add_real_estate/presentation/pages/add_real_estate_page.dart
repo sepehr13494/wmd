@@ -172,7 +172,7 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                               ? widget.moreEntity!
                                                   .toFormJson(context)
                                               : AddAssetConstants
-                                                  .initialJsonForAddAsset,
+                                                  .initialJsonForAddAsset(context),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -208,26 +208,25 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                                     .assetLiabilityForms_forms_realEstate_inputFields_name_label,
                                                 child: AppTextFields
                                                     .simpleTextField(
-                                                        title: "Name",
-                                                        name: "name",
-                                                        onChanged:
-                                                            checkFinalValid,
-                                                        extraValidators: [
-                                                          (val) {
-                                                            return (val !=
-                                                                        null &&
-                                                                    val.length >
-                                                                        50)
-                                                                ? appLocalizations
-                                                                    .common_errors_maxChar
-                                                                    .replaceAll(
-                                                                        "{{maxChar}}",
-                                                                        "50")
-                                                                : null;
-                                                          }
-                                                        ],
-                                                        hint: appLocalizations
-                                                            .assetLiabilityForms_forms_realEstate_inputFields_name_placeholder,
+                                                  title: "Name",
+                                                  name: "name",
+                                                  errorMsg: appLocalizations
+                                                      .assetLiabilityForms_forms_realEstate_inputFields_name_errorMessage,
+                                                  onChanged: checkFinalValid,
+                                                  extraValidators: [
+                                                    (val) {
+                                                      return (val != null &&
+                                                              val.length > 50)
+                                                          ? appLocalizations
+                                                              .common_errors_maxChar
+                                                              .replaceAll(
+                                                                  "{{maxChar}}",
+                                                                  "50")
+                                                          : null;
+                                                    }
+                                                  ],
+                                                  hint: appLocalizations
+                                                      .assetLiabilityForms_forms_realEstate_inputFields_name_placeholder,
                                                 ),
                                               ),
                                               EachTextField(

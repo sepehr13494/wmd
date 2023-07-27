@@ -235,7 +235,7 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                               ? widget.moreEntity!
                                                   .toFormJson(context)
                                               : AddAssetConstants
-                                                  .initialJsonForAddOtherAsset,
+                                                  .initialJsonForAddOtherAsset(context),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,

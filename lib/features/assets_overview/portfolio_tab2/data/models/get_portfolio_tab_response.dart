@@ -22,9 +22,9 @@ class GetPortfolioTabResponse  extends GetPortfolioTabEntity{
     );
 
     factory GetPortfolioTabResponse.fromJson(Map<String, dynamic> json) => GetPortfolioTabResponse(
-        portfolioName: json["portfolioName"],
-        custodianBank: json["custodianBank"],
-        allocationPercentage: json["allocationPercentage"],
+        portfolioName: json["portfolioName"]??"",
+        custodianBank: json["custodianBank"]??"",
+        allocationPercentage: double.tryParse((json["allocationPercentage"]??0).toString()) ?? 0,
         totalAmount: double.tryParse((json["totalAmount"]??0).toString()) ?? 0,
         assetList: List<AssetListResponse>.from(json["assetList"].map((x) => AssetListResponse.fromJson(x))),
         yearToDate: double.tryParse((json["yearToDate"]??0).toString()) ?? 0,

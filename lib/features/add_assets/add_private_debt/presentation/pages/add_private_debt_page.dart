@@ -152,7 +152,7 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                               ? widget.moreEntity!
                                                   .toFormJson(context)
                                               : AddAssetConstants
-                                                  .initialJsonForAddAsset,
+                                                  .initialJsonForAddAsset(context),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -180,6 +180,8 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                                     .simpleTextField(
                                                         title: "Name",
                                                         name: "investmentName",
+                                                        errorMsg: appLocalizations
+                                                            .assetLiabilityForms_forms_privateDebt_inputFields_name_errorMessage,
                                                         onChanged:
                                                             checkFinalValid,
                                                         extraValidators: [
