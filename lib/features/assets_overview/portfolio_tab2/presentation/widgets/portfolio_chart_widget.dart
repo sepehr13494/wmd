@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/widgets/chart_wrapper_box.dart';
@@ -20,11 +21,11 @@ class PortfolioTabChartWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChartWrapperBox(
       child: BlocConsumer<PortfolioTab2Cubit, PortfolioTab2State>(
-        listener: (context, state) {
+        listener: BlocHelper.defaultBlocListener(listener: (context, state) {
           if(state is GetPortfolioAllocationLoaded){
             context.read<PortfolioTab2CubitForTab>().getPortfolioTab(portfolioIds: state.getPortfolioAllocationEntities.map((e) => e.portfolioName).toList());
           }
-        },
+        }),
         builder: (context, state) {
           return state is GetPortfolioAllocationLoaded
               ? Column(
