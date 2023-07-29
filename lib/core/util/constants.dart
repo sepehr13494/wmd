@@ -40,7 +40,7 @@ class AppConstants {
       case "dev":
         return "assets/certificates/dev.crt";
       case "developer":
-        return "assets/certificates/prod.crt";
+        return "assets/certificates/qa.crt";
       default:
         return "assets/certificates/dev.crt";
     }
