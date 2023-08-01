@@ -19,6 +19,7 @@ class PortfolioTab2Cubit extends Cubit<PortfolioTab2State> {
   final GetPortfolioAllocationUseCase getPortfolioAllocationUseCase;
   final GetPortfolioTabUseCase getPortfolioTabUseCase;
 
+  List<GetPortfolioTabEntity> finalEntities = [];
 
   PortfolioTab2Cubit(
     this.getPortfolioAllocationUseCase,
@@ -36,16 +37,17 @@ class PortfolioTab2Cubit extends Cubit<PortfolioTab2State> {
   }
   
   getPortfolioTab({required List<String> portfolioIds}) async {
-    List<GetPortfolioTabEntity> finalEntities = [];
-    await Future.wait(portfolioIds.map((e) {
-      return getPortfolioTabUseCase(e).then((value) {
+    finalEntities = [];
+    for (var element in portfolioIds) {
+      getPortfolioTabUseCase(element).then((value) {
         value.fold((failure) => emit(ErrorState(failure: failure)),
                 (entities) {
+              emit(LoadingState());
               finalEntities.addAll(entities);
-            });
+              emit(GetPortfolioTabLoaded(getPortfolioTabEntity: finalEntities));
+                });
       });
-    }));
-    emit(GetPortfolioTabLoaded(getPortfolioTabEntity: finalEntities));
+    }
   }
 
 }
