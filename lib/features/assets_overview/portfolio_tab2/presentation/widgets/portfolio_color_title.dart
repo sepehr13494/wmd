@@ -8,17 +8,20 @@ class PortfolioColorsWithTitlesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScrollController scrollController = ScrollController();
     return LayoutBuilder(
         builder: (context, snap) {
           final double finalWidth = snap.maxWidth * 0.9;
           const double finalHeight = 120;
           return Center(
             child: Scrollbar(
+              controller: scrollController,
               trackVisibility: true,
               thumbVisibility: true,
               child: SizedBox(
                 height: finalHeight,
                 child: GridView.count(
+                  controller: scrollController,
                   crossAxisCount: 4,
                   childAspectRatio: (finalHeight/4)/finalWidth,
                   scrollDirection: Axis.horizontal,

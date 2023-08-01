@@ -99,6 +99,7 @@ import 'package:wmd/features/assets_overview/portfolio_tab2/data/repositories/po
 import 'package:wmd/features/assets_overview/portfolio_tab2/domain/repositories/portfolio_tab2_repository.dart';
 import 'package:wmd/features/assets_overview/portfolio_tab2/domain/use_cases/get_portfolio_allocation_usecase.dart';
 import 'package:wmd/features/assets_overview/portfolio_tab2/domain/use_cases/get_portfolio_tab_usecase.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_provider_container_cubit.dart';
 import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_tab2_cubit.dart';
 import 'package:wmd/features/authentication/forget_password/data/data_sources/forget_password_server_datasource.dart';
 import 'package:wmd/features/authentication/forget_password/data/repositories/forget_password_repository_impl.dart';
@@ -466,6 +467,7 @@ Future<void> init(String env) async {
 //PortfolioTab2
   sl.registerFactory(() => PortfolioTab2Cubit(sl(), sl()));
   sl.registerFactory(() => PortfolioTab2CubitForTab(sl(), sl()));
+  sl.registerFactory(() => PortfolioProviderContainerCubit());
   sl.registerLazySingleton(() => GetPortfolioAllocationUseCase(sl(), sl()));
   sl.registerLazySingleton(() => GetPortfolioTabUseCase(sl(), sl()));
 

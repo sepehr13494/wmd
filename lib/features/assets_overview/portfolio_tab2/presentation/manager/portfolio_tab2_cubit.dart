@@ -36,18 +36,13 @@ class PortfolioTab2Cubit extends Cubit<PortfolioTab2State> {
     });
   }
   
-  getPortfolioTab({required List<String> portfolioIds}) async {
-    finalEntities = [];
-    for (var element in portfolioIds) {
-      getPortfolioTabUseCase(element).then((value) {
-        value.fold((failure) => emit(ErrorState(failure: failure)),
-                (entities) {
-              emit(LoadingState());
-              finalEntities.addAll(entities);
-              emit(GetPortfolioTabLoaded(getPortfolioTabEntity: finalEntities));
-                });
-      });
-    }
+  getPortfolioTab({required String portfolioId}) async {
+    getPortfolioTabUseCase(portfolioId).then((value) {
+      value.fold((failure) => emit(ErrorState(failure: failure)),
+              (entities) {
+            emit(GetPortfolioTabLoaded(getPortfolioTabEntity: entities));
+          });
+    });
   }
 
 }
