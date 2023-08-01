@@ -5,6 +5,7 @@ import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/widgets/chart_wrapper_box.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/widgets/portfolio_color_title.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/models/each_asset_model.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/widgets/inside_pie_chart.dart';
 
@@ -48,10 +49,10 @@ class PortfolioTabChartWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              ColorsWithTitlesWidget(colorTitles: List.generate(state.getPortfolioAllocationEntities.length, (index) {
+              PortfolioColorsWithTitlesWidget(colorTitles: List.generate(state.getPortfolioAllocationEntities.length, (index) {
                 GetPortfolioAllocationEntity item = state.getPortfolioAllocationEntities[index];
                 return ColorTitleObj(title: item.portfolioName,color: AssetsOverviewChartsColors.treeMapColors[index]);
-              }),axisColumnCount: ResponsiveHelper(context: context).isDesktop ? 3 : 2,),
+              })),
               const SizedBox(height: 16),
             ],
           )

@@ -33,6 +33,9 @@ class PortfolioTab2RemoteDataSourceImpl extends AppServerDataSource
           .map((e) => GetPortfolioAllocationResponse.fromJson(e))
           .toList();
       result.add(result.first);
+      result.add(result.first);
+      result.add(result.first);
+
       return result;
     } on ServerException {
       rethrow;
