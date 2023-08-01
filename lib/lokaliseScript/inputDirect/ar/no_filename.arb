@@ -1,6 +1,6 @@
 {
     "@@locale": "ar",
-    "@@last_modified": "2023-07-26T06:15:33+02:00",
+    "@@last_modified": "2023-07-27T07:18:25+02:00",
     "auth:signup.page.title": "انضمّ إلى منصتنا",
     "auth:signup.page.description": "إنشاء حساب myWMD",
     "auth:signup.heading": "أنشئ حساباً",
@@ -2750,5 +2750,14 @@
     "assets:geography.OtherNotApplicable": "",
     "assets:label.YourAggregatedPortfolio": "",
     "common:logoutConfirmationModal.title": "",
-    "common:button.logout": ""
+    "common:button.logout": "",
+    "common:button.view": "",
+    "common:button.markAsDone": "",
+    "linkAccount:stepper.stepTwo.open": "",
+    "linkAccount:stepper.stepTwo.viewTutorial": "",
+    "linkAccount:stepper.stepFour.title": "",
+    "linkAccount:stepper.stepFour.sharedOn": "",
+    "linkAccount:stepper.stepFive.title": "",
+    "linkAccount:stepper.stepFive.description": "",
+    "linkAccount:deleteCustodianBankModal.title": ""
 }

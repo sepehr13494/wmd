@@ -25,6 +25,10 @@ class AssetsOverviewChartsColors {
     Color(0xff50747C),
     Color(0xffC7EA86),
     Color(0xffffffff),
+    Color(0xfff51a1a),
+    Color(0xff54c2a7),
+    Color(0xfffcd921),
+    Color(0xff1ec500),
   ];
 
   static const Map<String, Color> colorsMap = {

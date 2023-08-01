@@ -29,6 +29,7 @@ import 'package:wmd/features/assets_overview/charts/presentation/manager/chart_c
 import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_manager.dart';
 import 'package:wmd/features/assets_overview/currency_chart/presentation/manager/currency_chart_cubit.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_provider_container_cubit.dart';
 import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_tab2_cubit.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/forget_password_page.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/reset_password_page.dart';
@@ -104,7 +105,7 @@ class AppRouter {
   AssetsGeographyChartCubit _assetsGeographyChartCubit =
   sl<AssetsGeographyChartCubit>();
   PortfolioTab2Cubit _portfolioTabAllocationsCubit = sl<PortfolioTab2Cubit>();
-  PortfolioTab2CubitForTab _portfolioTabCubit = sl<PortfolioTab2CubitForTab>();
+  PortfolioProviderContainerCubit _portfolioProviderContainer = sl<PortfolioProviderContainerCubit>();
   DashboardAllocationCubit _dashboardAllocationCubit =
   sl<DashboardAllocationCubit>();
   DashboardPieCubit _dashboardPieCubit = sl<DashboardPieCubit>();
@@ -390,8 +391,8 @@ class AppRouter {
                     ),
                     BlocProvider(
                       create: (context) {
-                        _portfolioTabCubit = sl<PortfolioTab2CubitForTab>();
-                        return _portfolioTabCubit;
+                        _portfolioProviderContainer = sl<PortfolioProviderContainerCubit>();
+                        return _portfolioProviderContainer;
                       },
                     ),
                     BlocProvider(

@@ -9,51 +9,64 @@ import '../models/get_portfolio_allocation_response.dart';
 import '../models/get_portfolio_tab_params.dart';
 import '../models/get_portfolio_tab_response.dart';
 
-
-
 abstract class PortfolioTab2RemoteDataSource {
-  Future<List<GetPortfolioAllocationResponse>> getPortfolioAllocation(GetPortfolioAllocationParams params);
-  Future<List<GetPortfolioTabResponse>> getPortfolioTab(GetPortfolioTabParams params);
+  Future<List<GetPortfolioAllocationResponse>> getPortfolioAllocation(
+      GetPortfolioAllocationParams params);
 
+  Future<List<GetPortfolioTabResponse>> getPortfolioTab(
+      GetPortfolioTabParams params);
 }
 
 class PortfolioTab2RemoteDataSourceImpl extends AppServerDataSource
     implements PortfolioTab2RemoteDataSource {
   PortfolioTab2RemoteDataSourceImpl(super.errorHandlerMiddleware);
-  
-    @override
-  Future<List<GetPortfolioAllocationResponse>> getPortfolioAllocation(GetPortfolioAllocationParams params) async {
-    try{
-      final appRequestOptions =
-          AppRequestOptions(RequestTypes.get, AppUrls.getPortfolioAllocation, params.toJson());
-      final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
+
+  @override
+  Future<List<GetPortfolioAllocationResponse>> getPortfolioAllocation(
+      GetPortfolioAllocationParams params) async {
+    try {
+      final appRequestOptions = AppRequestOptions(
+          RequestTypes.get, AppUrls.getPortfolioAllocation, params.toJson());
+      final response =
+          await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = (response as List<dynamic>)
-                  .map((e) => GetPortfolioAllocationResponse.fromJson(e))
-                  .toList();
+          .map((e) => GetPortfolioAllocationResponse.fromJson(e))
+          .toList();
       return result;
     } on ServerException {
       rethrow;
     } catch (e) {
       throw AppException(
-          message: "format Exception", type: ExceptionType.format,data: e.toString(),stackTrace: e is TypeError ? e.stackTrace.toString() : null);
+          message: "format Exception",
+          type: ExceptionType.format,
+          data: e.toString(),
+          stackTrace: e is TypeError ? e.stackTrace.toString() : null);
     }
   }
-  
-      @override
-  Future<List<GetPortfolioTabResponse>> getPortfolioTab(GetPortfolioTabParams params) async {
-    try{
-      final appRequestOptions =
-          AppRequestOptions(RequestTypes.get, "${AppUrls.getPortfolioTab}${params.ownerId}/portfolio/${params.portfolioId}", null);
-      final response = await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = [GetPortfolioTabResponse.fromJson(response)];
+
+  @override
+  Future<List<GetPortfolioTabResponse>> getPortfolioTab(
+      GetPortfolioTabParams params) async {
+    try {
+      final appRequestOptions = AppRequestOptions(
+          RequestTypes.get,
+          "${AppUrls.getPortfolioTab}${params.ownerId}/portfolio/${params.portfolioId}",
+          null);
+      final response =
+          await errorHandlerMiddleware.sendRequest(appRequestOptions);
+      final result = [
+        GetPortfolioTabResponse.fromJson(response),
+      ];
       return result;
     } on ServerException {
       rethrow;
     } catch (e) {
+      print(e);
       throw AppException(
-          message: "format Exception", type: ExceptionType.format,data: e.toString(),stackTrace: e is TypeError ? e.stackTrace.toString() : null);
+          message: "format Exception",
+          type: ExceptionType.format,
+          data: e.toString(),
+          stackTrace: e is TypeError ? e.stackTrace.toString() : null);
     }
   }
-  
-    
 }
