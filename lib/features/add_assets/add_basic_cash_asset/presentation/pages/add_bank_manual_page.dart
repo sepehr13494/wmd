@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
@@ -57,9 +56,9 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
   @override
   void initState() {
     if (widget.edit) {
-      accountType = widget.moreEntity!.toFormJson(context)["accountType"];
-      startDateValue = widget.moreEntity!.toFormJson(context)["startDate"];
       Future.delayed(const Duration(seconds: 1), () {
+        accountType = widget.moreEntity!.toFormJson(context)["accountType"];
+        startDateValue = widget.moreEntity!.toFormJson(context)["startDate"];
         changeDate();
       });
     }
