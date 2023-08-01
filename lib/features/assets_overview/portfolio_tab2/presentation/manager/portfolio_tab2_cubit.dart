@@ -37,6 +37,7 @@ class PortfolioTab2Cubit extends Cubit<PortfolioTab2State> {
   }
   
   getPortfolioTab({required String portfolioId}) async {
+    emit(LoadingState());
     getPortfolioTabUseCase(portfolioId).then((value) {
       value.fold((failure) => emit(ErrorState(failure: failure)),
               (entities) {
