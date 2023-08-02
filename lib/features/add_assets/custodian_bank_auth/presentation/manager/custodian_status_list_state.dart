@@ -3,7 +3,7 @@ part of 'custodian_status_list_cubit.dart';
 abstract class CustodianStatusListState {}
 
 class StatusListLoaded extends Equatable with CustodianStatusListState {
-  final List<StatusEntity> statusEntity;
+  final List<CustodianBankStatusEntity> statusEntity;
 
   StatusListLoaded({
     required this.statusEntity,
