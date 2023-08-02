@@ -1,6 +1,6 @@
 {
     "@@locale": "en",
-    "@@last_modified": "2023-07-27T07:18:25+02:00",
+    "@@last_modified": "2023-07-31T07:40:55+02:00",
     "auth:signup.page.title": "Join our Platform",
     "auth:signup.page.description": "Create myWMD account",
     "auth:signup.heading": "Create an account",
@@ -1477,7 +1477,7 @@
     "profile:twofactorauthentication.label.enabledPhoneNumber": "Enabled with mobile phone number",
     "profile:twofactorauthentication.breadCrumb.settings": "Settings",
     "profile:twofactorauthentication.breadCrumb.twoFactorAuthentication": "Two-factor authentication",
-    "profile:twofactorauthentication.options.twoFactor.title": "Two_factor authentication is turned on",
+    "profile:twofactorauthentication.options.twoFactor.title": "Two-factor authentication is turned on",
     "profile:twofactorauthentication.options.twoFactor.description": "Each time you login, you'll receive a unique single-use code via sms and\/or email.",
     "profile:twofactorauthentication.options.emailTwoFactor.title": "Email address:",
     "profile:twofactorauthentication.options.emailTwoFactor.description": "You will receive an OTP on your registered email address.",
@@ -2759,5 +2759,17 @@
     "linkAccount:stepper.stepFour.sharedOn": "Shared on",
     "linkAccount:stepper.stepFive.title": "Awaiting data from your custodian bank",
     "linkAccount:stepper.stepFive.description": "It may take up to 10 working days. You will be emailed when the data is received.",
-    "linkAccount:deleteCustodianBankModal.title": "Are you sure?"
+    "linkAccount:deleteCustodianBankModal.title": "Are you sure?",
+    "linkAccount:custodians.HSBC": "HSBC - Switzerland",
+    "linkAccount:custodians.JPMorgan": "JP Morgan - Switzerland",
+    "linkAccount:custodians.JuliusBaer": "Julius Baer - Switzerland",
+    "linkAccount:custodians.Pictet": "Pictet - Switzerland",
+    "linkAccount:custodians.UBS": "UBS - Switzerland",
+    "linkAccount:custodians.CreditSuisse": "Credit Suisse",
+    "linkAccount:stepper.stepThree.title.mobile": "Print, fill and sign authorization letter",
+    "home:custodianBankList.statusText.step1": "Step 1 of 5 is done. Open the authorization letter.",
+    "home:custodianBankList.statusText.step2": "Step 2 of 5 is done. Save, print and fill authorization letter.",
+    "home:custodianBankList.statusText.step3": "Step 3 of 5 is done. Share the letter with your custodian bank.",
+    "home:custodianBankList.statusText.step4": "Step 4 of 5 is done. Awaiting data from your custodian bank.",
+    "linkAccount:custodians.LombardOdier": "Lombard Odier"
 }

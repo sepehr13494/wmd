@@ -25,8 +25,6 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/get_
     as _i11;
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/post_custodian_bank_status_entity.dart'
     as _i8;
-import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/status_entity.dart'
-    as _i15;
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/repositories/custodian_bank_auth_repository.dart'
     as _i3;
 
@@ -159,22 +157,23 @@ class MockCustodianBankAuthRepository extends _i1.Mock
             )),
           ) as _i4.Future<_i2.Either<_i5.Failure, _i13.AppSuccess>>);
   @override
-  _i4.Future<
-      _i2.Either<_i5.Failure, List<_i15.StatusEntity>>> getCustodianStatusList(
-          _i7.GetCustodianBankListParams? params) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getCustodianStatusList,
-          [params],
-        ),
-        returnValue:
-            _i4.Future<_i2.Either<_i5.Failure, List<_i15.StatusEntity>>>.value(
-                _FakeEither_0<_i5.Failure, List<_i15.StatusEntity>>(
-          this,
-          Invocation.method(
-            #getCustodianStatusList,
-            [params],
-          ),
-        )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, List<_i15.StatusEntity>>>);
+  _i4.Future<_i2.Either<_i5.Failure, List<_i11.CustodianBankStatusEntity>>>
+      getCustodianStatusList(_i7.GetCustodianBankListParams? params) =>
+          (super.noSuchMethod(
+            Invocation.method(
+              #getCustodianStatusList,
+              [params],
+            ),
+            returnValue: _i4.Future<
+                _i2.Either<_i5.Failure,
+                    List<_i11.CustodianBankStatusEntity>>>.value(_FakeEither_0<
+                _i5.Failure, List<_i11.CustodianBankStatusEntity>>(
+              this,
+              Invocation.method(
+                #getCustodianStatusList,
+                [params],
+              ),
+            )),
+          ) as _i4.Future<
+              _i2.Either<_i5.Failure, List<_i11.CustodianBankStatusEntity>>>);
 }

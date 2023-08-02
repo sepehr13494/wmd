@@ -10,9 +10,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/custom_expansion_tile.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/get_custodian_bank_status_entity.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/status_entity.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/widget/custodian_auth_status_modal.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/widget/custodian_more_bottom_sheet.dart';
 import 'package:wmd/features/dashboard/mandate_status/data/models/delete_mandate_params.dart';
 import 'package:wmd/features/dashboard/mandate_status/presentation/manager/mandate_status_cubit.dart';
 import 'package:wmd/global_functions.dart';
@@ -130,7 +132,7 @@ class _BanksAuthorizationProcessState
   }
 
   TableRow buildTableRow(
-      BuildContext context, StatusEntity e, TextTheme textTheme,
+      BuildContext context, CustodianBankStatusEntity e, TextTheme textTheme,
       {EdgeInsetsGeometry padding =
           const EdgeInsets.only(top: 8.0, bottom: 8)}) {
     final appLocalizations = AppLocalizations.of(context);
@@ -157,40 +159,61 @@ class _BanksAuthorizationProcessState
           ),
         ),
         Padding(
-          padding: padding,
-          child: Align(
-            alignment: Alignment.center,
-            child: InkWell(
-              onTap: () async {
-                final resPopup = await showCustodianBankStatus(
-                  context: context,
-                  bankId: e.bankId,
-                  id: e.id,
-                );
+            padding: padding,
+            child: Align(
+              alignment: Alignment.center,
+              child: IconButton(
+                  onPressed: () {
+                    // Navigator.pop(context);
 
-                // ignore: use_build_context_synchronously
-                context
-                    .read<CustodianStatusListCubit>()
-                    .getCustodianStatusList();
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    appLocalizations.home_custodianBankList_button_view,
-                    style: textTheme.bodyLarge!
-                        .apply(color: Theme.of(context).primaryColor),
-                  ),
-                  const SizedBox(width: 4),
-                  const Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    size: 12,
-                  )
-                ],
-              ),
-            ),
-          ),
-        )
+                    showModalBottomSheet(
+                        backgroundColor:
+                            Theme.of(context).scaffoldBackgroundColor,
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (bottomSheetContext) {
+                          return CustodianMoreBottomSheet(
+                            bankId: e.bankId,
+                            id: e.id,
+                          );
+                        });
+                  },
+                  icon: Icon(
+                    Icons.more_horiz,
+                    color: Theme.of(context).primaryColor,
+                  )),
+
+              //   InkWell(
+              //     onTap: () async {
+              //       final resPopup = await showCustodianBankStatus(
+              //         context: context,
+              //         bankId: e.bankId,
+              //         id: e.id,
+              //       );
+
+              //       // ignore: use_build_context_synchronously
+              //       context
+              //           .read<CustodianStatusListCubit>()
+              //           .getCustodianStatusList();
+              //     },
+              //     child: Row(
+              //       mainAxisSize: MainAxisSize.min,
+              //       children: [
+              //         Text(
+              //           appLocalizations.home_custodianBankList_button_view,
+              //           style: textTheme.bodyLarge!
+              //               .apply(color: Theme.of(context).primaryColor),
+              //         ),
+              //         const SizedBox(width: 4),
+              //         const Icon(
+              //           Icons.arrow_forward_ios_rounded,
+              //           size: 12,
+              //         )
+              //       ],
+              //     ),
+              //   ),
+              // ),
+            ))
       ],
     );
   }
