@@ -56,7 +56,7 @@ class PerformanceTableCubit extends Cubit<PerformanceTableState> {
   getBenchmark({TimeFilterObj? period}) async {
     this.period = period;
     emit(LoadingState());
-    final result = await getBenchmarkUseCase(GetBenchmarkParams(period: period?.value ?? "ITD"));
+    final result = await getBenchmarkUseCase(GetBenchmarkParams(period: period?.value ?? "Last7days"));
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (entities) {
       
