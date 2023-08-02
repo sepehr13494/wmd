@@ -25,7 +25,8 @@ abstract class CustodianBankAuthRemoteDataSource {
       GetCustodianBankStatusParams params);
   Future<void> deleteCustodianBankStatus(
       DeleteCustodianBankStatusParams params);
-  Future<List<StatusResponse>> getStatusList(GetCustodianBankListParams params);
+  Future<List<GetCustodianBankStatusResponse>> getCustodianStatusList(
+      GetCustodianBankListParams params);
 }
 
 class CustodianBankAuthRemoteDataSourceImpl extends AppServerDataSource
@@ -88,14 +89,14 @@ class CustodianBankAuthRemoteDataSourceImpl extends AppServerDataSource
   }
 
   @override
-  Future<List<StatusResponse>> getStatusList(
+  Future<List<GetCustodianBankStatusResponse>> getCustodianStatusList(
       GetCustodianBankListParams params) async {
     final appRequestOptions = AppRequestOptions(
         RequestTypes.get, AppUrls.getCustodianStatusList, params.toJson());
     final response =
         await errorHandlerMiddleware.sendRequest(appRequestOptions);
     final result = (response as List<dynamic>)
-        .map((e) => StatusResponse.fromJson(e))
+        .map((e) => GetCustodianBankStatusResponse.fromJson(e))
         .toList();
     return result;
   }

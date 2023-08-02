@@ -1,6 +1,6 @@
 {
     "@@locale": "ar",
-    "@@last_modified": "2023-07-27T07:18:25+02:00",
+    "@@last_modified": "2023-07-31T07:40:55+02:00",
     "auth:signup.page.title": "انضمّ إلى منصتنا",
     "auth:signup.page.description": "إنشاء حساب myWMD",
     "auth:signup.heading": "أنشئ حساباً",
@@ -2759,5 +2759,17 @@
     "linkAccount:stepper.stepFour.sharedOn": "",
     "linkAccount:stepper.stepFive.title": "",
     "linkAccount:stepper.stepFive.description": "",
-    "linkAccount:deleteCustodianBankModal.title": ""
+    "linkAccount:deleteCustodianBankModal.title": "",
+    "linkAccount:custodians.HSBC": "",
+    "linkAccount:custodians.JPMorgan": "",
+    "linkAccount:custodians.JuliusBaer": "",
+    "linkAccount:custodians.Pictet": "",
+    "linkAccount:custodians.UBS": "",
+    "linkAccount:custodians.CreditSuisse": "",
+    "linkAccount:stepper.stepThree.title.mobile": "",
+    "home:custodianBankList.statusText.step1": "",
+    "home:custodianBankList.statusText.step2": "",
+    "home:custodianBankList.statusText.step3": "",
+    "home:custodianBankList.statusText.step4": "",
+    "linkAccount:custodians.LombardOdier": ""
 }

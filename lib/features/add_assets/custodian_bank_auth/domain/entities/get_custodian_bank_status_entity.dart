@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustodianBankStatusEntity extends Equatable {
   const CustodianBankStatusEntity({
@@ -69,6 +69,33 @@ class CustodianBankStatusEntity extends Equatable {
     "type": "string",
     "subType": "string"
   };
+
+  String statusText(AppLocalizations appLocalizations) {
+    String res = "";
+
+    switch (status) {
+      case CustodianStatus.OpenLetter:
+        res = appLocalizations.home_custodianBankList_statusText_step1;
+        break;
+      case CustodianStatus.FillLetter:
+        res = appLocalizations.home_custodianBankList_statusText_step2;
+        break;
+      case CustodianStatus.ShareLetter:
+        res = appLocalizations.home_custodianBankList_statusText_step3;
+        break;
+      case CustodianStatus.SyncBank:
+        res = appLocalizations.home_custodianBankList_statusText_step4;
+        break;
+      case CustodianStatus.FillAccount:
+        res = "";
+        break;
+      default:
+        res = "";
+        break;
+    }
+
+    return res;
+  }
 }
 
 enum CustodianStatus {
