@@ -35,7 +35,7 @@ Future<List<Mandate>?> showTfoConfirmMandateModal(
             ),
             const SizedBox(height: 16),
             ...mandates.map((e) => CheckMandate(
-                title: e.mandateId.toString(),
+                title: 'Account ID# ' + e.mandateId.toString(),
                 onChange: (val) {
                   if (val) {
                     selected.add(e);
@@ -66,7 +66,6 @@ Future<List<Mandate>?> showTfoConfirmMandateModal(
     return null;
   });
 }
-
 
 class CheckMandate extends StatefulWidget {
   final String title;

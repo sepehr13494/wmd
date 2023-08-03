@@ -58,9 +58,6 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
   bool isDisableCategory = false;
   bool isDisableCurrency = false;
 
-  final SuggestionsBoxController _typeAheadController =
-      SuggestionsBoxController();
-
   void calculateCurrentValue() {
     const defaultValue = "--";
     if (noOfUnits == "" || noOfUnits == null) {
@@ -77,14 +74,13 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
     }
 
     final noOfUnitsParsed = noOfUnits != null
-        ? int.tryParse(noOfUnits!.toString().replaceAll(',', ''))
+        ? double.tryParse(noOfUnits!.toString().replaceAll(',', ''))
         : 0;
-    print(noOfUnitsParsed);
     final valuePerUnitParsed = valuePerUnit != null
-        ? int.tryParse(valuePerUnit!.toString().replaceAll(',', ''))
+        ? double.tryParse(valuePerUnit!.toString().replaceAll(',', ''))
         : 0;
     setState(() {
-      currentDayValue = NumberFormat("#,##0", "en_US")
+      currentDayValue = NumberFormat("#,##0.##########", "en_US")
           .format(noOfUnitsParsed! * valuePerUnitParsed!);
     });
   }
@@ -144,8 +140,8 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                 .read<ListedSecurityCubit>()
                                 .postListedSecurity(map: {
                               ...finalMap,
-                              "country":
-                                  Country(name: "XO", countryName: "Other")
+                              "country": const Country(
+                                  name: "XO", countryName: "Other")
                             });
                           }
                         }
@@ -209,9 +205,10 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                     listener: (context, state) {
                                   if (state is MarketDataSuccess) {
                                     if (edit && state.entity.isNotEmpty) {
-                                      final formJson = widget.moreEntity!
-                                          .toFormJson(state.entity.first);
                                       try {
+                                        final formJson = widget.moreEntity!
+                                            .toFormJson(
+                                                state.entity.first, context);
                                         securityName = formJson["name"];
                                         noOfUnits = formJson["quantity"];
                                         valuePerUnit = formJson["marketValue"];
@@ -256,9 +253,10 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                             ? widget.moreEntity!
                                                                 .toFormJson(
                                                                     state.entity
-                                                                        .first)
+                                                                        .first,
+                                                                    context)
                                                             : AddAssetConstants
-                                                                .initialJsonForAddAsset,
+                                                                .initialJsonForAddAsset(context),
                                                         child: Column(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
@@ -319,7 +317,7 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                                           formKey
                                                                               .currentState!
                                                                               .patchValue({
-                                                                            "currencyCode": Currency.currenciesList.firstWhere((curr) =>
+                                                                            "currencyCode": Currency.getCurrencyList(context).firstWhere((curr) =>
                                                                                 curr.symbol ==
                                                                                 e?.currencyCode),
                                                                             "category":
@@ -405,87 +403,87 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                                   items: AppConstants
                                                                       .custodianList),
                                                             ),
-                                                            EachTextField(
-                                                              hasInfo: false,
-                                                              title: appLocalizations
-                                                                  .assetLiabilityForms_forms_listedAssets_inputFields_assetType_label,
-                                                              child: AppTextFields
-                                                                  .dropDownTextField(
-                                                                errorMsg:
-                                                                    appLocalizations
-                                                                        .assetLiabilityForms_forms_listedAssets_inputFields_assetType_errorMessage,
-                                                                onChanged:
-                                                                    (val) async {
-                                                                  await Future.delayed(
-                                                                      const Duration(
-                                                                          milliseconds:
-                                                                              200));
+                                                            // EachTextField(
+                                                            //   hasInfo: false,
+                                                            //   title: appLocalizations
+                                                            //       .assetLiabilityForms_forms_listedAssets_inputFields_assetType_label,
+                                                            //   child: AppTextFields
+                                                            //       .dropDownTextField(
+                                                            //     errorMsg:
+                                                            //         appLocalizations
+                                                            //             .assetLiabilityForms_forms_listedAssets_inputFields_assetType_errorMessage,
+                                                            //     onChanged:
+                                                            //         (val) async {
+                                                            //       await Future.delayed(
+                                                            //           const Duration(
+                                                            //               milliseconds:
+                                                            //                   200));
 
-                                                                  if (securityName
-                                                                          ?.category ==
-                                                                      val) {
-                                                                    setState(
-                                                                        () {
-                                                                      isDisableCategory =
-                                                                          true;
-                                                                    });
-                                                                  } else {
-                                                                    setState(
-                                                                        () {
-                                                                      isDisableCategory =
-                                                                          false;
-                                                                    });
-                                                                  }
+                                                            //       if (securityName
+                                                            //               ?.category ==
+                                                            //           val) {
+                                                            //         setState(
+                                                            //             () {
+                                                            //           isDisableCategory =
+                                                            //               true;
+                                                            //         });
+                                                            //       } else {
+                                                            //         setState(
+                                                            //             () {
+                                                            //           isDisableCategory =
+                                                            //               false;
+                                                            //         });
+                                                            //       }
 
-                                                                  if (val ==
-                                                                      "FixedIncome") {
-                                                                    setState(
-                                                                        () {
-                                                                      isFixedIncome =
-                                                                          true;
-                                                                    });
-                                                                  } else {
-                                                                    formKey.currentState?.setInternalFieldValue(
-                                                                        "maturityDate",
-                                                                        null,
-                                                                        isSetState:
-                                                                            true);
-                                                                    formKey.currentState?.setInternalFieldValue(
-                                                                        "couponRate",
-                                                                        null,
-                                                                        isSetState:
-                                                                            true);
-                                                                    setState(
-                                                                        () {
-                                                                      isFixedIncome =
-                                                                          false;
-                                                                    });
-                                                                  }
-                                                                  checkFinalValid(
-                                                                      val);
-                                                                  debugPrint(formKey
-                                                                          .currentState!
-                                                                          .instantValue[
-                                                                      "category"]);
-                                                                },
-                                                                enabled:
-                                                                    !isDisableCategory,
-                                                                name:
-                                                                    "category",
-                                                                hint: appLocalizations
-                                                                    .assetLiabilityForms_forms_listedAssets_inputFields_assetType_placeholder,
-                                                                items: ListedSecurityType
-                                                                    .listedSecurityList
-                                                                    .map((e) =>
-                                                                        DropdownMenuItem(
-                                                                          value:
-                                                                              e.value,
-                                                                          child:
-                                                                              Text(e.name),
-                                                                        ))
-                                                                    .toList(),
-                                                              ),
-                                                            ),
+                                                            //       if (val ==
+                                                            //           "FixedIncome") {
+                                                            //         setState(
+                                                            //             () {
+                                                            //           isFixedIncome =
+                                                            //               true;
+                                                            //         });
+                                                            //       } else {
+                                                            //         formKey.currentState?.setInternalFieldValue(
+                                                            //             "maturityDate",
+                                                            //             null,
+                                                            //             isSetState:
+                                                            //                 true);
+                                                            //         formKey.currentState?.setInternalFieldValue(
+                                                            //             "couponRate",
+                                                            //             null,
+                                                            //             isSetState:
+                                                            //                 true);
+                                                            //         setState(
+                                                            //             () {
+                                                            //           isFixedIncome =
+                                                            //               false;
+                                                            //         });
+                                                            //       }
+                                                            //       checkFinalValid(
+                                                            //           val);
+                                                            //       debugPrint(formKey
+                                                            //               .currentState!
+                                                            //               .instantValue[
+                                                            //           "category"]);
+                                                            //     },
+                                                            //     enabled:
+                                                            //         !isDisableCategory,
+                                                            //     name:
+                                                            //         "category",
+                                                            //     hint: appLocalizations
+                                                            //         .assetLiabilityForms_forms_listedAssets_inputFields_assetType_placeholder,
+                                                            //     items: ListedSecurityType
+                                                            //         .listedSecurityList
+                                                            //         .map((e) =>
+                                                            //             DropdownMenuItem(
+                                                            //               value:
+                                                            //                   e.value,
+                                                            //               child:
+                                                            //                   Text(e.name),
+                                                            //             ))
+                                                            //         .toList(),
+                                                            //   ),
+                                                            // ),
                                                             EachTextField(
                                                               tooltipText:
                                                                   appLocalizations
@@ -607,7 +605,7 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                                         calculateCurrentValue();
                                                                       },
                                                                       type: TextFieldType
-                                                                          .money,
+                                                                          .rateMoney,
                                                                       keyboardType:
                                                                           TextInputType
                                                                               .number,

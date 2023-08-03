@@ -123,7 +123,7 @@ class SuccessModalOnboardingWidget extends ModalWidget {
             OutlinedButton(
               onPressed: () {
                 // View Asset detail button
-                context.goNamed(AppRoutes.addAssetsView);
+                context.goNamed(AppRoutes.main);
               },
               style: OutlinedButton.styleFrom(minimumSize: const Size(100, 50)),
               child: Text(appLocalizations.common_button_continue),

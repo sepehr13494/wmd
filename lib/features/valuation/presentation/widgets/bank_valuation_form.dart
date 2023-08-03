@@ -95,7 +95,7 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
       children: [
         FormBuilder(
             key: formKey,
-            initialValue: widget.isEdit ? {} : {'note': "New valuation added"},
+            initialValue: widget.isEdit ? {} : {'note': "New Balance added"},
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -139,7 +139,7 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
                 EachTextField(
                   hasInfo: false,
                   title: appLocalizations
-                      .assets_valuationModal_labels_marketValuation,
+                      .assets_valuationModal_labels_currentBalanceValue,
                   child: AppTextFields.simpleTextField(
                       onChanged: (e) => checkFinalValid(e),
                       errorMsg: appLocalizations.common_errors_required,
@@ -149,7 +149,7 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
                           : TextFieldType.money,
                       name: "pricePerUnit",
                       hint: appLocalizations
-                          .assetLiabilityForms_forms_privateEquity_inputFields_initialInvestmentAmount_placeholder),
+                          .assets_valuationModal_placeholder_currentBalanceValue),
                 ),
                 EachTextField(
                   hasInfo: false,

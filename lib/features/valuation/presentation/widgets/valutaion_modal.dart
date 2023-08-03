@@ -12,6 +12,9 @@ import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 import 'package:wmd/features/asset_see_more/core/data/models/get_asset_see_more_params.dart';
 import 'package:wmd/features/asset_see_more/core/presentation/manager/asset_see_more_cubit.dart';
+import 'package:wmd/features/asset_see_more/listed_asset/data/models/listed_asset_more_entity.dart';
+import 'package:wmd/features/asset_see_more/private_debt/data/models/private_debt_more_entity.dart';
+import 'package:wmd/features/asset_see_more/private_equity/data/models/private_equity_more_entity.dart';
 import 'package:wmd/features/asset_see_more/real_estate/data/model/real_estate_more_entity.dart';
 import 'package:wmd/features/valuation/presentation/manager/valuation_cubit.dart';
 import 'package:wmd/features/valuation/presentation/widgets/bank_valuation_form.dart';
@@ -241,7 +244,7 @@ class ValuationModalWidget extends ModalWidget {
           }
 
           if (state is GetValuationLoaded) {
-            var json = state.entity.toFormJson();
+            var json = state.entity.toFormJson(context);
 
             setFormValues!(json);
           }
@@ -265,7 +268,7 @@ class ValuationModalWidget extends ModalWidget {
 
                   if (isEdit == null || isEdit == false) {
                     formDataTemp['currencyCode'] =
-                        Currency.getCurrencyFromString(json?.currencyCode);
+                        Currency.getCurrencyFromString(json?.currencyCode,context);
                   }
 
                   bool isAcquisitionDateAvailable = false;
@@ -295,6 +298,14 @@ class ValuationModalWidget extends ModalWidget {
                   if (isAcquisitionDateAvailable) {
                     formDataTemp['acquisitionDate'] = json?.acquisitionDate;
                   }
+                  if (seeMoreState.getAssetSeeMoreEntity.runtimeType ==
+                          PrivateDebtMoreEntity ||
+                      seeMoreState.getAssetSeeMoreEntity.runtimeType ==
+                          PrivateEquityMoreEntity ||
+                      seeMoreState.getAssetSeeMoreEntity.runtimeType ==
+                          ListedAssetMoreEntity) {
+                    formDataTemp['acquisitionDate'] = json?.investmentDate;
+                  }
 
                   if (isSavingOrCurrentBank) {
                     formDataTemp['isSavingOrCurrentBank'] =
@@ -313,7 +324,7 @@ class ValuationModalWidget extends ModalWidget {
                   setFormValues!(formDataTemp);
                 } else {
                   setFormValues!(
-                      {'currencyCode': Currency.getCurrencyFromString('USD')});
+                      {'currencyCode': Currency.getCurrencyFromString('USD',context)});
                 }
               } catch (e) {
                 debugPrint('Format erro detail:');
@@ -490,10 +501,13 @@ class ValuationModalWidget extends ModalWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                isEdit!
-                                    ? "Edit Valuation"
-                                    : appLocalizations
-                                        .assets_valuationModal_heading,
+                                assetType == AssetTypes.bankAccount
+                                    ? appLocalizations
+                                        .assets_valuationModal_updateTheBalance
+                                    : isEdit!
+                                        ? "Edit Valuation"
+                                        : appLocalizations
+                                            .assets_valuationModal_heading,
                                 style: appTextTheme.headlineSmall,
                                 textAlign: TextAlign.center,
                               )

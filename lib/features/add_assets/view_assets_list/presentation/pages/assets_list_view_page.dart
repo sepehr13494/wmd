@@ -8,6 +8,7 @@ import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helpe
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/util/check_is_new_user.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
@@ -15,7 +16,6 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/page/cu
 import 'package:wmd/features/add_assets/view_assets_list/presentation/manager/asset_view_cubit.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/each_asset_widget.dart';
-import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/support_widget.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/onboarding/presentation/widget/add_asset_onboarding_view.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
@@ -130,15 +130,16 @@ class _AssetTabWrapperState extends AppState<AssetTabWrapper>
     _tabController.addListener(() {
       if (_tabController.index == 1 && isReleaseOne) {
         context.read<AssetViewCubit>().selectCustodian();
+      } else if (_tabController.index == 1 && isReleaseOne) {
+        context.read<AssetViewCubit>().selectCustodian();
       } else if (_tabController.index == 2 && !isReleaseOne) {
         context.read<AssetViewCubit>().selectCustodian();
+      } else if (_tabController.index == 1 && !isReleaseOne) {
+        context.read<AssetViewCubit>().selectTab(1);
+      } else if (_tabController.index == 0 && !isReleaseOne) {
+        context.read<AssetViewCubit>().empty();
       } else {
         context.read<AssetViewCubit>().empty();
-      }
-      // for liability tab selection
-      if (_tabController.index == 1) {
-        // debugPrint("awdadaw test 1");
-        context.read<AssetViewCubit>().selectTab(1);
       }
     });
   }
@@ -339,90 +340,105 @@ class AssetsPart extends AppStatelessWidget {
 class AddAssetTopWidget extends AppStatelessWidget {
   const AddAssetTopWidget({Key? key}) : super(key: key);
 
-  @override
-  Widget buildWidget(BuildContext context, TextTheme textTheme,
+  Widget renderTopWIdget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final primaryColor = Theme.of(context).primaryColor;
 
-    final isAssetsNotEmpty =
-        context.read<MainDashboardCubit>().netWorthObj?.assets.currentValue !=
-            0;
-    final isLiabilityNotEmpty = context
-            .read<MainDashboardCubit>()
-            .netWorthObj
-            ?.liabilities
-            .currentValue !=
-        0;
-
-    final isCustodianNotEmpty =
-        context.read<CustodianStatusListCubit>().statutes.isNotEmpty;
-
-    if (isAssetsNotEmpty || isLiabilityNotEmpty || isCustodianNotEmpty) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 16),
-          BlocBuilder<PersonalInformationCubit, PersonalInformationState>(
-            builder: (context, state) {
-              String name = "";
-              if (state is PersonalInformationLoaded) {
-                name = state.getNameEntity.firstName;
-              }
-              return Text(
-                  appLocalizations.manage_heading.replaceFirst("{{name}}", ""),
-                  style: textTheme.headlineSmall);
-            },
-          ),
-          const SizedBox(height: 8),
-          WidthLimiterWidget(
-            width: 350,
-            child: Text(appLocalizations.manage_subHeading),
-          ),
-          const SizedBox(height: 24),
-          Container(
-            padding: const EdgeInsets.all(16),
-            width: double.maxFinite,
-            decoration: BoxDecoration(
-                border: Border.all(color: primaryColor),
-                borderRadius: BorderRadius.circular(8)),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Image.asset(
-                      "assets/images/add_asset_view.png",
-                      width: 100,
-                      height: 100,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 16),
+        BlocBuilder<PersonalInformationCubit, PersonalInformationState>(
+          builder: (context, state) {
+            String name = "";
+            if (state is PersonalInformationLoaded) {
+              name = state.getNameEntity.firstName;
+            }
+            return Text(
+                appLocalizations.manage_heading.replaceFirst("{{name}}", ""),
+                style: textTheme.headlineSmall);
+          },
+        ),
+        const SizedBox(height: 8),
+        WidthLimiterWidget(
+          width: 350,
+          child: Text(appLocalizations.manage_subHeading),
+        ),
+        const SizedBox(height: 24),
+        Container(
+          padding: const EdgeInsets.all(16),
+          width: double.maxFinite,
+          decoration: BoxDecoration(
+              // border: Border.all(color: Colors.grey[700]!),
+              borderRadius: BorderRadius.circular(8)),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Image.asset(
+                    "assets/images/add_asset_view.png",
+                    width: 100,
+                    height: 100,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      appLocalizations.manage_securityInfoWidget_title,
+                      style: textTheme.titleMedium!.apply(color: primaryColor),
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        appLocalizations.manage_securityInfoWidget_title,
-                        style:
-                            textTheme.titleMedium!.apply(color: primaryColor),
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        appLocalizations.manage_securityInfoWidget_description,
-                        style: textTheme.bodyMedium!
-                            .apply(color: AppColors.dashBoardGreyTextColor),
-                      ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      appLocalizations.manage_securityInfoWidget_description,
+                      style: textTheme.bodyMedium!
+                          .apply(color: AppColors.dashBoardGreyTextColor),
                     ),
-                  ],
-                ),
-              ],
-            ),
-          )
-        ],
-      );
-    } else {
-      return const AddAssetOnBoarding();
-    }
+                  ),
+                ],
+              ),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
+  @override
+  Widget buildWidget(BuildContext context, TextTheme textTheme,
+      AppLocalizations appLocalizations) {
+    return BlocConsumer<MainDashboardCubit, MainDashboardState>(
+        listener: (context, dashboardState) {},
+        builder: (context, dashboardState) {
+          if (dashboardState is MainDashboardNetWorthLoaded) {
+            // final isAssetsNotEmpty = context
+            //         .read<MainDashboardCubit>()
+            //         .netWorthObj
+            //         ?.assets
+            //         .currentValue !=
+            //     0;
+            // final isLiabilityNotEmpty = context
+            //         .read<MainDashboardCubit>()
+            //         .netWorthObj
+            //         ?.liabilities
+            //         .currentValue !=
+            //     0;
+
+            final isCustodianNotEmpty =
+                context.read<CustodianStatusListCubit>().statutes.isNotEmpty;
+
+            if (checkNotNewUser(dashboardState) || isCustodianNotEmpty) {
+              return renderTopWIdget(context, textTheme, appLocalizations);
+            } else {
+              return const AddAssetOnBoarding();
+            }
+          } else {
+            return renderTopWIdget(context, textTheme, appLocalizations);
+          }
+        });
   }
 }

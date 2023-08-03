@@ -8,7 +8,7 @@ class LocalizationManager extends Cubit<Locale> {
   final LocalStorage localStorage;
   LocalizationManager(this.localStorage)
       : super(AppLocalizations.supportedLocales
-      .firstWhere((element) => element.languageCode == "en"));
+            .firstWhere((element) => element.languageCode == "en"));
 
   changeLang(Locale locale) async {
     await localStorage.setLocale(locale);
@@ -49,16 +49,16 @@ class LocalizationManager extends Cubit<Locale> {
   getOtherName(context) {
     return (state.languageCode == "en")
         ? SvgPicture.asset(
-      "assets/images/arabic_icon.svg",
-      // height: 50,
-    )
+            "assets/images/arabic_icon.svg",
+            // height: 50,
+          )
         : Text(
-      "English",
-      style: Theme.of(context)
-          .textTheme
-          .bodyMedium!
-          .apply(color: Theme.of(context).primaryColor),
-    );
+            "English",
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .apply(color: Theme.of(context).primaryColor),
+          );
   }
 
   getName() {
@@ -68,8 +68,8 @@ class LocalizationManager extends Cubit<Locale> {
   switchLanguage() {
     changeLang(state.languageCode == "en"
         ? AppLocalizations.supportedLocales
-        .firstWhere((element) => element.languageCode == "ar")
+            .firstWhere((element) => element.languageCode == "ar")
         : AppLocalizations.supportedLocales
-        .firstWhere((element) => element.languageCode == "en"));
+            .firstWhere((element) => element.languageCode == "en"));
   }
 }

@@ -73,125 +73,129 @@ class _ListedSecurityTypeAheadState extends AppState<ListedSecurityTypeAhead> {
         }
         return BlocProvider(
           create: (context) => sl<BankListCubit>(),
-          child: BlocConsumer<BankListCubit, BankListState>(
-            listener: (context, bankState) {
-              if (bankState is MarketDataSuccess) {
-                  items = bankState.entity;
-              }
-            },
-            builder: (context, bankState) {
-              return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TypeAheadField(
-                      animationStart: 0,
-                      animationDuration: Duration.zero,
-                      textFieldConfiguration: TextFieldConfiguration(
-                        onChanged: (value) {
-                          if(timer != null){
-                            readyToSend = false;
-                            timer!.cancel();
-                          }
-                          timer = Timer(Duration(seconds: waitingTime), () {
-                            readyToSend = true;
-                          });
-                        },
-                        style: TextStyle(
-                            color: widget.enabled
-                                ? null
-                                : Theme.of(context).disabledColor),
-                        enabled: widget.enabled,
-                        decoration: InputDecoration(
-                          hintText: widget.hint,
-                          enabledBorder: state.hasError
-                              ? const OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4)),
-                                  borderSide: BorderSide(
-                                    width: 1,
-                                    color: Colors.red,
-                                  ))
-                              : OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(4)),
-                                  borderSide: BorderSide(
-                                    width: 0.5,
-                                    color: widget.enabled
-                                        ? Theme.of(context).hintColor
-                                        : Theme.of(context).disabledColor,
-                                  ),
-                                ),
-                        ),
-                        controller: typeController,
-                      ),
-                      keepSuggestionsOnLoading: false,
-                      suggestionsCallback: (p0) async {
-                        if(p0.length<3){
-                          return [];
-                        }else{
-                          await Future.delayed(Duration(seconds: waitingTime,milliseconds: 100));
-                          if(readyToSend){
-                            // ignore: use_build_context_synchronously
-                            await context.read<BankListCubit>().getMarketData(p0);
-                            await Future.delayed(const Duration(milliseconds: 200));
-                          }
-                          return items;
-                        }
+          child: Builder(
+            builder: (context) {
+              return BlocConsumer<BankListCubit, BankListState>(
+                listener: (context, bankState) {
+                  if (bankState is MarketDataSuccess) {
+                      items = bankState.entity;
+                  }
+                },
+                builder: (context, bankState) {
+                  return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TypeAheadField(
+                          animationStart: 0,
+                          animationDuration: Duration.zero,
+                          textFieldConfiguration: TextFieldConfiguration(
+                            onChanged: (value) {
+                              if(timer != null){
+                                readyToSend = false;
+                                timer!.cancel();
+                              }
+                              timer = Timer(Duration(seconds: waitingTime), () {
+                                readyToSend = true;
+                              });
+                            },
+                            style: TextStyle(
+                                color: widget.enabled
+                                    ? null
+                                    : Theme.of(context).disabledColor),
+                            enabled: widget.enabled,
+                            decoration: InputDecoration(
+                              hintText: widget.hint,
+                              enabledBorder: state.hasError
+                                  ? const OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(4)),
+                                      borderSide: BorderSide(
+                                        width: 1,
+                                        color: Colors.red,
+                                      ))
+                                  : OutlineInputBorder(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(4)),
+                                      borderSide: BorderSide(
+                                        width: 0.5,
+                                        color: widget.enabled
+                                            ? Theme.of(context).hintColor
+                                            : Theme.of(context).disabledColor,
+                                      ),
+                                    ),
+                            ),
+                            controller: typeController,
+                          ),
+                          keepSuggestionsOnLoading: false,
+                          suggestionsCallback: (p0) async {
+                            if(p0.length<3){
+                              return [];
+                            }else{
+                              await Future.delayed(Duration(seconds: waitingTime,milliseconds: 100));
+                              if(readyToSend){
+                                // ignore: use_build_context_synchronously
+                                await context.read<BankListCubit>().getMarketData(p0);
+                                await Future.delayed(const Duration(milliseconds: 200));
+                              }
+                              return items;
+                            }
 
-                      },
-                      loadingBuilder: (context) => const LoadingWidget(),
-                      itemBuilder: (context, suggestion) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                          },
+                          loadingBuilder: (context) => const LoadingWidget(),
+                          itemBuilder: (context, suggestion) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Expanded(
-                                        child: Text(suggestion.securityName)),
-                                    const SizedBox(width: 24),
-                                    Expanded(
-                                        child: Text(
-                                            suggestion.currencyCode ?? "")),
-                                    Expanded(child: Text(suggestion.category)),
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                Row(
-                                  children: [
-                                    Text(suggestion.securityShortName,
-                                        style: appTextTheme.bodySmall),
-                                    const Text(" . "),
-                                    Text(suggestion.tradedExchange,
-                                        style: appTextTheme.bodySmall),
-                                  ],
-                                ),
-                                Text(suggestion.isin,
-                                    style: appTextTheme.bodySmall)
-                              ]),
-                        );
-                      },
-                      onSuggestionSelected: (suggestion) {
-                        typeController.text = suggestion.securityName;
-                        state.didChange(suggestion);
-                      },
-                    ),
-                    if (state.hasError) ...[
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 9),
-                        child: Text(
-                          state.errorText ?? "",
-                          style:
-                              TextStyle(fontSize: 12, color: Colors.red[600]),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                            child: Text(suggestion.securityName)),
+                                        const SizedBox(width: 24),
+                                        Expanded(
+                                            child: Text(
+                                                suggestion.currencyCode ?? "")),
+                                        Expanded(child: Text(suggestion.category)),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Row(
+                                      children: [
+                                        Text(suggestion.securityShortName,
+                                            style: appTextTheme.bodySmall),
+                                        const Text(" . "),
+                                        Text(suggestion.tradedExchange,
+                                            style: appTextTheme.bodySmall),
+                                      ],
+                                    ),
+                                    Text(suggestion.isin,
+                                        style: appTextTheme.bodySmall)
+                                  ]),
+                            );
+                          },
+                          onSuggestionSelected: (suggestion) {
+                            typeController.text = suggestion.securityName;
+                            state.didChange(suggestion);
+                          },
                         ),
-                      ),
-                    ]
-                  ]);
-            },
+                        if (state.hasError) ...[
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 9),
+                            child: Text(
+                              state.errorText ?? "",
+                              style:
+                                  TextStyle(fontSize: 12, color: Colors.red[600]),
+                            ),
+                          ),
+                        ]
+                      ]);
+                },
+              );
+            }
           ),
         );
       },

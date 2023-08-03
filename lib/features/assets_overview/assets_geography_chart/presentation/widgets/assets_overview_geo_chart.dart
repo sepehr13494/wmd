@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/features/assets_overview/assets_geography_chart/presentation/geoTreeChartObj.dart';
+import 'package:wmd/features/assets_overview/assets_overview/presentation/widgets/chart_wrapper_box.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/chart_chooser_manager.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/chart_chooser.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
@@ -20,18 +21,24 @@ class AssetsOverviewGeoChart extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    return BlocBuilder<AssetsGeographyChartCubit, AssetsGeographyChartState>(
-      builder: (context, state) {
-        final isMobile = ResponsiveHelper(context: context).isMobile;
-        return state is GetAssetsGeographyLoaded
-            ? Builder(
-              builder: (context) {
-                double sum = 0;
-                for (var element in state.assetsOverviewBaseModels) {
-                  sum += element.totalAmount;
-                }
-                final List<GetGeographicEntity> baseGetGeographicEntity = state.assetsOverviewBaseModels.map((e) => GetGeographicEntity(continent: e.geography, amount: e.totalAmount, percentage: (e.totalAmount/sum)*100)).toList();
-                return Column(
+    return ChartWrapperBox(
+      child: BlocBuilder<AssetsGeographyChartCubit, AssetsGeographyChartState>(
+        builder: (context, state) {
+          final isMobile = ResponsiveHelper(context: context).isMobile;
+          return state is GetAssetsGeographyLoaded
+              ? Builder(builder: (context) {
+                  double sum = 0;
+                  for (var element in state.assetsOverviewBaseModels) {
+                    sum += element.totalAmount;
+                  }
+                  final List<GetGeographicEntity> baseGetGeographicEntity =
+                      state.assetsOverviewBaseModels
+                          .map((e) => GetGeographicEntity(
+                              continent: e.geography,
+                              amount: e.totalAmount,
+                              percentage: (e.totalAmount / sum) * 100))
+                          .toList();
+                  return Column(
                     children: [
                       const ChartChooserWidget(isGeo: true),
                       const SizedBox(height: 8),
@@ -56,28 +63,37 @@ class AssetsOverviewGeoChart extends AppStatelessWidget {
                                                     baseGetGeographicEntity,
                                               );
                                             case GeoBarType.tree:
-                                              return BaseTreeChartWidget2<GeoTreeChartObj>(
-                                                treeChartObjs: baseGetGeographicEntity
-                                                    .map((e) => GeoTreeChartObj(
-                                                        getGeographicEntity: e))
-                                                    .toList(),
+                                              return BaseTreeChartWidget2<
+                                                  GeoTreeChartObj>(
+                                                treeChartObjs:
+                                                    baseGetGeographicEntity
+                                                        .map((e) => GeoTreeChartObj(
+                                                            getGeographicEntity:
+                                                                e))
+                                                        .toList(),
                                                 itemBuilder: (item, index) {
                                                   return Tooltip(
-                                                    triggerMode: TooltipTriggerMode.tap,
+                                                    showDuration:
+                                                        const Duration(
+                                                            seconds: 5),
+                                                    triggerMode:
+                                                        TooltipTriggerMode.tap,
                                                     message:
                                                         "${item.getGeographicEntity.continent} : ${item.getGeographicEntity.percentage.toStringAsFixed(1)}%",
                                                     child: Container(
                                                       color:
                                                           AssetsOverviewChartsColors
-                                                              .treeMapColors[index],
+                                                                  .treeMapColors[
+                                                              index],
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsets.all(2),
+                                                            const EdgeInsets
+                                                                .all(2),
                                                         child: Text(
                                                           item.getGeographicEntity
                                                               .continent,
-                                                          style:
-                                                              textTheme.bodySmall,
+                                                          style: textTheme
+                                                              .bodySmall,
                                                           overflow:
                                                               TextOverflow.clip,
                                                         ),
@@ -116,11 +132,17 @@ class AssetsOverviewGeoChart extends AppStatelessWidget {
                                               height: 8,
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
-                                                color: chartChooserState?.barType == GeoBarType.map ? InsideWorldMapWidgetState
-                                                    .getColorByList(getGeographicEntity
-                                                    .continent,
-                                                    baseGetGeographicEntity,
-                                                ) : AssetsOverviewChartsColors.treeMapColors[index],
+                                                color: chartChooserState
+                                                            ?.barType ==
+                                                        GeoBarType.map
+                                                    ? InsideWorldMapWidgetState
+                                                        .getColorByList(
+                                                        getGeographicEntity
+                                                            .continent,
+                                                        baseGetGeographicEntity,
+                                                      )
+                                                    : AssetsOverviewChartsColors
+                                                        .treeMapColors[index],
                                               ),
                                             ),
                                             const SizedBox(width: 4),
@@ -161,10 +183,10 @@ class AssetsOverviewGeoChart extends AppStatelessWidget {
                       ),
                     ],
                   );
-              }
-            )
-            : const LoadingWidget();
-      },
+                })
+              : const LoadingWidget();
+        },
+      ),
     );
   }
 }

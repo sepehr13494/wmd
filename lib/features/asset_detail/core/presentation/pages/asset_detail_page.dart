@@ -153,10 +153,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                                           ),
                                           child: AsssetSummary(
                                             onEdit: (!state.assetSummaryEntity
-                                                        .isManuallyAdded ||
-                                                    state.assetSummaryEntity
-                                                            .totalQuantity ==
-                                                        0)
+                                                        .isManuallyAdded)
                                                 ? null
                                                 : () {
                                                     context

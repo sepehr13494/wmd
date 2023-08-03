@@ -20,7 +20,8 @@ import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart
 class SummeryWidget extends StatefulWidget {
   final NetWorthEntity netWorthEntity;
   final bool isBankNotEmpty;
-  const SummeryWidget({Key? key, required this.netWorthEntity, this.isBankNotEmpty = false})
+  const SummeryWidget(
+      {Key? key, required this.netWorthEntity, this.isBankNotEmpty = false})
       : super(key: key);
 
   @override
@@ -68,7 +69,7 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
         widget.netWorthEntity.totalNetWorth.currentValue,
         date,
         widget.netWorthEntity.totalNetWorth.change,
-        "$assetText\n$liabilitiesText",
+        assetText,
       ],
       [
         appLocalizations.home_label_assets,
@@ -77,13 +78,14 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
         widget.netWorthEntity.assets.change,
         assetText,
       ],
-      [
-        appLocalizations.home_label_liabilities,
-        widget.netWorthEntity.liabilities.currentValue,
-        date,
-        widget.netWorthEntity.liabilities.change,
-        liabilitiesText,
-      ],
+      if (!AppConstants.isRelease1)
+        [
+          appLocalizations.home_label_liabilities,
+          widget.netWorthEntity.liabilities.currentValue,
+          date,
+          widget.netWorthEntity.liabilities.change,
+          liabilitiesText,
+        ],
     ];
     final bool isMobile = ResponsiveHelper(context: context).isMobile;
     return Column(
@@ -142,7 +144,7 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
                                 showTooltip: index < 2 && widget.isBankNotEmpty,
                               ),
                               const SizedBox(width: 8),
-                              PrivacyBlurWidget(
+                              PrivacyBlurWidgetClickable(
                                 child: ChangeWidget(
                                   number: item[3],
                                   text: (item[3] as double)

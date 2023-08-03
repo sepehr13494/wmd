@@ -20,6 +20,7 @@ class BankTooltip extends AppStatelessWidget {
         child,
         if (showTooltip)
           Tooltip(
+            showDuration: const Duration(seconds: 5),
             message: appLocalizations.assets_tooltip_bankAccountException,
             triggerMode: TooltipTriggerMode.tap,
             margin: const EdgeInsets.symmetric(horizontal: 8),

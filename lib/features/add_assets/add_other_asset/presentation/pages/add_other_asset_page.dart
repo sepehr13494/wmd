@@ -100,13 +100,14 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
   @override
   void initState() {
     if (widget.edit) {
-      if (widget.moreEntity!.toFormJson()["assetType"] == "Painting") {
+      if (widget.moreEntity!.toFormJson(context)["assetType"] == "Painting") {
         isPainting = true;
       }
-      noOfUnits = widget.moreEntity!.toFormJson()["units"];
-      acqusitionCost = widget.moreEntity!.toFormJson()["acquisitionCost"];
-      ownerShip = widget.moreEntity!.toFormJson()["ownerShip"];
-      valuePerUnit = widget.moreEntity!.toFormJson()["valuePerUnit"];
+      noOfUnits = widget.moreEntity!.toFormJson(context)["units"];
+      acqusitionCost =
+          widget.moreEntity!.toFormJson(context)["acquisitionCost"];
+      ownerShip = widget.moreEntity!.toFormJson(context)["ownerShip"];
+      valuePerUnit = widget.moreEntity!.toFormJson(context)["valuePerUnit"];
       calculateCurrentValue();
     }
     super.initState();
@@ -231,9 +232,10 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                         FormBuilder(
                                           key: formKey,
                                           initialValue: edit
-                                              ? widget.moreEntity!.toFormJson()
+                                              ? widget.moreEntity!
+                                                  .toFormJson(context)
                                               : AddAssetConstants
-                                                  .initialJsonForAddOtherAsset,
+                                                  .initialJsonForAddOtherAsset(context),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -283,8 +285,12 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                                             return (val !=
                                                                         null &&
                                                                     val.length >
-                                                                        100)
-                                                                ? "Name cannot be more than 100 characters"
+                                                                        50)
+                                                                ? appLocalizations
+                                                                    .common_errors_maxChar
+                                                                    .replaceAll(
+                                                                        "{{maxChar}}",
+                                                                        "50")
                                                                 : null;
                                                           }
                                                         ],
@@ -332,7 +338,8 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                                   hint: appLocalizations
                                                       .assetLiabilityForms_forms_others_inputFields_assetType_placeholder,
                                                   items: OtherAssetType
-                                                      .otherAssetList
+                                                          .otherAssetList(
+                                                              context)
                                                       .map((e) =>
                                                           DropdownMenuItem(
                                                             value: e.value,
@@ -349,7 +356,10 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                                       .assetLiabilityForms_forms_others_inputFields_valuationDate_label,
                                                   child:
                                                       AppFormBuilderDateTimePicker(
-                                                        enabled: !(edit && starterJson["assetType"] == 'Painting'),
+                                                    enabled: !(edit &&
+                                                        starterJson[
+                                                                "assetType"] ==
+                                                            'Painting'),
                                                     onChanged: (val) {
                                                       setState(() {
                                                         valuationDateValue =
@@ -518,6 +528,7 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                                             .assetLiabilityForms_forms_others_inputFields_ownerShip_placeholder),
                                               ),*/
                                               EachTextField(
+                                                hasInfo: false,
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_others_inputFields_valuePerUnit_label,
                                                 child: AppTextFields

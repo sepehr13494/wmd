@@ -9,7 +9,7 @@ import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_man
 import 'package:wmd/features/assets_overview/assets_geography_chart/presentation/widgets/assets_overview_geo_chart.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/base_chart_view.dart';
 import 'package:wmd/features/assets_overview/currency_chart/presentation/widgets/currency_chart_widget.dart';
-import 'package:wmd/features/assets_overview/portfolio_tab/presentation/widgets/portfolio_chart_widget.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/widgets/portfolio_chart_widget.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 
 class ChartsWrapper extends StatefulWidget {
@@ -132,42 +132,20 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
                 height: 0.5,
                 thickness: 0.5,
               ),
-              AspectRatio(
-                aspectRatio:
-                    ResponsiveHelper(context: context).isMobile ? 1 : 1.6,
-                child: Builder(builder: (context) {
-                  List<Widget> children = [
-                    const BaseAssetsOverviewChartsWidget(),
-                    const AssetsOverviewGeoChart(),
-                    const CurrencyChartWidget(),
-                    const PortfolioTabChartWidget(),
-                  ];
+              Builder(builder: (context) {
+                List<Widget> children = [
+                  const BaseAssetsOverviewChartsWidget(),
+                  const AssetsOverviewGeoChart(),
+                  const CurrencyChartWidget(),
+                  const PortfolioTabChartWidget(),
+                ];
 
-                  return TabBarView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    controller: _controller,
-                    children: children
-                        .map(
-                          (e) => Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: ResponsiveHelper(context: context)
-                                    .biggerGap),
-                            child: Card(
-                              color: Theme.of(context).brightness ==
-                                      Brightness.dark
-                                  ? AppColors.darkCardColorForDarkTheme
-                                  : AppColors.darkCardColorForLightTheme,
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: e,
-                              ),
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  );
-                }),
-              )
+                return BlocBuilder<TabManager, int>(
+                  builder: (context, state) {
+                    return children[state];
+                  },
+                );
+              })
             ],
           ),
         ],

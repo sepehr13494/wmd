@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 
@@ -64,12 +65,12 @@ class GetValuationEntity extends Equatable {
         "note": note,
       };
 
-  Map<String, dynamic> toFormJson() => {
+  Map<String, dynamic> toFormJson(BuildContext context) => {
         "id": id,
         "amount": amount.convertMoney(),
         "pricePerUnit":
             pricePerUnit != null ? pricePerUnit?.convertMoney() : pricePerUnit,
-        "currencyCode": Currency.getCurrencyFromString(currencyCode),
+        "currencyCode": Currency.getCurrencyFromString(currencyCode, context),
         "currencyToUsdFxRate": currencyToUsdFxRate,
         "type": type,
         "quantity": quantity != null ? quantity.toString() : 0,

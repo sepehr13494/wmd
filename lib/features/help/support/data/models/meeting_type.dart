@@ -1,14 +1,28 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class MeetingType {
   final String name;
   final String value;
 
   MeetingType({required this.name, required this.value});
 
-  static final json = [
-    {"value": "Virtual Meeting", "name": "Virtual Meeting"},
-    {"value": "Video Conference", "name": "Video Conference"},
-    {"value": "Phone Call", "name": "Phone Call"},
-  ];
+  static List<Map<String, dynamic>> json(context) => [
+        {
+          "value": "Virtual Meeting",
+          "name": AppLocalizations.of(context)
+              .scheduleMeeting_meetingType_options_virtualMeeting
+        },
+        {
+          "value": "Video Conference",
+          "name": AppLocalizations.of(context)
+              .scheduleMeeting_meetingType_options_videoConference
+        },
+        {
+          "value": "Phone Call",
+          "name": AppLocalizations.of(context)
+              .scheduleMeeting_meetingType_options_call
+        },
+      ];
 
   @override
   String toString() {
@@ -25,6 +39,6 @@ class MeetingType {
         name: json["name"],
       );
 
-  static final meetingTypeList =
-      json.map((e) => MeetingType.fromJson(e)).toList();
+  static List<MeetingType> meetingTypeList(context) =>
+      json(context).map((e) => MeetingType.fromJson(e)).toList();
 }

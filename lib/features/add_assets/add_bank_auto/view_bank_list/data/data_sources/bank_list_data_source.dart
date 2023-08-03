@@ -57,12 +57,13 @@ class BankListRemoteDataSourceImpl extends AppServerDataSource
   @override
   Future<List<GetMarketDataResponse>> getMarketData(
       GetMarketDataParams params) async {
+    try {
     final getPopularBankListRequestOptions = AppRequestOptions(
         RequestTypes.get, AppUrls.getMarketData, params.toJson());
     final List<dynamic> response = await errorHandlerMiddleware
         .sendRequest(getPopularBankListRequestOptions);
-    try {
-      return response.map((e) => GetMarketDataResponse.fromJson(e)).toList();
+
+    return response.map((e) => GetMarketDataResponse.fromJson(e)).toList();
     } catch (e) {
       throw const AppException(
           message: 'Format exceptions', type: ExceptionType.format);

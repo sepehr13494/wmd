@@ -154,9 +154,10 @@ class _AddPrivateEquityState extends BaseAddAssetState<AddPrivateEquityPage> {
                                         FormBuilder(
                                           key: formKey,
                                           initialValue: edit
-                                              ? widget.moreEntity!.toFormJson()
+                                              ? widget.moreEntity!
+                                                  .toFormJson(context)
                                               : AddAssetConstants
-                                                  .initialJsonForAddAsset,
+                                                  .initialJsonForAddAsset(context),
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -204,8 +205,12 @@ class _AddPrivateEquityState extends BaseAddAssetState<AddPrivateEquityPage> {
                                                           (val) {
                                                             return ((val?.length ??
                                                                         0) >
-                                                                    100
-                                                                ? "Name must be at most 100 characters"
+                                                                    50
+                                                                ? appLocalizations
+                                                                    .common_errors_maxChar
+                                                                    .replaceAll(
+                                                                        "{{maxChar}}",
+                                                                        "50")
                                                                 : null);
                                                           }
                                                         ],

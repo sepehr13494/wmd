@@ -49,7 +49,8 @@ class VerifyEmailPage extends AppStatelessWidget {
                 listener:
                     BlocHelper.defaultBlocListener(listener: (context, state) {
                   if (state is SuccessState) {
-                    GlobalFunctions.showSnackBar(context, 'Email sent',
+                    GlobalFunctions.showSnackBar(context,
+                        appLocalizations.auth_forgot_toast_success_title,
                         type: "success");
                   }
                 }),
@@ -58,7 +59,8 @@ class VerifyEmailPage extends AppStatelessWidget {
                 listener:
                     BlocHelper.defaultBlocListener(listener: (context, state) {
                   if (state is SuccessState) {
-                    GlobalFunctions.showSnackBar(context, 'Email sent',
+                    GlobalFunctions.showSnackBar(context,
+                        appLocalizations.auth_forgot_toast_success_title,
                         type: "success");
                   }
                 }),
@@ -98,8 +100,8 @@ class VerifyEmailPage extends AppStatelessWidget {
                           text: _isForgotPasswordPage()
                               ? TextSpan(children: [
                                   TextSpan(
-                                    text: appLocalizations
-                                        .auth_forgot_emailSentSuccess_subheading_0,
+                                    text:
+                                        appLocalizations.auth_forgot_subheading,
                                     style: textTheme.bodyMedium!
                                         .copyWith(height: 1.3, fontSize: 14),
                                   ),

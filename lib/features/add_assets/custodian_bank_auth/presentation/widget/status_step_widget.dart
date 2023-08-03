@@ -212,9 +212,9 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
         padding: const EdgeInsets.only(left: 26.0),
         child: Builder(builder: (context) {
           var isButtonDisable = input.text.isEmpty || widget.onDone == null;
-          if (!widget.ready) {
-            return const SizedBox();
-          }
+          // if (!widget.ready) {
+          //   return const SizedBox();
+          // }
           String message =
               appLocalizations.linkAccount_stepper_cif_label_creditsuisse;
           String tooltip =
@@ -246,6 +246,10 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
               message = appLocalizations.linkAccount_stepper_cif_label_ubs;
               tooltip = appLocalizations.linkAccount_stepper_cif_tooltip_ubs;
               break;
+            case 'pictet':
+              message = appLocalizations.linkAccount_stepper_cif_label_pictet;
+              tooltip = appLocalizations.linkAccount_stepper_cif_tooltip_pictet;
+              break;
             default:
           }
 
@@ -263,6 +267,7 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
                     // const InfoIcon(),
                     const SizedBox(width: 4),
                     Tooltip(
+                      showDuration: const Duration(seconds: 5),
                       triggerMode: TooltipTriggerMode.tap,
                       textAlign: TextAlign.center,
                       message: tooltip,
@@ -283,7 +288,7 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
                           hintText: appLocalizations
                               .linkAccount_stepper_cif_placeholder),
                       controller: input,
-                      enabled: widget.accountId == null,
+                      enabled: widget.accountId == null && widget.ready,
                     ),
                   ),
                   const SizedBox(width: 50),

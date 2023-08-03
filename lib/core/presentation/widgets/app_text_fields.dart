@@ -40,6 +40,30 @@ class CurrencyInputFormatter extends TextInputFormatter {
   }
 }
 
+class CurrencyWithDecimalInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.selection.baseOffset == 0) {
+      return newValue;
+    }
+
+    double value = 0;
+
+    if (newValue.text[newValue.text.length - 1] == ".") {
+      return newValue;
+    } else {
+      value = double.tryParse(newValue.text.replaceAll(",", "")) ?? 0;
+    }
+
+    String newText = NumberFormat('#,##0.##########').format(value);
+
+    return newValue.copyWith(
+        text: newText,
+        selection: TextSelection.collapsed(offset: newText.length));
+  }
+}
+
 class CurrencyWithNegetiveInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
@@ -76,6 +100,7 @@ enum TextFieldType {
   simpleText,
   money,
   minusMoney,
+  rateMoney,
   number,
   rate
 }
@@ -226,7 +251,8 @@ class SimpleTextField extends AppStatelessWidget {
       validators.add((val) {
         return (val != null &&
                 (double.tryParse(val.replaceAll(",", "")) ?? 0) > 1000000000)
-            ? "Amount should be less than 1,000,000,000"
+            ? appLocalizations
+                .assetLiabilityForms_forms_bankAccount_inputFields_balance_maxValueError
             : null;
       });
     }
@@ -250,25 +276,46 @@ class SimpleTextField extends AppStatelessWidget {
         break;
       case TextFieldType.minusMoney:
         break;
+      case TextFieldType.rateMoney:
+        break;
     }
+
+    List<TextInputFormatter>? getFormatter(type) {
+      List<TextInputFormatter>? currentFormatter;
+
+      switch (type) {
+        case TextFieldType.money:
+          currentFormatter = [CurrencyInputFormatter()];
+          break;
+        case TextFieldType.minusMoney:
+          currentFormatter = [CurrencyWithNegetiveInputFormatter()];
+          break;
+        case TextFieldType.rateMoney:
+          currentFormatter = [CurrencyWithDecimalInputFormatter()];
+          break;
+        case TextFieldType.number:
+          currentFormatter = <TextInputFormatter>[
+            FilteringTextInputFormatter.digitsOnly
+          ];
+          break;
+        case TextFieldType.rate:
+          currentFormatter = [
+            FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,3}'))
+          ];
+          break;
+
+        default:
+          currentFormatter = null;
+          break;
+      }
+
+      return currentFormatter;
+    }
+
     return FormBuilderTextField(
       key: key,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      inputFormatters: customInputFormatters ??
-          (type == TextFieldType.money
-              ? [CurrencyInputFormatter()]
-              : type == TextFieldType.minusMoney
-                  ? [CurrencyWithNegetiveInputFormatter()]
-                  : type == TextFieldType.number
-                      ? <TextInputFormatter>[
-                          FilteringTextInputFormatter.digitsOnly
-                        ]
-                      : type == TextFieldType.rate
-                          ? [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'^\d+\.?\d{0,3}'))
-                            ]
-                          : null),
+      inputFormatters: customInputFormatters ?? getFormatter(type),
       scrollPadding:
           const EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 90),
       name: name,
@@ -340,7 +387,7 @@ class _CurrenciesDropdownState extends AppState<CurrenciesDropdown> {
           name: "currencyCode",
           hint: appLocalization
               .assetLiabilityForms_forms_bankAccount_inputFields_country_placeholder,
-          items: Currency.currenciesList,
+          items: Currency.getCurrencyList(context),
           enabled: widget.enabled,
           prefixIcon: const Icon(
             Icons.search,
@@ -403,7 +450,7 @@ class CountriesDropdown extends AppStatelessWidget {
       ),
       errorMsg: appLocalizations
           .assetLiabilityForms_forms_realEstate_inputFields_country_errorMessage,
-      items: Country.getCountryList(),
+      items: Country.getCountryList(context),
       onChanged: onChanged,
       itemAsString: (country) => country.countryName,
       filterFn: (country, string) {

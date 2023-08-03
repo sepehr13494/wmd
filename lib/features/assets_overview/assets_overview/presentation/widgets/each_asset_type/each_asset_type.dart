@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/dot_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/widgets/each_asset_type/asset_list_widget.dart';
 import 'package:wmd/features/assets_overview/core/presentataion/models/assets_overview_base_widget_model.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
+import '../../../domain/entities/assets_overview_entity.dart';
+import '../add_button.dart';
 import '../assets_overview_inherit.dart';
 import '../ytd_itd_widget.dart';
 import 'asset_type_mobile_title.dart';
@@ -17,6 +22,47 @@ class EachAssetType extends AppStatelessWidget {
 
   const EachAssetType({Key? key, required this.assetsOverviewBaseWidgetModel})
       : super(key: key);
+
+  void Function() _getAssetOnTapByType(BuildContext context, String type) {
+    print("type: $type");
+    switch (type) {
+      case AssetTypes.bankAccount:
+        return () {
+          context.pushNamed(AppRoutes.addBankManualPage);
+        };
+
+      case AssetTypes.privateEquity:
+        return () {
+          context.pushNamed(AppRoutes.addPrivateEquity);
+        };
+
+      case AssetTypes.privateDebt:
+        return () {
+          context.pushNamed(AppRoutes.addPrivateDebt);
+        };
+
+      case AssetTypes.realEstate:
+        return () {
+          context.pushNamed(AppRoutes.addRealEstate);
+        };
+
+      case AssetTypes.listedAssetEquity:
+      case AssetTypes.listedAssetFixedIncome:
+      case AssetTypes.listedAssetOther:
+      case AssetTypes.listedAsset:
+        return () {
+          context.pushNamed(AppRoutes.addListedAsset);
+        };
+
+      case AssetTypes.otherAsset:
+        return () {
+          context.pushNamed(AppRoutes.addOther);
+        };
+
+      default:
+        return () {};
+    }
+  }
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -34,30 +80,44 @@ class EachAssetType extends AppStatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 16),
-                      child: Row(
-                        children: [
-                          DotWidget(color: assetsOverviewBaseWidgetModel.color),
-                          const SizedBox(width: 8),
-                          Text(assetsOverviewBaseWidgetModel.title,
-                              style: textTheme.titleMedium)
-                        ],
+                  Expanded(
+                    child: Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 16),
+                            child: Row(
+                              children: [
+                                DotWidget(color: assetsOverviewBaseWidgetModel.color),
+                                const SizedBox(width: 8),
+                                Text(assetsOverviewBaseWidgetModel.title,
+                                    style: textTheme.titleMedium)
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(width: 12),
                   assetsOverviewBaseWidgetModel.assetsOverviewType ==
                           AssetsOverviewBaseType.assetType
-                      ? const SizedBox()
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 8, bottom: 8),
+                          child: AddButton(
+                              onTap: _getAssetOnTapByType(context,
+                                  (assetsOverviewBaseWidgetModel.assetsOverviewBaseModel as AssetsOverviewEntity).type),
+                              addAsset: !isMobile),
+                        )
                       : Expanded(
-                        child: Align(
-                          alignment: AlignmentDirectional.centerEnd,
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Row(
+                          child: Align(
+                            alignment: AlignmentDirectional.centerEnd,
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Row(
                                 children: [
                                   Text(appLocalizations
                                       .home_widget_geography_label_allocation),
@@ -68,9 +128,9 @@ class EachAssetType extends AppStatelessWidget {
                                   )
                                 ],
                               ),
+                            ),
                           ),
-                        ),
-                      )
+                        )
                 ],
               ),
               RowOrColumn(

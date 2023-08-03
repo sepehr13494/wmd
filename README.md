@@ -39,18 +39,30 @@ flutter run --dart-define=env=qa
 #our flutter version
 flutter version 3.3.8
 
-# SSL Pinning. This command will save ssl crt for defined domain 
+# SSL Pinning. This command will save ssl crt for defined domain
+
 ## qa
+
 openssl s_client -showcerts -servername apim-aio-tst-01.azure-api.net -connect apim-aio-tst-01.azure-api.net:443 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > assets/certificates/qa.crt
 
 ## dev
+
 openssl s_client -showcerts -servername apigw-wmd-dev.azure-api.net -connect apigw-wmd-dev.azure-api.net:443 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > assets/certificates/dev.crt
+
 ## uat
+
 openssl s_client -showcerts -servername apimaz-weu-tfo-mvp-qa.azure-api.net -connect apimaz-weu-tfo-mvp-qa.azure-api.net:443 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > assets/certificates/uat.crt
+
 ## prod
-openssl s_client -showcerts -servername apigw-wmd-prod-01.azure-api.net -connect apigw-wmd-prod-01.azure-api.net:443 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > assets/certificates/prod.crt
+
+openssl s_client -showcerts -servername apigw-aio-prod-01.azure-api.net -connect apigw-aio-prod-01.azure-api.net:443 < /dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > assets/certificates/prod.crt
 
 # Setting up auth0 console
-This is official sdk, https://pub.dev/packages/auth0_flutter
 
-- edit .env domain(with https), clientID and bundleID
+We have 2 kind of auth0 client.
+
+- PAM uses official sdk, https://pub.dev/packages/auth0_flutter.
+- TFO user https://pub.dev/packages/flutter_web_auth_2
+  for both login we have custom redirect schema, which is bundleId defined in env. For android we have set intent-filter in AndroidManifest.xml for each package. for ios no need to do extra.
+
+For TFO please enter domain without https in .env

@@ -149,9 +149,10 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                         FormBuilder(
                                           key: formKey,
                                           initialValue: edit
-                                              ? widget.moreEntity!.toFormJson()
+                                              ? widget.moreEntity!
+                                                  .toFormJson(context)
                                               : AddAssetConstants
-                                                  .initialJsonForAddAsset,
+                                                  .initialJsonForAddAsset(context),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -179,6 +180,8 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                                     .simpleTextField(
                                                         title: "Name",
                                                         name: "investmentName",
+                                                        errorMsg: appLocalizations
+                                                            .assetLiabilityForms_forms_privateDebt_inputFields_name_errorMessage,
                                                         onChanged:
                                                             checkFinalValid,
                                                         extraValidators: [
@@ -186,8 +189,12 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                                             return (val !=
                                                                         null &&
                                                                     val.length >
-                                                                        100)
-                                                                ? "Name cannot be more than 100 characters"
+                                                                        50)
+                                                                ? appLocalizations
+                                                                    .common_errors_maxChar
+                                                                    .replaceAll(
+                                                                        "{{maxChar}}",
+                                                                        "50")
                                                                 : null;
                                                           }
                                                         ],
@@ -218,6 +225,8 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                                 ),
                                               ),
                                               EachTextField(
+                                                tooltipText: appLocalizations
+                                                    .assetLiabilityForms_forms_listedAssets_inputFields_acquisitionDate_tooltip,
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_privateDebt_inputFields_acquisitionDate_label,
                                                 child:
@@ -286,6 +295,8 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                                         .assetLiabilityForms_forms_privateDebt_inputFields_initialInvestmentAmount_placeholder),
                                               ),
                                               EachTextField(
+                                                tooltipText: appLocalizations
+                                                    .assetLiabilityForms_forms_privateEquity_inputFields_valuationDate_tooltip,
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_privateDebt_inputFields_valuationDate_label,
                                                 child:

@@ -29,7 +29,7 @@ class AppUrls {
   static String setNumber = "${userBase}user/phone-number";
   static String faqsContent = "${contentBase}faqs";
   static String postInquiry = "${wealthBase}Inquiry";
-  static String postScheduleCall = "portfolio/meetings/schedule";
+  static String postScheduleCall = "${wealthBase}meeting/schedule/call";
   static String postVerifyPhone = "${userBase}Otp/verify";
   static String postMobileVerification = "${userBase}Otp/phone-number/verify";
   static String postResendVerifyPhone = "${userBase}Otp";
@@ -66,7 +66,9 @@ class AppUrls {
   static String getChart = "${wealthBase}Assets";
   static String getCurrency = "${wealthBase}assets/";
   static String getAssetsGeography = "${wealthBase}Assets/GeographicalOverview";
-  static String getPortfolioTab = "${wealthBase}Assets/Portfolio";
+  static String getPortfolioAllocation =
+      "${wealthBase}Assets/portfolio-allocation";
+  static String getPortfolioTab = "${wealthBase}Assets/";
   static String getPie = "${wealthBase}Assets";
   static String getAssetsOverview = "${wealthBase}Assets/All";
   static String getAssetsOverviewByType =
@@ -76,6 +78,7 @@ class AppUrls {
   static String getBankList = "${banking}Bank";
   static String getPopularBankList = "${banking}Bank/Popular";
   static String getMarketData = "${banking}MarketData/search";
+  static String getManualList = "${wealthBase}Bank/list";
   // static String getMarketData(String identifier, String? resultCount) =>
   //     "MarketData/search?identifier=$identifier${resultCount != null ? '&resultCount=$resultCount' : ''}";
 
@@ -140,6 +143,7 @@ class AppUrls {
 
   static String getMandate = "${userBase}User/mandate";
   static String postMandates = "${userBase}User/mandates";
+  static String getUserMandates = "${wealthBase}mandate/status";
 
   static String getLinkedAccounts =
       "${wealthBase}CustodianBank/linked-accounts";

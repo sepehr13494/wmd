@@ -48,7 +48,7 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final bool edit = widget.edit;
-    print("edit : $edit");
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -60,6 +60,7 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
       ],
       child: Builder(builder: (context) {
         final bool isMobile = ResponsiveHelper(context: context).isMobile;
+
         return WillPopScope(
           onWillPop: () {
             return handleAssetBackButton(context);
@@ -168,9 +169,10 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                         FormBuilder(
                                           key: formKey,
                                           initialValue: edit
-                                              ? widget.moreEntity!.toFormJson()
+                                              ? widget.moreEntity!
+                                                  .toFormJson(context)
                                               : AddAssetConstants
-                                                  .initialJsonForAddAsset,
+                                                  .initialJsonForAddAsset(context),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -206,22 +208,26 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                                     .assetLiabilityForms_forms_realEstate_inputFields_name_label,
                                                 child: AppTextFields
                                                     .simpleTextField(
-                                                        title: "Name",
-                                                        name: "name",
-                                                        onChanged:
-                                                            checkFinalValid,
-                                                        extraValidators: [
-                                                          (val) {
-                                                            return (val !=
-                                                                        null &&
-                                                                    val.length >
-                                                                        100)
-                                                                ? "Name cannot be more than 100 characters"
-                                                                : null;
-                                                          }
-                                                        ],
-                                                        hint: appLocalizations
-                                                            .assetLiabilityForms_forms_realEstate_inputFields_name_placeholder),
+                                                  title: "Name",
+                                                  name: "name",
+                                                  errorMsg: appLocalizations
+                                                      .assetLiabilityForms_forms_realEstate_inputFields_name_errorMessage,
+                                                  onChanged: checkFinalValid,
+                                                  extraValidators: [
+                                                    (val) {
+                                                      return (val != null &&
+                                                              val.length > 50)
+                                                          ? appLocalizations
+                                                              .common_errors_maxChar
+                                                              .replaceAll(
+                                                                  "{{maxChar}}",
+                                                                  "50")
+                                                          : null;
+                                                    }
+                                                  ],
+                                                  hint: appLocalizations
+                                                      .assetLiabilityForms_forms_realEstate_inputFields_name_placeholder,
+                                                ),
                                               ),
                                               EachTextField(
                                                 hasInfo: false,
@@ -246,7 +252,8 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                                   hint: appLocalizations
                                                       .assetLiabilityForms_forms_realEstate_inputFields_typeOfRealEstate_placeholder,
                                                   items: RealEstateType
-                                                      .realEstateList
+                                                          .realEstateList(
+                                                              context)
                                                       .map((e) =>
                                                           DropdownMenuItem(
                                                             value: e.value,
@@ -274,6 +281,7 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_realEstate_inputFields_country_label,
                                                 child: CountriesDropdown(
+                                                  enabled: !edit,
                                                   onChanged: checkFinalValid,
                                                 ),
                                               ),
@@ -411,8 +419,11 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                               EachTextField(
                                                 tooltipText: appLocalizations
                                                     .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_tooltip,
-                                                title: appLocalizations
-                                                    .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_label,
+                                                title: widget.edit
+                                                    ? appLocalizations
+                                                        .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_initialMarketValueLabel
+                                                    : appLocalizations
+                                                        .assetLiabilityForms_forms_realEstate_inputFields_valuePerUnit_label,
                                                 child: AppTextFields
                                                     .simpleTextField(
                                                         enabled: !edit,

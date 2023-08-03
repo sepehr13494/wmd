@@ -1,14 +1,28 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class RealEstateType {
   final String name;
   final String value;
 
   RealEstateType({required this.name, required this.value});
 
-  static const json = [
-    {"value": "Residential", "name": "Residential"},
-    {"value": "Commercial", "name": "Commercial"},
-    {"value": "Land", "name": "Land"},
-  ];
+  static List<Map<String, dynamic>> json(context) => [
+        {
+          "value": "Residential",
+          "name": AppLocalizations.of(context)
+              .assetLiabilityForms_forms_realEstate_inputFields_typeOfRealEstate_options_residential
+        },
+        {
+          "value": "Commercial",
+          "name": AppLocalizations.of(context)
+              .assetLiabilityForms_forms_realEstate_inputFields_typeOfRealEstate_options_commercial
+        },
+        {
+          "value": "Land",
+          "name": AppLocalizations.of(context)
+              .assetLiabilityForms_forms_realEstate_inputFields_typeOfRealEstate_options_land
+        },
+      ];
 
   @override
   String toString() {
@@ -25,6 +39,6 @@ class RealEstateType {
         name: json["name"],
       );
 
-  static final realEstateList =
-      json.map((e) => RealEstateType.fromJson(e)).toList();
+  static List<RealEstateType> realEstateList(context) =>
+      json(context).map((e) => RealEstateType.fromJson(e)).toList();
 }
