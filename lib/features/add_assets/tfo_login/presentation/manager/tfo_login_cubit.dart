@@ -89,6 +89,7 @@ String getMandatesConnectUrl(String nonce) {
       ? AppConstants.tfoAuth0RedirectionAndroid
       : AppConstants.tfoAuth0RedirectionIos;
   final str =
-      "${AppConstants.tfoAuth0IssuerBaseUrl}/authorize?response_type=id_token&client_id=${AppConstants.tfoAuth0ClientId}&redirect_uri=$redirection&scope=openid&nonce=$nonce&audience=${AppConstants.tfoAuth0Audience}";
+      "${AppConstants.tfoAuth0IssuerBaseUrl}/authorize?response_type=id_token&client_id=${AppConstants.tfoAuth0ClientId}&redirect_uri=$redirection&scope=openid&nonce=$nonce&audience=${AppConstants.tfoAuth0Audience}&connection=PAM-PROD-UserAccess01";
+
   return Uri.parse(str).toString();
 }
