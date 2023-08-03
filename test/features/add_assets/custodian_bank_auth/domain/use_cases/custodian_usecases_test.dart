@@ -3,7 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
+import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/custodian_bank_response.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/delete_custodian_bank_status_params.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/get_custodian_bank_list_params.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/get_custodian_bank_status_params.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/get_custodian_bank_status_response.dart';
@@ -12,6 +14,7 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/post_cus
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/get_custodian_bank_status_entity.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/post_custodian_bank_status_entity.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/repositories/custodian_bank_auth_repository.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/domain/use_cases/delete_custodian_bank_status_usecase.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_bank_list_usecase.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/use_cases/get_custodian_bank_status_usecase.dart';
 import 'package:wmd/features/add_assets/custodian_bank_auth/domain/use_cases/post_custodian_bank_status_usecase.dart';
@@ -24,6 +27,7 @@ void main() {
   late GetCustodianBankListUseCase getCustodianBankListUseCase;
   late GetCustodianBankStatusUseCase getCustodianBankStatusUseCase;
   late PostCustodianBankStatusUseCase postCustodianBankStatusUseCase;
+  late DeleteCustodianBankStatusUseCase deleteCustodianBankStatusUseCase;
   setUp(() {
     mockCustodianBankAuthRepository = MockCustodianBankAuthRepository();
     getCustodianBankListUseCase =
@@ -32,6 +36,8 @@ void main() {
         GetCustodianBankStatusUseCase(mockCustodianBankAuthRepository);
     postCustodianBankStatusUseCase =
         PostCustodianBankStatusUseCase(mockCustodianBankAuthRepository);
+    deleteCustodianBankStatusUseCase =
+        DeleteCustodianBankStatusUseCase(mockCustodianBankAuthRepository);
   });
 
   group('getCustodianBankStatusUseCase usecase test', () {
@@ -139,6 +145,38 @@ void main() {
             .thenAnswer((_) async => const Left(tServerFailure));
         // act
         final result = await postCustodianBankStatusUseCase.call(tModel);
+        // assert
+        expect(result, const Left(tServerFailure));
+      },
+    );
+  });
+  group('deleteCustodianBankStatusUseCase usecase test', () {
+    final tModel = DeleteCustodianBankStatusParams.fromJson(
+        DeleteCustodianBankStatusParams.tResponse);
+    const resp = AppSuccess(message: "test");
+    const tEither = Right<Failure, AppSuccess>(resp);
+    test(
+      'should get bool from repository',
+      () async {
+        // arrange
+        when(mockCustodianBankAuthRepository.deleteCustodianBankStatus(tModel))
+            .thenAnswer((_) async => tEither);
+        // act
+        final result = await deleteCustodianBankStatusUseCase.call(tModel);
+        // assert
+        expect(result.fold((l) => l, (r) => r), resp);
+      },
+    );
+
+    test(
+      'should get ServerFailure from the bank repository when server request fails',
+      () async {
+        const tServerFailure = ServerFailure(message: 'Server failure');
+        // arrange
+        when(mockCustodianBankAuthRepository.deleteCustodianBankStatus(tModel))
+            .thenAnswer((_) async => const Left(tServerFailure));
+        // act
+        final result = await deleteCustodianBankStatusUseCase.call(tModel);
         // assert
         expect(result, const Left(tServerFailure));
       },
