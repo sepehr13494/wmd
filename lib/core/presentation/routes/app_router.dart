@@ -55,6 +55,7 @@ import 'package:wmd/features/help/support/presentation/pages/support_page.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/features/main_page/presentation/pages/main_page.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
+import 'package:wmd/features/profile/preference/presentation/manager/preference_cubit.dart';
 import 'package:wmd/features/profile/two_factor_auth/manager/two_factor_cubit.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/pages/two_factor_setup_page.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/pages/verify_otp_page.dart';
@@ -82,45 +83,46 @@ class AppRouter {
   MainPageCubit _mainPageCubit = sl<MainPageCubit>();
   SummeryWidgetCubit _summeryWidgetCubit = sl<SummeryWidgetCubit>();
   AssetsOverviewCubitBankAccount _assetsOverviewCubitBankAccount =
-      sl<AssetsOverviewCubitBankAccount>();
+  sl<AssetsOverviewCubitBankAccount>();
   AssetsOverviewCubitListedAssetEquity _assetsOverviewCubitListedAssetEquity =
-      sl<AssetsOverviewCubitListedAssetEquity>();
+  sl<AssetsOverviewCubitListedAssetEquity>();
   AssetsOverviewCubitListedAssetOther _assetsOverviewCubitListedAssetOther =
-      sl<AssetsOverviewCubitListedAssetOther>();
+  sl<AssetsOverviewCubitListedAssetOther>();
   AssetsOverviewCubitListedAssetFixedIncome
-      _assetsOverviewCubitListedAssetFixedIncome =
-      sl<AssetsOverviewCubitListedAssetFixedIncome>();
+  _assetsOverviewCubitListedAssetFixedIncome =
+  sl<AssetsOverviewCubitListedAssetFixedIncome>();
   AssetsOverviewCubitPrivateEquity _assetsOverviewCubitPrivateEquity =
-      sl<AssetsOverviewCubitPrivateEquity>();
+  sl<AssetsOverviewCubitPrivateEquity>();
   AssetsOverviewCubitPrivateDebt _assetsOverviewCubitPrivateDebt =
-      sl<AssetsOverviewCubitPrivateDebt>();
+  sl<AssetsOverviewCubitPrivateDebt>();
   AssetsOverviewCubitRealEstate _assetsOverviewCubitRealEstate =
-      sl<AssetsOverviewCubitRealEstate>();
+  sl<AssetsOverviewCubitRealEstate>();
   AssetsOverviewCubitOtherAssets _assetsOverviewCubitOtherAsset =
-      sl<AssetsOverviewCubitOtherAssets>();
+  sl<AssetsOverviewCubitOtherAssets>();
   ChartsCubit _chartsCubit = sl<ChartsCubit>();
   CurrencyChartCubit _currencyChartCubit = sl<CurrencyChartCubit>();
   AssetsGeographyChartCubit _assetsGeographyChartCubit =
-      sl<AssetsGeographyChartCubit>();
+  sl<AssetsGeographyChartCubit>();
   PortfolioTabCubit _portfolioTabCubit = sl<PortfolioTabCubit>();
   DashboardAllocationCubit _dashboardAllocationCubit =
-      sl<DashboardAllocationCubit>();
+  sl<DashboardAllocationCubit>();
   DashboardPieCubit _dashboardPieCubit = sl<DashboardPieCubit>();
   DashboardGoeCubit _dashboardGoeCubit = sl<DashboardGoeCubit>();
   CustodianStatusListCubit _custodianStatusListCubit =
-      sl<CustodianStatusListCubit>();
+  sl<CustodianStatusListCubit>();
   PersonalInformationCubit _personalInformationCubit =
-      sl<PersonalInformationCubit>();
+  sl<PersonalInformationCubit>();
   PerformanceAssetClassCubit _performanceAssetClassCubit =
-      sl<PerformanceAssetClassCubit>();
+  sl<PerformanceAssetClassCubit>();
   PerformanceBenchmarkCubit _performanceBenchmarkCubit =
-      sl<PerformanceBenchmarkCubit>();
+  sl<PerformanceBenchmarkCubit>();
   ClientIndexCubit _clientIndexCubit = sl<ClientIndexCubit>();
   PerformanceCustodianCubit _performanceCustodianCubit =
-      sl<PerformanceCustodianCubit>();
+  sl<PerformanceCustodianCubit>();
   VerifyPhoneCubit _verifyPhoneCubit = sl<VerifyPhoneCubit>();
   AssetSummaryCubit _assetSummaryCubit = sl<AssetSummaryCubit>();
   TwoFactorCubit _twoFactorCubit = sl<TwoFactorCubit>();
+  PreferenceCubit _preferenceCubit = sl<PreferenceCubit>();
 
   Key mainPageRefreshKey = UniqueKey();
 
@@ -233,18 +235,35 @@ class AppRouter {
           name: AppRoutes.onboarding,
           path: "/onboarding",
           builder: (BuildContext context, GoRouterState state) {
-            return const OnBoardingPage();
+            return BlocProvider(
+                create: (context) {
+                  _userStatusCubit = sl<UserStatusCubit>();
+                  return _userStatusCubit..getUserStatus();
+                },
+                child: const OnBoardingPage());
+
+            // return const OnBoardingPage();
           },
         ),
         GoRoute(
             name: AppRoutes.main,
             path: "/main",
             builder: (BuildContext context, GoRouterState state) {
-              return BlocProvider(
-                create: (context) {
-                  _mainPageCubit = sl<MainPageCubit>();
-                  return _mainPageCubit;
-                },
+              return MultiBlocProvider(
+                providers: [
+                  BlocProvider(
+                    create: (context) {
+                      _mainPageCubit = sl<MainPageCubit>();
+                      return _mainPageCubit;
+                    },
+                  ),
+                  BlocProvider(
+                    create: (context) {
+                      _preferenceCubit = sl<PreferenceCubit>();
+                      return _preferenceCubit..getPreference();
+                    },
+                  )
+                ],
                 child: MultiBlocProvider(
                   key: mainPageRefreshKey,
                   providers: [
@@ -414,10 +433,10 @@ class AppRouter {
                     child: LocalAuthWrapper(
                         child: MainPage(
                             expandCustodian:
-                                state.queryParams['expandCustodian'] != null
-                                    ? state.queryParams['expandCustodian'] ==
-                                        'true'
-                                    : false)),
+                            state.queryParams['expandCustodian'] != null
+                                ? state.queryParams['expandCustodian'] ==
+                                'true'
+                                : false)),
                   ),
                 ),
               );
@@ -450,7 +469,7 @@ class AppRouter {
                               ..getSummary(
                                 GetSummaryParams(
                                     assetId:
-                                        state.queryParams['assetId'] as String,
+                                    state.queryParams['assetId'] as String,
                                     days: 7),
                               );
                           }),
@@ -544,6 +563,9 @@ class AppRouter {
                       providers: [
                         BlocProvider.value(
                           value: _blurredPrivacyCubit,
+                        ),
+                        BlocProvider.value(
+                          value: _preferenceCubit,
                         ),
                         BlocProvider.value(
                           value: _personalInformationCubit,

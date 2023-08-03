@@ -7,6 +7,7 @@ import 'package:wmd/core/util/local_auth_manager.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_switch.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
 import 'package:wmd/features/profile/core/presentation/widgets/language_bottom_sheet.dart';
+import 'package:wmd/features/profile/preference/presentation/manager/preference_cubit.dart';
 import 'package:wmd/features/profile/profile_reset_password/presentation/pages/profile_reset_password_page.dart';
 
 class PreferencesPage extends AppStatelessWidget {
@@ -30,32 +31,42 @@ class PreferencesPage extends AppStatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    context.read<LocalizationManager>().getName(),
-                    style: textTheme.bodyMedium!
-                        .apply(color: textTheme.bodyLarge!.color!),
+                  BlocBuilder<PreferenceCubit, PreferenceState>(
+                    builder: (context, state) {
+                      return Text(
+                        state is GetPreferenceLoaded
+                            ? LocalizationManager.getNameFromShortName(
+                            state.entity.language ?? "en")
+                            : ".",
+                        style: textTheme.bodyMedium!
+                            .apply(color: textTheme.bodyLarge!.color!),
+                      );
+                    },
                   ),
                   OutlinedButton(
                       onPressed: () {
                         showModalBottomSheet(
                             backgroundColor:
-                                Theme.of(context).scaffoldBackgroundColor,
+                            Theme.of(context).scaffoldBackgroundColor,
                             isScrollControlled: true,
                             context: context,
-                            builder: (context) {
-                              return const LanguageBottomSheet();
+                            builder: (bottomSheetContext) {
+                              return BlocProvider.value(
+                                value: context.read<PreferenceCubit>(),
+                                child: const LanguageBottomSheet(),
+                              );
                             });
                       },
                       child:
-                          Text(appLocalizations.profile_changePassword_change))
+                      Text(appLocalizations.profile_changePassword_change))
                 ],
               ),
             ]
                 .map((e) => Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 16),
-                      child: e,
-                    ))
+              padding: const EdgeInsets.symmetric(
+                  vertical: 8, horizontal: 16),
+              child: e,
+            ))
                 .toList(),
           ),
           const Divider(height: 48),
@@ -78,19 +89,19 @@ class PreferencesPage extends AppStatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  const ProfileRestPasswordPage(),
+                              const ProfileRestPasswordPage(),
                             ));
                       },
                       child:
-                          Text(appLocalizations.profile_changePassword_heading))
+                      Text(appLocalizations.profile_changePassword_heading))
                 ],
               ),
             ]
                 .map((e) => Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 16),
-                      child: e,
-                    ))
+              padding: const EdgeInsets.symmetric(
+                  vertical: 8, horizontal: 16),
+              child: e,
+            ))
                 .toList(),
           ),
           const Divider(height: 48),

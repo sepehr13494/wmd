@@ -19,7 +19,10 @@ class BlocHelper {
         errorMsg =
             AppLocalizations.of(context).auth_login_toast_error_unexpected;
         break;
-
+      case "Old Password is not correct":
+        errorMsg =
+            AppLocalizations.of(context).profile_changePassword_error_updatePasswordErr;
+        break;
       default:
         errorMsg = msg;
         break;

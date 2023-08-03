@@ -4,6 +4,7 @@ import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/dashboard/performance_table/client_index/presentation/manager/client_index_cubit.dart';
 import 'package:wmd/features/dashboard/performance_table/domain/entities/get_benchmark_entity.dart';
 import 'package:wmd/features/dashboard/performance_table/presentation/models/performance_value_obj.dart';
@@ -44,6 +45,7 @@ class PerformanceBenchmarkWidget extends AppStatelessWidget {
               ),
               const SizedBox(width: 8),
               PerformanceDropdown(
+                  customItems: AppConstants.timeFilterOnlyDays(context),
                   bloc: context.watch<PerformanceBenchmarkCubit>(),
                   function: (value) {
                     context
