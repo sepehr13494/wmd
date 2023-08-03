@@ -161,21 +161,10 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                             accountNumber: val,
                           ));
 
-                      // context
-                      //     .read<CustodianBankAuthCubit>()
-                      //     .putCustodianBankStatus(PutCustodianBankStatusParams(
-                      //         bankId: widget.bankId,
-                      //         id: id,
-                      //         accountId: val,
-                      //         signLetter: true,
-                      //         shareWithBank: true,
-                      //         bankConfirmation: false));
-
                       await AnalyticsUtils.triggerEvent(
-                          action: AnalyticsUtils.linkBankStep3Action(
-                              status.bankName),
-                          params: AnalyticsUtils.linkBankStep3Event(
-                              status.bankName));
+                          action: AnalyticsUtils.custodianStatusModalStep1,
+                          params: AnalyticsUtils.custodianStatusModalStep1Event(
+                              val));
                     },
             ),
             StatusStepWidget(
@@ -203,9 +192,8 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                               accountNumber: status.accountNumber));
 
                       await AnalyticsUtils.triggerEvent(
-                          action: AnalyticsUtils.linkBankStep2Action(
-                              status.bankName),
-                          params: AnalyticsUtils.linkBankStep2Event(
+                          action: AnalyticsUtils.custodianStatusModalStep2,
+                          params: AnalyticsUtils.custodianStatusModalStep2Event(
                               status.bankName));
                       await isDone;
                     },
@@ -231,21 +219,13 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                   CustodianStatus.OpenLetter, status.status),
               onDone: (val) async {
                 final isDone = downloadPdf(status.tutorialLink);
-                // context.read<CustodianBankAuthCubit>().postCustodianBankStatus(
-                //     PostCustodianBankStatusParams(
-                //         bankId: widget.bankId,
-                //         signLetter: true,
-                //         shareWithBank: false,
-                //         bankConfirmation: false));
 
                 await AnalyticsUtils.triggerEvent(
-                    action: AnalyticsUtils.linkBankStep2Action(status.bankName),
-                    params: AnalyticsUtils.linkBankStep2Event(status.bankName));
+                    action: AnalyticsUtils.custodianStatusModalViewTutorial,
+                    params:
+                        AnalyticsUtils.custodianStatusModalViewTutorialEvent(
+                            status.bankName));
                 await isDone;
-
-                // // ignore: use_build_context_synchronously
-                // context.goNamed(AppRoutes.main,
-                //     queryParams: {'expandCustodian': "true"});
               },
               onDoneAgain: () {
                 downloadPdf(status.tutorialLink);
@@ -271,8 +251,9 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                         accountNumber: status.accountNumber));
 
                 await AnalyticsUtils.triggerEvent(
-                    action: AnalyticsUtils.linkBankStep2Action(status.bankName),
-                    params: AnalyticsUtils.linkBankStep2Event(status.bankName));
+                    action: AnalyticsUtils.custodianStatusModalStep3,
+                    params: AnalyticsUtils.custodianStatusModalStep3Event(
+                        status.bankName));
               },
             ),
             StatusStepWidget(
@@ -309,8 +290,9 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                         accountNumber: status.accountNumber));
 
                 await AnalyticsUtils.triggerEvent(
-                    action: AnalyticsUtils.linkBankStep2Action(status.bankName),
-                    params: AnalyticsUtils.linkBankStep2Event(status.bankName));
+                    action: AnalyticsUtils.custodianStatusModalStep4,
+                    params: AnalyticsUtils.custodianStatusModalStep4Event(
+                        status.bankName));
               },
             ),
             StatusStepWidget(

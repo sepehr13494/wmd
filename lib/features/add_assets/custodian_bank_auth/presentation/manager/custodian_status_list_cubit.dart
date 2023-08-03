@@ -20,12 +20,10 @@ class CustodianStatusListCubit extends Cubit<CustodianStatusListState> {
 
   getCustodianStatusList() async {
     emit(LoadingState());
-    debugPrint("working.... cubit");
+
     final result =
         await getCustodianStatusListUseCase(GetCustodianBankListParams());
     result.fold((failure) => emit(ErrorState(failure: failure)), (entities) {
-      debugPrint("success-----");
-      debugPrint(entities.toString());
       statutes = List.from(entities);
       emit(StatusListLoaded(statusEntity: entities));
     });
