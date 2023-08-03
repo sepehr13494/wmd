@@ -21,6 +21,16 @@ class AnalyticsUtils {
   static const String enable2FAAction = "2FA_switch_on";
   static const String disable2FAAction = "2FA_switch_off";
 
+  static const String custodianStatusModalStep1 =
+      "Add_your_bank_account_number_step_1";
+  static const String custodianStatusModalStep2 =
+      "Open_and_download_authorization_letter_step_2";
+  static const String custodianStatusModalStep3 =
+      "Fill_the_authorization_letter_step_3";
+  static const String custodianStatusModalStep4 =
+      "Share_the_authorization_letter_with_bank_step_4";
+  static const String custodianStatusModalViewTutorial = "View_the_tutorial";
+
 // dynamic
   static String viewIndividualAssetAction(String asset) =>
       "View_${asset.replaceAll(" ", "_")}";
@@ -225,6 +235,36 @@ class AnalyticsUtils {
     "action": disable2FAAction,
     "label": "2FA has been turned off",
   };
+
+  static custodianStatusModalStep1Event(accNum) => {
+        "action": custodianStatusModalStep1,
+        "category": "Add your bank account number (Step 1)",
+        "label": "Add $accNum with the bank",
+      };
+
+  static custodianStatusModalStep2Event(bankName) => {
+        "action": custodianStatusModalStep2,
+        "category": "Open and download authorization letter (Step 2)",
+        "label": "Open and download  the $bankName  authorization  letter",
+      };
+
+  static custodianStatusModalViewTutorialEvent(bankName) => {
+        "action": custodianStatusModalViewTutorial,
+        "category": "View the tutorial",
+        "label": "View the $bankName  tutorial",
+      };
+
+  static custodianStatusModalStep3Event(bankName) => {
+        "action": custodianStatusModalStep3,
+        "category": "Fill the authorization letter (Step 3)",
+        "label": "Fill $bankName bank authorisation letter"
+      };
+
+  static custodianStatusModalStep4Event(bankName) => {
+        "action": custodianStatusModalStep4,
+        "category": "Share the authorization letter with the bank (Step 4)",
+        "label": "Share $bankName bank authorisation letter"
+      };
 
   static triggerEvent({action, params}) async {
     try {
