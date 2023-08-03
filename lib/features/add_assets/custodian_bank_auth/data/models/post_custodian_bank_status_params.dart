@@ -41,7 +41,7 @@ class PostCustodianBankStatusParams extends Equatable {
       ];
 
   static const tResponse = {
-    "status": "FillAccount",
+    "status": CustodianStatus.FillAccount,
     "accountNumber": "accountNumber",
     "bankId": "hsbc",
   };
