@@ -181,7 +181,8 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                               ? widget.moreEntity!
                                                   .toFormJson(context)
                                               : AddAssetConstants
-                                                  .initialJsonForAddAsset(context),
+                                                  .initialJsonForAddAsset(
+                                                      context),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -281,11 +282,16 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                             .assetLiabilityForms_forms_bankAccount_inputFields_description_errorMessage,
                                                         extraValidators: [
                                                           (val) {
-                                                            return ((val?.length ??
-                                                                        0) >
-                                                                    100
-                                                                ? "Description must be at most 100 characters"
-                                                                : null);
+                                                            return (val !=
+                                                                        null &&
+                                                                    val.length >
+                                                                        50)
+                                                                ? appLocalizations
+                                                                    .common_errors_maxChar
+                                                                    .replaceAll(
+                                                                        "{{maxChar}}",
+                                                                        "50")
+                                                                : null;
                                                           }
                                                         ],
                                                         onChanged:
