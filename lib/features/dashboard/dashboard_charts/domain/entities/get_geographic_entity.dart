@@ -38,7 +38,7 @@ String getContinentNameLocale(BuildContext context, String name) {
     case "Asia":
       targetCountry = AppLocalizations.of(context).assets_geography_Asia;
       break;
-    case "NorthAmerica":
+    case "North America":
       targetCountry =
           AppLocalizations.of(context).assets_geography_NorthAmerica;
       break;
@@ -48,7 +48,7 @@ String getContinentNameLocale(BuildContext context, String name) {
     case "Africa":
       targetCountry = AppLocalizations.of(context).assets_geography_Africa;
       break;
-    case "SouthAmerica":
+    case "South America":
       targetCountry =
           AppLocalizations.of(context).assets_geography_SouthAmerica;
       break;
