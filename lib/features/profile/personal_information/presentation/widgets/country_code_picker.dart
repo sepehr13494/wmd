@@ -86,7 +86,7 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
         );
       }),
       name: "country",
-      initialValue: controller.text == "" ? defaultCountry : null,
+      initialValue: defaultCountry,
       onChanged: widget.onChange,
     );
   }

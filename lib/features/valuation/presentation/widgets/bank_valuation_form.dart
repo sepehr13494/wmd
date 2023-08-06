@@ -147,8 +147,7 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
                           ? TextFieldType.minusMoney
                           : TextFieldType.money,
                       name: "pricePerUnit",
-                      hint: appLocalizations
-                          .assets_valuationModal_placeholder_currentBalanceValue),
+                      hint: appLocalizations.assets_label_currentBalance),
                 ),
                 EachTextField(
                   hasInfo: false,
