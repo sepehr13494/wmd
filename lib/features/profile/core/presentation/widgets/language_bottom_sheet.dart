@@ -72,7 +72,6 @@ class LanguageBottomSheet extends AppStatelessWidget {
                         AnalyticsUtils.triggerEvent(
                             action: AnalyticsUtils.changePasswordAction,
                             params: AnalyticsUtils.changePasswordEvent);
-
                         context.read<LocalizationManager>().changeLang(e);
                         context.read<PreferenceCubit>().patchPreferenceLanguage(
                             param: PatchPreferenceLanguageParams(
