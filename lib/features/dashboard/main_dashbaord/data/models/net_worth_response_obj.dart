@@ -72,6 +72,7 @@ class Assets extends AssetsEntity {
     required double changePercentage,
     required double ytd,
     required double itd,
+    double? unrealizedGainLoss,
   }) : super(
           newAssetCount: newAssetCount,
           newAssetValue: newAssetValue,
@@ -80,6 +81,7 @@ class Assets extends AssetsEntity {
           changePercentage: changePercentage,
           ytd: ytd,
           itd: itd,
+          unrealizedGainLoss: unrealizedGainLoss,
         );
 
   factory Assets.fromJson(Map<String, dynamic> json) => Assets(
@@ -91,6 +93,9 @@ class Assets extends AssetsEntity {
             double.tryParse(json["changePercentage"].toString()) ?? 0,
         ytd: double.tryParse(json["ytd"].toString()) ?? 0,
         itd: double.tryParse(json["itd"].toString()) ?? 0,
+        unrealizedGainLoss: json["unrealizedGainLoss"] != null
+            ? double.tryParse(json["unrealizedGainLoss"].toString()) ?? 0
+            : json["unrealizedGainLoss"],
       );
 }
 

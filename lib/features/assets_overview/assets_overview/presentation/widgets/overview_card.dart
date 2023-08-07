@@ -173,14 +173,19 @@ class OverViewCard extends AppStatelessWidget {
                                 //     ? const SizedBox()
                                 //     :
                                 const SizedBox(height: 24, width: 4),
-                                TitleSubtitle(
-                                  title: appLocalizations
-                                      .assets_label_unrelaizedGain,
-                                  subTitle: "\$ 5000",
-                                  // summary.unRealizedProfitLoss.convertMoney(addDollar: true),
-                                  tooltipMessage: appLocalizations
-                                      .assets_tooltips_unrealizedGain,
-                                )
+                                if (state.netWorthObj.assets
+                                        .unrealizedGainLoss !=
+                                    null)
+                                  TitleSubtitle(
+                                    title: appLocalizations
+                                        .assets_label_unrelaizedGain,
+                                    subTitle: state
+                                        .netWorthObj.assets.unrealizedGainLoss!
+                                        .convertMoney(addDollar: true),
+                                    // summary.unRealizedProfitLoss.convertMoney(addDollar: true),
+                                    tooltipMessage: appLocalizations
+                                        .assets_tooltips_unrealizedGain,
+                                  )
                               ],
                             )
                           ],
