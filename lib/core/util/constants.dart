@@ -22,7 +22,9 @@ class AppConstants {
       '$bundleId://$tfoAuth0Base/android/$bundleId/callback';
   static String tfoAuth0RedirectionIos =
       '$bundleId://$tfoAuth0Base/ios/$bundleId/callback';
+  static String tfoConnectionParam = dotenv.env['TFO_CONNECTION_PARAM']!;
 
+  static String pamConnectionParam = dotenv.env['PAM_CONNECTION_PARAM']!;
   static String pamAuth0IssuerBaseUrl =
       dotenv.env['PAM_AUTH0_ISSUER_BASE_URL']!;
   static String pamAuth0ClientId = dotenv.env['PAM_AUTH0_CLIENT_ID']!;
@@ -406,7 +408,7 @@ class AppConstants {
     ];
   }
 
-  static List<TimeFilterObj> timeFilterOnlyDays(BuildContext context){
+  static List<TimeFilterObj> timeFilterOnlyDays(BuildContext context) {
     final appLocalization = AppLocalizations.of(context);
     return [
       TimeFilterObj(
