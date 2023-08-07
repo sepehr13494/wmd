@@ -101,6 +101,7 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CountryCodePicker(
+                                defaultCountry: _inputFormValue["country"],
                                 onChange: (val) {
                                   setState(() {
                                     selectedCountryCode =
