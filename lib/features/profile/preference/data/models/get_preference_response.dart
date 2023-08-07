@@ -8,7 +8,7 @@ class GetPreferenceResponse extends GetPreferenceEntity {
 
   factory GetPreferenceResponse.fromJson(Map<String, dynamic> json) =>
       GetPreferenceResponse(
-          language: json["language"] ?? "",
+          language: json["language"] ?? "en",
           showMobileBanner: json["showMobileBanner"]);
 
   static const tResponse =
