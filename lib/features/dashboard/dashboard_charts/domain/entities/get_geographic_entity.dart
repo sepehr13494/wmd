@@ -62,8 +62,7 @@ String getContinentNameLocale(BuildContext context, String name) {
       targetCountry = AppLocalizations.of(context).assets_geography_Other;
       break;
     case "Other / Not Applicable":
-      targetCountry =
-          AppLocalizations.of(context).assets_geography_OtherNotApplicable;
+      targetCountry = AppLocalizations.of(context).assets_geography_Other;
       break;
     default:
   }
