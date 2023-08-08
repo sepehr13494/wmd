@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class NetWorthEntity extends Equatable{
+class NetWorthEntity extends Equatable {
   const NetWorthEntity({
     required this.totalNetWorth,
     required this.assets,
@@ -16,25 +16,24 @@ class NetWorthEntity extends Equatable{
   final String lastUpdated;
 
   Map<String, dynamic> toJson() => {
-    "totalNetWorth": totalNetWorth.toJson(),
-    "assets": assets.toJson(),
-    "liabilities": liabilities.toJson(),
-    "durationInDays": durationInDays,
-    "lastUpdated": lastUpdated,
-  };
+        "totalNetWorth": totalNetWorth.toJson(),
+        "assets": assets.toJson(),
+        "liabilities": liabilities.toJson(),
+        "durationInDays": durationInDays,
+        "lastUpdated": lastUpdated,
+      };
 
   @override
   List<Object?> get props => [
-    totalNetWorth,
-    assets,
-    liabilities,
-    durationInDays,
-    lastUpdated,
-  ];
-
+        totalNetWorth,
+        assets,
+        liabilities,
+        durationInDays,
+        lastUpdated,
+      ];
 }
 
-class AssetsEntity extends Equatable{
+class AssetsEntity extends Equatable {
   const AssetsEntity({
     required this.newAssetCount,
     required this.currentValue,
@@ -43,6 +42,7 @@ class AssetsEntity extends Equatable{
     required this.changePercentage,
     required this.ytd,
     required this.itd,
+    this.unrealizedGainLoss,
   });
 
   final double newAssetCount;
@@ -52,20 +52,21 @@ class AssetsEntity extends Equatable{
   final double changePercentage;
   final double ytd;
   final double itd;
+  final double? unrealizedGainLoss;
 
   @override
   List<Object?> get props => [
-    newAssetCount,
-    currentValue,
-    newAssetValue,
-    change,
-    changePercentage,
-    ytd,
-    itd,
-  ];
+        newAssetCount,
+        currentValue,
+        newAssetValue,
+        change,
+        changePercentage,
+        ytd,
+        itd,
+        unrealizedGainLoss
+      ];
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "newAssetCount": newAssetCount,
         "currentValue": currentValue,
         "newAssetValue": newAssetValue,
@@ -73,10 +74,11 @@ class AssetsEntity extends Equatable{
         "changePercentage": changePercentage,
         "ytd": ytd,
         "itd": itd,
+        "unrealizedGainLoss": unrealizedGainLoss,
       };
 }
 
-class LiabilitiesEntity extends Equatable{
+class LiabilitiesEntity extends Equatable {
   const LiabilitiesEntity({
     required this.newLiabilityCount,
     required this.currentValue,
@@ -95,16 +97,15 @@ class LiabilitiesEntity extends Equatable{
 
   @override
   List<Object?> get props => [
-    newLiabilityCount,
-    currentValue,
-    newLiabilityValue,
-    change,
-    ytd,
-    itd,
-  ];
+        newLiabilityCount,
+        currentValue,
+        newLiabilityValue,
+        change,
+        ytd,
+        itd,
+      ];
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "newLiabilityCount": newLiabilityCount,
         "currentValue": currentValue,
         "newLiabilityValue": newLiabilityValue,
@@ -114,7 +115,7 @@ class LiabilitiesEntity extends Equatable{
       };
 }
 
-class TotalNetWorthEntity extends Equatable{
+class TotalNetWorthEntity extends Equatable {
   const TotalNetWorthEntity({
     required this.currentValue,
     required this.change,
@@ -125,12 +126,11 @@ class TotalNetWorthEntity extends Equatable{
 
   @override
   List<Object?> get props => [
-    currentValue,
-    change,
-  ];
+        currentValue,
+        change,
+      ];
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "currentValue": currentValue,
         "change": change,
       };
