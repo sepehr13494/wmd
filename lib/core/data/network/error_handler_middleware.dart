@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:check_vpn_connection/check_vpn_connection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:wmd/core/util/constants.dart';
@@ -14,6 +15,12 @@ class ErrorHandlerMiddleware {
 
   Future<dynamic> sendRequest(AppRequestOptions appRequestOptions) async {
     try {
+      if (await CheckVpnConnection.isVpnActive()) {
+        throw const ServerException(
+            message: "vpn detected",
+            type: ExceptionType.vpn,
+            data: null);
+      }
       Response response =
           await serverRequestManager.sendRequest(appRequestOptions);
       if (response.statusCode == AppUrls.wrongTokenCode &&
