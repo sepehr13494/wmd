@@ -149,29 +149,24 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
               isActive: checkCurrentCustodianStatus(
                   CustodianStatus.FillAccount, status.status),
               // ready: status.signLetter,
-              onDone: status.accountNumber != null
-                  ? null
-                  : (val) async {
-                      context
-                          .read<CustodianBankAuthCubit>()
-                          .postCustodianBankStatus(
-                              PostCustodianBankStatusParams(
-                            bankId: widget.bankId,
-                            status: CustodianStatus.OpenLetter,
-                            accountNumber: val,
-                          ));
+              onDone: (val) async {
+                context
+                    .read<CustodianBankAuthCubit>()
+                    .postCustodianBankStatus(PostCustodianBankStatusParams(
+                      bankId: widget.bankId,
+                      status: CustodianStatus.OpenLetter,
+                      accountNumber: val,
+                    ));
 
-                      await AnalyticsUtils.triggerEvent(
-                          action: AnalyticsUtils.custodianStatusModalStep1,
-                          params: AnalyticsUtils.custodianStatusModalStep1Event(
-                              val));
-                    },
+                await AnalyticsUtils.triggerEvent(
+                    action: AnalyticsUtils.custodianStatusModalStep1,
+                    params: AnalyticsUtils.custodianStatusModalStep1Event(val));
+              },
             ),
             StatusStepWidget(
               stepNumber: '2',
               title: RichText(
-                  text:
-                      TextSpan(style: const TextStyle(height: 1.3), children: [
+                  text: TextSpan(children: [
                 TextSpan(
                   text: "${appLocalizations.linkAccount_stepper_stepTwo_open} ",
                   style: textTheme.bodySmall?.copyWith(
@@ -301,10 +296,13 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                 appLocalizations.linkAccount_stepper_stepFive_title,
                 style: textTheme.bodySmall?.copyWith(color: Colors.white),
               ),
-              subtitle: Text(
-                appLocalizations.linkAccount_stepper_stepFive_description,
-                style: textTheme.bodySmall,
-              ),
+              subtitle: checkCurrentCustodianStatus(
+                      CustodianStatus.SyncBank, status.status)
+                  ? Text(
+                      appLocalizations.linkAccount_stepper_stepFive_description,
+                      style: textTheme.bodySmall,
+                    )
+                  : null,
               isDone: checkCurrentCustodianStatusDone(
                   CustodianStatus.SyncBank, status.status),
               isActive: checkCurrentCustodianStatus(
