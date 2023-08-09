@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/info_icon.dart';
@@ -103,33 +105,33 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
       ),
       subtitle: Builder(
         builder: (context) {
-          if (widget.isDone) {
-            if (widget.doneSubtitle != null) {
-              return Padding(
-                padding: const EdgeInsets.only(left: 32.0),
-                child: InkWell(
-                  onTap: widget.onDoneAgain,
-                  child: Text(
-                    widget.doneSubtitle!,
-                    style: textTheme.bodySmall!.apply(
-                        color: Theme.of(context).primaryColor,
-                        decoration: TextDecoration.underline),
-                  ),
-                ),
-              );
-            }
-          } else {
-            if (widget.subtitle != null) {
-              return Padding(
-                padding: const EdgeInsets.only(left: 28.0),
-                child: InkWell(
-                  onTap:
-                      widget.onDone == null ? null : () => widget.onDone!(null),
-                  child: widget.subtitle!,
-                ),
-              );
-            }
+          // if (widget.isDone) {
+          //   if (widget.doneSubtitle != null) {
+          //     return Padding(
+          //       padding: const EdgeInsets.only(left: 32.0),
+          //       child: InkWell(
+          //         onTap: widget.onDoneAgain,
+          //         child: Text(
+          //           widget.doneSubtitle!,
+          //           style: textTheme.bodySmall!.apply(
+          //               color: Theme.of(context).primaryColor,
+          //               decoration: TextDecoration.underline),
+          //         ),
+          //       ),
+          //     );
+          //   }
+          // } else {
+          if (widget.subtitle != null) {
+            return Padding(
+              padding: const EdgeInsets.only(left: 28.0),
+              child: InkWell(
+                onTap:
+                    widget.onDone == null ? null : () => widget.onDone!(null),
+                child: widget.subtitle!,
+              ),
+            );
           }
+          // }
           return const SizedBox.shrink();
         },
       ),
@@ -170,6 +172,8 @@ class CifStatusWidget extends StatefulWidget {
 class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
   late final TextEditingController input;
   var isButtonDisable = false;
+  var enableTextFeild = false;
+  final FocusNode myFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -286,17 +290,26 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
                 children: [
                   Expanded(
                     child: TextField(
+                      focusNode: myFocusNode,
                       decoration: InputDecoration(
                           hintText: appLocalizations
                               .linkAccount_stepper_cif_placeholder),
                       controller: input,
-                      enabled: widget.accountId == null && widget.isActive,
+                      enabled: enableTextFeild ||
+                          (widget.accountId == null && widget.isActive),
                     ),
                   ),
                   const SizedBox(width: 8),
                   if (widget.isDone != true)
                     OutlinedButton(
-                      onPressed: () => widget.onDone!(input.text),
+                      onPressed: input.text == ""
+                          ? null
+                          : () {
+                              widget.onDone!(input.text);
+                              setState(() {
+                                enableTextFeild = false;
+                              });
+                            },
                       style: OutlinedButton.styleFrom(
                         minimumSize: const Size(50, 40),
                         // maximumSize: const Size(130, 80)
@@ -304,7 +317,9 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
                       child: Text(
                         widget.subtitle ?? '',
                         style: textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).primaryColor,
+                            color: input.text == ""
+                                ? Colors.grey[500]
+                                : Theme.of(context).primaryColor,
                             fontSize: 10),
                       ),
                     ),
@@ -313,13 +328,36 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
                       padding:
                           const EdgeInsets.only(left: 4, top: 8, right: 40),
                       child: InkWell(
-                        onTap: widget.isDone == true
-                            ? null
-                            : () => widget.onDone!(input.text),
+                        onTap: enableTextFeild
+                            ? widget.accountId == input.text
+                                ? null
+                                : () {
+                                    widget.onDone!(input.text);
+                                    setState(() {
+                                      enableTextFeild = false;
+                                    });
+                                  }
+                            : () {
+                                setState(() {
+                                  enableTextFeild = true;
+                                });
+
+                                Timer(const Duration(seconds: 1),
+                                    () => myFocusNode.requestFocus());
+
+                                // myFocusNode.requestFocus();
+                              },
+                        // () => widget.onDone!(input.text),
                         child: Text(
-                          appLocalizations.common_button_edit,
+                          enableTextFeild
+                              ? appLocalizations.common_button_save
+                              : appLocalizations.common_button_edit,
                           style: textTheme.bodySmall!.apply(
-                              color: Theme.of(context).primaryColor,
+                              color: Theme.of(context).primaryColor.withOpacity(
+                                  enableTextFeild &&
+                                          widget.accountId == input.text
+                                      ? 0.5
+                                      : 1),
                               decoration: TextDecoration.underline),
                         ),
                       ),
