@@ -62,21 +62,21 @@ class _BanksAuthorizationProcessState
 
           final custodainArr = [];
 
-          // Iterate over the first array and add it to the new array as a map with the identifier 0
-          for (var i = 0; i < state.statusEntity.length; i++) {
-            custodainArr.add(
-                {"type": "statusEntity", "element": state.statusEntity[i]});
-          }
-
           // Iterate over the second array and add it to the new array as a map with the identifier 1
           for (var i = 0; i < widget.mandateList.length; i++) {
             custodainArr
                 .add({"type": "mandate", "element": widget.mandateList[i]});
           }
 
+          // Iterate over the first array and add it to the new array as a map with the identifier 0
+          for (var i = 0; i < state.statusEntity.length; i++) {
+            custodainArr.add(
+                {"type": "statusEntity", "element": state.statusEntity[i]});
+          }
+
           return Padding(
-            padding:
-                EdgeInsets.symmetric(horizontal: responsiveHelper.bigger16Gap),
+            padding: EdgeInsets.symmetric(
+                horizontal: responsiveHelper.defaultSmallGap),
             child: Column(children: [
               Table(
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,
@@ -91,7 +91,8 @@ class _BanksAuthorizationProcessState
                     final e = custodainArr[index];
 
                     if (e["type"] == "mandate") {
-                      return buildMandateRow(context, e['element'], textTheme);
+                      return buildMandateRow(
+                          context, e['element'], textTheme, index);
                     }
 
                     return buildTableRow(
@@ -170,7 +171,7 @@ class _BanksAuthorizationProcessState
       ),
       children: [
         Padding(
-          padding: padding,
+          padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
           child: Text(
             e.bankName,
             style: textTheme.bodyLarge,
@@ -181,7 +182,7 @@ class _BanksAuthorizationProcessState
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4),
             child: Text(e.statusText(appLocalizations),
-                style: textTheme.bodyLarge),
+                style: textTheme.bodyMedium),
           ),
         ),
         Padding(
@@ -213,20 +214,20 @@ class _BanksAuthorizationProcessState
     );
   }
 
-  TableRow buildMandateRow(
-      BuildContext context, GetMandateStatusEntity e, TextTheme textTheme,
+  TableRow buildMandateRow(BuildContext context, GetMandateStatusEntity e,
+      TextTheme textTheme, int index,
       {EdgeInsetsGeometry padding =
           const EdgeInsets.only(top: 8.0, bottom: 8)}) {
     final appLocalizations = AppLocalizations.of(context);
     return TableRow(
       decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(width: 1.0, color: Theme.of(context).disabledColor),
-        ),
+        color: index % 2 != 0
+            ? Theme.of(context).cardColor.withOpacity(0.6)
+            : Theme.of(context).cardColor,
       ),
       children: [
         Padding(
-          padding: padding,
+          padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
           child: Text(
             e.dataSource,
             style: textTheme.bodyLarge,
@@ -239,7 +240,7 @@ class _BanksAuthorizationProcessState
             child: Text(
                 appLocalizations.home_custodianBankList_statusText_mandateSync
                     .replaceFirst('{{mandateId}}', e.mandateId.toString()),
-                style: textTheme.bodyLarge),
+                style: textTheme.bodyMedium),
           ),
         ),
         Visibility(
