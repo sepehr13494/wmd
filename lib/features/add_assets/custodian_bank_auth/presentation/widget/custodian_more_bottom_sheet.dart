@@ -23,8 +23,19 @@ class CustodianMoreBottomSheet extends AppStatelessWidget {
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
-    return BlocProvider(
-        create: (context) => sl<CustodianBankAuthCubit>(),
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) {
+              return sl<CustodianBankAuthCubit>();
+            },
+          ),
+          BlocProvider(
+            create: (context) {
+              return sl<CustodianStatusListCubit>();
+            },
+          ),
+        ],
         child: BlocConsumer<CustodianBankAuthCubit, CustodianBankAuthState>(
             listener: (context, state) {
           if (state is SuccessState) {
