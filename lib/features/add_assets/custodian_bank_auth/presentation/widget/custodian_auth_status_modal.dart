@@ -308,6 +308,28 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
               isActive: checkCurrentCustodianStatus(
                   CustodianStatus.SyncBank, status.status),
             ),
+            const SizedBox(
+              height: 6,
+            ),
+            Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 9),
+                child: Column(
+                  children: [
+                    Text(
+                      appLocalizations.linkAccount_stepper_footer_note1,
+                      style: textTheme.bodySmall,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    Text(
+                      appLocalizations.linkAccount_stepper_footer_note2,
+                      style: textTheme.bodySmall,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ))
           ],
         );
       } else {
