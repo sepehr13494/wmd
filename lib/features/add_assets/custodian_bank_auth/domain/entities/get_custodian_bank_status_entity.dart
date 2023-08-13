@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustodianBankStatusEntity extends Equatable {
@@ -87,7 +88,7 @@ class CustodianBankStatusEntity extends Equatable {
         res = appLocalizations.home_custodianBankList_statusText_step4;
         break;
       case CustodianStatus.FillAccount:
-        res = "";
+        res = appLocalizations.home_custodianBankList_statusText_step1;
         break;
       default:
         res = "";
