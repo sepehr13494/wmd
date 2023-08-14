@@ -53,7 +53,7 @@ Future<void> main() async {
 
   const String envFor = String.fromEnvironment(
     'env',
-    defaultValue: 'prod',
+    defaultValue: 'qa',
   );
   final envFile = envInitConfig(envFor);
   await dotenv.load(fileName: envFile);

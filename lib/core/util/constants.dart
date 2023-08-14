@@ -8,6 +8,7 @@ class AppConstants {
   static bool developMode = dotenv.env['DEVELOPING_MODE']! == 'true';
   static bool developRoutes = dotenv.env['DEVELOPING_ROUTES']! == 'true';
   static bool isRelease1 = dotenv.env['IS_RELEASE_ONE']! == 'true';
+  static bool isRelease2 = dotenv.env['IS_RELEASE_TWO']! == 'true';
   static bool currencyConvertor = dotenv.env['CURRENCY_CONVERTOR']! == 'true';
   static String bundleId = dotenv.env['BUNDLE_ID']!;
 

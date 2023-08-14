@@ -55,7 +55,7 @@ class _MainPageState extends AppState<MainPage> with WidgetsBindingObserver {
     final List<Widget> widgetOptions = <Widget>[
       DashboardMainPage(expandCustodian: widget.expandCustodian),
       const AssetsOverView(),
-      if (!AppConstants.isRelease1) const LiabilityOverviewPage(),
+      if (AppConstants.isRelease2) const LiabilityOverviewPage(),
     ];
 
     return LanguagePatcher(
