@@ -11,9 +11,6 @@ class NetWorkChange{
   Future<bool> checkNetworkChange() async{
     final hasVpn = await CheckVpnConnection.isVpnActive();
     final ipv4 = await Ipify.ipv4();
-    print("ipv4"); // 98.207.254.136
-    print(ipv4); // 98.207.254.136
-
     final lastIp = localStorage.getLastIp();
     localStorage.setLastIp(ipv4);
     return hasVpn && (lastIp != ipv4);
