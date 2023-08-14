@@ -45,7 +45,7 @@ class AppDeviceInfo {
           ip: 'webdummyip',
           os: webBrowserInfo.platform.toString());
     } else {
-      String networkInfo = await NetworkInfo().getWifiIP() ?? "IP not detected";
+      String networkInfo = await NetworkInfo().getWifiGatewayIP() ?? "IP not detected";
       if (Platform.isAndroid) {
         AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
         debugPrint('Running on ${androidInfo.model}');
