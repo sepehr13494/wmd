@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:wmd/core/data/network/check_network_change.dart';
 import 'package:wmd/core/data/network/error_handler_middleware.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/core/util/local_auth_manager.dart';
@@ -866,6 +867,8 @@ Future<void> initUtils() async {
       () => ErrorHandlerMiddleware(sl()));
   //device_info
   sl.registerLazySingleton<AppDeviceInfo>(() => AppDeviceInfo(sl()));
+  //network_change
+  sl.registerLazySingleton<NetWorkChange>(() => NetWorkChange(sl()));
   //theme_manager
   sl.registerFactory(() => ThemeManager(sl()));
   //localization_manager

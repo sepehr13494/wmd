@@ -1,6 +1,7 @@
 enum ExceptionType {
   normal,
   auth,
+  vpn,
   unExpected,
   format,
   ssl,
