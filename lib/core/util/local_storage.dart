@@ -14,6 +14,7 @@ class LocalStorage {
   static const appThemeMode = "themeMode";
   static const appLocale = "locale";
   static const ownerId = "ownerId";
+  static const lastIp = "lastIp";
   static const localAuth = "localAuth";
 
   Future<void> setTokenAndLogin(token) async {
@@ -133,6 +134,22 @@ class LocalStorage {
   Future<void> setLocale(Locale locale) async {
     try {
       await authBox.put(appLocale, locale.languageCode);
+    } catch (e) {
+      throw CacheException(message: e.toString());
+    }
+  }
+
+  Future<void> setLastIp(val) async {
+    try {
+      await authBox.put(lastIp, val);
+    } catch (e) {
+      throw CacheException(message: e.toString());
+    }
+  }
+
+  String getLastIp() {
+    try {
+      return authBox.get(lastIp, defaultValue: "");
     } catch (e) {
       throw CacheException(message: e.toString());
     }

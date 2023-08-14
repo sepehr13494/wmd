@@ -2,7 +2,9 @@ import 'dart:developer';
 import 'package:check_vpn_connection/check_vpn_connection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:wmd/core/data/network/check_network_change.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/injection_container.dart';
 import 'server_request_manager.dart';
 import 'urls.dart';
 import '../../error_and_success/exeptions.dart';
@@ -15,7 +17,8 @@ class ErrorHandlerMiddleware {
 
   Future<dynamic> sendRequest(AppRequestOptions appRequestOptions) async {
     try {
-      if (await CheckVpnConnection.isVpnActive()) {
+      final networkChange = await sl<NetWorkChange>().checkNetworkChange();
+      if (networkChange) {
         throw const ServerException(
             message: "vpn detected",
             type: ExceptionType.vpn,
@@ -67,8 +70,11 @@ class ErrorHandlerMiddleware {
       }
     } catch (e) {
       debugPrint(e.toString());
+      if(e is TypeError){
+        debugPrint(e.stackTrace.toString());
+      }
       throw ServerException(
-          message: e.toString(), type: ExceptionType.unExpected);
+          message: e.toString(), type: ExceptionType.unExpected,);
     }
   }
 }
