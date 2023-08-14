@@ -27,14 +27,14 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
 
   @override
   void initState() {
-    if (AppConstants.isRelease1) {
+    if (AppConstants.isRelease2) {
       _controller = TabController(
-          length: 2,
+          length: 4,
           vsync: this,
           initialIndex: context.read<TabManager>().state);
     } else {
       _controller = TabController(
-          length: 4,
+          length: 3,
           vsync: this,
           initialIndex: context.read<TabManager>().state);
     }
@@ -110,14 +110,13 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
                               Tab(
                                   text: appLocalizations
                                       .assets_charts_tabs_geography),
-                              if (!AppConstants.isRelease1)
+                              if (AppConstants.isRelease2)
                                 Tab(
                                     text: appLocalizations
                                         .assets_charts_tabs_currency),
-                              if (!AppConstants.isRelease1)
-                                Tab(
-                                    text: appLocalizations
-                                        .assets_charts_tabs_portfolio),
+                              Tab(
+                                  text: appLocalizations
+                                      .assets_charts_tabs_portfolio),
                             ],
                             isScrollable: true,
                           ),

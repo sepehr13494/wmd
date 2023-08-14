@@ -44,7 +44,7 @@ class _MainPageState extends AppState<MainPage> with WidgetsBindingObserver {
         appLocalizations.common_nav_links_assets,
         "assets/images/assets_icon_filled.svg"
       ],
-      if (!AppConstants.isRelease1)
+      if (AppConstants.isRelease2)
         [
           "assets/images/liability_disabled.svg",
           appLocalizations.common_nav_links_liabilities,
@@ -55,7 +55,7 @@ class _MainPageState extends AppState<MainPage> with WidgetsBindingObserver {
     final List<Widget> widgetOptions = <Widget>[
       DashboardMainPage(expandCustodian: widget.expandCustodian),
       const AssetsOverView(),
-      if (!AppConstants.isRelease1) const LiabilityOverviewPage(),
+      if (AppConstants.isRelease2) const LiabilityOverviewPage(),
     ];
 
     return LanguagePatcher(
