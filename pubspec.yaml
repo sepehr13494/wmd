@@ -92,6 +92,8 @@ dependencies:
   another_flushbar: ^1.12.30
   flutter_web_auth_2: ^2.1.5
   nonce: ^1.2.0
+  check_vpn_connection: ^0.0.2
+  dart_ipify: ^1.1.1
 
 dev_dependencies:
   flutter_test:
