@@ -64,12 +64,12 @@ class _SplashPageState extends State<SplashPage> {
             listeners: [
               BlocListener<SafeDeviceCubit, SafeDeviceState>(
                 listener: (context, state) async {
-                  if (!AppConstants.developMode &&
-                      state is IsSafeDeviceLoaded) {
-                    if (!state.isSafeDeviceEntity.isSafe) {
-                      context.replaceNamed(AppRoutes.unsafe_device);
-                    }
-                  }
+                  // if (!AppConstants.developMode &&
+                  //     state is IsSafeDeviceLoaded) {
+                  //   if (!state.isSafeDeviceEntity.isSafe) {
+                  //     context.replaceNamed(AppRoutes.unsafe_device);
+                  //   }
+                  // }
                 },
               ),
               BlocListener<SplashCubit, SplashState>(
@@ -97,7 +97,8 @@ class _SplashPageState extends State<SplashPage> {
                 },
               ),
               BlocListener<ForceUpdateCubit, ForceUpdateState>(
-                listener: BlocHelper.defaultBlocListener(listener: (context, state) {
+                listener:
+                    BlocHelper.defaultBlocListener(listener: (context, state) {
                   // context.read<SplashCubit>().initSplashFromSplash();
                   if (state is GetForceUpdateLoaded) {
                     bool isVersionGreaterThan(
