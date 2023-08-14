@@ -110,16 +110,16 @@ class AssetTabWrapper extends StatefulWidget {
 class _AssetTabWrapperState extends AppState<AssetTabWrapper>
     with TickerProviderStateMixin {
   late TabController _tabController;
-  bool isReleaseOne = AppConstants.isRelease1;
+  bool hideRelease2 = !AppConstants.isRelease2;
 
   @override
   void initState() {
     super.initState();
 
     _tabController = TabController(
-        length: !isReleaseOne ? 3 : 2,
+        length: !hideRelease2 ? 3 : 2,
         vsync: this,
-        initialIndex: isReleaseOne
+        initialIndex: hideRelease2
             ? (widget.initial == 2)
                 ? 1
                 : 0
@@ -128,15 +128,15 @@ class _AssetTabWrapperState extends AppState<AssetTabWrapper>
       context.read<AssetViewCubit>().selectCustodian();
     }
     _tabController.addListener(() {
-      if (_tabController.index == 1 && isReleaseOne) {
+      if (_tabController.index == 1 && hideRelease2) {
         context.read<AssetViewCubit>().selectCustodian();
-      } else if (_tabController.index == 1 && isReleaseOne) {
+      } else if (_tabController.index == 1 && hideRelease2) {
         context.read<AssetViewCubit>().selectCustodian();
-      } else if (_tabController.index == 2 && !isReleaseOne) {
+      } else if (_tabController.index == 2 && !hideRelease2) {
         context.read<AssetViewCubit>().selectCustodian();
-      } else if (_tabController.index == 1 && !isReleaseOne) {
+      } else if (_tabController.index == 1 && !hideRelease2) {
         context.read<AssetViewCubit>().selectTab(1);
-      } else if (_tabController.index == 0 && !isReleaseOne) {
+      } else if (_tabController.index == 0 && !hideRelease2) {
         context.read<AssetViewCubit>().empty();
       } else {
         context.read<AssetViewCubit>().empty();
@@ -170,7 +170,7 @@ class _AssetTabWrapperState extends AppState<AssetTabWrapper>
                     controller: _tabController,
                     tabs: [
                       Tab(text: appLocalizations.assets_breadCrumb_assets),
-                      if (!isReleaseOne)
+                      if (!hideRelease2)
                         Tab(
                             text: appLocalizations
                                 .liabilities_breadCrumb_liabilities),
@@ -192,7 +192,7 @@ class _AssetTabWrapperState extends AppState<AssetTabWrapper>
               controller: _tabController,
               children: [
                 const AssetsPart(isLiability: false),
-                if (!isReleaseOne)
+                if (!hideRelease2)
                   const AssetsPart(
                     isLiability: true,
                   ),
