@@ -1,6 +1,6 @@
 {
     "@@locale": "ar",
-    "@@last_modified": "2023-08-10T10:56:55+02:00",
+    "@@last_modified": "2023-08-13T09:38:02+02:00",
     "auth:signup.page.title": "انضمّ إلى منصتنا",
     "auth:signup.page.description": "إنشاء حساب myWMD",
     "auth:signup.heading": "أنشئ حساباً",
@@ -2774,9 +2774,9 @@
     "linkAccount:custodians.LombardOdier": "Lombard Odier - سويسرا",
     "linkAccount:stepper.footer.note1": "تُعرض جميع الطلبات قيد التنفيذ لمزامنة المؤسّسات الوصيّة على الصفحة الرئيسية.",
     "linkAccount:stepper.footer.note2": "يمكنك الوصول إلى قائمة الحسابات المتزامنة للمؤسّسات الوصيّة في الإعدادات > الحسابات المربوطة.",
-    "assets:label.MIWO": "MSCI World Islamic Index",
-    "assets:label.MSCI": "MSCI AC World Daily TR Gross USD",
-    "assets:label.SPSHXT": "S&P 500 Shariah USD Total Return",
-    "assets:label.SPX": "S&P 500 Total Return",
-    "assets:label.Tadawull": "Tadawul All Share TASI Index"
+    "assets:label.MIWO": "MSCI World Islamic Index (Total Return)",
+    "assets:label.MSCI": "MSCI All Country World Index (Total Return)",
+    "assets:label.SPSHXT": "S&P 500 Shariah Index (Total Return)",
+    "assets:label.SPX": "S&P 500 (Total Return)",
+    "assets:label.Tadawull": "Tadawul All Share Index (TASI)"
 }

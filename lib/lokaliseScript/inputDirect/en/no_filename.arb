@@ -1,6 +1,6 @@
 {
     "@@locale": "en",
-    "@@last_modified": "2023-08-10T10:56:55+02:00",
+    "@@last_modified": "2023-08-13T09:38:02+02:00",
     "auth:signup.page.title": "Join our Platform",
     "auth:signup.page.description": "Create myWMD account",
     "auth:signup.heading": "Create an account",
@@ -2772,11 +2772,11 @@
     "home:custodianBankList.statusText.step3": "Step 3 of 5 is complete: Share the letter with your custodian bank.",
     "home:custodianBankList.statusText.step4": "Step 4 of 5 is complete: Receive data from your custodian bank.",
     "linkAccount:custodians.LombardOdier": "Lombard Odier - Switzerland",
-    "linkAccount:stepper.footer.note1": "All pending custodian synchronization requests will be displayed on the home page.",
-    "linkAccount:stepper.footer.note2": "You can access the list of already synchronized custodian accounts in Settings > Linked accounts.",
-    "assets:label.MIWO": "MSCI World Islamic Index",
-    "assets:label.MSCI": "MSCI AC World Daily TR Gross USD",
-    "assets:label.SPSHXT": "S&P 500 Shariah USD Total Return",
-    "assets:label.SPX": "S&P 500 Total Return",
-    "assets:label.Tadawull": "Tadawul All Share TASI Index"
+    "linkAccount:stepper.footer.note1": "All requested links can be viewed on the homepage.",
+    "linkAccount:stepper.footer.note2": "Previously linked accounts can be found in Settings > Linked Accounts",
+    "assets:label.MIWO": "MSCI World Islamic Index (Total Return)",
+    "assets:label.MSCI": "MSCI All Country World Index (Total Return)",
+    "assets:label.SPSHXT": "S&P 500 Shariah Index (Total Return)",
+    "assets:label.SPX": "S&P 500 (Total Return)",
+    "assets:label.Tadawull": "Tadawul All Share Index (TASI)"
 }
