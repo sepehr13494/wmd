@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
-import 'package:wmd/core/presentation/widgets/info_icon.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StatusStepWidget extends StatefulWidget {
   final String stepNumber;
@@ -105,22 +103,6 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
       ),
       subtitle: Builder(
         builder: (context) {
-          // if (widget.isDone) {
-          //   if (widget.doneSubtitle != null) {
-          //     return Padding(
-          //       padding: const EdgeInsets.only(left: 32.0),
-          //       child: InkWell(
-          //         onTap: widget.onDoneAgain,
-          //         child: Text(
-          //           widget.doneSubtitle!,
-          //           style: textTheme.bodySmall!.apply(
-          //               color: Theme.of(context).primaryColor,
-          //               decoration: TextDecoration.underline),
-          //         ),
-          //       ),
-          //     );
-          //   }
-          // } else {
           if (widget.subtitle != null) {
             return Padding(
               padding: const EdgeInsets.only(left: 28.0),
@@ -135,7 +117,6 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
           return const SizedBox.shrink();
         },
       ),
-      // trailing: Text(widget.trailing),
     );
   }
 }
@@ -150,7 +131,7 @@ class CifStatusWidget extends StatefulWidget {
   final bool? isDone;
   final String trailing;
   final void Function(String? val)? onDone;
-  final void Function()? onDoneAgain;
+  final void Function(String? val)? onEdit;
   const CifStatusWidget({
     required this.title,
     required this.stepNumber,
@@ -161,7 +142,7 @@ class CifStatusWidget extends StatefulWidget {
     this.accountId,
     this.subtitle,
     this.onDone,
-    this.onDoneAgain,
+    this.onEdit,
     Key? key,
   }) : super(key: key);
 
@@ -221,10 +202,6 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
               style: textTheme.bodySmall?.copyWith(color: Colors.white),
             ),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.only(left: 4),
-          //   child: Text(widget.trailing, style: textTheme.bodySmall),
-          // )
           if (widget.isDone == true)
             Padding(
                 padding: const EdgeInsets.only(left: 4),
@@ -332,7 +309,7 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
                             ? widget.accountId == input.text
                                 ? null
                                 : () {
-                                    widget.onDone!(input.text);
+                                    widget.onEdit!(input.text);
                                     setState(() {
                                       enableTextFeild = false;
                                     });
