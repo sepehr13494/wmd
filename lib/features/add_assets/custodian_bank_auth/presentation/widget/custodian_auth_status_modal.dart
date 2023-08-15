@@ -162,6 +162,18 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                     action: AnalyticsUtils.custodianStatusModalStep1,
                     params: AnalyticsUtils.custodianStatusModalStep1Event(val));
               },
+              onEdit: (val) async {
+                context.read<CustodianBankAuthCubit>().putCustodianBankStatus(
+                    PutCustodianBankStatusParams(
+                        id: status.id,
+                        bankId: widget.bankId,
+                        status: status.status,
+                        accountNumber: val));
+
+                await AnalyticsUtils.triggerEvent(
+                    action: AnalyticsUtils.custodianStatusModalStep1,
+                    params: AnalyticsUtils.custodianStatusModalStep1Event(val));
+              },
             ),
             StatusStepWidget(
               stepNumber: '2',
