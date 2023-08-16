@@ -59,14 +59,14 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.tfo.wmd"
+        applicationId "com.aiop.aio"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
         minSdkVersion 21
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        manifestPlaceholders += [auth0Domain: auth0Properties['domain'], auth0Scheme: "com.tfo.wmd"]
+        manifestPlaceholders += [auth0Domain: auth0Properties['domain'], auth0Scheme: "com.aiop.aio"]
     }
 
     signingConfigs {

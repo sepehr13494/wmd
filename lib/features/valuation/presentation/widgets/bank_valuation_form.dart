@@ -138,8 +138,7 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
                 ),
                 EachTextField(
                   hasInfo: false,
-                  title: appLocalizations
-                      .assets_valuationModal_labels_currentBalanceValue,
+                  title: appLocalizations.assets_label_currentBalance,
                   child: AppTextFields.simpleTextField(
                       onChanged: (e) => checkFinalValid(e),
                       errorMsg: appLocalizations.common_errors_required,
@@ -148,8 +147,7 @@ class _BankValuationFormWidgetState extends AppState<BankValuationFormWidget> {
                           ? TextFieldType.minusMoney
                           : TextFieldType.money,
                       name: "pricePerUnit",
-                      hint: appLocalizations
-                          .assets_valuationModal_placeholder_currentBalanceValue),
+                      hint: appLocalizations.assets_label_currentBalance),
                 ),
                 EachTextField(
                   hasInfo: false,

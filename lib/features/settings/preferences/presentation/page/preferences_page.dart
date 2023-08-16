@@ -36,7 +36,7 @@ class PreferencesPage extends AppStatelessWidget {
                       return Text(
                         state is GetPreferenceLoaded
                             ? LocalizationManager.getNameFromShortName(
-                                state.entity.language ?? "en")
+                            state.entity.language ?? "en")
                             : ".",
                         style: textTheme.bodyMedium!
                             .apply(color: textTheme.bodyLarge!.color!),
@@ -47,7 +47,7 @@ class PreferencesPage extends AppStatelessWidget {
                       onPressed: () {
                         showModalBottomSheet(
                             backgroundColor:
-                                Theme.of(context).scaffoldBackgroundColor,
+                            Theme.of(context).scaffoldBackgroundColor,
                             isScrollControlled: true,
                             context: context,
                             builder: (bottomSheetContext) {
@@ -58,15 +58,15 @@ class PreferencesPage extends AppStatelessWidget {
                             });
                       },
                       child:
-                          Text(appLocalizations.profile_changePassword_change))
+                      Text(appLocalizations.profile_changePassword_change))
                 ],
               ),
             ]
                 .map((e) => Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 16),
-                      child: e,
-                    ))
+              padding: const EdgeInsets.symmetric(
+                  vertical: 8, horizontal: 16),
+              child: e,
+            ))
                 .toList(),
           ),
           const Divider(height: 48),
@@ -89,19 +89,19 @@ class PreferencesPage extends AppStatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  const ProfileRestPasswordPage(),
+                              const ProfileRestPasswordPage(),
                             ));
                       },
                       child:
-                          Text(appLocalizations.profile_changePassword_heading))
+                      Text(appLocalizations.profile_changePassword_heading))
                 ],
               ),
             ]
                 .map((e) => Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 16),
-                      child: e,
-                    ))
+              padding: const EdgeInsets.symmetric(
+                  vertical: 8, horizontal: 16),
+              child: e,
+            ))
                 .toList(),
           ),
           const Divider(height: 48),
