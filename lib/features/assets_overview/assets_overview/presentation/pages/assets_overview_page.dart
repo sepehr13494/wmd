@@ -8,6 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/leaf_background.dart';
 import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/width_limitter.dart';
+import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/core/util/firebase_analytics.dart';
 import 'package:wmd/features/assets_overview/assets_geography_chart/domain/entities/get_assets_geography_entity.dart';
@@ -334,7 +335,7 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                                                           color: isMapGeo
                                                                               ? InsideWorldMapWidgetState.getColorByList((item as GetAssetsGeographyEntity).geography,
                                                                               otherList)
-                                                                              : _getColor(item, insideIndex, state.assetsOverviewBaseModels[insideIndex],index),
+                                                                              : _getColor(item, insideIndex, state.assetsOverviewBaseModels[insideIndex],index,blocs.length),
                                                                           assetsOverviewType:
                                                                           _getType(item),
                                                                           assetsOverviewBaseModel:
@@ -417,13 +418,15 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
   }
 
   Color _getColor(AssetsOverviewBaseModel item, int index,
-      AssetsOverviewBaseModel assetsOverviewBaseModel, int outsideIndex) {
+      AssetsOverviewBaseModel assetsOverviewBaseModel, int outsideIndex, int totalLenght) {
     if (item is AssetsOverviewEntity) {
       return AssetsOverviewChartsColors
               .colorsMap[(item.type + (item.subType ?? ""))] ??
           Colors.brown;
     } else if(item is GetPortfolioTabEntity){
-      return AssetsOverviewChartsColors.treeMapColors[outsideIndex];
+      final colorList =
+      AssetsOverviewChartsColors.generateBrightHexCodeList(totalLenght);
+      return HexColor(colorList[outsideIndex]);
     }else {
       return AssetsOverviewChartsColors.treeMapColors[index];
     }
