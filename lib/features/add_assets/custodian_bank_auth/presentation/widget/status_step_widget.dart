@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 
 class StatusStepWidget extends StatefulWidget {
@@ -268,9 +269,14 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
                   Expanded(
                     child: TextField(
                       focusNode: myFocusNode,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
+                      keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                           hintText: appLocalizations
-                              .linkAccount_stepper_cif_placeholder),
+                              .linkAccount_stepper_cif_placeholder,
+                          hintStyle: const TextStyle(fontSize: 12)),
                       controller: input,
                       enabled: enableTextFeild ||
                           (widget.accountId == null && widget.isActive),
