@@ -270,9 +270,9 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
                     child: TextField(
                       focusNode: myFocusNode,
                       inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly
+                        FilteringTextInputFormatter.allow(
+                            RegExp("[0-9a-zA-Z]")),
                       ],
-                      keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                           hintText: appLocalizations
                               .linkAccount_stepper_cif_placeholder,
