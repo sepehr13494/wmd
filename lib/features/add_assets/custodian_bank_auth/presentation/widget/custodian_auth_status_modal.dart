@@ -210,14 +210,14 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                   style: textTheme.bodySmall?.copyWith(color: Colors.white),
                 ),
               ])),
-
-              // trailing: '5 ${appLocalizations.common_labels_mins}',
-              subtitle: Text(
-                appLocalizations.linkAccount_stepper_stepTwo_viewTutorial,
-                style: textTheme.bodySmall!.apply(
-                    color: Theme.of(context).primaryColor,
-                    decoration: TextDecoration.underline),
-              ),
+              subtitle: Padding(
+                  padding: const EdgeInsets.fromLTRB(4, 2, 0, 0),
+                  child: Text(
+                    appLocalizations.linkAccount_stepper_stepTwo_viewTutorial,
+                    style: textTheme.bodySmall!.apply(
+                        color: Theme.of(context).primaryColor,
+                        decoration: TextDecoration.underline),
+                  )),
               doneSubtitle:
                   appLocalizations.linkAccount_stepper_stepOne_action_completed,
               isDone: checkCurrentCustodianStatusDone(
