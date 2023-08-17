@@ -7,6 +7,42 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:332478051043:android:76025492bc30e684898bd6",
+        "android_client_info": {
+          "package_name": "com.aiop.aio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "332478051043-n1jr494otqm169o6f74d103hohuno7m4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4es40UMBJnHo3nddRaWZ_mUwRXmhmvGg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "332478051043-n1jr494otqm169o6f74d103hohuno7m4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "332478051043-apeime3fd45rlg32ta16tcuoinag58l1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.aiop.aio"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:332478051043:android:97109da18906a6aa898bd6",
         "android_client_info": {
           "package_name": "com.tfo.aio"
@@ -31,10 +67,10 @@
               "client_type": 3
             },
             {
-              "client_id": "332478051043-e2vqllv5cu7dar76h2uel33jbntfvr7n.apps.googleusercontent.com",
+              "client_id": "332478051043-apeime3fd45rlg32ta16tcuoinag58l1.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.tfo.wmd"
+                "bundle_id": "com.aiop.aio"
               }
             }
           ]
@@ -67,10 +103,10 @@
               "client_type": 3
             },
             {
-              "client_id": "332478051043-e2vqllv5cu7dar76h2uel33jbntfvr7n.apps.googleusercontent.com",
+              "client_id": "332478051043-apeime3fd45rlg32ta16tcuoinag58l1.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.tfo.wmd"
+                "bundle_id": "com.aiop.aio"
               }
             }
           ]
