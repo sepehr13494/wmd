@@ -78,12 +78,12 @@ android {
         }
         qa {
             dimension "default"
-            applicationIdSuffix "tfo.wmd"
+            applicationIdSuffix ".tfo.wmd"
             resValue "string", "app_name", "[QA] All In One+"
         }        
         dev {
             dimension "default"
-            applicationIdSuffix "tfo.wmd"
+            applicationIdSuffix ".tfo.wmd"
             resValue "string", "app_name", "[DEV] All In One+"
         }
     }
