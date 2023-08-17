@@ -15,6 +15,7 @@ import '../../../charts/presentation/widgets/constants.dart';
 import '../../domain/entities/get_portfolio_allocation_entity.dart';
 import '../manager/portfolio_tab2_cubit.dart';
 import '../manager/portfolio_provider_container_cubit.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PortfolioTabChartWidget extends StatelessWidget {
   const PortfolioTabChartWidget({Key? key}) : super(key: key);
@@ -71,7 +72,7 @@ class PortfolioTabChartWidget extends StatelessWidget {
                                     .toList(),
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 32),
                         PortfolioColorsWithTitlesWidget(
                             colorTitles: List.generate(
                                 state.getPortfolioAllocationEntities.length,
@@ -79,7 +80,7 @@ class PortfolioTabChartWidget extends StatelessWidget {
                           GetPortfolioAllocationEntity item =
                               state.getPortfolioAllocationEntities[index];
                           return ColorTitleObj(
-                              title: item.portfolioName,
+                              title: "${item.portfolioName} ${AppLocalizations.of(context).home_widget_geography_label_allocation} ${item.percentage}%",
                               color: HexColor(colorList[index]));
                         })),
                         const SizedBox(height: 16),
