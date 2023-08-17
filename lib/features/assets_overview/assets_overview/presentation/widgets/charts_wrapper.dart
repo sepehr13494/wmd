@@ -27,17 +27,8 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
 
   @override
   void initState() {
-    if (AppConstants.isRelease2) {
-      _controller = TabController(
-          length: 4,
-          vsync: this,
-          initialIndex: context.read<TabManager>().state);
-    } else {
-      _controller = TabController(
-          length: 3,
-          vsync: this,
-          initialIndex: context.read<TabManager>().state);
-    }
+    _controller = TabController(
+        length: 4, vsync: this, initialIndex: context.read<TabManager>().state);
     _controller.addListener(() {
       context.read<TabManager>().changeTab(_controller.index);
     });
@@ -101,22 +92,26 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
                           fit: BoxFit.scaleDown,
                           alignment: Alignment.centerLeft,
                           child: TabBar(
+                            indicatorPadding: EdgeInsets.zero,
+                            labelPadding: EdgeInsets.zero,
                             labelStyle: textTheme.titleSmall,
                             controller: _controller,
                             tabs: [
                               Tab(
-                                  text: appLocalizations
-                                      .assets_charts_tabs_assetClass),
+                                text:
+                                    "   ${appLocalizations.assets_charts_tabs_assetClass}   ",
+                              ),
                               Tab(
-                                  text: appLocalizations
-                                      .assets_charts_tabs_geography),
-                              if (AppConstants.isRelease2)
-                                Tab(
-                                    text: appLocalizations
-                                        .assets_charts_tabs_currency),
+                                  text:
+                                      "   ${appLocalizations.assets_charts_tabs_geography}   "),
+                              AppConstants.isRelease2
+                                  ? Tab(
+                                      text:
+                                          "   ${appLocalizations.assets_charts_tabs_currency}   ")
+                                  : SizedBox(),
                               Tab(
-                                  text: appLocalizations
-                                      .assets_charts_tabs_portfolio),
+                                  text:
+                                      "   ${appLocalizations.assets_charts_tabs_portfolio}   "),
                             ],
                             isScrollable: true,
                           ),
