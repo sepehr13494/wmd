@@ -11,8 +11,9 @@ class PortfolioColorsWithTitlesWidget extends StatelessWidget {
     ScrollController scrollController = ScrollController();
     return LayoutBuilder(
         builder: (context, snap) {
+          final int multiple = colorTitles.length < 3 ? 2 : 4;
           final double finalWidth = snap.maxWidth * 0.9;
-          const double finalHeight = 120;
+          final double finalHeight = multiple * 30;
           return Center(
             child: Scrollbar(
               controller: scrollController,
@@ -22,8 +23,8 @@ class PortfolioColorsWithTitlesWidget extends StatelessWidget {
                 height: finalHeight,
                 child: GridView.count(
                   controller: scrollController,
-                  crossAxisCount: 4,
-                  childAspectRatio: (finalHeight/4)/finalWidth,
+                  crossAxisCount: multiple,
+                  childAspectRatio: (finalHeight/multiple)/finalWidth,
                   scrollDirection: Axis.horizontal,
                   children: List.generate(colorTitles.length, (index) {
                     final item = colorTitles.elementAt(index);

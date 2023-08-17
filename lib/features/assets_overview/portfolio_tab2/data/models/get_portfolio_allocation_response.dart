@@ -20,7 +20,13 @@ class GetPortfolioAllocationResponse extends GetPortfolioAllocationEntity {
 
   static final tResponse = [
     GetPortfolioAllocationResponse.fromJson(
-      const {"portfolioName": "string", "value": 0, "percentage": 0},
+      const {"portfolioName": "string", "value": 150, "percentage": 15},
+    ),
+    GetPortfolioAllocationResponse.fromJson(
+      const {"portfolioName": "string2", "value": 350, "percentage": 35},
+    ),
+    GetPortfolioAllocationResponse.fromJson(
+      const {"portfolioName": "string3", "value": 500, "percentage": 50},
     )
   ];
 }

@@ -120,7 +120,8 @@ class EachAssetType extends AppStatelessWidget {
                                       .type),
                               addAsset: !isMobile),
                         )
-                      : Expanded(
+                      : assetsOverviewBaseWidgetModel.assetsOverviewType ==
+                      AssetsOverviewBaseType.portfolio ? const SizedBox() :  Expanded(
                           child: Align(
                             alignment: AlignmentDirectional.centerEnd,
                             child: FittedBox(
