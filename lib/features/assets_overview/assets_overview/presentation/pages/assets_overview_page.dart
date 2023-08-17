@@ -411,7 +411,7 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
     } else if (item is GetCurrencyEntity) {
       return item.currencyCode;
     } else if (item is GetPortfolioTabEntity) {
-      return item.portfolioName;
+      return "${item.portfolioName} | ${item.custodianBank}";
     } else {
       return "";
     }

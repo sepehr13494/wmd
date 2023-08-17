@@ -31,7 +31,9 @@ class PortfolioTab2Cubit extends Cubit<PortfolioTab2State> {
     final result = await getPortfolioAllocationUseCase();
     result.fold((failure) => emit(ErrorState(failure: failure)),
         (entities) {
-      
+          entities.sort((a, b) {
+            return (b.value - a.value).toInt();
+          },);
       emit(GetPortfolioAllocationLoaded(getPortfolioAllocationEntities: entities));
     });
   }
@@ -41,6 +43,11 @@ class PortfolioTab2Cubit extends Cubit<PortfolioTab2State> {
     getPortfolioTabUseCase(portfolioId).then((value) {
       value.fold((failure) => emit(ErrorState(failure: failure)),
               (entities) {
+        for (var element in entities) {
+          element.assetList.sort((a, b) {
+            return (b.currentValue - a.currentValue).toInt();
+          },);
+        }
             emit(GetPortfolioTabLoaded(getPortfolioTabEntity: entities));
           });
     });
