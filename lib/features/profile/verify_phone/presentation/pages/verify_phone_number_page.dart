@@ -16,6 +16,8 @@ import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/basic_timer_widget.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
+import 'package:wmd/features/language_patcher/presentation/page/language_patcher.dart';
+import 'package:wmd/features/profile/preference/presentation/manager/preference_cubit.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/otp_text_feild_widget.dart';
 import 'package:wmd/features/profile/two_factor_auth/presentation/widgets/resend_timer_widget.dart';
 import 'package:wmd/features/profile/verify_phone/domain/use_cases/post_resend_verify_phone_usecase.dart';
@@ -26,6 +28,7 @@ import 'package:go_router/go_router.dart';
 
 class VerifyPhoneNumberPage extends StatefulWidget {
   final Map<String, dynamic> verifyMap;
+
   const VerifyPhoneNumberPage({Key? key, required this.verifyMap})
       : super(key: key);
 
@@ -108,7 +111,8 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                       children: [
                         const SizedBox(height: 20),
                         Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 40),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 40),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -116,7 +120,8 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                                   width: 80,
                                   height: 80,
                                   decoration: BoxDecoration(
-                                    color: AppColors.darkCardColorForDarkTheme,
+                                    color:
+                                        AppColors.darkCardColorForDarkTheme,
                                     borderRadius: BorderRadius.circular(50),
                                   ),
                                   child: SvgPicture.asset(
@@ -162,7 +167,8 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                               showError = false;
                             });
                           },
-                          clearText: showErrorInput || resetTimer || resetCode,
+                          clearText:
+                              showErrorInput || resetTimer || resetCode,
                           enabled: !_otpExpired,
                           autoFocus: true,
                           //runs when every textfield is filled
@@ -174,7 +180,8 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                               //     ? state.entity.identifier
                               //     : "",
                               "identifier":
-                                  sl<PostResendVerifyPhoneUseCase>().identifier,
+                                  sl<PostResendVerifyPhoneUseCase>()
+                                      .identifier,
                               "code": verificationCode
                             });
                           }, // end onSubmit
@@ -187,7 +194,7 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                               FocusScope.of(context).nextFocus();
                             },
                             child: Text(
-                              "Clear all",
+                              appLocalizations.auth_verifyOtp_clearAll,
                               style: TextStyle(
                                   color: Colors.grey[600],
                                   decoration: TextDecoration.underline),
@@ -198,7 +205,8 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                             (3 - failedAttampts > 0) &&
                             !_otpExpired)
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 32),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 32),
                             child: Text(
                               appLocalizations
                                   .profile_twofactorauthentication_onboarding_error_maximumAttempt
@@ -211,7 +219,8 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                           ),
                         if (3 - failedAttampts <= 0 && !_otpExpired)
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 32),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 32),
                             child: Text(
                               appLocalizations
                                   .profile_twofactorauthentication_onboarding_error_maximumAttemptExceeded,
@@ -290,8 +299,8 @@ class _VerifyPhoneNumberPageState extends AppState<VerifyPhoneNumberPage> {
                               TextSpan(
                                 text: appLocalizations
                                     .profile_otpVerification_button_back,
-                                style:
-                                    textTheme.bodyLarge!.toLinkStyle(context),
+                                style: textTheme.bodyLarge!
+                                    .toLinkStyle(context),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     context.goNamed(AppRoutes.settings);

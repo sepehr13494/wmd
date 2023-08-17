@@ -10,6 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/tooltip_bank_exception.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/as_of_date_widget.dart';
+import 'package:wmd/features/asset_see_more/core/presentation/widget/title_subtitle.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/widgets/shimmers/over_view_card_shimmer.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
@@ -167,7 +168,24 @@ class OverViewCard extends AppStatelessWidget {
                                     ytd: state.netWorthObj.assets.ytd,
                                     itd: state.netWorthObj.assets.itd,
                                   ),
-                                )
+                                ),
+                                // AppConstants.isRelease1
+                                //     ? const SizedBox()
+                                //     :
+                                const SizedBox(height: 24, width: 4),
+                                if (state.netWorthObj.assets
+                                        .unrealizedGainLoss !=
+                                    null)
+                                  TitleSubtitle(
+                                    title: appLocalizations
+                                        .assets_label_unrelaizedGain,
+                                    subTitle: state
+                                        .netWorthObj.assets.unrealizedGainLoss!
+                                        .convertMoney(addDollar: true),
+                                    // summary.unRealizedProfitLoss.convertMoney(addDollar: true),
+                                    tooltipMessage: appLocalizations
+                                        .assets_tooltips_unrealizedGain,
+                                  )
                               ],
                             )
                           ],

@@ -92,7 +92,9 @@ class _ResendTimerWidgetState extends AppState<ResendTimerWidget> {
           RichText(
               text: TextSpan(style: const TextStyle(height: 1.3), children: [
             TextSpan(
-              text: " Resend it in ",
+              text: appLocalizations.profile_otpVerification_button_resendSMSIn
+                  .replaceAll("{{second}}", "")
+                  .replaceAll(" s", " "),
               style: textTheme.bodyMedium!.apply(
                   decoration: TextDecoration.underline,
                   color: Colors.grey[800]),

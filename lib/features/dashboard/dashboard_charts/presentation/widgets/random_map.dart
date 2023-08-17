@@ -60,7 +60,7 @@ class _RandomWorldMapGenratorState extends AppState<RandomWorldMapGenrator> {
                       GetGeographicEntity geographicEntity =
                           state.getGeographicEntity[index];
                       return EachAssetViewModel(
-                        name: geographicEntity.continent,
+                        name: geographicEntity.getContinentName(context),
                         price: geographicEntity.amount
                             .convertMoney(addDollar: true),
                         value: geographicEntity.amount,

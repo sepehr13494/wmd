@@ -19,7 +19,10 @@ class BlocHelper {
         errorMsg =
             AppLocalizations.of(context).auth_login_toast_error_unexpected;
         break;
-
+      case "Old Password is not correct":
+        errorMsg =
+            AppLocalizations.of(context).profile_changePassword_error_updatePasswordErr;
+        break;
       default:
         errorMsg = msg;
         break;
@@ -94,6 +97,11 @@ class BlocHelper {
             case ExceptionType.auth:
               GlobalFunctions.showSnackBar(context,
                   AppLocalizations.of(context).auth_login_toast_wrongToken);
+              AppRestart.restart(context);
+              break;
+            case ExceptionType.vpn:
+              GlobalFunctions.showSnackBar(context,
+                  "VPN connection was detected and for security reasons, the AIOP session will be closed. Please disable VPN before accessing AIOP.");
               AppRestart.restart(context);
               break;
             case ExceptionType.other:

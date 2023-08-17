@@ -1,57 +1,134 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustodianBankStatusEntity extends Equatable {
   const CustodianBankStatusEntity({
     required this.id,
     required this.bankId,
     required this.bankName,
-    required this.signLetter,
+    required this.status,
     required this.signLetterLink,
-    required this.accountId,
-    required this.shareWithBank,
-    required this.bankConfirmation,
+    required this.tutorialLink,
+    this.accountNumber,
+    this.shareDate,
+    this.syncDate,
+    this.type,
+    this.subType,
   });
 
   final String id;
   final String bankId;
   final String bankName;
-  final bool signLetter;
+  final CustodianStatus status;
   final String signLetterLink;
-  final String? accountId;
-  final bool shareWithBank;
-  final bool bankConfirmation;
+  final String tutorialLink;
+  final String? accountNumber;
+  final DateTime? shareDate;
+  final DateTime? syncDate;
+  final String? type;
+  final String? subType;
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "bankId": bankId,
         "bankName": bankName,
-        "signLetter": signLetter,
+        "status": status,
         "signLetterLink": signLetterLink,
-        "shareWithBank": shareWithBank,
-        "accountId": accountId,
-        "bankConfirmation": bankConfirmation,
+        "tutorialLink": tutorialLink,
+        "accountNumber": accountNumber,
+        "shareDate": shareDate,
+        "syncDate": syncDate,
+        "type": type,
+        "subType": subType,
       };
 
   @override
   List<Object?> get props => [
         id,
         bankId,
-        signLetter,
+        status,
         signLetterLink,
-        accountId,
-        shareWithBank,
-        bankConfirmation,
+        tutorialLink,
+        accountNumber,
+        shareDate,
+        syncDate,
+        type,
+        subType,
       ];
 
   static const tResponse = {
-    "id": "844cc294-7cbf-41a6-9bdd-b6c839444364",
-    "bankId": "hsbc",
-    "bankName": "hsbc",
-    "accountId": "hsbc",
-    "signLetter": true,
-    "signLetterLink":
-        "https://a.storyblok.com/f/187108/x/169d159c71/creditsuisse.pdf",
-    "shareWithBank": true,
-    "bankConfirmation": false
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "bankId": "string",
+    "bankName": "string",
+    "accountNumber": "string",
+    "signLetterLink": "string",
+    "tutorialLink": "string",
+    "status": "FillAccount",
+    "shareDate": "2023-07-27T10:08:43.464Z",
+    "syncDate": "2023-07-27T10:08:43.464Z",
+    "type": "string",
+    "subType": "string"
   };
+
+  String statusText(AppLocalizations appLocalizations) {
+    String res = "";
+
+    switch (status) {
+      case CustodianStatus.OpenLetter:
+        res = appLocalizations.home_custodianBankList_statusText_step1;
+        break;
+      case CustodianStatus.FillLetter:
+        res = appLocalizations.home_custodianBankList_statusText_step2;
+        break;
+      case CustodianStatus.ShareLetter:
+        res = appLocalizations.home_custodianBankList_statusText_step3;
+        break;
+      case CustodianStatus.SyncBank:
+        res = appLocalizations.home_custodianBankList_statusText_step4;
+        break;
+      case CustodianStatus.FillAccount:
+        res = appLocalizations.home_custodianBankList_statusText_step1;
+        break;
+      default:
+        res = "";
+        break;
+    }
+
+    return res;
+  }
+}
+
+enum CustodianStatus {
+  FillAccount,
+  OpenLetter,
+  FillLetter,
+  ShareLetter,
+  SyncBank,
+}
+
+CustodianStatus getCustodianStatusFromString(String statusAsString) {
+  if (statusAsString == "FillAccount") {
+    return CustodianStatus.FillAccount;
+  } else if (statusAsString == "OpenLetter") {
+    return CustodianStatus.OpenLetter;
+  } else if (statusAsString == "FillLetter") {
+    return CustodianStatus.FillLetter;
+  } else if (statusAsString == "ShareLetter") {
+    return CustodianStatus.ShareLetter;
+  } else if (statusAsString == "SyncBank") {
+    return CustodianStatus.SyncBank;
+  } else {
+    return CustodianStatus.FillAccount;
+  }
+}
+
+bool checkCurrentCustodianStatus(
+    CustodianStatus status, CustodianStatus currentStatus) {
+  return status.index <= currentStatus.index;
+}
+
+bool checkCurrentCustodianStatusDone(
+    CustodianStatus status, CustodianStatus currentStatus) {
+  return status.index < currentStatus.index;
 }

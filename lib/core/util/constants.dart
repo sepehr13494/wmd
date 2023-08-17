@@ -8,6 +8,7 @@ class AppConstants {
   static bool developMode = dotenv.env['DEVELOPING_MODE']! == 'true';
   static bool developRoutes = dotenv.env['DEVELOPING_ROUTES']! == 'true';
   static bool isRelease1 = dotenv.env['IS_RELEASE_ONE']! == 'true';
+  static bool isRelease2 = dotenv.env['IS_RELEASE_TWO']! == 'true';
   static bool currencyConvertor = dotenv.env['CURRENCY_CONVERTOR']! == 'true';
   static String bundleId = dotenv.env['BUNDLE_ID']!;
 
@@ -22,7 +23,9 @@ class AppConstants {
       '$bundleId://$tfoAuth0Base/android/$bundleId/callback';
   static String tfoAuth0RedirectionIos =
       '$bundleId://$tfoAuth0Base/ios/$bundleId/callback';
+  static String tfoConnectionParam = dotenv.env['TFO_CONNECTION_PARAM']!;
 
+  static String pamConnectionParam = dotenv.env['PAM_CONNECTION_PARAM']!;
   static String pamAuth0IssuerBaseUrl =
       dotenv.env['PAM_AUTH0_ISSUER_BASE_URL']!;
   static String pamAuth0ClientId = dotenv.env['PAM_AUTH0_CLIENT_ID']!;
@@ -402,6 +405,13 @@ class AppConstants {
     return [
       TimeFilterObj(key: appLocalization.assets_label_itd, value: "ITD"),
       TimeFilterObj(key: appLocalization.assets_label_ytd, value: "YTD"),
+      ...timeFilterOnlyDays(context),
+    ];
+  }
+
+  static List<TimeFilterObj> timeFilterOnlyDays(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context);
+    return [
       TimeFilterObj(
           key: appLocalization.home_select_duration_options_seven,
           value: "Last7days"),

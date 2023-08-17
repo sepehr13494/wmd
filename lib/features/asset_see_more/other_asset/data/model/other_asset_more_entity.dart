@@ -56,36 +56,38 @@ class OtherAseetMoreEntity extends GetSeeMoreResponse {
 
   factory OtherAseetMoreEntity.fromJson(Map<String, dynamic> json) {
     double? valuePerUnit;
-    if(json["valuePerUnit"] != null){
+    if (json["valuePerUnit"] != null) {
       final x = (double.tryParse(json["valuePerUnit"].toString()) ?? 0);
-      if(x==0){
+      if (x == 0) {
         valuePerUnit = null;
       }
     }
     return OtherAseetMoreEntity(
-        name: json["name"],
-        acquisitionDate: json["acquisitionDate"] == null ? null : DateTime.parse(json["acquisitionDate"]),
-        valuationDate: DateTime.parse(json["valuationDate"]),
-        id: json["id"],
-        type: json["type"].toString(),
-        isActive: json["isActive"],
-        country: json["country"],
-        region: json["region"],
-        currencyCode: json["currencyCode"],
-        portfolioContribution: double.tryParse(json["portfolioContribution"].toString()) ?? 0,
-        holdings: double.tryParse(json["holdings"].toString()) ?? 0,
-        yearToDate: double.tryParse(json["yearToDate"].toString()) ?? 0,
-        inceptionToDate: double.tryParse(json["inceptionToDate"].toString()) ?? 0,
-        asOfDate: DateTime.parse(json["asOfDate"]),
-        wealthManager: json["wealthManager"],
-        category: json["category"].toString(),
-        units: double.tryParse(json["units"].toString()) ?? 0,
-        acquisitionCost: json["acquisitionCost"],
-        ownerShip: double.tryParse(json["ownership"].toString()) ?? 0,
-        valuePerUnit: json["valuePerUnit"] == null ? null : valuePerUnit,
-        currentDayValue:
-            double.tryParse(json["currentDayValue"].toString()) ?? 0,
-      );
+      name: json["name"],
+      acquisitionDate: json["acquisitionDate"] == null
+          ? null
+          : DateTime.parse(json["acquisitionDate"]),
+      valuationDate: DateTime.parse(json["valuationDate"]),
+      id: json["id"],
+      type: json["type"].toString(),
+      isActive: json["isActive"],
+      country: json["country"],
+      region: json["region"],
+      currencyCode: json["currencyCode"],
+      portfolioContribution:
+          double.tryParse(json["portfolioContribution"].toString()) ?? 0,
+      holdings: double.tryParse(json["holdings"].toString()) ?? 0,
+      yearToDate: double.tryParse(json["yearToDate"].toString()) ?? 0,
+      inceptionToDate: double.tryParse(json["inceptionToDate"].toString()) ?? 0,
+      asOfDate: DateTime.parse(json["asOfDate"]),
+      wealthManager: json["wealthManager"],
+      category: json["category"].toString(),
+      units: double.tryParse(json["units"].toString()) ?? 0,
+      acquisitionCost: json["acquisitionCost"],
+      ownerShip: double.tryParse(json["ownership"].toString()) ?? 0,
+      valuePerUnit: json["valuePerUnit"] == null ? null : valuePerUnit,
+      currentDayValue: double.tryParse(json["currentDayValue"].toString()) ?? 0,
+    );
   }
 
   Map<String, dynamic> toJson() => {
@@ -94,7 +96,8 @@ class OtherAseetMoreEntity extends GetSeeMoreResponse {
         "category": category,
         "units": units,
         "acquisitionCost": acquisitionCost,
-        "acquisitionDate": acquisitionDate == null ? null : acquisitionDate!.toIso8601String(),
+        "acquisitionDate":
+            acquisitionDate == null ? null : acquisitionDate!.toIso8601String(),
         "valuationDate": valuationDate.toIso8601String(),
         "ownership": ownerShip,
         "valuePerUnit": valuePerUnit,
@@ -112,27 +115,28 @@ class OtherAseetMoreEntity extends GetSeeMoreResponse {
         "asOfDate": asOfDate.toIso8601String(),
       };
 
-  Map<String, dynamic> toFormJson() => {
-    "name": name,
-    "wealthManager": wealthManager,
-    "assetType": category,
-    "units": units.toStringAsFixed(0),
-    "acquisitionCost": acquisitionCost.convertMoney(),
-    "acquisitionDate": acquisitionDate,
-    "valuationDate": valuationDate,
-    "ownerShip": ownerShip.toStringAsFixedZero(0),
-    "valuePerUnit": valuePerUnit == null ? null : valuePerUnit!.convertMoney(),
-    "currentDayValue": ((currentDayValue * 100)/ownerShip).convertMoney(),
-    "id": id,
-    "type": type,
-    "isActive": isActive,
-    "country": Country.getCountryFromString(country),
-    "region": region,
-    "currencyCode": Currency.getCurrencyFromString(currencyCode),
-    "portfolioContribution": portfolioContribution,
-    "holdings": holdings,
-    "yearToDate": yearToDate,
-    "inceptionToDate": inceptionToDate,
-    "asOfDate": asOfDate,
-  };
+  Map<String, dynamic> toFormJson(context) => {
+        "name": name,
+        "wealthManager": wealthManager,
+        "assetType": category,
+        "units": units.toStringAsFixed(0),
+        "acquisitionCost": acquisitionCost.convertMoney(),
+        "acquisitionDate": acquisitionDate,
+        "valuationDate": valuationDate,
+        "ownerShip": ownerShip.toStringAsFixedZero(0),
+        "valuePerUnit":
+            valuePerUnit == null ? null : valuePerUnit!.convertMoney(),
+        "currentDayValue": ((currentDayValue * 100) / ownerShip).convertMoney(),
+        "id": id,
+        "type": type,
+        "isActive": isActive,
+        "country": Country.getCountryFromString(country, context),
+        "region": region,
+        "currencyCode": Currency.getCurrencyFromString(currencyCode, context),
+        "portfolioContribution": portfolioContribution,
+        "holdings": holdings,
+        "yearToDate": yearToDate,
+        "inceptionToDate": inceptionToDate,
+        "asOfDate": asOfDate,
+      };
 }

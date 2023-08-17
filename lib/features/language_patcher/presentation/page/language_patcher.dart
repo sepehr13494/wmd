@@ -21,30 +21,27 @@ class _LanguagePatcherState extends State<LanguagePatcher> {
   @override
   Widget build(BuildContext context) {
     final initialLn = context.read<LocalizationManager>().state.languageCode;
-    return BlocProvider(
-      create: (context) => sl<PreferenceCubit>()..getPreference(),
-      child: BlocConsumer<PreferenceCubit, PreferenceState>(
-          listener: BlocHelper.defaultBlocListener(listener: (context, state) {
-        if (state is GetPreferenceLoaded) {
-          ln = state.entity.language;
-          if (ln != null && ln!.isNotEmpty && initialLn != ln) {
-            context.read<LocalizationManager>().switchLanguage();
+    return BlocConsumer<PreferenceCubit, PreferenceState>(
+        listener: BlocHelper.defaultBlocListener(listener: (context, state) {
+          if (state is GetPreferenceLoaded) {
+            ln = state.entity.language;
+            if (ln != null && ln!.isNotEmpty && initialLn != ln) {
+              context.read<LocalizationManager>().switchLanguage();
+            }
           }
-        }
-      }), builder: (context, state) {
-        return BlocBuilder<LocalizationManager, Locale>(
-            builder: (context, state) {
-          // log('Mert log check about patch');
-          if (ln != null && ln != state.languageCode) {
-            // log('Mert log Will patch to ${state.languageCode}');
-            context.read<PreferenceCubit>().patchPreferenceLanguage(
-                param: PatchPreferenceLanguageParams(
-                    language: state.languageCode));
-            ln = null;
-          }
-          return widget.child;
-        });
-      }),
-    );
+        }), builder: (context, state) {
+      return BlocBuilder<LocalizationManager, Locale>(
+          builder: (context, state) {
+            // log('Mert log check about patch');
+            /*if (ln != null && ln != state.languageCode) {
+          // log('Mert log Will patch to ${state.languageCode}');
+          context.read<PreferenceCubit>().patchPreferenceLanguage(
+              param: PatchPreferenceLanguageParams(
+                  language: state.languageCode));
+          ln = null;
+        }*/
+            return widget.child;
+          });
+    });
   }
 }

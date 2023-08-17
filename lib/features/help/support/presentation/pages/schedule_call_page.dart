@@ -175,6 +175,8 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                                   ? personalState.getNameEntity.lastName
                                   : "",
                         };
+
+                        debugPrint(finalMap.toString());
                         context
                             .read<GeneralInquiryCubit>()
                             .postScheduleCall(map: finalMap);
@@ -236,8 +238,11 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                                                                       .currentState
                                                                       ?.validate();
                                                                   if (formKey
-                                                                      .currentState!
-                                                                      .isValid) {
+                                                                          .currentState!
+                                                                          .isValid &&
+                                                                      formKey.currentState
+                                                                              ?.value["subject"] !=
+                                                                          null) {
                                                                     Map<String,
                                                                             dynamic>
                                                                         finalMap =
@@ -245,6 +250,24 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                                                                       ...formKey
                                                                           .currentState!
                                                                           .instantValue,
+                                                                      "email": (personalState
+                                                                              is PersonalInformationLoaded)
+                                                                          ? personalState
+                                                                              .getNameEntity
+                                                                              .email
+                                                                          : "",
+                                                                      "firstName": (personalState
+                                                                              is PersonalInformationLoaded)
+                                                                          ? personalState
+                                                                              .getNameEntity
+                                                                              .firstName
+                                                                          : "",
+                                                                      "lastName": (personalState
+                                                                              is PersonalInformationLoaded)
+                                                                          ? personalState
+                                                                              .getNameEntity
+                                                                              .lastName
+                                                                          : "",
                                                                     };
 
                                                                     debugPrint(
@@ -305,7 +328,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
         FormBuilder(
           key: formKey,
           initialValue: {
-            "type": MeetingType.meetingTypeList.first.name,
+            "type": MeetingType.meetingTypeList(context).first.value,
             "email": (personalState is PersonalInformationLoaded)
                 ? personalState.getNameEntity.email
                 : ""
@@ -424,8 +447,8 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                   enabled: false,
                   name: "type",
                   hint: "",
-                  initial: MeetingType.meetingTypeList.first.value,
-                  items: MeetingType.meetingTypeList
+                  initial: MeetingType.meetingTypeList(context).first.value,
+                  items: MeetingType.meetingTypeList(context)
                       .map((e) => DropdownMenuItem(
                             value: e.value,
                             child: Text(e.name),

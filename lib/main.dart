@@ -17,7 +17,7 @@ import 'package:wmd/features/assets_overview/charts/presentation/manager/chart_c
 import 'package:wmd/features/assets_overview/charts/presentation/manager/charts_cubit.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_manager.dart';
 import 'package:wmd/features/assets_overview/currency_chart/presentation/manager/currency_chart_cubit.dart';
-import 'package:wmd/features/assets_overview/portfolio_tab/presentation/manager/portfolio_tab_cubit.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_tab2_cubit.dart';
 import 'package:wmd/features/blurred_widget/presentation/manager/blurred_privacy_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_goe_cubit.dart';
@@ -28,6 +28,7 @@ import 'package:wmd/features/dashboard/performance_table/presentation/manager/pe
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
+import 'package:wmd/features/profile/preference/presentation/manager/preference_cubit.dart';
 import 'package:wmd/features/profile/two_factor_auth/manager/two_factor_cubit.dart';
 import 'package:wmd/features/safe_device/presentation/pages/unsafe_device_page.dart';
 import 'package:wmd/firebase_options.dart';
@@ -52,7 +53,7 @@ Future<void> main() async {
 
   const String envFor = String.fromEnvironment(
     'env',
-    defaultValue: 'prod',
+    defaultValue: 'qa',
   );
   final envFile = envInitConfig(envFor);
   await dotenv.load(fileName: envFile);
@@ -96,7 +97,7 @@ envInitConfig(env) {
     case "developer":
       return "assets/env/developer.env";
     default:
-      return "assets/env/.env";
+      return "assets/env/prod.env";
   }
 }
 
@@ -129,6 +130,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => sl<TabManager>(),
           lazy: false,
+        ),
+        BlocProvider(
+          create: (context) => sl<PreferenceCubit>()..getPreference(),
         ),
         BlocProvider(
           create: (context) => sl<TabScrollManager>(),
@@ -203,7 +207,12 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) {
-            return sl<PortfolioTabCubit>()..getPortfolioTab();
+            return sl<PortfolioTab2Cubit>()..getPortfolioAllocation();
+          },
+        ),
+        BlocProvider(
+          create: (context) {
+            return sl<PortfolioTab2CubitForTab>();
           },
         ),
         BlocProvider(

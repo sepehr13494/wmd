@@ -164,14 +164,6 @@ class MockGetMarketDataUseCase extends _i1.Mock
         ),
       ) as _i2.BankListRepository);
   @override
-  set banks(List<_i11.ListedSecurityName>? _banks) => super.noSuchMethod(
-        Invocation.setter(
-          #banks,
-          _banks,
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
   _i6.Future<_i3.Either<_i7.Failure, List<_i11.ListedSecurityName>>> call(
           _i12.GetMarketDataParams? params) =>
       (super.noSuchMethod(

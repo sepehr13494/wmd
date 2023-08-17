@@ -59,7 +59,9 @@ class RealEstateMoreEntity extends GetSeeMoreResponse {
         acquisitionDate: DateTime.parse(json["acquisitionDate"]),
         ownershipPercentage:
             double.tryParse(json["ownershipPercentage"].toString()) ?? 0,
-        marketValue: json["marketValue"] == null ? null : (double.tryParse(json["marketValue"].toString()) ?? 0),
+        marketValue: json["marketValue"] == null
+            ? null
+            : (double.tryParse(json["marketValue"].toString()) ?? 0),
         valuationDate: json["valuationDate"] != null
             ? DateTime.parse(json["valuationDate"])
             : null,
@@ -101,7 +103,7 @@ class RealEstateMoreEntity extends GetSeeMoreResponse {
         "asOfDate": asOfDate.toIso8601String(),
       };
 
-  Map<String, dynamic> toFormJson() => {
+  Map<String, dynamic> toFormJson(context) => {
         "name": name,
         "realEstateType": realEstateType,
         "address": address,
@@ -116,9 +118,9 @@ class RealEstateMoreEntity extends GetSeeMoreResponse {
         "id": id,
         "type": type,
         "isActive": isActive,
-        "country": Country.getCountryFromString(country),
+        "country": Country.getCountryFromString(country, context),
         "region": region,
-        "currencyCode": Currency.getCurrencyFromString(currencyCode),
+        "currencyCode": Currency.getCurrencyFromString(currencyCode, context),
         "portfolioContribution": portfolioContribution,
         "holdings": holdings,
         "yearToDate": yearToDate,

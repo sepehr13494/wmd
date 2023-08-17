@@ -23,6 +23,6 @@ abstract class CustodianBankAuthRepository {
       GetCustodianBankStatusParams params);
   Future<Either<Failure, AppSuccess>> deleteCustodianBankStatus(
       DeleteCustodianBankStatusParams params);
-  Future<Either<Failure, List<StatusEntity>>> getCustodianStatusList(
-      GetCustodianBankListParams params);
+  Future<Either<Failure, List<CustodianBankStatusEntity>>>
+      getCustodianStatusList(GetCustodianBankListParams params);
 }

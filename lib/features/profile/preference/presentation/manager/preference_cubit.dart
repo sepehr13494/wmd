@@ -20,10 +20,10 @@ class PreferenceCubit extends Cubit<PreferenceState> {
   final GetPreferenceUseCase getPreferenceUseCase;
 
   PreferenceCubit(
-    this.patchPreferenceMobileBannerUseCase,
-    this.patchPreferenceLanguageUseCase,
-    this.getPreferenceUseCase,
-  ) : super(LoadingState());
+      this.patchPreferenceMobileBannerUseCase,
+      this.patchPreferenceLanguageUseCase,
+      this.getPreferenceUseCase,
+      ) : super(LoadingState());
 
   patchPreferenceMobileBanner({required Map<String, dynamic> map}) async {
     emit(LoadingState());
@@ -35,12 +35,15 @@ class PreferenceCubit extends Cubit<PreferenceState> {
   }
 
   patchPreferenceLanguage({required PatchPreferenceLanguageParams param}) async {
-    emit(LoadingState());
-    final result =
-        await patchPreferenceLanguageUseCase(param);
-    result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
-      emit(PatchPreferenceLanguageLoaded(entity: entity));
-    });
+    if(state is GetPreferenceLoaded){
+      bool showBanner = (state as GetPreferenceLoaded).entity.showMobileBanner;
+      emit(LoadingState());
+      final result =
+      await patchPreferenceLanguageUseCase(param);
+      result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
+        emit(GetPreferenceLoaded(entity: GetPreferenceEntity(showMobileBanner: showBanner,language: param.language)));
+      });
+    }
   }
 
   getPreference() async {
