@@ -99,19 +99,19 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
                             tabs: [
                               Tab(
                                 text:
-                                    "  ${appLocalizations.assets_charts_tabs_assetClass}  ",
+                                    "   ${appLocalizations.assets_charts_tabs_assetClass}   ",
                               ),
                               Tab(
                                   text:
-                                      "  ${appLocalizations.assets_charts_tabs_geography}  "),
+                                      "   ${appLocalizations.assets_charts_tabs_geography}   "),
                               AppConstants.isRelease2
                                   ? Tab(
                                       text:
-                                          "  ${appLocalizations.assets_charts_tabs_currency}  ")
+                                          "   ${appLocalizations.assets_charts_tabs_currency}   ")
                                   : SizedBox(),
                               Tab(
                                   text:
-                                      "  ${appLocalizations.assets_charts_tabs_portfolio}  "),
+                                      "   ${appLocalizations.assets_charts_tabs_portfolio}   "),
                             ],
                             isScrollable: true,
                           ),
