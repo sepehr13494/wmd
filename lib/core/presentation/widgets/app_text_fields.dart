@@ -251,7 +251,8 @@ class SimpleTextField extends AppStatelessWidget {
       validators.add((val) {
         return (val != null &&
                 (double.tryParse(val.replaceAll(",", "")) ?? 0) > 1000000000)
-            ? "Amount should be less than 1,000,000,000"
+            ? appLocalizations
+                .assetLiabilityForms_forms_bankAccount_inputFields_balance_maxValueError
             : null;
       });
     }
@@ -274,6 +275,8 @@ class SimpleTextField extends AppStatelessWidget {
       case TextFieldType.rate:
         break;
       case TextFieldType.minusMoney:
+        break;
+      case TextFieldType.rateMoney:
         break;
     }
 
@@ -384,7 +387,7 @@ class _CurrenciesDropdownState extends AppState<CurrenciesDropdown> {
           name: "currencyCode",
           hint: appLocalization
               .assetLiabilityForms_forms_bankAccount_inputFields_country_placeholder,
-          items: Currency.currenciesList,
+          items: Currency.getCurrencyList(context),
           enabled: widget.enabled,
           prefixIcon: const Icon(
             Icons.search,
@@ -447,7 +450,7 @@ class CountriesDropdown extends AppStatelessWidget {
       ),
       errorMsg: appLocalizations
           .assetLiabilityForms_forms_realEstate_inputFields_country_errorMessage,
-      items: Country.getCountryList(),
+      items: Country.getCountryList(context),
       onChanged: onChanged,
       itemAsString: (country) => country.countryName,
       filterFn: (country, string) {

@@ -37,11 +37,11 @@ class BankListCubit extends Cubit<BankListState> {
 
   getMarketData(String identifier) async {
     emit(LoadingState());
-    if (identifier.length<3) {
+    if (identifier.length < 3) {
       emit(MarketDataSuccess([], identifier));
-    }else{
-      final result = await getMarketDataUseCase(GetMarketDataParams(
-          identifier: identifier, resultCount: null));
+    } else {
+      final result = await getMarketDataUseCase(
+          GetMarketDataParams(identifier: identifier, resultCount: null));
       result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
         emit(MarketDataSuccess(entity, identifier));
       });

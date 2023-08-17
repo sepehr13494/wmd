@@ -10,13 +10,15 @@ import '../manager/performance_table_cubit.dart';
 class PerformanceDropdown extends AppStatelessWidget {
   final PerformanceTableCubit bloc;
   final Function(TimeFilterObj) function;
-  const PerformanceDropdown({Key? key, required this.bloc, required this.function}) : super(key: key);
+  final List<TimeFilterObj>? customItems;
+  const PerformanceDropdown({Key? key, required this.bloc, required this.function, this.customItems}) : super(key: key);
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme, AppLocalizations appLocalizations) {
+    final items = customItems ?? AppConstants.timeFilterForAssetPerformance(context);
     return DropdownButtonHideUnderline(
       child: DropdownButton<TimeFilterObj>(
-        items: AppConstants.timeFilterForAssetPerformance(context)
+        items: items
             .map((e) => DropdownMenuItem<TimeFilterObj>(
             value: e,
             child: Text(
@@ -31,7 +33,7 @@ class PerformanceDropdown extends AppStatelessWidget {
             function(value);
           }
         }),
-        value: bloc.period ?? AppConstants.timeFilterForAssetPerformance(context).first,
+        value: bloc.period ?? items.first,
         icon: Icon(
           Icons.keyboard_arrow_down,
           size: 15,

@@ -1,55 +1,46 @@
 import 'package:equatable/equatable.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/get_custodian_bank_status_entity.dart';
 
 class PutCustodianBankStatusParams extends Equatable {
   const PutCustodianBankStatusParams({
     required this.id,
-    required this.accountId,
+    required this.accountNumber,
     required this.bankId,
-    required this.signLetter,
-    required this.shareWithBank,
-    required this.bankConfirmation,
+    required this.status,
   });
 
   final String? id;
-  final String? accountId;
+  final String? accountNumber;
   final String bankId;
-  final bool signLetter;
-  final bool shareWithBank;
-  final bool bankConfirmation;
+  final CustodianStatus status;
 
   factory PutCustodianBankStatusParams.fromJson(Map<String, dynamic> json) =>
       PutCustodianBankStatusParams(
         id: json["id"],
-        accountId: json["accountId"],
+        accountNumber: json["accountNumber"],
         bankId: json["bankId"],
-        signLetter: json["signLetter"],
-        shareWithBank: json["shareWithBank"],
-        bankConfirmation: json["bankConfirmation"],
+        status: json["status"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "accountId": accountId,
+        "accountNumber": accountNumber,
         "bankId": bankId,
-        "signLetter": signLetter,
-        "shareWithBank": shareWithBank,
-        "bankConfirmation": bankConfirmation,
+        "status": status.name,
       };
 
   @override
   List<Object?> get props => [
         id,
-        accountId,
+        accountNumber,
         bankId,
-        signLetter,
-        shareWithBank,
-        bankConfirmation,
+        status,
       ];
 
   static const tResponse = {
-    "bankId": "hsbc",
-    "signLetter": true,
-    "shareWithBank": true,
-    "bankConfirmation": false
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "bankId": "string",
+    "accountNumber": "string",
+    "status": "FillAccount"
   };
 }

@@ -113,7 +113,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions androidProd = FirebaseOptions(
     apiKey: 'AIzaSyA4es40UMBJnHo3nddRaWZ_mUwRXmhmvGg',
-    appId: '1:332478051043:android:97109da18906a6aa898bd6',
+    appId: '1:332478051043:android:5f21dc236eab957c898bd6',
     messagingSenderId: '332478051043',
     projectId: 'wmdproject-5cb71',
     storageBucket: 'wmdproject-5cb71.appspot.com',
@@ -132,7 +132,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions iosQa = FirebaseOptions(
     apiKey: 'AIzaSyDQtZOYBvMfDx5iwHNwpUVhX9DKc-69phw',
-    appId: '1:332478051043:ios:53049550af7ee603898bd6',
+    appId: '1:332478051043:ios:29242eaae16df54b898bd6',
     messagingSenderId: '332478051043',
     projectId: 'wmdproject-5cb71',
     storageBucket: 'wmdproject-5cb71.appspot.com',
@@ -143,12 +143,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions iosProd = FirebaseOptions(
     apiKey: 'AIzaSyDQtZOYBvMfDx5iwHNwpUVhX9DKc-69phw',
-    appId: '1:332478051043:ios:5837c275591d2f8c898bd6',
+    appId: '1:332478051043:ios:29242eaae16df54b898bd6',
     messagingSenderId: '332478051043',
     projectId: 'wmdproject-5cb71',
     storageBucket: 'wmdproject-5cb71.appspot.com',
     iosClientId:
-        '332478051043-ie6dv43t9catn56d4mc2803u3tibdgpb.apps.googleusercontent.com',
-    iosBundleId: 'com.tfo.aio',
+        '332478051043-apeime3fd45rlg32ta16tcuoinag58l1.apps.googleusercontent.com',
+    iosBundleId: 'com.aiop.aio',
   );
 }

@@ -126,14 +126,16 @@ class GlobalFunctions {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  static Future<bool> confirmProcess(
-      {required BuildContext context,
-      required String title,
-      required String body,
-      Widget? icon,
-      String yes = 'Yes',
-      String no = 'No',
-      bool reverse = false}) async {
+  static Future<bool> confirmProcess({
+    required BuildContext context,
+    required String title,
+    required String body,
+    Widget? icon,
+    String yes = 'Yes',
+    String no = 'No',
+    bool reverse = false,
+    bool boldTitle = false,
+  }) async {
     bool isConfirm = await showDialog(
       context: context,
       builder: (context) {
@@ -167,7 +169,9 @@ class GlobalFunctions {
                 child: Center(
                   child: Text(
                     title,
-                    style: appTextTheme.bodyMedium,
+                    style: boldTitle
+                        ? appTextTheme.titleLarge
+                        : appTextTheme.bodyMedium,
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -274,7 +278,7 @@ class GlobalFunctions {
     });
   }
 
-  static bool showPercentageTooltip(double value){
+  static bool showPercentageTooltip(double value) {
     return (value >= 99900 || value <= -100);
   }
 }

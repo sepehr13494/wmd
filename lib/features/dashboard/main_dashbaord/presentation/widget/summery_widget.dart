@@ -78,7 +78,7 @@ class _SummeryWidgetState extends AppState<SummeryWidget> {
         widget.netWorthEntity.assets.change,
         assetText,
       ],
-      if (!AppConstants.isRelease1)
+      if (AppConstants.isRelease2)
         [
           appLocalizations.home_label_liabilities,
           widget.netWorthEntity.liabilities.currentValue,

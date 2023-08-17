@@ -151,7 +151,7 @@ class AssetsOverviewGeoChart extends AppStatelessWidget {
                                                 alignment: AlignmentDirectional
                                                     .centerStart,
                                                 child: Text(
-                                                  getGeographicEntity.continent,
+                                                  getContinentNameLocale(context,getGeographicEntity.continent),
                                                   style: textTheme.bodySmall,
                                                 ),
                                               ),

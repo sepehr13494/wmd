@@ -1,64 +1,48 @@
 import 'package:equatable/equatable.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/get_custodian_bank_status_entity.dart';
 
 import '../../domain/entities/custodian_bank_entity.dart';
 
 class PostCustodianBankStatusParams extends Equatable {
   const PostCustodianBankStatusParams({
-    this.id,
-    this.accountId,
+    required this.status,
+    this.accountNumber,
     required this.bankId,
-    required this.signLetter,
-    required this.shareWithBank,
-    required this.bankConfirmation,
   });
 
-  final String? id;
-  final String? accountId;
+  final CustodianStatus status;
+  final String? accountNumber;
   final String bankId;
-  final bool signLetter;
-  final bool shareWithBank;
-  final bool bankConfirmation;
 
   factory PostCustodianBankStatusParams.fromJson(Map<String, dynamic> json) =>
       PostCustodianBankStatusParams(
-        id: json["id"],
-        accountId: json["accountId"],
+        status: json["status"],
+        accountNumber: json["accountNumber"],
         bankId: json["bankId"],
-        signLetter: json["signLetter"],
-        shareWithBank: json["shareWithBank"],
-        bankConfirmation: json["bankConfirmation"],
       );
   factory PostCustodianBankStatusParams.fromEntity(CustodianBankEntity bank) =>
       PostCustodianBankStatusParams(
+        status: CustodianStatus.FillAccount,
+        accountNumber: "",
         bankId: bank.bankId,
-        signLetter: false,
-        shareWithBank: false,
-        bankConfirmation: false,
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "accountId": accountId,
+        "status": status.name,
+        "accountNumber": accountNumber,
         "bankId": bankId,
-        "signLetter": signLetter,
-        "shareWithBank": shareWithBank,
-        "bankConfirmation": bankConfirmation,
       };
 
   @override
   List<Object?> get props => [
-        id,
-        accountId,
+        status,
+        accountNumber,
         bankId,
-        signLetter,
-        shareWithBank,
-        bankConfirmation,
       ];
 
   static const tResponse = {
+    "status": CustodianStatus.FillAccount,
+    "accountNumber": "accountNumber",
     "bankId": "hsbc",
-    "signLetter": true,
-    "shareWithBank": true,
-    "bankConfirmation": false
   };
 }

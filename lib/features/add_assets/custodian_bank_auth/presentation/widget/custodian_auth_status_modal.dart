@@ -1,10 +1,12 @@
 import 'dart:developer';
 
 import 'package:another_flushbar/flushbar.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
@@ -39,11 +41,13 @@ Future<bool> showCustodianBankStatus({
             ..getCustodianBankStatus(GetCustodianBankStatusParams(
                 bankId: bankId, custodianBankStatusId: id)),
           child: CenterModalWidget(
-            confirmBtn: appLocalization.common_button_ok,
-            body: BankStatusModalBody(bankId: bankId, id: id),
-            actions: const ActionContainer(),
-            // cancelBtn: 'Cancel',
-          ));
+              confirmBtn: appLocalization.common_button_ok,
+              body: BankStatusModalBody(bankId: bankId, id: id),
+              actions: const ActionContainer(),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 0)
+              // cancelBtn: 'Cancel',
+              ));
     },
   ).then((isConfirm) {
     if (isConfirm != null && isConfirm == true) {
@@ -123,93 +127,221 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
             Text(
               appLocalizations.linkAccount_stepper_heading.replaceFirstMapped(
                   '{{bankName}}', (match) => status.bankName),
-              // 'Link your ${status.bankName} bank account',
-              style: textTheme.titleSmall,
+              style: textTheme.titleMedium,
             ),
             const SizedBox(height: 8),
             Text(
               appLocalizations.linkAccount_stepper_description,
-              style: textTheme.labelMedium,
+              style: textTheme.bodySmall,
             ),
-            const SizedBox(height: 8),
-            StatusStepWidget(
-              stepNumber: '1',
-              title: appLocalizations.linkAccount_stepper_stepOne_title,
-              trailing: '5 ${appLocalizations.common_labels_mins}',
-              subtitle:
-                  appLocalizations.linkAccount_stepper_stepOne_action_active,
-              doneSubtitle:
-                  appLocalizations.linkAccount_stepper_stepOne_action_completed,
-              isDone: status.signLetter,
-              onDone: (val) async {
-                final isDone = downloadPdf(status);
-                context.read<CustodianBankAuthCubit>().postCustodianBankStatus(
-                    PostCustodianBankStatusParams(
-                        bankId: widget.bankId,
-                        signLetter: true,
-                        shareWithBank: false,
-                        bankConfirmation: false));
-
-                await AnalyticsUtils.triggerEvent(
-                    action: AnalyticsUtils.linkBankStep2Action(status.bankName),
-                    params: AnalyticsUtils.linkBankStep2Event(status.bankName));
-                await isDone;
-
-                // ignore: use_build_context_synchronously
-                context.goNamed(AppRoutes.main,
-                    queryParams: {'expandCustodian': "true"});
-              },
-              onDoneAgain: () {
-                downloadPdf(status);
-
-                // context
-                //     .read<CustodianBankAuthCubit>()
-                //     .postCustodianBankStatus(PostCustodianBankStatusParams(
-                //         bankId: widget.bankId,
-                //         signLetter: false,
-                //         shareWithBank: false,
-                //         bankConfirmation: false));
-              },
-            ),
+            const SizedBox(height: 24),
             CifStatusWidget(
-              stepNumber: '2',
+              stepNumber: '1',
               bankId: widget.bankId,
-              title: appLocalizations.linkAccount_stepper_stepTwo_title,
+              title: appLocalizations.linkAccount_stepper_stepOne_title,
               trailing: '2 ${appLocalizations.assets_charts_days}',
               // showInput: true,
-              subtitle: status.accountId != null
-                  ? appLocalizations
-                      .linkAccount_stepper_stepTwo_action_completed
-                  : appLocalizations.linkAccount_stepper_stepTwo_action_active,
-              accountId: status.accountId,
-              // isDone: status.shareWithBank,
-              ready: status.signLetter,
-              onDone: status.accountId != null
-                  ? null
-                  : (val) async {
+              subtitle:
+                  appLocalizations.linkAccount_stepper_stepOne_action_active,
+              accountId: status.accountNumber,
+              isDone: checkCurrentCustodianStatusDone(
+                  CustodianStatus.FillAccount, status.status),
+              isActive: checkCurrentCustodianStatus(
+                  CustodianStatus.FillAccount, status.status),
+              // ready: status.signLetter,
+              onDone: (val) async {
+                context
+                    .read<CustodianBankAuthCubit>()
+                    .postCustodianBankStatus(PostCustodianBankStatusParams(
+                      bankId: widget.bankId,
+                      status: CustodianStatus.OpenLetter,
+                      accountNumber: val,
+                    ));
+
+                await AnalyticsUtils.triggerEvent(
+                    action: AnalyticsUtils.custodianStatusModalStep1,
+                    params: AnalyticsUtils.custodianStatusModalStep1Event(val));
+              },
+              onEdit: (val) async {
+                context.read<CustodianBankAuthCubit>().putCustodianBankStatus(
+                    PutCustodianBankStatusParams(
+                        id: status.id,
+                        bankId: widget.bankId,
+                        status: status.status,
+                        accountNumber: val));
+
+                await AnalyticsUtils.triggerEvent(
+                    action: AnalyticsUtils.custodianStatusModalStep1,
+                    params: AnalyticsUtils.custodianStatusModalStep1Event(val));
+              },
+            ),
+            StatusStepWidget(
+              stepNumber: '2',
+              title: RichText(
+                  text: TextSpan(children: [
+                TextSpan(
+                  text: "${appLocalizations.linkAccount_stepper_stepTwo_open} ",
+                  style: textTheme.bodySmall?.copyWith(
+                      color: checkCurrentCustodianStatus(
+                              CustodianStatus.OpenLetter, status.status)
+                          ? Theme.of(context).primaryColor
+                          : Colors.grey[500]),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () async {
+                      final isDone = downloadPdf(status.signLetterLink);
+
                       context
                           .read<CustodianBankAuthCubit>()
                           .putCustodianBankStatus(PutCustodianBankStatusParams(
+                              id: status.id,
                               bankId: widget.bankId,
-                              id: id,
-                              accountId: val,
-                              signLetter: true,
-                              shareWithBank: true,
-                              bankConfirmation: false));
+                              status: CustodianStatus.FillLetter,
+                              accountNumber: status.accountNumber));
 
                       await AnalyticsUtils.triggerEvent(
-                          action: AnalyticsUtils.linkBankStep3Action(
-                              status.bankName),
-                          params: AnalyticsUtils.linkBankStep3Event(
+                          action: AnalyticsUtils.custodianStatusModalStep2,
+                          params: AnalyticsUtils.custodianStatusModalStep2Event(
                               status.bankName));
+                      await isDone;
                     },
+                ),
+                TextSpan(
+                  text: appLocalizations.linkAccount_stepper_stepTwo_title,
+                  style: textTheme.bodySmall?.copyWith(color: Colors.white),
+                ),
+              ])),
+              subtitle: Padding(
+                  padding: const EdgeInsets.fromLTRB(4, 2, 0, 0),
+                  child: Text(
+                    appLocalizations.linkAccount_stepper_stepTwo_viewTutorial,
+                    style: textTheme.bodySmall!.apply(
+                        color: Theme.of(context).primaryColor,
+                        decoration: TextDecoration.underline),
+                  )),
+              doneSubtitle:
+                  appLocalizations.linkAccount_stepper_stepOne_action_completed,
+              isDone: checkCurrentCustodianStatusDone(
+                  CustodianStatus.OpenLetter, status.status),
+              isActive: checkCurrentCustodianStatus(
+                  CustodianStatus.OpenLetter, status.status),
+              onDone: (val) async {
+                final isDone = downloadPdf(status.tutorialLink);
+
+                await AnalyticsUtils.triggerEvent(
+                    action: AnalyticsUtils.custodianStatusModalViewTutorial,
+                    params:
+                        AnalyticsUtils.custodianStatusModalViewTutorialEvent(
+                            status.bankName));
+                await isDone;
+              },
+              onDoneAgain: () {
+                downloadPdf(status.tutorialLink);
+              },
             ),
             StatusStepWidget(
               stepNumber: '3',
-              title: appLocalizations.linkAccount_stepper_stepThree_title,
-              trailing: '5-10 ${appLocalizations.assets_charts_days}',
-              isDone: status.bankConfirmation,
+              title: Text(
+                appLocalizations.linkAccount_stepper_stepThree_title,
+                style: textTheme.bodySmall?.copyWith(color: Colors.white),
+              ),
+              showAction: true,
+              isDone: checkCurrentCustodianStatusDone(
+                  CustodianStatus.FillLetter, status.status),
+              isActive: checkCurrentCustodianStatus(
+                  CustodianStatus.FillLetter, status.status),
+              onDone: (val) async {
+                context.read<CustodianBankAuthCubit>().putCustodianBankStatus(
+                    PutCustodianBankStatusParams(
+                        id: status.id,
+                        bankId: widget.bankId,
+                        status: CustodianStatus.ShareLetter,
+                        accountNumber: status.accountNumber));
+
+                await AnalyticsUtils.triggerEvent(
+                    action: AnalyticsUtils.custodianStatusModalStep3,
+                    params: AnalyticsUtils.custodianStatusModalStep3Event(
+                        status.bankName));
+              },
             ),
+            StatusStepWidget(
+              stepNumber: '4',
+              title: Text(
+                appLocalizations.linkAccount_stepper_stepFour_title,
+                style: textTheme.bodySmall?.copyWith(color: Colors.white),
+              ),
+              showAction: true,
+              isDone: checkCurrentCustodianStatusDone(
+                  CustodianStatus.ShareLetter, status.status),
+              isActive: checkCurrentCustodianStatus(
+                  CustodianStatus.ShareLetter, status.status),
+              trailing: Column(
+                children: [
+                  Text(appLocalizations.linkAccount_stepper_stepFour_sharedOn,
+                      style: textTheme.bodySmall?.copyWith(
+                          fontSize: 10, color: Theme.of(context).primaryColor)),
+                  Text(
+                      status.shareDate != null
+                          ? CustomizableDateTime.ddMmYyyyWithSlash(
+                              status.shareDate ?? DateTime.now())
+                          : "",
+                      style: textTheme.bodySmall?.copyWith(
+                          fontSize: 10, color: Theme.of(context).primaryColor)),
+                ],
+              ),
+              onDone: (val) async {
+                context.read<CustodianBankAuthCubit>().putCustodianBankStatus(
+                    PutCustodianBankStatusParams(
+                        id: status.id,
+                        bankId: widget.bankId,
+                        status: CustodianStatus.SyncBank,
+                        accountNumber: status.accountNumber));
+
+                await AnalyticsUtils.triggerEvent(
+                    action: AnalyticsUtils.custodianStatusModalStep4,
+                    params: AnalyticsUtils.custodianStatusModalStep4Event(
+                        status.bankName));
+              },
+            ),
+            StatusStepWidget(
+              stepNumber: '5',
+              title: Text(
+                appLocalizations.linkAccount_stepper_stepFive_title,
+                style: textTheme.bodySmall?.copyWith(color: Colors.white),
+              ),
+              subtitle: checkCurrentCustodianStatus(
+                      CustodianStatus.SyncBank, status.status)
+                  ? Text(
+                      appLocalizations.linkAccount_stepper_stepFive_description,
+                      style: textTheme.bodySmall,
+                    )
+                  : null,
+              isDone: checkCurrentCustodianStatusDone(
+                  CustodianStatus.SyncBank, status.status),
+              isActive: checkCurrentCustodianStatus(
+                  CustodianStatus.SyncBank, status.status),
+            ),
+            const SizedBox(
+              height: 6,
+            ),
+            Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 9),
+                child: Column(
+                  children: [
+                    Text(
+                      appLocalizations.linkAccount_stepper_footer_note1,
+                      style: textTheme.bodySmall,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    Text(
+                      appLocalizations.linkAccount_stepper_footer_note2,
+                      style: textTheme.bodySmall,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ))
           ],
         );
       } else {
@@ -218,14 +350,14 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
     });
   }
 
-  Future<bool> downloadPdf(CustodianBankStatusEntity status) {
+  Future<bool> downloadPdf(String statusLetter) {
     if (Platform.isAndroid) {
       return launchUrlString(
-        status.signLetterLink,
+        statusLetter,
         mode: LaunchMode.externalApplication,
       );
     } else {
-      return launchUrlString(status.signLetterLink);
+      return launchUrlString(statusLetter);
     }
   }
 }
@@ -251,7 +383,7 @@ class ActionContainer extends AppStatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             // mainAxisSize: MainAxisSize.min,
             children: [
-              if (status.signLetter)
+              if (status.accountNumber != null)
                 Visibility(
                   visible: false,
                   child: TextButton(
@@ -281,13 +413,13 @@ class ActionContainer extends AppStatelessWidget {
                         style: textTheme.bodySmall!.toLinkStyle(context),
                       )),
                 ),
-              const SizedBox(width: 16),
-              ElevatedButton(
-                onPressed: () => Navigator.pop(context, true),
-                style:
-                    ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
-                child: Text(appLocalizations.common_button_ok),
-              ),
+              // const SizedBox(width: 16),
+              // ElevatedButton(
+              //   onPressed: () => Navigator.pop(context, true),
+              //   style:
+              //       ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
+              //   child: Text(appLocalizations.common_button_ok),
+              // ),
             ],
           ),
         );

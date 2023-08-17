@@ -207,7 +207,8 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                     if (edit && state.entity.isNotEmpty) {
                                       try {
                                         final formJson = widget.moreEntity!
-                                            .toFormJson(state.entity.first);
+                                            .toFormJson(
+                                                state.entity.first, context);
                                         securityName = formJson["name"];
                                         noOfUnits = formJson["quantity"];
                                         valuePerUnit = formJson["marketValue"];
@@ -252,9 +253,10 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                             ? widget.moreEntity!
                                                                 .toFormJson(
                                                                     state.entity
-                                                                        .first)
+                                                                        .first,
+                                                                    context)
                                                             : AddAssetConstants
-                                                                .initialJsonForAddAsset,
+                                                                .initialJsonForAddAsset(context),
                                                         child: Column(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
@@ -315,7 +317,7 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                                           formKey
                                                                               .currentState!
                                                                               .patchValue({
-                                                                            "currencyCode": Currency.currenciesList.firstWhere((curr) =>
+                                                                            "currencyCode": Currency.getCurrencyList(context).firstWhere((curr) =>
                                                                                 curr.symbol ==
                                                                                 e?.currencyCode),
                                                                             "category":

@@ -9,7 +9,7 @@ import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_man
 import 'package:wmd/features/assets_overview/assets_geography_chart/presentation/widgets/assets_overview_geo_chart.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/base_chart_view.dart';
 import 'package:wmd/features/assets_overview/currency_chart/presentation/widgets/currency_chart_widget.dart';
-import 'package:wmd/features/assets_overview/portfolio_tab/presentation/widgets/portfolio_chart_widget.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/widgets/portfolio_chart_widget.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 
 class ChartsWrapper extends StatefulWidget {
@@ -27,14 +27,14 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
 
   @override
   void initState() {
-    if (AppConstants.isRelease1) {
+    if (AppConstants.isRelease2) {
       _controller = TabController(
-          length: 2,
+          length: 4,
           vsync: this,
           initialIndex: context.read<TabManager>().state);
     } else {
       _controller = TabController(
-          length: 4,
+          length: 3,
           vsync: this,
           initialIndex: context.read<TabManager>().state);
     }
@@ -110,14 +110,13 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
                               Tab(
                                   text: appLocalizations
                                       .assets_charts_tabs_geography),
-                              if (!AppConstants.isRelease1)
+                              if (AppConstants.isRelease2)
                                 Tab(
                                     text: appLocalizations
                                         .assets_charts_tabs_currency),
-                              if (!AppConstants.isRelease1)
-                                Tab(
-                                    text: appLocalizations
-                                        .assets_charts_tabs_portfolio),
+                              Tab(
+                                  text: appLocalizations
+                                      .assets_charts_tabs_portfolio),
                             ],
                             isScrollable: true,
                           ),

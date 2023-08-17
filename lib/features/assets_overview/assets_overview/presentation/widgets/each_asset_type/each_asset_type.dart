@@ -10,6 +10,7 @@ import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/widgets/each_asset_type/asset_list_widget.dart';
 import 'package:wmd/features/assets_overview/core/presentataion/models/assets_overview_base_widget_model.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_geographic_entity.dart';
 import '../../../domain/entities/assets_overview_entity.dart';
 import '../add_button.dart';
 import '../assets_overview_inherit.dart';
@@ -80,17 +81,28 @@ class EachAssetType extends AppStatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 16),
-                      child: Row(
-                        children: [
-                          DotWidget(color: assetsOverviewBaseWidgetModel.color),
-                          const SizedBox(width: 8),
-                          Text(assetsOverviewBaseWidgetModel.title,
-                              style: textTheme.titleMedium)
-                        ],
+                  Expanded(
+                    child: Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 16),
+                            child: Row(
+                              children: [
+                                DotWidget(
+                                    color: assetsOverviewBaseWidgetModel.color),
+                                const SizedBox(width: 8),
+                                Text(
+                                    getContinentNameLocale(context,
+                                        assetsOverviewBaseWidgetModel.title),
+                                    style: textTheme.titleMedium)
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -100,8 +112,12 @@ class EachAssetType extends AppStatelessWidget {
                       ? Padding(
                           padding: const EdgeInsets.only(top: 8, bottom: 8),
                           child: AddButton(
-                              onTap: _getAssetOnTapByType(context,
-                                  (assetsOverviewBaseWidgetModel.assetsOverviewBaseModel as AssetsOverviewEntity).type),
+                              onTap: _getAssetOnTapByType(
+                                  context,
+                                  (assetsOverviewBaseWidgetModel
+                                              .assetsOverviewBaseModel
+                                          as AssetsOverviewEntity)
+                                      .type),
                               addAsset: !isMobile),
                         )
                       : Expanded(

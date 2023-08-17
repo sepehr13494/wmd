@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -25,7 +27,30 @@ class AssetsOverviewChartsColors {
     Color(0xff50747C),
     Color(0xffC7EA86),
     Color(0xffffffff),
+    Color(0xfff51a1a),
+    Color(0xff54c2a7),
+    Color(0xfffcd921),
+    Color(0xff1ec500),
   ];
+
+  static List<String> generateBrightHexCodeList(int numCodes) {
+    final random = Random(42); // Set the seed for the random number generator
+    final hexCodes = <String>[];
+
+    for (var i = 0; i < numCodes; i++) {
+      final r = random.nextInt(128) + 128; // Higher intensity for red channel (128-255)
+      final g = random.nextInt(128) + 128; // Higher intensity for green channel (128-255)
+      final b = random.nextInt(128) + 128; // Higher intensity for blue channel (128-255)
+
+      final hexCode = '#${r.toRadixString(16).padLeft(2, '0')}'
+          '${g.toRadixString(16).padLeft(2, '0')}'
+          '${b.toRadixString(16).padLeft(2, '0')}';
+
+      hexCodes.add(hexCode.toUpperCase());
+    }
+
+    return hexCodes;
+  }
 
   static const Map<String, Color> colorsMap = {
     AssetTypes.bankAccount: Color(0xff6C5379),

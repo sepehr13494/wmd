@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.tfo.wmd">
+    package="com.aiop.aio">
 
     <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
       <!-- Provide required visibility configuration for API level 30 and above -->
@@ -107,7 +107,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="tfo-uat.eu.auth0.com" android:scheme="com.tfo.wmd" />
+                <data android:host="tfo-uat.eu.auth0.com" android:scheme="com.aiop.aio" />
             </intent-filter>
         </activity>
 
@@ -125,8 +125,8 @@
                     android:pathPrefix="/android/com.tfo.wmd/callback"
                     android:scheme="com.tfo.wmd" /> -->
                 <data android:host="pam-uat.eu.auth0.com"
-                    android:pathPrefix="/android/com.tfo.wmd/callback"
-                    android:scheme="com.tfo.wmd" />
+                    android:pathPrefix="/android/com.aiop.aio/callback"
+                    android:scheme="com.aiop.aio" />
             </intent-filter>
         </activity>
 

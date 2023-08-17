@@ -121,14 +121,15 @@ class ListedAssetMoreEntity extends GetSeeMoreResponse {
         "maturityDate": maturityDate,
       };
 
-  Map<String, dynamic> toFormJson(ListedSecurityName listedSecurityName) {
+  Map<String, dynamic> toFormJson(
+      ListedSecurityName listedSecurityName, context) {
     return {
       "id": id,
       "type": type,
       "isActive": isActive,
-      "country": Country.getCountryFromString(country),
+      "country": Country.getCountryFromString(country, context),
       "region": region,
-      "currencyCode": Currency.getCurrencyFromString(currencyCode),
+      "currencyCode": Currency.getCurrencyFromString(currencyCode, context),
       "percentage": percentage.toString(),
       "holdings": holdings.convertMoney(),
       "yearToDate": yearToDate,

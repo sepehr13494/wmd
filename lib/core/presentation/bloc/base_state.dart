@@ -48,10 +48,11 @@ abstract class BaseState extends Equatable
         LinkedAccountsState,
         PreferenceState,
         LiablilityOverviewState,
-        PortfolioTabState,
         MandateStatusState,
         PamLoginState,
         ManualBankListState,
+        PortfolioTab2State,
+        PortfolioProviderContainerState,
         PerformanceChartState {}
 
 class BaseInitialState extends BaseState {

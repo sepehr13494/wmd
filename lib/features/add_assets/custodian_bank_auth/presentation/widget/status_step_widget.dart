@@ -1,24 +1,27 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
-import 'package:wmd/core/presentation/widgets/info_icon.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StatusStepWidget extends StatefulWidget {
   final String stepNumber;
-  final String title;
+  final Widget title;
   final bool isDone;
-  final bool showInput;
-  final String? subtitle;
+  final bool isActive;
+  final bool showAction;
+  final Widget? subtitle;
   final String? doneSubtitle;
-  final String trailing;
+  final Widget? trailing;
   final void Function(String? val)? onDone;
   final void Function()? onDoneAgain;
   const StatusStepWidget({
     required this.title,
     required this.stepNumber,
-    required this.trailing,
+    this.trailing,
     this.isDone = false,
-    this.showInput = false,
+    this.isActive = false,
+    this.showAction = false,
     this.doneSubtitle,
     this.subtitle,
     this.onDone,
@@ -45,80 +48,72 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          widget.isDone
-              ? const Icon(Icons.check_circle)
-              : Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    height: 20,
-                    width: 20,
-                    child: Center(
-                        child: Text(
-                      widget.stepNumber,
-                      style: textTheme.bodySmall!
-                          .apply(color: Theme.of(context).backgroundColor),
-                      textAlign: TextAlign.center,
-                    )),
-                  ),
-                ),
-          const SizedBox(width: 8),
-          Expanded(
-            flex: 8,
-            child: Text(
-              widget.title,
-              style: textTheme.bodyLarge,
+          Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: widget.isActive == true
+                    ? Theme.of(context).primaryColor
+                    : Colors.grey[500],
+              ),
+              height: 20,
+              width: 20,
+              child: Center(
+                  child: Text(
+                widget.stepNumber,
+                style: textTheme.bodySmall!
+                    .apply(color: Theme.of(context).backgroundColor),
+                textAlign: TextAlign.center,
+              )),
             ),
           ),
+          const SizedBox(width: 8),
+          Expanded(flex: 8, child: widget.title),
           Padding(
             padding: const EdgeInsets.only(left: 4),
-            child: Text(widget.trailing, style: textTheme.bodySmall),
+            child: (widget.showAction == true && !widget.isDone)
+                ? widget.isActive
+                    ? OutlinedButton(
+                        onPressed: () => widget.onDone!(""),
+                        style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(50, 40),
+                          // maximumSize: const Size(130, 80)
+                        ),
+                        child: Text(
+                          appLocalizations.common_button_markAsDone,
+                          style: textTheme.bodySmall?.copyWith(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 10),
+                        ),
+                      )
+                    : const SizedBox.shrink()
+                : widget.isDone
+                    ? widget.trailing ??
+                        Icon(
+                          Icons.check_circle_outline,
+                          color: Theme.of(context).primaryColor,
+                        )
+                    : const SizedBox.shrink(),
           )
         ],
       ),
       subtitle: Builder(
         builder: (context) {
-          if (widget.isDone) {
-            if (widget.doneSubtitle != null) {
-              return Padding(
-                padding: const EdgeInsets.only(left: 32.0),
-                child: InkWell(
-                  onTap: widget.onDoneAgain,
-                  child: Text(
-                    widget.doneSubtitle!,
-                    style: textTheme.bodySmall!.apply(
-                        color: Theme.of(context).primaryColor,
-                        decoration: TextDecoration.underline),
-                  ),
-                ),
-              );
-            }
-          } else {
-            if (widget.subtitle != null) {
-              return Padding(
-                padding: const EdgeInsets.only(left: 28.0),
-                child: InkWell(
-                  onTap:
-                      widget.onDone == null ? null : () => widget.onDone!(null),
-                  child: Text(
-                    widget.subtitle!,
-                    style: textTheme.bodySmall!.apply(
-                        color: widget.onDone == null
-                            ? Theme.of(context).primaryColor.withOpacity(0.4)
-                            : Theme.of(context).primaryColor,
-                        decoration: TextDecoration.underline),
-                  ),
-                ),
-              );
-            }
+          if (widget.subtitle != null) {
+            return Padding(
+              padding: const EdgeInsets.only(left: 28.0),
+              child: InkWell(
+                onTap:
+                    widget.onDone == null ? null : () => widget.onDone!(null),
+                child: widget.subtitle!,
+              ),
+            );
           }
+          // }
           return const SizedBox.shrink();
         },
       ),
-      // trailing: Text(widget.trailing),
     );
   }
 }
@@ -129,20 +124,22 @@ class CifStatusWidget extends StatefulWidget {
   final String bankId;
   final String? accountId;
   final String? subtitle;
-  final bool ready;
+  final bool isActive;
+  final bool? isDone;
   final String trailing;
   final void Function(String? val)? onDone;
-  final void Function()? onDoneAgain;
+  final void Function(String? val)? onEdit;
   const CifStatusWidget({
     required this.title,
     required this.stepNumber,
     required this.trailing,
     required this.bankId,
-    this.ready = true,
+    this.isActive = true,
+    this.isDone,
     this.accountId,
     this.subtitle,
     this.onDone,
-    this.onDoneAgain,
+    this.onEdit,
     Key? key,
   }) : super(key: key);
 
@@ -153,6 +150,8 @@ class CifStatusWidget extends StatefulWidget {
 class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
   late final TextEditingController input;
   var isButtonDisable = false;
+  var enableTextFeild = false;
+  final FocusNode myFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -174,38 +173,39 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          widget.accountId != null
-              ? const Icon(
-                  Icons.check_circle,
-                )
-              : Container(
-                  padding: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  height: 20,
-                  width: 20,
-                  child: Center(
-                      child: Text(
-                    widget.stepNumber,
-                    style: textTheme.bodySmall!
-                        .apply(color: Theme.of(context).backgroundColor),
-                    textAlign: TextAlign.center,
-                  )),
-                ),
+          Container(
+            padding: const EdgeInsets.all(2),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: widget.isActive == true
+                  ? Theme.of(context).primaryColor
+                  : Colors.grey[500],
+            ),
+            height: 20,
+            width: 20,
+            child: Center(
+                child: Text(
+              widget.stepNumber,
+              style: textTheme.bodySmall!
+                  .apply(color: Theme.of(context).backgroundColor),
+              textAlign: TextAlign.center,
+            )),
+          ),
           const SizedBox(width: 8),
           Expanded(
             flex: 8,
             child: Text(
               widget.title,
-              style: textTheme.bodyLarge,
+              style: textTheme.bodySmall?.copyWith(color: Colors.white),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 4),
-            child: Text(widget.trailing, style: textTheme.bodySmall),
-          )
+          if (widget.isDone == true)
+            Padding(
+                padding: const EdgeInsets.only(left: 4),
+                child: Icon(
+                  Icons.check_circle_outline,
+                  color: Theme.of(context).primaryColor,
+                ))
         ],
       ),
       subtitle: Padding(
@@ -256,26 +256,6 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FittedBox(
-                fit: BoxFit.fitWidth,
-                child: Row(
-                  children: [
-                    Text(
-                      message,
-                      style: textTheme.bodyMedium,
-                    ),
-                    // const InfoIcon(),
-                    const SizedBox(width: 4),
-                    Tooltip(
-                      showDuration: const Duration(seconds: 5),
-                      triggerMode: TooltipTriggerMode.tap,
-                      textAlign: TextAlign.center,
-                      message: tooltip,
-                      child: const InfoIcon(),
-                    ),
-                  ],
-                ),
-              ),
               const SizedBox(height: 4),
               Row(
                 mainAxisSize: MainAxisSize.max,
@@ -284,29 +264,86 @@ class _StatusSecondStatusWidget extends AppState<CifStatusWidget> {
                 children: [
                   Expanded(
                     child: TextField(
+                      focusNode: myFocusNode,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
+                      keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                           hintText: appLocalizations
-                              .linkAccount_stepper_cif_placeholder),
+                              .linkAccount_stepper_cif_placeholder,
+                          hintStyle: const TextStyle(fontSize: 12)),
                       controller: input,
-                      enabled: widget.accountId == null && widget.ready,
+                      enabled: enableTextFeild ||
+                          (widget.accountId == null && widget.isActive),
                     ),
                   ),
-                  const SizedBox(width: 50),
+                  const SizedBox(width: 8),
+                  if (widget.isDone != true)
+                    OutlinedButton(
+                      onPressed: input.text == ""
+                          ? null
+                          : () {
+                              widget.onDone!(input.text);
+                              setState(() {
+                                enableTextFeild = false;
+                              });
+                            },
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: const Size(50, 40),
+                        // maximumSize: const Size(130, 80)
+                      ),
+                      child: Text(
+                        widget.subtitle ?? '',
+                        style: textTheme.bodySmall?.copyWith(
+                            color: input.text == ""
+                                ? Colors.grey[500]
+                                : Theme.of(context).primaryColor,
+                            fontSize: 10),
+                      ),
+                    ),
+                  if (widget.accountId != null)
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 4, top: 8, right: 40),
+                      child: InkWell(
+                        onTap: enableTextFeild
+                            ? widget.accountId == input.text
+                                ? null
+                                : () {
+                                    widget.onEdit!(input.text);
+                                    setState(() {
+                                      enableTextFeild = false;
+                                    });
+                                  }
+                            : () {
+                                setState(() {
+                                  enableTextFeild = true;
+                                });
+
+                                Timer(const Duration(seconds: 1),
+                                    () => myFocusNode.requestFocus());
+
+                                // myFocusNode.requestFocus();
+                              },
+                        // () => widget.onDone!(input.text),
+                        child: Text(
+                          enableTextFeild
+                              ? appLocalizations.common_button_save
+                              : appLocalizations.common_button_edit,
+                          style: textTheme.bodySmall!.apply(
+                              color: Theme.of(context).primaryColor.withOpacity(
+                                  enableTextFeild &&
+                                          widget.accountId == input.text
+                                      ? 0.5
+                                      : 1),
+                              decoration: TextDecoration.underline),
+                        ),
+                      ),
+                    )
                 ],
               ),
-              const SizedBox(height: 4),
-              InkWell(
-                onTap:
-                    isButtonDisable ? null : () => widget.onDone!(input.text),
-                child: Text(
-                  widget.subtitle ?? '',
-                  style: textTheme.bodySmall!.apply(
-                      color: isButtonDisable
-                          ? Theme.of(context).disabledColor
-                          : Theme.of(context).primaryColor,
-                      decoration: TextDecoration.underline),
-                ),
-              ),
+              // const SizedBox(height: 4),
             ],
           );
         }),

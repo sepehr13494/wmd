@@ -10,8 +10,12 @@ import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item
 class CountryCodePicker extends StatefulWidget {
   final ValueChanged<Country?>? onChange;
   final bool enabled;
+  final Country? defaultCountry;
   const CountryCodePicker(
-      {Key? key, required this.onChange, this.enabled = true})
+      {Key? key,
+      required this.onChange,
+      this.enabled = true,
+      this.defaultCountry})
       : super(key: key);
 
   @override
@@ -20,10 +24,11 @@ class CountryCodePicker extends StatefulWidget {
 
 class _CountryCodePickerState extends State<CountryCodePicker> {
   TextEditingController controller = TextEditingController();
-  final Country? defaultCountry = Country.tryParse("bahrain");
+  Country? defaultCountry;
 
   @override
   void initState() {
+    defaultCountry = widget.defaultCountry ?? Country.tryParse("bahrain");
     if (defaultCountry != null) {
       controller.text =
           "${defaultCountry!.flagEmoji} +${defaultCountry!.phoneCode}";
@@ -43,7 +48,7 @@ class _CountryCodePickerState extends State<CountryCodePicker> {
               "${field.value!.flagEmoji} ${field.value!.countryCode} +${field.value!.phoneCode}";
         }
         return SizedBox(
-          width: isTablet ? 100 : 115,
+          width: isTablet ? 100 : 116,
           // height: 80,
           child: TextField(
             controller: controller,
