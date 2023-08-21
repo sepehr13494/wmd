@@ -91,7 +91,8 @@ class EachAssetType extends AppStatelessWidget {
                                 vertical: 8, horizontal: 16),
                             child: Row(
                               children: [
-                                DotWidget(color: assetsOverviewBaseWidgetModel.color),
+                                DotWidget(
+                                    color: assetsOverviewBaseWidgetModel.color),
                                 const SizedBox(width: 8),
                                 Text(assetsOverviewBaseWidgetModel.title,
                                     style: textTheme.titleMedium)
@@ -108,30 +109,36 @@ class EachAssetType extends AppStatelessWidget {
                       ? Padding(
                           padding: const EdgeInsets.only(top: 8, bottom: 8),
                           child: AddButton(
-                              onTap: _getAssetOnTapByType(context,
-                                  (assetsOverviewBaseWidgetModel.assetsOverviewBaseModel as AssetsOverviewEntity).type),
+                              onTap: _getAssetOnTapByType(
+                                  context,
+                                  (assetsOverviewBaseWidgetModel
+                                              .assetsOverviewBaseModel
+                                          as AssetsOverviewEntity)
+                                      .type),
                               addAsset: !isMobile),
                         )
                       : assetsOverviewBaseWidgetModel.assetsOverviewType ==
-                      AssetsOverviewBaseType.portfolio ? const SizedBox() :  Expanded(
-                          child: Align(
-                            alignment: AlignmentDirectional.centerEnd,
-                            child: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Row(
-                                children: [
-                                  Text(appLocalizations
-                                      .home_widget_geography_label_allocation),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    "${assetsOverviewBaseWidgetModel.allocation.toStringAsFixed(1)} %",
-                                    textDirection: TextDirection.ltr,
-                                  )
-                                ],
+                              AssetsOverviewBaseType.portfolio
+                          ? const SizedBox()
+                          : Expanded(
+                              child: Align(
+                                alignment: AlignmentDirectional.centerEnd,
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Row(
+                                    children: [
+                                      Text(appLocalizations
+                                          .home_widget_geography_label_allocation),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        "${assetsOverviewBaseWidgetModel.allocation.toStringAsFixed(1)} %",
+                                        textDirection: TextDirection.ltr,
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        )
+                            )
                 ],
               ),
               RowOrColumn(
@@ -152,7 +159,9 @@ class EachAssetType extends AppStatelessWidget {
                   ),
                   SizedBox(width: responsiveHelper.bigger16Gap, height: 16),
                   if (assetsOverviewBaseWidgetModel.assetsOverviewType ==
-                      AssetsOverviewBaseType.assetType)
+                          AssetsOverviewBaseType.assetType ||
+                      assetsOverviewBaseWidgetModel.assetsOverviewType ==
+                          AssetsOverviewBaseType.portfolio)
                     YtdItdWidget(
                       ytd: assetsOverviewBaseWidgetModel
                           .assetsOverviewBaseModel.yearToDate,
