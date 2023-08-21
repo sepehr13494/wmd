@@ -66,3 +66,7 @@ We have 2 kind of auth0 client.
   for both login we have custom redirect schema, which is bundleId defined in env. For android we have set intent-filter in AndroidManifest.xml for each package. for ios no need to do extra.
 
 For TFO please enter domain without https in .env
+
+# Release flags
+if IS_RELEASE_ONE true hides currency change, add manual bank, unrelaized gain
+if IS_RELEASE_TWO true we show liabilities and currency tab 
