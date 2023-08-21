@@ -59,8 +59,8 @@ class PortfolioTabChartWidget extends StatelessWidget {
                                 state.getPortfolioAllocationEntities
                                     .map(
                                       (e) => EachAssetViewModel(
-                                        color: HexColor(colorList[
-                                        state.getPortfolioAllocationEntities
+                                        color: HexColor(colorList[state
+                                            .getPortfolioAllocationEntities
                                             .indexOf(e)]),
                                         name: e.portfolioName,
                                         price: e.value.convertMoney(),
@@ -80,7 +80,8 @@ class PortfolioTabChartWidget extends StatelessWidget {
                           GetPortfolioAllocationEntity item =
                               state.getPortfolioAllocationEntities[index];
                           return ColorTitleObj(
-                              title: "${item.portfolioName} ${AppLocalizations.of(context).home_widget_geography_label_allocation} ${item.percentage}%",
+                              title:
+                                  "${item.portfolioName} ${AppLocalizations.of(context).home_widget_geography_label_allocation} ${item.percentage.toStringAsFixedZero(1)}%",
                               color: HexColor(colorList[index]));
                         })),
                         const SizedBox(height: 16),

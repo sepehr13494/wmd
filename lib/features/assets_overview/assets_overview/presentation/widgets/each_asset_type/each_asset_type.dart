@@ -121,25 +121,27 @@ class EachAssetType extends AppStatelessWidget {
                               addAsset: !isMobile),
                         )
                       : assetsOverviewBaseWidgetModel.assetsOverviewType ==
-                      AssetsOverviewBaseType.portfolio ? const SizedBox() :  Expanded(
-                          child: Align(
-                            alignment: AlignmentDirectional.centerEnd,
-                            child: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Row(
-                                children: [
-                                  Text(appLocalizations
-                                      .home_widget_geography_label_allocation),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    "${assetsOverviewBaseWidgetModel.allocation.toStringAsFixed(1)} %",
-                                    textDirection: TextDirection.ltr,
-                                  )
-                                ],
+                              AssetsOverviewBaseType.portfolio
+                          ? const SizedBox()
+                          : Expanded(
+                              child: Align(
+                                alignment: AlignmentDirectional.centerEnd,
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Row(
+                                    children: [
+                                      Text(appLocalizations
+                                          .home_widget_geography_label_allocation),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        "${assetsOverviewBaseWidgetModel.allocation.toStringAsFixed(1)} %",
+                                        textDirection: TextDirection.ltr,
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        )
+                            )
                 ],
               ),
               RowOrColumn(
@@ -160,7 +162,9 @@ class EachAssetType extends AppStatelessWidget {
                   ),
                   SizedBox(width: responsiveHelper.bigger16Gap, height: 16),
                   if (assetsOverviewBaseWidgetModel.assetsOverviewType ==
-                      AssetsOverviewBaseType.assetType)
+                          AssetsOverviewBaseType.assetType ||
+                      assetsOverviewBaseWidgetModel.assetsOverviewType ==
+                          AssetsOverviewBaseType.portfolio)
                     YtdItdWidget(
                       ytd: assetsOverviewBaseWidgetModel
                           .assetsOverviewBaseModel.yearToDate,
