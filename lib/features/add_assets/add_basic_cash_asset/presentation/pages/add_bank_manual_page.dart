@@ -250,7 +250,7 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                           }
                                                         },
                                                       ),
-                                                      if (!AppConstants
+                                                      if (AppConstants
                                                           .isRelease2)
                                                         TextButton(
                                                           onPressed: () {
