@@ -28,7 +28,7 @@ class AssetSummaryResponse extends AssetSummaryEntitiy {
         itdPerformance: json["itdPerformance"],
         dealContribution: json["dealContribution"],
         netChange: json["netChange"],
-        unRealizedProfitLoss: null,
+        unRealizedProfitLoss: json["unrealizedGainLoss"],
         totalAssetsAmount: json["totalAssetsAmount"],
         isManuallyAdded: json["isManuallyAdded"],
         totalQuantity: json["totalQuantity"] ?? 0,
