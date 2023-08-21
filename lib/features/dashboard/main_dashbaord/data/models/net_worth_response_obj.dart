@@ -93,9 +93,7 @@ class Assets extends AssetsEntity {
             double.tryParse(json["changePercentage"].toString()) ?? 0,
         ytd: double.tryParse(json["ytd"].toString()) ?? 0,
         itd: double.tryParse(json["itd"].toString()) ?? 0,
-        unrealizedGainLoss: json["unrealizedGainLoss"] != null
-            ? double.tryParse(json["unrealizedGainLoss"].toString()) ?? 0
-            : null,
+        unrealizedGainLoss: null,
       );
 }
 
