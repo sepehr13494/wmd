@@ -10,6 +10,7 @@ import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/widgets/each_asset_type/asset_list_widget.dart';
 import 'package:wmd/features/assets_overview/core/presentataion/models/assets_overview_base_widget_model.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_geographic_entity.dart';
 import '../../../domain/entities/assets_overview_entity.dart';
 import '../add_button.dart';
 import '../assets_overview_inherit.dart';
@@ -94,7 +95,9 @@ class EachAssetType extends AppStatelessWidget {
                                 DotWidget(
                                     color: assetsOverviewBaseWidgetModel.color),
                                 const SizedBox(width: 8),
-                                Text(assetsOverviewBaseWidgetModel.title,
+                                Text(
+                                    getContinentNameLocale(context,
+                                        assetsOverviewBaseWidgetModel.title),
                                     style: textTheme.titleMedium)
                               ],
                             ),

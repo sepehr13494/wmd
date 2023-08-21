@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>All in one+</string>
+	<string>$(APP_DISPLAY_NAME)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -20,7 +20,7 @@
 		<string>ar</string>
 	</array>
 	<key>CFBundleName</key>
-	<string>All In One Plus</string>
+	<string>All In One+</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -76,7 +76,7 @@
             <string>auth0</string>
             <key>CFBundleURLSchemes</key>
             <array>
-                <string>com.tfo.wmd</string>
+                <string>com.aiop.aio</string>
             </array>
         </dict>
     </array>

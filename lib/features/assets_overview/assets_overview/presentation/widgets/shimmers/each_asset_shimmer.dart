@@ -21,9 +21,8 @@ class EachAssetShimmer extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: 8),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
                   child: ShimmerContainer(width: 140, height: 35),
                 ),
                 RowOrColumn(
@@ -32,7 +31,10 @@ class EachAssetShimmer extends StatelessWidget {
                   children: [
                     SizedBox(
                       width: !isMobile ? 200 : null,
-                      child: const ShimmerContainer(width: 110,height: 28,),
+                      child: const ShimmerContainer(
+                        width: 110,
+                        height: 28,
+                      ),
                     ),
                     SizedBox(width: responsiveHelper.bigger16Gap, height: 16),
                     const ItdYtdShimmer()
@@ -54,9 +56,8 @@ class EachAssetShimmer extends StatelessWidget {
           SizedBox(height: 16),
           Container(
             decoration: BoxDecoration(
-              color: AppColors.shimmerColor,
-              borderRadius: BorderRadius.circular(8)
-            ),
+                color: AppColors.shimmerColor,
+                borderRadius: BorderRadius.circular(8)),
             child: ShimmerWidget(
               secondColor: true,
               child: Padding(

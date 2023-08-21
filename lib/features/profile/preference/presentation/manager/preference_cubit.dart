@@ -20,10 +20,10 @@ class PreferenceCubit extends Cubit<PreferenceState> {
   final GetPreferenceUseCase getPreferenceUseCase;
 
   PreferenceCubit(
-    this.patchPreferenceMobileBannerUseCase,
-    this.patchPreferenceLanguageUseCase,
-    this.getPreferenceUseCase,
-  ) : super(LoadingState());
+      this.patchPreferenceMobileBannerUseCase,
+      this.patchPreferenceLanguageUseCase,
+      this.getPreferenceUseCase,
+      ) : super(LoadingState());
 
   patchPreferenceMobileBanner({required Map<String, dynamic> map}) async {
     emit(LoadingState());

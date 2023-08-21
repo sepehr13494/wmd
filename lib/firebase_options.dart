@@ -24,9 +24,9 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        return android;
+        return fromEnvtoPlatform("android");
       case TargetPlatform.iOS:
-        return ios;
+        return fromEnvtoPlatform("ios");
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -49,7 +49,61 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions android = FirebaseOptions(
+  static FirebaseOptions fromEnvtoPlatform(String platform) {
+    const String envFor = String.fromEnvironment(
+      'env',
+      defaultValue: 'dev',
+    );
+
+    switch (envFor) {
+      case "uat":
+        if (platform == "android") {
+          return androidQa;
+        } else {
+          return iosQa;
+        }
+      case "qa":
+        if (platform == "android") {
+          return androidQa;
+        } else {
+          return iosQa;
+        }
+      case "prod":
+        if (platform == "android") {
+          return androidProd;
+        } else {
+          return iosProd;
+        }
+      case "dev":
+        if (platform == "android") {
+          return androidQa;
+        } else {
+          return iosQa;
+        }
+      case "developer":
+        if (platform == "android") {
+          return androidQa;
+        } else {
+          return iosQa;
+        }
+      default:
+        if (platform == "android") {
+          return androidQa;
+        } else {
+          return iosQa;
+        }
+    }
+  }
+
+  // static const FirebaseOptions android = FirebaseOptions(
+  //   apiKey: 'AIzaSyA4es40UMBJnHo3nddRaWZ_mUwRXmhmvGg',
+  //   appId: '1:332478051043:android:5f21dc236eab957c898bd6',
+  //   messagingSenderId: '332478051043',
+  //   projectId: 'wmdproject-5cb71',
+  //   storageBucket: 'wmdproject-5cb71.appspot.com',
+  // );
+
+  static const FirebaseOptions androidQa = FirebaseOptions(
     apiKey: 'AIzaSyA4es40UMBJnHo3nddRaWZ_mUwRXmhmvGg',
     appId: '1:332478051043:android:5f21dc236eab957c898bd6',
     messagingSenderId: '332478051043',
@@ -57,13 +111,44 @@ class DefaultFirebaseOptions {
     storageBucket: 'wmdproject-5cb71.appspot.com',
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDQtZOYBvMfDx5iwHNwpUVhX9DKc-69phw',
-    appId: '1:332478051043:ios:53049550af7ee603898bd6',
+  static const FirebaseOptions androidProd = FirebaseOptions(
+    apiKey: 'AIzaSyA4es40UMBJnHo3nddRaWZ_mUwRXmhmvGg',
+    appId: '1:332478051043:android:5f21dc236eab957c898bd6',
     messagingSenderId: '332478051043',
     projectId: 'wmdproject-5cb71',
     storageBucket: 'wmdproject-5cb71.appspot.com',
-    iosClientId: '332478051043-e2vqllv5cu7dar76h2uel33jbntfvr7n.apps.googleusercontent.com',
+  );
+
+  // static const FirebaseOptions ios = FirebaseOptions(
+  //   apiKey: 'AIzaSyDQtZOYBvMfDx5iwHNwpUVhX9DKc-69phw',
+  //   appId: '1:332478051043:ios:53049550af7ee603898bd6',
+  //   messagingSenderId: '332478051043',
+  //   projectId: 'wmdproject-5cb71',
+  //   storageBucket: 'wmdproject-5cb71.appspot.com',
+  //   iosClientId:
+  //       '332478051043-e2vqllv5cu7dar76h2uel33jbntfvr7n.apps.googleusercontent.com',
+  //   iosBundleId: 'com.tfo.wmd',
+  // );
+
+  static const FirebaseOptions iosQa = FirebaseOptions(
+    apiKey: 'AIzaSyDQtZOYBvMfDx5iwHNwpUVhX9DKc-69phw',
+    appId: '1:332478051043:ios:29242eaae16df54b898bd6',
+    messagingSenderId: '332478051043',
+    projectId: 'wmdproject-5cb71',
+    storageBucket: 'wmdproject-5cb71.appspot.com',
+    iosClientId:
+        '332478051043-e2vqllv5cu7dar76h2uel33jbntfvr7n.apps.googleusercontent.com',
     iosBundleId: 'com.tfo.wmd',
+  );
+
+  static const FirebaseOptions iosProd = FirebaseOptions(
+    apiKey: 'AIzaSyDQtZOYBvMfDx5iwHNwpUVhX9DKc-69phw',
+    appId: '1:332478051043:ios:29242eaae16df54b898bd6',
+    messagingSenderId: '332478051043',
+    projectId: 'wmdproject-5cb71',
+    storageBucket: 'wmdproject-5cb71.appspot.com',
+    iosClientId:
+        '332478051043-apeime3fd45rlg32ta16tcuoinag58l1.apps.googleusercontent.com',
+    iosBundleId: 'com.aiop.aio',
   );
 }

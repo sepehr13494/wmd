@@ -43,7 +43,9 @@ class PamLoginCubit extends Cubit<PamLoginState> {
       if (Platform.isAndroid) {
         credentials = await auth0
             .webAuthentication(scheme: AppConstants.bundleId)
-            .login(useEphemeralSession: true);
+            .login(
+                useEphemeralSession: true,
+                parameters: {'connection': AppConstants.pamConnectionParam});
       } else {
         credentials =
             await auth0.webAuthentication().login(useEphemeralSession: true);
