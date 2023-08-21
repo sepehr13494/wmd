@@ -11,7 +11,7 @@ class AssetSummaryEntitiy extends Equatable {
     required this.itdPerformance,
     required this.dealContribution,
     required this.netChange,
-    required this.unRealizedProfitLoss,
+    this.unRealizedProfitLoss,
     required this.totalAssetsAmount,
     required this.isManuallyAdded,
     required this.totalQuantity,
@@ -26,7 +26,7 @@ class AssetSummaryEntitiy extends Equatable {
   final double itdPerformance;
   final double dealContribution;
   final double netChange;
-  final double unRealizedProfitLoss;
+  final double? unRealizedProfitLoss;
   final double totalAssetsAmount;
   final bool isManuallyAdded;
   final double totalQuantity;
