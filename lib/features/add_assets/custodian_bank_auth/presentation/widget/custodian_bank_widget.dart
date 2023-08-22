@@ -39,7 +39,7 @@ class CustodianBankWidgetV2 extends AppStatelessWidget {
           onTap: () {
             onActive();
           },
-          title: Text(bank.bankName),
+          title: Text(bank.getBankName(context)),
           leading: Icon(Icons.account_balance, color: primaryColor),
           trailing: !isSelected
               ? null
