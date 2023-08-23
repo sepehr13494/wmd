@@ -40,11 +40,6 @@ class ValuationWidget extends AppStatelessWidget {
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
 
-    debugPrint("totalQuantity");
-    debugPrint(totalQuantity.toString());
-    debugPrint((totalQuantity > 0).toString());
-    debugPrint(assetType);
-
     return Padding(
         padding: EdgeInsets.all(responsiveHelper.biggerGap),
         child: BlocConsumer<ValuationCubit, ValuationState>(
@@ -65,51 +60,98 @@ class ValuationWidget extends AppStatelessWidget {
                         appLocalizations.assets_label_valuation,
                         style: textTheme.bodyLarge,
                       ),
-                      if ((AppConstants.publicMvp2Items &&
-                              isManuallyAdded &&
-                              (totalQuantity > 0.0 ||
-                                  [
-                                    AssetTypes.listedAssetEquity,
-                                    AssetTypes.listedAsset,
-                                    AssetTypes.listedAssetFixedIncome,
-                                    AssetTypes.listedAssetOther,
-                                    AssetTypes.listedAssetOtherAsset
-                                  ].contains(assetType))) ||
-                          assetType == AssetTypes.loanLiability)
-                        TextButton(
-                            onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  barrierDismissible: false,
-                                  builder: (buildContext) {
-                                    return BlocProvider.value(
-                                        value:
-                                            BlocProvider.of<AssetSummaryCubit>(
-                                                context),
-                                        child: ValuationModalWidget(
-                                            title: '',
-                                            confirmBtn: appLocalizations
-                                                .common_button_save,
-                                            cancelBtn: appLocalizations
-                                                .common_button_cancel,
-                                            assetType: assetType,
-                                            assetId: assetId));
-                                  }).then((value) {
-                                context.read<ValuationCubit>().getAllValuation(
-                                    GetAllValuationParams(assetId));
-                                updateHoldings();
-                              });
+                      Row(
+                        children: [
+                          if ((isManuallyAdded &&
+                                  (totalQuantity > 0.0 ||
+                                      [
+                                        AssetTypes.listedAssetEquity,
+                                        AssetTypes.listedAsset,
+                                        AssetTypes.listedAssetFixedIncome,
+                                        AssetTypes.listedAssetOther,
+                                        AssetTypes.listedAssetOtherAsset
+                                      ].contains(assetType))) ||
+                              assetType == AssetTypes.loanLiability)
+                            TextButton(
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder: (buildContext) {
+                                        return BlocProvider.value(
+                                            value: BlocProvider.of<
+                                                AssetSummaryCubit>(context),
+                                            child: ValuationModalWidget(
+                                                title: '',
+                                                confirmBtn: appLocalizations
+                                                    .common_button_save,
+                                                cancelBtn: appLocalizations
+                                                    .common_button_cancel,
+                                                assetType: assetType,
+                                                assetId: assetId));
+                                      }).then((value) {
+                                    context
+                                        .read<ValuationCubit>()
+                                        .getAllValuation(
+                                            GetAllValuationParams(assetId));
+                                    updateHoldings();
+                                  });
 
-                              // context.pushNamed(AppRoutes.forgetPassword);
-                            },
-                            child: Text(
-                              assetType == AssetTypes.bankAccount
-                                  ? appLocalizations
-                                      .assets_valuationModal_updateTheBalance
-                                  : appLocalizations
-                                      .assets_valuationModal_buttons_buttons_addValuation,
-                              style: textTheme.bodySmall!.toLinkStyle(context),
-                            ))
+                                  // context.pushNamed(AppRoutes.forgetPassword);
+                                },
+                                child: Text(
+                                  assetType == AssetTypes.bankAccount
+                                      ? appLocalizations
+                                          .assets_valuationModal_updateTheBalance
+                                      : appLocalizations
+                                          .assets_valuationModal_buttons_buttons_addValuation,
+                                  style:
+                                      textTheme.bodySmall!.toLinkStyle(context),
+                                )),
+                          const SizedBox(width: 6),
+                          if ((isManuallyAdded &&
+                              (totalQuantity > 0.0 &&
+                                  [
+                                    AssetTypes.privateDebt,
+                                    AssetTypes.privateEquity,
+                                    AssetTypes.realEstate,
+                                    AssetTypes.otherAsset,
+                                  ].contains(assetType))))
+                            TextButton(
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder: (buildContext) {
+                                        return BlocProvider.value(
+                                            value: BlocProvider.of<
+                                                AssetSummaryCubit>(context),
+                                            child: ValuationModalWidget(
+                                                title: '',
+                                                confirmBtn: appLocalizations
+                                                    .common_button_save,
+                                                cancelBtn: appLocalizations
+                                                    .common_button_cancel,
+                                                assetType: assetType,
+                                                assetId: assetId,
+                                                isValuation: true));
+                                      }).then((value) {
+                                    context
+                                        .read<ValuationCubit>()
+                                        .getAllValuation(
+                                            GetAllValuationParams(assetId));
+                                    updateHoldings();
+                                  });
+
+                                  // context.pushNamed(AppRoutes.forgetPassword);
+                                },
+                                child: Text(
+                                  "Add valuation",
+                                  style:
+                                      textTheme.bodySmall!.toLinkStyle(context),
+                                ))
+                        ],
+                      ),
                     ],
                   ),
                   const SizedBox(height: 8),
@@ -473,7 +515,6 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                   ),
                   onTap: () async {
                     if (index == 0) {
-                      debugPrint("working edit");
                       final res = await Future.delayed(
                           const Duration(seconds: 0),
                           () => showDialog(

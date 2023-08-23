@@ -31,6 +31,7 @@ class ValuationModalWidget extends ModalWidget {
   final String assetType;
   final bool? isEdit;
   final String? valuationId;
+  final bool? isValuation;
   final GlobalKey<FormBuilderState>? formKey = GlobalKey<FormBuilderState>();
 
   ValuationModalWidget({
@@ -41,6 +42,7 @@ class ValuationModalWidget extends ModalWidget {
     required super.cancelBtn,
     required this.assetType,
     this.isEdit = false,
+    this.isValuation = false,
     this.valuationId,
     required this.assetId,
     // this.formKey = GlobalKey<FormBuilderState>(),
@@ -268,7 +270,8 @@ class ValuationModalWidget extends ModalWidget {
 
                   if (isEdit == null || isEdit == false) {
                     formDataTemp['currencyCode'] =
-                        Currency.getCurrencyFromString(json?.currencyCode,context);
+                        Currency.getCurrencyFromString(
+                            json?.currencyCode, context);
                   }
 
                   bool isAcquisitionDateAvailable = false;
@@ -323,8 +326,10 @@ class ValuationModalWidget extends ModalWidget {
 
                   setFormValues!(formDataTemp);
                 } else {
-                  setFormValues!(
-                      {'currencyCode': Currency.getCurrencyFromString('USD',context)});
+                  setFormValues!({
+                    'currencyCode':
+                        Currency.getCurrencyFromString('USD', context)
+                  });
                 }
               } catch (e) {
                 debugPrint('Format erro detail:');
