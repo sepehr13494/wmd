@@ -4,6 +4,7 @@ import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/routes/app_router.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/add_assets/add_real_estate/presentation/widgets/real_estate_success_modal.dart';
 import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_base_state.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal_onboarding.dart';
@@ -29,36 +30,55 @@ class AssetBlocHelper extends BlocHelper {
           context.read<DashboardPieCubit>().getPie();*/
           AppRouter().setMainRefreshKey();
           final successValue = state.addAsset;
-          showDialog(
-            context: context,
-            builder: (buildContext) {
-              final isAssetsNotEmpty = context
-                      .read<MainDashboardCubit>()
-                      .netWorthObj
-                      ?.assets
-                      .newAssetCount !=
-                  0;
-              final isLiabilityNotEmpty = context
-                      .read<MainDashboardCubit>()
-                      .netWorthObj
-                      ?.liabilities
-                      .newLiabilityCount !=
-                  0;
-              final isCurrentValueNotEmpty = context
-                      .read<MainDashboardCubit>()
-                      .netWorthObj
-                      ?.totalNetWorth
-                      ?.currentValue !=
-                  0;
+          if (assetType == AssetTypes.realEstate) {
+            showRealEstateSuccessModal(context);
+          } else {
+            showDialog(
+              context: context,
+              builder: (buildContext) {
+                final isAssetsNotEmpty = context
+                        .read<MainDashboardCubit>()
+                        .netWorthObj
+                        ?.assets
+                        .newAssetCount !=
+                    0;
+                final isLiabilityNotEmpty = context
+                        .read<MainDashboardCubit>()
+                        .netWorthObj
+                        ?.liabilities
+                        .newLiabilityCount !=
+                    0;
+                final isCurrentValueNotEmpty = context
+                        .read<MainDashboardCubit>()
+                        .netWorthObj
+                        ?.totalNetWorth
+                        ?.currentValue !=
+                    0;
 
-              if (isAssetsNotEmpty ||
-                  isLiabilityNotEmpty ||
-                  isCurrentValueNotEmpty) {
-                return SuccessModalWidget(
-                  assetId: successValue.id,
-                  assetType: assetType,
-                  title: appLocalizations.common_formSuccessModal_title
-                      .replaceAll('{{assetType}}', asset),
+                if (isAssetsNotEmpty ||
+                    isLiabilityNotEmpty ||
+                    isCurrentValueNotEmpty) {
+                  return SuccessModalWidget(
+                    assetId: successValue.id,
+                    assetType: assetType,
+                    title: appLocalizations.common_formSuccessModal_title
+                        .replaceAll('{{assetType}}', asset),
+                    confirmBtn: appLocalizations
+                        .common_formSuccessModal_buttons_viewAsset,
+                    cancelBtn: appLocalizations
+                        .common_formSuccessModal_buttons_addAsset,
+                    startingBalance:
+                        successValue.startingBalance.convertMoney(),
+                    currencyCode: successValue.currencyCode,
+                    currencyRate: successValue.currencyRate,
+                    netWorth: successValue.totalNetWorth.convertMoney(),
+                    netWorthChange:
+                        successValue.totalNetWorthChange.convertMoney(),
+                  );
+                }
+                return SuccessModalOnboardingWidget(
+                  title: AssetLoclHelper.getName(
+                      asset, assetType, appLocalizations),
                   confirmBtn: appLocalizations
                       .common_formSuccessModal_buttons_viewAsset,
                   cancelBtn:
@@ -70,22 +90,9 @@ class AssetBlocHelper extends BlocHelper {
                   netWorthChange:
                       successValue.totalNetWorthChange.convertMoney(),
                 );
-              }
-              return SuccessModalOnboardingWidget(
-                title:
-                    AssetLoclHelper.getName(asset, assetType, appLocalizations),
-                confirmBtn:
-                    appLocalizations.common_formSuccessModal_buttons_viewAsset,
-                cancelBtn:
-                    appLocalizations.common_formSuccessModal_buttons_addAsset,
-                startingBalance: successValue.startingBalance.convertMoney(),
-                currencyCode: successValue.currencyCode,
-                currencyRate: successValue.currencyRate,
-                netWorth: successValue.totalNetWorth.convertMoney(),
-                netWorthChange: successValue.totalNetWorthChange.convertMoney(),
-              );
-            },
-          );
+              },
+            );
+          }
         }
       },
     );
