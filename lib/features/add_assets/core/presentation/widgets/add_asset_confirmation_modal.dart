@@ -4,6 +4,7 @@ import 'package:wmd/core/presentation/widgets/bottom_modal_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 
 Future<ModalResponse?> showAssetConfirmationModal(BuildContext context,
     {required assetType}) {
@@ -90,8 +91,10 @@ class _AssetConfirmationModalWidgetState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          appLocalizations.common_assetConfirmationModal_heading
-              .replaceAll('{{assetName}}', widget.assetType),
+          appLocalizations.common_assetConfirmationModal_heading.replaceAll(
+              '{{assetName}}',
+              AssetsOverviewChartsColors.getAssetType(
+                  appLocalizations, widget.assetType)),
           style: textTheme.titleLarge,
         ),
         const SizedBox(height: 8),
