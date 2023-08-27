@@ -327,6 +327,9 @@ import 'features/settings/core/data/repositories/settings_repository_impl.dart';
 import 'features/settings/core/domain/repositories/settings_repository.dart';
 import 'features/settings/core/domain/use_cases/get_settings_usecase.dart';
 import 'features/settings/core/domain/use_cases/put_settings_usecase.dart';
+import 'features/settings/dont_show_settings/data/repositories/dont_show_settings_repository_impl.dart';
+import 'features/settings/dont_show_settings/domain/repositories/dont_show_settings_repository.dart';
+import 'features/settings/dont_show_settings/presentation/manager/dont_show_settings_cubit.dart';
 import 'features/splash/data/repositories/splash_repository_impl.dart';
 import 'features/splash/domain/repositories/splash_repository.dart';
 import 'features/splash/domain/use_cases/check_login_usecase.dart';
@@ -853,6 +856,11 @@ Future<void> init(String env) async {
       () => MandateStatusRepositoryImpl(sl()));
   sl.registerLazySingleton<MandateStatusRemoteDataSource>(
       () => MandateStatusRemoteDataSourceImpl(sl()));
+
+  //DontShowSettings
+  sl.registerFactory(() => DontShowSettingsCubit(sl(), sl()));
+  sl.registerLazySingleton<DontShowSettingsRepository>(
+      () => DontShowSettingsRepositoryImpl(sl()));
 
   await initExternal(env);
   await initUtils();
