@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
 
-Future<dynamic> showRealEstateSuccessModal(BuildContext context) {
+Future<dynamic> showAddAssetSuccessModalV2(BuildContext context) {
   final appLocalizations = AppLocalizations.of(context);
   final textTheme = Theme.of(context).textTheme;
   final responsiveHelper = ResponsiveHelper(context: context);
@@ -17,20 +17,20 @@ Future<dynamic> showRealEstateSuccessModal(BuildContext context) {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              appLocalizations.addAssets_successModal_realEstate_title,
+              appLocalizations.common_assetConfirmationModal_heading,
               style: textTheme.titleLarge,
             ),
             const SizedBox(height: 8),
             Text(
-              '\u2022 ${appLocalizations.addAssets_successModal_realEstate_subtitle_one}',
+              '\u2022 ${appLocalizations.common_assetConfirmationModal_listItem1}',
               style: textTheme.bodySmall,
             ),
             Text(
-              '\u2022 ${appLocalizations.addAssets_successModal_realEstate_subtitle_two}',
+              '\u2022 ${appLocalizations.common_assetConfirmationModal_listItem2}',
               style: textTheme.bodySmall,
             ),
             Text(
-              '\u2022 ${appLocalizations.addAssets_successModal_realEstate_subtitle_three}',
+              '\u2022 ${appLocalizations.common_assetConfirmationModal_listItem2}',
               style: textTheme.bodySmall,
             ),
             const Divider(color: AppColors.dashboardDividerColor),
@@ -52,8 +52,8 @@ Future<dynamic> showRealEstateSuccessModal(BuildContext context) {
                         ),
                       ),
                       TextSpan(
-                        text: appLocalizations
-                            .addAssets_successModal_realEstate_subtitle_warning,
+                        text:
+                            appLocalizations.common_assetConfirmationModal_note,
                         style: textTheme.bodySmall,
                       ),
                     ],
@@ -121,7 +121,7 @@ Widget _buildCheckBox(AppLocalizations appLocalizations, TextTheme textTheme) {
         onChanged: (val) {},
       ),
       Text(
-        appLocalizations.addAssets_successModal_realEstate_subtitle_dontShow,
+        appLocalizations.common_assetConfirmationModal_checkbox,
         style: textTheme.bodySmall,
       ),
     ],

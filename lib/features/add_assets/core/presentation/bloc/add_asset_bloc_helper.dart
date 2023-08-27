@@ -4,7 +4,7 @@ import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/routes/app_router.dart';
 import 'package:wmd/core/util/constants.dart';
-import 'package:wmd/features/add_assets/add_real_estate/presentation/widgets/real_estate_success_modal.dart';
+import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_success_modal_v2.dart';
 import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_base_state.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal_onboarding.dart';
@@ -31,7 +31,7 @@ class AssetBlocHelper extends BlocHelper {
           AppRouter().setMainRefreshKey();
           final successValue = state.addAsset;
           if (assetType == AssetTypes.realEstate) {
-            showRealEstateSuccessModal(context);
+            showAddAssetSuccessModalV2(context);
           } else {
             showDialog(
               context: context,
