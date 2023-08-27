@@ -5,7 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
 
-Future<ModalResponse?> showAddAssetSuccessModalV2(BuildContext context,
+Future<ModalResponse?> showAssetConfirmationModal(BuildContext context,
     {required assetType}) {
   return showDialog<ModalResponse?>(
     context: context,
