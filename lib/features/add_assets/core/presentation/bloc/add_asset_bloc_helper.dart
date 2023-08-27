@@ -31,7 +31,7 @@ class AssetBlocHelper extends BlocHelper {
           context.read<DashboardPieCubit>().getPie();*/
           AppRouter().setMainRefreshKey();
           final successValue = state.addAsset;
-          context.goNamed(AppRoutes.dashboard);
+          context.goNamed(AppRoutes.addAssetsView);
           // showDialog(
           //   context: context,
           //   builder: (buildContext) {
