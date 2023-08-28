@@ -127,8 +127,6 @@ class AppRouter {
   AssetSummaryCubit _assetSummaryCubit = sl<AssetSummaryCubit>();
   TwoFactorCubit _twoFactorCubit = sl<TwoFactorCubit>();
   PreferenceCubit _preferenceCubit = sl<PreferenceCubit>();
-  DontShowSettingsCubit _dontShowSettingsCubit =
-      sl<DontShowSettingsCubit>();
 
   Key mainPageRefreshKey = UniqueKey();
 
@@ -754,9 +752,6 @@ class AppRouter {
     return MultiBlocProvider(providers: [
       BlocProvider.value(
         value: _mainDashboardCubit,
-      ),
-      BlocProvider.value(
-        value: _dontShowSettingsCubit,
       ),
       BlocProvider.value(
         value: _summeryWidgetCubit,
