@@ -6,6 +6,7 @@ import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import 'package:wmd/features/add_assets/custodian_bank_auth/domain/entities/get_custodian_bank_status_entity.dart';
 import 'package:wmd/features/dashboard/mandate_status/domain/entities/get_mandate_status_entity.dart';
 import 'package:wmd/features/dashboard/mandate_status/presentation/manager/mandate_status_cubit.dart';
 import 'package:wmd/features/settings/linked_accounts/domain/entities/get_linked_accounts_entity.dart';
@@ -64,8 +65,12 @@ class _LinkedAccountsPageState extends AppState<LinkedAccountsPage> {
                             List<GetLinkedAccountsEntity> bankValues = [];
 
                             if (state is GetLinkedAccountsLoaded) {
-                              List<GetLinkedAccountsEntity> values =
-                                  state.getLinkedAccountsEntities;
+                              List<GetLinkedAccountsEntity> values = state
+                                  .getLinkedAccountsEntities
+                                  .where((element) =>
+                                      element.status ==
+                                      CustodianStatus.SyncDone)
+                                  .toList();
                               if (isFiveOnly) {
                                 if (values.length > 5 - mandateList.length) {
                                   bankValues = List.from(values.sublist(
