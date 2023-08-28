@@ -71,9 +71,9 @@ class _LinkedAccountsPageState extends AppState<LinkedAccountsPage> {
                               if (isFiveOnly) {
                                 if (values.length > 5 - mandateList.length) {
                                   bankValues = List.from(values.sublist(
-                                      values.length - 5 + mandateList.length,
-                                      values.length));
+                                      0, 5 - mandateList.length));
                                 }
+                                bankValues = values;
                               } else {
                                 bankValues = values;
                               }
