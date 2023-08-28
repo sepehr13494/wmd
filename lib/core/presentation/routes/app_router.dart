@@ -31,6 +31,7 @@ import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_man
 import 'package:wmd/features/assets_overview/currency_chart/presentation/manager/currency_chart_cubit.dart';
 import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_provider_container_cubit.dart';
 import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_tab2_cubit.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_visible_controller.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/forget_password_page.dart';
 import 'package:wmd/features/authentication/forget_password/presentation/pages/reset_password_page.dart';
 import 'package:wmd/features/authentication/login_signup/presentation/pages/auth_checker_page.dart';
@@ -106,6 +107,8 @@ class AppRouter {
   sl<AssetsGeographyChartCubit>();
   PortfolioTab2Cubit _portfolioTabAllocationsCubit = sl<PortfolioTab2Cubit>();
   PortfolioProviderContainerCubit _portfolioProviderContainer = sl<PortfolioProviderContainerCubit>();
+  PortfolioTab2CubitForTab _portfolioTab2CubitForTab = sl<PortfolioTab2CubitForTab>();
+  PortfolioVisibleController _portfolioVisibleController = sl<PortfolioVisibleController>();
   DashboardAllocationCubit _dashboardAllocationCubit =
   sl<DashboardAllocationCubit>();
   DashboardPieCubit _dashboardPieCubit = sl<DashboardPieCubit>();
@@ -388,11 +391,24 @@ class AppRouter {
                         _portfolioTabAllocationsCubit = sl<PortfolioTab2Cubit>();
                         return _portfolioTabAllocationsCubit..getPortfolioAllocation();
                       },
+                      lazy: false,
                     ),
                     BlocProvider(
                       create: (context) {
                         _portfolioProviderContainer = sl<PortfolioProviderContainerCubit>();
                         return _portfolioProviderContainer;
+                      },
+                    ),
+                    BlocProvider(
+                      create: (context) {
+                        _portfolioTab2CubitForTab = sl<PortfolioTab2CubitForTab>();
+                        return _portfolioTab2CubitForTab;
+                      },
+                    ),
+                    BlocProvider(
+                      create: (context) {
+                        _portfolioVisibleController = sl<PortfolioVisibleController>();
+                        return _portfolioVisibleController;
                       },
                     ),
                     BlocProvider(
