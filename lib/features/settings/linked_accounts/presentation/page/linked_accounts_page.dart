@@ -65,12 +65,8 @@ class _LinkedAccountsPageState extends AppState<LinkedAccountsPage> {
                             List<GetLinkedAccountsEntity> bankValues = [];
 
                             if (state is GetLinkedAccountsLoaded) {
-                              List<GetLinkedAccountsEntity> values = state
-                                  .getLinkedAccountsEntities
-                                  .where((element) =>
-                                      element.status ==
-                                      CustodianStatus.SyncDone)
-                                  .toList();
+                              List<GetLinkedAccountsEntity> values =
+                                  state.getLinkedAccountsEntities;
                               if (isFiveOnly) {
                                 if (values.length > 5 - mandateList.length) {
                                   bankValues = List.from(values.sublist(
