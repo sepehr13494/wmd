@@ -56,7 +56,7 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
   String? accountType;
   DateTime? endDateToParse;
   DateTime? startDateValue;
-    bool isChecked = false;
+  bool isChecked = false;
 
   @override
   void initState() {
@@ -89,6 +89,7 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
         ),
       ],
       child: Builder(builder: (context) {
+        context.read<DontShowSettingsCubit>().getSettings();
         final bool isMobile = ResponsiveHelper(context: context).isMobile;
         return WillPopScope(
           onWillPop: () {
@@ -125,6 +126,7 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                 map: finalMap, assetId: widget.moreEntity!.id);
                           } else {
                             bool add = true;
+                            print("Mert " + isChecked.toString());
                             if (!isChecked) {
                               final conf = await showAssetConfirmationModal(
                                   context,
