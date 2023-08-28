@@ -56,6 +56,7 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
   String? accountType;
   DateTime? endDateToParse;
   DateTime? startDateValue;
+    bool isChecked = false;
 
   @override
   void initState() {
@@ -75,7 +76,6 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
     final bool edit = widget.edit;
     final isDepositTerm = accountType == "TermDeposit";
     final isSavingAccount = accountType == "SavingAccount";
-    bool isChecked = false;
     return MultiBlocProvider(
       providers: [
         BlocProvider(

@@ -18,12 +18,15 @@ import 'package:wmd/features/add_assets/core/constants.dart';
 import 'package:wmd/features/add_assets/core/data/models/real_estate_type.dart';
 import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_bloc_helper.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
+import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_confirmation_modal.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
 import 'package:wmd/features/asset_see_more/real_estate/data/model/real_estate_more_entity.dart';
 import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_state.dart';
 import 'package:wmd/features/edit_assets/core/presentation/widgets/delete_base_widget.dart';
 import 'package:wmd/features/edit_assets/edit_real_estate/presentation/manager/edit_real_estate_cubit.dart';
+import 'package:wmd/features/settings/core/data/models/put_settings_params.dart';
+import 'package:wmd/features/settings/dont_show_settings/presentation/manager/dont_show_settings_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
 import '../../../../edit_assets/core/presentation/manager/edit_asset_bloc_helper.dart';
@@ -49,6 +52,7 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
       AppLocalizations appLocalizations) {
     final bool edit = widget.edit;
 
+    bool isChecked = false;
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -56,6 +60,9 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
         ),
         BlocProvider(
           create: (context) => sl<EditRealEstateCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => sl<DontShowSettingsCubit>()..getSettings(),
         ),
       ],
       child: Builder(builder: (context) {
@@ -73,7 +80,7 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                     : appLocalizations.common_button_addAsset,
                 onTap: (edit && !enableAddAssetButtonEdit)
                     ? null
-                    : () {
+                    : () async {
                         formKey.currentState?.validate();
                         if (enableAddAssetButton) {
                           Map<String, dynamic> finalMap = {
@@ -94,13 +101,31 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                   .toStringAsFixedZero(0),
                             }, assetId: widget.moreEntity!.id);
                           } else {
-                            context
-                                .read<RealEstateCubit>()
-                                .postRealEstate(map: {
-                              ...finalMap,
-                              "ownershipPercentage": "100",
-                              "noOfUnits": "1",
-                            });
+                            bool add = true;
+                            if (!isChecked) {
+                              final conf = await showAssetConfirmationModal(
+                                  context,
+                                  assetType: AssetTypes.bankAccount);
+                              if (conf != null &&
+                                  conf.isConfirmed &&
+                                  conf.isDontShowSelected) {
+                                // ignore: use_build_context_synchronously
+                                context
+                                    .read<DontShowSettingsCubit>()
+                                    .putSettings(const PutSettingsParams(
+                                        isBankAccountChecked: true));
+                              }
+                              add = conf != null && conf.isConfirmed;
+                            }
+                            if (add) {
+                              context
+                                  .read<RealEstateCubit>()
+                                  .postRealEstate(map: {
+                                ...finalMap,
+                                "ownershipPercentage": "100",
+                                "noOfUnits": "1",
+                              });
+                            }
                           }
                         }
                       }),
@@ -172,7 +197,8 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                               ? widget.moreEntity!
                                                   .toFormJson(context)
                                               : AddAssetConstants
-                                                  .initialJsonForAddAsset(context),
+                                                  .initialJsonForAddAsset(
+                                                      context),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
