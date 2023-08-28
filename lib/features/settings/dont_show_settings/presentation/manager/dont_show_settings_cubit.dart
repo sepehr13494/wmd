@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/features/settings/core/data/models/get_settings_params.dart';
-import 'package:wmd/features/settings/core/data/models/get_settings_response.dart';
 import 'package:wmd/features/settings/core/data/models/put_settings_params.dart';
 import 'package:wmd/features/settings/core/domain/entities/get_settings_entity.dart';
 import 'package:wmd/features/settings/core/domain/use_cases/get_settings_usecase.dart';
