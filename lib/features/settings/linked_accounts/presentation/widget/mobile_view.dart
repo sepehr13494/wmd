@@ -222,8 +222,8 @@ Future<bool?> showDetailModal(
                           TitleSubtitle(
                               title: appLocalizations
                                   .profile_linkedAccounts_dateLinked,
-                              subTitle: CustomizableDateTime.ddMmYyyyWithSlash(
-                                  e.dateLinked)),
+                              subTitle:e.syncDate == null ? '' : CustomizableDateTime.ddMmYyyyWithSlash(
+                                  e.syncDate!)),
                           TitleSubtitle(
                               title:
                                   appLocalizations.profile_linkedAccounts_type,

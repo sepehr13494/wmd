@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
-import 'package:wmd/features/add_assets/custodian_bank_auth/data/models/delete_custodian_bank_status_params.dart';
-import 'package:wmd/features/dashboard/mandate_status/data/models/delete_mandate_params.dart';
 import 'package:wmd/features/dashboard/mandate_status/domain/entities/get_mandate_status_entity.dart';
-import 'package:wmd/features/dashboard/mandate_status/presentation/manager/mandate_status_cubit.dart';
 import 'package:wmd/features/settings/linked_accounts/domain/entities/get_linked_accounts_entity.dart';
-import 'package:wmd/features/settings/linked_accounts/presentation/manager/linked_accounts_cubit.dart';
-import 'package:wmd/global_functions.dart';
 
 class LinkedTableTablet extends AppStatelessWidget {
   final List<GetLinkedAccountsEntity> getLinkedAccountsEntities;
@@ -64,7 +58,9 @@ class LinkedTableTablet extends AppStatelessWidget {
           title: Text(e.bankName),
           // subtitle: Text('Name of real estate'),
         ),
-        Text(CustomizableDateTime.ddMmYyyyWithSlash(e.dateLinked)),
+        Text(e.syncDate == null
+            ? ''
+            : CustomizableDateTime.ddMmYyyyWithSlash(e.syncDate!)),
         ListTile(
           title: Text(e.type),
           subtitle: Text(e.subType),
