@@ -9,6 +9,7 @@ import 'package:wmd/features/assets_overview/assets_overview/presentation/widget
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 import 'package:wmd/features/assets_overview/core/presentataion/models/assets_overview_base_widget_model.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
+import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_geographic_entity.dart';
 import 'package:wmd/global_functions.dart';
 
 import '../../../../core/domain/entities/assets_list_entity.dart';
@@ -58,7 +59,7 @@ class InsideAssetCardMobile extends AppStatelessWidget {
                             AssetsOverviewInherit.of(context)
                                         .assetOverviewBaseType ==
                                     AssetsOverviewBaseType.assetType
-                                ? asset.geography
+                                ? getContinentNameLocale(context, asset.geography)
                                 : AssetsOverviewChartsColors.getAssetType(
                                     appLocalizations, asset.type),
                           ),

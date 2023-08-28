@@ -48,9 +48,6 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // widget.isDone
-          //     ? const Icon(Icons.check_circle)
-          //     :
           Padding(
             padding: const EdgeInsets.all(2.0),
             child: Container(
@@ -73,7 +70,6 @@ class _StatusStepWidgetState extends AppState<StatusStepWidget> {
           ),
           const SizedBox(width: 8),
           Expanded(flex: 8, child: widget.title),
-
           Padding(
             padding: const EdgeInsets.only(left: 4),
             child: (widget.showAction == true && !widget.isDone)

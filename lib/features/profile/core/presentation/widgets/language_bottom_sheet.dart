@@ -31,9 +31,9 @@ class LanguageBottomSheet extends AppStatelessWidget {
               children: [
                 Center(
                     child: Text(
-                  appLocalizations.profile_preferences_language,
-                  style: textTheme.titleSmall,
-                )),
+                      appLocalizations.profile_preferences_language,
+                      style: textTheme.titleSmall,
+                    )),
                 Container(
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
@@ -59,7 +59,7 @@ class LanguageBottomSheet extends AppStatelessWidget {
           ),
           Builder(builder: (context) {
             List<Locale> locales =
-                AppLocalizations.supportedLocales.reversed.toList();
+            AppLocalizations.supportedLocales.reversed.toList();
             return BlocConsumer<PreferenceCubit, PreferenceState>(
               listener: BlocHelper.defaultBlocListener(listener: ((context, state) {})),
               builder: (context, state) {
@@ -72,7 +72,6 @@ class LanguageBottomSheet extends AppStatelessWidget {
                         AnalyticsUtils.triggerEvent(
                             action: AnalyticsUtils.changePasswordAction,
                             params: AnalyticsUtils.changePasswordEvent);
-
                         context.read<LocalizationManager>().changeLang(e);
                         context.read<PreferenceCubit>().patchPreferenceLanguage(
                             param: PatchPreferenceLanguageParams(
@@ -86,7 +85,7 @@ class LanguageBottomSheet extends AppStatelessWidget {
                             Text(LocalizationManager.getNameFromLocale(e)),
                             state is GetPreferenceLoaded
                                 ? state.entity.language == e.languageCode ? const Icon(Icons.check,
-                                    color: Colors.lightBlue) : const SizedBox()
+                                color: Colors.lightBlue) : const SizedBox()
                                 : const SizedBox()
                           ],
                         ),
@@ -103,10 +102,10 @@ class LanguageBottomSheet extends AppStatelessWidget {
           })
         ]
             .map((e) => Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  child: e,
-                ))
+          padding:
+          const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          child: e,
+        ))
             .toList(),
       ),
     );

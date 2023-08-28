@@ -46,7 +46,7 @@ class PerformanceBenchmarkWidget extends AppStatelessWidget {
               ),
               const SizedBox(width: 8),
               PerformanceDropdown(
-                customItems: AppConstants.timeFilterOnlyDays(context),
+                  customItems: AppConstants.timeFilterOnlyDays(context),
                   bloc: context.watch<PerformanceBenchmarkCubit>(),
                   function: (value) {
                     context

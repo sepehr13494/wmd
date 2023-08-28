@@ -35,6 +35,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 # running app per environment (values -> dev, qa, uat)
 
 flutter run --dart-define=env=qa
+flutter run --dart-define=env=dev --flavor dev
 
 #our flutter version
 flutter version 3.3.8

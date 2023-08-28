@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustodianBankStatusEntity extends Equatable {
@@ -100,11 +99,18 @@ class CustodianBankStatusEntity extends Equatable {
 }
 
 enum CustodianStatus {
+  // ignore: constant_identifier_names
   FillAccount,
+  // ignore: constant_identifier_names
   OpenLetter,
+  // ignore: constant_identifier_names
   FillLetter,
+  // ignore: constant_identifier_names
   ShareLetter,
+  // ignore: constant_identifier_names
   SyncBank,
+  // ignore: constant_identifier_names
+  SyncDone,
 }
 
 CustodianStatus getCustodianStatusFromString(String statusAsString) {
@@ -118,6 +124,8 @@ CustodianStatus getCustodianStatusFromString(String statusAsString) {
     return CustodianStatus.ShareLetter;
   } else if (statusAsString == "SyncBank") {
     return CustodianStatus.SyncBank;
+  } else if (statusAsString == "SyncDone") {
+    return CustodianStatus.SyncDone;
   } else {
     return CustodianStatus.FillAccount;
   }

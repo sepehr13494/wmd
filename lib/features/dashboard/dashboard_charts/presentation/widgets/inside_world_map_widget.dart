@@ -333,7 +333,7 @@ class InsideWorldMapWidgetState extends AppState<InsideWorldMapWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text(country,
+                                  Text(getContinentNameLocale(context, country),
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium),

@@ -44,14 +44,6 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyWidget> {
     final tempMap = widget.formMap;
     tempMap.removeWhere((key, value) => (value == "" || value == null));
     _inputFormValue = tempMap;
-
-    // try {
-    //   tempMap.removeWhere((key, value) => (value == "" || value == null));
-    //   formKey.currentState?.patchValue(tempMap);
-    // } catch (e) {
-    //   debugPrint("widget.formMap error");
-    //   debugPrint(e.toString());
-    // }
   }
 
   void checkFinalValid(value) async {
@@ -109,15 +101,17 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CountryCodePicker(
-                                  onChange: (val) {
-                                    setState(() {
-                                      selectedCountryCode =
-                                          val?.countryCode ?? "";
-                                    });
+                                defaultCountry: _inputFormValue["country"],
+                                onChange: (val) {
+                                  setState(() {
+                                    selectedCountryCode =
+                                        val?.countryCode ?? "";
+                                  });
 
-                                    checkFinalValid(val);
-                                  },
-                                  enabled: widget.formMap["country"] == null),
+                                  checkFinalValid(val);
+                                },
+                                // enabled: widget.formMap["country"] == null
+                              ),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: AppTextFields.simpleTextField(
@@ -125,8 +119,8 @@ class _OtpPhoneVerifyWidgetState extends AppState<OtpPhoneVerifyWidget> {
                                     hint: appLocalizations
                                         .profile_tabs_personal_placeholders_enterPhone,
                                     type: TextFieldType.number,
-                                    enabled:
-                                        widget.formMap["phoneNumber"] == null,
+                                    // enabled:
+                                    //     widget.formMap["phoneNumber"] == null,
                                     keyboardType: TextInputType.number,
                                     extraValidators: [
                                       (val) {
