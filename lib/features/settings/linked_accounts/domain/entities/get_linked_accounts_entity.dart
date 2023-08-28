@@ -3,13 +3,13 @@ import 'package:equatable/equatable.dart';
 class GetLinkedAccountsEntity extends Equatable {
   final String id;
   final String bankName;
-  final DateTime dateLinked;
+  final DateTime? syncDate;
   final String type;
   final String subType;
   const GetLinkedAccountsEntity(
       {required this.bankName,
       required this.id,
-      required this.dateLinked,
+      required this.syncDate,
       required this.type,
       required this.subType});
 
@@ -19,7 +19,7 @@ class GetLinkedAccountsEntity extends Equatable {
   List<Object?> get props => [
         id,
         bankName,
-        dateLinked,
+        syncDate,
         type,
         subType,
       ];
