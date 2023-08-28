@@ -67,15 +67,17 @@ class _LinkedAccountsPageState extends AppState<LinkedAccountsPage> {
                             if (state is GetLinkedAccountsLoaded) {
                               List<GetLinkedAccountsEntity> values =
                                   state.getLinkedAccountsEntities;
+
                               if (isFiveOnly) {
                                 if (values.length > 5 - mandateList.length) {
                                   bankValues = List.from(values.sublist(
                                       values.length - 5 + mandateList.length,
                                       values.length));
                                 }
+                              } else {
+                                bankValues = values;
                               }
                             }
-
                             return isMobile
                                 ? LinkedTableMobile(
                                     getLinkedAccountsEntities: bankValues,
