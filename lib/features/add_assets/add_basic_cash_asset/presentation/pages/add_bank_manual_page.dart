@@ -371,7 +371,8 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                 ),
                                               ),
                                               EachTextField(
-                                                hasInfo: false,
+                                                tooltipText: appLocalizations
+                                                    .common_tooltip_currency,
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_bankAccount_inputFields_currency_label,
                                                 child: CurrenciesDropdown(

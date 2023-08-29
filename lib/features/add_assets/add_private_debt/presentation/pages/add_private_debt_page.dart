@@ -271,7 +271,8 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                                 ),
                                               ),
                                               EachTextField(
-                                                hasInfo: false,
+                                           tooltipText: appLocalizations
+                                                    .common_tooltip_currency,
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_privateDebt_inputFields_currency_label,
                                                 child: CurrenciesDropdown(

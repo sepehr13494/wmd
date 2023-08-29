@@ -157,7 +157,8 @@ class _AddPrivateEquityState extends BaseAddAssetState<AddPrivateEquityPage> {
                                               ? widget.moreEntity!
                                                   .toFormJson(context)
                                               : AddAssetConstants
-                                                  .initialJsonForAddAsset(context),
+                                                  .initialJsonForAddAsset(
+                                                      context),
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -289,7 +290,8 @@ class _AddPrivateEquityState extends BaseAddAssetState<AddPrivateEquityPage> {
                                                 ),
                                               ),
                                               EachTextField(
-                                                hasInfo: false,
+                                                tooltipText: appLocalizations
+                                                    .common_tooltip_currency,
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_privateEquity_inputFields_currency_label,
                                                 child: CurrenciesDropdown(

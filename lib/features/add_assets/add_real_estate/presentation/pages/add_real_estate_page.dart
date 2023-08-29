@@ -286,7 +286,8 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                                 ),
                                               ),
                                               EachTextField(
-                                                hasInfo: false,
+                                              tooltipText: appLocalizations
+                                                    .common_tooltip_currency,
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_realEstate_inputFields_currency_label,
                                                 child: CurrenciesDropdown(
