@@ -235,7 +235,8 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                               ? widget.moreEntity!
                                                   .toFormJson(context)
                                               : AddAssetConstants
-                                                  .initialJsonForAddOtherAsset(context),
+                                                  .initialJsonForAddOtherAsset(
+                                                      context),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -397,7 +398,8 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                                 ),
                                               ),
                                               EachTextField(
-                                                hasInfo: false,
+                                                tooltipText: appLocalizations
+                                                    .common_tooltip_currency,
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_others_inputFields_currency_label,
                                                 child: CurrenciesDropdown(
