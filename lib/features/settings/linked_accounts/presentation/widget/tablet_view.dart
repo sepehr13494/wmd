@@ -91,7 +91,9 @@ class LinkedTableTablet extends AppStatelessWidget {
           title: Text('${e.dataSource} (${e.mandateId})'),
           // subtitle: Text('Name of real estate'),
         ),
-        const Text(' '),
+        Text(e.syncDate == null
+            ? ''
+            : CustomizableDateTime.ddMmYyyyWithSlash(e.syncDate!)),
         ListTile(
           title: Text(e.dataSource),
           subtitle: Text(e.dataSource),
