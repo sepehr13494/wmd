@@ -69,11 +69,12 @@ class _LinkedAccountsPageState extends AppState<LinkedAccountsPage> {
                                   state.getLinkedAccountsEntities;
 
                               if (isFiveOnly) {
-                                if (values.length > 5 - mandateList.length) {
+                                if (values.length + mandateList.length > 5) {
                                   bankValues = List.from(values.sublist(
                                       0, 5 - mandateList.length));
+                                } else {
+                                  bankValues = values;
                                 }
-                                bankValues = values;
                               } else {
                                 bankValues = values;
                               }

@@ -108,32 +108,14 @@ class LinkedTableMobile extends AppStatelessWidget {
           title: Text(e.dataSource),
           subtitle: Text(e.dataSource),
         ),
-        const SizedBox(),
-        // IconButton(
-        //     onPressed: () {
-        //       GlobalFunctions.showConfirmDialog(
-        //         context: context,
-        //         title: '',
-        //         body: appLocalizations
-        //             .linkAccount_deleteCustodianBankModal_description,
-        //         confirm: appLocalizations.common_button_yes,
-        //         cancel: appLocalizations.common_button_no,
-        //         onConfirm: () {
-        //           context
-        //               .read<MandateStatusCubit>()
-        //               .deleteMandate(DeleteMandateParams(e.mandateId));
-        //           context.read<MandateStatusCubit>().getMandateStatus();
-        //           GlobalFunctions.showSnackTile(context,
-        //               title: appLocalizations
-        //                   .home_custodianBankList_toast_deleteMandate_title,
-        //               color: Colors.green);
-        //         },
-        //       );
-        //     },
-        //     icon: Icon(
-        //       Icons.navigate_next,
-        //       color: Theme.of(context).primaryColor,
-        //     ))
+        IconButton(
+            onPressed: () {
+              showDetailModalMandate(context: context, e: e);
+            },
+            icon: Icon(
+              Icons.navigate_next,
+              color: Theme.of(context).primaryColor,
+            ))
       ],
     );
   }
@@ -165,8 +147,6 @@ Future<bool?> showDetailModal(
     required Function() onDelete}) async {
   final appLocalizations = AppLocalizations.of(context);
   final textTheme = Theme.of(context).textTheme;
-  final primaryColor = Theme.of(context).primaryColor;
-  final isMobile = ResponsiveHelper(context: context).isMobile;
   return await showDialog<bool?>(
     context: context,
     builder: (context) {
@@ -222,8 +202,10 @@ Future<bool?> showDetailModal(
                           TitleSubtitle(
                               title: appLocalizations
                                   .profile_linkedAccounts_dateLinked,
-                              subTitle:e.syncDate == null ? '' : CustomizableDateTime.ddMmYyyyWithSlash(
-                                  e.syncDate!)),
+                              subTitle: e.syncDate == null
+                                  ? ''
+                                  : CustomizableDateTime.ddMmYyyyWithSlash(
+                                      e.syncDate!)),
                           TitleSubtitle(
                               title:
                                   appLocalizations.profile_linkedAccounts_type,
@@ -231,11 +213,6 @@ Future<bool?> showDetailModal(
                         ],
                       ),
                       const SizedBox(height: 8),
-                      // TitleSubtitle(
-                      //     title: appLocalizations
-                      //         .profile_linkedAccounts_serviceProvider,
-                      //     subTitle: '.'),
-                      // const SizedBox(height: 8),
                       const Divider(),
                       const SizedBox(height: 8),
                       Row(
@@ -244,17 +221,110 @@ Future<bool?> showDetailModal(
                           const Expanded(
                             child: SizedBox.shrink(),
                           ),
-                          // Expanded(
-                          //   child: OutlinedButton(
-                          //       onPressed: () {
-                          //         onDelete();
-                          //         Navigator.pop(context);
-                          //       },
-                          //       style: ElevatedButton.styleFrom(
-                          //           fixedSize: const Size(double.infinity, 50)),
-                          //       child: Text(
-                          //           appLocalizations.common_button_delete)),
-                          // ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    fixedSize: const Size(double.infinity, 50)),
+                                child: Text(
+                                    appLocalizations.common_glossary_close)),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // actionsOverflowButtonSpacing: 0,
+        ),
+      );
+    },
+  );
+}
+
+Future<bool?> showDetailModalMandate(
+    {required BuildContext context, required GetMandateStatusEntity e}) async {
+  final appLocalizations = AppLocalizations.of(context);
+  final textTheme = Theme.of(context).textTheme;
+  return await showDialog<bool?>(
+    context: context,
+    builder: (context) {
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+        child: Dialog(
+          insetPadding:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 50),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          alignment: Alignment.center,
+          child: Container(
+            decoration: BoxDecoration(
+                border: Border.all(color: Theme.of(context).dividerColor),
+                borderRadius: BorderRadius.circular(8),
+                color: Theme.of(context).scaffoldBackgroundColor),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(
+                        Icons.close,
+                        color: Theme.of(context).primaryColor,
+                      )),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        appLocalizations.profile_linkedAccounts_accountDetails,
+                        style: textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 16),
+                      const SizedBox(height: 8),
+                      TitleSubtitle(
+                          title: appLocalizations.profile_linkedAccounts_name,
+                          subTitle: e.mandateId.toString()),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TitleSubtitle(
+                              title: appLocalizations
+                                  .profile_linkedAccounts_dateLinked,
+                              subTitle: e.syncDate == null
+                                  ? ''
+                                  : CustomizableDateTime.ddMmYyyyWithSlash(
+                                      e.syncDate!)),
+                          TitleSubtitle(
+                              title:
+                                  appLocalizations.profile_linkedAccounts_type,
+                              subTitle: e.dataSource),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      const Divider(),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Expanded(
+                            child: SizedBox.shrink(),
+                          ),
                           const SizedBox(width: 16),
                           Expanded(
                             child: ElevatedButton(
