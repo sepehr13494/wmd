@@ -15,8 +15,12 @@ import 'package:wmd/features/valuation/data/models/valuation_action_type.dart';
 class RealEstateValuationFormWidget extends StatefulWidget {
   final Function buildActions;
   final bool isEdit;
+  final bool? isValuation;
   const RealEstateValuationFormWidget(
-      {Key? key, required this.buildActions, required this.isEdit})
+      {Key? key,
+      required this.buildActions,
+      required this.isEdit,
+      this.isValuation = false})
       : super(key: key);
   @override
   AppState<RealEstateValuationFormWidget> createState() =>
@@ -168,7 +172,13 @@ class _RealEstateValuationFormWidgetState
         key: formKey,
         initialValue: widget.isEdit
             ? {}
-            : {'note': "New valuation added", "ownershipPercentage": 100},
+            : widget.isValuation == true
+                ? {
+                    'note': "New market Value added",
+                    'type': "New market value",
+                    'valuatedAt': DateTime.now()
+                  }
+                : {'note': "New valuation added", "ownershipPercentage": 100},
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -207,10 +217,13 @@ class _RealEstateValuationFormWidgetState
                 title: appLocalizations.assets_valuationModal_labels_action,
                 child: RadioButton<String>(
                     errorMsg: appLocalizations.common_errors_required,
-                    items: haveBuy
-                        ? ValuationActionType.valuationActionTypeList(context)
-                        : ValuationActionType.valuationActionTypeListRealEstate(
-                            context),
+                    items: widget.isValuation == true
+                        ? ValuationActionType.jsonValuation(context)
+                        : haveBuy
+                            ? ValuationActionType.valuationActionTypeList(
+                                context)
+                            : ValuationActionType
+                                .valuationActionTypeListRealEstate(context),
                     name: "type")),
             EachTextField(
               hasInfo: false,

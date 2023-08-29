@@ -44,6 +44,11 @@ class ValuationActionType {
             value: "Buy"),
       ];
 
+  static jsonValuation(context) => [
+        RadioButtonOptions(
+            label: "New market value", value: "New market value"),
+      ];
+
   static valuationActionTypeList(context) => json(context);
   static valuationActionTypeListRealEstate(context) => jsonSell(context);
 }

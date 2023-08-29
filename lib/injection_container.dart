@@ -271,13 +271,17 @@ import 'package:wmd/features/settings/linked_accounts/domain/repositories/linked
 import 'package:wmd/features/settings/linked_accounts/domain/use_cases/delete_linked_accounts_usecase.dart';
 import 'package:wmd/features/settings/linked_accounts/domain/use_cases/get_linked_accounts_usecase.dart';
 import 'package:wmd/features/settings/linked_accounts/presentation/manager/linked_accounts_cubit.dart';
+import 'package:wmd/features/valuation/data/data_sources/transaction_remote_datasource.dart';
 import 'package:wmd/features/valuation/data/data_sources/valuation_remote_datasource.dart';
+import 'package:wmd/features/valuation/data/repositories/transaction_repository_impl.dart';
 import 'package:wmd/features/valuation/data/repositories/valuation_repository_impl.dart';
+import 'package:wmd/features/valuation/domain/repositories/transaction_repository.dart';
 import 'package:wmd/features/valuation/domain/repositories/valuation_repository.dart';
-import 'package:wmd/features/valuation/domain/use_cases/delete_valuation_usecase.dart';
-import 'package:wmd/features/valuation/domain/use_cases/get_valudation_usecase.dart';
+import 'package:wmd/features/valuation/domain/use_cases/delete_transaction_usecase.dart';
+import 'package:wmd/features/valuation/domain/use_cases/get_transaction_usecase.dart';
+import 'package:wmd/features/valuation/domain/use_cases/post_transaction_usecase.dart';
 import 'package:wmd/features/valuation/domain/use_cases/post_valuation_usecase.dart';
-import 'package:wmd/features/valuation/domain/use_cases/update_valuation_usecase.dart';
+import 'package:wmd/features/valuation/domain/use_cases/update_transaction_usecase.dart';
 import 'package:wmd/features/valuation/presentation/manager/valuation_cubit.dart';
 import 'core/data/network/network_helper.dart';
 import 'core/data/network/server_request_manager.dart';
@@ -786,16 +790,21 @@ Future<void> init(String env) async {
   sl.registerFactory(() => ChartsHeightCubit());
 
   //Settings
-  sl.registerFactory(() => AssetValuationCubit(sl(), sl(), sl(), sl()));
+  sl.registerFactory(() => AssetValuationCubit(sl(), sl(), sl(), sl(), sl()));
   sl.registerLazySingleton(() => AssetPostValuationUseCase(sl()));
-  sl.registerLazySingleton(() => UpdateValuationUseCase(sl()));
-  sl.registerLazySingleton(() => AssetDeleteValuationUseCase(sl()));
-  sl.registerLazySingleton(() => AssetGetValuationUseCase(sl()));
+  sl.registerLazySingleton(() => AssetPostTransactionUseCase(sl()));
+  sl.registerLazySingleton(() => UpdateTransactionUseCase(sl()));
+  sl.registerLazySingleton(() => AssetDeleteTransactionUseCase(sl()));
+  sl.registerLazySingleton(() => AssetGetTransactionUseCase(sl()));
 
+  sl.registerLazySingleton<AssetTransactionRepository>(
+      () => AssetTransactionRepositoryImpl(sl()));
   sl.registerLazySingleton<AssetValuationRepository>(
       () => AssetValuationRepositoryImpl(sl()));
   sl.registerLazySingleton<AssetValuationRemoteDataSource>(
       () => AssetValuationRemoteDataSourceImpl(sl()));
+  sl.registerLazySingleton<AssetTransactionRemoteDataSource>(
+      () => AssetTransactionRemoteDataSourceImpl(sl()));
 
   //TfoLogin
   sl.registerFactory(() => TfoLoginCubit(sl(), sl()));

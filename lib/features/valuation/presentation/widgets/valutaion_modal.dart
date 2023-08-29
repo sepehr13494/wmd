@@ -80,7 +80,9 @@ class ValuationModalWidget extends ModalWidget {
     formStateKey.currentState?.validate();
     if (formStateKey.currentState!.isValid) {
       Map<String, dynamic> finalMap = renderSubmitData(assetType, formStateKey);
-      if (isEdit) {
+      if (isValuation == true) {
+        context.read<AssetValuationCubit>().postAssetValuation(map: finalMap);
+      } else if (isEdit) {
         context.read<AssetValuationCubit>().updateValuation(map: finalMap);
       } else {
         context.read<AssetValuationCubit>().postValuation(map: finalMap);
@@ -261,9 +263,6 @@ class ValuationModalWidget extends ModalWidget {
                   .toString());
               dynamic json = seeMoreState.getAssetSeeMoreEntity as dynamic;
 
-              // debugPrint(json?.accountType.toString());
-              // debugPrint(json?.accountType.toString());
-
               try {
                 if (json?.currencyCode != null) {
                   Map<String, dynamic> formDataTemp = {};
@@ -406,21 +405,24 @@ class ValuationModalWidget extends ModalWidget {
               buildActions: (e, callbackF, enableAddAssetButton) =>
                   buildActions(
                       context, e, (x) => callbackF(x), enableAddAssetButton),
-              isEdit: isEdit);
+              isEdit: isEdit,
+              isValuation: isValuation);
           break;
         case AssetTypes.otherAsset:
           entity = RealEstateValuationFormWidget(
               buildActions: (e, callbackF, enableAddAssetButton) =>
                   buildActions(
                       context, e, (x) => callbackF(x), enableAddAssetButton),
-              isEdit: isEdit);
+              isEdit: isEdit,
+              isValuation: isValuation);
           break;
         case AssetTypes.otherAssets:
           entity = RealEstateValuationFormWidget(
               buildActions: (e, callbackF, enableAddAssetButton) =>
                   buildActions(
                       context, e, (x) => callbackF(x), enableAddAssetButton),
-              isEdit: isEdit);
+              isEdit: isEdit,
+              isValuation: isValuation);
           break;
         case AssetTypes.listedAsset:
           entity = ListedEquityValuationFormWidget(
@@ -448,14 +450,16 @@ class ValuationModalWidget extends ModalWidget {
               buildActions: (e, callbackF, enableAddAssetButton) =>
                   buildActions(
                       context, e, (x) => callbackF(x), enableAddAssetButton),
-              isEdit: isEdit);
+              isEdit: isEdit,
+              isValuation: isValuation);
           break;
         case AssetTypes.privateDebt:
           entity = EquityDebtValuationFormWidget(
               buildActions: (e, callbackF, enableAddAssetButton) =>
                   buildActions(
                       context, e, (x) => callbackF(x), enableAddAssetButton),
-              isEdit: isEdit);
+              isEdit: isEdit,
+              isValuation: isValuation);
           break;
         case AssetTypes.loanLiability:
           entity = LoanLiabilityValuationFormWidget(
@@ -469,7 +473,8 @@ class ValuationModalWidget extends ModalWidget {
               buildActions: (e, callbackF, enableAddAssetButton) =>
                   buildActions(
                       context, e, (x) => callbackF(x), enableAddAssetButton),
-              isEdit: isEdit);
+              isEdit: isEdit,
+              isValuation: isValuation);
           break;
       }
 
@@ -509,21 +514,18 @@ class ValuationModalWidget extends ModalWidget {
                                 assetType == AssetTypes.bankAccount
                                     ? appLocalizations
                                         .assets_valuationModal_updateTheBalance
-                                    : isEdit!
-                                        ? "Edit Valuation"
-                                        : appLocalizations
-                                            .assets_valuationModal_heading,
+                                    : isValuation == true
+                                        ? "Add Valuation"
+                                        : isEdit!
+                                            ? "Edit Transaction"
+                                            : appLocalizations
+                                                .assets_valuationModal_heading,
                                 style: appTextTheme.headlineSmall,
                                 textAlign: TextAlign.center,
                               )
                             ],
                           )),
                       renderForm(assetType, isEdit!),
-                      // FormBuilder(
-                      //   key: localFormKey,
-                      //   child: renderForm(assetType),
-                      // ),
-                      // buildActions(context, localFormKey),
                       SizedBox(height: responsiveHelper.bigger16Gap),
                     ])),
               ))
