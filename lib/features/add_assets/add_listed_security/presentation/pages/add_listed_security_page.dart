@@ -256,7 +256,8 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                                         .first,
                                                                     context)
                                                             : AddAssetConstants
-                                                                .initialJsonForAddAsset(context),
+                                                                .initialJsonForAddAsset(
+                                                                    context),
                                                         child: Column(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
@@ -293,7 +294,9 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                                   .titleSmall,
                                                             ),
                                                             EachTextField(
-                                                                hasInfo: false,
+                                                                tooltipText:
+                                                                    appLocalizations
+                                                                        .common_tooltip_security,
                                                                 title: appLocalizations
                                                                     .assetLiabilityForms_forms_listedAssets_inputFields_securityName_label,
                                                                 child:
@@ -545,7 +548,9 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                             //   ),
                                                             // ),
                                                             EachTextField(
-                                                              hasInfo: false,
+                                                              tooltipText:
+                                                                  appLocalizations
+                                                                      .common_tooltip_currency,
                                                               title: appLocalizations
                                                                   .assetLiabilityForms_forms_listedAssets_inputFields_currency_label,
                                                               child:

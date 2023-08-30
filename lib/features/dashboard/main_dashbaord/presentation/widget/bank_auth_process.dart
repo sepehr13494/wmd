@@ -72,8 +72,10 @@ class _BanksAuthorizationProcessState
 
           // Iterate over the first array and add it to the new array as a map with the identifier 0
           for (var i = 0; i < state.statusEntity.length; i++) {
-            custodainArr.add(
-                {"type": "statusEntity", "element": state.statusEntity[i]});
+            if (state.statusEntity[i].status != CustodianStatus.SyncDone) {
+              custodainArr.add(
+                  {"type": "statusEntity", "element": state.statusEntity[i]});
+            }
           }
 
           return Padding(
