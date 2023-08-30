@@ -345,7 +345,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
           ],
         );
       } else {
-        return const Center(child: CircularProgressIndicator());
+        return const SizedBox(height:400,child: Center(child: CircularProgressIndicator()));
       }
     });
   }
