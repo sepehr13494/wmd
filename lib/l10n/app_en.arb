@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2023-08-28T11:38:35+02:00",
+  "@@last_modified": "2023-08-30T07:53:57+02:00",
   "auth_signup_page_title": "Join our Platform",
   "auth_signup_page_description": "Create myWMD account",
   "auth_signup_heading": "Create an account",
@@ -2779,7 +2779,7 @@
   "assets_label_SPSHXT": "S&P 500 Shariah Index (Total Return)",
   "assets_label_SPX": "S&P 500 (Total Return)",
   "assets_label_Tadawull": "Tadawul All Share Index (TASI)",
-  "linAccount_stepper_swisBankSteps_stepTwo_title": "Contact your {{bankName}} relationship manager",
+  "linkAccount_stepper_swisBankSteps_stepTwo_title": "Contact your {{bankName}} relationship manager",
   "linkAccount_stepper_swisBankSteps_stepTwo_description": "Share your request with {{bankName}} to release your account information on your account holdings and transaction details.",
   "linkAccount_stepper_swisBankSteps_stepTwo_addressLable": "Address",
   "linkAccount_stepper_swisBankSteps_stepThree_title": "Awaiting data from your custodian bank",
@@ -2790,5 +2790,13 @@
   "common_assetConfirmationModal_listItem2": "On the asset detail page, you will can also add the transaction and new market value.",
   "common_assetConfirmationModal_listItem3": "To make any changes, it is advisable to delete and re-add the asset.",
   "common_assetConfirmationModal_note": "After confirmation, we will start the performance calculation and place the asset in the right region. Results will be visible tomorrow. The asset and portfolio performance calculation start from initial use of our platform.",
-  "common_assetConfirmationModal_checkbox": "Don't show this again"
+  "common_assetConfirmationModal_checkbox": "Don't show this again",
+  "assetLiabilityForms_toast_assetAddSuccess": "Your {{assetName}} asset has been Added successfully.",
+  "home_custodianBankList_swissStatusText_step1": "Step 1 of 3 is done. Open the authorization letter",
+  "home_custodianBankList_swissStatusText_step2": "Step 2 of 3 is complete. Awaiting data from your custodian bank.",
+  "linkAccount_custodians_ubp": "UBP - Switzerland",
+  "linkAccount_stepper_swisBankSteps_stepTwo_address_line1": "All-In-One-Plus AG",
+  "linkAccount_stepper_swisBankSteps_stepTwo_address_line2": "c/o Altenburger Ltd legal + tax, Seestrasse 39",
+  "linkAccount_stepper_swisBankSteps_stepTwo_address_line3": "8700 Küsnacht, Switzerland",
+  "linkAccount_stepper_swisBankSteps_stepTwo_toast_message": "Copied to Clipboard"
 }

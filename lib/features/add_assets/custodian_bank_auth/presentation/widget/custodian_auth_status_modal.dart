@@ -190,7 +190,8 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                   StatusStepWidget(
                     stepNumber: '2',
                     title: Text(
-                      "Contact your {{bankName}} relationship manager"
+                      appLocalizations
+                          .linkAccount_stepper_swisBankSteps_stepTwo_title
                           .replaceFirstMapped(
                               '{{bankName}}', (match) => status.bankName),
                       style: textTheme.bodySmall?.copyWith(color: Colors.white),
@@ -200,16 +201,34 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                       children: [
                         const SizedBox(height: 6),
                         Text(
-                          "Share your request with {{bankName}} to release your account information to:"
+                          appLocalizations
+                              .linkAccount_stepper_swisBankSteps_stepTwo_description
                               .replaceFirstMapped(
                                   '{{bankName}}', (match) => status.bankName),
                           style: textTheme.bodySmall,
                         ),
                         const SizedBox(height: 8),
-                        Text(
-                          "All-In-One-Plus AG \nc/o Altenburger Ltd legal + tax, Seestrasse 39 \n8700 Küsnacht, Switzerlandmay",
-                          style: textTheme.bodySmall,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                                appLocalizations
+                                    .linkAccount_stepper_swisBankSteps_stepTwo_address_line1,
+                                style: textTheme.bodySmall),
+                            Text(
+                                appLocalizations
+                                    .linkAccount_stepper_swisBankSteps_stepTwo_address_line2,
+                                style: textTheme.bodySmall),
+                            Text(
+                                appLocalizations
+                                    .linkAccount_stepper_swisBankSteps_stepTwo_address_line3,
+                                style: textTheme.bodySmall),
+                          ],
                         ),
+                        // Text(
+                        //   "All-In-One-Plus AG \nc/o Altenburger Ltd legal + tax, Seestrasse 39 \n8700 Küsnacht, Switzerlandmay",
+                        //   style: textTheme.bodySmall,
+                        // ),
                         const SizedBox(height: 8),
                         RichText(
                             text: TextSpan(
@@ -227,9 +246,9 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                                                 "All-In-One-Plus AG \nc/o Altenburger Ltd legal + tax, Seestrasse 39 \n8700 Küsnacht, Switzerlandmay"))
                                         .then((_) {
                                       ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                              content: Text(
-                                                  "Address copied to clipboard")));
+                                          .showSnackBar(SnackBar(
+                                              content: Text(appLocalizations
+                                                  .linkAccount_stepper_swisBankSteps_stepTwo_toast_message)));
                                     });
                                   },
                               ),
@@ -259,7 +278,8 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                   StatusStepWidget(
                     stepNumber: '3',
                     title: Text(
-                      "Awaiting data from your custodian bank",
+                      appLocalizations
+                          .linkAccount_stepper_swisBankSteps_stepThree_title,
                       style: textTheme.bodySmall?.copyWith(color: Colors.white),
                     ),
                     isDone: checkCurrentCustodianStatusDone(
