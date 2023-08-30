@@ -22,7 +22,7 @@ class CustodianBankEntity extends Equatable {
       ];
 
   String getBankName(context) {
-    String res = "";
+    String res = bankName;
 
     switch (bankName) {
       case "HSBC":
