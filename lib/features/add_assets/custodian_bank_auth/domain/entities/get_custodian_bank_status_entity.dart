@@ -73,25 +73,39 @@ class CustodianBankStatusEntity extends Equatable {
   String statusText(AppLocalizations appLocalizations) {
     String res = "";
 
-    switch (status) {
-      case CustodianStatus.OpenLetter:
-        res = appLocalizations.home_custodianBankList_statusText_step1;
-        break;
-      case CustodianStatus.FillLetter:
-        res = appLocalizations.home_custodianBankList_statusText_step2;
-        break;
-      case CustodianStatus.ShareLetter:
-        res = appLocalizations.home_custodianBankList_statusText_step3;
-        break;
-      case CustodianStatus.SyncBank:
-        res = appLocalizations.home_custodianBankList_statusText_step4;
-        break;
-      case CustodianStatus.FillAccount:
-        res = appLocalizations.home_custodianBankList_statusText_step1;
-        break;
-      default:
-        res = "";
-        break;
+    if (bankId == "lombardodier" || bankId == "ubp") {
+      switch (status) {
+        case CustodianStatus.ShareLetter:
+          res = appLocalizations.home_custodianBankList_swissStatusText_step1;
+          break;
+        case CustodianStatus.SyncBank:
+          res = appLocalizations.home_custodianBankList_swissStatusText_step2;
+          break;
+        default:
+          res = "";
+          break;
+      }
+    } else {
+      switch (status) {
+        case CustodianStatus.OpenLetter:
+          res = appLocalizations.home_custodianBankList_statusText_step1;
+          break;
+        case CustodianStatus.FillLetter:
+          res = appLocalizations.home_custodianBankList_statusText_step2;
+          break;
+        case CustodianStatus.ShareLetter:
+          res = appLocalizations.home_custodianBankList_statusText_step3;
+          break;
+        case CustodianStatus.SyncBank:
+          res = appLocalizations.home_custodianBankList_statusText_step4;
+          break;
+        case CustodianStatus.FillAccount:
+          res = appLocalizations.home_custodianBankList_statusText_step1;
+          break;
+        default:
+          res = "";
+          break;
+      }
     }
 
     return res;
