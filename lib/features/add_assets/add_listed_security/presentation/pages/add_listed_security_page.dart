@@ -330,7 +330,9 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                                   .titleSmall,
                                                             ),
                                                             EachTextField(
-                                                                hasInfo: false,
+                                                                tooltipText:
+                                                                    appLocalizations
+                                                                        .common_tooltip_security,
                                                                 title: appLocalizations
                                                                     .assetLiabilityForms_forms_listedAssets_inputFields_securityName_label,
                                                                 child:
@@ -582,7 +584,9 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                             //   ),
                                                             // ),
                                                             EachTextField(
-                                                              hasInfo: false,
+                                                              tooltipText:
+                                                                  appLocalizations
+                                                                      .common_tooltip_currency,
                                                               title: appLocalizations
                                                                   .assetLiabilityForms_forms_listedAssets_inputFields_currency_label,
                                                               child:

@@ -24,6 +24,9 @@ class ErrorHandlerMiddleware {
             type: ExceptionType.vpn,
             data: null);
       }
+      if(appRequestOptions.showLog){
+        debugPrint("request for ${appRequestOptions.url} ....");
+      }
       Response response =
           await serverRequestManager.sendRequest(appRequestOptions);
       if (response.statusCode == AppUrls.wrongTokenCode &&

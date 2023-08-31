@@ -83,7 +83,9 @@ class _RegisterPageState extends AppState<RegisterPage> {
             listener: BlocHelper.defaultBlocListener(
               listener: (context, state) {
                 if (state is SuccessState) {
-                  context.read<LocalAuthManager>().setLocalAuth(false, context,askUser: false);
+                  context
+                      .read<LocalAuthManager>()
+                      .setLocalAuth(false, context, askUser: false);
                   if (state.appSuccess.message == "true") {
                     context.goNamed(AppRoutes.onboarding);
                   } else {
@@ -159,10 +161,10 @@ class _RegisterPageState extends AppState<RegisterPage> {
                                             text:
                                                 "${appLocalizations.auth_signup_checkbox_label} ",
                                             style: textTheme.bodySmall),
-                                        TextSpan(
-                                            text:
-                                            "${appLocalizations.auth_signup_checkbox_termsService_mobile_second} ",
-                                            style: textTheme.bodySmall),
+                                        // TextSpan(
+                                        //     text:
+                                        //     "${appLocalizations.auth_signup_checkbox_termsService_mobile_second} ",
+                                        //     style: textTheme.bodySmall),
                                         TextSpan(
                                           text: appLocalizations
                                               .auth_signup_checkbox_termsService_mobile,

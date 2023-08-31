@@ -328,7 +328,8 @@ class _AddPrivateEquityState extends BaseAddAssetState<AddPrivateEquityPage> {
                                                 ),
                                               ),
                                               EachTextField(
-                                                hasInfo: false,
+                                                tooltipText: appLocalizations
+                                                    .common_tooltip_currency,
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_privateEquity_inputFields_currency_label,
                                                 child: CurrenciesDropdown(

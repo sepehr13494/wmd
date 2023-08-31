@@ -24,6 +24,7 @@ import 'package:wmd/features/assets_overview/currency_chart/domain/entities/get_
 import 'package:wmd/features/assets_overview/currency_chart/presentation/manager/currency_chart_cubit.dart';
 import 'package:wmd/features/assets_overview/portfolio_tab2/domain/entities/get_portfolio_tab_entity.dart';
 import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_provider_container_cubit.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_tab2_cubit.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_blur_warning.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_geographic_entity.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/entities/get_pie_entity.dart';
@@ -145,6 +146,7 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                             final child =
                                                 Builder(builder: (context) {
                                               late List<Cubit> blocs;
+                                              List<String> portfolioNames = [];
                                               switch (state) {
                                                 case 0:
                                                   blocs = [];
@@ -209,7 +211,9 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                                   ];
                                                   break;
                                                 case 3:
-                                                  blocs = (context.read<PortfolioProviderContainerCubit>().state as PortfolioProviderContainerLoaded).portfolioCubits;
+                                                  final portfolioProvider = (context.read<PortfolioProviderContainerCubit>().state as PortfolioProviderContainerLoaded);
+                                                  blocs = portfolioProvider.portfolioCubits;
+                                                  portfolioNames = portfolioProvider.names;
                                                   break;
                                               }
                                               return Column(
@@ -351,6 +355,10 @@ class _AssetsOverViewState extends AppState<AssetsOverView> {
                                                         }),
                                                   );
                                                   if(state == 3){
+                                                    final tabBloc = bloc as PortfolioTab2CubitForTab;
+                                                    if(tabBloc.state is! GetPortfolioTabLoaded){
+                                                      tabBloc.getPortfolioTab(portfolioId: portfolioNames[index]);
+                                                    }
                                                     return BlocProvider.value(value: bloc,child: child,);
                                                   }else{
                                                     return child;

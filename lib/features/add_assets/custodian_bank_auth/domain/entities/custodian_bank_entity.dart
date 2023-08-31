@@ -22,7 +22,7 @@ class CustodianBankEntity extends Equatable {
       ];
 
   String getBankName(context) {
-    String res = "";
+    String res = bankName;
 
     switch (bankName) {
       case "HSBC":
@@ -39,6 +39,12 @@ class CustodianBankEntity extends Equatable {
         break;
       case "UBS":
         res = AppLocalizations.of(context).linkAccount_custodians_ubs;
+        break;
+      case "UBP":
+        res = AppLocalizations.of(context).linkAccount_custodians_ubp;
+        break;
+      case "Lombard Odier":
+        res = AppLocalizations.of(context).linkAccount_custodians_lombardodier;
         break;
       default:
     }

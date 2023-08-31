@@ -26,23 +26,23 @@ class PortfolioTabChartWidget extends StatelessWidget {
       child: BlocListener<PortfolioProviderContainerCubit,
           PortfolioProviderContainerState>(
         listener: (context, state) {
-          if (state is PortfolioProviderContainerLoaded) {
+          /*if (state is PortfolioProviderContainerLoaded) {
             final blocs = state.portfolioCubits;
             for (int i = 0; i < blocs.length; i++) {
               blocs[i].getPortfolioTab(portfolioId: state.names[i]);
             }
-          }
+          }*/
         },
         child: BlocConsumer<PortfolioTab2Cubit, PortfolioTab2State>(
           listener:
               BlocHelper.defaultBlocListener(listener: (context, state) async {
-            if (state is GetPortfolioAllocationLoaded) {
+            /*if (state is GetPortfolioAllocationLoaded) {
               final portfolios = state.getPortfolioAllocationEntities;
               context.read<PortfolioProviderContainerCubit>().addBlocs(
                   blocs: List.generate(portfolios.length,
                       (index) => sl<PortfolioTab2CubitForTab>()),
                   names: portfolios.map((e) => e.portfolioName).toList());
-            }
+            }*/
           }),
           builder: (context, state) {
             return state is GetPortfolioAllocationLoaded

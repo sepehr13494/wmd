@@ -4,7 +4,7 @@ class GetLinkedAccountsResponse extends GetLinkedAccountsEntity {
   const GetLinkedAccountsResponse(
       {required super.bankName,
       required super.id,
-      required super.dateLinked,
+       super.syncDate,
       required super.type,
       required super.subType});
   // GetLinkedAccountsResponse();
@@ -13,7 +13,7 @@ class GetLinkedAccountsResponse extends GetLinkedAccountsEntity {
       GetLinkedAccountsResponse(
         bankName: json['bankName'],
         id: json['id'],
-        dateLinked: DateTime.parse(json['dateLinked']),
+        syncDate:json['syncDate'] != null ? DateTime.parse(json['syncDate']) : null,
         subType: json['subType'],
         type: json['type'],
       );
@@ -22,7 +22,7 @@ class GetLinkedAccountsResponse extends GetLinkedAccountsEntity {
     GetLinkedAccountsResponse(
         bankName: 'IsBank',
         id: 'id',
-        dateLinked: DateTime.now(),
+        syncDate: DateTime.now(),
         type: 'BankAccount',
         subType: 'Assets')
   ];
