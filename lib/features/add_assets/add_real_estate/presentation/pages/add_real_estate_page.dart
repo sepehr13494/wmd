@@ -80,9 +80,7 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
               listener: BlocHelper.defaultBlocListener(
                 listener: (context, state) {
                   if (state is GetSettingsLoaded) {
-                    print('Mert $state');
                     isChecked = state.getSettingsEntities.isRealEstateChecked;
-                    print('Mertttttttttttt $isChecked');
                   }
                 },
               ),

@@ -124,7 +124,6 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                 map: finalMap, assetId: widget.moreEntity!.id);
                           } else {
                             bool add = true;
-                            print("Mert " + isChecked.toString());
                             if (!isChecked) {
                               final conf = await showAssetConfirmationModal(
                                   context,
