@@ -6,6 +6,7 @@ import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:wmd/core/util/constants.dart';
+import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/help/support/domain/repositories/schedule_call_repository.dart';
 
 class PostScheduleCallUseCase
@@ -53,6 +54,7 @@ class PostScheduleCallUseCase
 class ScheduleCallParams extends Equatable {
   const ScheduleCallParams({
     this.contactEmail = AppConstants.contactEmail,
+    required this.country,
     required this.subject,
     this.content = "",
     required this.startTime,
@@ -65,6 +67,7 @@ class ScheduleCallParams extends Equatable {
   });
 
   final String? contactEmail;
+  final String country;
   final String subject;
   final String? content;
   final DateTime startTime;
@@ -78,6 +81,7 @@ class ScheduleCallParams extends Equatable {
   factory ScheduleCallParams.fromJson(Map<String, dynamic> json) =>
       ScheduleCallParams(
         contactEmail: json["contactEmail"] ?? AppConstants.contactEmail,
+        country: (json["country"] as Country).name,
         subject: json["subject"],
         content: json["content"] ?? "",
         startTime: json["startTime"],
@@ -91,6 +95,7 @@ class ScheduleCallParams extends Equatable {
 
   Map<String, dynamic> toJson() => {
         "contactEmail": contactEmail,
+        "country": country,
         "subject": subject,
         "content": content,
         "startTime": startTime.toIso8601String(),
@@ -105,6 +110,7 @@ class ScheduleCallParams extends Equatable {
 
   static final tScheduleCallMap = {
     "contactEmail": "n.albasri@tfoco.com",
+    "country": "country",
     "subject": "enquiryText",
     "content": "reason",
     "startTime": DateTime.parse('2022-10-05T21:00:00.000Z'),
@@ -118,6 +124,7 @@ class ScheduleCallParams extends Equatable {
 
   static final tScheduleCallParams = ScheduleCallParams(
     contactEmail: "n.albasri@tfoco.com",
+    country: "country",
     subject: "subject",
     content: "content",
     startTime: DateTime.parse('2022-10-05T21:00:00.000Z'),
@@ -132,6 +139,7 @@ class ScheduleCallParams extends Equatable {
   @override
   List<Object?> get props => [
         contactEmail,
+        country,
         subject,
         content,
         startTime,
