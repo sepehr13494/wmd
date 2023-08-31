@@ -4,6 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_form_builder_date_picker.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -46,13 +47,13 @@ class AddRealEstatePage extends BaseAddAssetStatefulWidget {
 class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
   DateTime? aqusitionDateValue;
   DateTime? valuationDateValue;
+  bool isChecked = false;
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     final bool edit = widget.edit;
 
-    bool isChecked = false;
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -74,61 +75,73 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
           },
           child: Scaffold(
             appBar: const AddAssetHeader(title: "", showExitModal: true),
-            bottomSheet: AddAssetFooter(
-                buttonText: edit
-                    ? appLocalizations.common_button_save
-                    : appLocalizations.common_button_addAsset,
-                onTap: (edit && !enableAddAssetButtonEdit)
-                    ? null
-                    : () async {
-                        formKey.currentState?.validate();
-                        if (enableAddAssetButton) {
-                          Map<String, dynamic> finalMap = {
-                            ...formKey.currentState!.instantValue,
-                          };
+            bottomSheet:
+                BlocListener<DontShowSettingsCubit, DontShowSettingsState>(
+              listener: BlocHelper.defaultBlocListener(
+                listener: (context, state) {
+                  if (state is GetSettingsLoaded) {
+                    print('Mert $state');
+                    isChecked = state.getSettingsEntities.isRealEstateChecked;
+                    print('Mertttttttttttt $isChecked');
+                  }
+                },
+              ),
+              child: AddAssetFooter(
+                  buttonText: edit
+                      ? appLocalizations.common_button_save
+                      : appLocalizations.common_button_addAsset,
+                  onTap: (edit && !enableAddAssetButtonEdit)
+                      ? null
+                      : () async {
+                          formKey.currentState?.validate();
+                          if (enableAddAssetButton) {
+                            Map<String, dynamic> finalMap = {
+                              ...formKey.currentState!.instantValue,
+                            };
 
-                          debugPrint(finalMap.toString());
+                            debugPrint(finalMap.toString());
 
-                          if (edit) {
-                            context
-                                .read<EditRealEstateCubit>()
-                                .putRealEstate(map: {
-                              ...finalMap,
-                              "ownershipPercentage": widget
-                                  .moreEntity?.ownershipPercentage
-                                  .toStringAsFixedZero(0),
-                              "noOfUnits": widget.moreEntity?.noOfUnits
-                                  .toStringAsFixedZero(0),
-                            }, assetId: widget.moreEntity!.id);
-                          } else {
-                            bool add = true;
-                            if (!isChecked) {
-                              final conf = await showAssetConfirmationModal(
-                                  context,
-                                  assetType: AssetTypes.bankAccount);
-                              if (conf != null &&
-                                  conf.isConfirmed &&
-                                  conf.isDontShowSelected) {
-                                // ignore: use_build_context_synchronously
-                                context
-                                    .read<DontShowSettingsCubit>()
-                                    .putSettings(const PutSettingsParams(
-                                        isBankAccountChecked: true));
-                              }
-                              add = conf != null && conf.isConfirmed;
-                            }
-                            if (add) {
+                            if (edit) {
                               context
-                                  .read<RealEstateCubit>()
-                                  .postRealEstate(map: {
+                                  .read<EditRealEstateCubit>()
+                                  .putRealEstate(map: {
                                 ...finalMap,
-                                "ownershipPercentage": "100",
-                                "noOfUnits": "1",
-                              });
+                                "ownershipPercentage": widget
+                                    .moreEntity?.ownershipPercentage
+                                    .toStringAsFixedZero(0),
+                                "noOfUnits": widget.moreEntity?.noOfUnits
+                                    .toStringAsFixedZero(0),
+                              }, assetId: widget.moreEntity!.id);
+                            } else {
+                              bool add = true;
+                              if (!isChecked) {
+                                final conf = await showAssetConfirmationModal(
+                                    context,
+                                    assetType: AssetTypes.realEstate);
+                                if (conf != null &&
+                                    conf.isConfirmed &&
+                                    conf.isDontShowSelected) {
+                                  // ignore: use_build_context_synchronously
+                                  context
+                                      .read<DontShowSettingsCubit>()
+                                      .putSettings(const PutSettingsParams(
+                                          isRealEstateChecked: true));
+                                }
+                                add = conf != null && conf.isConfirmed;
+                              }
+                              if (add) {
+                                context
+                                    .read<RealEstateCubit>()
+                                    .postRealEstate(map: {
+                                  ...finalMap,
+                                  "ownershipPercentage": "100",
+                                  "noOfUnits": "1",
+                                });
+                              }
                             }
                           }
-                        }
-                      }),
+                        }),
+            ),
             body: Theme(
               data: Theme.of(context).copyWith(),
               child: Builder(builder: (context) {
