@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
+import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_form_builder_date_picker.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -15,6 +16,7 @@ import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/add_private_debt/presentation/manager/private_debt_cubit.dart';
 import 'package:wmd/features/add_assets/core/constants.dart';
 import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_bloc_helper.dart';
+import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_confirmation_modal.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
@@ -23,6 +25,8 @@ import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_bl
 import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_state.dart';
 import 'package:wmd/features/edit_assets/core/presentation/widgets/delete_base_widget.dart';
 import 'package:wmd/features/edit_assets/edit_private_debt/presentation/manager/edit_private_debt_cubit.dart';
+import 'package:wmd/features/settings/core/data/models/put_settings_params.dart';
+import 'package:wmd/features/settings/dont_show_settings/presentation/manager/dont_show_settings_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
 import '../../../core/presentation/pages/base_add_assest_state.dart';
@@ -41,6 +45,7 @@ class AddPrivateDebtPage extends BaseAddAssetStatefulWidget {
 class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
   DateTime? aqusitionDateValue;
   DateTime? valuationDateValue;
+  bool isChecked = false;
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -53,6 +58,9 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
         BlocProvider(
           create: (context) => sl<EditPrivateDebtCubit>(),
         ),
+        BlocProvider(
+          create: (context) => sl<DontShowSettingsCubit>()..getSettings(),
+        ),
       ],
       child: Builder(builder: (context) {
         final bool edit = widget.edit;
@@ -63,27 +71,59 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
           },
           child: Scaffold(
             appBar: const AddAssetHeader(title: "", showExitModal: true),
-            bottomSheet: AddAssetFooter(
-                buttonText: edit
-                    ? appLocalizations.common_button_save
-                    : appLocalizations.common_button_addAsset,
-                onTap: (edit && !enableAddAssetButtonEdit)
-                    ? null
-                    : () {
-                        if (formKey.currentState!.validate()) {
-                          Map<String, dynamic> finalMap = {
-                            ...formKey.currentState!.instantValue,
-                          };
-                          if (edit) {
-                            context.read<EditPrivateDebtCubit>().putPrivateDebt(
-                                map: finalMap, assetId: widget.moreEntity!.id);
-                          } else {
-                            context
-                                .read<PrivateDebtCubit>()
-                                .postPrivateDebt(map: finalMap);
+            bottomSheet:
+                BlocListener<DontShowSettingsCubit, DontShowSettingsState>(
+              listener: BlocHelper.defaultBlocListener(
+                listener: (context, state) {
+                  if (state is GetSettingsLoaded) {
+                    isChecked = state.getSettingsEntities.isPrivateDebtChecked;
+                  }
+                },
+              ),
+              child: AddAssetFooter(
+                  buttonText: edit
+                      ? appLocalizations.common_button_save
+                      : appLocalizations.common_button_addAsset,
+                  onTap: (edit && !enableAddAssetButtonEdit)
+                      ? null
+                      : () async {
+                          if (formKey.currentState!.validate()) {
+                            Map<String, dynamic> finalMap = {
+                              ...formKey.currentState!.instantValue,
+                            };
+                            if (edit) {
+                              context
+                                  .read<EditPrivateDebtCubit>()
+                                  .putPrivateDebt(
+                                      map: finalMap,
+                                      assetId: widget.moreEntity!.id);
+                            } else {
+                              bool add = true;
+                              if (!isChecked) {
+                                final conf = await showAssetConfirmationModal(
+                                    context,
+                                    assetType: AssetTypes.privateDebt);
+                                if (conf != null &&
+                                    conf.isConfirmed &&
+                                    conf.isDontShowSelected) {
+                                  // ignore: use_build_context_synchronously
+                                  context
+                                      .read<DontShowSettingsCubit>()
+                                      .putSettings(const PutSettingsParams(
+                                          isPrivateDebtChecked: true));
+                                }
+                                add = conf != null && conf.isConfirmed;
+                              }
+                              if (add) {
+                                // ignore: use_build_context_synchronously
+                                context
+                                    .read<PrivateDebtCubit>()
+                                    .postPrivateDebt(map: finalMap);
+                              }
+                            }
                           }
-                        }
-                      }),
+                        }),
+            ),
             body: Theme(
               data: Theme.of(context).copyWith(),
               child: Builder(builder: (context) {
@@ -152,7 +192,8 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                               ? widget.moreEntity!
                                                   .toFormJson(context)
                                               : AddAssetConstants
-                                                  .initialJsonForAddAsset(context),
+                                                  .initialJsonForAddAsset(
+                                                      context),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,

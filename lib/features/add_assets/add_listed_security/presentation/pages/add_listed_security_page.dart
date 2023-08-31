@@ -25,6 +25,7 @@ import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 import 'package:wmd/features/add_assets/core/data/models/listed_security_name.dart';
 import 'package:wmd/features/add_assets/core/data/models/listed_security_type.dart';
 import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_bloc_helper.dart';
+import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_confirmation_modal.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
@@ -33,6 +34,8 @@ import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_bl
 import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_state.dart';
 import 'package:wmd/features/edit_assets/core/presentation/widgets/delete_base_widget.dart';
 import 'package:wmd/features/edit_assets/edit_listed_asset/presentation/manager/edit_listed_asset_cubit.dart';
+import 'package:wmd/features/settings/core/data/models/put_settings_params.dart';
+import 'package:wmd/features/settings/dont_show_settings/presentation/manager/dont_show_settings_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
 import '../../../core/presentation/pages/base_add_assest_state.dart';
@@ -57,6 +60,7 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
   bool isFixedIncome = false;
   bool isDisableCategory = false;
   bool isDisableCurrency = false;
+  bool isChecked = false;
 
   void calculateCurrentValue() {
     const defaultValue = "--";
@@ -108,6 +112,9 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
           create: (context) => sl<BankListCubit>()
             ..getMarketData(widget.edit ? widget.moreEntity!.securityName : ""),
         ),
+        BlocProvider(
+          create: (context) => sl<DontShowSettingsCubit>()..getSettings(),
+        ),
       ],
       child: Builder(builder: (context) {
         return WillPopScope(
@@ -116,36 +123,65 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
           },
           child: Scaffold(
             appBar: const AddAssetHeader(title: "", showExitModal: true),
-            bottomSheet: AddAssetFooter(
-                buttonText: edit
-                    ? appLocalizations.common_button_save
-                    : appLocalizations.common_button_addAsset,
-                onTap: (edit && !enableAddAssetButtonEdit)
-                    ? null
-                    : () {
-                        if (formKey.currentState!.validate()) {
-                          Map<String, dynamic> finalMap = {
-                            ...formKey.currentState!.instantValue,
-                            "totalCost": currentDayValue,
-                          };
-                          if (edit) {
-                            context
-                                .read<EditListedAssetCubit>()
-                                .putListedAsset(map: {
-                              ...finalMap,
-                              "country": widget.moreEntity?.country,
-                            }, assetId: widget.moreEntity!.id);
-                          } else {
-                            context
-                                .read<ListedSecurityCubit>()
-                                .postListedSecurity(map: {
-                              ...finalMap,
-                              "country": const Country(
-                                  name: "XO", countryName: "Other")
-                            });
+            bottomSheet:
+                BlocListener<DontShowSettingsCubit, DontShowSettingsState>(
+              listener: BlocHelper.defaultBlocListener(
+                listener: (context, state) {
+                  if (state is GetSettingsLoaded) {
+                    isChecked =
+                        state.getSettingsEntities.isListedAssetEquityChecked;
+                  }
+                },
+              ),
+              child: AddAssetFooter(
+                  buttonText: edit
+                      ? appLocalizations.common_button_save
+                      : appLocalizations.common_button_addAsset,
+                  onTap: (edit && !enableAddAssetButtonEdit)
+                      ? null
+                      : () async {
+                          if (formKey.currentState!.validate()) {
+                            Map<String, dynamic> finalMap = {
+                              ...formKey.currentState!.instantValue,
+                              "totalCost": currentDayValue,
+                            };
+                            if (edit) {
+                              context
+                                  .read<EditListedAssetCubit>()
+                                  .putListedAsset(map: {
+                                ...finalMap,
+                                "country": widget.moreEntity?.country,
+                              }, assetId: widget.moreEntity!.id);
+                            } else {
+                              bool add = true;
+                              if (!isChecked) {
+                                final conf = await showAssetConfirmationModal(
+                                    context,
+                                    assetType: AssetTypes.listedAsset);
+                                if (conf != null &&
+                                    conf.isConfirmed &&
+                                    conf.isDontShowSelected) {
+                                  // ignore: use_build_context_synchronously
+                                  context
+                                      .read<DontShowSettingsCubit>()
+                                      .putSettings(const PutSettingsParams(
+                                          isListedAssetEquityChecked: true));
+                                }
+                                add = conf != null && conf.isConfirmed;
+                              }
+                              if (add) {
+                                context
+                                    .read<ListedSecurityCubit>()
+                                    .postListedSecurity(map: {
+                                  ...finalMap,
+                                  "country": const Country(
+                                      name: "XO", countryName: "Other")
+                                });
+                              }
+                            }
                           }
-                        }
-                      }),
+                        }),
+            ),
             body: Theme(
               data: Theme.of(context).copyWith(),
               child: Builder(builder: (context) {

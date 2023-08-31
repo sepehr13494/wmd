@@ -53,6 +53,7 @@ abstract class BaseState extends Equatable
         ManualBankListState,
         PortfolioTab2State,
         PortfolioProviderContainerState,
+        DontShowSettingsState,
         PerformanceChartState {}
 
 class BaseInitialState extends BaseState {
