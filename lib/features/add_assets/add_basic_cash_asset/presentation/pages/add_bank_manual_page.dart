@@ -89,7 +89,6 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
         ),
       ],
       child: Builder(builder: (context) {
-        context.read<DontShowSettingsCubit>().getSettings();
         final bool isMobile = ResponsiveHelper(context: context).isMobile;
         return WillPopScope(
           onWillPop: () {
@@ -101,7 +100,6 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                 BlocListener<DontShowSettingsCubit, DontShowSettingsState>(
               listener: BlocHelper.defaultBlocListener(
                 listener: (context, state) {
-                  print(state);
                   if (state is GetSettingsLoaded) {
                     isChecked = state.getSettingsEntities.isBankAccountChecked;
                   }
