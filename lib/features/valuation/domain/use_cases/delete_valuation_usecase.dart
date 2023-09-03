@@ -3,15 +3,15 @@ import 'package:wmd/core/domain/usecases/usercase.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:wmd/features/valuation/data/models/get_valuation_params.dart';
-import 'package:wmd/features/valuation/domain/repositories/transaction_repository.dart';
+import 'package:wmd/features/valuation/domain/repositories/valuation_repository.dart';
 
-class AssetDeleteTransactionUseCase
+class AssetDeleteValuationUseCase
     extends UseCase<AppSuccess, GetValuationParams> {
-  final AssetTransactionRepository repository;
+  final AssetValuationRepository repository;
 
-  AssetDeleteTransactionUseCase(this.repository);
+  AssetDeleteValuationUseCase(this.repository);
 
   @override
   Future<Either<Failure, AppSuccess>> call(GetValuationParams params) =>
-      repository.deleteTransaction(params);
+      repository.deleteValuation(params);
 }

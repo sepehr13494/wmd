@@ -17,7 +17,7 @@ class AssetTransactionRepositoryImpl implements AssetTransactionRepository {
   AssetTransactionRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<Either<Failure, AppSuccess>> postValuation(
+  Future<Either<Failure, AppSuccess>> postTransaction(
       PostValuationParams params) async {
     try {
       final result = await remoteDataSource.postTransaction(params);
@@ -30,7 +30,7 @@ class AssetTransactionRepositoryImpl implements AssetTransactionRepository {
   }
 
   @override
-  Future<Either<Failure, AppSuccess>> updateValuation(
+  Future<Either<Failure, AppSuccess>> updateTransaction(
       UpdateValuationParams params) async {
     try {
       final result = await remoteDataSource.updateTransaction(params);
@@ -43,7 +43,7 @@ class AssetTransactionRepositoryImpl implements AssetTransactionRepository {
   }
 
   @override
-  Future<Either<Failure, AppSuccess>> deleteValuation(
+  Future<Either<Failure, AppSuccess>> deleteTransaction(
       GetValuationParams params) async {
     try {
       final result = await remoteDataSource.deleteTransaction(params);
@@ -56,7 +56,7 @@ class AssetTransactionRepositoryImpl implements AssetTransactionRepository {
   }
 
   @override
-  Future<Either<Failure, GetValuationEntity>> getValuationById(
+  Future<Either<Failure, GetValuationEntity>> getTransactionById(
       GetValuationParams params) async {
     try {
       final result = await remoteDataSource.getTransactionById(params);

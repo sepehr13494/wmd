@@ -127,7 +127,7 @@ class AppUrls {
   static String postTransaction = "${wealthBase}Transaction";
   static String postAddTransaction = "${wealthBase}Transaction";
   //valuation
-  static String getAllValuation = "${wealthBase}Transaction/all";
+  static String getAllValuation = "${wealthBase}valuation/all";
   static String postValuation = "${wealthBase}Transaction";
   static String postAddValuation = "${wealthBase}valuation";
 

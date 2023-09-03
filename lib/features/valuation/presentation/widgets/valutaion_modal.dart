@@ -81,11 +81,15 @@ class ValuationModalWidget extends ModalWidget {
     if (formStateKey.currentState!.isValid) {
       Map<String, dynamic> finalMap = renderSubmitData(assetType, formStateKey);
       if (isValuation == true) {
-        context.read<AssetValuationCubit>().postAssetValuation(map: finalMap);
+        if (isEdit) {
+          context.read<AssetValuationCubit>().updateValuation(map: finalMap);
+        } else {
+          context.read<AssetValuationCubit>().postAssetValuation(map: finalMap);
+        }
       } else if (isEdit) {
-        context.read<AssetValuationCubit>().updateValuation(map: finalMap);
+        context.read<AssetValuationCubit>().updateTransaction(map: finalMap);
       } else {
-        context.read<AssetValuationCubit>().postValuation(map: finalMap);
+        context.read<AssetValuationCubit>().postTransaction(map: finalMap);
       }
     }
   }
@@ -220,8 +224,13 @@ class ValuationModalWidget extends ModalWidget {
           BlocProvider(
             create: (context) {
               if (isEdit == true) {
-                return sl<AssetValuationCubit>()
-                  ..getValuationById(map: {"id": valuationId});
+                if (isValuation == true) {
+                  return sl<AssetValuationCubit>()
+                    ..getValuationById(map: {"id": valuationId});
+                } else {
+                  return sl<AssetValuationCubit>()
+                    ..getTransactionById(map: {"id": valuationId});
+                }
               } else {
                 return sl<AssetValuationCubit>();
               }
@@ -249,6 +258,9 @@ class ValuationModalWidget extends ModalWidget {
 
           if (state is GetValuationLoaded) {
             var json = state.entity.toFormJson(context);
+
+            debugPrint("json get by id");
+            debugPrint(json.toString());
 
             setFormValues!(json);
           }

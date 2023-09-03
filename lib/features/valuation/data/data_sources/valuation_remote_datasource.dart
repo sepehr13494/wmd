@@ -42,7 +42,7 @@ class AssetValuationRemoteDataSourceImpl extends AppServerDataSource
   Future<void> updateValuation(UpdateValuationParams params) async {
     try {
       final appRequestOptions = AppRequestOptions(
-          RequestTypes.put, AppUrls.postAddValuation, params.toJson());
+          RequestTypes.put, AppUrls.postAddValuation, params.toValuationJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
 
@@ -59,7 +59,7 @@ class AssetValuationRemoteDataSourceImpl extends AppServerDataSource
   Future<void> deleteValuation(GetValuationParams params) async {
     try {
       final appRequestOptions = AppRequestOptions(
-          RequestTypes.del, AppUrls.postAddValuation, params.toJson());
+          RequestTypes.del, AppUrls.postAddValuation, params.toValuationJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
 
@@ -77,10 +77,10 @@ class AssetValuationRemoteDataSourceImpl extends AppServerDataSource
       GetValuationParams params) async {
     try {
       final appRequestOptions = AppRequestOptions(
-          RequestTypes.get, AppUrls.postAddValuation, params.toJson());
+          RequestTypes.get, AppUrls.postAddValuation, params.toValuationJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = GetValuationResponse.fromJson(response);
+      final result = GetValuationResponse.fromValuationJson(response);
       return result;
     } on ServerException {
       rethrow;

@@ -14,5 +14,5 @@ class AssetPostTransactionUseCase
 
   @override
   Future<Either<Failure, AppSuccess>> call(PostValuationParams params) =>
-      repository.postValuation(params);
+      repository.postTransaction(params);
 }

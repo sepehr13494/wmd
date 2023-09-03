@@ -9,11 +9,12 @@ import '../../data/models/update_valuation_params.dart';
 import '../entities/update_valuation_entity.dart';
 
 abstract class AssetTransactionRepository {
-  Future<Either<Failure, AppSuccess>> postValuation(PostValuationParams params);
-  Future<Either<Failure, AppSuccess>> updateValuation(
+  Future<Either<Failure, AppSuccess>> postTransaction(
+      PostValuationParams params);
+  Future<Either<Failure, AppSuccess>> updateTransaction(
       UpdateValuationParams params);
-  Future<Either<Failure, AppSuccess>> deleteValuation(
+  Future<Either<Failure, AppSuccess>> deleteTransaction(
       GetValuationParams params);
-  Future<Either<Failure, GetValuationEntity>> getValuationById(
+  Future<Either<Failure, GetValuationEntity>> getTransactionById(
       GetValuationParams params);
 }

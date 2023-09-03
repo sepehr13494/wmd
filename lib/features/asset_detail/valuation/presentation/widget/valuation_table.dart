@@ -273,6 +273,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                     index: index,
                     id: e.id,
                     isLast: e.isLast,
+                    type: e.type,
                   );
                 }),
             ],
@@ -416,6 +417,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
     required int index,
     required String id,
     required bool isLast,
+    String? type,
   }) {
     final textTheme = Theme.of(context).textTheme;
     return TableRow(
@@ -474,7 +476,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             // isLast &&
             widget.totalQuantity > 0 &&
             widget.assetType != AssetTypes.bankAccount)
-          renderPopupMenu(context, id),
+          renderPopupMenu(context, id, type! == "valuation"),
         if (AppConstants.publicMvp2Items &&
             widget.isManuallyAdded &&
             // widget.assetType == AssetTypes.bankAccount &&
@@ -492,6 +494,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
   Widget renderPopupMenu(
     BuildContext context,
     String id,
+    bool isValuation,
   ) {
     final textTheme = Theme.of(context).textTheme;
     return PopupMenuButton(
@@ -526,18 +529,18 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                                             BlocProvider.of<AssetSummaryCubit>(
                                                 context),
                                         child: ValuationModalWidget(
-                                          title: '',
-                                          confirmBtn:
-                                              AppLocalizations.of(context)
-                                                  .common_button_save,
-                                          cancelBtn:
-                                              AppLocalizations.of(context)
-                                                  .common_button_cancel,
-                                          assetType: widget.assetType,
-                                          assetId: widget.assetId,
-                                          isEdit: true,
-                                          valuationId: id,
-                                        ));
+                                            title: '',
+                                            confirmBtn:
+                                                AppLocalizations.of(context)
+                                                    .common_button_save,
+                                            cancelBtn:
+                                                AppLocalizations.of(context)
+                                                    .common_button_cancel,
+                                            assetType: widget.assetType,
+                                            assetId: widget.assetId,
+                                            isEdit: true,
+                                            valuationId: id,
+                                            isValuation: isValuation));
                                   }).then((isConfirm) async {
                                 try {
                                   WidgetsBinding.instance
@@ -566,17 +569,17 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                                 context: context,
                                 builder: (context) {
                                   return ValuationDeleteModal(
-                                    title: AppLocalizations.of(context)
-                                        .assets_valuationModal_deleteTransactionHeading,
-                                    body: AppLocalizations.of(context)
-                                        .assets_valuationModal_deleteTransactionDescription,
-                                    confirmBtn: AppLocalizations.of(context)
-                                        .common_button_delete,
-                                    cancelBtn: AppLocalizations.of(context)
-                                        .common_button_cancel,
-                                    valuationId: id,
-                                    assetId: widget.assetId,
-                                  );
+                                      title: AppLocalizations.of(context)
+                                          .assets_valuationModal_deleteTransactionHeading,
+                                      body: AppLocalizations.of(context)
+                                          .assets_valuationModal_deleteTransactionDescription,
+                                      confirmBtn: AppLocalizations.of(context)
+                                          .common_button_delete,
+                                      cancelBtn: AppLocalizations.of(context)
+                                          .common_button_cancel,
+                                      valuationId: id,
+                                      assetId: widget.assetId,
+                                      isValuation: isValuation);
                                 },
                               ).then((isConfirm) {
                                 context.read<ValuationCubit>().getAllValuation(
