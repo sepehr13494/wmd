@@ -527,11 +527,32 @@ class ValuationModalWidget extends ModalWidget {
                                     ? appLocalizations
                                         .assets_valuationModal_updateTheBalance
                                     : isValuation == true
-                                        ? "Add Valuation"
-                                        : isEdit!
-                                            ? "Edit Transaction"
+                                        ? isEdit!
+                                            ? appLocalizations
+                                                .assets_valuationModal_headingValuation
+                                                .replaceAll(
+                                                    "{{addOrEdit}}",
+                                                    appLocalizations
+                                                        .common_button_edit)
                                             : appLocalizations
-                                                .assets_valuationModal_heading,
+                                                .assets_valuationModal_headingValuation
+                                                .replaceAll(
+                                                    "{{addOrEdit}}",
+                                                    appLocalizations
+                                                        .common_button_add)
+                                        : isEdit!
+                                            ? appLocalizations
+                                                .assets_valuationModal_heading
+                                                .replaceAll(
+                                                    "{{addOrEdit}}",
+                                                    appLocalizations
+                                                        .common_button_edit)
+                                            : appLocalizations
+                                                .assets_valuationModal_heading
+                                                .replaceAll(
+                                                    "{{addOrEdit}}",
+                                                    appLocalizations
+                                                        .common_button_add),
                                 style: appTextTheme.headlineSmall,
                                 textAlign: TextAlign.center,
                               )

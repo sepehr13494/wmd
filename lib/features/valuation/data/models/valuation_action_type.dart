@@ -46,7 +46,9 @@ class ValuationActionType {
 
   static jsonValuation(context) => [
         RadioButtonOptions(
-            label: "New market value", value: "New market value"),
+            label: AppLocalizations.of(context)
+                .assets_valuationModal_labels_newMarketValue,
+            value: "New market value"),
       ];
 
   static valuationActionTypeList(context) => json(context);

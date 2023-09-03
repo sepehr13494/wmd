@@ -104,7 +104,11 @@ class ValuationWidget extends AppStatelessWidget {
                                       ? appLocalizations
                                           .assets_valuationModal_updateTheBalance
                                       : appLocalizations
-                                          .assets_valuationModal_buttons_buttons_addValuation,
+                                          .assets_valuationModal_heading
+                                          .replaceAll(
+                                              "{{addOrEdit}}",
+                                              appLocalizations
+                                                  .common_button_add),
                                   style:
                                       textTheme.bodySmall!.toLinkStyle(context),
                                 )),
@@ -146,7 +150,10 @@ class ValuationWidget extends AppStatelessWidget {
                                   // context.pushNamed(AppRoutes.forgetPassword);
                                 },
                                 child: Text(
-                                  "Add valuation",
+                                  appLocalizations
+                                      .assets_valuationModal_headingValuation
+                                      .replaceAll("{{addOrEdit}}",
+                                          appLocalizations.common_button_add),
                                   style:
                                       textTheme.bodySmall!.toLinkStyle(context),
                                 ))
@@ -228,7 +235,13 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
         (!isFirstTransRemoved ||
             (oldWidget.getAllValuationEntities !=
                 widget.getAllValuationEntities))) {
-      widget.getAllValuationEntities.removeLast();
+      // Find the index of the last transaction
+      int lastIndex = widget.getAllValuationEntities
+          .lastIndexWhere((transaction) => transaction.type == 'transaction');
+      widget.getAllValuationEntities.removeAt(lastIndex);
+      int lastIndexVal = widget.getAllValuationEntities
+          .lastIndexWhere((transaction) => transaction.type != 'transaction');
+      widget.getAllValuationEntities.removeAt(lastIndexVal);
 
       setState(() {
         isFirstTransRemoved = true;
@@ -242,7 +255,13 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
     super.didChangeDependencies();
 
     if (widget.isManuallyAdded && !isFirstTransRemoved) {
-      widget.getAllValuationEntities.removeLast();
+      // Find the index of the last transaction
+      int lastIndex = widget.getAllValuationEntities
+          .lastIndexWhere((transaction) => transaction.type == 'transaction');
+      widget.getAllValuationEntities.removeAt(lastIndex);
+      int lastIndexVal = widget.getAllValuationEntities
+          .lastIndexWhere((transaction) => transaction.type != 'transaction');
+      widget.getAllValuationEntities.removeAt(lastIndexVal);
 
       setState(() {
         isFirstTransRemoved = true;
@@ -562,15 +581,18 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                               }));
                     } else {
                       // delete here
-                      debugPrint("working delete");
+
                       Future.delayed(
                           const Duration(seconds: 0),
                           () => showDialog(
                                 context: context,
                                 builder: (context) {
                                   return ValuationDeleteModal(
-                                      title: AppLocalizations.of(context)
-                                          .assets_valuationModal_deleteTransactionHeading,
+                                      title: isValuation
+                                          ? AppLocalizations.of(context)
+                                              .assets_valuationModal_deleteValuationHeading
+                                          : AppLocalizations.of(context)
+                                              .assets_valuationModal_deleteTransactionHeading,
                                       body: AppLocalizations.of(context)
                                           .assets_valuationModal_deleteTransactionDescription,
                                       confirmBtn: AppLocalizations.of(context)

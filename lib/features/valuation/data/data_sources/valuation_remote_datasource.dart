@@ -58,8 +58,8 @@ class AssetValuationRemoteDataSourceImpl extends AppServerDataSource
   @override
   Future<void> deleteValuation(GetValuationParams params) async {
     try {
-      final appRequestOptions = AppRequestOptions(
-          RequestTypes.del, AppUrls.postAddValuation, params.toValuationJson());
+      final appRequestOptions = AppRequestOptions(RequestTypes.delete,
+          AppUrls.postAddValuation, params.toValuationJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
 

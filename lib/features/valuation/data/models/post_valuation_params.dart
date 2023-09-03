@@ -85,7 +85,7 @@ class PostValuationParams extends Equatable {
         "wealthType": wealthType,
         "valuatedAt": valuatedAt?.toIso8601String(),
         "amount": pricePerUnit,
-        "notes": note,
+        "note": note,
         "type": type,
       };
 

@@ -49,12 +49,6 @@ class ValuationRepositoryImpl implements ValuationRepository {
   Future<Either<Failure, List<GetAllValuationEntity>>> getAllValuation(
       GetAllValuationParams params) async {
     try {
-      debugPrint("working getAllValuation");
-      debugPrint("working getAllValuation");
-      debugPrint("working getAllValuation");
-      debugPrint("working getAllValuation");
-      debugPrint("working getAllValuation");
-
       final resultTransaction =
           await remoteDataSource.getAllTransaction(params);
       final resultValuation = await remoteDataSource.getAllValuation(params);
