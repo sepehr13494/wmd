@@ -19,6 +19,7 @@ import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_man
 import 'package:wmd/features/assets_overview/currency_chart/presentation/manager/currency_chart_cubit.dart';
 import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_provider_container_cubit.dart';
 import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_tab2_cubit.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_visible_controller.dart';
 import 'package:wmd/features/blurred_widget/presentation/manager/blurred_privacy_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_goe_cubit.dart';
@@ -178,6 +179,12 @@ class MyApp extends StatelessWidget {
         }),
         BlocProvider(create: (context) {
           return sl<AssetsOverviewCubitOtherAssets>()..getAssetsOverview();
+        }),
+        BlocProvider(create: (context) {
+          return sl<PortfolioTab2CubitForTab>();
+        }),
+        BlocProvider(create: (context) {
+          return sl<PortfolioVisibleController>();
         }),
         BlocProvider(create: (context) {
           return sl<PerformanceAssetClassCubit>()..getAssetClass();

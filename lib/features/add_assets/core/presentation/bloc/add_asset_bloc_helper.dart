@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/routes/app_router.dart';
+import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_base_state.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal.dart';
@@ -29,63 +31,64 @@ class AssetBlocHelper extends BlocHelper {
           context.read<DashboardPieCubit>().getPie();*/
           AppRouter().setMainRefreshKey();
           final successValue = state.addAsset;
-          showDialog(
-            context: context,
-            builder: (buildContext) {
-              final isAssetsNotEmpty = context
-                      .read<MainDashboardCubit>()
-                      .netWorthObj
-                      ?.assets
-                      .newAssetCount !=
-                  0;
-              final isLiabilityNotEmpty = context
-                      .read<MainDashboardCubit>()
-                      .netWorthObj
-                      ?.liabilities
-                      .newLiabilityCount !=
-                  0;
-              final isCurrentValueNotEmpty = context
-                      .read<MainDashboardCubit>()
-                      .netWorthObj
-                      ?.totalNetWorth
-                      ?.currentValue !=
-                  0;
+          context.goNamed(AppRoutes.addAssetsView);
+          // showDialog(
+          //   context: context,
+          //   builder: (buildContext) {
+          //     final isAssetsNotEmpty = context
+          //             .read<MainDashboardCubit>()
+          //             .netWorthObj
+          //             ?.assets
+          //             .newAssetCount !=
+          //         0;
+          //     final isLiabilityNotEmpty = context
+          //             .read<MainDashboardCubit>()
+          //             .netWorthObj
+          //             ?.liabilities
+          //             .newLiabilityCount !=
+          //         0;
+          //     final isCurrentValueNotEmpty = context
+          //             .read<MainDashboardCubit>()
+          //             .netWorthObj
+          //             ?.totalNetWorth
+          //             ?.currentValue !=
+          //         0;
 
-              if (isAssetsNotEmpty ||
-                  isLiabilityNotEmpty ||
-                  isCurrentValueNotEmpty) {
-                return SuccessModalWidget(
-                  assetId: successValue.id,
-                  assetType: assetType,
-                  title: appLocalizations.common_formSuccessModal_title
-                      .replaceAll('{{assetType}}', asset),
-                  confirmBtn: appLocalizations
-                      .common_formSuccessModal_buttons_viewAsset,
-                  cancelBtn:
-                      appLocalizations.common_formSuccessModal_buttons_addAsset,
-                  startingBalance: successValue.startingBalance.convertMoney(),
-                  currencyCode: successValue.currencyCode,
-                  currencyRate: successValue.currencyRate,
-                  netWorth: successValue.totalNetWorth.convertMoney(),
-                  netWorthChange:
-                      successValue.totalNetWorthChange.convertMoney(),
-                );
-              }
-              return SuccessModalOnboardingWidget(
-                title:
-                    AssetLoclHelper.getName(asset, assetType, appLocalizations),
-                confirmBtn:
-                    appLocalizations.common_formSuccessModal_buttons_viewAsset,
-                cancelBtn:
-                    appLocalizations.common_formSuccessModal_buttons_addAsset,
-                startingBalance: successValue.startingBalance.convertMoney(),
-                currencyCode: successValue.currencyCode,
-                currencyRate: successValue.currencyRate,
-                netWorth: successValue.totalNetWorth.convertMoney(),
-                netWorthChange: successValue.totalNetWorthChange.convertMoney(),
-              );
-            },
-          );
+          //     if (isAssetsNotEmpty ||
+          //         isLiabilityNotEmpty ||
+          //         isCurrentValueNotEmpty) {
+          //       return SuccessModalWidget(
+          //         assetId: successValue.id,
+          //         assetType: assetType,
+          //         title: appLocalizations.common_formSuccessModal_title
+          //             .replaceAll('{{assetType}}', asset),
+          //         confirmBtn: appLocalizations
+          //             .common_formSuccessModal_buttons_viewAsset,
+          //         cancelBtn:
+          //             appLocalizations.common_formSuccessModal_buttons_addAsset,
+          //         startingBalance: successValue.startingBalance.convertMoney(),
+          //         currencyCode: successValue.currencyCode,
+          //         currencyRate: successValue.currencyRate,
+          //         netWorth: successValue.totalNetWorth.convertMoney(),
+          //         netWorthChange:
+          //             successValue.totalNetWorthChange.convertMoney(),
+          //       );
+          //     }
+          //     return SuccessModalOnboardingWidget(
+          //       title:
+          //           AssetLoclHelper.getName(asset, assetType, appLocalizations),
+          //       confirmBtn:
+          //           appLocalizations.common_formSuccessModal_buttons_viewAsset,
+          //       cancelBtn:
+          //           appLocalizations.common_formSuccessModal_buttons_addAsset,
+          //       startingBalance: successValue.startingBalance.convertMoney(),
+          //       currencyCode: successValue.currencyCode,
+          //       currencyRate: successValue.currencyRate,
+          //       netWorth: successValue.totalNetWorth.convertMoney(),
+          //       netWorthChange: successValue.totalNetWorthChange.convertMoney(),
+          //     );
+          //   },
+          // );
         }
       },
     );

@@ -9,6 +9,8 @@ import 'package:wmd/features/assets_overview/charts/presentation/manager/tab_man
 import 'package:wmd/features/assets_overview/assets_geography_chart/presentation/widgets/assets_overview_geo_chart.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/base_chart_view.dart';
 import 'package:wmd/features/assets_overview/currency_chart/presentation/widgets/currency_chart_widget.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_tab2_cubit.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_visible_controller.dart';
 import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/widgets/portfolio_chart_widget.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 
@@ -91,29 +93,36 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
                         child: FittedBox(
                           fit: BoxFit.scaleDown,
                           alignment: Alignment.centerLeft,
-                          child: TabBar(
-                            indicatorPadding: EdgeInsets.zero,
-                            labelPadding: EdgeInsets.zero,
-                            labelStyle: textTheme.titleSmall,
-                            controller: _controller,
-                            tabs: [
-                              Tab(
-                                text:
-                                    "   ${appLocalizations.assets_charts_tabs_assetClass}   ",
-                              ),
-                              Tab(
-                                  text:
-                                      "   ${appLocalizations.assets_charts_tabs_geography}   "),
-                              AppConstants.isRelease2
-                                  ? Tab(
+                          child: BlocBuilder<PortfolioVisibleController,
+                              bool>(
+                            builder: (context, state) {
+                              return TabBar(
+                                indicatorPadding: EdgeInsets.zero,
+                                labelPadding: EdgeInsets.zero,
+                                labelStyle: textTheme.titleSmall,
+                                controller: _controller,
+                                tabs: [
+                                  Tab(
+                                    text:
+                                        "   ${appLocalizations.assets_charts_tabs_assetClass}   ",
+                                  ),
+                                  Tab(
                                       text:
-                                          "   ${appLocalizations.assets_charts_tabs_currency}   ")
-                                  : SizedBox(),
-                              Tab(
-                                  text:
-                                      "   ${appLocalizations.assets_charts_tabs_portfolio}   "),
-                            ],
-                            isScrollable: true,
+                                          "   ${appLocalizations.assets_charts_tabs_geography}   "),
+                                  AppConstants.isRelease2
+                                      ? Tab(
+                                          text:
+                                              "   ${appLocalizations.assets_charts_tabs_currency}   ")
+                                      : const SizedBox(),
+                                  state
+                                      ? Tab(
+                                      text:
+                                          "   ${appLocalizations.assets_charts_tabs_portfolio}   ")
+                                  : const SizedBox(),
+                                ],
+                                isScrollable: true,
+                              );
+                            },
                           ),
                         ),
                       ),

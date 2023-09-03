@@ -6,11 +6,29 @@ class PutSettingsParams extends Equatable {
   final bool? emailTwoFactorEnabled;
   final bool? smsTwoFactorEnabled;
 
-  const PutSettingsParams(
-      {this.isPrivacyMode,
-      this.twoFactorEnabled,
-      this.emailTwoFactorEnabled,
-      this.smsTwoFactorEnabled});
+  final bool? isRealEstateChecked;
+  final bool? isBankAccountChecked;
+  final bool? isPrivateEquityChecked;
+  final bool? isPrivateDebtChecked;
+  final bool? isListedAssetEquityChecked;
+  final bool? isListedAssetFixedIncomeChecked;
+  final bool? isListedAssetOtherChecked;
+  final bool? isOtherAssetsChecked;
+
+  const PutSettingsParams({
+    this.isPrivacyMode,
+    this.twoFactorEnabled,
+    this.emailTwoFactorEnabled,
+    this.smsTwoFactorEnabled,
+    this.isRealEstateChecked,
+    this.isBankAccountChecked,
+    this.isPrivateEquityChecked,
+    this.isPrivateDebtChecked,
+    this.isListedAssetEquityChecked,
+    this.isListedAssetFixedIncomeChecked,
+    this.isListedAssetOtherChecked,
+    this.isOtherAssetsChecked,
+  });
 
   factory PutSettingsParams.fromJson(Map<String, dynamic> json) =>
       PutSettingsParams(
@@ -29,6 +47,14 @@ class PutSettingsParams extends Equatable {
         "twoFactorEnabled": twoFactorEnabled,
         "emailTwoFactorEnabled": emailTwoFactorEnabled,
         "smsTwoFactorEnabled": smsTwoFactorEnabled,
+        "isRealEstateChecked": isRealEstateChecked,
+        "isBankAccountChecked": isBankAccountChecked,
+        "isPrivateEquityChecked": isPrivateEquityChecked,
+        "isPrivateDebtChecked": isPrivateDebtChecked,
+        "isListedAssetEquityChecked": isListedAssetEquityChecked,
+        "isListedAssetFixedIncomeChecked": isListedAssetFixedIncomeChecked,
+        "isListedAssetOtherChecked": isListedAssetOtherChecked,
+        "isOtherAssetsChecked": isOtherAssetsChecked,
       };
 
   @override

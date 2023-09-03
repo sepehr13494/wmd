@@ -4,6 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_form_builder_date_picker.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -18,12 +19,15 @@ import 'package:wmd/features/add_assets/core/constants.dart';
 import 'package:wmd/features/add_assets/core/data/models/real_estate_type.dart';
 import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_bloc_helper.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
+import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_confirmation_modal.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
 import 'package:wmd/features/asset_see_more/real_estate/data/model/real_estate_more_entity.dart';
 import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_state.dart';
 import 'package:wmd/features/edit_assets/core/presentation/widgets/delete_base_widget.dart';
 import 'package:wmd/features/edit_assets/edit_real_estate/presentation/manager/edit_real_estate_cubit.dart';
+import 'package:wmd/features/settings/core/data/models/put_settings_params.dart';
+import 'package:wmd/features/settings/dont_show_settings/presentation/manager/dont_show_settings_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
 import '../../../../edit_assets/core/presentation/manager/edit_asset_bloc_helper.dart';
@@ -43,6 +47,7 @@ class AddRealEstatePage extends BaseAddAssetStatefulWidget {
 class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
   DateTime? aqusitionDateValue;
   DateTime? valuationDateValue;
+  bool isChecked = false;
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -57,6 +62,9 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
         BlocProvider(
           create: (context) => sl<EditRealEstateCubit>(),
         ),
+        BlocProvider(
+          create: (context) => sl<DontShowSettingsCubit>()..getSettings(),
+        ),
       ],
       child: Builder(builder: (context) {
         final bool isMobile = ResponsiveHelper(context: context).isMobile;
@@ -67,43 +75,71 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
           },
           child: Scaffold(
             appBar: const AddAssetHeader(title: "", showExitModal: true),
-            bottomSheet: AddAssetFooter(
-                buttonText: edit
-                    ? appLocalizations.common_button_save
-                    : appLocalizations.common_button_addAsset,
-                onTap: (edit && !enableAddAssetButtonEdit)
-                    ? null
-                    : () {
-                        formKey.currentState?.validate();
-                        if (enableAddAssetButton) {
-                          Map<String, dynamic> finalMap = {
-                            ...formKey.currentState!.instantValue,
-                          };
+            bottomSheet:
+                BlocListener<DontShowSettingsCubit, DontShowSettingsState>(
+              listener: BlocHelper.defaultBlocListener(
+                listener: (context, state) {
+                  if (state is GetSettingsLoaded) {
+                    isChecked = state.getSettingsEntities.isRealEstateChecked;
+                  }
+                },
+              ),
+              child: AddAssetFooter(
+                  buttonText: edit
+                      ? appLocalizations.common_button_save
+                      : appLocalizations.common_button_addAsset,
+                  onTap: (edit && !enableAddAssetButtonEdit)
+                      ? null
+                      : () async {
+                          formKey.currentState?.validate();
+                          if (enableAddAssetButton) {
+                            Map<String, dynamic> finalMap = {
+                              ...formKey.currentState!.instantValue,
+                            };
 
-                          debugPrint(finalMap.toString());
+                            debugPrint(finalMap.toString());
 
-                          if (edit) {
-                            context
-                                .read<EditRealEstateCubit>()
-                                .putRealEstate(map: {
-                              ...finalMap,
-                              "ownershipPercentage": widget
-                                  .moreEntity?.ownershipPercentage
-                                  .toStringAsFixedZero(0),
-                              "noOfUnits": widget.moreEntity?.noOfUnits
-                                  .toStringAsFixedZero(0),
-                            }, assetId: widget.moreEntity!.id);
-                          } else {
-                            context
-                                .read<RealEstateCubit>()
-                                .postRealEstate(map: {
-                              ...finalMap,
-                              "ownershipPercentage": "100",
-                              "noOfUnits": "1",
-                            });
+                            if (edit) {
+                              context
+                                  .read<EditRealEstateCubit>()
+                                  .putRealEstate(map: {
+                                ...finalMap,
+                                "ownershipPercentage": widget
+                                    .moreEntity?.ownershipPercentage
+                                    .toStringAsFixedZero(0),
+                                "noOfUnits": widget.moreEntity?.noOfUnits
+                                    .toStringAsFixedZero(0),
+                              }, assetId: widget.moreEntity!.id);
+                            } else {
+                              bool add = true;
+                              if (!isChecked) {
+                                final conf = await showAssetConfirmationModal(
+                                    context,
+                                    assetType: AssetTypes.realEstate);
+                                if (conf != null &&
+                                    conf.isConfirmed &&
+                                    conf.isDontShowSelected) {
+                                  // ignore: use_build_context_synchronously
+                                  context
+                                      .read<DontShowSettingsCubit>()
+                                      .putSettings(const PutSettingsParams(
+                                          isRealEstateChecked: true));
+                                }
+                                add = conf != null && conf.isConfirmed;
+                              }
+                              if (add) {
+                                context
+                                    .read<RealEstateCubit>()
+                                    .postRealEstate(map: {
+                                  ...finalMap,
+                                  "ownershipPercentage": "100",
+                                  "noOfUnits": "1",
+                                });
+                              }
+                            }
                           }
-                        }
-                      }),
+                        }),
+            ),
             body: Theme(
               data: Theme.of(context).copyWith(),
               child: Builder(builder: (context) {
@@ -172,7 +208,8 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                               ? widget.moreEntity!
                                                   .toFormJson(context)
                                               : AddAssetConstants
-                                                  .initialJsonForAddAsset(context),
+                                                  .initialJsonForAddAsset(
+                                                      context),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -286,7 +323,8 @@ class _AddRealEstateState extends BaseAddAssetState<AddRealEstatePage> {
                                                 ),
                                               ),
                                               EachTextField(
-                                                hasInfo: false,
+                                              tooltipText: appLocalizations
+                                                    .common_tooltip_currency,
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_realEstate_inputFields_currency_label,
                                                 child: CurrenciesDropdown(

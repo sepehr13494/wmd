@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
+import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_form_builder_date_picker.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -23,11 +24,14 @@ import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_bl
 import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_state.dart';
 import 'package:wmd/features/edit_assets/core/presentation/widgets/delete_base_widget.dart';
 import 'package:wmd/features/edit_assets/edit_private_equity/presentation/manager/edit_private_equity_cubit.dart';
+import 'package:wmd/features/settings/core/data/models/put_settings_params.dart';
+import 'package:wmd/features/settings/dont_show_settings/presentation/manager/dont_show_settings_cubit.dart';
 import 'package:wmd/injection_container.dart';
 import 'package:wmd/core/extentions/string_ext.dart';
 
 import '../../../core/presentation/pages/base_add_assest_state.dart';
 import '../../../core/presentation/pages/base_add_asset_stateful_widget.dart';
+import '../../../core/presentation/widgets/add_asset_confirmation_modal.dart';
 
 class AddPrivateEquityPage extends BaseAddAssetStatefulWidget {
   final PrivateEquityMoreEntity? moreEntity;
@@ -42,6 +46,7 @@ class AddPrivateEquityPage extends BaseAddAssetStatefulWidget {
 class _AddPrivateEquityState extends BaseAddAssetState<AddPrivateEquityPage> {
   DateTime? acquisitionDateValue;
   DateTime? valuationDateValue;
+  bool isChecked = false;
 
   @override
   Widget buildWidget(BuildContext context, TextTheme textTheme,
@@ -55,6 +60,9 @@ class _AddPrivateEquityState extends BaseAddAssetState<AddPrivateEquityPage> {
         BlocProvider(
           create: (context) => sl<EditPrivateEquityCubit>(),
         ),
+        BlocProvider(
+          create: (context) => sl<DontShowSettingsCubit>()..getSettings(),
+        ),
       ],
       child: Builder(builder: (context) {
         final bool edit = widget.edit;
@@ -64,30 +72,60 @@ class _AddPrivateEquityState extends BaseAddAssetState<AddPrivateEquityPage> {
           },
           child: Scaffold(
             appBar: const AddAssetHeader(title: "", showExitModal: true),
-            bottomSheet: AddAssetFooter(
-                buttonText: edit
-                    ? appLocalizations.common_button_save
-                    : appLocalizations.common_button_addAsset,
-                onTap: (edit && !enableAddAssetButtonEdit)
-                    ? null
-                    : () {
-                        if (formKey.currentState!.validate()) {
-                          Map<String, dynamic> finalMap = {
-                            ...formKey.currentState!.instantValue,
-                          };
-                          if (edit) {
-                            context
-                                .read<EditPrivateEquityCubit>()
-                                .putPrivateEquity(
-                                    map: finalMap,
-                                    assetId: widget.moreEntity!.id);
-                          } else {
-                            context
-                                .read<PrivateEquityCubit>()
-                                .postPrivateEquity(map: finalMap);
+            bottomSheet:
+                BlocListener<DontShowSettingsCubit, DontShowSettingsState>(
+              listener: BlocHelper.defaultBlocListener(
+                listener: (context, state) {
+                  if (state is GetSettingsLoaded) {
+                    isChecked =
+                        state.getSettingsEntities.isPrivateEquityChecked;
+                  }
+                },
+              ),
+              child: AddAssetFooter(
+                  buttonText: edit
+                      ? appLocalizations.common_button_save
+                      : appLocalizations.common_button_addAsset,
+                  onTap: (edit && !enableAddAssetButtonEdit)
+                      ? null
+                      : () async {
+                          if (formKey.currentState!.validate()) {
+                            Map<String, dynamic> finalMap = {
+                              ...formKey.currentState!.instantValue,
+                            };
+                            if (edit) {
+                              context
+                                  .read<EditPrivateEquityCubit>()
+                                  .putPrivateEquity(
+                                      map: finalMap,
+                                      assetId: widget.moreEntity!.id);
+                            } else {
+                              bool add = true;
+                              if (!isChecked) {
+                                final conf = await showAssetConfirmationModal(
+                                    context,
+                                    assetType: AssetTypes.privateEquity);
+                                if (conf != null &&
+                                    conf.isConfirmed &&
+                                    conf.isDontShowSelected) {
+                                  // ignore: use_build_context_synchronously
+                                  context
+                                      .read<DontShowSettingsCubit>()
+                                      .putSettings(const PutSettingsParams(
+                                          isPrivateEquityChecked: true));
+                                }
+                                add = conf != null && conf.isConfirmed;
+                              }
+                              if (add) {
+                                // ignore: use_build_context_synchronously
+                                context
+                                    .read<PrivateEquityCubit>()
+                                    .postPrivateEquity(map: finalMap);
+                              }
+                            }
                           }
-                        }
-                      }),
+                        }),
+            ),
             body: Theme(
               data: Theme.of(context).copyWith(),
               child: Builder(builder: (context) {
@@ -157,7 +195,8 @@ class _AddPrivateEquityState extends BaseAddAssetState<AddPrivateEquityPage> {
                                               ? widget.moreEntity!
                                                   .toFormJson(context)
                                               : AddAssetConstants
-                                                  .initialJsonForAddAsset(context),
+                                                  .initialJsonForAddAsset(
+                                                      context),
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -289,7 +328,8 @@ class _AddPrivateEquityState extends BaseAddAssetState<AddPrivateEquityPage> {
                                                 ),
                                               ),
                                               EachTextField(
-                                                hasInfo: false,
+                                                tooltipText: appLocalizations
+                                                    .common_tooltip_currency,
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_privateEquity_inputFields_currency_label,
                                                 child: CurrenciesDropdown(

@@ -102,6 +102,7 @@ import 'package:wmd/features/assets_overview/portfolio_tab2/domain/use_cases/get
 import 'package:wmd/features/assets_overview/portfolio_tab2/domain/use_cases/get_portfolio_tab_usecase.dart';
 import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_provider_container_cubit.dart';
 import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_tab2_cubit.dart';
+import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_visible_controller.dart';
 import 'package:wmd/features/authentication/forget_password/data/data_sources/forget_password_server_datasource.dart';
 import 'package:wmd/features/authentication/forget_password/data/repositories/forget_password_repository_impl.dart';
 import 'package:wmd/features/authentication/forget_password/domain/repositories/forget_password_repository.dart';
@@ -334,6 +335,9 @@ import 'features/settings/core/data/repositories/settings_repository_impl.dart';
 import 'features/settings/core/domain/repositories/settings_repository.dart';
 import 'features/settings/core/domain/use_cases/get_settings_usecase.dart';
 import 'features/settings/core/domain/use_cases/put_settings_usecase.dart';
+import 'features/settings/dont_show_settings/data/repositories/dont_show_settings_repository_impl.dart';
+import 'features/settings/dont_show_settings/domain/repositories/dont_show_settings_repository.dart';
+import 'features/settings/dont_show_settings/presentation/manager/dont_show_settings_cubit.dart';
 import 'features/splash/data/repositories/splash_repository_impl.dart';
 import 'features/splash/domain/repositories/splash_repository.dart';
 import 'features/splash/domain/use_cases/check_login_usecase.dart';
@@ -476,6 +480,7 @@ Future<void> init(String env) async {
   sl.registerFactory(() => PortfolioTab2Cubit(sl(), sl()));
   sl.registerFactory(() => PortfolioTab2CubitForTab(sl(), sl()));
   sl.registerFactory(() => PortfolioProviderContainerCubit());
+  sl.registerFactory(() => PortfolioVisibleController());
   sl.registerLazySingleton(() => GetPortfolioAllocationUseCase(sl(), sl()));
   sl.registerLazySingleton(() => GetPortfolioTabUseCase(sl(), sl()));
 
@@ -870,6 +875,11 @@ Future<void> init(String env) async {
       () => MandateStatusRepositoryImpl(sl()));
   sl.registerLazySingleton<MandateStatusRemoteDataSource>(
       () => MandateStatusRemoteDataSourceImpl(sl()));
+
+  //DontShowSettings
+  sl.registerFactory(() => DontShowSettingsCubit(sl(), sl()));
+  sl.registerLazySingleton<DontShowSettingsRepository>(
+      () => DontShowSettingsRepositoryImpl(sl()));
 
   await initExternal(env);
   await initUtils();

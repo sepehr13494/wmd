@@ -477,6 +477,14 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
               ),
               EachTextField(
                 hasInfo: false,
+                title: appLocalizations
+                    .assetLiabilityForms_forms_bankAccount_inputFields_country_label,
+                child: CountriesDropdown(
+                  onChanged: checkFinalValid,
+                ),
+              ),
+              EachTextField(
+                hasInfo: false,
                 title: appLocalizations.scheduleMeeting_callReason_label,
                 child: AppTextFields.simpleTextField(
                   errorMsg: appLocalizations.common_errors_required,
