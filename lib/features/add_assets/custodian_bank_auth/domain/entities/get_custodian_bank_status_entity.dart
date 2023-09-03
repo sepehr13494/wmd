@@ -73,7 +73,7 @@ class CustodianBankStatusEntity extends Equatable {
   String statusText(AppLocalizations appLocalizations) {
     String res = "";
 
-    if (bankId == "lombardodier" || bankId == "ubp") {
+    if (bankId == "ubp") {
       switch (status) {
         case CustodianStatus.ShareLetter:
           res = appLocalizations.home_custodianBankList_swissStatusText_step1;
