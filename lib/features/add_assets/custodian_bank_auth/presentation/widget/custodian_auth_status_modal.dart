@@ -88,7 +88,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
     id = widget.id;
 
     setState(() {
-      isThreeStep = widget.bankId == "lombardodier" || widget.bankId == "ubp";
+      isThreeStep =  widget.bankId == "ubp";
     });
   }
 
