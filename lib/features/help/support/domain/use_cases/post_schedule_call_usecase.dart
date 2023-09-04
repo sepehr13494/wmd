@@ -81,7 +81,7 @@ class ScheduleCallParams extends Equatable {
   factory ScheduleCallParams.fromJson(Map<String, dynamic> json) =>
       ScheduleCallParams(
         contactEmail: json["contactEmail"] ?? AppConstants.contactEmail,
-        country: (json["country"] as Country).name,
+        country: (json["country"] as Country).countryName,
         subject: json["subject"],
         content: json["content"] ?? "",
         startTime: json["startTime"],
