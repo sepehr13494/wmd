@@ -10,7 +10,7 @@ class GetMandateStatusResponse extends GetMandateStatusEntity {
   factory GetMandateStatusResponse.fromJson(Map<String, dynamic> json) {
     return GetMandateStatusResponse(
       dataSource: json['dataSource'],
-      mandateId: json['mandateId'],
+      mandateId: int.parse(json['mandateId']),
       syncDate:
           json['syncDate'] != null ? DateTime.parse(json['syncDate']) : null,
       synced: json['synced'],
