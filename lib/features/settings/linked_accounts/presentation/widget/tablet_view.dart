@@ -150,7 +150,7 @@ class LinkedTableTablet extends AppStatelessWidget {
             title: Text(appLocalizations.profile_linkedAccounts_name,
                 style: textTheme.bodyLarge!.apply(color: primaryColor))),
         ListTile(
-          title: Text('Account',
+          title: Text(appLocalizations.profile_linkedAccounts_account,
               style: textTheme.bodyLarge!.apply(color: primaryColor)),
         ),
         ListTile(
