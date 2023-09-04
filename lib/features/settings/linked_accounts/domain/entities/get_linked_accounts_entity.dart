@@ -6,11 +6,13 @@ class GetLinkedAccountsEntity extends Equatable {
   final DateTime? syncDate;
   final String type;
   final String subType;
+  final String accountNumber;
   const GetLinkedAccountsEntity(
       {required this.bankName,
       required this.id,
       required this.syncDate,
       required this.type,
+      required this.accountNumber,
       required this.subType});
 
   Map<String, dynamic> toJson() => {};

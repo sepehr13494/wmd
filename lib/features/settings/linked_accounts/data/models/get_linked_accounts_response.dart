@@ -6,6 +6,7 @@ class GetLinkedAccountsResponse extends GetLinkedAccountsEntity {
       required super.id,
        super.syncDate,
       required super.type,
+      required super.accountNumber,
       required super.subType});
   // GetLinkedAccountsResponse();
 
@@ -15,6 +16,7 @@ class GetLinkedAccountsResponse extends GetLinkedAccountsEntity {
         id: json['id'],
         syncDate:json['syncDate'] != null ? DateTime.parse(json['syncDate']) : null,
         subType: json['subType'],
+        accountNumber: json['accountNumber'],
         type: json['type'],
       );
 
@@ -24,6 +26,7 @@ class GetLinkedAccountsResponse extends GetLinkedAccountsEntity {
         id: 'id',
         syncDate: DateTime.now(),
         type: 'BankAccount',
+        accountNumber: 'accountNumber',
         subType: 'Assets')
   ];
 }
