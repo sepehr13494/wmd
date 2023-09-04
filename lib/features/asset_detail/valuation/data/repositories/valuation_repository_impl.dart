@@ -3,6 +3,7 @@ import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
 import 'package:dartz/dartz.dart';
+import 'package:wmd/core/util/constants.dart';
 
 import '../models/get_all_valuation_params.dart';
 import '../../domain/entities/get_all_valuation_entity.dart';
@@ -51,12 +52,16 @@ class ValuationRepositoryImpl implements ValuationRepository {
     try {
       final resultTransaction =
           await remoteDataSource.getAllTransaction(params);
-      final resultValuation = await remoteDataSource.getAllValuation(params);
+      if (AppConstants.isRelease2) {
+        final resultValuation = await remoteDataSource.getAllValuation(params);
 
-      List<GetAllValuationEntity> combinedList =
-          combineAndSortEntityLists(resultTransaction, resultValuation);
+        List<GetAllValuationEntity> combinedList =
+            combineAndSortEntityLists(resultTransaction, resultValuation);
 
-      return Right(combinedList);
+        return Right(combinedList);
+      } else {
+        return Right(resultTransaction);
+      }
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error) {
