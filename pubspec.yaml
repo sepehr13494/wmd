@@ -156,6 +156,9 @@ flutter:
     - family: CustomIcons
       fonts:
         - asset: assets/fonts/CustomIcons.ttf
+    - family: LinkedAccountsIcons
+      fonts:
+        - asset: assets/fonts/LinkedAccountsIcons.ttf
     - family: gotham
       fonts:
         - asset: assets/fonts/gotham/Gotham-Bold.ttf
