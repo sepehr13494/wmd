@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
-import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/linked_accounts_icons_icons.dart';
 import 'package:wmd/features/dashboard/mandate_status/domain/entities/get_mandate_status_entity.dart';
 import 'package:wmd/features/settings/linked_accounts/domain/entities/get_linked_accounts_entity.dart';
@@ -62,24 +61,12 @@ class LinkedTableTablet extends AppStatelessWidget {
         const SizedBox(width: 16),
         const CircularIcon(iconData: LinkedAccountsIcons.temple_1),
         ListTile(
-          // leading: Icon(Icons.food_bank),
           title: Text(e.bankName),
-          // subtitle: Text('Name of real estate'),
         ),
         Text(e.accountNumber),
-        // ListTile(
-        //   title: Text(e.type),
-        //   subtitle: Text(e.subType),
-        // ),
         Text(e.syncDate == null
             ? ''
             : CustomizableDateTime.ddMmYyyyWithSlash(e.syncDate!)),
-        // TextButton(
-        //     onPressed: () {
-        //       context.read<LinkedAccountsCubit>().deleteLinkedAccounts(
-        //           DeleteCustodianBankStatusParams(id: e.id));
-        //     },
-        //     child: Text(appLocalizations.common_button_delete)),
       ],
     );
   }
@@ -97,14 +84,9 @@ class LinkedTableTablet extends AppStatelessWidget {
         const SizedBox(width: 16),
         const CircularIcon(iconData: LinkedAccountsIcons.group),
         ListTile(
-          // leading: Icon(Icons.food_bank),
           title: Text(e.dataSource),
-          // subtitle: Text('Name of real estate'),
         ),
         Text(e.mandateId.toString()),
-        // ListTile(
-        //   title: Text(e.dataSource),
-        //   subtitle: Text(e.dataSource),
         // ),
         Text(e.syncDate == null
             ? ''
@@ -156,11 +138,6 @@ class LinkedTableTablet extends AppStatelessWidget {
         ListTile(
             title: Text(appLocalizations.profile_linkedAccounts_dateLinked,
                 style: textTheme.bodyLarge!.apply(color: primaryColor))),
-        // ListTile(
-        //   title: Text(appLocalizations.profile_linkedAccounts_serviceProvider,
-        //       style: textTheme.bodyLarge!.apply(color: primaryColor)),
-        // ),
-        // const SizedBox(),
       ],
     );
   }
