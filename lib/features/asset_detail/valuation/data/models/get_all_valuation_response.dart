@@ -41,7 +41,9 @@ class GetAllValuationResponse extends GetAllValuationEntity {
         // updatedAt: json["updatedAt"] == null
         // ? null
         // : DateTime.parse(json["updatedAt"]),
-        note: json["notes"] ?? '',
+        note: json["type"] == 'valuation'
+            ? json["note"] ?? ''
+            : json["notes"] ?? '',
         type: json["type"] ?? 'transaction',
         isLast: json["isLast"] ?? false,
       );
