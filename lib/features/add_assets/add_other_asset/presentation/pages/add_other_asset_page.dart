@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:intl/intl.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
+import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_form_builder_date_picker.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,6 +18,7 @@ import 'package:wmd/features/add_assets/add_other_asset/presentation/manager/oth
 import 'package:wmd/features/add_assets/core/constants.dart';
 import 'package:wmd/features/add_assets/core/data/models/other_asset_type.dart';
 import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_bloc_helper.dart';
+import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_confirmation_modal.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
@@ -25,6 +27,8 @@ import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_bl
 import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_state.dart';
 import 'package:wmd/features/edit_assets/core/presentation/widgets/delete_base_widget.dart';
 import 'package:wmd/features/edit_assets/edit_other_assets/presentation/manager/edit_other_assets_cubit.dart';
+import 'package:wmd/features/settings/core/data/models/put_settings_params.dart';
+import 'package:wmd/features/settings/dont_show_settings/presentation/manager/dont_show_settings_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
 import '../../../core/presentation/pages/base_add_assest_state.dart';
@@ -49,6 +53,7 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
   bool isPainting = false;
   DateTime? aqusitionDateValue;
   DateTime? valuationDateValue;
+  bool isChecked = false;
 
   void calculateCurrentValue() {
     const defaultValue = "--";
@@ -125,6 +130,9 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
         BlocProvider(
           create: (context) => sl<EditOtherAssetsCubit>(),
         ),
+        BlocProvider(
+          create: (context) => sl<DontShowSettingsCubit>()..getSettings(),
+        ),
       ],
       child: Builder(builder: (context) {
         final bool isMobile = ResponsiveHelper(context: context).isMobile;
@@ -134,40 +142,70 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
           },
           child: Scaffold(
             appBar: const AddAssetHeader(title: "", showExitModal: true),
-            bottomSheet: AddAssetFooter(
-                buttonText: edit
-                    ? appLocalizations.common_button_save
-                    : appLocalizations.common_button_addAsset,
-                onTap: (edit && !enableAddAssetButtonEdit)
-                    ? null
-                    : () {
-                        if (formKey.currentState!.validate()) {
-                          Map<String, dynamic> finalMap = {
-                            ...formKey.currentState!.instantValue,
-                            "currentDayValue":
-                                currentDayValue == "--" ? "0" : currentDayValue
-                          };
-                          if (edit) {
-                            context
-                                .read<EditOtherAssetsCubit>()
-                                .putOtherAssets(map: {
-                              ...finalMap,
-                              "ownershipPercentage": widget
-                                  .moreEntity?.ownerShip
-                                  .toStringAsFixedZero(0),
-                              "noOfUnits": widget.moreEntity?.units
-                                  .toStringAsFixedZero(0),
-                            }, assetId: widget.moreEntity!.id);
-                          } else {
-                            context.read<OtherAssetCubit>().postOtherAsset(
-                                map: {
-                                  ...finalMap,
-                                  "ownerShip": "100",
-                                  "units": "1"
-                                });
+            bottomSheet:
+                BlocListener<DontShowSettingsCubit, DontShowSettingsState>(
+              listener: BlocHelper.defaultBlocListener(
+                listener: (context, state) {
+                  if (state is GetSettingsLoaded) {
+                    isChecked = state.getSettingsEntities.isOtherAssetsChecked;
+                  }
+                },
+              ),
+              child: AddAssetFooter(
+                  buttonText: edit
+                      ? appLocalizations.common_button_save
+                      : appLocalizations.common_button_addAsset,
+                  onTap: (edit && !enableAddAssetButtonEdit)
+                      ? null
+                      : () async {
+                          if (formKey.currentState!.validate()) {
+                            Map<String, dynamic> finalMap = {
+                              ...formKey.currentState!.instantValue,
+                              "currentDayValue": currentDayValue == "--"
+                                  ? "0"
+                                  : currentDayValue
+                            };
+                            if (edit) {
+                              context
+                                  .read<EditOtherAssetsCubit>()
+                                  .putOtherAssets(map: {
+                                ...finalMap,
+                                "ownershipPercentage": widget
+                                    .moreEntity?.ownerShip
+                                    .toStringAsFixedZero(0),
+                                "noOfUnits": widget.moreEntity?.units
+                                    .toStringAsFixedZero(0),
+                              }, assetId: widget.moreEntity!.id);
+                            } else {
+                              bool add = true;
+                              if (!isChecked) {
+                                final conf = await showAssetConfirmationModal(
+                                    context,
+                                    assetType: AssetTypes.realEstate);
+                                if (conf != null &&
+                                    conf.isConfirmed &&
+                                    conf.isDontShowSelected) {
+                                  // ignore: use_build_context_synchronously
+                                  context
+                                      .read<DontShowSettingsCubit>()
+                                      .putSettings(const PutSettingsParams(
+                                          isOtherAssetsChecked: true));
+                                }
+                                add = conf != null && conf.isConfirmed;
+                              }
+                              if (add) {
+                                // ignore: use_build_context_synchronously
+                                context.read<OtherAssetCubit>().postOtherAsset(
+                                    map: {
+                                      ...finalMap,
+                                      "ownerShip": "100",
+                                      "units": "1"
+                                    });
+                              }
+                            }
                           }
-                        }
-                      }),
+                        }),
+            ),
             body: Theme(
               data: Theme.of(context).copyWith(),
               child: Builder(builder: (context) {
@@ -235,7 +273,8 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                               ? widget.moreEntity!
                                                   .toFormJson(context)
                                               : AddAssetConstants
-                                                  .initialJsonForAddOtherAsset(context),
+                                                  .initialJsonForAddOtherAsset(
+                                                      context),
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -397,7 +436,8 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                                 ),
                                               ),
                                               EachTextField(
-                                                hasInfo: false,
+                                                tooltipText: appLocalizations
+                                                    .common_tooltip_currency,
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_others_inputFields_currency_label,
                                                 child: CurrenciesDropdown(

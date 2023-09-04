@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/app_form_builder_date_picker.dart';
 import 'package:wmd/core/presentation/widgets/app_text_fields.dart';
@@ -23,6 +24,7 @@ import 'package:wmd/features/add_assets/core/data/models/account_type.dart';
 import 'package:wmd/features/add_assets/core/presentation/bloc/add_asset_bloc_helper.dart';
 import 'package:wmd/features/add_assets/core/presentation/pages/base_add_assest_state.dart';
 import 'package:wmd/features/add_assets/core/presentation/pages/base_add_asset_stateful_widget.dart';
+import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_confirmation_modal.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
@@ -32,6 +34,8 @@ import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_bl
 import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_state.dart';
 import 'package:wmd/features/edit_assets/core/presentation/widgets/delete_base_widget.dart';
 import 'package:wmd/features/edit_assets/edit_bank_manual/presentation/manager/edit_bank_manual_cubit.dart';
+import 'package:wmd/features/settings/core/data/models/put_settings_params.dart';
+import 'package:wmd/features/settings/dont_show_settings/presentation/manager/dont_show_settings_cubit.dart';
 import 'package:wmd/injection_container.dart';
 import 'package:wmd/core/extentions/string_ext.dart';
 
@@ -52,6 +56,7 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
   String? accountType;
   DateTime? endDateToParse;
   DateTime? startDateValue;
+  bool isChecked = false;
 
   @override
   void initState() {
@@ -79,6 +84,9 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
         BlocProvider(
           create: (context) => sl<EditBankManualCubit>(),
         ),
+        BlocProvider(
+          create: (context) => sl<DontShowSettingsCubit>()..getSettings(),
+        ),
       ],
       child: Builder(builder: (context) {
         final bool isMobile = ResponsiveHelper(context: context).isMobile;
@@ -88,29 +96,60 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
           },
           child: Scaffold(
             appBar: const AddAssetHeader(title: "", showExitModal: true),
-            bottomSheet: AddAssetFooter(
-              buttonText: edit
-                  ? appLocalizations.common_button_save
-                  : appLocalizations.common_button_addAsset,
-              onTap: (edit && !enableAddAssetButtonEdit)
-                  ? null
-                  : () {
-                      if (formKey.currentState!.validate()) {
-                        Map<String, dynamic> finalMap = {
-                          ...formKey.currentState!.instantValue,
-                        };
-                        if (isDepositTerm && endDateToParse != null) {
-                          finalMap["endDate"] = endDateToParse;
+            bottomSheet:
+                BlocListener<DontShowSettingsCubit, DontShowSettingsState>(
+              listener: BlocHelper.defaultBlocListener(
+                listener: (context, state) {
+                  if (state is GetSettingsLoaded) {
+                    isChecked = state.getSettingsEntities.isBankAccountChecked;
+                  }
+                },
+              ),
+              child: AddAssetFooter(
+                buttonText: edit
+                    ? appLocalizations.common_button_save
+                    : appLocalizations.common_button_addAsset,
+                onTap: (edit && !enableAddAssetButtonEdit)
+                    ? null
+                    : () async {
+                        if (formKey.currentState!.validate()) {
+                          Map<String, dynamic> finalMap = {
+                            ...formKey.currentState!.instantValue,
+                          };
+                          if (isDepositTerm && endDateToParse != null) {
+                            finalMap["endDate"] = endDateToParse;
+                          }
+                          if (edit) {
+                            context.read<EditBankManualCubit>().putBankManual(
+                                map: finalMap, assetId: widget.moreEntity!.id);
+                          } else {
+                            bool add = true;
+                            if (!isChecked) {
+                              final conf = await showAssetConfirmationModal(
+                                  context,
+                                  assetType: AssetTypes.bankAccount);
+                              if (conf != null &&
+                                  conf.isConfirmed &&
+                                  conf.isDontShowSelected) {
+                                // ignore: use_build_context_synchronously
+                                context
+                                    .read<DontShowSettingsCubit>()
+                                    .putSettings(const PutSettingsParams(
+                                        isBankAccountChecked: true));
+                              }
+                              add = conf != null && conf.isConfirmed;
+                            }
+                            if (add) {
+                              // ignore: use_build_context_synchronously
+                              context.read<BankCubit>().postBankDetails(map: {
+                                ...finalMap,
+                                "ownershipPercentage": "100"
+                              });
+                            }
+                          }
                         }
-                        if (edit) {
-                          context.read<EditBankManualCubit>().putBankManual(
-                              map: finalMap, assetId: widget.moreEntity!.id);
-                        } else {
-                          context.read<BankCubit>().postBankDetails(
-                              map: {...finalMap, "ownershipPercentage": "100"});
-                        }
-                      }
-                    },
+                      },
+              ),
             ),
             body: Theme(
               data: Theme.of(context).copyWith(),
@@ -371,7 +410,8 @@ class _AddBankManualPageState extends BaseAddAssetState<AddBankManualPage> {
                                                 ),
                                               ),
                                               EachTextField(
-                                                hasInfo: false,
+                                                tooltipText: appLocalizations
+                                                    .common_tooltip_currency,
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_bankAccount_inputFields_currency_label,
                                                 child: CurrenciesDropdown(
