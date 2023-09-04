@@ -14,6 +14,7 @@ import 'package:wmd/injection_container.dart';
 class ValuationDeleteModal extends ModalWidget {
   final String? valuationId;
   final String assetId;
+  final bool isValuation;
   const ValuationDeleteModal({
     super.key,
     required super.title,
@@ -22,6 +23,7 @@ class ValuationDeleteModal extends ModalWidget {
     super.cancelBtn,
     required this.valuationId,
     required this.assetId,
+    required this.isValuation,
   });
 
   @override
@@ -102,9 +104,15 @@ class ValuationDeleteModal extends ModalWidget {
                 const SizedBox(width: 20),
                 ElevatedButton(
                   onPressed: () {
-                    context
-                        .read<AssetValuationCubit>()
-                        .deleteValuation(map: {"id": valuationId});
+                    if (isValuation) {
+                      context
+                          .read<AssetValuationCubit>()
+                          .deleteValuation(map: {"id": valuationId});
+                    } else {
+                      context
+                          .read<AssetValuationCubit>()
+                          .deleteTransaction(map: {"id": valuationId});
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                       minimumSize: const Size(100, 50)),

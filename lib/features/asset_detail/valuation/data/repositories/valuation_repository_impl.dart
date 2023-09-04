@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:wmd/core/error_and_success/exeptions.dart';
 import 'package:wmd/core/error_and_success/failures.dart';
 import 'package:wmd/core/error_and_success/succeses.dart';
@@ -14,6 +15,31 @@ import '../../domain/entities/valuation_history_entity.dart';
 import '../../domain/repositories/valuation_repository.dart';
 import '../data_sources/valuation_remote_datasource.dart';
 
+// Define a function to combine two entity lists by sorting on the `valuatedAt` field.
+List<GetAllValuationEntity> combineAndSortEntityLists(
+    List<GetAllValuationEntity> list1, List<GetAllValuationEntity> list2) {
+  // Create a new list to store the combined entities.
+  List<GetAllValuationEntity> combinedList = [];
+
+  // Iterate over the first list.
+  for (GetAllValuationEntity entity in list1) {
+    // Add the entity to the combined list.
+    combinedList.add(entity);
+  }
+
+  // Iterate over the second list.
+  for (GetAllValuationEntity entity in list2) {
+    // Add the entity to the combined list.
+    combinedList.add(entity);
+  }
+
+  // Sort the combined list by the `valuatedAt` field.
+  combinedList.sort((a, b) => b.valuatedAt.compareTo(a.valuatedAt));
+
+  // Return the combined and sorted list.
+  return combinedList;
+}
+
 class ValuationRepositoryImpl implements ValuationRepository {
   final ValuationRemoteDataSource remoteDataSource;
 
@@ -23,8 +49,14 @@ class ValuationRepositoryImpl implements ValuationRepository {
   Future<Either<Failure, List<GetAllValuationEntity>>> getAllValuation(
       GetAllValuationParams params) async {
     try {
-      final result = await remoteDataSource.getAllValuation(params);
-      return Right(result);
+      final resultTransaction =
+          await remoteDataSource.getAllTransaction(params);
+      final resultValuation = await remoteDataSource.getAllValuation(params);
+
+      List<GetAllValuationEntity> combinedList =
+          combineAndSortEntityLists(resultTransaction, resultValuation);
+
+      return Right(combinedList);
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error) {

@@ -79,6 +79,16 @@ class PostValuationParams extends Equatable {
         "type": type,
       };
 
+  Map<String, dynamic> toValuationJson() => {
+        "holdingId": assetOrLiabilityId,
+        "currencyCode": currencyCode,
+        "wealthType": wealthType,
+        "valuatedAt": valuatedAt?.toIso8601String(),
+        "amount": pricePerUnit,
+        "note": note,
+        "type": type,
+      };
+
   @override
   // TODO: implement props
   List<Object?> get props => [

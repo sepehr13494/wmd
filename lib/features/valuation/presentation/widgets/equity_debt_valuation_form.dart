@@ -14,8 +14,12 @@ import 'package:wmd/features/valuation/data/models/valuation_action_type.dart';
 class EquityDebtValuationFormWidget extends StatefulWidget {
   final Function buildActions;
   final bool isEdit;
+  final bool? isValuation;
   const EquityDebtValuationFormWidget(
-      {Key? key, required this.buildActions, required this.isEdit})
+      {Key? key,
+      required this.buildActions,
+      required this.isEdit,
+      this.isValuation = false})
       : super(key: key);
   @override
   AppState<EquityDebtValuationFormWidget> createState() =>
@@ -105,7 +109,15 @@ class _EquityDebtValuationFormWidgetState
     return Column(children: [
       FormBuilder(
         key: formKey,
-        initialValue: widget.isEdit ? {} : {'note': "New valuation added"},
+        initialValue: widget.isEdit
+            ? {}
+            : widget.isValuation == true
+                ? {
+                    'note': "New market Value added",
+                    'type': "New market value",
+                    'valuatedAt': DateTime.now()
+                  }
+                : {'note': "New valuation added"},
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -140,7 +152,9 @@ class _EquityDebtValuationFormWidgetState
                 hasInfo: false,
                 title: appLocalizations.assets_valuationModal_labels_action,
                 child: RadioButton<String>(
-                    items: ValuationActionType.jsonInvestment(context),
+                    items: widget.isValuation == true
+                        ? ValuationActionType.jsonValuation(context)
+                        : ValuationActionType.jsonInvestment(context),
                     name: "type")),
             EachTextField(
               hasInfo: false,

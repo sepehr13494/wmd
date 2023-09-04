@@ -16,6 +16,7 @@ class GetAllValuationEntity extends Equatable {
     // required this.createdAt,
     // required this.updatedAt,
     required this.note,
+    this.type = "transaction",
     required this.isLast,
   });
 
@@ -33,6 +34,7 @@ class GetAllValuationEntity extends Equatable {
   // final DateTime createdAt;
   // final DateTime? updatedAt;
   final String? note;
+  final String? type;
   final bool isLast;
 
   Map<String, dynamic> toJson() => {
