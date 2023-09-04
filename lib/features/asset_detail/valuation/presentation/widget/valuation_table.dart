@@ -112,51 +112,52 @@ class ValuationWidget extends AppStatelessWidget {
                                   style:
                                       textTheme.bodySmall!.toLinkStyle(context),
                                 )),
-                          const SizedBox(width: 6),
-                          if ((isManuallyAdded &&
-                              (totalQuantity > 0.0 &&
-                                  [
-                                    AssetTypes.privateDebt,
-                                    AssetTypes.privateEquity,
-                                    AssetTypes.realEstate,
-                                    AssetTypes.otherAsset,
-                                  ].contains(assetType))))
-                            TextButton(
-                                onPressed: () {
-                                  showDialog(
-                                      context: context,
-                                      barrierDismissible: false,
-                                      builder: (buildContext) {
-                                        return BlocProvider.value(
-                                            value: BlocProvider.of<
-                                                AssetSummaryCubit>(context),
-                                            child: ValuationModalWidget(
-                                                title: '',
-                                                confirmBtn: appLocalizations
-                                                    .common_button_save,
-                                                cancelBtn: appLocalizations
-                                                    .common_button_cancel,
-                                                assetType: assetType,
-                                                assetId: assetId,
-                                                isValuation: true));
-                                      }).then((value) {
-                                    context
-                                        .read<ValuationCubit>()
-                                        .getAllValuation(
-                                            GetAllValuationParams(assetId));
-                                    updateHoldings();
-                                  });
+                          if (AppConstants.isRelease2) const SizedBox(width: 6),
+                          if (AppConstants.isRelease2)
+                            if ((isManuallyAdded &&
+                                (totalQuantity > 0.0 &&
+                                    [
+                                      AssetTypes.privateDebt,
+                                      AssetTypes.privateEquity,
+                                      AssetTypes.realEstate,
+                                      AssetTypes.otherAsset,
+                                    ].contains(assetType))))
+                              TextButton(
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (buildContext) {
+                                          return BlocProvider.value(
+                                              value: BlocProvider.of<
+                                                  AssetSummaryCubit>(context),
+                                              child: ValuationModalWidget(
+                                                  title: '',
+                                                  confirmBtn: appLocalizations
+                                                      .common_button_save,
+                                                  cancelBtn: appLocalizations
+                                                      .common_button_cancel,
+                                                  assetType: assetType,
+                                                  assetId: assetId,
+                                                  isValuation: true));
+                                        }).then((value) {
+                                      context
+                                          .read<ValuationCubit>()
+                                          .getAllValuation(
+                                              GetAllValuationParams(assetId));
+                                      updateHoldings();
+                                    });
 
-                                  // context.pushNamed(AppRoutes.forgetPassword);
-                                },
-                                child: Text(
-                                  appLocalizations
-                                      .assets_valuationModal_headingValuation
-                                      .replaceAll("{{addOrEdit}}",
-                                          appLocalizations.common_button_add),
-                                  style:
-                                      textTheme.bodySmall!.toLinkStyle(context),
-                                ))
+                                    // context.pushNamed(AppRoutes.forgetPassword);
+                                  },
+                                  child: Text(
+                                    appLocalizations
+                                        .assets_valuationModal_headingValuation
+                                        .replaceAll("{{addOrEdit}}",
+                                            appLocalizations.common_button_add),
+                                    style: textTheme.bodySmall!
+                                        .toLinkStyle(context),
+                                  ))
                         ],
                       ),
                     ],
@@ -241,7 +242,9 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
       widget.getAllValuationEntities.removeAt(lastIndex);
       int lastIndexVal = widget.getAllValuationEntities
           .lastIndexWhere((transaction) => transaction.type != 'transaction');
-      widget.getAllValuationEntities.removeAt(lastIndexVal);
+      if (lastIndexVal > 0) {
+        widget.getAllValuationEntities.removeAt(lastIndexVal);
+      }
 
       setState(() {
         isFirstTransRemoved = true;
@@ -261,7 +264,9 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
       widget.getAllValuationEntities.removeAt(lastIndex);
       int lastIndexVal = widget.getAllValuationEntities
           .lastIndexWhere((transaction) => transaction.type != 'transaction');
-      widget.getAllValuationEntities.removeAt(lastIndexVal);
+      if (lastIndexVal > 0) {
+        widget.getAllValuationEntities.removeAt(lastIndexVal);
+      }
 
       setState(() {
         isFirstTransRemoved = true;
