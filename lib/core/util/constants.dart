@@ -440,4 +440,40 @@ class AssetTypes {
   static const String otherAsset = 'OtherAsset';
   static const String otherAssets = 'OtherAssets';
   static const String loanLiability = 'LoanLiability';
+
+
+  static String getAssetType(AppLocalizations appLocalizations, String type,
+      {String? category}) {
+    switch (type) {
+      case AssetTypes.bankAccount:
+        return appLocalizations.assets_assets_BankAccount;
+      case AssetTypes.listedAsset:
+        return appLocalizations.assetLiabilityForms_assets_listedAssets ;
+      case AssetTypes.listedAssetEquity:
+        return appLocalizations
+            .assets_charts_allocationCharts_legendLabel_listedAssetEquity;
+      case AssetTypes.listedAssetFixedIncome:
+        return appLocalizations
+            .assets_charts_allocationCharts_legendLabel_listedAssetFixedIncome;
+      case AssetTypes.listedAssetOther:
+        return appLocalizations
+            .assets_charts_allocationCharts_legendLabel_listedAssetOther;
+      case AssetTypes.privateEquity:
+        return appLocalizations.assets_assets_PrivateEquity;
+      case AssetTypes.privateDebt:
+        return appLocalizations.assetLiabilityForms_assets_privateDebt;
+      case AssetTypes.realEstate:
+        return appLocalizations
+            .manage_assetAndLiability_assetAndLiabilityList_realEstate_title;
+      case AssetTypes.otherAsset:
+        return appLocalizations
+            .manage_assetAndLiability_assetAndLiabilityList_others_title;
+      case AssetTypes.otherAssets:
+        return appLocalizations
+            .manage_assetAndLiability_assetAndLiabilityList_others_title;
+      default:
+        debugPrint("wrong type : $type");
+        return "Wrong asset type";
+    }
+  }
 }
