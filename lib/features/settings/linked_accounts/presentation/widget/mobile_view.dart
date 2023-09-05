@@ -192,7 +192,7 @@ Future<bool?> showDetailModal(
                                   .profile_linkedAccounts_dateLinked,
                               subTitle: e.syncDate == null
                                   ? ''
-                                  : CustomizableDateTime.ddMmYyyyWithSlash(
+                                  : CustomizableDateTime.localizedDdMmCommaYyyy(
                                       e.syncDate!)),
                           TitleSubtitle(
                               title:
@@ -296,7 +296,7 @@ Future<bool?> showDetailModalMandate(
                                   .profile_linkedAccounts_dateLinked,
                               subTitle: e.syncDate == null
                                   ? ''
-                                  : CustomizableDateTime.ddMmYyyyWithSlash(
+                                  : CustomizableDateTime.localizedDdMmCommaYyyy(
                                       e.syncDate!)),
                           TitleSubtitle(
                               title:

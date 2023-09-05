@@ -66,7 +66,7 @@ class LinkedTableTablet extends AppStatelessWidget {
         Text(e.accountNumber),
         Text(e.syncDate == null
             ? ''
-            : CustomizableDateTime.ddMmYyyyWithSlash(e.syncDate!)),
+            : CustomizableDateTime.localizedDdMmCommaYyyy(e.syncDate!)),
       ],
     );
   }
@@ -90,7 +90,7 @@ class LinkedTableTablet extends AppStatelessWidget {
         // ),
         Text(e.syncDate == null
             ? ''
-            : CustomizableDateTime.ddMmYyyyWithSlash(e.syncDate!)),
+            : CustomizableDateTime.localizedDdMmCommaYyyy(e.syncDate!)),
         // TextButton(
         //     onPressed: () {
         //       GlobalFunctions.showConfirmDialog(
