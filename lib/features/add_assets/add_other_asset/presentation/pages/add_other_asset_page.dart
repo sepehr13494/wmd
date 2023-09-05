@@ -181,7 +181,7 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                               if (!isChecked) {
                                 final conf = await showAssetConfirmationModal(
                                     context,
-                                    assetType: AssetTypes.realEstate);
+                                    assetType: AssetTypes.otherAsset);
                                 if (conf != null &&
                                     conf.isConfirmed &&
                                     conf.isDontShowSelected) {

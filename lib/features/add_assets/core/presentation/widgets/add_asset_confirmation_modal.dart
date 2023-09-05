@@ -4,6 +4,7 @@ import 'package:wmd/core/presentation/widgets/bottom_modal_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
+import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 
 Future<ModalResponse?> showAssetConfirmationModal(BuildContext context,
@@ -87,30 +88,37 @@ class _AssetConfirmationModalWidgetState
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
+
+    final List<String> bulletTexts =
+        calculateBulletTexts(appLocalizations, widget.assetType);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           appLocalizations.common_assetConfirmationModal_heading.replaceAll(
               '{{assetName}}',
-              AssetsOverviewChartsColors.getAssetType(
-                  appLocalizations, widget.assetType)),
+              AssetTypes.getAssetType(appLocalizations, widget.assetType)
+                  .toLowerCase()),
           style: textTheme.titleLarge,
         ),
         const SizedBox(height: 8),
         Text(
-          '\u2022 ${appLocalizations.common_assetConfirmationModal_listItem1}',
+          '\u2022 ${bulletTexts[0]}',
           style: textTheme.bodySmall,
         ),
+        const SizedBox(height: 8),
         Text(
-          '\u2022 ${appLocalizations.common_assetConfirmationModal_listItem2}',
+          '\u2022 ${bulletTexts[1]}',
           style: textTheme.bodySmall,
         ),
+        const SizedBox(height: 8),
         Text(
-          '\u2022 ${appLocalizations.common_assetConfirmationModal_listItem2}',
+          '\u2022 ${appLocalizations.common_assetConfirmationModal_listItem3}',
           style: textTheme.bodySmall,
         ),
-        const Divider(color: AppColors.dashboardDividerColor),
+        const SizedBox(height: 8),
+        Divider(color: AppColors.dashboardDividerColor.withOpacity(0.5)),
+        const SizedBox(height: 4),
         Card(
           color: AppColors.blueCardColor,
           child: Padding(
@@ -125,6 +133,7 @@ class _AssetConfirmationModalWidgetState
                       child: Icon(
                         Icons.info_outline_rounded,
                         size: 15,
+                        color: AppColors.primaryLighter,
                       ),
                     ),
                   ),
@@ -147,16 +156,61 @@ class _AssetConfirmationModalWidgetState
             ],
           ),
         if (!responsiveHelper.isMobile)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              buildCheckBox(appLocalizations, textTheme),
-              buildConfirmBtn(appLocalizations),
-              buildCancelBtn(appLocalizations),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(top: 24),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                buildCheckBox(appLocalizations, textTheme),
+                Expanded(child: buildConfirmBtn(appLocalizations)),
+                Expanded(child: buildCancelBtn(appLocalizations)),
+              ],
+            ),
           )
       ],
     );
+  }
+
+  List<String> calculateBulletTexts(
+      AppLocalizations appLocalizations, String assetType) {
+    switch (assetType) {
+      case AssetTypes.bankAccount:
+        return [
+          appLocalizations.common_assetConfirmationModal_bankAccount_listItem1,
+          appLocalizations.common_assetConfirmationModal_bankAccount_listItem2
+        ];
+      case AssetTypes.realEstate:
+        return [
+          appLocalizations.common_assetConfirmationModal_realEstate_listItem1,
+          appLocalizations.common_assetConfirmationModal_realEstate_listItem2
+        ];
+      case AssetTypes.privateEquity:
+        return [
+          appLocalizations
+              .common_assetConfirmationModal_privateEquity_listItem1,
+          appLocalizations.common_assetConfirmationModal_privateEquity_listItem2
+        ];
+      case AssetTypes.privateDebt:
+        return [
+          appLocalizations.common_assetConfirmationModal_privateDebt_listItem1,
+          appLocalizations.common_assetConfirmationModal_privateDebt_listItem2
+        ];
+      case AssetTypes.listedAsset:
+        return [
+          appLocalizations.common_assetConfirmationModal_listedAssets_listItem1,
+          appLocalizations.common_assetConfirmationModal_listedAssets_listItem2
+        ];
+      case AssetTypes.otherAsset:
+        return [
+          appLocalizations.common_assetConfirmationModal_otherAssets_listItem1,
+          appLocalizations.common_assetConfirmationModal_otherAssets_listItem2
+        ];
+      default:
+        return [
+          appLocalizations.common_assetConfirmationModal_listItem1,
+          appLocalizations.common_assetConfirmationModal_listItem2
+        ];
+    }
   }
 }
 

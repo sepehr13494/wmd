@@ -2778,7 +2778,7 @@
     "common:assetConfirmationModal.heading": "You are about to add a new {{assetName}} asset.",
     "common:assetConfirmationModal.listItem1": "Once confirmed, you can edit the property name, type, address, etc.",
     "common:assetConfirmationModal.listItem2": "On the asset detail page, you can also include transaction information and specify a new market value.",
-    "common:assetConfirmationModal.listItem3": "If you need to make changes later, it is better to delete and then re-add the asset.",
+    "common:assetConfirmationModal.listItem3": "If you need to make later other changes, it is better to delete and then re-add the asset.",
     "common:assetConfirmationModal.note": "Once confirmed, we will initiate performance calculations and categorize the asset appropriately within a region. The results will be visible the next day. Asset and portfolio performance calculations begin from the moment you start using the platform.",
     "common:assetConfirmationModal.checkbox": "Don't show this again",
     "assetLiabilityForms:toast.assetAddSuccess": "Your {{assetName}} asset has been added successfully.",
@@ -2792,5 +2792,17 @@
     "assets:valuationModal.headingValuation": "{{addOrEdit}} Valuation",
     "assets:valuationModal.deleteValuationHeading": "Are you sure you want to delete this valuation?",
     "assets:valuationModal.labels.newMarketValue": "New market value",
-    "profile:linkedAccounts.account": "Account"
+    "profile:linkedAccounts.account": "Account",
+    "common:assetConfirmationModal.bankAccount.listItem1": "Once confirmed, you can edit the bank account description and type.",
+    "common:assetConfirmationModal.bankAccount.listItem2": "On the asset detail page, you will be able to add a new balance.",
+    "common:assetConfirmationModal.realEstate.listItem1": "Once confirmed, you can edit the property name, type, and address.",
+    "common:assetConfirmationModal.realEstate.listItem2": "On the asset detail page, you can also add the sell transaction details.",
+    "common:assetConfirmationModal.privateEquity.listItem1": "Once confirmed, you can edit the private equity name.",
+    "common:assetConfirmationModal.privateEquity.listItem2": "On the asset detail page, you can also add the sell transaction details.",
+    "common:assetConfirmationModal.privateDebt.listItem1": "Once confirmed, you can edit the private debt name.",
+    "common:assetConfirmationModal.privateDebt.listItem2": "On the asset detail page, you can also add the sell transaction details.",
+    "common:assetConfirmationModal.listedAssets.listItem1": "Once confirmed, you can't edit the listed asset details.",
+    "common:assetConfirmationModal.listedAssets.listItem2": "On the asset detail page, you can also add the sell and buy transactions.",
+    "common:assetConfirmationModal.otherAssets.listItem1": "Once confirmed, you can edit the asset name and type.",
+    "common:assetConfirmationModal.otherAssets.listItem2": "On the asset detail page, you can also add the sell transaction details."
 }

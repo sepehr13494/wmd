@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
+import 'package:wmd/core/util/colors.dart';
 
 class CenterModalWidget extends StatelessWidget {
   final Widget body;
@@ -41,7 +42,7 @@ class CenterModalWidget extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  buildModalHeader(context),
+                  buildModalHeader(context, AppColors.primaryLighter),
                   Padding(
                     padding: contentPadding,
                     child: body,
@@ -60,7 +61,7 @@ class CenterModalWidget extends StatelessWidget {
   ///  Action Buttons Container of Modal
   Widget buildActionContainer(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.only(top: 24.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         // mainAxisSize: MainAxisSize.min,
@@ -83,7 +84,7 @@ class CenterModalWidget extends StatelessWidget {
     );
   }
 
-  Widget buildModalHeader(BuildContext context) {
+  Widget buildModalHeader(BuildContext context, Color color) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -91,7 +92,10 @@ class CenterModalWidget extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: const Icon(Icons.close)),
+            icon: Icon(
+              Icons.close,
+              color: color,
+            )),
       ],
     );
   }
