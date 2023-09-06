@@ -84,7 +84,8 @@ class _AddCustodianBanksPageState extends AppState<AddCustodianBanksPage> {
                             horizontal: 4, vertical: 8),
                         child: OutlinedButton(
                             onPressed: () {},
-                            child: Text('+ Add a new custodian bank')),
+                            child: Text(appLocalizations
+                                .common_newCustodianRequest_modal_button)),
                       ),
                       const SizedBox(
                         height: 82,

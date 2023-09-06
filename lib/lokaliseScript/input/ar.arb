@@ -1931,5 +1931,6 @@
     "linkAccount:stepper.swisBankSteps.stepTwo.address.line2": "c\/o Altenburger Ltd legal + tax, Seestrasse 39",
     "linkAccount:stepper.swisBankSteps.stepTwo.address.line3": "8700Küsnacht, Switzerland",
     "linkAccount:stepper.swisBankSteps.stepTwo.toast.message": "نُسخ إلى الذاكرة",
-    "profile:linkedAccounts.account": "حساب"
+    "profile:linkedAccounts.account": "حساب",
+    "common:errors.duplicateValue": "لا ينبغي أن يكون الاسم الأخير هو نفس الاسم الأول."
 }
