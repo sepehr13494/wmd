@@ -32,24 +32,15 @@ class AddAssetFooter extends AppStatelessWidget {
       height: 76,
       color: Theme.of(context).cardColor,
       child: Padding(
-        padding: const EdgeInsets.only(right: 16,left: 16,bottom: 16),
+        padding: const EdgeInsets.only(right: 16, left: 16, bottom: 16),
         child: Row(
           children: [
             isMobile
                 ? const SizedBox()
                 : Expanded(
                     child: Row(
-                      children: [
-                        const SupportWidget(),
-                        const SizedBox(width: 12),
-                        Expanded(
-                            child: Center(
-                                child: Text(
-                          "You can add another asset on the next screen",
-                          style: textTheme.bodySmall,
-                        ))),
-                        const SizedBox(width: 12),
-                      ],
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: const [SupportWidget()],
                     ),
                   ),
             ExpandedIf(
