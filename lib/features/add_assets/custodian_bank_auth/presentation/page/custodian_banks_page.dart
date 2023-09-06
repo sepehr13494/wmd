@@ -79,6 +79,16 @@ class _AddCustodianBanksPageState extends AppState<AddCustodianBanksPage> {
                                 },
                                 isSelected: selectedBankId == e.bankId,
                               )),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 4, vertical: 8),
+                        child: OutlinedButton(
+                            onPressed: () {},
+                            child: Text('+ Add a new custodian bank')),
+                      ),
+                      const SizedBox(
+                        height: 82,
+                      )
                     ],
                   );
                 }
