@@ -104,10 +104,6 @@ class _BanksAuthorizationProcessState
                 children: [
                   buildTableHeader(textTheme, appLocalizations),
                   ...List.generate(length > limit ? limit : length, (index) {
-                    debugPrint("index is ");
-                    debugPrint(index.toString());
-                    debugPrint(custodainArr.length.toString());
-                    debugPrint(length.toString());
                     final e = custodainArr[index];
 
                     if (e["type"] == "mandate") {
