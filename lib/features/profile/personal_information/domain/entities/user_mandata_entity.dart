@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class UserMandateEntity extends Equatable {
-  final int mandateId;
+  final String mandateId;
   final String dataSource;
   final bool synced;
 

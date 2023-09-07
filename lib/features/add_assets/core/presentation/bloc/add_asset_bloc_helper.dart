@@ -11,6 +11,7 @@ import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal.
 import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal_onboarding.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/global_functions.dart';
 
 class AssetBlocHelper extends BlocHelper {
   static BlocWidgetListener defaultBlocListener({
@@ -32,6 +33,15 @@ class AssetBlocHelper extends BlocHelper {
           AppRouter().setMainRefreshKey();
           final successValue = state.addAsset;
           context.goNamed(AppRoutes.addAssetsView);
+          GlobalFunctions.showSnackTile(
+            context,
+            color: Colors.green,
+            title: appLocalizations.assetLiabilityForms_toast_assetAddSuccess
+                .replaceAll(
+                    '{{assetName}}',
+                    AssetTypes.getAssetType(appLocalizations, assetType)
+                        .toLowerCase()),
+          );
           // showDialog(
           //   context: context,
           //   builder: (buildContext) {

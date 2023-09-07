@@ -9,40 +9,24 @@ import 'package:wmd/features/valuation/data/models/get_valuation_response.dart';
 
 import '../models/post_valuation_params.dart';
 import '../models/update_valuation_params.dart';
+import '../models/update_valuation_response.dart';
 
-abstract class AssetValuationRemoteDataSource {
-  Future<void> postValuation(PostValuationParams params);
-  Future<void> updateValuation(UpdateValuationParams params);
-  Future<void> deleteValuation(GetValuationParams params);
-  Future<GetValuationResponse> getValuationById(GetValuationParams params);
+abstract class AssetTransactionRemoteDataSource {
+  Future<void> postTransaction(PostValuationParams params);
+  Future<void> updateTransaction(UpdateValuationParams params);
+  Future<void> deleteTransaction(GetValuationParams params);
+  Future<GetValuationResponse> getTransactionById(GetValuationParams params);
 }
 
-class AssetValuationRemoteDataSourceImpl extends AppServerDataSource
-    implements AssetValuationRemoteDataSource {
-  AssetValuationRemoteDataSourceImpl(super.errorHandlerMiddleware);
+class AssetTransactionRemoteDataSourceImpl extends AppServerDataSource
+    implements AssetTransactionRemoteDataSource {
+  AssetTransactionRemoteDataSourceImpl(super.errorHandlerMiddleware);
 
   @override
-  Future<void> postValuation(PostValuationParams params) async {
-    try {
-      final appRequestOptions = AppRequestOptions(RequestTypes.post,
-          AppUrls.postAddValuation, params.toValuationJson());
-      final response =
-          await errorHandlerMiddleware.sendRequest(appRequestOptions);
-
-      return;
-    } on ServerException {
-      rethrow;
-    } catch (e) {
-      throw AppException(
-          message: "format Exception", type: ExceptionType.format);
-    }
-  }
-
-  @override
-  Future<void> updateValuation(UpdateValuationParams params) async {
+  Future<void> postTransaction(PostValuationParams params) async {
     try {
       final appRequestOptions = AppRequestOptions(
-          RequestTypes.put, AppUrls.postAddValuation, params.toValuationJson());
+          RequestTypes.post, AppUrls.postAddTransaction, params.toJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
 
@@ -56,10 +40,10 @@ class AssetValuationRemoteDataSourceImpl extends AppServerDataSource
   }
 
   @override
-  Future<void> deleteValuation(GetValuationParams params) async {
+  Future<void> updateTransaction(UpdateValuationParams params) async {
     try {
-      final appRequestOptions = AppRequestOptions(RequestTypes.delete,
-          AppUrls.postAddValuation, params.toValuationJson());
+      final appRequestOptions = AppRequestOptions(
+          RequestTypes.put, AppUrls.postAddTransaction, params.toJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
 
@@ -73,14 +57,31 @@ class AssetValuationRemoteDataSourceImpl extends AppServerDataSource
   }
 
   @override
-  Future<GetValuationResponse> getValuationById(
+  Future<void> deleteTransaction(GetValuationParams params) async {
+    try {
+      final appRequestOptions = AppRequestOptions(
+          RequestTypes.del, AppUrls.postAddTransaction, params.toJson());
+      final response =
+          await errorHandlerMiddleware.sendRequest(appRequestOptions);
+
+      return;
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw AppException(
+          message: "format Exception", type: ExceptionType.format);
+    }
+  }
+
+  @override
+  Future<GetValuationResponse> getTransactionById(
       GetValuationParams params) async {
     try {
       final appRequestOptions = AppRequestOptions(
-          RequestTypes.get, AppUrls.postAddValuation, params.toValuationJson());
+          RequestTypes.get, AppUrls.postAddTransaction, params.toJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = GetValuationResponse.fromValuationJson(response);
+      final result = GetValuationResponse.fromJson(response);
       return result;
     } on ServerException {
       rethrow;

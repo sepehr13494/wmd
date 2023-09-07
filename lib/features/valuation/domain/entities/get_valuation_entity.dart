@@ -19,7 +19,7 @@ class GetValuationEntity extends Equatable {
     required this.isPm1Processed,
     required this.assetId,
     required this.type,
-    // required this.liabilityId,
+    // this.liabilityId,
     required this.createdAt,
     required this.updatedAt,
     required this.note,
@@ -82,7 +82,6 @@ class GetValuationEntity extends Equatable {
         // "originCode": originCode,
 
         "assetId": assetId,
-
         // "liabilityId": liabilityId,
         "createdAt": createdAt,
         "updatedAt": updatedAt,

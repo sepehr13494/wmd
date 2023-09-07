@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
+import 'package:wmd/core/util/linked_accounts_icons_icons.dart';
 import 'package:wmd/features/dashboard/mandate_status/domain/entities/get_mandate_status_entity.dart';
 import 'package:wmd/features/settings/linked_accounts/domain/entities/get_linked_accounts_entity.dart';
 
@@ -17,7 +18,8 @@ class LinkedTableTablet extends AppStatelessWidget {
     0: IntrinsicColumnWidth(),
     1: IntrinsicColumnWidth(),
     2: FlexColumnWidth(),
-    3: IntrinsicColumnWidth(),
+    3: FlexColumnWidth(),
+    4: FlexColumnWidth(),
     // 4: IntrinsicColumnWidth(),
   };
 
@@ -37,7 +39,10 @@ class LinkedTableTablet extends AppStatelessWidget {
         }),
         ...List.generate(mandateList.length, (index) {
           return _buildTableRowMandate(
-              context, index, mandateList[index], appLocalizations);
+              context,
+              getLinkedAccountsEntities.length + index,
+              mandateList[index],
+              appLocalizations);
         }),
       ],
     );
@@ -53,25 +58,15 @@ class LinkedTableTablet extends AppStatelessWidget {
             : Theme.of(context).cardColor,
       ),
       children: [
+        const SizedBox(width: 16),
+        const CircularIcon(iconData: LinkedAccountsIcons.temple_1),
         ListTile(
-          // leading: Icon(Icons.food_bank),
           title: Text(e.bankName),
-          // subtitle: Text('Name of real estate'),
         ),
+        Text(e.accountNumber),
         Text(e.syncDate == null
             ? ''
-            : CustomizableDateTime.ddMmYyyyWithSlash(e.syncDate!)),
-        ListTile(
-          title: Text(e.type),
-          subtitle: Text(e.subType),
-        ),
-        const Text(' '),
-        // TextButton(
-        //     onPressed: () {
-        //       context.read<LinkedAccountsCubit>().deleteLinkedAccounts(
-        //           DeleteCustodianBankStatusParams(id: e.id));
-        //     },
-        //     child: Text(appLocalizations.common_button_delete)),
+            : CustomizableDateTime.localizedDdMmCommaYyyy(e.syncDate!)),
       ],
     );
   }
@@ -86,19 +81,16 @@ class LinkedTableTablet extends AppStatelessWidget {
             : Theme.of(context).cardColor,
       ),
       children: [
-        ListTile(
-          // leading: Icon(Icons.food_bank),
-          title: Text('${e.dataSource} (${e.mandateId})'),
-          // subtitle: Text('Name of real estate'),
-        ),
-        Text(e.syncDate == null
-            ? ''
-            : CustomizableDateTime.ddMmYyyyWithSlash(e.syncDate!)),
+        const SizedBox(width: 16),
+        const CircularIcon(iconData: LinkedAccountsIcons.group),
         ListTile(
           title: Text(e.dataSource),
-          subtitle: Text(e.dataSource),
         ),
-        const Text(' '),
+        Text(e.mandateId.toString()),
+        // ),
+        Text(e.syncDate == null
+            ? ''
+            : CustomizableDateTime.localizedDdMmCommaYyyy(e.syncDate!)),
         // TextButton(
         //     onPressed: () {
         //       GlobalFunctions.showConfirmDialog(
@@ -134,23 +126,36 @@ class LinkedTableTablet extends AppStatelessWidget {
         color: Colors.transparent,
       ),
       children: [
+        const SizedBox(width: 16),
+        const SizedBox(),
         ListTile(
             title: Text(appLocalizations.profile_linkedAccounts_name,
                 style: textTheme.bodyLarge!.apply(color: primaryColor))),
         ListTile(
-          title: Text(appLocalizations.profile_linkedAccounts_dateLinked,
+          title: Text(appLocalizations.profile_linkedAccounts_account,
               style: textTheme.bodyLarge!.apply(color: primaryColor)),
         ),
         ListTile(
-            title: Text(appLocalizations.profile_linkedAccounts_type,
+            title: Text(appLocalizations.profile_linkedAccounts_dateLinked,
                 style: textTheme.bodyLarge!.apply(color: primaryColor))),
-        // ListTile(
-        //   title: Text(appLocalizations.profile_linkedAccounts_serviceProvider,
-        //       style: textTheme.bodyLarge!.apply(color: primaryColor)),
-        // ),
-        const SizedBox(),
-        // const SizedBox(),
       ],
+    );
+  }
+}
+
+class CircularIcon extends StatelessWidget {
+  final IconData iconData;
+  const CircularIcon({Key? key, required this.iconData}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      foregroundColor: Colors.black,
+      backgroundColor: Colors.white12,
+      child: Icon(
+        iconData,
+        color: Colors.white54,
+      ),
     );
   }
 }

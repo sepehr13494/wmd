@@ -17,6 +17,8 @@ import '../models/get_valuation_performance_params.dart';
 abstract class ValuationRemoteDataSource {
   Future<List<GetAllValuationResponse>> getAllValuation(
       GetAllValuationParams params);
+  Future<List<GetAllValuationResponse>> getAllTransaction(
+      GetAllValuationParams params);
   Future<PostValuationResponse> postValuation(PostValuationParams params);
   Future<GetValuationPerformanceResponse> getValuationPerformance(
       GetValuationPerformanceParams params);
@@ -35,7 +37,29 @@ class ValuationRemoteDataSourceImpl extends AppServerDataSource
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
       final result = (response as List<dynamic>)
-          .map((e) => GetAllValuationResponse.fromJson(e))
+          .map((e) =>
+              GetAllValuationResponse.fromJson({...e, 'type': 'valuation'}))
+          .toList();
+      return result;
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw AppException(
+          message: "format Exception", type: ExceptionType.format, data: e);
+    }
+  }
+
+  @override
+  Future<List<GetAllValuationResponse>> getAllTransaction(
+      GetAllValuationParams params) async {
+    try {
+      final appRequestOptions = AppRequestOptions(
+          RequestTypes.get, AppUrls.getAllTransaction, params.toJson());
+      final response =
+          await errorHandlerMiddleware.sendRequest(appRequestOptions);
+      final result = (response as List<dynamic>)
+          .map((e) =>
+              GetAllValuationResponse.fromJson({...e, 'type': 'transaction'}))
           .toList();
       return result;
     } on ServerException {
