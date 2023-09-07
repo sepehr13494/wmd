@@ -22,7 +22,7 @@ class _PersonalInformationWidgetState
   bool enableSubmitButton = false;
   final formKey = GlobalKey<FormBuilderState>();
   late Map<String, dynamic> lastValue;
-  int? mandateId;
+  String? mandateId;
 
   void checkFinalValid(value) async {
     await Future.delayed(const Duration(milliseconds: 100));
@@ -104,7 +104,7 @@ class _PersonalInformationWidgetState
                             style: textTheme.bodyMedium,
                           ),
                           Text(
-                            mandateId.toString(),
+                            mandateId!,
                             style: textTheme.bodyMedium,
                           ),
                         ],
