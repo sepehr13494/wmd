@@ -496,15 +496,18 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
         //   renderPopupMenu(context, id),
         if (AppConstants.publicMvp2Items &&
             widget.isManuallyAdded &&
-            (type == "valuation" ? isLast : true) &&
+            isLast &&
+            // (type == "valuation" ? isLast : true) &&
             widget.totalQuantity > 0 &&
             widget.assetType != AssetTypes.bankAccount)
           renderPopupMenu(context, id, type! == "valuation"),
         if (AppConstants.publicMvp2Items &&
             widget.isManuallyAdded &&
             widget.totalQuantity > 0 &&
-            ((type == "valuation" ? !isLast : true) ||
-                widget.assetType == AssetTypes.bankAccount))
+            // ((type == "valuation" ? !isLast : true) ||
+            (!isLast || widget.assetType == AssetTypes.bankAccount)
+        // )
+        )
           Text(
             "",
             style: textTheme.bodySmall,
