@@ -433,8 +433,9 @@ class _CurrenciesDropdownState extends AppState<CurrenciesDropdown> {
 class CountriesDropdown extends AppStatelessWidget {
   final ValueChanged<Country?>? onChanged;
   final bool enabled;
+  final bool only3;
 
-  const CountriesDropdown({Key? key, this.onChanged, this.enabled = true})
+  const CountriesDropdown({Key? key, this.onChanged, this.enabled = true, this.only3 = false})
       : super(key: key);
 
   @override
@@ -450,7 +451,7 @@ class CountriesDropdown extends AppStatelessWidget {
       ),
       errorMsg: appLocalizations
           .assetLiabilityForms_forms_realEstate_inputFields_country_errorMessage,
-      items: Country.getCountryList(context),
+      items: Country.getCountryList(context,only3: only3),
       onChanged: onChanged,
       itemAsString: (country) => country.countryName,
       filterFn: (country, string) {

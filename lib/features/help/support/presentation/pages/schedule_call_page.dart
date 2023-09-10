@@ -481,6 +481,7 @@ class _ScheduleCallPageState extends AppState<ScheduleCallPage> {
                     .assetLiabilityForms_forms_bankAccount_inputFields_country_label,
                 child: CountriesDropdown(
                   onChanged: checkFinalValid,
+                  only3: true,
                 ),
               ),
               EachTextField(
