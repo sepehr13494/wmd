@@ -53,11 +53,17 @@ extension CustomizableDateTime on DateTime {
     return DateFormat("d MMM", "en").format(input);
   }
 
-  static String localizedDdMmCommaYyyy(DateTime input) {
+  static String localizedDdMmCommaYyyy(DateTime input, BuildContext context) {
+    final ln = context.read<LocalizationManager>().state.languageCode;
+    final mmmm = DateFormat.MMMM(ln).format(input);
+    final d = DateFormat("d", "en").format(input);
+    final y = DateFormat("yyyy", "en").format(input);
+
+    if (ln == 'ar') {
+      return '$d $mmmm, $y';
+    }
     final suf = ordinal_suffix_of(input.day);
-    return DateFormat("d", "en").format(input) +
-        suf +
-        DateFormat(" MMM, yyyy", "en").format(input);
+    return '$d$suf $mmmm, $y';
   }
 
   static String localizedDdMmOneLine(DateTime input) {
