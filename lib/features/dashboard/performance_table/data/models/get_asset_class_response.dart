@@ -3,12 +3,12 @@ import '../../domain/entities/get_asset_class_entity.dart';
 class GetAssetClassResponse extends GetAssetClassEntity {
   const GetAssetClassResponse({
     required String assetName,
-    required double marketValue,
-    required double forexValue,
-    required double income,
-    required double commission,
-    required double total,
-    required double changePercentage,
+    double? marketValue,
+    double? forexValue,
+    double? income,
+    double? commission,
+    double? total,
+    double? changePercentage,
   }) : super(
           assetName: assetName,
           marketValue: marketValue,
@@ -22,12 +22,12 @@ class GetAssetClassResponse extends GetAssetClassEntity {
   factory GetAssetClassResponse.fromJson(Map<String, dynamic> json) =>
       GetAssetClassResponse(
         assetName: json["assetName"]??"",
-        marketValue: double.tryParse((json["marketValue"]??"0").toString())??0,
-        forexValue: double.tryParse((json["forexValue"]??"0").toString())??0,
-        income: double.tryParse((json["income"]??"0").toString())??0,
-        commission: double.tryParse((json["commission"]??"0").toString())??0,
-        total: double.tryParse((json["total"]??"0").toString())??0,
-        changePercentage: double.tryParse((json["changePercentage"]??"0").toString())??0,
+        marketValue: json["marketValue"] == null ? null : double.tryParse((json["marketValue"]??"0").toString())??0,
+        forexValue: json["forexValue"] == null ? null : double.tryParse((json["forexValue"]??"0").toString())??0,
+        income: json["income"] == null ? null : double.tryParse((json["income"]??"0").toString())??0,
+        commission: json["commission"] == null ? null : double.tryParse((json["commission"]??"0").toString())??0,
+        total: json["total"] == null ? null : double.tryParse((json["total"]??"0").toString())??0,
+        changePercentage: json["changePercentage"] == null ? null : double.tryParse((json["changePercentage"]??"0").toString())??0,
       );
 
   static final tResponse = [

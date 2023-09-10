@@ -106,22 +106,22 @@ class PerformanceBenchmarkWidget extends AppStatelessWidget {
                                         PerformanceValueObj(
                                             value: e.index, shouldBlur: false),
                                         PerformanceValueObj(
-                                            value:
-                                                "${e.performance.toStringAsFixedZero(1)} %",
+                                            value: e.performance == null ? "n/a" :
+                                                "${e.performance!.toStringAsFixedZero(1)} %",
                                             shouldBlur: false),
                                         PerformanceValueObj(
-                                            value:
-                                                "${e.performancePa.toStringAsFixedZero(1)} %",
+                                            value: e.performancePa == null ? "n/a" :
+                                            "${e.performancePa!.toStringAsFixedZero(1)} %",
                                             shouldBlur: false,
-                                          showTooltip: GlobalFunctions.showPercentageTooltip(e.performancePa)
+                                          showTooltip: GlobalFunctions.showPercentageTooltip(e.performancePa??0)
                                         ),
                                         PerformanceValueObj(
-                                            value:
-                                                "${e.riskPa.toStringAsFixedZero(1)} %",
+                                            value: e.riskPa == null ? "n/a" :
+                                                "${e.riskPa!.toStringAsFixedZero(1)} %",
                                             shouldBlur: false),
                                         PerformanceValueObj(
-                                            value: e.sharpeRatio
-                                                .toStringAsFixedZero(1),
+                                            value: e.sharpeRatio == null ? "n/a" : e.sharpeRatio
+                                                !.toStringAsFixedZero(1),
                                             shouldBlur: true,
                                         ),
                                       ])

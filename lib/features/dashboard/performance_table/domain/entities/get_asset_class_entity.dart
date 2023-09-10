@@ -4,21 +4,21 @@ class GetAssetClassEntity extends Equatable {
 
     const GetAssetClassEntity({
         required this.assetName,
-        required this.marketValue,
-        required this.forexValue,
-        required this.income,
-        required this.commission,
-        required this.total,
-        required this.changePercentage,
+        this.marketValue,
+        this.forexValue,
+        this.income,
+        this.commission,
+        this.total,
+        this.changePercentage,
     });
 
     final String assetName;
-    final double marketValue;
-    final double forexValue;
-    final double income;
-    final double commission;
-    final double total;
-    final double changePercentage;
+    final double? marketValue;
+    final double? forexValue;
+    final double? income;
+    final double? commission;
+    final double? total;
+    final double? changePercentage;
 
     Map<String, dynamic> toJson() => {
         "assetName": assetName,

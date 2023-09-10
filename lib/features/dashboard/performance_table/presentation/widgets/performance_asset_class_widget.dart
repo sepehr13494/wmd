@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
-import 'package:wmd/core/models/time_filer_obj.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -68,21 +67,21 @@ class PerformanceAssetClassWidget extends AppStatelessWidget {
                             .home_wealthPerformance_table_header_total,
                         marketValue: newList
                             .map((e) => e.marketValue)
-                            .reduce((a, b) => a + b),
+                            .reduce((a, b) => a??0 + (b??0)),
                         forexValue: newList
                             .map((e) => e.forexValue)
-                            .reduce((a, b) => a + b),
+                            .reduce((a, b) => a??0 + (b??0)),
                         income: newList
                             .map((e) => e.income)
-                            .reduce((a, b) => a + b),
+                            .reduce((a, b) => a??0 + (b??0)),
                         commission: newList
                             .map((e) => e.commission)
-                            .reduce((a, b) => a + b),
+                            .reduce((a, b) => a??0 + (b??0)),
                         total:
-                            newList.map((e) => e.total).reduce((a, b) => a + b),
+                            newList.map((e) => e.total).reduce((a, b) => a??0 + (b??0)),
                         changePercentage: newList
                             .map((e) => e.changePercentage)
-                            .reduce((a, b) => a + b),
+                            .reduce((a, b) => a??0 + (b??0)),
                       );
                       newList.add(total);
                     }
@@ -117,28 +116,28 @@ class PerformanceAssetClassWidget extends AppStatelessWidget {
                                   PerformanceValueObj(
                                       value: e.assetName, shouldBlur: false),
                                   PerformanceValueObj(
-                                    value: e.marketValue
-                                        .convertMoney(addDollar: true),
+                                    value: e.marketValue == null ? "n/a" : e.marketValue
+                                        !.convertMoney(addDollar: true),
                                   ),
                                   PerformanceValueObj(
-                                    value: e.forexValue
-                                        .convertMoney(addDollar: true),
-                                  ),
-                                  PerformanceValueObj(
-                                    value:
-                                        e.income.convertMoney(addDollar: true),
-                                  ),
-                                  PerformanceValueObj(
-                                    value: e.commission
-                                        .convertMoney(addDollar: true),
+                                    value: e.forexValue == null ? "n/a" : e.forexValue
+                                    !.convertMoney(addDollar: true),
                                   ),
                                   PerformanceValueObj(
                                     value:
-                                        e.total.convertMoney(addDollar: true),
+                                        e.income == null ? "n/a" : e.income!.convertMoney(addDollar: true),
+                                  ),
+                                  PerformanceValueObj(
+                                    value: e.commission == null ? "n/a" : e.commission
+                                    !.convertMoney(addDollar: true),
+                                  ),
+                                  PerformanceValueObj(
+                                    value:
+                                        e.total == null ? "n/a" : e.total!.convertMoney(addDollar: true),
                                   ),
                                   PerformanceValueObj(
                                       value:
-                                          "${e.changePercentage.toStringAsFixedZero(1)} %",
+                                          "${e.changePercentage == null ? "n/a" : e.changePercentage!.toStringAsFixedZero(1)} %",
                                       shouldBlur: false),
                                 ])
                             .toList());

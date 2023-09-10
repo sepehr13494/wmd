@@ -35,7 +35,7 @@ class InsidePieChartState extends AppState<InsidePieChart> {
   Widget buildWidget(BuildContext context, TextTheme textTheme,
       AppLocalizations appLocalizations) {
     return LayoutBuilder(builder: (context, snap) {
-      final double height = snap.maxWidth * 0.65;
+      final double height = snap.maxHeight > snap.maxWidth * 0.65 ? snap.maxWidth * 0.65 : snap.maxHeight;
       final inside = height / 5;
       return SizedBox(
         height: height,

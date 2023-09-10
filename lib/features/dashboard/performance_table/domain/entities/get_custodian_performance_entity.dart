@@ -4,18 +4,18 @@ class GetCustodianPerformanceEntity extends Equatable {
     const GetCustodianPerformanceEntity({
         required this.serialNumber,
         required this.custodianName,
-        required this.performance,
-        required this.amount,
-        required this.riskPa,
-        required this.sharpeRatio,
+        this.performance,
+        this.amount,
+        this.riskPa,
+        this.sharpeRatio,
     });
 
     final String serialNumber;
     final String custodianName;
-    final double performance;
-    final double amount;
-    final double riskPa;
-    final double sharpeRatio;
+    final double? performance;
+    final double? amount;
+    final double? riskPa;
+    final double? sharpeRatio;
 
 
 

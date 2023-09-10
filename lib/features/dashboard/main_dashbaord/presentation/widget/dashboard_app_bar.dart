@@ -6,6 +6,7 @@ import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/change_language_button.dart';
+import 'package:wmd/core/presentation/widgets/modal_widget.dart';
 import 'package:wmd/core/util/app_restart.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/support_button.dart';
@@ -13,7 +14,9 @@ import 'package:wmd/features/assets_overview/charts/presentation/widgets/constan
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/authentication/logout/presentation/manager/logout_cubit.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_toggle.dart';
+import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
   final bool? showHelp;
@@ -115,12 +118,50 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
                                 )
                               ],
                             ),
-                            onTap: () {
+                            onTap: () async {
                               switch (index) {
                                 case 0:
                                   context.goNamed(AppRoutes.settings);
                                   break;
                                 case 1:
+                                  /*final appLocalization = AppLocalizations.of(context);
+                                  showDialog(context: context, builder: (context) {
+                                    return Dialog(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(24),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(appLocalization.common_logoutConfirmationModal_title),
+                                            const SizedBox(height: 24),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                OutlinedButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  style: OutlinedButton.styleFrom(minimumSize: const Size(100, 50)),
+                                                  child: Text(
+                                                    appLocalization.common_button_cancel,
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 20),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    context.read<LogoutCubit>().performLogout();
+                                                  },
+                                                  style: ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
+                                                  child: Text(appLocalization.common_button_logout),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    );
+                                  },);*/
                                   context.read<LogoutCubit>().performLogout();
                                   //AppRestart.restart(context);
                                   break;
