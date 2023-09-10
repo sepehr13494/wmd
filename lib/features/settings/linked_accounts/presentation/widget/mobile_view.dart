@@ -193,7 +193,7 @@ Future<bool?> showDetailModal(
                               subTitle: e.syncDate == null
                                   ? ''
                                   : CustomizableDateTime.localizedDdMmCommaYyyy(
-                                      e.syncDate!)),
+                                      e.syncDate!, context)),
                           TitleSubtitle(
                               title:
                                   appLocalizations.profile_linkedAccounts_type,
@@ -297,7 +297,7 @@ Future<bool?> showDetailModalMandate(
                               subTitle: e.syncDate == null
                                   ? ''
                                   : CustomizableDateTime.localizedDdMmCommaYyyy(
-                                      e.syncDate!)),
+                                      e.syncDate!, context)),
                           TitleSubtitle(
                               title:
                                   appLocalizations.profile_linkedAccounts_type,
