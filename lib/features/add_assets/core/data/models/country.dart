@@ -39,17 +39,17 @@ class Country extends Equatable {
         countryName,
       ];
 
-  static List<Country> getCountryList(context) {
+  static List<Country> getCountryList(context,{bool only3 = false}) {
     List<Country> important = [
       Country(
         name: "BH",
         countryName: AppLocalizations.of(context).countries_BH,
       ),
-      Country(
+      if(!only3)Country(
         name: "KW",
         countryName: AppLocalizations.of(context).countries_KW,
       ),
-      Country(
+      if(!only3)Country(
         name: "OM",
         countryName: AppLocalizations.of(context).countries_OM,
       ),
