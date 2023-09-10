@@ -4,10 +4,10 @@ import 'package:wmd/features/dashboard/performance_table/domain/entities/get_ben
 class GetClientIndexEntity extends GetBenchmarkEntity {
   const GetClientIndexEntity(
       {required super.index,
-      required super.performance,
-      required super.performancePa,
-      required super.riskPa,
-      required super.sharpeRatio});
+      super.performance,
+      super.performancePa,
+      super.riskPa,
+      super.sharpeRatio});
 
   static GetBenchmarkResponse benchMarkFromClient(
       {required GetClientIndexEntity getClientIndexEntity}) {
