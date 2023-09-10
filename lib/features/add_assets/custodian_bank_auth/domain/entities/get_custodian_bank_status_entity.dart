@@ -82,7 +82,7 @@ class CustodianBankStatusEntity extends Equatable {
           res = appLocalizations.home_custodianBankList_swissStatusText_step2;
           break;
         default:
-          res = "";
+          res = appLocalizations.home_custodianBankList_swissStatusText_step1;
           break;
       }
     } else {
