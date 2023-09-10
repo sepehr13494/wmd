@@ -7,6 +7,7 @@ import 'package:wmd/core/util/support_button.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/widgets/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_toggle.dart';
+import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/logout_dialog.dart';
 import '../routes/app_routes.dart';
 
 class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
@@ -116,7 +117,11 @@ class BaseAppBar extends StatelessWidget with PreferredSizeWidget {
                                   context.pushNamed(AppRoutes.settings);
                                   break;
                                 case 1:
-                                  AppRestart.restart(context);
+                                  Future.delayed(const Duration(seconds: 0),(){
+                                    showDialog(context: context, builder: (context) {
+                                      return const LogoutDialog();
+                                    },);
+                                  });
                                   break;
                               }
                             },

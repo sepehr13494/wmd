@@ -18,6 +18,8 @@ import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'logout_dialog.dart';
+
 class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
   final bool? showHelp;
   final bool? showBack;
@@ -64,9 +66,14 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
               ))
           : Padding(
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-              child: SvgPicture.asset(
-                "assets/images/app_logo.svg",
-                height: 50,
+              child: InkWell(
+                onTap: (){
+                  showDialog(context: context, builder: (context) => AlertDialog(title: Text("adsfa"),),);
+                },
+                child: SvgPicture.asset(
+                  "assets/images/app_logo.svg",
+                  height: 50,
+                ),
               )),
       actions: [
         const PrivacyToggle(),
@@ -80,102 +87,55 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
         //           .changeTheme(val ? ThemeMode.light : ThemeMode.dark);
         //     }),
         if (showHelp == true) const SupportButton(),
-        BlocProvider(
-          create: (context) => sl<LogoutCubit>(),
-          child: Builder(builder: (context) {
-            return BlocListener<LogoutCubit, BaseState>(
-              listener: BlocHelper.defaultBlocListener(listener: (context, state) {
-                if(state is SuccessState){
-                  AppRestart.restart(context);
-                }
-              }),
-              child: PopupMenuButton(
-                itemBuilder: (BuildContext context) {
-                  final List items = [
-                    [
-                      AppLocalizations.of(context).profile_page_title,
-                      Icons.arrow_forward_ios_rounded
+        PopupMenuButton(
+          itemBuilder: (BuildContext context) {
+            final List items = [
+              [
+                AppLocalizations.of(context).profile_page_title,
+                Icons.arrow_forward_ios_rounded
+              ],
+              [
+                AppLocalizations.of(context)
+                    .profile_changePassword_button_logout,
+                CustomIcons.logout
+              ],
+            ];
+            return List.generate(
+                items.length,
+                    (index) => PopupMenuItem(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(items[index][0]),
+                      Icon(
+                        items[index][1],
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .color,
+                      )
                     ],
-                    [
-                      AppLocalizations.of(context)
-                          .profile_changePassword_button_logout,
-                      CustomIcons.logout
-                    ],
-                  ];
-                  return List.generate(
-                      items.length,
-                      (index) => PopupMenuItem(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(items[index][0]),
-                                Icon(
-                                  items[index][1],
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .color,
-                                )
-                              ],
-                            ),
-                            onTap: () async {
-                              switch (index) {
-                                case 0:
-                                  context.goNamed(AppRoutes.settings);
-                                  break;
-                                case 1:
-                                  /*final appLocalization = AppLocalizations.of(context);
-                                  showDialog(context: context, builder: (context) {
-                                    return Dialog(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(24),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(appLocalization.common_logoutConfirmationModal_title),
-                                            const SizedBox(height: 24),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                OutlinedButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  style: OutlinedButton.styleFrom(minimumSize: const Size(100, 50)),
-                                                  child: Text(
-                                                    appLocalization.common_button_cancel,
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 20),
-                                                ElevatedButton(
-                                                  onPressed: () {
-                                                    context.read<LogoutCubit>().performLogout();
-                                                  },
-                                                  style: ElevatedButton.styleFrom(minimumSize: const Size(100, 50)),
-                                                  child: Text(appLocalization.common_button_logout),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    );
-                                  },);*/
-                                  context.read<LogoutCubit>().performLogout();
-                                  //AppRestart.restart(context);
-                                  break;
-                              }
-                            },
-                          ));
-                },
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
-                  child: Icon(Icons.settings),
-                ),
-              ),
-            );
-          }),
+                  ),
+                  onTap: () async {
+                    switch (index) {
+                      case 0:
+                        context.goNamed(AppRoutes.settings);
+                        break;
+                      case 1:
+                        Future.delayed(const Duration(seconds: 0),(){
+                          showDialog(context: context, builder: (context) {
+                            return const LogoutDialog();
+                          },);
+                        });
+                        break;
+                    }
+                  },
+                ));
+          },
+          child: const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12),
+            child: Icon(Icons.settings),
+          ),
         )
       ],
     );
