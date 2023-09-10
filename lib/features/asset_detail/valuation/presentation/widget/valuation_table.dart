@@ -239,7 +239,9 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
       // Find the index of the last transaction
       int lastIndex = widget.getAllValuationEntities
           .lastIndexWhere((transaction) => transaction.type == 'transaction');
-      widget.getAllValuationEntities.removeAt(lastIndex);
+      if (lastIndex > 0) {
+        widget.getAllValuationEntities.removeAt(lastIndex);
+      }
       int lastIndexVal = widget.getAllValuationEntities
           .lastIndexWhere((transaction) => transaction.type != 'transaction');
       if (lastIndexVal > 0) {
@@ -261,7 +263,9 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
       // Find the index of the last transaction
       int lastIndex = widget.getAllValuationEntities
           .lastIndexWhere((transaction) => transaction.type == 'transaction');
-      widget.getAllValuationEntities.removeAt(lastIndex);
+      if (lastIndex > 0) {
+        widget.getAllValuationEntities.removeAt(lastIndex);
+      }
       int lastIndexVal = widget.getAllValuationEntities
           .lastIndexWhere((transaction) => transaction.type != 'transaction');
       if (lastIndexVal > 0) {
@@ -415,16 +419,17 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
           ),
         ),
         if (AppConstants.publicMvp2Items) const SizedBox.shrink(),
-        if (AppConstants.publicMvp2Items &&
-            widget.isManuallyAdded &&
-            widget.totalQuantity > 0)
-          Padding(
-            padding: padding,
-            child: Text(
-              "",
-              style: textTheme.bodySmall,
-            ),
-          ),
+        (AppConstants.publicMvp2Items &&
+                widget.isManuallyAdded &&
+                widget.totalQuantity > 0)
+            ? Padding(
+                padding: padding,
+                child: Text(
+                  "",
+                  style: textTheme.bodySmall,
+                ),
+              )
+            : const SizedBox.shrink(),
         // const SizedBox.shrink(),
       ],
     );
@@ -494,24 +499,14 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
         //     widget.isManuallyAdded &&
         //     widget.assetType != AssetTypes.bankAccount)
         //   renderPopupMenu(context, id),
-        if (AppConstants.publicMvp2Items &&
-            widget.isManuallyAdded &&
-            isLast &&
-            // (type == "valuation" ? isLast : true) &&
-            widget.totalQuantity > 0 &&
-            widget.assetType != AssetTypes.bankAccount)
-          renderPopupMenu(context, id, type! == "valuation"),
-        if (AppConstants.publicMvp2Items &&
-            widget.isManuallyAdded &&
-            widget.totalQuantity > 0 &&
-            // ((type == "valuation" ? !isLast : true) ||
-            (!isLast || widget.assetType == AssetTypes.bankAccount)
-        // )
-        )
-          Text(
-            "",
-            style: textTheme.bodySmall,
-          ),
+        (AppConstants.publicMvp2Items &&
+                widget.isManuallyAdded &&
+                isLast &&
+                // (type == "valuation" ? isLast : true) &&
+                widget.totalQuantity > 0 &&
+                widget.assetType != AssetTypes.bankAccount)
+            ? renderPopupMenu(context, id, type! == "valuation")
+            : const SizedBox.shrink(),
       ],
     );
   }

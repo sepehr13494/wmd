@@ -87,7 +87,7 @@ class _FaqItemListState extends AppState<FaqItemList> {
                             ));
                       },
                       body: currentFaq.title ==
-                              "How Can I Start  Investing with The  Family Office?"
+                              "How Can I Start Investing with The Family Office?"
                           ? Container(
                               padding: const EdgeInsets.all(20),
                               width: double.infinity,
