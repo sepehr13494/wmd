@@ -75,7 +75,7 @@ class CustodianBankStatusEntity extends Equatable {
 
     if (bankId == "ubp") {
       switch (status) {
-        case CustodianStatus.ShareLetter:
+        case CustodianStatus.OpenLetter:
           res = appLocalizations.home_custodianBankList_swissStatusText_step1;
           break;
         case CustodianStatus.SyncBank:
