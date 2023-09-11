@@ -66,14 +66,9 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
               ))
           : Padding(
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-              child: InkWell(
-                onTap: (){
-                  showDialog(context: context, builder: (context) => AlertDialog(title: Text("adsfa"),),);
-                },
-                child: SvgPicture.asset(
-                  "assets/images/app_logo.svg",
-                  height: 50,
-                ),
+              child: SvgPicture.asset(
+                "assets/images/app_logo.svg",
+                height: 50,
               )),
       actions: [
         const PrivacyToggle(),
