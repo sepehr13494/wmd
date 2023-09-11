@@ -96,7 +96,7 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
               ],
               [
                 AppLocalizations.of(context)
-                    .profile_changePassword_button_logout,
+                    .common_nav_links_signout,
                 CustomIcons.logout
               ],
             ];
