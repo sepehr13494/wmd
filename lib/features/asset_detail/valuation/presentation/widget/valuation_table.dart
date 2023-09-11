@@ -222,10 +222,11 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
   final limit = 5;
   static const columnWidths = {
     // 0: IntrinsicColumnWidth(),
-    0: FlexColumnWidth(0.3),
-    1: FlexColumnWidth(1.7),
-    2: FlexColumnWidth(0.3),
-    3: FlexColumnWidth(0.2),
+    0: IntrinsicColumnWidth(),
+    1: FlexColumnWidth(1.8),
+    2: IntrinsicColumnWidth(),
+    3: FlexColumnWidth(0.3),
+    4: FlexColumnWidth(0.2),
     // 5: IntrinsicColumnWidth(),
     // 3: IntrinsicColumnWidth(),
     // 4: FlexColumnWidth(1),
@@ -405,7 +406,6 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             style: textTheme.bodySmall,
           ),
         ),
-        // const SizedBox.shrink(),
         Padding(
           padding: padding,
           child: Text(
@@ -413,7 +413,6 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             style: textTheme.bodySmall,
           ),
         ),
-        // const SizedBox.shrink(),
         Padding(
           padding: padding,
           child: Text(
@@ -421,13 +420,12 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             style: textTheme.bodySmall,
           ),
         ),
-        // if (AppConstants.publicMvp2Items) const SizedBox.shrink(),
         (AppConstants.publicMvp2Items &&
                 widget.isManuallyAdded &&
                 widget.totalQuantity > 0)
             ? const SizedBox.shrink()
             : const SizedBox.shrink(),
-        // const SizedBox.shrink(),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -473,7 +471,6 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             ),
           ),
         ),
-        // const SizedBox.shrink(),
         FittedBox(
           fit: BoxFit.scaleDown,
           alignment: Alignment.centerLeft,
@@ -490,7 +487,6 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             ),
           ),
         ),
-        // if (AppConstants.publicMvp2Items) const SizedBox.shrink(),
         (AppConstants.publicMvp2Items &&
                 widget.isManuallyAdded &&
                 isLast &&
@@ -499,6 +495,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                 widget.assetType != AssetTypes.bankAccount)
             ? renderPopupMenu(context, id, type! == "valuation")
             : const SizedBox(width: 0),
+        const SizedBox.shrink(),
       ],
     );
   }
