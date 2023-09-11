@@ -70,6 +70,18 @@ class Country extends Equatable {
         },
       ),
     );
+    if(only3){
+      others.addAll([
+            Country(
+                  name: "KW",
+                  countryName: AppLocalizations.of(context).countries_KW,
+            ),
+            Country(
+                  name: "OM",
+                  countryName: AppLocalizations.of(context).countries_OM,
+            )
+      ]);
+    }
     others.sort((a, b) => a.countryName.compareTo(b.countryName));
     important.addAll(others);
     return important;
