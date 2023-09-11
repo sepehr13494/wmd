@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/features/assets_overview/charts/presentation/models/color_title_obj.dart';
 
 
@@ -11,8 +12,9 @@ class PortfolioColorsWithTitlesWidget extends StatelessWidget {
     ScrollController scrollController = ScrollController();
     return LayoutBuilder(
         builder: (context, snap) {
+          final isMobile = ResponsiveHelper(context: context).isMobile;
           final int multiple = colorTitles.length < 3 ? 2 : 4;
-          final double finalWidth = snap.maxWidth * 0.9;
+          final double finalWidth = !isMobile ? snap.maxWidth * 0.45 : snap.maxWidth * 0.9;
           final double finalHeight = multiple * 30;
           return Center(
             child: Scrollbar(

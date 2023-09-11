@@ -407,8 +407,10 @@ class _AddListedSecurityState extends BaseAddAssetState<AddListedSecurityPage> {
                                                                                 Row(
                                                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                                   children: [
-                                                                                    Text(securityName?.securityName ?? ""),
+                                                                                    Expanded(child: Text(securityName?.securityName ?? "")),
+                                                                                    const SizedBox(width: 16),
                                                                                     Text(securityName?.currencyCode ?? ""),
+                                                                                    const SizedBox(width: 24),
                                                                                     Text(securityName?.category ?? "")
                                                                                   ],
                                                                                 ),
