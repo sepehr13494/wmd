@@ -52,7 +52,7 @@ class ValuationRepositoryImpl implements ValuationRepository {
     try {
       final resultTransaction =
           await remoteDataSource.getAllTransaction(params);
-      if (AppConstants.isRelease2) {
+      if (!AppConstants.hideValuation) {
         final resultValuation = await remoteDataSource.getAllValuation(params);
 
         List<GetAllValuationEntity> combinedList =

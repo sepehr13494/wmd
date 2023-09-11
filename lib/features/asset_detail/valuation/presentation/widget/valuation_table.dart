@@ -112,8 +112,9 @@ class ValuationWidget extends AppStatelessWidget {
                                   style:
                                       textTheme.bodySmall!.toLinkStyle(context),
                                 )),
-                          if (AppConstants.isRelease2) const SizedBox(width: 6),
-                          if (AppConstants.isRelease2)
+                          if (!AppConstants.hideValuation)
+                            const SizedBox(width: 6),
+                          if (!AppConstants.hideValuation)
                             if ((isManuallyAdded &&
                                 (totalQuantity > 0.0 &&
                                     [
