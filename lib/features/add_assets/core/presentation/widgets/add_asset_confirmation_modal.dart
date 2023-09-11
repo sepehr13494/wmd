@@ -162,8 +162,8 @@ class _AssetConfirmationModalWidgetState
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 buildCheckBox(appLocalizations, textTheme),
-                Expanded(child: buildConfirmBtn(appLocalizations)),
                 Expanded(child: buildCancelBtn(appLocalizations)),
+                Expanded(child: buildConfirmBtn(appLocalizations)),
               ],
             ),
           )
