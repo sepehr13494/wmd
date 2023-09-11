@@ -160,9 +160,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                     .read<CustodianBankAuthCubit>()
                     .postCustodianBankStatus(PostCustodianBankStatusParams(
                       bankId: widget.bankId,
-                      status: isThreeStep
-                          ? CustodianStatus.ShareLetter
-                          : CustodianStatus.OpenLetter,
+                      status: CustodianStatus.OpenLetter,
                       accountNumber: val,
                     ));
 
@@ -253,9 +251,9 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                     ),
                     showAction: true,
                     isDone: checkCurrentCustodianStatusDone(
-                        CustodianStatus.ShareLetter, status.status),
+                        CustodianStatus.OpenLetter, status.status),
                     isActive: checkCurrentCustodianStatus(
-                        CustodianStatus.ShareLetter, status.status),
+                        CustodianStatus.OpenLetter, status.status),
                     onDone: (val) async {
                       context
                           .read<CustodianBankAuthCubit>()
