@@ -29,6 +29,7 @@ class AssetTypeTabletTableTitle extends AppStatelessWidget {
         break;
       case AssetsOverviewBaseType.currency:
       case AssetsOverviewBaseType.geography:
+      case AssetsOverviewBaseType.portfolio:
         texts.add(appLocalizations.assets_table_header_assetClass);
         break;
     }
