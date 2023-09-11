@@ -11,7 +11,7 @@ class AppConstants {
   static bool isRelease2 = dotenv.env['IS_RELEASE_TWO']! == 'true';
   static bool currencyConvertor = dotenv.env['CURRENCY_CONVERTOR']! == 'true';
   static String bundleId = dotenv.env['BUNDLE_ID']!;
-  static bool hideValuation = false;
+  static bool hideValuation = dotenv.env['HIDE_VALUATION']! == 'true';
 
   static const String contactEmail = "developer@allinoneplus.com";
   // developMode ? "developer@allinoneplus.com" : "n.albasri@tfoco.com";
