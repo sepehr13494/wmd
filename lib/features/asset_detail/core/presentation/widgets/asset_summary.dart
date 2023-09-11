@@ -79,7 +79,7 @@ class AsssetSummary extends AppStatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(6),
                         child: Text(
-                          appLocalizations.common_button_editDetails,
+                          checkListedAsset(summary.assetClassName) ? appLocalizations.common_button_viewDetails : appLocalizations.common_button_editDetails,
                           style: textTheme.labelMedium!.apply(
                               color: isBlurred
                                   ? Theme.of(context).disabledColor
@@ -101,6 +101,18 @@ class AsssetSummary extends AppStatelessWidget {
         ],
       ),
     );
+  }
+
+  bool checkListedAsset(String assetClassName) {
+    switch (assetClassName){
+      case AssetTypes.listedAssetOther:
+      case AssetTypes.listedAsset:
+      case AssetTypes.listedAssetFixedIncome:
+      case AssetTypes.listedAssetEquity:
+        return true;
+      default:
+        return false;
+    }
   }
 }
 
