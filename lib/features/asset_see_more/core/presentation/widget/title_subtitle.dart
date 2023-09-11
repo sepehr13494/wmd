@@ -37,8 +37,10 @@ class TitleSubtitle extends AppStatelessWidget {
               ),
           ],
         ),
-        PrivacyBlurWidgetClickable(
-            child: Text(subTitle, style: textTheme.bodyLarge)),
+        if (!addPrivacy) Text(subTitle, style: textTheme.bodyLarge),
+        if (addPrivacy)
+          PrivacyBlurWidgetClickable(
+              child: Text(subTitle, style: textTheme.bodyLarge)),
       ],
     );
   }
