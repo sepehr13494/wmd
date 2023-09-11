@@ -4,7 +4,6 @@ import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/extentions/round_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
-import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/tooltip_bank_exception.dart';
@@ -185,6 +184,7 @@ class OverViewCard extends AppStatelessWidget {
                                     // summary.unRealizedProfitLoss.convertMoney(addDollar: true),
                                     tooltipMessage: appLocalizations
                                         .assets_tooltips_unrealizedGain,
+                                    addPrivacy: true,
                                   )
                               ],
                             )

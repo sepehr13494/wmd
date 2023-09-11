@@ -79,7 +79,9 @@ class AsssetSummary extends AppStatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(6),
                         child: Text(
-                          checkListedAsset(summary.assetClassName) ? appLocalizations.common_button_viewDetails : appLocalizations.common_button_editDetails,
+                          checkListedAsset(summary.assetClassName)
+                              ? appLocalizations.common_button_viewDetails
+                              : appLocalizations.common_button_editDetails,
                           style: textTheme.labelMedium!.apply(
                               color: isBlurred
                                   ? Theme.of(context).disabledColor
@@ -104,7 +106,7 @@ class AsssetSummary extends AppStatelessWidget {
   }
 
   bool checkListedAsset(String assetClassName) {
-    switch (assetClassName){
+    switch (assetClassName) {
       case AssetTypes.listedAssetOther:
       case AssetTypes.listedAsset:
       case AssetTypes.listedAssetFixedIncome:
@@ -217,13 +219,18 @@ class SummaryCardWidget extends AppStatelessWidget {
                               return const SizedBox.shrink();
                             }),
                           ),
-                          (AppConstants.isRelease1 || summary.unRealizedProfitLoss == null) ? const SizedBox() : TitleSubtitle(
-                            title: appLocalizations.assets_label_unrelaizedGain,
-                            subTitle: summary.unRealizedProfitLoss!
-                                .convertMoney(addDollar: true),
-                            tooltipMessage:
-                                appLocalizations.assets_tooltips_unrealizedGain,
-                          )
+                          (AppConstants.isRelease1 ||
+                                  summary.unRealizedProfitLoss == null)
+                              ? const SizedBox()
+                              : TitleSubtitle(
+                                  title: appLocalizations
+                                      .assets_label_unrelaizedGain,
+                                  subTitle: summary.unRealizedProfitLoss!
+                                      .convertMoney(addDollar: true),
+                                  tooltipMessage: appLocalizations
+                                      .assets_tooltips_unrealizedGain,
+                                  addPrivacy: true,
+                                )
                         ],
                       ),
                     ],
