@@ -3,15 +3,18 @@ import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/info_icon.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/widgets/ytd_itd_widget.dart';
+import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
 
 class TitleSubtitle extends AppStatelessWidget {
   final String title;
   final String subTitle;
   final String? tooltipMessage;
+  final bool addPrivacy;
   const TitleSubtitle(
       {super.key,
       required this.title,
       required this.subTitle,
+      this.addPrivacy = false,
       this.tooltipMessage});
 
   @override
@@ -23,6 +26,7 @@ class TitleSubtitle extends AppStatelessWidget {
         Row(
           children: [
             Text(title, style: textTheme.bodySmall),
+            if (tooltipMessage != null) const SizedBox(width: 4),
             if (tooltipMessage != null)
               Tooltip(
                 showDuration: const Duration(seconds: 5),
@@ -33,7 +37,10 @@ class TitleSubtitle extends AppStatelessWidget {
               ),
           ],
         ),
-        Text(subTitle, style: textTheme.bodyLarge),
+        if (!addPrivacy) Text(subTitle, style: textTheme.bodyLarge),
+        if (addPrivacy)
+          PrivacyBlurWidgetClickable(
+              child: Text(subTitle, style: textTheme.bodyLarge)),
       ],
     );
   }

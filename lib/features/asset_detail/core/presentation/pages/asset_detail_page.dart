@@ -59,7 +59,8 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
           ),
           BlocProvider(
             create: (context) => sl<ValuationCubit>()
-              ..getAllValuation(GetAllValuationParams(widget.assetId)),
+              ..getAllValuation(
+                  GetAllValuationParams(widget.assetId, widget.type)),
           ),
         ],
         child: Builder(builder: (context) {
@@ -248,7 +249,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                                     context
                                         .read<ValuationCubit>()
                                         .getAllValuation(GetAllValuationParams(
-                                            widget.assetId));
+                                            widget.assetId, widget.type));
 
                                     AppRouter().setMainRefreshKey();
                                   } catch (e) {
