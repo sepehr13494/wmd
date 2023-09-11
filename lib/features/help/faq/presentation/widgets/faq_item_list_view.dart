@@ -9,6 +9,7 @@ import 'package:wmd/core/extentions/text_style_ext.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
+import 'package:wmd/core/util/app_localization.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/custom_expansion_pannel.dart';
 import 'package:wmd/features/help/faq/presentation/manager/faq_cubit.dart';
@@ -86,8 +87,7 @@ class _FaqItemListState extends AppState<FaqItemList> {
                               currentFaq.title ?? ".",
                             ));
                       },
-                      body: currentFaq.title ==
-                              "How Can I Start Investing with The Family Office?"
+                      body: faqList.last.id == currentFaq.id
                           ? Container(
                               padding: const EdgeInsets.all(20),
                               width: double.infinity,
@@ -97,13 +97,21 @@ class _FaqItemListState extends AppState<FaqItemList> {
                                   text: currentFaq.description != null
                                       ? currentFaq.description
                                               ?.split('[here]')
+                                              .first
+                                              .split('[هنا]')
                                               .first ??
                                           ""
                                       : ".",
                                   style: textTheme.bodySmall,
                                 ),
                                 TextSpan(
-                                  text: "here",
+                                  text: BlocProvider.of<LocalizationManager>(
+                                                  context)
+                                              .state
+                                              .languageCode ==
+                                          "ar"
+                                      ? 'هنا'
+                                      : "here",
                                   style:
                                       textTheme.bodyLarge!.toLinkStyle(context),
                                   recognizer: TapGestureRecognizer()
