@@ -493,8 +493,8 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
         // if (AppConstants.publicMvp2Items) const SizedBox.shrink(),
         (AppConstants.publicMvp2Items &&
                 widget.isManuallyAdded &&
-                // isLast &&
-                (type == "valuation" ? isLast : true) &&
+                isLast &&
+                // (type == "valuation" ? isLast : true) &&
                 widget.totalQuantity > 0 &&
                 widget.assetType != AssetTypes.bankAccount)
             ? renderPopupMenu(context, id, type! == "valuation")
