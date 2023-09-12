@@ -237,7 +237,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                                   ..onTap = () {
                                     Clipboard.setData(const ClipboardData(
                                             text:
-                                                "All-In-One-Plus AG \nc/o Altenburger Ltd legal + tax, Seestrasse 39 \n8700 Küsnacht, Switzerlandmay"))
+                                                "All-In-One-Plus AG \nc/o Altenburger Ltd legal + tax, Seestrasse 39 \n8700 Küsnacht, Switzerland"))
                                         .then((_) {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
