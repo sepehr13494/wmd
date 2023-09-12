@@ -9,6 +9,7 @@ import 'package:wmd/features/add_assets/pam_login/presentation/widgets/pam_custo
 import 'package:wmd/injection_container.dart';
 
 import '../../../tfo_login/presentation/widgets/tfo_custodian_bank_widget.dart';
+import '../widget/new_custodian_request_modal.dart';
 
 class AddCustodianBanksPage extends StatefulWidget {
   const AddCustodianBanksPage({Key? key}) : super(key: key);
@@ -79,6 +80,19 @@ class _AddCustodianBanksPageState extends AppState<AddCustodianBanksPage> {
                                 },
                                 isSelected: selectedBankId == e.bankId,
                               )),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 4, vertical: 8),
+                        child: OutlinedButton(
+                            onPressed: () {
+                              showNewCustodianModal(context: context);
+                            },
+                            child: Text(appLocalizations
+                                .common_newCustodianRequest_modal_button)),
+                      ),
+                      const SizedBox(
+                        height: 82,
+                      )
                     ],
                   );
                 }
