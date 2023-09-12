@@ -166,7 +166,7 @@ class _EquityDebtValuationFormWidgetState
             ),
             EachTextField(
               hasInfo: false,
-              title: "Value",
+              title: appLocalizations.assets_label_value,
               child: AppTextFields.simpleTextField(
                 onChanged: checkFinalValid,
                 type: TextFieldType.money,
