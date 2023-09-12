@@ -92,8 +92,8 @@ class ValuationWidget extends AppStatelessWidget {
                                       }).then((value) {
                                     context
                                         .read<ValuationCubit>()
-                                        .getAllValuation(
-                                            GetAllValuationParams(assetId));
+                                        .getAllValuation(GetAllValuationParams(
+                                            assetId, assetType));
                                     updateHoldings();
                                   });
 
@@ -112,8 +112,9 @@ class ValuationWidget extends AppStatelessWidget {
                                   style:
                                       textTheme.bodySmall!.toLinkStyle(context),
                                 )),
-                          if (AppConstants.isRelease2) const SizedBox(width: 6),
-                          if (AppConstants.isRelease2)
+                          if (!AppConstants.hideValuation)
+                            const SizedBox(width: 6),
+                          if (!AppConstants.hideValuation)
                             if ((isManuallyAdded &&
                                 (totalQuantity > 0.0 &&
                                     [
@@ -144,7 +145,8 @@ class ValuationWidget extends AppStatelessWidget {
                                       context
                                           .read<ValuationCubit>()
                                           .getAllValuation(
-                                              GetAllValuationParams(assetId));
+                                              GetAllValuationParams(
+                                                  assetId, assetType));
                                       updateHoldings();
                                     });
 
@@ -219,11 +221,13 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
   bool isFirstTransRemoved = false;
   final limit = 5;
   static const columnWidths = {
+    // 0: IntrinsicColumnWidth(),
     0: IntrinsicColumnWidth(),
-    1: FlexColumnWidth(0.3),
-    2: FlexColumnWidth(1.7),
+    1: FlexColumnWidth(1.8),
+    2: IntrinsicColumnWidth(),
     3: FlexColumnWidth(0.3),
-    4: IntrinsicColumnWidth(),
+    4: FlexColumnWidth(0.2),
+    // 5: IntrinsicColumnWidth(),
     // 3: IntrinsicColumnWidth(),
     // 4: FlexColumnWidth(1),
   };
@@ -239,10 +243,12 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
       // Find the index of the last transaction
       int lastIndex = widget.getAllValuationEntities
           .lastIndexWhere((transaction) => transaction.type == 'transaction');
-      widget.getAllValuationEntities.removeAt(lastIndex);
+      if (lastIndex >= 0) {
+        widget.getAllValuationEntities.removeAt(lastIndex);
+      }
       int lastIndexVal = widget.getAllValuationEntities
           .lastIndexWhere((transaction) => transaction.type != 'transaction');
-      if (lastIndexVal > 0) {
+      if (lastIndexVal >= 0) {
         widget.getAllValuationEntities.removeAt(lastIndexVal);
       }
 
@@ -261,10 +267,12 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
       // Find the index of the last transaction
       int lastIndex = widget.getAllValuationEntities
           .lastIndexWhere((transaction) => transaction.type == 'transaction');
-      widget.getAllValuationEntities.removeAt(lastIndex);
+      if (lastIndex >= 0) {
+        widget.getAllValuationEntities.removeAt(lastIndex);
+      }
       int lastIndexVal = widget.getAllValuationEntities
           .lastIndexWhere((transaction) => transaction.type != 'transaction');
-      if (lastIndexVal > 0) {
+      if (lastIndexVal >= 0) {
         widget.getAllValuationEntities.removeAt(lastIndexVal);
       }
 
@@ -398,7 +406,6 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             style: textTheme.bodySmall,
           ),
         ),
-        const SizedBox.shrink(),
         Padding(
           padding: padding,
           child: Text(
@@ -406,7 +413,6 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             style: textTheme.bodySmall,
           ),
         ),
-        const SizedBox.shrink(),
         Padding(
           padding: padding,
           child: Text(
@@ -414,18 +420,12 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             style: textTheme.bodySmall,
           ),
         ),
-        if (AppConstants.publicMvp2Items) const SizedBox.shrink(),
-        if (AppConstants.publicMvp2Items &&
-            widget.isManuallyAdded &&
-            widget.totalQuantity > 0)
-          Padding(
-            padding: padding,
-            child: Text(
-              "",
-              style: textTheme.bodySmall,
-            ),
-          ),
-        // const SizedBox.shrink(),
+        (AppConstants.publicMvp2Items &&
+                widget.isManuallyAdded &&
+                widget.totalQuantity > 0)
+            ? const SizedBox.shrink()
+            : const SizedBox.shrink(),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -459,7 +459,7 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             style: textTheme.labelMedium!,
           ),
         ),
-        const SizedBox.shrink(),
+        // const SizedBox.shrink(),
         Padding(
           padding: padding,
           child: PrivacyBlurWidget(
@@ -471,7 +471,6 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             ),
           ),
         ),
-        const SizedBox.shrink(),
         FittedBox(
           fit: BoxFit.scaleDown,
           alignment: Alignment.centerLeft,
@@ -488,27 +487,15 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
             ),
           ),
         ),
-        if (AppConstants.publicMvp2Items) const SizedBox.shrink(),
-        // Release 1 changes
-        // if (AppConstants.publicMvp2Items &&
-        //     widget.isManuallyAdded &&
-        //     widget.assetType != AssetTypes.bankAccount)
-        //   renderPopupMenu(context, id),
-        if (AppConstants.publicMvp2Items &&
-            widget.isManuallyAdded &&
-            (type == "valuation" ? isLast : true) &&
-            widget.totalQuantity > 0 &&
-            widget.assetType != AssetTypes.bankAccount)
-          renderPopupMenu(context, id, type! == "valuation"),
-        if (AppConstants.publicMvp2Items &&
-            widget.isManuallyAdded &&
-            widget.totalQuantity > 0 &&
-            ((type == "valuation" ? !isLast : true) ||
-                widget.assetType == AssetTypes.bankAccount))
-          Text(
-            "",
-            style: textTheme.bodySmall,
-          ),
+        (AppConstants.publicMvp2Items &&
+                widget.isManuallyAdded &&
+                isLast &&
+                // (type == "valuation" ? isLast : true) &&
+                widget.totalQuantity > 0 &&
+                widget.assetType != AssetTypes.bankAccount)
+            ? renderPopupMenu(context, id, type! == "valuation")
+            : const SizedBox(width: 0),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -608,7 +595,8 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
                                 },
                               ).then((isConfirm) {
                                 context.read<ValuationCubit>().getAllValuation(
-                                    GetAllValuationParams(widget.assetId));
+                                    GetAllValuationParams(
+                                        widget.assetId, widget.assetType));
                                 if (isConfirm != null && isConfirm == true) {
                                   // handleFormSubmit(formStateKey, renderSubmitData, context, true);
                                 }

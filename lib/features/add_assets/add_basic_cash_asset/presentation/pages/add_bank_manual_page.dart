@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +16,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/util/asset_back_button_handler.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/constants.dart';
-import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentation/manager/bank_list_cubit.dart';
 import 'package:wmd/features/add_assets/add_basic_cash_asset/presentation/manager/bank_cubit.dart';
 import 'package:wmd/features/add_assets/core/constants.dart';
 import 'package:wmd/features/add_assets/core/data/models/account_type.dart';
@@ -29,7 +27,6 @@ import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_head
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
 import 'package:wmd/features/asset_see_more/bank_account/data/model/bank_account_more_entity.dart';
-import 'package:wmd/features/asset_see_more/real_estate/data/model/real_estate_more_entity.dart';
 import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_bloc_helper.dart';
 import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_state.dart';
 import 'package:wmd/features/edit_assets/core/presentation/widgets/delete_base_widget.dart';
@@ -37,7 +34,6 @@ import 'package:wmd/features/edit_assets/edit_bank_manual/presentation/manager/e
 import 'package:wmd/features/settings/core/data/models/put_settings_params.dart';
 import 'package:wmd/features/settings/dont_show_settings/presentation/manager/dont_show_settings_cubit.dart';
 import 'package:wmd/injection_container.dart';
-import 'package:wmd/core/extentions/string_ext.dart';
 
 import '../widgets/bank_name_type_ahead.dart';
 

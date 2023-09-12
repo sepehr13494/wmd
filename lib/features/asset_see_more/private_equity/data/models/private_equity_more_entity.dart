@@ -21,8 +21,8 @@ class PrivateEquityMoreEntity extends GetSeeMoreResponse {
     required this.investmentAmount,
     required this.investmentDate,
     required this.wealthManager,
-    required this.marketValue,
-    required this.valuationDate,
+    this.marketValue,
+    this.valuationDate,
   });
 
   final String id;
@@ -41,8 +41,8 @@ class PrivateEquityMoreEntity extends GetSeeMoreResponse {
   final double investmentAmount;
   final DateTime investmentDate;
   final String wealthManager;
-  final double marketValue;
-  final DateTime valuationDate;
+  final double? marketValue;
+  final DateTime? valuationDate;
 
   factory PrivateEquityMoreEntity.fromJson(Map<String, dynamic> json) =>
       PrivateEquityMoreEntity(
@@ -67,9 +67,9 @@ class PrivateEquityMoreEntity extends GetSeeMoreResponse {
         investmentDate:
             DateTime.tryParse(json["investmentDate"]) ?? DateTime.now(),
         wealthManager: json["wealthManager"] ?? "",
-        marketValue:
+        marketValue: json["marketValue"] == null ? null :
             double.tryParse((json["marketValue"] ?? "0").toString()) ?? 0,
-        valuationDate:
+        valuationDate: json["valuationDate"] == null ? null :
             DateTime.tryParse(json["valuationDate"]) ?? DateTime.now(),
       );
 
@@ -91,7 +91,7 @@ class PrivateEquityMoreEntity extends GetSeeMoreResponse {
         "investmentDate": investmentDate.toIso8601String(),
         "wealthManager": wealthManager,
         "marketValue": marketValue,
-        "valuationDate": valuationDate.toIso8601String(),
+        "valuationDate": valuationDate == null ? null : valuationDate!.toIso8601String(),
       };
 
   Map<String, dynamic> toFormJson(context) => {
@@ -111,7 +111,7 @@ class PrivateEquityMoreEntity extends GetSeeMoreResponse {
         "investmentAmount": investmentAmount.convertMoney(),
         "investmentDate": investmentDate,
         "wealthManager": wealthManager,
-        "marketValue": marketValue.convertMoney(),
+        "marketValue": marketValue == null ? null : marketValue!.convertMoney(),
         "valuationDate": valuationDate,
       };
 }

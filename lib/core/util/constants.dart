@@ -11,6 +11,7 @@ class AppConstants {
   static bool isRelease2 = dotenv.env['IS_RELEASE_TWO']! == 'true';
   static bool currencyConvertor = dotenv.env['CURRENCY_CONVERTOR']! == 'true';
   static String bundleId = dotenv.env['BUNDLE_ID']!;
+  static bool hideValuation = dotenv.env['HIDE_VALUATION']! == 'true';
 
   static const String contactEmail = "developer@allinoneplus.com";
   // developMode ? "developer@allinoneplus.com" : "n.albasri@tfoco.com";
@@ -441,14 +442,13 @@ class AssetTypes {
   static const String otherAssets = 'OtherAssets';
   static const String loanLiability = 'LoanLiability';
 
-
   static String getAssetType(AppLocalizations appLocalizations, String type,
       {String? category}) {
     switch (type) {
       case AssetTypes.bankAccount:
         return appLocalizations.assets_assets_BankAccount;
       case AssetTypes.listedAsset:
-        return appLocalizations.assetLiabilityForms_assets_listedAssets ;
+        return appLocalizations.assetLiabilityForms_assets_listedAssets;
       case AssetTypes.listedAssetEquity:
         return appLocalizations
             .assets_charts_allocationCharts_legendLabel_listedAssetEquity;

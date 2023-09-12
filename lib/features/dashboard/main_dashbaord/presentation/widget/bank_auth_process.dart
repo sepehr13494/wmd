@@ -60,7 +60,7 @@ class _BanksAuthorizationProcessState
           if (state.statusEntity.isEmpty && widget.mandateList.isEmpty) {
             return const SizedBox.shrink();
           }
-          final length = state.statusEntity.length + widget.mandateList.length;
+          int length = 0;
 
           final custodainArr = [];
 
@@ -68,6 +68,7 @@ class _BanksAuthorizationProcessState
           for (var i = 0; i < widget.mandateList.length; i++) {
             custodainArr
                 .add({"type": "mandate", "element": widget.mandateList[i]});
+            length++;
           }
 
           // Iterate over the first array and add it to the new array as a map with the identifier 0
@@ -75,6 +76,7 @@ class _BanksAuthorizationProcessState
             if (state.statusEntity[i].status != CustodianStatus.SyncDone) {
               custodainArr.add(
                   {"type": "statusEntity", "element": state.statusEntity[i]});
+              length++;
             }
           }
 

@@ -84,7 +84,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
     id = widget.id;
 
     setState(() {
-      isThreeStep =  widget.bankId == "ubp";
+      isThreeStep = widget.bankId == "ubp";
     });
   }
 
@@ -156,9 +156,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                     .read<CustodianBankAuthCubit>()
                     .postCustodianBankStatus(PostCustodianBankStatusParams(
                       bankId: widget.bankId,
-                      status: isThreeStep
-                          ? CustodianStatus.ShareLetter
-                          : CustodianStatus.OpenLetter,
+                      status: CustodianStatus.OpenLetter,
                       accountNumber: val,
                     ));
 
@@ -221,10 +219,6 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                                 style: textTheme.bodySmall),
                           ],
                         ),
-                        // Text(
-                        //   "All-In-One-Plus AG \nc/o Altenburger Ltd legal + tax, Seestrasse 39 \n8700 Küsnacht, Switzerlandmay",
-                        //   style: textTheme.bodySmall,
-                        // ),
                         const SizedBox(height: 8),
                         RichText(
                             text: TextSpan(
@@ -239,7 +233,7 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                                   ..onTap = () {
                                     Clipboard.setData(const ClipboardData(
                                             text:
-                                                "All-In-One-Plus AG \nc/o Altenburger Ltd legal + tax, Seestrasse 39 \n8700 Küsnacht, Switzerlandmay"))
+                                                "All-In-One-Plus AG \nc/o Altenburger Ltd legal + tax, Seestrasse 39 \n8700 Küsnacht, Switzerland"))
                                         .then((_) {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
@@ -253,9 +247,9 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                     ),
                     showAction: true,
                     isDone: checkCurrentCustodianStatusDone(
-                        CustodianStatus.ShareLetter, status.status),
+                        CustodianStatus.OpenLetter, status.status),
                     isActive: checkCurrentCustodianStatus(
-                        CustodianStatus.ShareLetter, status.status),
+                        CustodianStatus.OpenLetter, status.status),
                     onDone: (val) async {
                       context
                           .read<CustodianBankAuthCubit>()
@@ -302,26 +296,32 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
                                 ? Theme.of(context).primaryColor
                                 : Colors.grey[500]),
                         recognizer: TapGestureRecognizer()
-                          ..onTap = () async {
-                            final isDone = downloadPdf(status.signLetterLink);
+                          ..onTap = checkCurrentCustodianStatus(
+                                  CustodianStatus.OpenLetter, status.status)
+                              ? () async {
+                                  final isDone =
+                                      downloadPdf(status.signLetterLink);
 
-                            context
-                                .read<CustodianBankAuthCubit>()
-                                .putCustodianBankStatus(
-                                    PutCustodianBankStatusParams(
-                                        id: status.id,
-                                        bankId: widget.bankId,
-                                        status: CustodianStatus.FillLetter,
-                                        accountNumber: status.accountNumber));
+                                  context
+                                      .read<CustodianBankAuthCubit>()
+                                      .putCustodianBankStatus(
+                                          PutCustodianBankStatusParams(
+                                              id: status.id,
+                                              bankId: widget.bankId,
+                                              status:
+                                                  CustodianStatus.FillLetter,
+                                              accountNumber:
+                                                  status.accountNumber));
 
-                            await AnalyticsUtils.triggerEvent(
-                                action:
-                                    AnalyticsUtils.custodianStatusModalStep2,
-                                params: AnalyticsUtils
-                                    .custodianStatusModalStep2Event(
-                                        status.bankName));
-                            await isDone;
-                          },
+                                  await AnalyticsUtils.triggerEvent(
+                                      action: AnalyticsUtils
+                                          .custodianStatusModalStep2,
+                                      params: AnalyticsUtils
+                                          .custodianStatusModalStep2Event(
+                                              status.bankName));
+                                  await isDone;
+                                }
+                              : null,
                       ),
                       TextSpan(
                         text:
@@ -476,7 +476,8 @@ class _BankStatusModalBodyState extends AppState<BankStatusModalBody> {
           ],
         );
       } else {
-        return const SizedBox(height:400,child: Center(child: CircularProgressIndicator()));
+        return const SizedBox(
+            height: 400, child: Center(child: CircularProgressIndicator()));
       }
     });
   }

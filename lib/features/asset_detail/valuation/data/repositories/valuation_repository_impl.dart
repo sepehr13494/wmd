@@ -52,7 +52,13 @@ class ValuationRepositoryImpl implements ValuationRepository {
     try {
       final resultTransaction =
           await remoteDataSource.getAllTransaction(params);
-      if (AppConstants.isRelease2) {
+      if (!AppConstants.hideValuation &&
+          [
+            AssetTypes.privateDebt,
+            AssetTypes.privateEquity,
+            AssetTypes.realEstate,
+            AssetTypes.otherAsset,
+          ].contains(params.type)) {
         final resultValuation = await remoteDataSource.getAllValuation(params);
 
         List<GetAllValuationEntity> combinedList =

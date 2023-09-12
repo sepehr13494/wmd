@@ -6,6 +6,7 @@ import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/change_language_button.dart';
+import 'package:wmd/core/presentation/widgets/modal_widget.dart';
 import 'package:wmd/core/util/app_restart.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/support_button.dart';
@@ -13,7 +14,11 @@ import 'package:wmd/features/assets_overview/charts/presentation/widgets/constan
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/authentication/logout/presentation/manager/logout_cubit.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_toggle.dart';
+import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'logout_dialog.dart';
 
 class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
   final bool? showHelp;
@@ -77,64 +82,55 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
         //           .changeTheme(val ? ThemeMode.light : ThemeMode.dark);
         //     }),
         if (showHelp == true) const SupportButton(),
-        BlocProvider(
-          create: (context) => sl<LogoutCubit>(),
-          child: Builder(builder: (context) {
-            return BlocListener<LogoutCubit, BaseState>(
-              listener: BlocHelper.defaultBlocListener(listener: (context, state) {
-                if(state is SuccessState){
-                  AppRestart.restart(context);
-                }
-              }),
-              child: PopupMenuButton(
-                itemBuilder: (BuildContext context) {
-                  final List items = [
-                    [
-                      AppLocalizations.of(context).profile_page_title,
-                      Icons.arrow_forward_ios_rounded
+        PopupMenuButton(
+          itemBuilder: (BuildContext context) {
+            final List items = [
+              [
+                AppLocalizations.of(context).profile_page_title,
+                Icons.arrow_forward_ios_rounded
+              ],
+              [
+                AppLocalizations.of(context)
+                    .common_nav_links_signout,
+                CustomIcons.logout
+              ],
+            ];
+            return List.generate(
+                items.length,
+                    (index) => PopupMenuItem(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(items[index][0]),
+                      Icon(
+                        items[index][1],
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .color,
+                      )
                     ],
-                    [
-                      AppLocalizations.of(context)
-                          .profile_changePassword_button_logout,
-                      CustomIcons.logout
-                    ],
-                  ];
-                  return List.generate(
-                      items.length,
-                      (index) => PopupMenuItem(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(items[index][0]),
-                                Icon(
-                                  items[index][1],
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .color,
-                                )
-                              ],
-                            ),
-                            onTap: () {
-                              switch (index) {
-                                case 0:
-                                  context.goNamed(AppRoutes.settings);
-                                  break;
-                                case 1:
-                                  context.read<LogoutCubit>().performLogout();
-                                  //AppRestart.restart(context);
-                                  break;
-                              }
-                            },
-                          ));
-                },
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
-                  child: Icon(Icons.settings),
-                ),
-              ),
-            );
-          }),
+                  ),
+                  onTap: () async {
+                    switch (index) {
+                      case 0:
+                        context.goNamed(AppRoutes.settings);
+                        break;
+                      case 1:
+                        Future.delayed(const Duration(seconds: 0),(){
+                          showDialog(context: context, builder: (context) {
+                            return const LogoutDialog();
+                          },);
+                        });
+                        break;
+                    }
+                  },
+                ));
+          },
+          child: const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12),
+            child: Icon(Icons.settings),
+          ),
         )
       ],
     );

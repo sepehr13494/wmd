@@ -3,17 +3,17 @@ import 'package:equatable/equatable.dart';
 class GetBenchmarkEntity extends Equatable {
     const GetBenchmarkEntity({
         required this.index,
-        required this.performance,
-        required this.performancePa,
-        required this.riskPa,
-        required this.sharpeRatio,
+        this.performance,
+        this.performancePa,
+        this.riskPa,
+        this.sharpeRatio,
     });
 
     final String index;
-    final double performance;
-    final double performancePa;
-    final double riskPa;
-    final double sharpeRatio;
+    final double? performance;
+    final double? performancePa;
+    final double? riskPa;
+    final double? sharpeRatio;
 
     Map<String, dynamic> toJson() => {
         "index": index,

@@ -82,25 +82,25 @@ class PerformanceCustodianWidget extends AppStatelessWidget {
                       PerformanceValueObj(
                           value: e.custodianName),
                       PerformanceValueObj(
-                          value:
-                          "${(e.performance * 100).toStringAsFixedZero(1)} %",
+                          value: e.performance == null ? "n/a" :
+                          "${e.performance!.toStringAsFixedZero(1)} %",
                           shouldBlur: false,
-                        showTooltip: ((e.performance * 100) >= 99900 || (e.performance * 100) <= -100)
+                        showTooltip: e.performance == null ? false : (e.performance! >= 99900 || e.performance! <= -100)
                       ),
                       PerformanceValueObj(
-                          value:
-                          e.amount.convertMoney(),
+                          value: e.amount == null ? "n/a" :
+                          e.amount!.convertMoney(),
                           shouldBlur: true,
                       ),
                       PerformanceValueObj(
-                          value:
-                          "${e.riskPa.toStringAsFixedZero(1)} %",
+                          value: e.riskPa == null ? "n/a" :
+                          "${e.riskPa!.toStringAsFixedZero(1)} %",
                           shouldBlur: false,
-                        showTooltip: (e.riskPa >= 99900 || e.riskPa <= -100)
+                        showTooltip: e.riskPa == null ? false : (e.riskPa! >= 99900 || e.riskPa! <= -100)
                       ),
                       PerformanceValueObj(
-                          value: e.sharpeRatio
-                              .toStringAsFixedZero(1),
+                          value: e.sharpeRatio == null ? "n/a" : e.sharpeRatio
+                              !.toStringAsFixedZero(1),
                       ),
                     ])
                         .toList())

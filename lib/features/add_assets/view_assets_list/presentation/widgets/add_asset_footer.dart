@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/routes/app_routes.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wmd/features/add_assets/core/presentation/widgets/success_modal.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/support_widget.dart';
 import 'package:wmd/features/dashboard/user_status/domain/use_cases/get_user_status_usecase.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
-import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 
 class AddAssetFooter extends AppStatelessWidget {
@@ -32,24 +29,15 @@ class AddAssetFooter extends AppStatelessWidget {
       height: 76,
       color: Theme.of(context).cardColor,
       child: Padding(
-        padding: const EdgeInsets.only(right: 16,left: 16,bottom: 16),
+        padding: const EdgeInsets.only(right: 16, left: 16, bottom: 16),
         child: Row(
           children: [
             isMobile
                 ? const SizedBox()
                 : Expanded(
                     child: Row(
-                      children: [
-                        const SupportWidget(),
-                        const SizedBox(width: 12),
-                        Expanded(
-                            child: Center(
-                                child: Text(
-                          "You can add another asset on the next screen",
-                          style: textTheme.bodySmall,
-                        ))),
-                        const SizedBox(width: 12),
-                      ],
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: const [SupportWidget()],
                     ),
                   ),
             ExpandedIf(
