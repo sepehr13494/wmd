@@ -109,7 +109,7 @@ class _ChartsWrapperState extends AppState<ChartsWrapper>
                                   Tab(
                                       text:
                                           "   ${appLocalizations.assets_charts_tabs_geography}   "),
-                                  AppConstants.isRelease2
+                                  AppConstants.showCurrencyTab
                                       ? Tab(
                                           text:
                                               "   ${appLocalizations.assets_charts_tabs_currency}   ")
