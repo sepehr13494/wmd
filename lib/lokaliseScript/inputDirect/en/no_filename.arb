@@ -1,6 +1,6 @@
 {
     "@@locale": "en",
-    "@@last_modified": "2023-09-07T07:54:48+02:00",
+    "@@last_modified": "2023-09-13T10:34:48+02:00",
     "auth:signup.page.title": "Join our Platform",
     "auth:signup.page.description": "Create myWMD account",
     "auth:signup.heading": "Create an account",
@@ -1132,7 +1132,7 @@
     "assets:seeMore.buttons.edit": "Edit",
     "profile:changePassword.change": "Change",
     "profile:localAuth.pleaseAuthenticate": "Please Authenticate",
-    "profile:localAuth.enableFaceId": "Enable login with Face ID",
+    "profile:localAuth.enableFaceId": "Enable login with fingerprint\/ face ID",
     "auth:login.toast.wrongToken": "Your session expired. Please sign in again.",
     "assets:assets.ListedAssetOther": "Listed Asset - Other",
     "assets:assets.ListedAssetEquity": "Listed Asset - Equity",
@@ -2791,7 +2791,7 @@
     "common:assetConfirmationModal.listItem3": "If you need to make changes later, it is better to delete and then re-add the asset.",
     "common:assetConfirmationModal.note": "Once confirmed, we will initiate performance calculations and categorize the asset appropriately within a region. The results will be visible the next day. Asset and portfolio performance calculations begin from the moment you start using the platform.",
     "common:assetConfirmationModal.checkbox": "Don't show this again",
-    "assetLiabilityForms:toast.assetAddSuccess": "Your {{assetName}} asset has been added successfully.",
+    "assetLiabilityForms:toast.assetAddSuccess": "Your {{assetName}} has been added successfully.",
     "home:custodianBankList.swissStatusText.step1": "Step 1 of 3 is complete: Access the authorization letter.",
     "home:custodianBankList.swissStatusText.step2": "Step 2 of 3 is complete: Receive data from your custodian bank.",
     "linkAccount:custodians.ubp": "UBP - Switzerland",
@@ -2825,5 +2825,7 @@
     "common:newCustodianRequest.modal.managerDetails": "Custodian bank Relationship Manager details",
     "common:newCustodianRequest.modal.managerName": "Relationship Manager name",
     "common:newCustodianRequest.modal.managerEmail": "Relationship Manager email",
-    "common:newCustodianRequest.modal.check": "I consent that All In One Plus can contact my RM and share the synchronization request for my account number."
+    "common:newCustodianRequest.modal.check": "I consent that All In One Plus can contact my RM and share the synchronization request for my account number.",
+    "common:errors.onlyCharactersAndNumbersAllowed": "Only letters and numbers are allowed.",
+    "linkAccount:stepper.cif.placeholderOnMobile": "Account Number"
 }

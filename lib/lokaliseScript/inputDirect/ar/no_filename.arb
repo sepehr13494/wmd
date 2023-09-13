@@ -1,6 +1,6 @@
 {
     "@@locale": "ar",
-    "@@last_modified": "2023-09-07T07:54:48+02:00",
+    "@@last_modified": "2023-09-13T10:34:48+02:00",
     "auth:signup.page.title": "انضمّ إلى منصتنا",
     "auth:signup.page.description": "إنشاء حساب myWMD",
     "auth:signup.heading": "أنشئ حساباً",
@@ -1132,7 +1132,7 @@
     "assets:seeMore.buttons.edit": "تعديل",
     "profile:changePassword.change": "تغيير",
     "profile:localAuth.pleaseAuthenticate": "يرجى مصادقة هويّتك",
-    "profile:localAuth.enableFaceId": "إتاحة تسجيل الدخول عبر تقنية التعرّف على الوجه",
+    "profile:localAuth.enableFaceId": "تمكين تسجيل الدخول عبر بصمة الإصبع \/ تقنية التعرّف على الوجه",
     "auth:login.toast.wrongToken": "انتهت صلاحية جلستك. يُرجى تسجيل الدخول من جديد.",
     "assets:assets.ListedAssetOther": "أصول مدرجة - غيرها",
     "assets:assets.ListedAssetEquity": "أصول مدرجة - أسهم",
@@ -2825,5 +2825,7 @@
     "common:newCustodianRequest.modal.managerDetails": "",
     "common:newCustodianRequest.modal.managerName": "",
     "common:newCustodianRequest.modal.managerEmail": "",
-    "common:newCustodianRequest.modal.check": ""
+    "common:newCustodianRequest.modal.check": "",
+    "common:errors.onlyCharactersAndNumbersAllowed": "يُسمح فقط بالأحرف والأرقام",
+    "linkAccount:stepper.cif.placeholderOnMobile": "رقم حساب"
 }
