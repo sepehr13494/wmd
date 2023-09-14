@@ -3,19 +3,19 @@ import 'package:equatable/equatable.dart';
 class UserMandateEntity extends Equatable {
   final String mandateId;
   final String dataSource;
-  final bool synced;
+  final String syncStatus;
 
   const UserMandateEntity({
     required this.mandateId,
     required this.dataSource,
-    required this.synced,
+    required this.syncStatus,
   });
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['mandateId'] = mandateId;
     data['dataSource'] = dataSource;
-    data['synced'] = synced;
+    data['synced'] = syncStatus;
 
     return data;
   }
@@ -24,7 +24,7 @@ class UserMandateEntity extends Equatable {
   List<Object?> get props => [
         mandateId,
         dataSource,
-        synced,
+        syncStatus,
       ];
 }
 
