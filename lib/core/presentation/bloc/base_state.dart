@@ -54,6 +54,7 @@ abstract class BaseState extends Equatable
         PortfolioTab2State,
         PortfolioProviderContainerState,
         DontShowSettingsState,
+        RequestNewCustodianState,
         PerformanceChartState {}
 
 class BaseInitialState extends BaseState {
