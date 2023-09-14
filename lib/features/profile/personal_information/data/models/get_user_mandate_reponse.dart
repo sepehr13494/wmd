@@ -4,14 +4,14 @@ class GetUserMandateResponse extends UserMandateEntity {
   const GetUserMandateResponse({
     required super.mandateId,
     required super.dataSource,
-    required super.synced,
+    required super.syncStatus,
   });
 
   factory GetUserMandateResponse.fromJson(Map<String, dynamic> json) =>
       GetUserMandateResponse(
-        mandateId: json["mandateId"],
-        dataSource: json["dataSource"],
-        synced: json["synced"],
+        mandateId: json["mandateId"].toString(),
+        dataSource: json["dataSource"].toString(),
+        syncStatus: json["synced"].toString(),
       );
 
   // static final tResponse = [GetAllValuationResponse()];

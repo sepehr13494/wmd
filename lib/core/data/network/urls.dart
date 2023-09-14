@@ -148,7 +148,7 @@ class AppUrls {
 
   static String getMandate = "${userBase}User/mandate";
   static String postMandates = "${userBase}User/mandates";
-  static String getUserMandates = "${wealthBase}mandate/status";
+  static String getUserMandates = "${userBase}User/mandates";
 
   static String getLinkedAccounts =
       "${wealthBase}CustodianBank/linked-accounts";

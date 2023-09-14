@@ -69,7 +69,7 @@ class _PersonalInformationWidgetState
         if (state is UserMandateLoaded) {
           final mandate = state.entity.firstWhere((x) => x.dataSource == 'WMD');
 
-          if (mandateId != null) {
+          if (mandate != null) {
             setState(() {
               mandateId = mandate.mandateId;
             });
