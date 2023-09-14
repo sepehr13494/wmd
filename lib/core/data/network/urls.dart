@@ -156,5 +156,6 @@ class AppUrls {
   static String getMandateStatus = "${wealthBase}Mandate/Status";
   static String deleteMandate = "${userBase}User/delete-mandate";
 
-  static String requestNewCustodian = "${wealthBase}blabla/bla-bla";
+  static String requestNewCustodian =
+      "${wealthBase}CustodianBank/new-custodian-request";
 }
