@@ -29,6 +29,7 @@ import 'package:wmd/features/authentication/login_signup/presentation/manager/lo
 import 'package:wmd/features/authentication/login_signup/presentation/widgets/video_player_widget/bloc/video_controller_cubit.dart';
 import 'package:wmd/features/authentication/verify_email/presentation/manager/verify_email_cubit.dart';
 import 'package:wmd/features/blurred_widget/presentation/manager/blurred_privacy_cubit.dart';
+import 'package:wmd/features/currency/presentation/manager/currency_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
 import 'package:wmd/features/dashboard/mandate_status/presentation/manager/mandate_status_cubit.dart';

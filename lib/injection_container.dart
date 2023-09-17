@@ -126,6 +126,11 @@ import 'package:wmd/features/authentication/verify_email/data/repositories/verif
 import 'package:wmd/features/authentication/verify_email/domain/repositories/verify_email_repository.dart';
 import 'package:wmd/features/authentication/verify_email/domain/use_cases/verify_email_usecase.dart';
 import 'package:wmd/features/authentication/verify_email/presentation/manager/verify_email_cubit.dart';
+import 'package:wmd/features/currency/data/data_sources/currency_remote_datasource.dart';
+import 'package:wmd/features/currency/data/repositories/currency_repository_impl.dart';
+import 'package:wmd/features/currency/domain/repositories/currency_repository.dart';
+import 'package:wmd/features/currency/domain/use_cases/get_currency_usecase.dart';
+import 'package:wmd/features/currency/presentation/manager/currency_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/data/data_sources/dashboard_charts_remote_datasource.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/data/repositories/dashboard_charts_repository_impl.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/domain/repositories/dashboard_charts_repository.dart';
@@ -875,6 +880,14 @@ Future<void> init(String env) async {
       () => MandateStatusRepositoryImpl(sl()));
   sl.registerLazySingleton<MandateStatusRemoteDataSource>(
       () => MandateStatusRemoteDataSourceImpl(sl()));
+
+//Currency
+  sl.registerFactory(() => CurrencyCubit(sl()));
+  sl.registerLazySingleton(() => GetCurrencyConversionUseCase(sl()));
+  sl.registerLazySingleton<CurrencyRepository>(
+      () => CurrencyRepositoryImpl(sl()));
+  sl.registerLazySingleton<CurrencyRemoteDataSource>(
+      () => CurrencyRemoteDataSourceImpl(sl()));
 
   //DontShowSettings
   sl.registerFactory(() => DontShowSettingsCubit(sl(), sl()));
