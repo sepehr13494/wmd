@@ -8,7 +8,8 @@ import '../models/get_currency_params.dart';
 import '../models/get_currency_response.dart';
 
 abstract class CurrencyRemoteDataSource {
-  Future<GetCurrencyResponse> getCurrency(GetCurrencyParams params);
+  Future<GetCurrencyConversionResponse> getCurrency(
+      GetCurrencyConversionParams params);
 }
 
 class CurrencyRemoteDataSourceImpl extends AppServerDataSource
@@ -16,13 +17,14 @@ class CurrencyRemoteDataSourceImpl extends AppServerDataSource
   CurrencyRemoteDataSourceImpl(super.errorHandlerMiddleware);
 
   @override
-  Future<GetCurrencyResponse> getCurrency(GetCurrencyParams params) async {
+  Future<GetCurrencyConversionResponse> getCurrency(
+      GetCurrencyConversionParams params) async {
     try {
       final appRequestOptions = AppRequestOptions(
           RequestTypes.get, AppUrls.getCurrencyConversion, params.toJson());
       final response =
           await errorHandlerMiddleware.sendRequest(appRequestOptions);
-      final result = GetCurrencyResponse.fromJson(response);
+      final result = GetCurrencyConversionResponse.fromJson(response);
       return result;
     } on ServerException {
       rethrow;

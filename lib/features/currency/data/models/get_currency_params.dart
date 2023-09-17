@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-class GetCurrencyParams extends Equatable {
-  const GetCurrencyParams({
+class GetCurrencyConversionParams extends Equatable {
+  const GetCurrencyConversionParams({
     required this.fromCurrency,
     required this.toCurrency,
   });
@@ -9,8 +9,8 @@ class GetCurrencyParams extends Equatable {
   final String fromCurrency;
   final String toCurrency;
 
-  factory GetCurrencyParams.fromJson(Map<String, dynamic> json) =>
-      GetCurrencyParams(
+  factory GetCurrencyConversionParams.fromJson(Map<String, dynamic> json) =>
+      GetCurrencyConversionParams(
         fromCurrency: json["fromCurrency"],
         toCurrency: json["toCurrency"],
       );
@@ -25,5 +25,5 @@ class GetCurrencyParams extends Equatable {
   List<Object?> get props => [fromCurrency, toCurrency];
 
   static const tParams =
-      GetCurrencyParams(fromCurrency: "INR", toCurrency: "USD");
+      GetCurrencyConversionParams(fromCurrency: "INR", toCurrency: "USD");
 }

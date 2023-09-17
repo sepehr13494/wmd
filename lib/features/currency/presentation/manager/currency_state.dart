@@ -2,10 +2,10 @@ part of 'currency_cubit.dart';
 
 abstract class CurrencyState {}
 
-class GetCurrencyLoaded extends Equatable with CurrencyState {
-  final GetCurrencyEntity getCurrencyEntity;
+class GetCurrencyConversionLoaded extends Equatable with CurrencyState {
+  final GetCurrencyConversionEntity getCurrencyEntity;
 
-  GetCurrencyLoaded({
+  GetCurrencyConversionLoaded({
     required this.getCurrencyEntity,
   });
 

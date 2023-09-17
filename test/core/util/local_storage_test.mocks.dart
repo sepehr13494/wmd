@@ -412,4 +412,21 @@ class MockLocalStorage extends _i1.Mock implements _i5.LocalStorage {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
+  @override
+  _i4.Future<void> setLastIp(dynamic val) => (super.noSuchMethod(
+        Invocation.method(
+          #setLastIp,
+          [val],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+  @override
+  String getLastIp() => (super.noSuchMethod(
+        Invocation.method(
+          #getLastIp,
+          [],
+        ),
+        returnValue: '',
+      ) as String);
 }

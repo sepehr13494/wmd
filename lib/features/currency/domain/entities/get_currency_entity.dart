@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-class GetCurrencyEntity extends Equatable {
-  const GetCurrencyEntity({
+class GetCurrencyConversionEntity extends Equatable {
+  const GetCurrencyConversionEntity({
     required this.date,
     required this.currencyName,
     required this.conversionRate,

@@ -17,10 +17,10 @@ class CurrencyCubit extends Cubit<CurrencyState> {
 
   getCurrency(String fromCurrency, String toCurrency) async {
     emit(LoadingState());
-    final result = await getCurrencyUseCase(
-        GetCurrencyParams(fromCurrency: fromCurrency, toCurrency: toCurrency));
+    final result = await getCurrencyUseCase(GetCurrencyConversionParams(
+        fromCurrency: fromCurrency, toCurrency: toCurrency));
     result.fold((failure) => emit(ErrorState(failure: failure)), (entity) {
-      emit(GetCurrencyLoaded(getCurrencyEntity: entity));
+      emit(GetCurrencyConversionLoaded(getCurrencyEntity: entity));
     });
   }
 }

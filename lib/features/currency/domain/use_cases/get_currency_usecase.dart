@@ -7,12 +7,13 @@ import '../entities/get_currency_entity.dart';
 import '../repositories/currency_repository.dart';
 
 class GetCurrencyConversionUseCase
-    extends UseCase<GetCurrencyEntity, GetCurrencyParams> {
+    extends UseCase<GetCurrencyConversionEntity, GetCurrencyConversionParams> {
   final CurrencyRepository repository;
 
   GetCurrencyConversionUseCase(this.repository);
 
   @override
-  Future<Either<Failure, GetCurrencyEntity>> call(GetCurrencyParams params) =>
+  Future<Either<Failure, GetCurrencyConversionEntity>> call(
+          GetCurrencyConversionParams params) =>
       repository.getCurrency(params);
 }
