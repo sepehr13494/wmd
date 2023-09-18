@@ -16,7 +16,6 @@ import 'package:wmd/injection_container.dart';
 Future<void> showNewCustodianModal({
   required BuildContext context,
 }) async {
-  final appLocalization = AppLocalizations.of(context);
   return await showDialog(
     context: context,
     builder: (context) {
