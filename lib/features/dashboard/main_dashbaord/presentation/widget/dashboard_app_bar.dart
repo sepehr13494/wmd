@@ -14,7 +14,7 @@ import 'package:wmd/features/assets_overview/charts/presentation/widgets/constan
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/authentication/logout/presentation/manager/logout_cubit.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_toggle.dart';
-import 'package:wmd/features/dashboard/main_dashbaord/presentation/widget/currency_selector.dart';
+import 'package:wmd/features/currency/presentation/widget/currency_selector.dart';
 import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

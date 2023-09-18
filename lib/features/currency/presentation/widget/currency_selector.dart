@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
+import 'package:wmd/features/currency/data/models/currencies.dart';
+import 'package:wmd/features/currency/presentation/manager/currency_cubit.dart';
+import 'package:wmd/injection_container.dart';
 
 class CurrencySelector extends StatefulWidget {
   const CurrencySelector({super.key});
@@ -9,23 +12,26 @@ class CurrencySelector extends StatefulWidget {
 }
 
 class _CurrencySelectorState extends AppState<CurrencySelector> {
-  final List items = ['TRY', 'USD'];
   int index = 0;
+
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
+    final cubit = sl<CurrencyCubit>();
     return Padding(
       padding: const EdgeInsets.only(left: 8.0),
       child: PopupMenuButton(
         padding: const EdgeInsets.all(0),
         itemBuilder: (BuildContext context) {
           return List.generate(
-              items.length,
+              Currencies.currencies.length,
               (i) => PopupMenuItem(
-                    child: Text(items[i]),
+                    child: Text(Currencies.currencies[i]),
                     onTap: () async {
                       setState(() {
                         index = i;
                       });
+                      cubit.getCurrency(
+                          Currencies.USD, Currencies.currencies[index]);
                     },
                   ));
         },
@@ -33,7 +39,7 @@ class _CurrencySelectorState extends AppState<CurrencySelector> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              items[index],
+              Currencies.currencies[index],
               style: TextStyle(color: Theme.of(context).primaryColor),
             ),
             const Icon(

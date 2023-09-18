@@ -42,6 +42,8 @@ import 'package:wmd/features/authentication/login_signup/presentation/pages/welc
 import 'package:wmd/features/authentication/verify_email/presentation/pages/verify_response_page.dart';
 import 'package:wmd/features/blurred_widget/presentation/manager/blurred_privacy_cubit.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_wrapper.dart';
+import 'package:wmd/features/currency/presentation/manager/currency_cubit.dart';
+import 'package:wmd/features/currency/presentation/widget/currency_wrapper.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_allocation_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_goe_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
@@ -107,9 +109,12 @@ class AppRouter {
   AssetsGeographyChartCubit _assetsGeographyChartCubit =
       sl<AssetsGeographyChartCubit>();
   PortfolioTab2Cubit _portfolioTabAllocationsCubit = sl<PortfolioTab2Cubit>();
-  PortfolioProviderContainerCubit _portfolioProviderContainer = sl<PortfolioProviderContainerCubit>();
-  PortfolioTab2CubitForTab _portfolioTab2CubitForTab = sl<PortfolioTab2CubitForTab>();
-  PortfolioVisibleController _portfolioVisibleController = sl<PortfolioVisibleController>();
+  PortfolioProviderContainerCubit _portfolioProviderContainer =
+      sl<PortfolioProviderContainerCubit>();
+  PortfolioTab2CubitForTab _portfolioTab2CubitForTab =
+      sl<PortfolioTab2CubitForTab>();
+  PortfolioVisibleController _portfolioVisibleController =
+      sl<PortfolioVisibleController>();
   DashboardAllocationCubit _dashboardAllocationCubit =
       sl<DashboardAllocationCubit>();
   DashboardPieCubit _dashboardPieCubit = sl<DashboardPieCubit>();
@@ -268,7 +273,7 @@ class AppRouter {
                       _preferenceCubit = sl<PreferenceCubit>();
                       return _preferenceCubit..getPreference();
                     },
-                  )
+                  ),
                 ],
                 child: MultiBlocProvider(
                   key: mainPageRefreshKey,
@@ -405,13 +410,15 @@ class AppRouter {
                     ),
                     BlocProvider(
                       create: (context) {
-                        _portfolioTab2CubitForTab = sl<PortfolioTab2CubitForTab>();
+                        _portfolioTab2CubitForTab =
+                            sl<PortfolioTab2CubitForTab>();
                         return _portfolioTab2CubitForTab;
                       },
                     ),
                     BlocProvider(
                       create: (context) {
-                        _portfolioVisibleController = sl<PortfolioVisibleController>();
+                        _portfolioVisibleController =
+                            sl<PortfolioVisibleController>();
                         return _portfolioVisibleController;
                       },
                     ),
@@ -454,6 +461,11 @@ class AppRouter {
                       create: (context) {
                         _twoFactorCubit = sl<TwoFactorCubit>();
                         return _twoFactorCubit..getTwoFactor();
+                      },
+                    ),
+                    BlocProvider(
+                      create: (context) {
+                        return sl<CurrencyCubit>();
                       },
                     ),
                   ],
