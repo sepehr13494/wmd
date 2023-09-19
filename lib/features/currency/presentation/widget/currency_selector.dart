@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/features/currency/data/models/currencies.dart';
 import 'package:wmd/features/currency/presentation/manager/currency_cubit.dart';
-import 'package:wmd/injection_container.dart';
 
 class CurrencySelector extends StatefulWidget {
   const CurrencySelector({super.key});
@@ -16,7 +16,7 @@ class _CurrencySelectorState extends AppState<CurrencySelector> {
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
-    final cubit = sl<CurrencyCubit>();
+    final cubit = context.read<CurrencyCubit>();
     return Padding(
       padding: const EdgeInsets.only(left: 8.0),
       child: PopupMenuButton(

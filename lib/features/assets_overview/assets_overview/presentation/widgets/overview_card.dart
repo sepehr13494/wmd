@@ -27,12 +27,11 @@ class OverViewCard extends AppStatelessWidget {
       AppLocalizations appLocalizations) {
     final responsiveHelper = ResponsiveHelper(context: context);
     bool isMobile = responsiveHelper.isMobile;
-    return BlocConsumer<CurrencyCubit, CurrencyState>(
-        listener: (context, state) {
+    return BlocBuilder<CurrencyCubit, CurrencyState>(
+        builder: (context, currencyState) {
       print(
           'Mertttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt: ' +
-              state.toString());
-    }, builder: (context, currencyState) {
+              currencyState.toString());
       return BlocBuilder<SummeryWidgetCubit, MainDashboardState>(
         builder: (context, state) {
           if (state is MainDashboardNetWorthLoaded) {
