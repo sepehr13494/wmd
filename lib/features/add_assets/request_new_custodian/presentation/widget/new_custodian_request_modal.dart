@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:wmd/core/presentation/bloc/base_cubit.dart';
 import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/bottom_modal_widget.dart';
@@ -52,14 +53,21 @@ class _RequestCustodianFormState extends AppState<RequestCustodianForm> {
       create: (context) => sl<RequestNewCustodianCubit>(),
       child: BlocConsumer<RequestNewCustodianCubit, RequestNewCustodianState>(
           listener: BlocHelper.defaultBlocListener(listener: (context, state) {
-        print("Esraaaaaaaaaaaaaaaa: " + state.toString());
-        GlobalFunctions.showSnackTile(context, title: state.toString());
+        if (state is SuccessState) {
+          Navigator.pop(context, true);
+          GlobalFunctions.showSnackTile(context,
+              title: appLocalizations
+                  .common_newCustodianRequest_modal_confirmation);
+        } else {
+          GlobalFunctions.showSnackTile(context,
+              title: appLocalizations.common_errors_somethingWentWrong,
+              color: Colors.red);
+        }
       }), builder: (context, state) {
         return FormBuilder(
           key: _formKey,
           onChanged: () {
             _formKey.currentState!.save();
-            debugPrint(_formKey.currentState!.value.toString());
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
