@@ -63,6 +63,11 @@ import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager
 import 'package:wmd/features/add_assets/custodian_bank_auth/presentation/manager/custodian_status_list_cubit.dart';
 import 'package:wmd/features/add_assets/pam_login/domain/use_cases/login_pam_account_usecase.dart';
 import 'package:wmd/features/add_assets/pam_login/presentation/manager/pam_login_cubit.dart';
+import 'package:wmd/features/add_assets/request_new_custodian/data/data_sources/request_new_custodian_remote_datasource.dart';
+import 'package:wmd/features/add_assets/request_new_custodian/data/repositories/request_new_custodian_repository_impl.dart';
+import 'package:wmd/features/add_assets/request_new_custodian/domain/repositories/request_new_custodian_repository.dart';
+import 'package:wmd/features/add_assets/request_new_custodian/domain/use_cases/request_new_custodian_usecase.dart';
+import 'package:wmd/features/add_assets/request_new_custodian/presentation/manager/request_new_custodian_cubit.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/manager/asset_view_cubit.dart';
 import 'package:wmd/features/asset_detail/core/data/repositories/asset_summary_repository_impl.dart';
 import 'package:wmd/features/asset_detail/core/presentation/manager/asset_summary_cubit.dart';
@@ -893,6 +898,15 @@ Future<void> init(String env) async {
   sl.registerFactory(() => DontShowSettingsCubit(sl(), sl()));
   sl.registerLazySingleton<DontShowSettingsRepository>(
       () => DontShowSettingsRepositoryImpl(sl()));
+
+  //RequestNewCustodian
+  sl.registerFactory(() => RequestNewCustodianCubit(sl()));
+  sl.registerLazySingleton(() => RequestNewCustodianUseCase(sl()));
+
+  sl.registerLazySingleton<RequestNewCustodianRepository>(
+      () => RequestNewCustodianRepositoryImpl(sl()));
+  sl.registerLazySingleton<RequestNewCustodianRemoteDataSource>(
+      () => RequestNewCustodianRemoteDataSourceImpl(sl()));
 
   await initExternal(env);
   await initUtils();
