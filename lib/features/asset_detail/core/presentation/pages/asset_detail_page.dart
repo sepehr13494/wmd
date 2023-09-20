@@ -21,6 +21,7 @@ import 'package:wmd/features/asset_detail/valuation/presentation/manager/valuati
 import 'package:wmd/features/asset_detail/valuation/presentation/widget/performance_chart_v2.dart';
 import 'package:wmd/features/asset_see_more/core/data/models/get_asset_see_more_params.dart';
 import 'package:wmd/features/asset_see_more/core/presentation/manager/asset_see_more_cubit.dart';
+import 'package:wmd/features/currency/presentation/manager/currency_cubit.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/injection_container.dart';
 import '../manager/asset_summary_cubit.dart';
@@ -61,6 +62,9 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
             create: (context) => sl<ValuationCubit>()
               ..getAllValuation(
                   GetAllValuationParams(widget.assetId, widget.type)),
+          ),
+          BlocProvider(
+            create: (context) => sl<CurrencyCubit>(),
           ),
         ],
         child: Builder(builder: (context) {
