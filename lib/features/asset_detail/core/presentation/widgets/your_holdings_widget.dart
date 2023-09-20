@@ -29,6 +29,25 @@ class YourHoldingsWidget extends AppStatelessWidget {
             style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w300),
           ),
         ),
+        SizedBox(height: responsiveHelper.biggerGap),
+        PrivacyBlurWidget(
+          child: Text(
+            "AED 4000",
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+          ),
+        ),
+        SizedBox(height: responsiveHelper.biggerGap),
+        Row(
+          mainAxisAlignment: responsiveHelper.isMobile
+              ? MainAxisAlignment.end
+              : MainAxisAlignment.start,
+          children: [
+            Text(
+              "1 USD = 3.67 AED as of June 20, 2023",
+              style: textTheme.bodySmall,
+            )
+          ],
+        )
       ],
     );
   }
