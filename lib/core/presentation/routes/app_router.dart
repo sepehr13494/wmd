@@ -86,7 +86,6 @@ class AppRouter {
   BlurredPrivacyCubit _blurredPrivacyCubit = sl<BlurredPrivacyCubit>();
   MainDashboardCubit _mainDashboardCubit = sl<MainDashboardCubit>();
   MainPageCubit _mainPageCubit = sl<MainPageCubit>();
-  CurrencyCubit _currencyCubit = sl<CurrencyCubit>();
   SummeryWidgetCubit _summeryWidgetCubit = sl<SummeryWidgetCubit>();
   AssetsOverviewCubitBankAccount _assetsOverviewCubitBankAccount =
       sl<AssetsOverviewCubitBankAccount>();
@@ -464,11 +463,6 @@ class AppRouter {
                         return _twoFactorCubit..getTwoFactor();
                       },
                     ),
-                    BlocProvider(
-                      create: (context) {
-                        return _currencyCubit;
-                      },
-                    ),
                   ],
                   child: PrivacyBlurWrapper(
                     child: LocalAuthWrapper(
@@ -807,9 +801,6 @@ class AppRouter {
       ),
       BlocProvider.value(
         value: _custodianStatusListCubit,
-      ),
-      BlocProvider.value(
-        value: _currencyCubit,
       ),
     ], child: child);
   }
