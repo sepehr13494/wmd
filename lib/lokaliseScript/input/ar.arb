@@ -1949,5 +1949,7 @@
     "common:assetConfirmationModal.otherAssets.listItem2": "على صفحة تفاصيل الأصل، يمكنك أيضًا إدخال معلومات الصفقة.",
     "common:errors.duplicateValue": "لا ينبغي أن يكون الاسم الأخير هو نفس الاسم الأول.",
     "common:errors.onlyCharactersAndNumbersAllowed": "يُسمح فقط بالأحرف والأرقام",
-    "linkAccount:stepper.cif.placeholderOnMobile": "رقم حساب"
+    "linkAccount:stepper.cif.placeholderOnMobile": "رقم حساب",
+    "assets:valuationModal.placeholder.notesTransaction": "New transaction added",
+    "common:errors.currentValueInt": "يجب أن تكون القيمة رقمًا"
 }

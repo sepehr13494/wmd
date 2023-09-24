@@ -2818,5 +2818,11 @@
     "common:newCustodianRequest.modal.check": "I consent that All In One Plus can contact my RM and share the synchronization request for my account number.",
     "common:errors.onlyCharactersAndNumbersAllowed": "Only letters and numbers are allowed.",
     "linkAccount:stepper.cif.placeholderOnMobile": "Account Number",
-    "common:newCustodianRequest.modal.confirmation": "Your request has been sent successfully."
+    "common:newCustodianRequest.modal.confirmation": "Your request has been sent successfully.",
+    "assets:valuationModal.placeholder.notesTransaction": "New transaction added",
+    "common:errors.currentValueInt": "The value must be a number",
+    "common:labels.asOf": "as of",
+    "common:labels.usd": "USD",
+    "currencies:BHD": "Bahraini Dinar",
+    "currencies:KWD": "Kuwaiti Dinar"
 }
