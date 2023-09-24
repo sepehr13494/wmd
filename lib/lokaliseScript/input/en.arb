@@ -1129,7 +1129,7 @@
     "assets:seeMore.buttons.edit": "Edit",
     "profile:changePassword.change": "Change",
     "profile:localAuth.pleaseAuthenticate": "Please Authenticate",
-    "profile:localAuth.enableFaceId": "Enable login with Face ID",
+    "profile:localAuth.enableFaceId": "Enable login with fingerprint\/ face ID",
     "auth:login.toast.wrongToken": "Your session expired. Please sign in again.",
     "assets:assets.ListedAssetOther": "Listed Asset - Other",
     "assets:assets.ListedAssetEquity": "Listed Asset - Equity",
@@ -2817,5 +2817,6 @@
     "common:newCustodianRequest.modal.managerEmail": "Relationship Manager email",
     "common:newCustodianRequest.modal.check": "I consent that All In One Plus can contact my RM and share the synchronization request for my account number.",
     "common:errors.onlyCharactersAndNumbersAllowed": "Only letters and numbers are allowed.",
-    "linkAccount:stepper.cif.placeholderOnMobile": "Account Number"
+    "linkAccount:stepper.cif.placeholderOnMobile": "Account Number",
+    "common:newCustodianRequest.modal.confirmation": "Your request has been sent successfully."
 }

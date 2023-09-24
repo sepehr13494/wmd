@@ -1080,7 +1080,7 @@
     "assets:seeMore.buttons.edit": "تعديل",
     "profile:changePassword.change": "تغيير",
     "profile:localAuth.pleaseAuthenticate": "يرجى مصادقة هويّتك",
-    "profile:localAuth.enableFaceId": "إتاحة تسجيل الدخول عبر تقنية التعرّف على الوجه",
+    "profile:localAuth.enableFaceId": "تمكين تسجيل الدخول عبر بصمة الإصبع \/ تقنية التعرّف على الوجه",
     "auth:login.toast.wrongToken": "انتهت صلاحية جلستك. يُرجى تسجيل الدخول من جديد.",
     "assets:assets.ListedAssetOther": "أصول مدرجة - غيرها",
     "assets:assets.ListedAssetEquity": "أصول مدرجة - أسهم",
