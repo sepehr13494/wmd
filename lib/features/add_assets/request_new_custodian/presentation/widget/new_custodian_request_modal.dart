@@ -7,10 +7,12 @@ import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/bottom_modal_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wmd/core/presentation/widgets/loading_widget.dart';
 import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/request_new_custodian/data/models/request_new_custodian_params.dart';
 import 'package:wmd/features/add_assets/request_new_custodian/presentation/manager/request_new_custodian_cubit.dart';
+import 'package:wmd/features/profile/personal_information/presentation/manager/personal_information_cubit.dart';
 import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 
@@ -48,6 +50,12 @@ class _RequestCustodianFormState extends AppState<RequestCustodianForm> {
       FormBuilderValidators.required(
           errorText: appLocalizations.common_errors_required),
     ]);
+
+    final PersonalInformationState personalState =
+        context.watch<PersonalInformationCubit>().state;
+    final String name = personalState is PersonalInformationLoaded
+        ? personalState.getNameEntity.email
+        : "";
 
     return BlocProvider(
       create: (context) => sl<RequestNewCustodianCubit>(),
@@ -173,7 +181,7 @@ class _RequestCustodianFormState extends AppState<RequestCustodianForm> {
                   color: AppColors.blueCardColor,
                   margin: const EdgeInsets.all(0),
                   child: FormBuilderCheckbox(
-                    name: 'checkbox',
+                    name: 'consent',
                     selected: checkbox,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: FormBuilderValidators.compose([
@@ -208,9 +216,9 @@ class _RequestCustodianFormState extends AppState<RequestCustodianForm> {
                               .read<RequestNewCustodianCubit>()
                               .requestNewCustodian(
                                   RequestNewCustodianParams.fromJson(
-                                      _formKey.currentState!.value));
+                                      _formKey.currentState!.value, name));
                         } else {
-                          print('Cna not check valid');
+                          print('Can not check valid');
                         }
                       },
                       style: ElevatedButton.styleFrom(
