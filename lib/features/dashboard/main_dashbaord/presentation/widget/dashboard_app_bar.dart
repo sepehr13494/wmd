@@ -73,7 +73,7 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
               )),
       actions: [
         const PrivacyToggle(),
-        const CurrencySelector(),
+        // const CurrencySelector(),
         const ChangeLanguageButton(),
         const GlassaryButton(),
         // Switch(

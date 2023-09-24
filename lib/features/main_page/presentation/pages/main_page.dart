@@ -64,112 +64,106 @@ class _MainPageState extends AppState<MainPage> with WidgetsBindingObserver {
       if (AppConstants.isRelease2) const LiabilityOverviewPage(),
     ];
 
-    return BlocProvider.value(
-      value: sl<CurrencyCubit>(),
-      child: MultiBlocListener(
-        listeners: [
-          BlocListener<PortfolioTab2Cubit, PortfolioTab2State>(
-            listener: (context, state) async {
-              if (state is GetPortfolioAllocationLoaded) {
-                final portfolios = state.getPortfolioAllocationEntities;
-                if (portfolios.length == 1) {
-                  final bloc = context.read<PortfolioTab2CubitForTab>();
-                  bloc.getPortfolioTab(
-                      portfolioId: portfolios[0].portfolioName);
-                  context.read<PortfolioProviderContainerCubit>().addBlocs(
-                      blocs: [bloc],
-                      names: portfolios.map((e) => e.portfolioName).toList());
-                } else if (portfolios.length > 1) {
-                  context
-                      .read<PortfolioVisibleController>()
-                      .changeVisibility(visible: true);
-                  context.read<PortfolioProviderContainerCubit>().addBlocs(
-                      blocs: List.generate(portfolios.length,
-                          (index) => sl<PortfolioTab2CubitForTab>()),
-                      names: portfolios.map((e) => e.portfolioName).toList());
-                }
-              }
-            },
-          ),
-          BlocListener<PortfolioTab2CubitForTab, PortfolioTab2State>(
-            listener: (context, state) {
-              if (state is GetPortfolioTabLoaded) {
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<PortfolioTab2Cubit, PortfolioTab2State>(
+          listener: (context, state) async {
+            if (state is GetPortfolioAllocationLoaded) {
+              final portfolios = state.getPortfolioAllocationEntities;
+              if (portfolios.length == 1) {
+                final bloc = context.read<PortfolioTab2CubitForTab>();
+                bloc.getPortfolioTab(portfolioId: portfolios[0].portfolioName);
+                context.read<PortfolioProviderContainerCubit>().addBlocs(
+                    blocs: [bloc],
+                    names: portfolios.map((e) => e.portfolioName).toList());
+              } else if (portfolios.length > 1) {
                 context
                     .read<PortfolioVisibleController>()
                     .changeVisibility(visible: true);
+                context.read<PortfolioProviderContainerCubit>().addBlocs(
+                    blocs: List.generate(portfolios.length,
+                        (index) => sl<PortfolioTab2CubitForTab>()),
+                    names: portfolios.map((e) => e.portfolioName).toList());
               }
-            },
-          ),
-        ],
-        child: LanguagePatcher(
-          child: BlocBuilder<MainPageCubit, int>(
-            builder: (context, state) {
-              return Scaffold(
-                body: state == 0
-                    ? DoubleBackToCloseApp(
-                        snackBar: const SnackBar(
-                          content: Text('For exit click again'),
-                        ),
-                        child: Center(
-                          child: widgetOptions.elementAt(state),
-                        ),
-                      )
-                    : Center(
+            }
+          },
+        ),
+        BlocListener<PortfolioTab2CubitForTab, PortfolioTab2State>(
+          listener: (context, state) {
+            if (state is GetPortfolioTabLoaded) {
+              context
+                  .read<PortfolioVisibleController>()
+                  .changeVisibility(visible: true);
+            }
+          },
+        ),
+      ],
+      child: LanguagePatcher(
+        child: BlocBuilder<MainPageCubit, int>(
+          builder: (context, state) {
+            return Scaffold(
+              body: state == 0
+                  ? DoubleBackToCloseApp(
+                      snackBar: const SnackBar(
+                        content: Text('For exit click again'),
+                      ),
+                      child: Center(
                         child: widgetOptions.elementAt(state),
                       ),
-                bottomNavigationBar: BlocConsumer<MainDashboardCubit,
-                        MainDashboardState>(
-                    listener: BlocHelper.defaultBlocListener(
-                        listener: (mainContext, mainState) {}),
-                    builder: (mainContext, mainState) {
-                      context
-                          .read<CustodianStatusListCubit>()
-                          .getCustodianStatusList();
-                      return mainState is MainDashboardNetWorthLoaded
-                          ? (mainState.netWorthObj.assets.currentValue != 0 ||
-                                  mainState.netWorthObj.liabilities
-                                          .currentValue !=
-                                      0 ||
-                                  mainState.netWorthObj.assets.newAssetCount !=
-                                      0)
-                              ? Material(
-                                  elevation: 10,
-                                  child: Container(
-                                    color: Theme.of(context)
-                                        .navigationBarTheme
-                                        .backgroundColor,
-                                    child: BottomNavigationBar(
-                                      elevation: 0,
-                                      items:
-                                          List.generate(items.length, (index) {
-                                        return BottomNavigationBarItem(
-                                          icon: SvgPicture.asset(
-                                              items[index][0] as String),
-                                          activeIcon: SvgPicture.asset(
-                                              items[index][2] as String),
-                                          label: items[index][1],
-                                        );
-                                      }),
-                                      unselectedLabelStyle:
-                                          const TextStyle(fontSize: 10),
-                                      selectedLabelStyle:
-                                          const TextStyle(fontSize: 12),
-                                      currentIndex:
-                                          context.read<MainPageCubit>().state,
-                                      showUnselectedLabels: true,
-                                      type: BottomNavigationBarType.fixed,
-                                      onTap: context
-                                          .read<MainPageCubit>()
-                                          .onItemTapped,
-                                    ),
+                    )
+                  : Center(
+                      child: widgetOptions.elementAt(state),
+                    ),
+              bottomNavigationBar: BlocConsumer<MainDashboardCubit,
+                      MainDashboardState>(
+                  listener: BlocHelper.defaultBlocListener(
+                      listener: (mainContext, mainState) {}),
+                  builder: (mainContext, mainState) {
+                    context
+                        .read<CustodianStatusListCubit>()
+                        .getCustodianStatusList();
+                    return mainState is MainDashboardNetWorthLoaded
+                        ? (mainState.netWorthObj.assets.currentValue != 0 ||
+                                mainState
+                                        .netWorthObj.liabilities.currentValue !=
+                                    0 ||
+                                mainState.netWorthObj.assets.newAssetCount != 0)
+                            ? Material(
+                                elevation: 10,
+                                child: Container(
+                                  color: Theme.of(context)
+                                      .navigationBarTheme
+                                      .backgroundColor,
+                                  child: BottomNavigationBar(
+                                    elevation: 0,
+                                    items: List.generate(items.length, (index) {
+                                      return BottomNavigationBarItem(
+                                        icon: SvgPicture.asset(
+                                            items[index][0] as String),
+                                        activeIcon: SvgPicture.asset(
+                                            items[index][2] as String),
+                                        label: items[index][1],
+                                      );
+                                    }),
+                                    unselectedLabelStyle:
+                                        const TextStyle(fontSize: 10),
+                                    selectedLabelStyle:
+                                        const TextStyle(fontSize: 12),
+                                    currentIndex:
+                                        context.read<MainPageCubit>().state,
+                                    showUnselectedLabels: true,
+                                    type: BottomNavigationBarType.fixed,
+                                    onTap: context
+                                        .read<MainPageCubit>()
+                                        .onItemTapped,
                                   ),
-                                )
-                              : const SizedBox.shrink()
-                          : const SizedBox.shrink();
-                    }),
-              );
-            },
-          ),
+                                ),
+                              )
+                            : const SizedBox.shrink()
+                        : const SizedBox.shrink();
+                  }),
+            );
+          },
         ),
       ),
     );
