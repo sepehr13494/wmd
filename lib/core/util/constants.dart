@@ -474,7 +474,7 @@ class AssetTypes {
             .manage_assetAndLiability_assetAndLiabilityList_others_title;
       default:
         debugPrint("wrong type : $type");
-        return "Wrong asset type";
+        return "Asset";
     }
   }
 }
