@@ -29,8 +29,8 @@ class CurrencyRemoteDataSourceImpl extends AppServerDataSource
     } on ServerException {
       rethrow;
     } catch (e) {
-      throw const AppException(
-          message: "format Exception", type: ExceptionType.format);
+      throw AppException(
+          message: "format Exception $e", type: ExceptionType.format);
     }
   }
 }
