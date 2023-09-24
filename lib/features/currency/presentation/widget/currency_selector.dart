@@ -31,7 +31,9 @@ class _CurrencySelectorState extends AppState<CurrencySelector> {
                         index = i;
                       });
                       cubit.getCurrency(
-                          Currencies.USD, Currencies.currencies[index]);
+                        Currencies.currencies[index],
+                        Currencies.USD,
+                      );
                     },
                   ));
         },

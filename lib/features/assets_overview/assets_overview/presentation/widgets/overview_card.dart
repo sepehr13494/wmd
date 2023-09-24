@@ -84,10 +84,15 @@ class OverViewCard extends AppStatelessWidget {
                                   ),
                                 ),
                                 if (currency != null)
-                                  Text(
-                                    '${currency!.currencyName} ${currency!.conversionRate}',
-                                    style: textTheme.bodySmall,
-                                  ),
+                                  Builder(builder: (context) {
+                                    final val =
+                                        state.netWorthObj.assets.currentValue /
+                                            currency!.conversionRate;
+                                    return Text(
+                                      '${currency!.currencyName} ${val.convertMoney()}',
+                                      style: textTheme.bodySmall,
+                                    );
+                                  }),
                               ],
                             ),
                           ),
@@ -223,7 +228,7 @@ class OverViewCard extends AppStatelessWidget {
                             horizontal: responsiveHelper.biggerGap,
                             vertical: responsiveHelper.defaultGap),
                         child: Text(
-                          '1 USD = ${currency!.conversionRate} ${currency!.currencyName} ${appLocalizations.assetsOverview_asOf} ${CustomizableDateTime.dmyV2(currency!.date, context)}',
+                          '1 ${currency!.currencyName} = ${currency!.conversionRate} USD ${appLocalizations.assetsOverview_asOf} ${CustomizableDateTime.dmyV2(currency!.date, context)}',
                           style: textTheme.bodySmall,
                         ),
                       ),
