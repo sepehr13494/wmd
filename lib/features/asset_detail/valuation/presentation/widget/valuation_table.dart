@@ -122,6 +122,7 @@ class ValuationWidget extends AppStatelessWidget {
                                       AssetTypes.privateEquity,
                                       AssetTypes.realEstate,
                                       AssetTypes.otherAsset,
+                                      AssetTypes.otherAssets,
                                     ].contains(assetType))))
                               TextButton(
                                   onPressed: () {
