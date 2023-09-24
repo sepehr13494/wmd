@@ -46,6 +46,7 @@ class AddOtherAssetPage extends BaseAddAssetStatefulWidget {
 
 class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
   String currentDayValue = "--";
+  String currencySymbol = 'USD';
   String? noOfUnits = "1";
   String? valuePerUnit = "";
   String? ownerShip = "";
@@ -441,7 +442,18 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_others_inputFields_currency_label,
                                                 child: CurrenciesDropdown(
-                                                  onChanged: checkFinalValid,
+                                                  onChanged: (value) {
+                                                    if (value != null) {
+                                                      setState(() {
+                                                        currencySymbol =
+                                                            value.symbol;
+                                                      });
+                                                    }
+                                                    checkFinalValid(value);
+                                                  },
+                                                  enabled: AppConstants
+                                                          .currencyConvertor &&
+                                                      !edit,
                                                 ),
                                               ),
                                               /* EachTextField(
@@ -618,7 +630,7 @@ class _AddOtherAssetState extends BaseAddAssetState<AddOtherAssetPage> {
                                                       const SizedBox(height: 8),
                                                       Text(currentDayValue !=
                                                               "--"
-                                                          ? "\$$currentDayValue"
+                                                          ? "$currencySymbol $currentDayValue"
                                                           : currentDayValue)
                                                     ],
                                                   ),

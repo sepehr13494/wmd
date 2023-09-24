@@ -11,6 +11,7 @@ import 'package:wmd/features/assets_overview/assets_overview/presentation/pages/
 import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_provider_container_cubit.dart';
 import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_tab2_cubit.dart';
 import 'package:wmd/features/assets_overview/portfolio_tab2/presentation/manager/portfolio_visible_controller.dart';
+import 'package:wmd/features/currency/presentation/manager/currency_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/pages/dashboard_main_page.dart';
 import 'package:wmd/features/dashboard/user_status/presentation/manager/user_status_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
@@ -76,11 +77,12 @@ class _MainPageState extends AppState<MainPage> with WidgetsBindingObserver {
                     blocs: [bloc],
                     names: portfolios.map((e) => e.portfolioName).toList());
               } else if (portfolios.length > 1) {
-                context.read<PortfolioVisibleController>().changeVisibility(
-                    visible: true);
+                context
+                    .read<PortfolioVisibleController>()
+                    .changeVisibility(visible: true);
                 context.read<PortfolioProviderContainerCubit>().addBlocs(
                     blocs: List.generate(portfolios.length,
-                            (index) => sl<PortfolioTab2CubitForTab>()),
+                        (index) => sl<PortfolioTab2CubitForTab>()),
                     names: portfolios.map((e) => e.portfolioName).toList());
               }
             }
@@ -88,9 +90,10 @@ class _MainPageState extends AppState<MainPage> with WidgetsBindingObserver {
         ),
         BlocListener<PortfolioTab2CubitForTab, PortfolioTab2State>(
           listener: (context, state) {
-            if(state is GetPortfolioTabLoaded){
-              context.read<PortfolioVisibleController>().changeVisibility(
-                  visible: true);
+            if (state is GetPortfolioTabLoaded) {
+              context
+                  .read<PortfolioVisibleController>()
+                  .changeVisibility(visible: true);
             }
           },
         ),
@@ -101,18 +104,18 @@ class _MainPageState extends AppState<MainPage> with WidgetsBindingObserver {
             return Scaffold(
               body: state == 0
                   ? DoubleBackToCloseApp(
-                snackBar: const SnackBar(
-                  content: Text('For exit click again'),
-                ),
-                child: Center(
-                  child: widgetOptions.elementAt(state),
-                ),
-              )
+                      snackBar: const SnackBar(
+                        content: Text('For exit click again'),
+                      ),
+                      child: Center(
+                        child: widgetOptions.elementAt(state),
+                      ),
+                    )
                   : Center(
-                child: widgetOptions.elementAt(state),
-              ),
+                      child: widgetOptions.elementAt(state),
+                    ),
               bottomNavigationBar: BlocConsumer<MainDashboardCubit,
-                  MainDashboardState>(
+                      MainDashboardState>(
                   listener: BlocHelper.defaultBlocListener(
                       listener: (mainContext, mainState) {}),
                   builder: (mainContext, mainState) {
@@ -121,44 +124,42 @@ class _MainPageState extends AppState<MainPage> with WidgetsBindingObserver {
                         .getCustodianStatusList();
                     return mainState is MainDashboardNetWorthLoaded
                         ? (mainState.netWorthObj.assets.currentValue != 0 ||
-                        mainState.netWorthObj.liabilities.currentValue !=
-                            0 ||
-                        mainState.netWorthObj.assets.newAssetCount != 0)
-                        ? Material(
-                      elevation: 10,
-                      child: Container(
-                        color: Theme
-                            .of(context)
-                            .navigationBarTheme
-                            .backgroundColor,
-                        child: BottomNavigationBar(
-                          elevation: 0,
-                          items: List.generate(items.length, (index) {
-                            return BottomNavigationBarItem(
-                              icon: SvgPicture.asset(
-                                  items[index][0] as String),
-                              activeIcon: SvgPicture.asset(
-                                  items[index][2] as String),
-                              label: items[index][1],
-                            );
-                          }),
-                          unselectedLabelStyle:
-                          const TextStyle(fontSize: 10),
-                          selectedLabelStyle:
-                          const TextStyle(fontSize: 12),
-                          currentIndex:
-                          context
-                              .read<MainPageCubit>()
-                              .state,
-                          showUnselectedLabels: true,
-                          type: BottomNavigationBarType.fixed,
-                          onTap: context
-                              .read<MainPageCubit>()
-                              .onItemTapped,
-                        ),
-                      ),
-                    )
-                        : const SizedBox.shrink()
+                                mainState
+                                        .netWorthObj.liabilities.currentValue !=
+                                    0 ||
+                                mainState.netWorthObj.assets.newAssetCount != 0)
+                            ? Material(
+                                elevation: 10,
+                                child: Container(
+                                  color: Theme.of(context)
+                                      .navigationBarTheme
+                                      .backgroundColor,
+                                  child: BottomNavigationBar(
+                                    elevation: 0,
+                                    items: List.generate(items.length, (index) {
+                                      return BottomNavigationBarItem(
+                                        icon: SvgPicture.asset(
+                                            items[index][0] as String),
+                                        activeIcon: SvgPicture.asset(
+                                            items[index][2] as String),
+                                        label: items[index][1],
+                                      );
+                                    }),
+                                    unselectedLabelStyle:
+                                        const TextStyle(fontSize: 10),
+                                    selectedLabelStyle:
+                                        const TextStyle(fontSize: 12),
+                                    currentIndex:
+                                        context.read<MainPageCubit>().state,
+                                    showUnselectedLabels: true,
+                                    type: BottomNavigationBarType.fixed,
+                                    onTap: context
+                                        .read<MainPageCubit>()
+                                        .onItemTapped,
+                                  ),
+                                ),
+                              )
+                            : const SizedBox.shrink()
                         : const SizedBox.shrink();
                   }),
             );

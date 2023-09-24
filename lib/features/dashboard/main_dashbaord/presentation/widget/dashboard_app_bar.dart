@@ -14,6 +14,7 @@ import 'package:wmd/features/assets_overview/charts/presentation/widgets/constan
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/features/authentication/logout/presentation/manager/logout_cubit.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_toggle.dart';
+import 'package:wmd/features/currency/presentation/widget/currency_selector.dart';
 import 'package:wmd/global_functions.dart';
 import 'package:wmd/injection_container.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -72,6 +73,7 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
               )),
       actions: [
         const PrivacyToggle(),
+        // const CurrencySelector(),
         const ChangeLanguageButton(),
         const GlassaryButton(),
         // Switch(
@@ -90,42 +92,41 @@ class DashboardAppBar extends StatelessWidget with PreferredSizeWidget {
                 Icons.arrow_forward_ios_rounded
               ],
               [
-                AppLocalizations.of(context)
-                    .common_nav_links_signout,
+                AppLocalizations.of(context).common_nav_links_signout,
                 CustomIcons.logout
               ],
             ];
             return List.generate(
                 items.length,
-                    (index) => PopupMenuItem(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(items[index][0]),
-                      Icon(
-                        items[index][1],
-                        color: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .color,
-                      )
-                    ],
-                  ),
-                  onTap: () async {
-                    switch (index) {
-                      case 0:
-                        context.goNamed(AppRoutes.settings);
-                        break;
-                      case 1:
-                        Future.delayed(const Duration(seconds: 0),(){
-                          showDialog(context: context, builder: (context) {
-                            return const LogoutDialog();
-                          },);
-                        });
-                        break;
-                    }
-                  },
-                ));
+                (index) => PopupMenuItem(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(items[index][0]),
+                          Icon(
+                            items[index][1],
+                            color: Theme.of(context).textTheme.bodyLarge!.color,
+                          )
+                        ],
+                      ),
+                      onTap: () async {
+                        switch (index) {
+                          case 0:
+                            context.goNamed(AppRoutes.settings);
+                            break;
+                          case 1:
+                            Future.delayed(const Duration(seconds: 0), () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return const LogoutDialog();
+                                },
+                              );
+                            });
+                            break;
+                        }
+                      },
+                    ));
           },
           child: const Padding(
             padding: EdgeInsets.symmetric(horizontal: 12),

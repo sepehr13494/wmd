@@ -18,9 +18,11 @@ class AsOfDateWidget extends AppStatelessWidget {
     return Align(
       alignment: Alignment.bottomRight,
       child: Padding(
-        padding: EdgeInsets.all(asOf ? 0 : responsiveHelper.biggerGap),
+        padding: EdgeInsets.symmetric(
+            horizontal: asOf ? 0 : responsiveHelper.biggerGap,
+            vertical: responsiveHelper.defaultGap),
         child: Text(
-          "${asOf ? ('(${appLocalizations.assetsOverview_asOf}') : appLocalizations.assets_label_lastUpdatedOn} ${CustomizableDateTime.dmyV2(shownDate, context)}${asOf ? ')':''}",
+          "${asOf ? ('(${appLocalizations.assetsOverview_asOf}') : appLocalizations.assets_label_lastUpdatedOn} ${CustomizableDateTime.dmyV2(shownDate, context)}${asOf ? ')' : ''}",
           style: textTheme.bodySmall,
         ),
       ),

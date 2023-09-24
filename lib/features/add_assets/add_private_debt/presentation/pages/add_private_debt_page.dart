@@ -312,12 +312,15 @@ class _AddPrivateDebtState extends BaseAddAssetState<AddPrivateDebtPage> {
                                                 ),
                                               ),
                                               EachTextField(
-                                           tooltipText: appLocalizations
+                                                tooltipText: appLocalizations
                                                     .common_tooltip_currency,
                                                 title: appLocalizations
                                                     .assetLiabilityForms_forms_privateDebt_inputFields_currency_label,
                                                 child: CurrenciesDropdown(
                                                   onChanged: checkFinalValid,
+                                                  enabled: AppConstants
+                                                          .currencyConvertor &&
+                                                      !edit,
                                                 ),
                                               ),
                                               EachTextField(
