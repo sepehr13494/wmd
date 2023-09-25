@@ -58,6 +58,7 @@ class ValuationRepositoryImpl implements ValuationRepository {
             AssetTypes.privateEquity,
             AssetTypes.realEstate,
             AssetTypes.otherAsset,
+            AssetTypes.otherAssets,
           ].contains(params.type)) {
         final resultValuation = await remoteDataSource.getAllValuation(params);
 
