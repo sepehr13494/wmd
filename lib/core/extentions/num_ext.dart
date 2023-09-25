@@ -33,6 +33,15 @@ extension NumExt on num {
     return _removeExtraDecimal(number);
   }
 
+  String get formatNumberTwoDecimal {
+    String number = NumberFormat.compactCurrency(
+      decimalDigits: 2,
+      symbol:
+          '', // if you want to add currency symbol then pass that in this else leave it empty.
+    ).format(this);
+    return (number);
+  }
+
   String formatNumberWithDecimal([int digits = 0]) {
     return toDouble().getCompact();
   }
@@ -73,10 +82,10 @@ extension NumExt on num {
     return val;
   }
 
-  String toStringAsFixedZero(int fractionDigits){
-    if(this == 0){
+  String toStringAsFixedZero(int fractionDigits) {
+    if (this == 0) {
       return "0";
-    }else{
+    } else {
       return toStringAsFixed(fractionDigits);
     }
   }

@@ -1,6 +1,6 @@
 {
     "@@locale": "ar",
-    "@@last_modified": "2023-09-13T10:34:48+02:00",
+    "@@last_modified": "2023-09-24T14:27:18+02:00",
     "auth:signup.page.title": "انضمّ إلى منصتنا",
     "auth:signup.page.description": "إنشاء حساب myWMD",
     "auth:signup.heading": "أنشئ حساباً",
@@ -2827,5 +2827,12 @@
     "common:newCustodianRequest.modal.managerEmail": "",
     "common:newCustodianRequest.modal.check": "",
     "common:errors.onlyCharactersAndNumbersAllowed": "يُسمح فقط بالأحرف والأرقام",
-    "linkAccount:stepper.cif.placeholderOnMobile": "رقم حساب"
+    "linkAccount:stepper.cif.placeholderOnMobile": "رقم حساب",
+    "common:newCustodianRequest.modal.confirmation": "",
+    "assets:valuationModal.placeholder.notesTransaction": "New transaction added",
+    "common:errors.currentValueInt": "يجب أن تكون القيمة رقمًا",
+    "common:labels.asOf": "",
+    "common:labels.usd": "",
+    "currencies:BHD": "",
+    "currencies:KWD": ""
 }

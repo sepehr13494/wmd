@@ -1,6 +1,6 @@
 {
     "@@locale": "en",
-    "@@last_modified": "2023-09-13T10:34:48+02:00",
+    "@@last_modified": "2023-09-24T14:27:18+02:00",
     "auth:signup.page.title": "Join our Platform",
     "auth:signup.page.description": "Create myWMD account",
     "auth:signup.heading": "Create an account",
@@ -2827,5 +2827,12 @@
     "common:newCustodianRequest.modal.managerEmail": "Relationship Manager email",
     "common:newCustodianRequest.modal.check": "I consent that All In One Plus can contact my RM and share the synchronization request for my account number.",
     "common:errors.onlyCharactersAndNumbersAllowed": "Only letters and numbers are allowed.",
-    "linkAccount:stepper.cif.placeholderOnMobile": "Account Number"
+    "linkAccount:stepper.cif.placeholderOnMobile": "Account Number",
+    "common:newCustodianRequest.modal.confirmation": "Your request has been sent successfully.",
+    "assets:valuationModal.placeholder.notesTransaction": "New transaction added",
+    "common:errors.currentValueInt": "The value must be a number",
+    "common:labels.asOf": "as of",
+    "common:labels.usd": "USD",
+    "currencies:BHD": "Bahraini Dinar",
+    "currencies:KWD": "Kuwaiti Dinar"
 }

@@ -21,6 +21,7 @@ import 'package:wmd/features/asset_detail/valuation/presentation/manager/valuati
 import 'package:wmd/features/asset_detail/valuation/presentation/widget/performance_chart_v2.dart';
 import 'package:wmd/features/asset_see_more/core/data/models/get_asset_see_more_params.dart';
 import 'package:wmd/features/asset_see_more/core/presentation/manager/asset_see_more_cubit.dart';
+import 'package:wmd/features/currency/presentation/manager/currency_cubit.dart';
 import 'package:wmd/features/main_page/presentation/manager/main_page_cubit.dart';
 import 'package:wmd/injection_container.dart';
 import '../manager/asset_summary_cubit.dart';
@@ -62,6 +63,9 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
               ..getAllValuation(
                   GetAllValuationParams(widget.assetId, widget.type)),
           ),
+          BlocProvider(
+            create: (context) => sl<CurrencyCubit>(),
+          ),
         ],
         child: Builder(builder: (context) {
           return Scaffold(
@@ -82,115 +86,108 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                           children: [
                             BlocConsumer<AssetSummaryCubit, AssetSummaryState>(
                                 listener: BlocHelper.defaultBlocListener(
-                                  listener: (context, state) {},
-                                ),
-                                builder: (context, state) {
-                                  if (state is AssetLoaded) {
-                                    return BlocProvider(
-                                      create: (context) =>
-                                          sl<AssetSeeMoreCubit>(),
-                                      child: Builder(builder: (context) {
-                                        return BlocListener<AssetSeeMoreCubit,
-                                            AssetSeeMoreState>(
-                                          listener:
-                                              BlocHelper.defaultBlocListener(
-                                            listener: (context, seeMoreState) {
-                                              if (seeMoreState
-                                                  is GetSeeMoreLoaded) {
-                                                switch (state.assetSummaryEntity
-                                                    .assetClassName) {
-                                                  case AssetTypes.realEstate:
-                                                    context.pushNamed(
-                                                        AppRoutes
-                                                            .editRealEstate,
-                                                        extra: seeMoreState
-                                                            .getAssetSeeMoreEntity);
-                                                    break;
-                                                  case AssetTypes.bankAccount:
-                                                    context.pushNamed(
-                                                        AppRoutes
-                                                            .editBankManual,
-                                                        extra: seeMoreState
-                                                            .getAssetSeeMoreEntity);
-                                                    break;
-                                                  case AssetTypes
-                                                      .listedAssetOther:
-                                                  case AssetTypes
-                                                      .listedAssetFixedIncome:
-                                                  case AssetTypes
-                                                      .listedAssetEquity:
-                                                  case AssetTypes.listedAsset:
-                                                    context.pushNamed(
-                                                        AppRoutes
-                                                            .editListedAsset,
-                                                        extra: seeMoreState
-                                                            .getAssetSeeMoreEntity);
-                                                    break;
-                                                  case AssetTypes.privateDebt:
-                                                    context.pushNamed(
-                                                        AppRoutes
-                                                            .editPrivateDebt,
-                                                        extra: seeMoreState
-                                                            .getAssetSeeMoreEntity);
-                                                    break;
-                                                  case AssetTypes.privateEquity:
-                                                    context.pushNamed(
-                                                        AppRoutes
-                                                            .editPrivateEquity,
-                                                        extra: seeMoreState
-                                                            .getAssetSeeMoreEntity);
-                                                    break;
-                                                  case AssetTypes.otherAsset:
-                                                  case AssetTypes.otherAssets:
-                                                    context.pushNamed(
-                                                        AppRoutes
-                                                            .editOtherAsset,
-                                                        extra: seeMoreState
-                                                            .getAssetSeeMoreEntity);
-                                                    break;
-                                                }
-                                              }
-                                            },
-                                          ),
-                                          child: AsssetSummary(
-                                            onEdit: (!state.assetSummaryEntity
-                                                    .isManuallyAdded)
-                                                ? null
-                                                : () {
-                                                    context
-                                                        .read<
-                                                            AssetSeeMoreCubit>()
-                                                        .getAssetSeeMore(
-                                                          GetSeeMoreParams(
-                                                            type: state
-                                                                .assetSummaryEntity
-                                                                .assetClassName,
-                                                            assetId:
-                                                                widget.assetId,
-                                                          ),
-                                                        );
-                                                  },
-                                            summary: state.assetSummaryEntity,
-                                            days: selectedTimeFilter.value,
-                                            assetId: widget.assetId,
-                                            child: _buildHeader(
-                                                Theme.of(context).textTheme,
-                                                Theme.of(context).primaryColor,
-                                                appLocalizations,
-                                                context),
-                                          ),
-                                        );
-                                      }),
+                              listener: (context, state) {
+                                if (state is AssetLoaded) {
+                                  context.read<CurrencyCubit>().getCurrency(
+                                      state.assetSummaryEntity.currencyCode,
+                                      "USD");
+                                }
+                              },
+                            ), builder: (context, state) {
+                              if (state is AssetLoaded) {
+                                return BlocProvider(
+                                  create: (context) => sl<AssetSeeMoreCubit>(),
+                                  child: Builder(builder: (context) {
+                                    return BlocListener<AssetSeeMoreCubit,
+                                        AssetSeeMoreState>(
+                                      listener: BlocHelper.defaultBlocListener(
+                                        listener: (context, seeMoreState) {
+                                          if (seeMoreState
+                                              is GetSeeMoreLoaded) {
+                                            switch (state.assetSummaryEntity
+                                                .assetClassName) {
+                                              case AssetTypes.realEstate:
+                                                context.pushNamed(
+                                                    AppRoutes.editRealEstate,
+                                                    extra: seeMoreState
+                                                        .getAssetSeeMoreEntity);
+                                                break;
+                                              case AssetTypes.bankAccount:
+                                                context.pushNamed(
+                                                    AppRoutes.editBankManual,
+                                                    extra: seeMoreState
+                                                        .getAssetSeeMoreEntity);
+                                                break;
+                                              case AssetTypes.listedAssetOther:
+                                              case AssetTypes
+                                                  .listedAssetFixedIncome:
+                                              case AssetTypes.listedAssetEquity:
+                                              case AssetTypes.listedAsset:
+                                                context.pushNamed(
+                                                    AppRoutes.editListedAsset,
+                                                    extra: seeMoreState
+                                                        .getAssetSeeMoreEntity);
+                                                break;
+                                              case AssetTypes.privateDebt:
+                                                context.pushNamed(
+                                                    AppRoutes.editPrivateDebt,
+                                                    extra: seeMoreState
+                                                        .getAssetSeeMoreEntity);
+                                                break;
+                                              case AssetTypes.privateEquity:
+                                                context.pushNamed(
+                                                    AppRoutes.editPrivateEquity,
+                                                    extra: seeMoreState
+                                                        .getAssetSeeMoreEntity);
+                                                break;
+                                              case AssetTypes.otherAsset:
+                                              case AssetTypes.otherAssets:
+                                                context.pushNamed(
+                                                    AppRoutes.editOtherAsset,
+                                                    extra: seeMoreState
+                                                        .getAssetSeeMoreEntity);
+                                                break;
+                                            }
+                                          }
+                                        },
+                                      ),
+                                      child: AsssetSummary(
+                                        onEdit: (!state.assetSummaryEntity
+                                                .isManuallyAdded)
+                                            ? null
+                                            : () {
+                                                context
+                                                    .read<AssetSeeMoreCubit>()
+                                                    .getAssetSeeMore(
+                                                      GetSeeMoreParams(
+                                                        type: state
+                                                            .assetSummaryEntity
+                                                            .assetClassName,
+                                                        assetId: widget.assetId,
+                                                      ),
+                                                    );
+                                              },
+                                        summary: state.assetSummaryEntity,
+                                        days: selectedTimeFilter.value,
+                                        assetId: widget.assetId,
+                                        child: _buildHeader(
+                                            Theme.of(context).textTheme,
+                                            Theme.of(context).primaryColor,
+                                            appLocalizations,
+                                            context),
+                                      ),
                                     );
-                                  }
-                                  return Padding(
-                                    padding: EdgeInsets.all(
-                                        responsiveHelper.bigger24Gap),
-                                    child: const Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                  );
-                                }),
+                                  }),
+                                );
+                              }
+                              return Padding(
+                                padding: EdgeInsets.all(
+                                    responsiveHelper.bigger24Gap),
+                                child: const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              );
+                            }),
                             if (state is PerformanceLoaded)
                               Builder(builder: (context) {
                                 List<MapEntry<DateTime, double>> values = state
