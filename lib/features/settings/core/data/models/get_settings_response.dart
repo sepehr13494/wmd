@@ -12,7 +12,9 @@ class GetSettingsResponse extends GetSettingsEntity {
       required super.isListedAssetEquityChecked,
       required super.isListedAssetFixedIncomeChecked,
       required super.isListedAssetOtherChecked,
-      required super.isOtherAssetsChecked});
+      required super.isOtherAssetsChecked,
+      required super.isLiabilityChecked,
+      });
 
   // GetSettingsResponse();
 
@@ -30,6 +32,7 @@ class GetSettingsResponse extends GetSettingsEntity {
             json["isListedAssetFixedIncomeChecked"] ?? false,
         isListedAssetOtherChecked: json["isListedAssetOtherChecked"] ?? false,
         isOtherAssetsChecked: json["isOtherAssetsChecked"] ?? false,
+        isLiabilityChecked: json["isLiabilityChecked"] ?? false,
       );
 
   @override
@@ -46,6 +49,7 @@ class GetSettingsResponse extends GetSettingsEntity {
       "isListedAssetFixedIncomeChecked": isListedAssetFixedIncomeChecked,
       "isListedAssetOtherChecked": isListedAssetOtherChecked,
       "isOtherAssetsChecked": isOtherAssetsChecked,
+      "isLiabilityChecked": isLiabilityChecked,
     }.toString();
   }
 
@@ -61,6 +65,8 @@ class GetSettingsResponse extends GetSettingsEntity {
         isListedAssetEquityChecked: true,
         isListedAssetFixedIncomeChecked: true,
         isListedAssetOtherChecked: true,
-        isOtherAssetsChecked: true),
+        isOtherAssetsChecked: true,
+        isLiabilityChecked: true,
+    ),
   ];
 }

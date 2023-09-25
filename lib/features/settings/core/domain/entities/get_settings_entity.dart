@@ -12,6 +12,7 @@ class GetSettingsEntity extends Equatable {
   final bool isListedAssetFixedIncomeChecked;
   final bool isListedAssetOtherChecked;
   final bool isOtherAssetsChecked;
+  final bool isLiabilityChecked;
 
   const GetSettingsEntity({
     required this.isPrivacyMode,
@@ -25,6 +26,7 @@ class GetSettingsEntity extends Equatable {
     required this.isListedAssetFixedIncomeChecked,
     required this.isListedAssetOtherChecked,
     required this.isOtherAssetsChecked,
+    required this.isLiabilityChecked,
   });
 
   Map<String, dynamic> toJson() => {};
