@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wmd/core/extentions/date_time_ext.dart';
 import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/extentions/round_ext.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
@@ -7,11 +8,14 @@ import 'package:wmd/core/presentation/widgets/change_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wmd/core/presentation/widgets/tooltip_bank_exception.dart';
+import 'package:wmd/core/util/colors.dart';
 import 'package:wmd/core/util/constants.dart';
 import 'package:wmd/features/asset_detail/core/presentation/widgets/as_of_date_widget.dart';
 import 'package:wmd/features/asset_see_more/core/presentation/widget/title_subtitle.dart';
 import 'package:wmd/features/assets_overview/assets_overview/presentation/widgets/shimmers/over_view_card_shimmer.dart';
 import 'package:wmd/features/blurred_widget/presentation/widget/privacy_text.dart';
+import 'package:wmd/features/currency/domain/entities/get_currency_entity.dart';
+import 'package:wmd/features/currency/presentation/manager/currency_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_charts_cubit.dart';
 import 'package:wmd/features/dashboard/dashboard_charts/presentation/manager/dashboard_pie_cubit.dart';
 import 'package:wmd/features/dashboard/main_dashbaord/presentation/manager/main_dashboard_cubit.dart';
@@ -67,7 +71,9 @@ class OverViewCard extends AppStatelessWidget {
                                         .convertMoney(addDollar: true),
                                     style: const TextStyle(
                                         fontSize: 28,
-                                        fontWeight: FontWeight.w300),
+                                        fontWeight: FontWeight.w300,
+                                        fontStyle: FontStyle.italic,
+                                        color: Colors.white),
                                   ),
                                 ),
                               ),
@@ -196,7 +202,7 @@ class OverViewCard extends AppStatelessWidget {
                 ),
               ),
               AsOfDateWidget(
-                  shownDate: DateTime.parse(state.netWorthObj.lastUpdated))
+                  shownDate: DateTime.parse(state.netWorthObj.lastUpdated)),
             ],
           );
         } else {

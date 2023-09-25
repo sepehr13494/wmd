@@ -11,7 +11,9 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:wmd/core/extentions/num_ext.dart';
 import 'package:wmd/core/models/radio_button_options.dart';
+import 'package:wmd/core/presentation/bloc/bloc_helpers.dart';
 import 'package:wmd/core/presentation/widgets/app_stateless_widget.dart';
 import 'package:wmd/core/presentation/widgets/responsive_helper/responsive_helper.dart';
 import 'package:wmd/core/util/colors.dart';
@@ -20,6 +22,8 @@ import 'package:wmd/features/add_assets/add_bank_auto/view_bank_list/presentatio
 import 'package:wmd/features/add_assets/core/data/models/country.dart';
 import 'package:wmd/features/add_assets/core/data/models/currency.dart';
 import 'package:wmd/features/add_assets/core/data/models/listed_security_name.dart';
+import 'package:wmd/features/currency/domain/entities/get_currency_entity.dart';
+import 'package:wmd/features/currency/presentation/manager/currency_cubit.dart';
 import 'package:wmd/injection_container.dart';
 
 class CurrencyInputFormatter extends TextInputFormatter {
@@ -375,57 +379,93 @@ class CurrenciesDropdown extends StatefulWidget {
 }
 
 class _CurrenciesDropdownState extends AppState<CurrenciesDropdown> {
-  Currency? selectedCurrency =
-      Currency(symbol: "USD", name: "United States dollar");
+  Currency? selectedCurrency;
+
+  GetCurrencyConversionEntity? currency;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalization) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        FormBuilderSearchableDropdown<Currency>(
-          name: "currencyCode",
-          hint: appLocalization
-              .assetLiabilityForms_forms_bankAccount_inputFields_country_placeholder,
-          items: Currency.getCurrencyList(context),
-          enabled: widget.enabled,
-          prefixIcon: const Icon(
-            Icons.search,
-          ),
-          onChanged: (val) {
-            // setState
-            if (widget.onChanged != null) {
-              widget.onChanged!(val);
-            }
-            setState(() {
-              selectedCurrency = val;
-            });
-          },
-          itemAsString: (Currency currency) => currency.name,
-          filterFn: (currency, string) {
-            return (currency.name
-                    .toLowerCase()
-                    .contains(string.toLowerCase()) ||
-                currency.symbol.toLowerCase().contains(string.toLowerCase()));
-          },
-          itemBuilder: (context, currency, _) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                currency.name,
+    final currencyList = Currency.getCurrencyList(context);
+    return BlocProvider(
+      create: (context) => sl<CurrencyCubit>(),
+      child: BlocConsumer<CurrencyCubit, CurrencyState>(
+          listener: BlocHelper.defaultBlocListener(listener: (context, state) {
+        debugPrint(state.toString());
+        if (state is GetCurrencyConversionLoaded) {
+          currency = state.getCurrencyEntity;
+        }
+      }), builder: (context, state) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            FormBuilderSearchableDropdown<Currency>(
+              name: "currencyCode",
+              hint: appLocalization
+                  .assetLiabilityForms_forms_bankAccount_inputFields_country_placeholder,
+              items: currencyList,
+              initialValue: currencyList.first,
+              enabled: widget.enabled,
+              prefixIcon: const Icon(
+                Icons.search,
               ),
-            );
-          },
-        ),
-        if (AppConstants.currencyConvertor && !AppConstants.isRelease1) ...[
-          const SizedBox(
-            height: 10,
-          ),
-          Text('1 USD = 1 ${selectedCurrency?.symbol}'),
-          Text(
-              'Exchange rate for ${DateFormat('d MMM, yyyy').format(DateTime.now()).toString()}')
-        ]
-      ],
+              onChanged: (val) {
+                if (val == null) {
+                  return;
+                }
+                context.read<CurrencyCubit>().getCurrency(
+                      val.symbol,
+                      currencyList.first.symbol,
+                    );
+                // setState
+                if (widget.onChanged != null) {
+                  widget.onChanged!(val);
+                }
+                setState(() {
+                  selectedCurrency = val;
+                });
+              },
+              itemAsString: (Currency currency) => currency.name,
+              filterFn: (currency, string) {
+                return (currency.name
+                        .toLowerCase()
+                        .contains(string.toLowerCase()) ||
+                    currency.symbol
+                        .toLowerCase()
+                        .contains(string.toLowerCase()));
+              },
+              itemBuilder: (context, currency, _) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    currency.name,
+                  ),
+                );
+              },
+            ),
+            if (AppConstants.currencyConvertor &&
+                !AppConstants.isRelease1 &&
+                currency != null) ...[
+              const SizedBox(
+                height: 10,
+              ),
+              Builder(builder: (context) {
+                final rate =
+                    (1 / currency!.conversionRate).convertMoney(digits: 2);
+
+                return Text('1 USD = $rate ${selectedCurrency?.symbol}');
+              }),
+              Text(appLocalization.assetLiabilityForms_labels_exchaneRateDate
+                  .replaceAll('{{date}}',
+                      DateFormat('d MMM, yyyy').format(currency!.date)))
+            ]
+          ],
+        );
+      }),
     );
   }
 }
@@ -435,7 +475,8 @@ class CountriesDropdown extends AppStatelessWidget {
   final bool enabled;
   final bool only3;
 
-  const CountriesDropdown({Key? key, this.onChanged, this.enabled = true, this.only3 = false})
+  const CountriesDropdown(
+      {Key? key, this.onChanged, this.enabled = true, this.only3 = false})
       : super(key: key);
 
   @override
@@ -451,7 +492,7 @@ class CountriesDropdown extends AppStatelessWidget {
       ),
       errorMsg: appLocalizations
           .assetLiabilityForms_forms_realEstate_inputFields_country_errorMessage,
-      items: Country.getCountryList(context,only3: only3),
+      items: Country.getCountryList(context, only3: only3),
       onChanged: onChanged,
       itemAsString: (country) => country.countryName,
       filterFn: (country, string) {

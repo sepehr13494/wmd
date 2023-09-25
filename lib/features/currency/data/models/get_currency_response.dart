@@ -1,7 +1,7 @@
 import '../../domain/entities/get_currency_entity.dart';
 
 class GetCurrencyConversionResponse extends GetCurrencyConversionEntity {
-  GetCurrencyConversionResponse({
+  const GetCurrencyConversionResponse({
     required DateTime date,
     required String currencyName,
     required double conversionRate,
