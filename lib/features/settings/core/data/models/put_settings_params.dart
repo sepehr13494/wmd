@@ -14,6 +14,7 @@ class PutSettingsParams extends Equatable {
   final bool? isListedAssetFixedIncomeChecked;
   final bool? isListedAssetOtherChecked;
   final bool? isOtherAssetsChecked;
+  final bool? isLiabilityChecked;
 
   const PutSettingsParams({
     this.isPrivacyMode,
@@ -28,6 +29,7 @@ class PutSettingsParams extends Equatable {
     this.isListedAssetFixedIncomeChecked,
     this.isListedAssetOtherChecked,
     this.isOtherAssetsChecked,
+    this.isLiabilityChecked,
   });
 
   factory PutSettingsParams.fromJson(Map<String, dynamic> json) =>
@@ -55,6 +57,7 @@ class PutSettingsParams extends Equatable {
         "isListedAssetFixedIncomeChecked": isListedAssetFixedIncomeChecked,
         "isListedAssetOtherChecked": isListedAssetOtherChecked,
         "isOtherAssetsChecked": isOtherAssetsChecked,
+        "isLiabilityChecked": isLiabilityChecked,
       };
 
   @override

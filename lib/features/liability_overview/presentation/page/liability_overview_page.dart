@@ -63,9 +63,15 @@ class LiabilityOverviewPage extends AppStatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              appLocalizations.liabilities_page_title,
-                              style: textTheme.titleLarge,
+                            InkWell(
+                              onTap: (){
+                                context.goNamed(AppRoutes.assetDetailPage,
+                                    queryParams: {'assetId': "7e44c8d9-877b-4aa8-9d42-5de85542da42", 'type': AssetTypes.loanLiability});
+                              },
+                              child: Text(
+                                appLocalizations.liabilities_page_title,
+                                style: textTheme.titleLarge,
+                              ),
                             ),
                             if (AppConstants.publicMvp2Items)
                               AddButton(
