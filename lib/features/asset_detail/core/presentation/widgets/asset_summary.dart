@@ -156,6 +156,7 @@ class SummaryCardWidget extends AppStatelessWidget {
               children: [
                 YourHoldingsWidget(
                     holdings: summary.dealNetWorth,
+                    localCurrencyValue: summary.localCurrencyValue,
                     currencyCode: summary.currencyCode),
                 !isMobile
                     ? Container(

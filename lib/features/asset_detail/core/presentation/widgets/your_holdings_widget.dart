@@ -10,10 +10,12 @@ import 'package:wmd/features/currency/presentation/manager/currency_cubit.dart';
 
 class YourHoldingsWidget extends AppStatelessWidget {
   final double holdings;
+  final double localCurrencyValue;
   final String currencyCode;
 
   const YourHoldingsWidget({
     required this.holdings,
+    required this.localCurrencyValue,
     required this.currencyCode,
     super.key,
   });
@@ -40,26 +42,28 @@ class YourHoldingsWidget extends AppStatelessWidget {
                 ),
               ),
               SizedBox(height: responsiveHelper.biggerGap),
-              // PrivacyBlurWidget(
-              //   child: Text(
-              //     "AED 4000",
-              //     style: const TextStyle(
-              //         fontSize: 12, fontWeight: FontWeight.w500),
-              //   ),
-              // ),
+              if (currencyCode != "USD")
+                PrivacyBlurWidget(
+                  child: Text(
+                    "$currencyCode ${localCurrencyValue.convertMoney(addDollar: false)}",
+                    style: const TextStyle(
+                        fontSize: 12, fontWeight: FontWeight.w500),
+                  ),
+                ),
               SizedBox(height: responsiveHelper.biggerGap),
-              Row(
-                mainAxisAlignment: responsiveHelper.isMobile
-                    ? MainAxisAlignment.end
-                    : MainAxisAlignment.start,
-                children: [
-                  if (state is GetCurrencyConversionLoaded)
-                    Text(
-                      "1 USD = ${(1 / state.getCurrencyEntity.conversionRate).formatNumberTwoDecimal} $currencyCode ${appLocalizations.common_labels_asOf} ${CustomizableDateTime.dmyV2(state.getCurrencyEntity.date, context)}",
-                      style: textTheme.bodySmall,
-                    )
-                ],
-              )
+              if (currencyCode != "USD")
+                Row(
+                  mainAxisAlignment: responsiveHelper.isMobile
+                      ? MainAxisAlignment.end
+                      : MainAxisAlignment.start,
+                  children: [
+                    if (state is GetCurrencyConversionLoaded)
+                      Text(
+                        "1 USD = ${(1 / state.getCurrencyEntity.conversionRate).formatNumberTwoDecimal} $currencyCode ${appLocalizations.common_labels_asOf} ${CustomizableDateTime.dmyV2(state.getCurrencyEntity.date, context)}",
+                        style: textTheme.bodySmall,
+                      )
+                  ],
+                )
             ],
           );
         });

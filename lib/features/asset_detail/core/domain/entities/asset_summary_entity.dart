@@ -16,6 +16,7 @@ class AssetSummaryEntitiy extends Equatable {
     required this.isManuallyAdded,
     required this.totalQuantity,
     required this.currencyCode,
+    required this.localCurrencyValue,
   });
 
   final String assetName;
@@ -32,6 +33,7 @@ class AssetSummaryEntitiy extends Equatable {
   final bool isManuallyAdded;
   final double totalQuantity;
   final String currencyCode;
+  final double localCurrencyValue;
 
   Map<String, dynamic> toJson() => {
         "assetName": assetName,
@@ -48,6 +50,7 @@ class AssetSummaryEntitiy extends Equatable {
         "isManuallyAdded": isManuallyAdded,
         "totalQuantity": totalQuantity,
         "currencyCode": currencyCode,
+        "localCurrencyValue": localCurrencyValue,
       };
 
   @override
@@ -64,7 +67,8 @@ class AssetSummaryEntitiy extends Equatable {
         totalAssetsAmount,
         isManuallyAdded,
         totalQuantity,
-        currencyCode
+        currencyCode,
+        localCurrencyValue
       ];
 
   String get assetNameFixed => assetName.replaceAll(RegExp(r"\s+"), " ");
