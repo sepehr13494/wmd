@@ -60,7 +60,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
           ),
           BlocProvider(
             create: (context) => sl<ValuationCubit>()
-              ..getAllValuation(
+              ..getAllTransactionValuation(
                   GetAllValuationParams(widget.assetId, widget.type)),
           ),
           BlocProvider(
@@ -194,24 +194,7 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
                                     .performanceEntity.valuationHistory
                                     .map((e) => MapEntry(e.date, e.value))
                                     .toList();
-                                /* values.add(MapEntry(
-                                     DateTime.now().add(const Duration(days: 1)),
-                                     123));
-                                values.add(MapEntry(
-                                    DateTime.now().add(const Duration(days: 2)),
-                                    100));
-                                values.add(MapEntry(
-                                    DateTime.now().add(const Duration(days: 2)),
-                                    120));
-                                values.add(MapEntry(
-                                    DateTime.now().add(const Duration(days: 3)),
-                                    80));
-                                values.add(MapEntry(
-                                    DateTime.now().add(const Duration(days: 4)),
-                                    -30));
-                                values.add(MapEntry(
-                                    DateTime.now().add(const Duration(days: 5)),
-                                    -100));*/
+
                                 if (values.isNotEmpty) {
                                   return Padding(
                                     padding: EdgeInsets.all(
@@ -245,8 +228,9 @@ class _AssetDetailPageState extends AppState<AssetDetailPage> {
 
                                     context
                                         .read<ValuationCubit>()
-                                        .getAllValuation(GetAllValuationParams(
-                                            widget.assetId, widget.type));
+                                        .getAllTransactionValuation(
+                                            GetAllValuationParams(
+                                                widget.assetId, widget.type));
 
                                     AppRouter().setMainRefreshKey();
                                   } catch (e) {
