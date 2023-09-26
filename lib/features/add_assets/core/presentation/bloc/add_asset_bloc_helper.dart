@@ -37,10 +37,8 @@ class AssetBlocHelper extends BlocHelper {
             context,
             color: Colors.green,
             title: appLocalizations.assetLiabilityForms_toast_assetAddSuccess
-                .replaceAll(
-                    '{{assetName}}',
-                    AssetTypes.getAssetType(appLocalizations, assetType)
-                        .toLowerCase()),
+                .replaceAll('{{assetName}}',
+                    AssetTypes.getAssetType(appLocalizations, assetType)),
           );
           // showDialog(
           //   context: context,

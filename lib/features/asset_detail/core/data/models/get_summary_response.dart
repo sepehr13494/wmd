@@ -16,6 +16,7 @@ class AssetSummaryResponse extends AssetSummaryEntitiy {
     required super.isManuallyAdded,
     required super.totalQuantity,
     required super.currencyCode,
+    required super.localCurrencyValue,
   });
 
   factory AssetSummaryResponse.fromJson(Map<String, dynamic> json) =>
@@ -34,5 +35,6 @@ class AssetSummaryResponse extends AssetSummaryEntitiy {
         isManuallyAdded: json["isManuallyAdded"],
         totalQuantity: json["totalQuantity"] ?? 0,
         currencyCode: json["currencyCode"] ?? 'USD',
+        localCurrencyValue: json["localCurrencyValue"] ?? 0,
       );
 }

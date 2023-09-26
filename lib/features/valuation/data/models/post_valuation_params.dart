@@ -71,6 +71,7 @@ class PostValuationParams extends Equatable {
         "conversionRate": currencyToUsdFxRate,
         "originCode": originCode,
         "wealthType": wealthType,
+        "holdingType": wealthType,
         "transactionDate": valuatedAt?.toIso8601String(),
         "quantity": quantity ?? 0,
         "ownershipPercentage": ownershipPercentage ?? 100,
@@ -82,7 +83,7 @@ class PostValuationParams extends Equatable {
   Map<String, dynamic> toValuationJson() => {
         "holdingId": assetOrLiabilityId,
         "currencyCode": currencyCode,
-        "wealthType": wealthType,
+        "holdingType": wealthType,
         "valuatedAt": valuatedAt?.toIso8601String(),
         "amount": pricePerUnit,
         "note": note,
