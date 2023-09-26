@@ -1,6 +1,6 @@
 {
     "@@locale": "en",
-    "@@last_modified": "2023-09-24T14:27:18+02:00",
+    "@@last_modified": "2023-09-26T15:23:38+02:00",
     "auth:signup.page.title": "Join our Platform",
     "auth:signup.page.description": "Create myWMD account",
     "auth:signup.heading": "Create an account",
@@ -2834,5 +2834,10 @@
     "common:labels.asOf": "as of",
     "common:labels.usd": "USD",
     "currencies:BHD": "Bahraini Dinar",
-    "currencies:KWD": "Kuwaiti Dinar"
+    "currencies:KWD": "Kuwaiti Dinar",
+    "common:errors.minChar": "This field should have minimum {{minChar}} characters.",
+    "assets:activityList.transactions.heading": "Transactions",
+    "assets:activityList.transactions.note": "View your last 10 transactions to better track your activity, where a positive value indicates an inflow and a negative value indicates an outflow.",
+    "assets:activityList.valuations.heading": "Valuations",
+    "assets:activityList.valuations.note": "View your last 10 valuations to better track your activity, where a positive value indicates an inflow and a negative value indicates an outflow."
 }

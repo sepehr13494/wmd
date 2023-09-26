@@ -71,6 +71,7 @@ import 'package:wmd/features/add_assets/request_new_custodian/presentation/manag
 import 'package:wmd/features/add_assets/view_assets_list/presentation/manager/asset_view_cubit.dart';
 import 'package:wmd/features/asset_detail/core/data/repositories/asset_summary_repository_impl.dart';
 import 'package:wmd/features/asset_detail/core/presentation/manager/asset_summary_cubit.dart';
+import 'package:wmd/features/asset_detail/valuation/domain/use_cases/get_all_transaction_usecase.dart';
 import 'package:wmd/features/asset_see_more/core/domain/repositories/asset_see_more_repository.dart';
 import 'package:wmd/features/asset_see_more/core/presentation/manager/asset_see_more_cubit.dart';
 import 'package:wmd/features/assets_overview/assets_geography_chart/data/data_sources/assets_geography_chart_remote_datasource.dart';
@@ -702,9 +703,10 @@ Future<void> init(String env) async {
       () => VerifyPhoneRemoteDataSourceImpl(sl()));
 
   //Valuation
-  sl.registerFactory(() => ValuationCubit(sl(), sl()));
+  sl.registerFactory(() => ValuationCubit(sl(), sl(), sl()));
   sl.registerFactory(() => PerformanceChartCubit(sl()));
   sl.registerLazySingleton(() => GetAllValuationUseCase(sl()));
+  sl.registerLazySingleton(() => GetAllTransactionUseCase(sl()));
   sl.registerLazySingleton(() => PostValuationUseCase(sl()));
   sl.registerLazySingleton(() => GetValuationPerformanceUseCase(sl()));
   sl.registerLazySingleton<ValuationRepository>(
