@@ -51,11 +51,6 @@ class _RequestCustodianFormState extends AppState<RequestCustodianForm> {
           errorText: appLocalizations.common_errors_required),
     ]);
 
-    final PersonalInformationState personalState =
-        context.watch<PersonalInformationCubit>().state;
-    final String name = personalState is PersonalInformationLoaded
-        ? personalState.getNameEntity.email
-        : "";
 
     return BlocProvider(
       create: (context) => sl<RequestNewCustodianCubit>(),
@@ -211,6 +206,12 @@ class _RequestCustodianFormState extends AppState<RequestCustodianForm> {
                     ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
+                          final PersonalInformationState personalState =
+                              context.watch<PersonalInformationCubit>().state;
+                          final String name = personalState is PersonalInformationLoaded
+                              ? personalState.getNameEntity.email
+                              : "";
+
                           print(_formKey.currentState!.value);
                           context
                               .read<RequestNewCustodianCubit>()
