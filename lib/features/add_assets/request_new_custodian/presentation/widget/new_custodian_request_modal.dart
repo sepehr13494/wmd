@@ -21,11 +21,14 @@ Future<void> showNewCustodianModal({
 }) async {
   return await showDialog(
     context: context,
-    builder: (context) {
-      return const CenterModalWidget(
-        body: RequestCustodianForm(),
-        contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
-        actions: SizedBox(),
+    builder: (dialogContext) {
+      return BlocProvider.value(
+        value: BlocProvider.of<PersonalInformationCubit>(context),
+        child: const CenterModalWidget(
+          body: RequestCustodianForm(),
+          contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+          actions: SizedBox(),
+        ),
       );
     },
   );
@@ -43,6 +46,25 @@ class RequestCustodianForm extends StatefulWidget {
 class _RequestCustodianFormState extends AppState<RequestCustodianForm> {
   bool checkbox = false;
   final _formKey = GlobalKey<FormBuilderState>();
+  bool enableAddAssetButton = false;
+
+  void checkFinalValid(value) async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    bool finalValid = _formKey.currentState!.isValid;
+    if (finalValid) {
+      if (!enableAddAssetButton) {
+        setState(() {
+          enableAddAssetButton = true;
+        });
+      }
+    } else {
+      if (enableAddAssetButton) {
+        setState(() {
+          enableAddAssetButton = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget buildWidget(BuildContext context, textTheme, appLocalizations) {
@@ -56,17 +78,17 @@ class _RequestCustodianFormState extends AppState<RequestCustodianForm> {
       create: (context) => sl<RequestNewCustodianCubit>(),
       child: BlocConsumer<RequestNewCustodianCubit, RequestNewCustodianState>(
           listener: BlocHelper.defaultBlocListener(listener: (context, state) {
-        if (state is SuccessState) {
-          Navigator.pop(context, true);
-          GlobalFunctions.showSnackTile(context,
-              title: appLocalizations
-                  .common_newCustodianRequest_modal_confirmation);
-        } else {
-          GlobalFunctions.showSnackTile(context,
-              title: appLocalizations.common_errors_somethingWentWrong,
-              color: Colors.red);
-        }
-      }), builder: (context, state) {
+            if (state is SuccessState) {
+              Navigator.pop(context, true);
+              GlobalFunctions.showSnackTile(context,
+                  title: appLocalizations
+                      .common_newCustodianRequest_modal_confirmation);
+            } else {
+              GlobalFunctions.showSnackTile(context,
+                  title: appLocalizations.common_errors_somethingWentWrong,
+                  color: Colors.red);
+            }
+          }), builder: (context, state) {
         return FormBuilder(
           key: _formKey,
           onChanged: () {
@@ -100,6 +122,7 @@ class _RequestCustodianFormState extends AppState<RequestCustodianForm> {
                     fillColor: AppColors.bgColor,
                     border: InputBorder.none,
                   ),
+                  onChanged: checkFinalValid,
                   validator: validator,
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
@@ -115,6 +138,7 @@ class _RequestCustodianFormState extends AppState<RequestCustodianForm> {
                     fillColor: AppColors.bgColor,
                     border: InputBorder.none,
                   ),
+                  onChanged: checkFinalValid,
                   validator: validator,
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
@@ -124,11 +148,13 @@ class _RequestCustodianFormState extends AppState<RequestCustodianForm> {
                   name: 'country',
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: validator,
+                  onChanged: checkFinalValid,
                   items: Country.getCountryList(context)
-                      .map((e) => DropdownMenuItem(
-                            value: e.countryName,
-                            child: Text(e.countryName),
-                          ))
+                      .map((e) =>
+                      DropdownMenuItem(
+                        value: e.countryName,
+                        child: Text(e.countryName),
+                      ))
                       .toList(),
                   decoration: InputDecoration(
                     labelText: appLocalizations
@@ -145,6 +171,7 @@ class _RequestCustodianFormState extends AppState<RequestCustodianForm> {
                 FormBuilderTextField(
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   name: 'rmName',
+                  onChanged: checkFinalValid,
                   decoration: InputDecoration(
                     labelText: appLocalizations
                         .common_newCustodianRequest_modal_managerName,
@@ -159,6 +186,7 @@ class _RequestCustodianFormState extends AppState<RequestCustodianForm> {
                 const SizedBox(height: 8),
                 FormBuilderTextField(
                   name: 'rmEmail',
+                  onChanged: checkFinalValid,
                   decoration: InputDecoration(
                     labelText: appLocalizations
                         .common_newCustodianRequest_modal_managerEmail,
@@ -190,6 +218,7 @@ class _RequestCustodianFormState extends AppState<RequestCustodianForm> {
                         setState(() {
                           checkbox = val;
                         });
+                        checkFinalValid(val);
                       }
                     },
                     title: Text(
@@ -204,10 +233,9 @@ class _RequestCustodianFormState extends AppState<RequestCustodianForm> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: !enableAddAssetButton ? null : () {
                         if (_formKey.currentState!.validate()) {
-                          final PersonalInformationState personalState =
-                              context.watch<PersonalInformationCubit>().state;
+                          final PersonalInformationState personalState = BlocProvider.of<PersonalInformationCubit>(context, listen: false).state;
                           final String name = personalState is PersonalInformationLoaded
                               ? personalState.getNameEntity.email
                               : "";
@@ -216,8 +244,8 @@ class _RequestCustodianFormState extends AppState<RequestCustodianForm> {
                           context
                               .read<RequestNewCustodianCubit>()
                               .requestNewCustodian(
-                                  RequestNewCustodianParams.fromJson(
-                                      _formKey.currentState!.value, name));
+                              RequestNewCustodianParams.fromJson(
+                                  _formKey.currentState!.value, name));
                         } else {
                           print('Can not check valid');
                         }
