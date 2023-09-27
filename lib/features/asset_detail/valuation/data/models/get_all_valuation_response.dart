@@ -17,6 +17,7 @@ class GetAllValuationResponse extends GetAllValuationEntity {
     // required super.updatedAt,
     required super.note,
     super.type,
+    super.recordSource,
     required super.isLast,
     super.localCurrencyValue,
   });
@@ -49,6 +50,7 @@ class GetAllValuationResponse extends GetAllValuationEntity {
             ? json["note"] ?? ''
             : json["notes"] ?? '',
         type: json["type"] ?? 'transaction',
+        recordSource: json["recordSource"] ?? '',
         isLast: json["isLast"] ?? false,
       );
 

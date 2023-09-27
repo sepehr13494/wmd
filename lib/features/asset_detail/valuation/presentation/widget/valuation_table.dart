@@ -161,6 +161,7 @@ class ValuationWidget extends AppStatelessWidget {
           isManuallyAdded: isManuallyAdded,
           totalQuantity: totalQuantity,
           updateHoldings: updateHoldings,
+          isValuation: isValuation,
         )
       ],
     );
@@ -223,6 +224,7 @@ class ValuationTableWidget extends StatefulWidget {
     required this.isManuallyAdded,
     required this.totalQuantity,
     required this.updateHoldings,
+    required this.isValuation,
   });
   final List<GetAllValuationEntity> getAllValuationEntities;
   final String assetId;
@@ -230,6 +232,7 @@ class ValuationTableWidget extends StatefulWidget {
   final bool isManuallyAdded;
   final double totalQuantity;
   final Function updateHoldings;
+  final bool isValuation;
 
   @override
   AppState<ValuationTableWidget> createState() => _ValuationTableWidgetState();
@@ -265,10 +268,10 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
       if (lastIndex >= 0) {
         widget.getAllValuationEntities.removeAt(lastIndex);
       }
-      int lastIndexVal = widget.getAllValuationEntities
-          .lastIndexWhere((transaction) => transaction.type != 'transaction');
-      if (lastIndexVal >= 0) {
-        widget.getAllValuationEntities.removeAt(lastIndexVal);
+
+      if (widget.isValuation) {
+        widget.getAllValuationEntities
+            .removeWhere((transaction) => transaction.recordSource == 'WMD');
       }
 
       setState(() {
@@ -289,10 +292,9 @@ class _ValuationTableWidgetState extends AppState<ValuationTableWidget> {
       if (lastIndex >= 0) {
         widget.getAllValuationEntities.removeAt(lastIndex);
       }
-      int lastIndexVal = widget.getAllValuationEntities
-          .lastIndexWhere((transaction) => transaction.type != 'transaction');
-      if (lastIndexVal >= 0) {
-        widget.getAllValuationEntities.removeAt(lastIndexVal);
+      if (widget.isValuation) {
+        widget.getAllValuationEntities
+            .removeWhere((transaction) => transaction.recordSource == 'WMD');
       }
 
       setState(() {
