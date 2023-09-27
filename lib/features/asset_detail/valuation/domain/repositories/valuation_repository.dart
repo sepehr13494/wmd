@@ -10,6 +10,8 @@ import '../../data/models/get_valuation_performance_params.dart';
 abstract class ValuationRepository {
   Future<Either<Failure, List<GetAllValuationEntity>>> getAllValuation(
       GetAllValuationParams params);
+  Future<Either<Failure, List<GetAllValuationEntity>>> getAllTransaction(
+      GetAllValuationParams params);
   Future<Either<Failure, AppSuccess>> postValuation(PostValuationParams params);
   Future<Either<Failure, GetValuationPerformanceResponse>>
       getValuationPerformance(GetValuationPerformanceParams params);

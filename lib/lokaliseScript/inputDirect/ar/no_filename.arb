@@ -1,6 +1,6 @@
 {
     "@@locale": "ar",
-    "@@last_modified": "2023-09-24T14:27:18+02:00",
+    "@@last_modified": "2023-09-26T15:23:38+02:00",
     "auth:signup.page.title": "انضمّ إلى منصتنا",
     "auth:signup.page.description": "إنشاء حساب myWMD",
     "auth:signup.heading": "أنشئ حساباً",
@@ -2834,5 +2834,10 @@
     "common:labels.asOf": "",
     "common:labels.usd": "",
     "currencies:BHD": "",
-    "currencies:KWD": ""
+    "currencies:KWD": "",
+    "common:errors.minChar": "يجب أن يحتوي هذا الملف على الحد الأدنى من {{minChar}} من الأحرف.",
+    "assets:activityList.transactions.heading": "",
+    "assets:activityList.transactions.note": "",
+    "assets:activityList.valuations.heading": "",
+    "assets:activityList.valuations.note": ""
 }

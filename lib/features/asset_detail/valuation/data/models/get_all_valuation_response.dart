@@ -17,7 +17,9 @@ class GetAllValuationResponse extends GetAllValuationEntity {
     // required super.updatedAt,
     required super.note,
     super.type,
+    super.recordSource,
     required super.isLast,
+    super.localCurrencyValue,
   });
 
   factory GetAllValuationResponse.fromJson(Map<String, dynamic> json) =>
@@ -29,6 +31,9 @@ class GetAllValuationResponse extends GetAllValuationEntity {
         amountInUsd: json["type"] == 'valuation'
             ? double.tryParse(json["amount"].toString()) ?? 0
             : double.tryParse(json["amountUSD"].toString()) ?? 0,
+        localCurrencyValue: json["localCurrencyValue"] != null
+            ? double.tryParse(json["localCurrencyValue"].toString()) ?? 0
+            : 0,
         isSystemGenerated: json["isSystemGenerated"] ?? false,
         isPm1Processed: json["isPm1Processed"] ?? false,
         // originCode: json["originCode"] ?? '',
@@ -45,6 +50,7 @@ class GetAllValuationResponse extends GetAllValuationEntity {
             ? json["note"] ?? ''
             : json["notes"] ?? '',
         type: json["type"] ?? 'transaction',
+        recordSource: json["recordSource"] ?? '',
         isLast: json["isLast"] ?? false,
       );
 

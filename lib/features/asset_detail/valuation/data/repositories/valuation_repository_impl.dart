@@ -50,25 +50,24 @@ class ValuationRepositoryImpl implements ValuationRepository {
   Future<Either<Failure, List<GetAllValuationEntity>>> getAllValuation(
       GetAllValuationParams params) async {
     try {
-      final resultTransaction =
-          await remoteDataSource.getAllTransaction(params);
-      if (!AppConstants.hideValuation &&
-          [
-            AssetTypes.privateDebt,
-            AssetTypes.privateEquity,
-            AssetTypes.realEstate,
-            AssetTypes.otherAsset,
-            AssetTypes.otherAssets,
-          ].contains(params.type)) {
-        final resultValuation = await remoteDataSource.getAllValuation(params);
+      // final resultValuation = await remoteDataSource.getAllValuation(params);
 
-        List<GetAllValuationEntity> combinedList =
-            combineAndSortEntityLists(resultTransaction, resultValuation);
+      return Right(await remoteDataSource.getAllValuation(params));
+    } on ServerException catch (error) {
+      return Left(ServerFailure.fromServerException(error));
+    } on AppException catch (error) {
+      return Left(AppFailure.fromAppException(error));
+    }
+  }
 
-        return Right(combinedList);
-      } else {
-        return Right(resultTransaction);
-      }
+  @override
+  Future<Either<Failure, List<GetAllValuationEntity>>> getAllTransaction(
+      GetAllValuationParams params) async {
+    try {
+      // final resultTransaction =
+      //     await remoteDataSource.getAllTransaction(params);
+
+      return Right(await remoteDataSource.getAllTransaction(params));
     } on ServerException catch (error) {
       return Left(ServerFailure.fromServerException(error));
     } on AppException catch (error) {
