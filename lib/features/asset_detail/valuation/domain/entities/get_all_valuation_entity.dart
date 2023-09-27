@@ -18,6 +18,7 @@ class GetAllValuationEntity extends Equatable {
     required this.note,
     this.type = "transaction",
     this.localCurrencyValue,
+    this.recordSource,
     required this.isLast,
   });
 
@@ -36,6 +37,7 @@ class GetAllValuationEntity extends Equatable {
   // final DateTime? updatedAt;
   final String? note;
   final String? type;
+  final String? recordSource;
   final double? localCurrencyValue;
   final bool isLast;
 
