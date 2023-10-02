@@ -27,15 +27,19 @@ import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_conf
 import 'package:wmd/features/add_assets/core/presentation/widgets/add_asset_header.dart';
 import 'package:wmd/features/add_assets/core/presentation/widgets/each_form_item.dart';
 import 'package:wmd/features/add_assets/view_assets_list/presentation/widgets/add_asset_footer.dart';
+import 'package:wmd/features/asset_see_more/loan_liability/data/models/loan_liability_more_entity.dart';
 import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_bloc_helper.dart';
+import 'package:wmd/features/edit_assets/core/presentation/manager/edit_asset_state.dart';
 import 'package:wmd/features/edit_assets/core/presentation/widgets/delete_base_widget.dart';
+import 'package:wmd/features/edit_assets/edit_loan_liability/presentation/manager/edit_loan_liability_cubit.dart';
 import 'package:wmd/features/settings/core/data/models/put_settings_params.dart';
 import 'package:wmd/features/settings/dont_show_settings/presentation/manager/dont_show_settings_cubit.dart';
 import 'package:wmd/injection_container.dart';
 import 'package:wmd/core/extentions/string_ext.dart';
 
 class AddLoanLiabilityPage extends BaseAddAssetStatefulWidget {
-  const AddLoanLiabilityPage({Key? key, bool edit = false})
+  final LoanLiabilityMoreEntity? moreEntity;
+  const AddLoanLiabilityPage({Key? key, bool edit = false, this.moreEntity})
       : super(key: key, edit: edit);
 
   @override
@@ -98,6 +102,9 @@ class _AddLoanLiabilityState extends BaseAddAssetState<AddLoanLiabilityPage> {
           create: (context) => sl<LoanLiabilityCubit>(),
         ),
         BlocProvider(
+          create: (context) => sl<EditLoanLiabilityCubit>(),
+        ),
+        BlocProvider(
           create: (context) => sl<BankListCubit>()..getBankList(""),
         ),
         BlocProvider(
@@ -133,6 +140,9 @@ class _AddLoanLiabilityState extends BaseAddAssetState<AddLoanLiabilityPage> {
                               ...privateDebtFormKey.currentState!.instantValue,
                             };
                             if (edit) {
+                              context
+                                  .read<EditLoanLiabilityCubit>()
+                                  .putLoanLiability(map: finalMap, assetId: widget.moreEntity!.id);
                             } else {
                               bool add = true;
                               if (!isChecked) {
@@ -163,16 +173,16 @@ class _AddLoanLiabilityState extends BaseAddAssetState<AddLoanLiabilityPage> {
             body: Theme(
               data: Theme.of(context).copyWith(),
               child: Builder(builder: (context) {
-                /*final Widget deleteWidget = DeleteAssetBaseWidget(
+                final Widget deleteWidget = DeleteAssetBaseWidget(
                       name: AssetTypes.otherAsset,
                       realAssetName: widget.moreEntity != null
-                          ? widget.moreEntity!.name
+                          ? widget.moreEntity!.loanName
                           : "",
                       onTap: () {
                         context
-                            .read<EditLiabilityCubit>()
-                            .deleteOtherAssets(assetId: widget.moreEntity!.id);
-                      });*/
+                            .read<EditLoanLiabilityCubit>()
+                            .deleteLoanLiability(assetId: widget.moreEntity!.id);
+                      });
                 return Stack(
                   children: [
                     const LeafBackground(),
@@ -187,12 +197,12 @@ class _AddLoanLiabilityState extends BaseAddAssetState<AddLoanLiabilityPage> {
                                   asset: "Loan",
                                   assetType: "LoanLiability"),
                             ),
-                            /*BlocListener<EditLiabilityCubit,
+                            BlocListener<EditLoanLiabilityCubit,
                                 EditAssetBaseState>(
                               listener: EditAssetBlocHelper.defaultBlocListener(
                                   type: AssetTypes.otherAsset,
                                   assetId: edit ? widget.moreEntity!.id : ""),
-                            ),*/
+                            ),
                           ],
                           child: Row(
                             mainAxisSize: MainAxisSize.min,

@@ -14,28 +14,32 @@ class AddLoanLiabilityUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
   AddLoanLiabilityUseCase(this.loanLiabilityRepository);
   @override
   Future<Either<Failure, AddAsset>> call(Map<String, dynamic> params) async {
+
     try {
-      final loanAmountOutstanding =
-          params['loanAmountOutstanding'].toString().replaceAll(',', '');
-      final loanAmountSanctioned =
-          params['loanAmountSanctioned'].toString().replaceAll(',', '');
-      final monthlyPayment =
-          params['monthlyPayment'].toString().replaceAll(',', '');
-
-      final newMap = {
-        ...params,
-        "loanAmountOutstanding": loanAmountOutstanding,
-        "loanAmountSanctioned": loanAmountSanctioned,
-        "monthlyPayment": monthlyPayment,
-      };
-
-      final privateDebtAssetParam = AddLoanLiabilityParams.fromJson(newMap);
       return await loanLiabilityRepository
-          .postLoanLiability(privateDebtAssetParam);
+          .postLoanLiability(getAddLoanLiabilityParamsObj(params));
     } catch (e) {
       debugPrint("AddRealEstateUseCase catch : ${e.toString()}");
       return const Left(AppFailure(message: "Something went wrong!"));
     }
+  }
+
+  static AddLoanLiabilityParams getAddLoanLiabilityParamsObj(params){
+    final loanAmountOutstanding =
+    params['loanAmountOutstanding'].toString().replaceAll(',', '');
+    final loanAmountSanctioned =
+    params['loanAmountSanctioned'].toString().replaceAll(',', '');
+    final monthlyPayment =
+    params['monthlyPayment'].toString().replaceAll(',', '');
+
+    final Map<String, dynamic> newMap = {
+      ...params,
+      "loanAmountOutstanding": loanAmountOutstanding,
+      "loanAmountSanctioned": loanAmountSanctioned,
+      "monthlyPayment": monthlyPayment,
+    };
+
+    return AddLoanLiabilityParams.fromJson(newMap);
   }
 }
 

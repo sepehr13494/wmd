@@ -20,7 +20,7 @@ class AddListedSecurityUseCase extends UseCase<AddAsset, Map<String, dynamic>> {
       return await listedSecurityRepository
           .postListedSecurity(getAddListedSecurityParamsObj(params));
     } catch (e) {
-      debugPrint("AddOtherAssetUseCase catch : ${e.toString()}");
+      debugPrint("AddListedSecurityUseCase catch : ${e.toString()}");
       return const Left(AppFailure(message: "Something went wrong!"));
     }
   }
